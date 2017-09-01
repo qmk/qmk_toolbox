@@ -63,13 +63,13 @@ namespace QMK_Toolbox {
             backgroundWorker1.RunWorkerAsync();
 
 
-            richTextBox1.VisibleChanged += (sender1, e1) =>
-            {
-                if (richTextBox1.Visible) {
-                    richTextBox1.SelectionStart = richTextBox1.TextLength;
-                    richTextBox1.ScrollToCaret();
-                }
-            };
+            //richTextBox1.VisibleChanged += (sender1, e1) =>
+            //{
+            //    if (richTextBox1.Visible) {
+            //        richTextBox1.SelectionStart = richTextBox1.TextLength;
+            //        richTextBox1.ScrollToCaret();
+            //    }
+            //};
 
             string dfuPath = Application.LocalUserAppDataPath + "\\dfu-programmer.exe";
             ExtractResource("QMK_Toolbox.dfu-programmer.exe", dfuPath);
@@ -111,7 +111,7 @@ namespace QMK_Toolbox {
             foreach (var device in collection) {
                 var match = Regex.Match(device.GetPropertyValue("DeviceID").ToString(), @".*VID_03EB.*");
                 if (match.Success) {
-                    Print("*** Device connected: " + device.GetPropertyValue("Name") + "\n", true, Color.Yellow);
+                    Print("*** DFU Device connected: " + device.GetPropertyValue("Name") + "\n", true, Color.Yellow);
                 } else {
                     //Print("*** Device connected: " + device.GetPropertyValue("Name") + "\n", true);
                 }
@@ -139,22 +139,22 @@ namespace QMK_Toolbox {
 
                 _device.MonitorDeviceEvents = true;
                 _isAttached = true;
-                Print("*** HID device available\n", true, Color.Yellow);
+                Print("*** HID device available: " + string.Format("0x{0:X4}", VendorId) + ":" + string.Format("0x{0:X4}", ProductId) + "\n", true, Color.DeepSkyBlue);
             } else {
-                Print("*** No HID device available\n", true, Color.Yellow);
+                Print("*** No HID device available\n", true, Color.DeepSkyBlue);
                 _isAttached = false;
             }
             return _isAttached;
         }
 
         private void DeviceAttachedHandler() {
-            Print("*** HID device attached\n", true, Color.Yellow);
+            Print("*** HID device attached: " + string.Format("0x{0:X4}", VendorId) + ":" + string.Format("0x{0:X4}", ProductId) + "\n", true, Color.DeepSkyBlue);
             _isAttached = true;
             _device.ReadReport(OnReport);
         }
 
         private void DeviceRemovedHandler() {
-            Print("*** HID device detached\n", true, Color.Yellow);
+            Print("*** HID device detached: " + string.Format("0x{0:X4}", VendorId) + ":" + string.Format("0x{0:X4}", ProductId) + "\n", true, Color.DeepSkyBlue);
             _isAttached = false;
         }
 
@@ -192,7 +192,7 @@ namespace QMK_Toolbox {
                 if (targetBox.Text == "") {
                     Print("*** Please select an MCU\n", true, Color.Red);
                 } else if (hexFile == "") {
-                    Print("*** Please select a file\n", true, Color.Red);
+                    Print("*** Please select a .hex file\n", true, Color.Red);
                     RunDFU("reset");
                 } else {
                     if (mcuIsAvailable()) {
@@ -210,7 +210,8 @@ namespace QMK_Toolbox {
                 if (bold)
                     richTextBox1.SelectionFont = new Font(richTextBox1.Font, FontStyle.Bold);
                 richTextBox1.SelectionColor = color ?? Color.White;
-                richTextBox1.AppendText(str);
+                richTextBox1.SelectionStart = richTextBox1.TextLength;
+                richTextBox1.SelectedText = str;
             } else {
                 this.Invoke(new Action<string, bool, Color?>(Print), new object[] { str, bold, color });
             }
@@ -235,7 +236,7 @@ namespace QMK_Toolbox {
             output += process.StandardError.ReadToEnd();
             process.WaitForExit();
             if (output.Contains("no device present")) {
-                Print("*** No device present\n", true, Color.Red);
+                Print("*** No \""+ targetBox.Text + "\" DFU device connected\n", true, Color.Red);
                 return false;
             } else {
                 return true;
@@ -263,7 +264,7 @@ namespace QMK_Toolbox {
             // Detects Atmel Vendor ID
             var match = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*VID_03EB.*");
             if (match.Success) {
-                Print("*** Device inserted: " + instance.GetPropertyValue("Name") + "\n", true, Color.Yellow);
+                Print("*** DFU device connected: " + instance.GetPropertyValue("Name") + "\n", true, Color.Yellow);
                 if (checkBox1.Checked) {
                     FlashButton_Click(sender, e);
                 }
@@ -281,7 +282,7 @@ namespace QMK_Toolbox {
             // Detects Atmel Vendor ID
             var match = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*VID_03EB.*");
             if (match.Success) {
-                Print("*** Device removed: " + instance.GetPropertyValue("Name") + "\n", true, Color.Yellow);
+                Print("*** DFU Device disconnected: " + instance.GetPropertyValue("Name") + "\n", true, Color.Yellow);
             }
         }
 
