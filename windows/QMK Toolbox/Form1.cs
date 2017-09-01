@@ -11,10 +11,12 @@ using System.Reflection;
 using System.IO;
 using QMK_Toolbox.Properties;
 using System.Runtime.InteropServices;
+using System.Security.Permissions;
 
 namespace QMK_Toolbox {
-
+    using HidLibrary;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Management;
     using System.Text.RegularExpressions;
 
@@ -23,6 +25,24 @@ namespace QMK_Toolbox {
         private System.Diagnostics.Process process;
         private System.Diagnostics.ProcessStartInfo startInfo;
         BackgroundWorker backgroundWorker1;
+
+        private const int WM_DEVICECHANGE = 0x0219;
+        private const int DBT_DEVNODES_CHANGED = 0x0007; //device changed
+        private int VendorId;
+        private int ProductId;
+        private const ushort UsagePage = 0xFF31;
+        private const int Usage = 0x0074;
+
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
+        protected override void WndProc(ref Message m) {
+            if (m.Msg == WM_DEVICECHANGE && m.WParam.ToInt32() == DBT_DEVNODES_CHANGED) {
+                //Print("*** USB change\n");
+            }
+            base.WndProc(ref m);
+        }
+
+        HidDevice _device;
+        bool _isAttached;
 
         public Form1() {
             InitializeComponent();
@@ -56,9 +76,6 @@ namespace QMK_Toolbox {
 
             string mcuListPath = Application.LocalUserAppDataPath + "\\mcu-list.txt";
             ExtractResource("QMK_Toolbox.mcu-list.txt", mcuListPath);
-
-            string rawhidPath = "rawhid.dll";
-            ExtractResource("QMK_Toolbox.rawhid.dll", rawhidPath);
 
             // rawhid.rawhid_open(0, 0, 0, 0, 0);
 
@@ -95,13 +112,72 @@ namespace QMK_Toolbox {
                 var match = Regex.Match(device.GetPropertyValue("DeviceID").ToString(), @".*VID_03EB.*");
                 if (match.Success) {
                     Print("*** Device connected: " + device.GetPropertyValue("Name") + "\n", true, Color.Yellow);
+                } else {
+                    //Print("*** Device connected: " + device.GetPropertyValue("Name") + "\n", true);
                 }
             }
 
+            Connect();
 
-                //File.Delete(exePath);
+            //File.Delete(exePath);
 
+        }
+
+        private bool Connect() {
+            if (comboBox3.Text != "") {
+                VendorId = int.Parse(comboBox3.Text, NumberStyles.HexNumber);
             }
+            if (comboBox2.Text != "") {
+                ProductId = int.Parse(comboBox2.Text, NumberStyles.HexNumber);
+            }
+
+            _device = HidDevices.Enumerate(VendorId, ProductId, UsagePage).FirstOrDefault();
+            if (_device != null) {
+                _device.OpenDevice();
+                _device.Inserted += DeviceAttachedHandler;
+                _device.Removed += DeviceRemovedHandler;
+
+                _device.MonitorDeviceEvents = true;
+                _isAttached = true;
+                Print("*** HID device available\n", true, Color.Yellow);
+            } else {
+                Print("*** No HID device available\n", true, Color.Yellow);
+                _isAttached = false;
+            }
+            return _isAttached;
+        }
+
+        private void DeviceAttachedHandler() {
+            Print("*** HID device attached\n", true, Color.Yellow);
+            _isAttached = true;
+            _device.ReadReport(OnReport);
+        }
+
+        private void DeviceRemovedHandler() {
+            Print("*** HID device detached\n", true, Color.Yellow);
+            _isAttached = false;
+        }
+
+        private void OnReport(HidReport report) {
+            if (!_isAttached) {
+                return;
+            }
+
+            var data = report.Data;
+            //Print(string.Format("* recv {0} bytes:", data.Length));
+
+            string outputString = string.Empty;
+            for (int i = 0; i < data.Length; i++) {
+                outputString += (char)data[i];
+                if (i % 16 == 15 && i < data.Length) {
+                    Print(outputString, false, Color.SkyBlue);
+                    outputString = string.Empty;
+                }
+            }
+            //Print("\n");
+
+            _device.ReadReport(OnReport);
+        }
 
         void ExtractResource(string resource, string path) {
             Stream stream = GetType().Assembly.GetManifestResourceStream(resource);
@@ -243,6 +319,26 @@ namespace QMK_Toolbox {
                 button1.Enabled = true;
                 button3.Enabled = true;
             }
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e) {
+            if (radioButton1.Checked) {
+                comboBox1.Enabled = true;
+                comboBox3.Enabled = false;
+                comboBox2.Enabled = false;
+            } else {
+                comboBox1.Enabled = false;
+                comboBox3.Enabled = true;
+                comboBox2.Enabled = true;
+            }
+        }
+
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e) {
+            Connect();
+        }
+
+        private void comboBox3_SelectedIndexChanged(object sender, KeyPressEventArgs e) {
+            Connect();
         }
     }
 
