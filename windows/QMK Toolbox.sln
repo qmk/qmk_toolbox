@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QMK Flasher", "QMK Flasher\QMK Flasher.csproj", "{1F8BE719-CB0D-4A67-8422-B0C3A1B823F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QMK Toolbox", "QMK Toolbox\QMK Toolbox.csproj", "{1F8BE719-CB0D-4A67-8422-B0C3A1B823F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
