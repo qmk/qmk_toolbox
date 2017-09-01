@@ -91,7 +91,7 @@ namespace QMK_Flasher {
         private void FlashButton_Click(object sender, EventArgs e) {
             string hexFile = hexFileBox.Text;
             if (hexFile == "") {
-                Print("*** Please select a file ***\n", true);
+                Print("*** Please select a file\n", true);
             } else {
                 if (mcuIsAvailable()) {
                     RunDFU("erase --force");
@@ -130,7 +130,7 @@ namespace QMK_Flasher {
             output += process.StandardError.ReadToEnd();
             process.WaitForExit();
             if (output.Contains("no device present")) {
-                Print("*** No device present ***\n", true);
+                Print("*** No device present\n", true);
                 return false;
             } else {
                 return true;
@@ -149,18 +149,12 @@ namespace QMK_Flasher {
 
         private void DeviceInsertedEvent(object sender, EventArrivedEventArgs e) {
             ManagementBaseObject instance = (ManagementBaseObject)e.NewEvent["TargetInstance"];
-            Print("Thing inserted:", true);
-            foreach (var property in instance.Properties) {
-                Print(property.Name + " = " + property.Value + "\n");
-            }
+            Print("*** Device inserted: " + instance.GetPropertyValue("DeviceID") + "\n", true);
         }
 
         private void DeviceRemovedEvent(object sender, EventArrivedEventArgs e) {
             ManagementBaseObject instance = (ManagementBaseObject)e.NewEvent["TargetInstance"];
-            Print("Thing removed:", true);
-            foreach (var property in instance.Properties) {
-                Print(property.Name + " = " + property.Value + "\n");
-            }
+            Print("*** Device removed: "+ instance.GetPropertyValue("DeviceID") + "\n", true);
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e) {
@@ -179,5 +173,10 @@ namespace QMK_Flasher {
             System.Threading.Thread.Sleep(2000000);
         }
 
+        private void button3_Click(object sender, EventArgs e) {
+            if (mcuIsAvailable()) {
+                RunDFU("reset");
+            }
+        }
     }
 }
