@@ -340,6 +340,19 @@ namespace QMK_Toolbox {
         private void comboBox3_SelectedIndexChanged(object sender, KeyPressEventArgs e) {
             Connect();
         }
+
+        // Set the button's status tip.
+        private void btn_MouseEnter(object sender, EventArgs e) {
+            Control obj = sender as Control;
+            toolStripStatusLabel1.Text = obj.Tag.ToString();
+        }
+
+        // Remove the button's status tip.
+        private void btn_MouseLeave(object sender, EventArgs e) {
+            //if (toolStripStatusLabel1.Text.Equals((sender as Control).Tag)) {
+            //    toolStripStatusLabel1.Text = "";
+            //}
+        }
     }
 
 
