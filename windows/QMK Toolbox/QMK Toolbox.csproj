@@ -154,6 +154,7 @@
     <EmbeddedResource Include="mcu-list.txt" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="teensy_loader_cli.exe" />
     <EmbeddedResource Include="avrdude.exe" />
     <Content Include="favicon.ico" />
     <None Include="FodyWeavers.xml" />
