@@ -31,6 +31,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button4 = new System.Windows.Forms.Button();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -46,7 +47,6 @@
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.targetBox = new System.Windows.Forms.ComboBox();
             this.hexFileBox = new System.Windows.Forms.ComboBox();
-            this.button4 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -151,6 +151,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "HID Console Source";
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(327, 46);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(99, 23);
+            this.button4.TabIndex = 19;
+            this.button4.Text = "List HID Devices";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // comboBox3
             // 
             this.comboBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -165,9 +175,7 @@
             this.comboBox3.TabIndex = 11;
             this.comboBox3.Tag = "The Vendor ID of your MCU in application mode";
             this.comboBox3.Text = global::QMK_Toolbox.Properties.Settings.Default.vendorSetting;
-            this.comboBox3.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
             this.comboBox3.TextUpdate += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
-            this.comboBox3.SelectedValueChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
             this.comboBox3.TextChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
             this.comboBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox3_SelectedIndexChanged);
             this.comboBox3.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
@@ -187,9 +195,7 @@
             this.comboBox2.TabIndex = 12;
             this.comboBox2.Tag = "The Product ID of your MCU in application mode";
             this.comboBox2.Text = global::QMK_Toolbox.Properties.Settings.Default.productSetting;
-            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
             this.comboBox2.TextUpdate += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
-            this.comboBox2.SelectedValueChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
             this.comboBox2.TextChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
             this.comboBox2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox3_SelectedIndexChanged);
             this.comboBox2.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
@@ -354,16 +360,6 @@
             this.hexFileBox.Text = global::QMK_Toolbox.Properties.Settings.Default.hexFileSetting;
             this.hexFileBox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
             this.hexFileBox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(327, 46);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(99, 23);
-            this.button4.TabIndex = 19;
-            this.button4.Text = "List HID Devices";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // Form1
             // 

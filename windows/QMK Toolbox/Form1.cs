@@ -127,8 +127,9 @@ namespace QMK_Toolbox {
             process_avrdude.Start();
             output = process_avrdude.StandardOutput.ReadToEnd();
             output += process_avrdude.StandardError.ReadToEnd();
+            output = string.Join("\n", output.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Take(4));
             process_avrdude.WaitForExit();
-            Print(output, false, Color.LightGray);
+            Print(output.Substring(1) + "\n", false, Color.LightGray);
 
             List<USBDeviceInfo> devices = new List<USBDeviceInfo>();
 
@@ -158,7 +159,8 @@ namespace QMK_Toolbox {
             if (comboBox2.Text != "") {
                 ProductId = int.Parse(comboBox2.Text, NumberStyles.HexNumber);
             }
-
+            if (_device != null && _device.IsOpen)
+                _device.CloseDevice();
             _device = HidDevices.Enumerate(VendorId, ProductId, UsagePage).FirstOrDefault();
             if (_device != null) {
                 _device.OpenDevice();
@@ -167,8 +169,8 @@ namespace QMK_Toolbox {
 
                 _device.MonitorDeviceEvents = true;
                 _isAttached = true;
-                Print("*** HID device available: " + GetManufacturerString(_device) + " | " + GetProductString(_device) +
-                    " / " + string.Format("0x{0:X4}", VendorId) + ":" + string.Format("0x{0:X4}", ProductId) + "\n", true, Color.DeepSkyBlue);
+                Print("*** HID device available: " + GetManufacturerString(_device) + " - " + GetProductString(_device), false, Color.DeepSkyBlue);
+                Print(" / " + string.Format("0x{0:X4}", VendorId) + ":" + string.Format("0x{0:X4}", ProductId) + "\n");
             } else {
                 Print("*** No HID device available\n", true, Color.DeepSkyBlue);
                 _isAttached = false;
@@ -178,7 +180,7 @@ namespace QMK_Toolbox {
 
         private string GetProductString(HidDevice d) {
             byte[] bs;
-            _device.ReadProduct(out bs);
+            d.ReadProduct(out bs);
             string ps = "";
             foreach (byte b in bs) {
                 if (b > 0)
@@ -189,7 +191,7 @@ namespace QMK_Toolbox {
 
         private string GetManufacturerString(HidDevice d) {
             byte[] bs;
-            _device.ReadManufacturer(out bs);
+            d.ReadManufacturer(out bs);
             string ps = "";
             foreach (byte b in bs) {
                 if (b > 0)
@@ -199,16 +201,17 @@ namespace QMK_Toolbox {
         }
 
         private void DeviceAttachedHandler() {
-            Print("*** HID device attached:  " + GetManufacturerString(_device) + " | " + GetProductString(_device) +
-                " / " + string.Format("0x{0:X4}", VendorId) + ":" + string.Format("0x{0:X4}", ProductId) + "\n", true, Color.DeepSkyBlue);
-            _isAttached = true;
-            _device.ReadReport(OnReport);
-
+            Print("*** HID device attached:  " + GetManufacturerString(_device) + " - " + GetProductString(_device), false, Color.LightSkyBlue);
+            Print(" / " + _device.Attributes.VendorHexId + ":" + _device.Attributes.ProductHexId + "\n");
+            if (_device != null) {
+                _isAttached = true;
+                _device.ReadReport(OnReport);
+            }
         }
 
         private void DeviceRemovedHandler() {
-            Print("*** HID device dettached: " + GetManufacturerString(_device) + " | " + GetProductString(_device) +
-                " / " + string.Format("0x{0:X4}", VendorId) + ":" + string.Format("0x{0:X4}", ProductId) + "\n", true, Color.DeepSkyBlue);
+            Print("*** HID device dettached: " + GetManufacturerString(_device) + " - " + GetProductString(_device), false, Color.LightSkyBlue);
+            Print(" / " + _device.Attributes.VendorHexId + ":" + _device.Attributes.ProductHexId + "\n");
             _isAttached = false;
         }
 
@@ -229,8 +232,8 @@ namespace QMK_Toolbox {
                 }
             }
             //Print("\n");
-
-            _device.ReadReport(OnReport);
+            if (_device != null)
+                _device.ReadReport(OnReport);
         }
 
         void ExtractResource(string resource, string path) {
@@ -448,16 +451,19 @@ namespace QMK_Toolbox {
         }
 
         private void button4_Click(object sender, EventArgs e) {
+            _device.CloseDevice();
             var hiddevices = HidDevices.Enumerate();
 
-            Print("*** Listing (" + hiddevices.Count() + ") PID/VIDs of current HID devices:\n");
+            Print("*** Listing (" + hiddevices.Count() + ") PID/VIDs of current HID devices:\n", false, Color.LightSkyBlue);
             foreach (HidDevice hiddevice in hiddevices) {
                 if (hiddevice != null) {
                     hiddevice.OpenDevice();
-                    //Print("  * " + GetManufacturerString(hiddevice) + " | " + GetProductString(hiddevice));
-                    Print("  * " + hiddevice.Attributes.VendorHexId + ":" + hiddevice.Attributes.ProductHexId + "\n", false, Color.Yellow);
+                    Print("  * " + GetManufacturerString(hiddevice) + " - " + GetProductString(hiddevice) + "", false, Color.LightSkyBlue);
+                    Print(" / " + hiddevice.Attributes.VendorHexId + ":" + hiddevice.Attributes.ProductHexId + "\n", false, Color.White);
                 }
+                hiddevice.CloseDevice();
             }
+            _device.OpenDevice();
         }
     }
 
