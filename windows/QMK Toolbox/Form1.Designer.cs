@@ -46,6 +46,7 @@
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.targetBox = new System.Windows.Forms.ComboBox();
             this.hexFileBox = new System.Windows.Forms.ComboBox();
+            this.button4 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -53,7 +54,7 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(633, 11);
+            this.button1.Location = new System.Drawing.Point(639, 11);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(54, 23);
             this.button1.TabIndex = 6;
@@ -68,7 +69,7 @@
             this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.checkBox1.AutoSize = true;
             this.checkBox1.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox1.Location = new System.Drawing.Point(589, 14);
+            this.checkBox1.Location = new System.Drawing.Point(595, 14);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(47, 17);
             this.checkBox1.TabIndex = 5;
@@ -97,7 +98,7 @@
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
             this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.richTextBox1.Size = new System.Drawing.Size(729, 336);
+            this.richTextBox1.Size = new System.Drawing.Size(735, 420);
             this.richTextBox1.TabIndex = 1;
             this.richTextBox1.Text = "";
             this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
@@ -118,7 +119,7 @@
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(693, 11);
+            this.button3.Location = new System.Drawing.Point(699, 11);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(48, 23);
             this.button3.TabIndex = 7;
@@ -132,6 +133,7 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.comboBox3);
             this.groupBox1.Controls.Add(this.comboBox2);
             this.groupBox1.Controls.Add(this.label5);
@@ -142,9 +144,9 @@
             this.groupBox1.Controls.Add(this.radioButton2);
             this.groupBox1.Controls.Add(this.radioButton1);
             this.groupBox1.Controls.Add(this.comboBox1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 382);
+            this.groupBox1.Location = new System.Drawing.Point(12, 466);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(729, 77);
+            this.groupBox1.Size = new System.Drawing.Size(735, 77);
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "HID Console Source";
@@ -157,7 +159,7 @@
             this.comboBox3.Enabled = global::QMK_Toolbox.Properties.Settings.Default.vendorEnabledSetting;
             this.comboBox3.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(506, 45);
+            this.comboBox3.Location = new System.Drawing.Point(512, 45);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(64, 22);
             this.comboBox3.TabIndex = 11;
@@ -179,7 +181,7 @@
             this.comboBox2.Enabled = global::QMK_Toolbox.Properties.Settings.Default.productEnabledSetting;
             this.comboBox2.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(660, 46);
+            this.comboBox2.Location = new System.Drawing.Point(666, 46);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(63, 22);
             this.comboBox2.TabIndex = 12;
@@ -198,7 +200,7 @@
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(639, 49);
+            this.label5.Location = new System.Drawing.Point(645, 49);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(21, 14);
             this.label5.TabIndex = 18;
@@ -210,7 +212,7 @@
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(485, 49);
+            this.label4.Location = new System.Drawing.Point(491, 49);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(21, 14);
             this.label4.TabIndex = 17;
@@ -221,7 +223,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(236, 22);
+            this.label3.Location = new System.Drawing.Point(242, 22);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(49, 13);
             this.label3.TabIndex = 16;
@@ -235,7 +237,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(426, 50);
+            this.label2.Location = new System.Drawing.Point(432, 50);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(58, 13);
             this.label2.TabIndex = 15;
@@ -248,7 +250,7 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(576, 50);
+            this.label1.Location = new System.Drawing.Point(582, 50);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(61, 13);
             this.label1.TabIndex = 14;
@@ -295,7 +297,7 @@
             this.comboBox1.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", global::QMK_Toolbox.Properties.Settings.Default, "deviceEnabledSetting", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.comboBox1.Enabled = global::QMK_Toolbox.Properties.Settings.Default.deviceEnabledSetting;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(288, 19);
+            this.comboBox1.Location = new System.Drawing.Point(294, 19);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(435, 21);
             this.comboBox1.TabIndex = 9;
@@ -308,9 +310,9 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 462);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 546);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(753, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(759, 22);
             this.statusStrip1.TabIndex = 15;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -323,7 +325,7 @@
             // 
             this.splitter1.Location = new System.Drawing.Point(0, 0);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 462);
+            this.splitter1.Size = new System.Drawing.Size(3, 546);
             this.splitter1.TabIndex = 16;
             this.splitter1.TabStop = false;
             // 
@@ -353,11 +355,21 @@
             this.hexFileBox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
             this.hexFileBox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(327, 46);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(99, 23);
+            this.button4.TabIndex = 19;
+            this.button4.Text = "List HID Devices";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(753, 484);
+            this.ClientSize = new System.Drawing.Size(759, 568);
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.groupBox1);
@@ -405,6 +417,7 @@
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button button4;
     }
 }
 

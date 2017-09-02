@@ -22,8 +22,10 @@ namespace QMK_Toolbox {
 
     public partial class Form1 : Form {
 
-        private System.Diagnostics.Process process;
-        private System.Diagnostics.ProcessStartInfo startInfo;
+        private System.Diagnostics.Process process_dfu;
+        private System.Diagnostics.ProcessStartInfo startInfo_dfu;
+        private System.Diagnostics.Process process_avrdude;
+        private System.Diagnostics.ProcessStartInfo startInfo_avrdude;
         BackgroundWorker backgroundWorker1;
 
         private const int WM_DEVICECHANGE = 0x0219;
@@ -32,6 +34,7 @@ namespace QMK_Toolbox {
         private int ProductId;
         private const ushort UsagePage = 0xFF31;
         private const int Usage = 0x0074;
+        private string _COM = "";
 
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         protected override void WndProc(ref Message m) {
@@ -74,6 +77,11 @@ namespace QMK_Toolbox {
             string dfuPath = Application.LocalUserAppDataPath + "\\dfu-programmer.exe";
             ExtractResource("QMK_Toolbox.dfu-programmer.exe", dfuPath);
 
+            string avrdudePath = Application.LocalUserAppDataPath + "\\avrdude.exe";
+            ExtractResource("QMK_Toolbox.avrdude.exe", avrdudePath);
+            string avrdudeConfPath = Application.LocalUserAppDataPath + "\\avrdude.conf";
+            ExtractResource("QMK_Toolbox.avrdude.conf", avrdudeConfPath);
+
             string mcuListPath = Application.LocalUserAppDataPath + "\\mcu-list.txt";
             ExtractResource("QMK_Toolbox.mcu-list.txt", mcuListPath);
 
@@ -85,21 +93,41 @@ namespace QMK_Toolbox {
                 targetBox.Items.Add(tokens[0]);
             }
 
-            process = new System.Diagnostics.Process();
-            startInfo = new System.Diagnostics.ProcessStartInfo();
-            startInfo.UseShellExecute = false;
-            startInfo.RedirectStandardError = true;
-            startInfo.RedirectStandardOutput = true;
-            startInfo.FileName = dfuPath;
-            startInfo.CreateNoWindow = true;
+            process_dfu = new System.Diagnostics.Process();
+            startInfo_dfu = new System.Diagnostics.ProcessStartInfo();
+            startInfo_dfu.UseShellExecute = false;
+            startInfo_dfu.RedirectStandardError = true;
+            startInfo_dfu.RedirectStandardOutput = true;
+            startInfo_dfu.FileName = dfuPath;
+            startInfo_dfu.CreateNoWindow = true;
+
 
             Print("> dfu-programmer --version\n", true);
-            startInfo.Arguments = "--version";
-            process.StartInfo = startInfo;
-            process.Start();
-            string output = process.StandardOutput.ReadToEnd();
-            output += process.StandardError.ReadToEnd();
-            process.WaitForExit();
+            startInfo_dfu.Arguments = "--version";
+            process_dfu.StartInfo = startInfo_dfu;
+            process_dfu.Start();
+            string output = process_dfu.StandardOutput.ReadToEnd();
+            output += process_dfu.StandardError.ReadToEnd();
+            process_dfu.WaitForExit();
+            Print(output, false, Color.LightGray);
+
+
+            process_avrdude = new System.Diagnostics.Process();
+            startInfo_avrdude = new System.Diagnostics.ProcessStartInfo();
+            startInfo_avrdude.UseShellExecute = false;
+            startInfo_avrdude.RedirectStandardError = true;
+            startInfo_avrdude.RedirectStandardOutput = true;
+            startInfo_avrdude.FileName = avrdudePath;
+            startInfo_avrdude.CreateNoWindow = true;
+
+
+            Print("> avrdude -v\n", true);
+            startInfo_avrdude.Arguments = "-v";
+            process_avrdude.StartInfo = startInfo_avrdude;
+            process_avrdude.Start();
+            output = process_avrdude.StandardOutput.ReadToEnd();
+            output += process_avrdude.StandardError.ReadToEnd();
+            process_avrdude.WaitForExit();
             Print(output, false, Color.LightGray);
 
             List<USBDeviceInfo> devices = new List<USBDeviceInfo>();
@@ -139,7 +167,8 @@ namespace QMK_Toolbox {
 
                 _device.MonitorDeviceEvents = true;
                 _isAttached = true;
-                Print("*** HID device available: " + string.Format("0x{0:X4}", VendorId) + ":" + string.Format("0x{0:X4}", ProductId) + "\n", true, Color.DeepSkyBlue);
+                Print("*** HID device available: " + GetManufacturerString(_device) + " | " + GetProductString(_device) +
+                    " / " + string.Format("0x{0:X4}", VendorId) + ":" + string.Format("0x{0:X4}", ProductId) + "\n", true, Color.DeepSkyBlue);
             } else {
                 Print("*** No HID device available\n", true, Color.DeepSkyBlue);
                 _isAttached = false;
@@ -147,14 +176,39 @@ namespace QMK_Toolbox {
             return _isAttached;
         }
 
+        private string GetProductString(HidDevice d) {
+            byte[] bs;
+            _device.ReadProduct(out bs);
+            string ps = "";
+            foreach (byte b in bs) {
+                if (b > 0)
+                    ps += ((char)b).ToString();
+            }
+            return ps;
+        }
+
+        private string GetManufacturerString(HidDevice d) {
+            byte[] bs;
+            _device.ReadManufacturer(out bs);
+            string ps = "";
+            foreach (byte b in bs) {
+                if (b > 0)
+                    ps += ((char)b).ToString();
+            }
+            return ps;
+        }
+
         private void DeviceAttachedHandler() {
-            Print("*** HID device attached: " + string.Format("0x{0:X4}", VendorId) + ":" + string.Format("0x{0:X4}", ProductId) + "\n", true, Color.DeepSkyBlue);
+            Print("*** HID device attached:  " + GetManufacturerString(_device) + " | " + GetProductString(_device) +
+                " / " + string.Format("0x{0:X4}", VendorId) + ":" + string.Format("0x{0:X4}", ProductId) + "\n", true, Color.DeepSkyBlue);
             _isAttached = true;
             _device.ReadReport(OnReport);
+
         }
 
         private void DeviceRemovedHandler() {
-            Print("*** HID device detached: " + string.Format("0x{0:X4}", VendorId) + ":" + string.Format("0x{0:X4}", ProductId) + "\n", true, Color.DeepSkyBlue);
+            Print("*** HID device dettached: " + GetManufacturerString(_device) + " | " + GetProductString(_device) +
+                " / " + string.Format("0x{0:X4}", VendorId) + ":" + string.Format("0x{0:X4}", ProductId) + "\n", true, Color.DeepSkyBlue);
             _isAttached = false;
         }
 
@@ -189,16 +243,27 @@ namespace QMK_Toolbox {
         private void FlashButton_Click(object sender, EventArgs e) {
             if (!InvokeRequired) {
                 string hexFile = hexFileBox.Text;
-                if (targetBox.Text == "") {
-                    Print("*** Please select an MCU\n", true, Color.Red);
-                } else if (hexFile == "") {
-                    Print("*** Please select a .hex file\n", true, Color.Red);
-                    RunDFU("reset");
+                if (_COM != "") {
+                    if (targetBox.Text == "") {
+                        Print("*** Please select an MCU\n", true, Color.Red);
+                    } else if (hexFile == "") {
+                        Print("*** Please select a .hex file\n", true, Color.Red);
+                    } else {
+                        RunAvrdude(hexFile);
+                    }
+                    _COM = "";
                 } else {
-                    if (mcuIsAvailable()) {
-                        RunDFU("erase --force");
-                        RunDFU("flash " + hexFile);
+                    if (targetBox.Text == "") {
+                        Print("*** Please select an MCU\n", true, Color.Red);
+                    } else if (hexFile == "") {
+                        Print("*** Please select a .hex file\n", true, Color.Red);
                         RunDFU("reset");
+                    } else {
+                        if (mcuIsAvailable()) {
+                            RunDFU("erase --force");
+                            RunDFU("flash " + hexFile);
+                            RunDFU("reset");
+                        }
                     }
                 }
             } else {
@@ -219,22 +284,33 @@ namespace QMK_Toolbox {
 
         private void RunDFU(string dfuArgs) {
             Print("> dfu-programmer " + targetBox.Text + " " + dfuArgs + "\n", true);
-            startInfo.Arguments = targetBox.Text + " " + dfuArgs;
-            process.StartInfo = startInfo;
-            process.Start();
-            string output = process.StandardOutput.ReadToEnd();
-            output += process.StandardError.ReadToEnd();
-            process.WaitForExit();
+            startInfo_dfu.Arguments = targetBox.Text + " " + dfuArgs;
+            process_dfu.StartInfo = startInfo_dfu;
+            process_dfu.Start();
+            string output = process_dfu.StandardOutput.ReadToEnd();
+            output += process_dfu.StandardError.ReadToEnd();
+            process_dfu.WaitForExit();
+            Print(output, false, Color.LightGray);
+        }
+
+        private void RunAvrdude(string file) {
+            Print("> avrdude -p " + targetBox.Text + " -c avr109 -U flash:w:\"" + file + "\" -P " + _COM + "\n", true);
+            startInfo_avrdude.Arguments = "-p " + targetBox.Text + " -c avr109 -U flash:w:\"" + file + "\":i -P " + _COM;
+            process_avrdude.StartInfo = startInfo_avrdude;
+            process_avrdude.Start();
+            string output = process_avrdude.StandardOutput.ReadToEnd();
+            output += process_avrdude.StandardError.ReadToEnd();
+            process_avrdude.WaitForExit();
             Print(output, false, Color.LightGray);
         }
 
         private bool mcuIsAvailable() {
-            startInfo.Arguments = targetBox.Text + " read";
-            process.StartInfo = startInfo;
-            process.Start();
-            string output = process.StandardOutput.ReadToEnd();
-            output += process.StandardError.ReadToEnd();
-            process.WaitForExit();
+            startInfo_dfu.Arguments = targetBox.Text + " read";
+            process_dfu.StartInfo = startInfo_dfu;
+            process_dfu.Start();
+            string output = process_dfu.StandardOutput.ReadToEnd();
+            output += process_dfu.StandardError.ReadToEnd();
+            process_dfu.WaitForExit();
             if (output.Contains("no device present")) {
                 Print("*** No \""+ targetBox.Text + "\" DFU device connected\n", true, Color.Red);
                 return false;
@@ -262,9 +338,21 @@ namespace QMK_Toolbox {
             //}
 
             // Detects Atmel Vendor ID
-            var match = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*VID_03EB.*");
-            if (match.Success) {
-                Print("*** DFU device connected: " + instance.GetPropertyValue("Name") + "\n", true, Color.Yellow);
+            var dfu = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*VID_03EB.*");
+            var caterina = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*VID_2341.*");
+            if (dfu.Success) {
+                Print("*** DFU device connected:\n    " + instance.GetPropertyValue("Name") + "\n    " + 
+                    instance.GetPropertyValue("DeviceID")  + "\n", true, Color.Yellow);
+                if (checkBox1.Checked) {
+                    FlashButton_Click(sender, e);
+                }
+            } else if (caterina.Success) {
+                Print("*** Caterina device connected:\n    " + instance.GetPropertyValue("Name") + "\n    " + 
+                    instance.GetPropertyValue("DeviceID") + "\n", true, Color.Yellow);
+                Regex regex = new Regex("(COM[0-9]+)");
+                var v = regex.Match(instance.GetPropertyValue("Name").ToString());
+                _COM = v.Groups[1].ToString();
+                //Print("COM: " +_COM + "\n");
                 if (checkBox1.Checked) {
                     FlashButton_Click(sender, e);
                 }
@@ -281,8 +369,12 @@ namespace QMK_Toolbox {
 
             // Detects Atmel Vendor ID
             var match = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*VID_03EB.*");
+            // Detects Arduino Vendor ID
+            var caterina = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*VID_2341.*");
             if (match.Success) {
                 Print("*** DFU Device disconnected: " + instance.GetPropertyValue("Name") + "\n", true, Color.Yellow);
+            } else if (caterina.Success) {
+                Print("*** Caterina device disconnected: " + instance.GetPropertyValue("Name") + "\n", true, Color.Yellow);
             }
         }
 
@@ -354,15 +446,19 @@ namespace QMK_Toolbox {
             //    toolStripStatusLabel1.Text = "";
             //}
         }
-    }
 
+        private void button4_Click(object sender, EventArgs e) {
+            var hiddevices = HidDevices.Enumerate();
 
-    class rawhid {
-        [DllImport("rawhid.dll", CallingConvention = CallingConvention.StdCall)]
-
-        public static extern int rawhid_open(int max, int vid, int pid, int usage_page, int usage);
-
-        //public static extern void rawhid_read(rawhid_t* h, void* buf, int bufsize, int timeout_ms);
+            Print("*** Listing (" + hiddevices.Count() + ") PID/VIDs of current HID devices:\n");
+            foreach (HidDevice hiddevice in hiddevices) {
+                if (hiddevice != null) {
+                    hiddevice.OpenDevice();
+                    //Print("  * " + GetManufacturerString(hiddevice) + " | " + GetProductString(hiddevice));
+                    Print("  * " + hiddevice.Attributes.VendorHexId + ":" + hiddevice.Attributes.ProductHexId + "\n", false, Color.Yellow);
+                }
+            }
+        }
     }
 
     class USBDeviceInfo {
