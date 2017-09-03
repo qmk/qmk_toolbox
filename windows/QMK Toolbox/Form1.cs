@@ -49,6 +49,12 @@ namespace QMK_Toolbox {
         }
 
         List<HidDevice> _devices = new List<HidDevice>();
+        enum MessageType {
+            Bootloader,
+            HID,
+            Command
+        }
+        MessageType lastMessage;
 
         public Form1() {
             InitializeComponent();
@@ -310,7 +316,7 @@ namespace QMK_Toolbox {
             for (int i = 0; i < data.Length; i++) {
                 outputString += (char)data[i];
                 if (i % 16 == 15 && i < data.Length) {
-                    Print(formatResponse(outputString, " >  "), false, Color.SkyBlue);
+                    Print(formatResponse(outputString, ">>> "), Color.SkyBlue);
                     outputString = string.Empty;
                 }
             }
@@ -329,6 +335,8 @@ namespace QMK_Toolbox {
 
         private void FlashButton_Click(object sender, EventArgs e) {
             if (!InvokeRequired) {
+                button1.Enabled = false;
+                button3.Enabled = false;
                 string hexFile = hexFileBox.Text;
                 if (caterinaAvailable && _COM != "") {
                     if (targetBox.Text == "") {
@@ -349,10 +357,11 @@ namespace QMK_Toolbox {
                     } else {
                         if (mcuIsAvailable()) {
                             RunDFU("erase --force");
-                            RunDFU("flash " + hexFile);
-                            RunDFU("reset");
+                            if (RunDFU("flash " + hexFile)) {
+                                RunDFU("reset");
+                                dfuAvailable = false;
+                            }
                         }
-                        dfuAvailable = false;
                     }
                 } else if (halfkayAvailable) {
                     if (targetBox.Text == "") {
@@ -368,11 +377,33 @@ namespace QMK_Toolbox {
                 } else {
                     Print(formatInfo("No flashable device connected"), Color.Red);
                 }
+                button1.Enabled = true;
+                button3.Enabled = true;
             } else {
                 this.Invoke(new Action<object, EventArgs>(FlashButton_Click), new object[] { sender, e });
             }
         }
         
+        private void Print(string str, MessageType type) {
+            Color color = Color.White;
+            switch(type) {
+                case MessageType.Bootloader:
+                    str = formatInfo(str, type);
+                    color = Color.Yellow;
+                    break;
+                case MessageType.Command:
+                    str = formatCommand(str, type);
+                    color = Color.White;
+                    break;
+                case MessageType.HID:
+                    str = formatInfo(str, type);
+                    color = Color.SkyBlue;
+                    break;
+            }
+            lastMessage = type;
+            Print(str, color);
+        }
+
         private void Print(string str, Color color) {
             Print(str, false, color);
         }
@@ -395,58 +426,74 @@ namespace QMK_Toolbox {
             }
         }
 
-        private string formatCommand(string output, bool newline = true) {
-            if (!InvokeRequired) {
-                output = ">>> " + output;
-                if (richTextBox1.Text.Length > 0 && richTextBox1.Text[richTextBox1.Text.Length - 1] != '\n')
-                    Print("\n");
-                if (newline)
-                    output += "\n";
-                return output;
+        private string formatCommand(string output, MessageType type) {
+            if (type != lastMessage) {
+                return "\n" + formatCommand(output);
             } else {
-                return (string)this.Invoke(new Func<string>(() => formatCommand(output, newline)));
+                return formatCommand(output);
             }
         }
 
-        private string formatInfo(string output, bool newline = true) {
-            if (!InvokeRequired) {
-                output = "*** " + output;
-                if (richTextBox1.Text.Length > 0 && richTextBox1.Text[richTextBox1.Text.Length - 1] != '\n')
-                    Print("\n");
-                if (newline)
-                    output += "\n";
-                return output;
+        private string formatCommand(string str, bool newline = true) {
+            return formatType(str, "  > ", newline);
+        }
+
+        private string formatInfo(string output, MessageType type) {
+            if (type != lastMessage) {
+                return "\n" + formatCommand(output);
             } else {
-                return (string)this.Invoke(new Func<string>(() => formatInfo(output, newline)));
+                return formatCommand(output);
             }
         }
+
+        private string formatInfo(string str, bool newline = true) {
+            return formatType(str, "*** ", newline);
+        }
+
+        private string formatType(string output, string prefix, bool newline = true) {
+            output = prefix + output;
+            if (newline)
+                output += "\n";
+            return output;
+        }
+
 
         private string formatResponse(string output, string indent = "") {
             if (!InvokeRequired) {
-                if (output.Equals("") || output.Equals("\n"))
+                output = output.Trim('\0');
+                //byte[] bs = ASCIIEncoding.ASCII.GetBytes(output);
+                if ( output.Equals("\n") || output.Equals("\r") || String.IsNullOrEmpty(output))
                     return output;
+                //foreach (byte b in bs) {
+                //    Print(output.Length + ":" + string.Format("0x{0:X}", b));
+                //}
                 indent = (!indent.Equals("")) ? (indent) : (new String(' ', 4));
-                bool endsWithNewline = (output != "") ? (output[output.Length - 1] == '\n') : true;
-                if (richTextBox1.Text[richTextBox1.Text.Length - 1] == '\n')
+                bool endsWithNewline = (output[output.Length - 1] == '\n' || output[output.Length - 1] == '\r');
+                if (richTextBox1.Text[richTextBox1.Text.Length - 1] == '\n' || richTextBox1.Text[richTextBox1.Text.Length - 1] == '\r')
                     output = indent + output;
                 output = output.Replace("\n", "\n" + indent);
                 if (endsWithNewline)
                     output = output.Substring(0, output.Length - indent.Length);
                 return output;
             } else {
-                return (string)this.Invoke(new Func<string>(() => formatResponse(output)));
+                return (string)this.Invoke(new Func<string>(() => formatResponse(output, indent)));
             }
         }
 
-        private void RunDFU(string dfuArgs) {
+        private bool RunDFU(string dfuArgs) {
+            bool status = true;
             Print(formatCommand("dfu-programmer " + targetBox.Text + " " + dfuArgs), true);
             startInfo_dfu.Arguments = targetBox.Text + " " + dfuArgs;
             process_dfu.StartInfo = startInfo_dfu;
             process_dfu.Start();
             string output = process_dfu.StandardOutput.ReadToEnd();
             output += process_dfu.StandardError.ReadToEnd();
+            if (output.Contains("Bootloader and code overlap.")) {
+                status = false;
+            }
             process_dfu.WaitForExit();
             Print(formatResponse(output), false, Color.LightGray);
+            return status;
         }
 
         private void RunAvrdude(string file) {
@@ -577,6 +624,7 @@ namespace QMK_Toolbox {
         }
 
         private void button4_Click(object sender, EventArgs e) {
+            ((Button)sender).Enabled = false;
             foreach (HidDevice device in _devices) {
                 device.CloseDevice();
             }
@@ -589,6 +637,57 @@ namespace QMK_Toolbox {
                     Print("       Parent ID Prefix: " + GetParentIDPrefix(device) + "\n");
                 }
                 device.CloseDevice();
+            }
+            ((Button)sender).Enabled = true;
+        }
+
+        private void ReportWritten(bool success) {
+            if (!InvokeRequired) {
+                button5.Enabled = true;
+                button6.Enabled = true;
+                if (success) {
+                    Print(formatInfo("Report sent sucessfully"), Color.LightSkyBlue);
+                } else {
+                    Print(formatInfo("Report errored"), Color.Red);
+                }
+            } else {
+                this.Invoke(new Action<bool>(ReportWritten), new object[] { success });
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e) {
+            button5.Enabled = false;
+            foreach (HidDevice device in _devices) {
+                device.CloseDevice();
+            }
+            foreach (HidDevice device in _devices) {
+                device.OpenDevice();
+                //device.Write(Encoding.ASCII.GetBytes("BOOTLOADER"), 0);
+                byte[] data = new byte[2];
+                data[0] = 0;
+                data[1] = 0xFE;
+                HidReport report = new HidReport(2, new HidDeviceData(data, HidDeviceData.ReadStatus.Success));
+                device.WriteReport(report, ReportWritten);
+                device.CloseDevice();
+                Print(formatInfo("Sending report"), Color.LightSkyBlue);
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e) {
+            button6.Enabled = false;
+            foreach (HidDevice device in _devices) {
+                device.CloseDevice();
+            }
+            foreach (HidDevice device in _devices) {
+                device.OpenDevice();
+                //device.Write(Encoding.ASCII.GetBytes("BOOTLOADER"), 0);
+                byte[] data = new byte[2];
+                data[0] = 0;
+                data[1] = 0x01;
+                HidReport report = new HidReport(2, new HidDeviceData(data, HidDeviceData.ReadStatus.Success));
+                device.WriteReport(report, ReportWritten);
+                device.CloseDevice();
+                Print(formatInfo("Sending report"), Color.LightSkyBlue);
             }
         }
     }
