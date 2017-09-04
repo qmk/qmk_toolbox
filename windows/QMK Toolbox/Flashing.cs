@@ -77,14 +77,14 @@ namespace QMK_Toolbox {
             startInfo_dfu.CreateNoWindow = true;
 
 
-            f.P("dfu-programmer --version", MessageType.Command);
-            startInfo_dfu.Arguments = "--version";
-            process_dfu.StartInfo = startInfo_dfu;
-            process_dfu.Start();
-            string output = process_dfu.StandardOutput.ReadToEnd();
-            output += process_dfu.StandardError.ReadToEnd();
-            process_dfu.WaitForExit();
-            f.R(output, MessageType.Command);
+            //f.P("dfu-programmer --version", MessageType.Command);
+            //startInfo_dfu.Arguments = "--version";
+            //process_dfu.StartInfo = startInfo_dfu;
+            //process_dfu.Start();
+            //string output = process_dfu.StandardOutput.ReadToEnd();
+            //output += process_dfu.StandardError.ReadToEnd();
+            //process_dfu.WaitForExit();
+            //f.R(output, MessageType.Command);
         }
         
         public void SetupAvrdude() {
@@ -97,15 +97,15 @@ namespace QMK_Toolbox {
             startInfo_avrdude.CreateNoWindow = true;
 
 
-            f.P("avrdude -v", MessageType.Command);
-            startInfo_avrdude.Arguments = "-v";
-            process_avrdude.StartInfo = startInfo_avrdude;
-            process_avrdude.Start();
-            string output = process_avrdude.StandardOutput.ReadToEnd();
-            output += process_avrdude.StandardError.ReadToEnd();
-            output = string.Join("\n", output.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Take(4));
-            process_avrdude.WaitForExit();
-            f.R(output.Substring(1) + "\n", MessageType.Command);
+            //f.P("avrdude -v", MessageType.Command);
+            //startInfo_avrdude.Arguments = "-v";
+            //process_avrdude.StartInfo = startInfo_avrdude;
+            //process_avrdude.Start();
+            //string output = process_avrdude.StandardOutput.ReadToEnd();
+            //output += process_avrdude.StandardError.ReadToEnd();
+            //output = string.Join("\n", output.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Take(4));
+            //process_avrdude.WaitForExit();
+            //f.R(output.Substring(1) + "\n", MessageType.Command);
         }
 
         public void SetupTeensy() {
@@ -118,15 +118,15 @@ namespace QMK_Toolbox {
             startInfo_teensy.CreateNoWindow = true;
 
 
-            f.P("teensy_loader_cli --list-mcus", MessageType.Command);
-            startInfo_teensy.Arguments = "--list-mcus";
-            process_teensy.StartInfo = startInfo_teensy;
-            process_teensy.Start();
-            string output = process_teensy.StandardOutput.ReadToEnd();
-            output += process_teensy.StandardError.ReadToEnd();
-            //output = string.Join("\n", output.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Take(4));
-            process_teensy.WaitForExit();
-            f.R(output.Substring(0) + "\n", MessageType.Command);
+            //f.P("teensy_loader_cli --list-mcus", MessageType.Command);
+            //startInfo_teensy.Arguments = "--list-mcus";
+            //process_teensy.StartInfo = startInfo_teensy;
+            //process_teensy.Start();
+            //string output = process_teensy.StandardOutput.ReadToEnd();
+            //output += process_teensy.StandardError.ReadToEnd();
+            ////output = string.Join("\n", output.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Take(4));
+            //process_teensy.WaitForExit();
+            //f.R(output.Substring(0) + "\n", MessageType.Command);
         }
 
         public void SetupDfuUtil() {
@@ -139,15 +139,15 @@ namespace QMK_Toolbox {
             startInfo_dfuUtil.CreateNoWindow = true;
 
 
-            f.P("dfu-util -V", MessageType.Command);
-            startInfo_dfuUtil.Arguments = "-V";
-            process_dfuUtil.StartInfo = startInfo_dfuUtil;
-            process_dfuUtil.Start();
-            string output = process_dfuUtil.StandardOutput.ReadToEnd();
-            output += process_dfuUtil.StandardError.ReadToEnd();
-            output = string.Join("\n", output.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Take(6));
-            process_dfuUtil.WaitForExit();
-            f.R(output.Substring(0) + "\n", MessageType.Command);
+            //f.P("dfu-util -V", MessageType.Command);
+            //startInfo_dfuUtil.Arguments = "-V";
+            //process_dfuUtil.StartInfo = startInfo_dfuUtil;
+            //process_dfuUtil.Start();
+            //string output = process_dfuUtil.StandardOutput.ReadToEnd();
+            //output += process_dfuUtil.StandardError.ReadToEnd();
+            //output = string.Join("\n", output.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Take(6));
+            //process_dfuUtil.WaitForExit();
+            //f.R(output.Substring(0) + "\n", MessageType.Command);
         }
 
 

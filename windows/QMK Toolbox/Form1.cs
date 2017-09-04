@@ -51,7 +51,11 @@ namespace QMK_Toolbox {
             if (!InvokeRequired) {
                 Printing.colorResponse(richTextBox1, Printing.formatResponse(richTextBox1, str, type), type);
             } else {
-                this.Invoke(new Action<string, MessageType>(R), new object[] { str, type });
+                try {
+                    this.Invoke(new Action<string, MessageType>(R), new object[] { str, type });
+                } catch (Exception e) {
+
+                }
             }
         }
 
@@ -101,10 +105,12 @@ namespace QMK_Toolbox {
             if (Settings.Default.hexFileCollection != null)
                 this.hexFileBox.Items.AddRange(Settings.Default.hexFileCollection.ToArray());
 
-            P("QMK Toolbox supports the following bootloaders:", MessageType.Info);
-            R(" - DFU (Atmel, LUFA)\n", MessageType.Info);
-            R(" - Caterina (Arduino, Pro Micros)\n", MessageType.Info);
-            R(" - Halfkay (Teensy, Ergodox EZ)\n", MessageType.Info);
+            P("QMK Toolbox (http://qmk.fm/toolbox)", MessageType.Info);
+            R("Supporting following bootloaders:\n", MessageType.Info);
+            R(" - DFU (Atmel, LUFA) via dfu-programmer (http://dfu-programmer.github.io/)\n", MessageType.Info);
+            R(" - Caterina (Arduino, Pro Micro) via avrdude (http://nongnu.org/avrdude/)\n", MessageType.Info);
+            R(" - Halfkay (Teensy, Ergodox EZ) via teensy_loader_cli (https://pjrc.com/teensy/loader_cli.html)\n", MessageType.Info);
+            R(" - STM32 (ARM) via dfu-util (http://dfu-util.sourceforge.net/)\n", MessageType.Info);
 
             f.SetupDFU();
             f.SetupAvrdude();
@@ -208,7 +214,7 @@ namespace QMK_Toolbox {
                 device_name = "Halfkay";
                 f.halfkayAvailable = connected;
             } else if (dfuUtil_pid.Success && dfuUtil_vid.Success) {
-                device_name = "Dfu Util";
+                device_name = "STM32";
                 f.dfuUtilAvailable = connected;
             } else {
                 return false;
