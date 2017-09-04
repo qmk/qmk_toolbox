@@ -196,5 +196,28 @@ namespace QMK_Toolbox.Properties {
                 return ((bool)(this["staticDevicesSetting"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.ArrayList hexFileCollection {
+            get {
+                return ((global::System.Collections.ArrayList)(this["hexFileCollection"]));
+            }
+            set {
+                this["hexFileCollection"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public float outputZoom {
+            get {
+                return ((float)(this["outputZoom"]));
+            }
+            set {
+                this["outputZoom"] = value;
+            }
+        }
     }
 }

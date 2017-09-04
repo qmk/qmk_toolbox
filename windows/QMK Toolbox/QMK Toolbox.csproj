@@ -106,6 +106,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Flashing.cs" />
+    <Compile Include="Printing.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -154,8 +156,10 @@
     <EmbeddedResource Include="mcu-list.txt" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="libusb-1.0.dll" />
     <EmbeddedResource Include="teensy_loader_cli.exe" />
     <EmbeddedResource Include="avrdude.exe" />
+    <EmbeddedResource Include="dfu-util.exe" />
     <Content Include="favicon.ico" />
     <None Include="FodyWeavers.xml" />
   </ItemGroup>

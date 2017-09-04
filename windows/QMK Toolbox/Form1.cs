@@ -15,30 +15,20 @@ using System.Security.Permissions;
 
 namespace QMK_Toolbox {
     using HidLibrary;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Management;
     using System.Text.RegularExpressions;
 
     public partial class Form1 : Form {
-
-        private System.Diagnostics.Process process_dfu;
-        private System.Diagnostics.Process process_avrdude;
-        private System.Diagnostics.Process process_teensy;
-        private System.Diagnostics.ProcessStartInfo startInfo_dfu;
-        private System.Diagnostics.ProcessStartInfo startInfo_avrdude;
-        private System.Diagnostics.ProcessStartInfo startInfo_teensy;
         BackgroundWorker backgroundWorker1;
 
         private const int WM_DEVICECHANGE = 0x0219;
         private const int DBT_DEVNODES_CHANGED = 0x0007; //device changed
-        private const ushort UsagePage = 0xFF31;
-        private const int Usage = 0x0074;
-        private string _COM = "";
-        private bool dfuAvailable = false;
-        private bool caterinaAvailable = false;
-        private bool halfkayAvailable = false;
         private const int deviceIDOffset = 70;
+
+        Flashing f;
 
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         protected override void WndProc(ref Message m) {
@@ -49,15 +39,34 @@ namespace QMK_Toolbox {
         }
 
         List<HidDevice> _devices = new List<HidDevice>();
-        enum MessageType {
-            Bootloader,
-            HID,
-            Command
+
+        public void P(string str, MessageType type) {
+            if (!InvokeRequired) {
+                Printing.color(richTextBox1, Printing.format(richTextBox1, str, type), type);
+            } else {
+                this.Invoke(new Action<string, MessageType>(P), new object[] { str, type });
+            }
         }
-        MessageType lastMessage;
+        public void R(string str, MessageType type) {
+            if (!InvokeRequired) {
+                Printing.colorResponse(richTextBox1, Printing.formatResponse(richTextBox1, str, type), type);
+            } else {
+                this.Invoke(new Action<string, MessageType>(R), new object[] { str, type });
+            }
+        }
+
+        public string getTarget() {
+            return targetBox.Text;
+        }
+
+        public string getHexFile() {
+            return hexFileBox.Text;
+        }
 
         public Form1() {
             InitializeComponent();
+
+            f = new Flashing(this);
             
             richTextBox1.Cursor = Cursors.Arrow; // mouse cursor like in other controls
 
@@ -74,91 +83,33 @@ namespace QMK_Toolbox {
             // richTextBox1.ScrollToCaret();
         }
 
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e) {
+            ArrayList arraylist = new ArrayList(this.hexFileBox.Items);
+            Settings.Default.hexFileCollection = arraylist;
+            Settings.Default.Save();
+        }
+
         private void Form1_Load(object sender, EventArgs e) {
             backgroundWorker1.RunWorkerAsync();
 
-            string dfuPath = Application.LocalUserAppDataPath + "\\dfu-programmer.exe";
-            ExtractResource("QMK_Toolbox.dfu-programmer.exe", dfuPath);
-
-            string avrdudePath = Application.LocalUserAppDataPath + "\\avrdude.exe";
-            ExtractResource("QMK_Toolbox.avrdude.exe", avrdudePath);
-            string avrdudeConfPath = Application.LocalUserAppDataPath + "\\avrdude.conf";
-            ExtractResource("QMK_Toolbox.avrdude.conf", avrdudeConfPath);
-
-            string teensyPath = Application.LocalUserAppDataPath + "\\teensy_loader_cli.exe";
-            ExtractResource("QMK_Toolbox.teensy_loader_cli.exe", teensyPath);
-
-            string mcuListPath = Application.LocalUserAppDataPath + "\\mcu-list.txt";
-            ExtractResource("QMK_Toolbox.mcu-list.txt", mcuListPath);
-
-            var lines = File.ReadLines(mcuListPath);
+            var lines = File.ReadLines(f.mcuListPath);
             foreach (var line in lines) {
                 string[] tokens = line.Split(',');
                 targetBox.Items.Add(tokens[0]);
             }
 
-            Print(formatInfo("QMK Toolbox supports the following bootloaders:"));
-            Print(formatResponse(" - DFU (Atmel, LUFA)\n"));
-            Print(formatResponse(" - Caterina (Arduino, Pro Micros)\n"));
-            Print(formatResponse(" - Halfkay (Teensy, Ergodox EZ)\n"));
+            if (Settings.Default.hexFileCollection != null)
+                this.hexFileBox.Items.AddRange(Settings.Default.hexFileCollection.ToArray());
 
-            process_dfu = new System.Diagnostics.Process();
-            startInfo_dfu = new System.Diagnostics.ProcessStartInfo();
-            startInfo_dfu.UseShellExecute = false;
-            startInfo_dfu.RedirectStandardError = true;
-            startInfo_dfu.RedirectStandardOutput = true;
-            startInfo_dfu.FileName = dfuPath;
-            startInfo_dfu.CreateNoWindow = true;
+            P("QMK Toolbox supports the following bootloaders:", MessageType.Info);
+            R(" - DFU (Atmel, LUFA)\n", MessageType.Info);
+            R(" - Caterina (Arduino, Pro Micros)\n", MessageType.Info);
+            R(" - Halfkay (Teensy, Ergodox EZ)\n", MessageType.Info);
 
-
-            Print(formatCommand("dfu-programmer --version"), true);
-            startInfo_dfu.Arguments = "--version";
-            process_dfu.StartInfo = startInfo_dfu;
-            process_dfu.Start();
-            string output = process_dfu.StandardOutput.ReadToEnd();
-            output += process_dfu.StandardError.ReadToEnd();
-            process_dfu.WaitForExit();
-            Print(formatResponse(output), false, Color.LightGray);
-
-
-            process_avrdude = new System.Diagnostics.Process();
-            startInfo_avrdude = new System.Diagnostics.ProcessStartInfo();
-            startInfo_avrdude.UseShellExecute = false;
-            startInfo_avrdude.RedirectStandardError = true;
-            startInfo_avrdude.RedirectStandardOutput = true;
-            startInfo_avrdude.FileName = avrdudePath;
-            startInfo_avrdude.CreateNoWindow = true;
-
-
-            Print(formatCommand("avrdude -v"), true);
-            startInfo_avrdude.Arguments = "-v";
-            process_avrdude.StartInfo = startInfo_avrdude;
-            process_avrdude.Start();
-            output = process_avrdude.StandardOutput.ReadToEnd();
-            output += process_avrdude.StandardError.ReadToEnd();
-            output = string.Join("\n", output.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Take(4));
-            process_avrdude.WaitForExit();
-            Print(formatResponse(output.Substring(1) + "\n"), false, Color.LightGray);
-
-
-            process_teensy = new System.Diagnostics.Process();
-            startInfo_teensy = new System.Diagnostics.ProcessStartInfo();
-            startInfo_teensy.UseShellExecute = false;
-            startInfo_teensy.RedirectStandardError = true;
-            startInfo_teensy.RedirectStandardOutput = true;
-            startInfo_teensy.FileName = teensyPath;
-            startInfo_teensy.CreateNoWindow = true;
-
-
-            Print(formatCommand("teensy_loader_cli --list-mcus"), true);
-            startInfo_teensy.Arguments = "--list-mcus";
-            process_teensy.StartInfo = startInfo_teensy;
-            process_teensy.Start();
-            output = process_teensy.StandardOutput.ReadToEnd();
-            output += process_teensy.StandardError.ReadToEnd();
-            //output = string.Join("\n", output.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Take(4));
-            process_teensy.WaitForExit();
-            Print(formatResponse(output.Substring(0) + "\n"), false, Color.LightGray);
+            f.SetupDFU();
+            f.SetupAvrdude();
+            f.SetupTeensy();
+            f.SetupDfuUtil();
 
             List<USBDeviceInfo> devices = new List<USBDeviceInfo>();
 
@@ -171,7 +122,7 @@ namespace QMK_Toolbox {
             UpdateHIDDevices();
 
         }
-        
+
         private void UpdateHIDDevices() {
             List<HidDevice> devices = new List<HidDevice>(GetListableDevices());
 
@@ -188,9 +139,9 @@ namespace QMK_Toolbox {
 
                     device.MonitorDeviceEvents = true;
 
-                    Print(formatInfo("Connecting to HID device: " + GetManufacturerString(device) + " - " + GetProductString(device) + " ", false).PadRight(deviceIDOffset, '-'), false, Color.LightSkyBlue);
-                    Print(" | " + device.Attributes.VendorHexId + ":" + device.Attributes.ProductHexId + "\n");
-                    Print(formatResponse("Parent ID Prefix: " + GetParentIDPrefix(device) + "\n"));
+                    P(("Connecting to HID device: " + GetManufacturerString(device) + " - " + GetProductString(device) + " ").PadRight(deviceIDOffset, '-') + 
+                        " | " + device.Attributes.VendorHexId + ":" + device.Attributes.ProductHexId, MessageType.HID);
+                    R("Parent ID Prefix: " + GetParentIDPrefix(device) + "\n", MessageType.Info);
 
                     device.ReadReport(OnReport);
                     device.CloseDevice();
@@ -202,9 +153,9 @@ namespace QMK_Toolbox {
                     device_exists |= existing_device.DevicePath.Equals(device.DevicePath);
                 }
                 if (!device_exists) {
-                    Print(formatInfo("Disconnected from HID device: " + GetManufacturerString(existing_device) + " - " + GetProductString(existing_device) + " ", false).PadRight(deviceIDOffset, '-'), false, Color.LightSkyBlue);
-                    Print(" | " + existing_device.Attributes.VendorHexId + ":" + existing_device.Attributes.ProductHexId + "\n");
-                    Print(formatResponse("Parent ID Prefix: " + GetParentIDPrefix(existing_device) + "\n"));
+                    P(("Disconnected from HID device: " + GetManufacturerString(existing_device) + " - " + GetProductString(existing_device) + " ").PadRight(deviceIDOffset, '-') + 
+                    " | " + existing_device.Attributes.VendorHexId + ":" + existing_device.Attributes.ProductHexId, MessageType.HID);
+                    R("Parent ID Prefix: " + GetParentIDPrefix(existing_device) + "\n", MessageType.Info);
                 }
             }
             _devices = devices;
@@ -235,6 +186,8 @@ namespace QMK_Toolbox {
             var halfkay_vid = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*VID_16C0.*");
             var halfkay_pid = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*PID_0478.*");
             var halfkay_nohid = Regex.Match(instance.GetPropertyValue("Name").ToString(), @".*USB.*");
+            var dfuUtil_pid = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*VID_0483.*");
+            var dfuUtil_vid = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*PID_DF11.*");
 
             Regex deviceid_regex = new Regex("VID_([0-9A-F]+).*PID_([0-9A-F]+)");
             var vp = deviceid_regex.Match(instance.GetPropertyValue("DeviceID").ToString());
@@ -244,22 +197,24 @@ namespace QMK_Toolbox {
             string device_name;
             if (dfu.Success) {
                 device_name = "DFU";
-                dfuAvailable = connected;
+                f.dfuAvailable = connected;
             } else if (caterina.Success) {
                 device_name = "Caterina";
                 Regex regex = new Regex("(COM[0-9]+)");
                 var v = regex.Match(instance.GetPropertyValue("Name").ToString());
-                _COM = v.Groups[1].ToString();
-                caterinaAvailable = connected;
+                f._COM = v.Groups[1].ToString();
+                f.caterinaAvailable = connected;
             } else if (halfkay_vid.Success && halfkay_pid.Success && halfkay_nohid.Success) {
                 device_name = "Halfkay";
-                halfkayAvailable = connected;
+                f.halfkayAvailable = connected;
+            } else if (dfuUtil_pid.Success && dfuUtil_vid.Success) {
+                device_name = "Dfu Util";
+                f.dfuUtilAvailable = connected;
             } else {
                 return false;
             }
 
-            Print(formatInfo(device_name + " device " + connected_string + ": " + instance.GetPropertyValue("Name") + " ", false).PadRight(deviceIDOffset, '-'), false, Color.Yellow);
-            Print(" | 0x" + VID + ":0x" + PID + "\n");
+            P((device_name + " device " + connected_string + ": " + instance.GetPropertyValue("Name") + " ").PadRight(deviceIDOffset, '-') + " | 0x" + VID + ":0x" + PID, MessageType.Bootloader);
             return true;
         }
 
@@ -267,7 +222,7 @@ namespace QMK_Toolbox {
             var devices = HidDevices.Enumerate();
             List<HidDevice> listenable_devices = new List<HidDevice>();
             foreach (HidDevice device in devices) {
-                if ((ushort)device.Capabilities.UsagePage == UsagePage)
+                if ((ushort)device.Capabilities.UsagePage == Flashing.UsagePage)
                     listenable_devices.Add(device);
             }
             return listenable_devices;
@@ -316,7 +271,7 @@ namespace QMK_Toolbox {
             for (int i = 0; i < data.Length; i++) {
                 outputString += (char)data[i];
                 if (i % 16 == 15 && i < data.Length) {
-                    Print(formatResponse(outputString, ">>> "), Color.SkyBlue);
+                    R(outputString, MessageType.HID);
                     outputString = string.Empty;
                 }
             }
@@ -326,227 +281,22 @@ namespace QMK_Toolbox {
             }
         }
 
-        void ExtractResource(string resource, string path) {
-            Stream stream = GetType().Assembly.GetManifestResourceStream(resource);
-            byte[] bytes = new byte[(int)stream.Length];
-            stream.Read(bytes, 0, bytes.Length);
-            File.WriteAllBytes(path, bytes);
-        }
-
         private void FlashButton_Click(object sender, EventArgs e) {
             if (!InvokeRequired) {
                 button1.Enabled = false;
                 button3.Enabled = false;
-                string hexFile = hexFileBox.Text;
-                if (caterinaAvailable && _COM != "") {
-                    if (targetBox.Text == "") {
-                        Print(formatInfo("Please select an MCU"), Color.Red);
-                    } else if (hexFile == "") {
-                        Print(formatInfo("Please select a .hex file"), Color.Red);
-                    } else {
-                        RunAvrdude(hexFile);
-                    }
-                    caterinaAvailable = false;
-                } else if (dfuAvailable) {
-                    if (targetBox.Text == "") {
-                        Print(formatInfo("Please select an MCU"), Color.Red);
-                    } else if (hexFile == "") {
-                        Print(formatInfo("Please select a .hex file"), Color.Red);
-                        RunDFU("reset");
-                        dfuAvailable = false;
-                    } else {
-                        if (mcuIsAvailable()) {
-                            RunDFU("erase --force");
-                            if (RunDFU("flash " + hexFile)) {
-                                RunDFU("reset");
-                                dfuAvailable = false;
-                            }
-                        }
-                    }
-                } else if (halfkayAvailable) {
-                    if (targetBox.Text == "") {
-                        Print(formatInfo("Please select an MCU"), Color.Red);
-                    } else if (hexFile == "") {
-                        Print(formatInfo("Please select a .hex file"), Color.Red);
-                        TeensyReset();
-                        halfkayAvailable = false;
-                    } else {        
-                        TeensyFlash(hexFile);
-                        halfkayAvailable = false;
-                    }
-                } else {
-                    Print(formatInfo("No flashable device connected"), Color.Red);
-                }
+                f.Flash();
                 button1.Enabled = true;
                 button3.Enabled = true;
             } else {
                 this.Invoke(new Action<object, EventArgs>(FlashButton_Click), new object[] { sender, e });
             }
         }
-        
-        private void Print(string str, MessageType type) {
-            Color color = Color.White;
-            switch(type) {
-                case MessageType.Bootloader:
-                    str = formatInfo(str, type);
-                    color = Color.Yellow;
-                    break;
-                case MessageType.Command:
-                    str = formatCommand(str, type);
-                    color = Color.White;
-                    break;
-                case MessageType.HID:
-                    str = formatInfo(str, type);
-                    color = Color.SkyBlue;
-                    break;
-            }
-            lastMessage = type;
-            Print(str, color);
-        }
-
-        private void Print(string str, Color color) {
-            Print(str, false, color);
-        }
-
-        private void Print(string str, bool bold = false, Color? color = null, HorizontalAlignment align = HorizontalAlignment.Left) {
-            if (!InvokeRequired) {
-                richTextBox1.SelectionStart = richTextBox1.TextLength;
-                richTextBox1.SelectionLength = str.Length;
-                if (bold)
-                    richTextBox1.SelectionFont = new Font(richTextBox1.Font, FontStyle.Bold);
-                richTextBox1.SelectionColor = color ?? Color.White;
-                richTextBox1.SelectionAlignment = align;
-                richTextBox1.SelectionStart = richTextBox1.TextLength;
-                richTextBox1.SelectionLength = str.Length;
-                // This might be a better idea that prefixing each line
-                // richTextBox1.SelectionIndent = 20;
-                richTextBox1.SelectedText = str;
-            } else {
-                this.Invoke(new Action<string, bool, Color?, HorizontalAlignment>(Print), new object[] { str, bold, color, align });
-            }
-        }
-
-        private string formatCommand(string output, MessageType type) {
-            if (type != lastMessage) {
-                return "\n" + formatCommand(output);
-            } else {
-                return formatCommand(output);
-            }
-        }
-
-        private string formatCommand(string str, bool newline = true) {
-            return formatType(str, "  > ", newline);
-        }
-
-        private string formatInfo(string output, MessageType type) {
-            if (type != lastMessage) {
-                return "\n" + formatCommand(output);
-            } else {
-                return formatCommand(output);
-            }
-        }
-
-        private string formatInfo(string str, bool newline = true) {
-            return formatType(str, "*** ", newline);
-        }
-
-        private string formatType(string output, string prefix, bool newline = true) {
-            output = prefix + output;
-            if (newline)
-                output += "\n";
-            return output;
-        }
-
-
-        private string formatResponse(string output, string indent = "") {
-            if (!InvokeRequired) {
-                output = output.Trim('\0');
-                //byte[] bs = ASCIIEncoding.ASCII.GetBytes(output);
-                if ( output.Equals("\n") || output.Equals("\r") || String.IsNullOrEmpty(output))
-                    return output;
-                //foreach (byte b in bs) {
-                //    Print(output.Length + ":" + string.Format("0x{0:X}", b));
-                //}
-                indent = (!indent.Equals("")) ? (indent) : (new String(' ', 4));
-                bool endsWithNewline = (output[output.Length - 1] == '\n' || output[output.Length - 1] == '\r');
-                if (richTextBox1.Text[richTextBox1.Text.Length - 1] == '\n' || richTextBox1.Text[richTextBox1.Text.Length - 1] == '\r')
-                    output = indent + output;
-                output = output.Replace("\n", "\n" + indent);
-                if (endsWithNewline)
-                    output = output.Substring(0, output.Length - indent.Length);
-                return output;
-            } else {
-                return (string)this.Invoke(new Func<string>(() => formatResponse(output, indent)));
-            }
-        }
-
-        private bool RunDFU(string dfuArgs) {
-            bool status = true;
-            Print(formatCommand("dfu-programmer " + targetBox.Text + " " + dfuArgs), true);
-            startInfo_dfu.Arguments = targetBox.Text + " " + dfuArgs;
-            process_dfu.StartInfo = startInfo_dfu;
-            process_dfu.Start();
-            string output = process_dfu.StandardOutput.ReadToEnd();
-            output += process_dfu.StandardError.ReadToEnd();
-            if (output.Contains("Bootloader and code overlap.")) {
-                status = false;
-            }
-            process_dfu.WaitForExit();
-            Print(formatResponse(output), false, Color.LightGray);
-            return status;
-        }
-
-        private void RunAvrdude(string file) {
-            Print(formatCommand("avrdude -p " + targetBox.Text + " -c avr109 -U flash:w:\"" + file + "\" -P " + _COM), true);
-            startInfo_avrdude.Arguments = "-p " + targetBox.Text + " -c avr109 -U flash:w:\"" + file + "\":i -P " + _COM;
-            process_avrdude.StartInfo = startInfo_avrdude;
-            process_avrdude.Start();
-            string output = process_avrdude.StandardOutput.ReadToEnd();
-            output += process_avrdude.StandardError.ReadToEnd();
-            process_avrdude.WaitForExit();
-            Print(formatResponse(output), false, Color.LightGray);
-        }
-
-        private void TeensyFlash(string file) {
-            Print(formatCommand("teensy_loader_cli -mmcu=" + targetBox.Text + " \"" + file + "\" -v"), true);
-            startInfo_teensy.Arguments = "-mmcu=" + targetBox.Text + " \"" + file + "\" -v";
-            process_teensy.StartInfo = startInfo_teensy;
-            process_teensy.Start();
-            string output = process_teensy.StandardOutput.ReadToEnd();
-            output += process_teensy.StandardError.ReadToEnd();
-            process_teensy.WaitForExit();
-            Print(formatResponse(output), false, Color.LightGray);
-        }
-
-        private void TeensyReset() {
-            Print(formatCommand("teensy_loader_cli -mmcu=" + targetBox.Text + " -bv"), true);
-            startInfo_teensy.Arguments = "-mmcu=" + targetBox.Text + " -bv";
-            process_teensy.StartInfo = startInfo_teensy;
-            process_teensy.Start();
-            string output = process_teensy.StandardOutput.ReadToEnd();
-            output += process_teensy.StandardError.ReadToEnd();
-            process_teensy.WaitForExit();
-            Print(formatResponse(output), false, Color.LightGray);
-        }
-
-        private bool mcuIsAvailable() {
-            startInfo_dfu.Arguments = targetBox.Text + " read";
-            process_dfu.StartInfo = startInfo_dfu;
-            process_dfu.Start();
-            string output = process_dfu.StandardOutput.ReadToEnd();
-            output += process_dfu.StandardError.ReadToEnd();
-            process_dfu.WaitForExit();
-            if (output.Contains("no device present")) {
-                Print(formatInfo("No \""+ targetBox.Text + "\" DFU device connected"), true, Color.Red);
-                return false;
-            } else {
-                return true;
-            }
-        }
 
         private void button2_Click(object sender, EventArgs e) {
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                 hexFileBox.Text = openFileDialog1.FileName;
+                hexFileBox.Items.Add(hexFileBox.Text);
             }
         }
 
@@ -587,24 +337,18 @@ namespace QMK_Toolbox {
         }
 
         private void button3_Click(object sender, EventArgs e) {
-            if (targetBox.Text == "") {
-                Print(formatInfo("Please select an MCU"), Color.Red);
-            } else if (dfuAvailable && mcuIsAvailable()) {
-                RunDFU("reset");
-            } else if (halfkayAvailable) {
-                TeensyReset();
-            } else {
-                Print(formatInfo("No resettable device connected"), Color.Red);
-            }
+            button3.Enabled = false;
+            f.Reset();
+            button3.Enabled = true;
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e) {
             if (checkBox1.Checked) {
-                Print(formatInfo("Auto-flash enabled"), true);
+                P("Auto-flash enabled", MessageType.Info);
                 button1.Enabled = false;
                 button3.Enabled = false;
             } else {
-                Print(formatInfo("Auto-flash disabled"), true);
+                P("Auto-flash disabled", MessageType.Info);
                 button1.Enabled = true;
                 button3.Enabled = true;
             }
@@ -628,13 +372,13 @@ namespace QMK_Toolbox {
             foreach (HidDevice device in _devices) {
                 device.CloseDevice();
             }
-            Print(formatInfo("Listing compatible HID devices: (must have Usage Page "+ string.Format("0x{0:X4}", UsagePage) + ")"), Color.LightSkyBlue);
+            P("Listing compatible HID devices: (must have Usage Page "+ string.Format("0x{0:X4}", Flashing.UsagePage) + ")", MessageType.HID);
             foreach (HidDevice device in _devices) {
                 if (device != null) {
                     device.OpenDevice();
-                    Print(("     - " + GetManufacturerString(device) + " - " + GetProductString(device) + " ").PadRight(deviceIDOffset, '-') + "", Color.LightSkyBlue);
-                    Print(" | " + device.Attributes.VendorHexId + ":" + device.Attributes.ProductHexId + "\n");
-                    Print("       Parent ID Prefix: " + GetParentIDPrefix(device) + "\n");
+                    R((" - " + GetManufacturerString(device) + " - " + GetProductString(device) + " ").PadRight(deviceIDOffset, '-') + 
+                    " | " + device.Attributes.VendorHexId + ":" + device.Attributes.ProductHexId + "\n", MessageType.Info);
+                    R("   Parent ID Prefix: " + GetParentIDPrefix(device) + "\n", MessageType.Info);
                 }
                 device.CloseDevice();
             }
@@ -646,9 +390,9 @@ namespace QMK_Toolbox {
                 button5.Enabled = true;
                 button6.Enabled = true;
                 if (success) {
-                    Print(formatInfo("Report sent sucessfully"), Color.LightSkyBlue);
+                    R("Report sent sucessfully\n", MessageType.Info);
                 } else {
-                    Print(formatInfo("Report errored"), Color.Red);
+                    R("Report errored\n", MessageType.Error);
                 }
             } else {
                 this.Invoke(new Action<bool>(ReportWritten), new object[] { success });
@@ -669,7 +413,7 @@ namespace QMK_Toolbox {
                 HidReport report = new HidReport(2, new HidDeviceData(data, HidDeviceData.ReadStatus.Success));
                 device.WriteReport(report, ReportWritten);
                 device.CloseDevice();
-                Print(formatInfo("Sending report"), Color.LightSkyBlue);
+                P("Sending report", MessageType.HID);
             }
         }
 
@@ -687,7 +431,7 @@ namespace QMK_Toolbox {
                 HidReport report = new HidReport(2, new HidDeviceData(data, HidDeviceData.ReadStatus.Success));
                 device.WriteReport(report, ReportWritten);
                 device.CloseDevice();
-                Print(formatInfo("Sending report"), Color.LightSkyBlue);
+                P("Sending report", MessageType.HID);
             }
         }
     }

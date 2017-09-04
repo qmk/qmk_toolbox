@@ -34,10 +34,10 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitter1 = new System.Windows.Forms.Splitter();
-            this.targetBox = new System.Windows.Forms.ComboBox();
-            this.hexFileBox = new System.Windows.Forms.ComboBox();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.targetBox = new System.Windows.Forms.ComboBox();
+            this.hexFileBox = new System.Windows.Forms.ComboBox();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -72,7 +72,7 @@
             // 
             // openFileDialog1
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.Filter = "Intel Hex|*.hex|Binary|*.bin";
             // 
             // richTextBox1
             // 
@@ -81,16 +81,18 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox1.DataBindings.Add(new System.Windows.Forms.Binding("ZoomFactor", global::QMK_Toolbox.Properties.Settings.Default, "outputZoom", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.richTextBox1.Font = new System.Drawing.Font("Courier Prime", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBox1.ForeColor = System.Drawing.Color.White;
             this.richTextBox1.HideSelection = false;
             this.richTextBox1.Location = new System.Drawing.Point(12, 40);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(735, 474);
+            this.richTextBox1.Size = new System.Drawing.Size(735, 486);
             this.richTextBox1.TabIndex = 1;
             this.richTextBox1.Text = "";
             this.richTextBox1.WordWrap = false;
+            this.richTextBox1.ZoomFactor = global::QMK_Toolbox.Properties.Settings.Default.outputZoom;
             this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
             // 
             // button2
@@ -121,7 +123,8 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(648, 520);
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button4.Location = new System.Drawing.Point(648, 532);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(99, 23);
             this.button4.TabIndex = 19;
@@ -137,7 +140,7 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 546);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 558);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(759, 22);
             this.statusStrip1.TabIndex = 15;
@@ -152,9 +155,31 @@
             // 
             this.splitter1.Location = new System.Drawing.Point(0, 0);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 546);
+            this.splitter1.Size = new System.Drawing.Size(3, 558);
             this.splitter1.TabIndex = 16;
             this.splitter1.TabStop = false;
+            // 
+            // button5
+            // 
+            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button5.Location = new System.Drawing.Point(523, 532);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(119, 23);
+            this.button5.TabIndex = 20;
+            this.button5.Text = "Jump to Bootloader";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // button6
+            // 
+            this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button6.Location = new System.Drawing.Point(439, 532);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(78, 23);
+            this.button6.TabIndex = 21;
+            this.button6.Text = "Say Hello";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // targetBox
             // 
@@ -182,31 +207,11 @@
             this.hexFileBox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
             this.hexFileBox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
             // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(523, 520);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(119, 23);
-            this.button5.TabIndex = 20;
-            this.button5.Text = "Jump to Bootloader";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(439, 520);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(78, 23);
-            this.button6.TabIndex = 21;
-            this.button6.Text = "Say Hello";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(759, 568);
+            this.ClientSize = new System.Drawing.Size(759, 580);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
@@ -222,6 +227,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "QMK Toolbox";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.statusStrip1.ResumeLayout(false);
