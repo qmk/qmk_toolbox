@@ -30,6 +30,8 @@ namespace QMK_Toolbox {
         private const int DBT_DEVNODES_CHANGED = 0x0007; //device changed
         private const int deviceIDOffset = 70;
 
+        string filePassedIn = string.Empty;
+
         Flashing f;
 
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
@@ -69,8 +71,18 @@ namespace QMK_Toolbox {
             return hexFileBox.Text;
         }
 
-        public Form1() {
+        public Form1(string path) {
             InitializeComponent();
+
+            if (path != string.Empty) {
+                if ((Path.GetExtension(path).ToLower() == ".qmk" ||
+                (Path.GetExtension(path).ToLower() == ".hex") ||
+                (Path.GetExtension(path).ToLower() == ".bin"))) {
+                    filePassedIn = path;
+                } else {
+                    MessageBox.Show("QMK Toolbox doesn't support this kind of file", "File Type Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
 
             f = new Flashing(this);
             
@@ -128,6 +140,9 @@ namespace QMK_Toolbox {
             DetectBootloaderFromCollection(collection);
 
             UpdateHIDDevices();
+
+            if (filePassedIn != string.Empty)
+                ChangeFile(filePassedIn);
 
         }
 
