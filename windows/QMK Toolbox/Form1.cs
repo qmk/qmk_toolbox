@@ -9,12 +9,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Reflection;
 using System.IO;
+using System.IO.Compression;
 using QMK_Toolbox.Properties;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
 
 namespace QMK_Toolbox {
     using HidLibrary;
+    using Newtonsoft.Json;
     using System.Collections;
     using System.Collections.Generic;
     using System.Globalization;
@@ -299,10 +301,45 @@ namespace QMK_Toolbox {
             }
         }
 
+        private void ChangeFile(string filepath) {
+            if (filepath.EndsWith(".qmk", true, null)) {
+                P("Found .qmk file", MessageType.Info);
+                string qmk_filepath = Path.GetTempPath() + "qmk_toolbox" + filepath.Substring(filepath.LastIndexOf("\\")) + "\\";
+                R("Extracting to " + qmk_filepath + "\n", MessageType.Info);
+                if (Directory.Exists(qmk_filepath))
+                    Directory.Delete(qmk_filepath, true);
+                ZipFile.ExtractToDirectory(filepath, qmk_filepath);
+                string[] files = Directory.GetFiles(qmk_filepath);
+                string readme = "";
+                Info info = new Info();
+                foreach (string file in files) {
+                    R(" - " + file.Substring(file.LastIndexOf("\\") + 1) + "\n", MessageType.Info);
+                    if (file.Substring(file.LastIndexOf("\\") + 1).Equals("firmware.hex", StringComparison.OrdinalIgnoreCase) || 
+                        file.Substring(file.LastIndexOf("\\") + 1).Equals("firmware.bin", StringComparison.OrdinalIgnoreCase))
+                        ChangeFile(file);
+                    if (file.Substring(file.LastIndexOf("\\") + 1).Equals("readme.md", StringComparison.OrdinalIgnoreCase))
+                        readme = System.IO.File.ReadAllText(file);
+                    if (file.Substring(file.LastIndexOf("\\") + 1).Equals("info.json", StringComparison.OrdinalIgnoreCase))
+                        info = JsonConvert.DeserializeObject<Info>(System.IO.File.ReadAllText(file));
+                }
+                if (!string.IsNullOrEmpty(info.keyboard)) {
+                    P("Keymap for keyboard \"" + info.keyboard + "\" - " + info.vendor_id + ":" + info.product_id, MessageType.Info);
+                }
+                if (!readme.Equals("")) {
+                    P("Notes for this keymap:", MessageType.Info);
+                    R(readme, MessageType.Info);
+                }
+
+            } else {
+                hexFileBox.Text = filepath;
+                if (!hexFileBox.Items.Contains(filepath))
+                    hexFileBox.Items.Add(filepath);
+            }
+        }
+
         private void button2_Click(object sender, EventArgs e) {
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
-                hexFileBox.Text = openFileDialog1.FileName;
-                hexFileBox.Items.Add(hexFileBox.Text);
+                ChangeFile(openFileDialog1.FileName);
             }
         }
 
@@ -439,6 +476,14 @@ namespace QMK_Toolbox {
                 device.CloseDevice();
                 P("Sending report", MessageType.HID);
             }
+        }
+
+        private void Form1_DragDrop(object sender, DragEventArgs e) {
+            ChangeFile(((string[])e.Data.GetData(DataFormats.FileDrop, false)).First());
+        }
+
+        private void Form1_DragEnter(object sender, DragEventArgs e) {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
         }
     }
 
