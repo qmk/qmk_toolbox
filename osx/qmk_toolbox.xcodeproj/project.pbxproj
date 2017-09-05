@@ -11,6 +11,11 @@
 		092964001F5C8B2C004F2D3F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 092963FF1F5C8B2C004F2D3F /* main.m */; };
 		092964021F5C8B2C004F2D3F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 092964011F5C8B2C004F2D3F /* Assets.xcassets */; };
 		092964051F5C8B2C004F2D3F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 092964031F5C8B2C004F2D3F /* MainMenu.xib */; };
+		0929640D1F5E403C004F2D3F /* dfu-programmer in Resources */ = {isa = PBXBuildFile; fileRef = 0929640C1F5E403C004F2D3F /* dfu-programmer */; };
+		0929640F1F5E4068004F2D3F /* teensy_loader_cli in Resources */ = {isa = PBXBuildFile; fileRef = 0929640E1F5E4068004F2D3F /* teensy_loader_cli */; };
+		092964111F5E4186004F2D3F /* avrdude in Resources */ = {isa = PBXBuildFile; fileRef = 092964101F5E4186004F2D3F /* avrdude */; };
+		092964131F5E4192004F2D3F /* avrdude.conf in Resources */ = {isa = PBXBuildFile; fileRef = 092964121F5E4192004F2D3F /* avrdude.conf */; };
+		098AEDFB1F5E45C300CA054D /* dfu-util in Resources */ = {isa = PBXBuildFile; fileRef = 098AEDFA1F5E45C300CA054D /* dfu-util */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +26,11 @@
 		092964011F5C8B2C004F2D3F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		092964041F5C8B2C004F2D3F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		092964061F5C8B2C004F2D3F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0929640C1F5E403C004F2D3F /* dfu-programmer */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = "dfu-programmer"; path = "../dfu-programmer"; sourceTree = "<group>"; };
+		0929640E1F5E4068004F2D3F /* teensy_loader_cli */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = teensy_loader_cli; path = ../teensy_loader_cli; sourceTree = "<group>"; };
+		092964101F5E4186004F2D3F /* avrdude */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = avrdude; path = ../avrdude; sourceTree = "<group>"; };
+		092964121F5E4192004F2D3F /* avrdude.conf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = avrdude.conf; path = ../avrdude.conf; sourceTree = "<group>"; };
+		098AEDFA1F5E45C300CA054D /* dfu-util */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = "dfu-util"; path = "../dfu-util"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +76,11 @@
 		092963FE1F5C8B2C004F2D3F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				098AEDFA1F5E45C300CA054D /* dfu-util */,
+				092964121F5E4192004F2D3F /* avrdude.conf */,
+				092964101F5E4186004F2D3F /* avrdude */,
+				0929640E1F5E4068004F2D3F /* teensy_loader_cli */,
+				0929640C1F5E403C004F2D3F /* dfu-programmer */,
 				092963FF1F5C8B2C004F2D3F /* main.m */,
 			);
 			name = "Supporting Files";
@@ -128,7 +143,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0929640D1F5E403C004F2D3F /* dfu-programmer in Resources */,
 				092964021F5C8B2C004F2D3F /* Assets.xcassets in Resources */,
+				098AEDFB1F5E45C300CA054D /* dfu-util in Resources */,
+				0929640F1F5E4068004F2D3F /* teensy_loader_cli in Resources */,
+				092964131F5E4192004F2D3F /* avrdude.conf in Resources */,
+				092964111F5E4186004F2D3F /* avrdude in Resources */,
 				092964051F5C8B2C004F2D3F /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -281,6 +301,7 @@
 				0929640B1F5C8B2C004F2D3F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
