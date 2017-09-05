@@ -119,6 +119,8 @@ namespace QMK_Toolbox {
             if (Settings.Default.hexFileCollection != null)
                 this.hexFileBox.Items.AddRange(Settings.Default.hexFileCollection.ToArray());
 
+            richTextBox1.Font = new Font(FontFamily.GenericMonospace, 8);
+
             P("QMK Toolbox (http://qmk.fm/toolbox)", MessageType.Info);
             R("Supporting following bootloaders:\n", MessageType.Info);
             R(" - DFU (Atmel, LUFA) via dfu-programmer (http://dfu-programmer.github.io/)\n", MessageType.Info);
