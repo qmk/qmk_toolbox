@@ -21,6 +21,7 @@ namespace QMK_Toolbox {
     using System.Collections.Generic;
     using System.Globalization;
     using System.Management;
+    using System.Net;
     using System.Text.RegularExpressions;
 
     public partial class Form1 : Form {
@@ -31,6 +32,7 @@ namespace QMK_Toolbox {
         private const int deviceIDOffset = 70;
 
         string filePassedIn = string.Empty;
+        string DOWNLOADS_FOLDER = "downloads";
 
         Flashing f;
 
@@ -39,8 +41,30 @@ namespace QMK_Toolbox {
             if (m.Msg == WM_DEVICECHANGE && m.WParam.ToInt32() == DBT_DEVNODES_CHANGED) {
                 //Print("*** USB change\n");
             }
+            if (m.Msg == NativeMethods.WM_SHOWME) {
+                ShowMe();
+                if (File.Exists(Path.Combine(Path.GetTempPath(), "qmk_toolbox/file_passed_in.txt"))) {
+                    using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "qmk_toolbox/file_passed_in.txt"))) {
+                        ChangeFile(sr.ReadLine());
+                    }
+                    File.Delete(Path.Combine(Path.GetTempPath(), "qmk_toolbox/file_passed_in.txt"));
+                }
+            }
             base.WndProc(ref m);
         }
+
+        private void ShowMe() {
+            if (WindowState == FormWindowState.Minimized) {
+                WindowState = FormWindowState.Normal;
+            }
+            // get our current "TopMost" value (ours will always be false though)
+            bool top = TopMost;
+            // make our form jump to the top of everything
+            TopMost = true;
+            // set it back to whatever it was
+            TopMost = top;
+        }
+
 
         List<HidDevice> _devices = new List<HidDevice>();
 
@@ -319,6 +343,18 @@ namespace QMK_Toolbox {
         }
 
         private void ChangeFile(string filepath) {
+            Uri uri = new Uri(filepath);
+            if (uri.Scheme == "qmk") {
+                P("Downloading " + filepath.Replace("qmk:", ""), MessageType.Info);
+                WebClient wb = new WebClient();
+                if (!Directory.Exists(Path.Combine(Application.LocalUserAppDataPath, "downloads"))) {
+                    Directory.CreateDirectory(Path.Combine(Application.LocalUserAppDataPath, "downloads"));
+                }
+                wb.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.33 Safari/537.36");
+                R("Storing at " + Path.Combine(Application.LocalUserAppDataPath, DOWNLOADS_FOLDER, filepath.Substring(filepath.LastIndexOf("/") + 1)), MessageType.Info);
+                wb.DownloadFile(filepath.Replace("qmk:", ""), Path.Combine(Application.LocalUserAppDataPath, DOWNLOADS_FOLDER, filepath.Substring(filepath.LastIndexOf("/") + 1)));
+                filepath = Path.Combine(Application.LocalUserAppDataPath, DOWNLOADS_FOLDER, filepath.Substring(filepath.LastIndexOf("/") + 2));
+            }
             if (filepath.EndsWith(".qmk", true, null)) {
                 P("Found .qmk file", MessageType.Info);
                 string qmk_filepath = Path.GetTempPath() + "qmk_toolbox" + filepath.Substring(filepath.LastIndexOf("\\")) + "\\";
@@ -514,4 +550,5 @@ namespace QMK_Toolbox {
         public string PnpDeviceID { get; private set; }
         public string Description { get; private set; }
     }
+
 }

@@ -2,6 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "QMK Toolbox"
+#define MyAppHandle "qmk"
 #define MyAppVersion "0.0.5"
 #define MyAppPublisher "QMK"
 #define MyAppURL "http://qmk.fm"
@@ -48,5 +49,13 @@ Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChang
 [Registry]
 Root: HKCR; Subkey: ".qmk";                             ValueData: "{#MyAppName}";          Flags: uninsdeletevalue; ValueType: string;  ValueName: ""
 Root: HKCR; Subkey: "{#MyAppName}";                     ValueData: "Program {#MyAppName}";  Flags: uninsdeletekey;   ValueType: string;  ValueName: ""
-Root: HKCR; Subkey: "{#MyAppName}\DefaultIcon";             ValueData: "{app}\{#MyAppExeName},0";               ValueType: string;  ValueName: ""
+Root: HKCR; Subkey: "{#MyAppName}\DefaultIcon";         ValueData: "{app}\{#MyAppExeName},0";               ValueType: string;  ValueName: ""
 Root: HKCR; Subkey: "{#MyAppName}\shell\open\command";  ValueData: """{app}\{#MyAppExeName}"" ""%1""";  ValueType: string;  ValueName: ""
+
+Root: HKCR; Subkey: "{#MyAppHandle}"; Flags: uninsdeletekey
+Root: HKCR; Subkey: "{#MyAppHandle}"; ValueType: string; ValueName: ""; ValueData: "URL:My custom protocol handler 01"; Flags: uninsdeletekey
+Root: HKCR; Subkey: "{#MyAppHandle}"; ValueType: string; ValueName: "URL Protocol"; ValueData: ""; Flags: uninsdeletekey
+Root: HKCR; Subkey: "{#MyAppHandle}\DefaultIcon"; Flags: uninsdeletekey
+Root: HKCR; Subkey: "{#MyAppHandle}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{#MyAppExeName},1"; Flags: uninsdeletekey
+Root: HKCR; Subkey: "{#MyAppHandle}\Shell\open\command"; Flags: uninsdeletekey
+Root: HKCR; Subkey: "{#MyAppHandle}\Shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""; Flags: uninsdeletekey

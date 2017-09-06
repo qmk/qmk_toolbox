@@ -152,6 +152,7 @@ namespace QMK_Toolbox {
 
 
         public void Flash() {
+            f.P("Attempting to flash - please don't remove device", MessageType.Bootloader);
             string hexFile = f.getHexFile() ;
             if (caterinaAvailable && _COM != "") {
                 if (f.getTarget() == "") {
