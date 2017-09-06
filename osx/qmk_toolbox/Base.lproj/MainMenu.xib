@@ -227,7 +227,7 @@
                                 <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j37-hH-gaF">
                                     <rect key="frame" x="7" y="7" width="153" height="25"/>
                                     <animations/>
-                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="5mG-K9-oUt">
+                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="5mG-K9-oUt">
                                         <font key="font" metaFont="cellTitle"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -244,7 +244,7 @@
                                         <constraint firstAttribute="width" constant="127" id="Rmh-Vs-2bF"/>
                                     </constraints>
                                     <animations/>
-                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="S8q-ac-xFc">
+                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="S8q-ac-xFc">
                                         <font key="font" metaFont="cellTitle"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -261,7 +261,7 @@
                                         <constraint firstAttribute="width" constant="58" id="wPl-Eb-7HZ"/>
                                     </constraints>
                                     <animations/>
-                                    <buttonCell key="cell" type="push" title="Load" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="GU7-Aq-YSe">
+                                    <buttonCell key="cell" type="push" title="Load" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="GU7-Aq-YSe">
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                         <font key="font" metaFont="cellTitle"/>
                                     </buttonCell>
@@ -321,7 +321,7 @@
                                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cP7-9M-IMj">
                                     <rect key="frame" x="3" y="19" width="61" height="18"/>
                                     <animations/>
-                                    <buttonCell key="cell" type="check" title="DFU" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="RMa-yV-bBM">
+                                    <buttonCell key="cell" type="check" title="DFU" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="RMa-yV-bBM">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="smallSystem"/>
                                     </buttonCell>
@@ -329,7 +329,7 @@
                                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PJa-Ql-yez">
                                     <rect key="frame" x="3" y="3" width="61" height="18"/>
                                     <animations/>
-                                    <buttonCell key="cell" type="check" title="STM32" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="3zw-eS-1X4">
+                                    <buttonCell key="cell" type="check" title="STM32" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="3zw-eS-1X4">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="smallSystem"/>
                                     </buttonCell>
@@ -337,7 +337,7 @@
                                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A0D-sQ-QtQ">
                                     <rect key="frame" x="63" y="19" width="61" height="18"/>
                                     <animations/>
-                                    <buttonCell key="cell" type="check" title="Halfkay" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="4mq-AW-gOT">
+                                    <buttonCell key="cell" type="check" title="Halfkay" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="4mq-AW-gOT">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="smallSystem"/>
                                     </buttonCell>
@@ -345,7 +345,7 @@
                                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xhz-Xi-9Hb">
                                     <rect key="frame" x="63" y="3" width="75" height="18"/>
                                     <animations/>
-                                    <buttonCell key="cell" type="check" title="Caterina" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="FQM-EC-DQI">
+                                    <buttonCell key="cell" type="check" title="Caterina" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="FQM-EC-DQI">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="smallSystem"/>
                                     </buttonCell>

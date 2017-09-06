@@ -7,9 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "Printing.h"
+#import "Flashing.h"
+#import "HID.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
+@property Printing * printer;
 
 @end
 

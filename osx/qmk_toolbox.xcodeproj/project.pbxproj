@@ -16,6 +16,10 @@
 		092964111F5E4186004F2D3F /* avrdude in Resources */ = {isa = PBXBuildFile; fileRef = 092964101F5E4186004F2D3F /* avrdude */; };
 		092964131F5E4192004F2D3F /* avrdude.conf in Resources */ = {isa = PBXBuildFile; fileRef = 092964121F5E4192004F2D3F /* avrdude.conf */; };
 		098AEDFB1F5E45C300CA054D /* dfu-util in Resources */ = {isa = PBXBuildFile; fileRef = 098AEDFA1F5E45C300CA054D /* dfu-util */; };
+		098AEDFE1F5F220500CA054D /* Printing.m in Sources */ = {isa = PBXBuildFile; fileRef = 098AEDFD1F5F220500CA054D /* Printing.m */; };
+		098AEE021F5F296000CA054D /* Flashing.m in Sources */ = {isa = PBXBuildFile; fileRef = 098AEE011F5F296000CA054D /* Flashing.m */; };
+		098AEE051F5F356000CA054D /* HID.m in Sources */ = {isa = PBXBuildFile; fileRef = 098AEE041F5F356000CA054D /* HID.m */; };
+		098AEE081F5F370900CA054D /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098AEE071F5F370900CA054D /* IOKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +35,13 @@
 		092964101F5E4186004F2D3F /* avrdude */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = avrdude; path = ../avrdude; sourceTree = "<group>"; };
 		092964121F5E4192004F2D3F /* avrdude.conf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = avrdude.conf; path = ../avrdude.conf; sourceTree = "<group>"; };
 		098AEDFA1F5E45C300CA054D /* dfu-util */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = "dfu-util"; path = "../dfu-util"; sourceTree = "<group>"; };
+		098AEDFC1F5F220500CA054D /* Printing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Printing.h; sourceTree = "<group>"; };
+		098AEDFD1F5F220500CA054D /* Printing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Printing.m; sourceTree = "<group>"; };
+		098AEE011F5F296000CA054D /* Flashing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Flashing.m; sourceTree = "<group>"; };
+		098AEE031F5F296B00CA054D /* Flashing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Flashing.h; sourceTree = "<group>"; };
+		098AEE041F5F356000CA054D /* HID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HID.m; sourceTree = "<group>"; };
+		098AEE061F5F359500CA054D /* HID.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HID.h; sourceTree = "<group>"; };
+		098AEE071F5F370900CA054D /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				098AEE081F5F370900CA054D /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -47,6 +59,7 @@
 		092963EF1F5C8B2C004F2D3F = {
 			isa = PBXGroup;
 			children = (
+				098AEE071F5F370900CA054D /* IOKit.framework */,
 				092963FA1F5C8B2C004F2D3F /* qmk_toolbox */,
 				092963F91F5C8B2C004F2D3F /* Products */,
 			);
@@ -63,6 +76,12 @@
 		092963FA1F5C8B2C004F2D3F /* qmk_toolbox */ = {
 			isa = PBXGroup;
 			children = (
+				098AEE031F5F296B00CA054D /* Flashing.h */,
+				098AEE011F5F296000CA054D /* Flashing.m */,
+				098AEE061F5F359500CA054D /* HID.h */,
+				098AEE041F5F356000CA054D /* HID.m */,
+				098AEDFC1F5F220500CA054D /* Printing.h */,
+				098AEDFD1F5F220500CA054D /* Printing.m */,
 				092963FB1F5C8B2C004F2D3F /* AppDelegate.h */,
 				092963FC1F5C8B2C004F2D3F /* AppDelegate.m */,
 				092964011F5C8B2C004F2D3F /* Assets.xcassets */,
@@ -161,7 +180,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				092964001F5C8B2C004F2D3F /* main.m in Sources */,
+				098AEE021F5F296000CA054D /* Flashing.m in Sources */,
+				098AEE051F5F356000CA054D /* HID.m in Sources */,
 				092963FD1F5C8B2C004F2D3F /* AppDelegate.m in Sources */,
+				098AEDFE1F5F220500CA054D /* Printing.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
