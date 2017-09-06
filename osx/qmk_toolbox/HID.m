@@ -10,6 +10,10 @@
 #import <CoreFoundation/CoreFoundation.h>
 #import <Carbon/Carbon.h>
 #import <IOKit/hid/IOHIDLib.h>
+#import <IOKit/usb/IOUSBLib.h>
+
+static Printing * _printer;
+static IOHIDManagerRef _hidManager;
 
 @interface HID ()
 
@@ -17,11 +21,9 @@
 
 @implementation HID
 
-Printing * _printer;
-IOHIDManagerRef _hidManager;
-
 + (void)setupWithPrinter:(Printing *)printer {
-    _printer = printer;
+    _printer = printer;	
+    
     _hidManager = IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDOptionsTypeNone);
     // Make sure we detect ANY type of 'game controller'
     NSArray *criteria = [NSArray arrayWithObjects:
@@ -41,21 +43,21 @@ IOHIDManagerRef _hidManager;
 }
 
 static NSString * formatDevice(NSString * str, IOHIDDeviceRef device) {
-    return [NSString stringWithFormat:@"%@ %@ - %@ -- 0x%X:0x%X",
-        str,
+    return [NSString stringWithFormat:@"%@ - %@ %@ -- 0x%X:0x%X",
         IOHIDDeviceGetProperty(device, CFSTR(kIOHIDManufacturerKey)),
         IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey)),
+        str,
         (int)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey)) / 256,
         (int)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey)) / 256
     ];
 }
 
 static void HIDConnected(void *context, IOReturn result, void *sender, IOHIDDeviceRef device) {
-    [_printer print:formatDevice(@"Connected:   ", device)  withType:MessageType_HID];
+    [_printer print:formatDevice(@"connected", device)  withType:MessageType_HID];
 }
 
 static void HIDDisconnected(void *context, IOReturn result, void *sender, IOHIDDeviceRef device) {
-    [_printer print:formatDevice(@"Disconnected:", device)  withType:MessageType_HID];
+    [_printer print:formatDevice(@"disconnected", device)  withType:MessageType_HID];
 }
 
 static void HIDReported(void *context, IOReturn result, void *sender, IOHIDReportType type, uint32_t reportID, uint8_t *report, CFIndex reportLength) {

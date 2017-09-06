@@ -54,6 +54,7 @@
     [_flasher runProcess:@"dfu-util" withArgs:@[@""]];
     
     [HID setupWithPrinter:_printer];
+    [USB setupWithPrinter:_printer];
 }
 
 

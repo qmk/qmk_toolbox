@@ -20,6 +20,7 @@
 		098AEE021F5F296000CA054D /* Flashing.m in Sources */ = {isa = PBXBuildFile; fileRef = 098AEE011F5F296000CA054D /* Flashing.m */; };
 		098AEE051F5F356000CA054D /* HID.m in Sources */ = {isa = PBXBuildFile; fileRef = 098AEE041F5F356000CA054D /* HID.m */; };
 		098AEE081F5F370900CA054D /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098AEE071F5F370900CA054D /* IOKit.framework */; };
+		098AEE0B1F5F97A000CA054D /* USB.m in Sources */ = {isa = PBXBuildFile; fileRef = 098AEE091F5F97A000CA054D /* USB.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,8 @@
 		098AEE041F5F356000CA054D /* HID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HID.m; sourceTree = "<group>"; };
 		098AEE061F5F359500CA054D /* HID.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HID.h; sourceTree = "<group>"; };
 		098AEE071F5F370900CA054D /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		098AEE091F5F97A000CA054D /* USB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = USB.m; sourceTree = "<group>"; };
+		098AEE0A1F5F97A000CA054D /* USB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USB.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +79,8 @@
 		092963FA1F5C8B2C004F2D3F /* qmk_toolbox */ = {
 			isa = PBXGroup;
 			children = (
+				098AEE0A1F5F97A000CA054D /* USB.h */,
+				098AEE091F5F97A000CA054D /* USB.m */,
 				098AEE031F5F296B00CA054D /* Flashing.h */,
 				098AEE011F5F296000CA054D /* Flashing.m */,
 				098AEE061F5F359500CA054D /* HID.h */,
@@ -179,6 +184,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				098AEE0B1F5F97A000CA054D /* USB.m in Sources */,
 				092964001F5C8B2C004F2D3F /* main.m in Sources */,
 				098AEE021F5F296000CA054D /* Flashing.m in Sources */,
 				098AEE051F5F356000CA054D /* HID.m in Sources */,
