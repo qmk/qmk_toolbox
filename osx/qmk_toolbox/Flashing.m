@@ -15,11 +15,6 @@
 @end
 
 @implementation Flashing
-
-@synthesize DFUConnected;
-@synthesize HalfkayConnected;
-@synthesize CaterinaConnected;
-@synthesize STM32Connected;
 @synthesize delegate;
 
 - (id)initWithPrinter:(Printing *)p {
@@ -56,18 +51,18 @@
 - (void)flash:(NSString *)mcu withFile:(NSString *)file {
     if ([delegate canFlash:DFU])
         [self flashDFU:mcu withFile:file];
-    else if ([delegate canFlash:Caterina])
+    if ([delegate canFlash:Caterina])
         [self flashCaterina:mcu withFile:file];
-    else if ([delegate canFlash:Halfkay])
+    if ([delegate canFlash:Halfkay])
         [self flashHalfkay:mcu withFile:file];
-    else if ([delegate canFlash:STM32])
+    if ([delegate canFlash:STM32])
         [self flashSTM32WithFile:file];
 }
 
 - (void)reset:(NSString *)mcu {
     if ([delegate canFlash:DFU])
         [self resetDFU:mcu];
-    else if ([delegate canFlash:Halfkay])
+    if ([delegate canFlash:Halfkay])
         [self resetHalfkay:mcu];
 }
 

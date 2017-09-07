@@ -14,7 +14,8 @@ typedef enum {
     DFU,
     Halfkay,
     Caterina,
-    STM32
+    STM32,
+    NumberOfChipsets
 } Chipset;
 
 @class Flashing;

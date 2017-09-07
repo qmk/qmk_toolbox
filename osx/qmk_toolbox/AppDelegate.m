@@ -22,10 +22,11 @@
 
 @property Flashing * flasher;
 
-
 @end
 
 @implementation AppDelegate
+
+int devicesAvailable[4] = {0, 0, 0, 0};
 
 - (IBAction) openButtonClick:(id) sender {
    NSOpenPanel* panel = [NSOpenPanel openPanel];
@@ -35,9 +36,6 @@
    NSArray* types = @[@"qmk", @"bin", @"hex"];
    [panel setAllowedFileTypes:types];
  
-   // This method displays the panel and returns immediately.
-   // The completion handler is called when the user selects an
-   // item or cancels the panel.
    [panel beginWithCompletionHandler:^(NSInteger result){
       if (result == NSFileHandlingPanelOKButton) {
          [self setFilePath:[[panel URLs] objectAtIndex:0]];
@@ -49,22 +47,51 @@
 }
 
 - (IBAction) flashButtonClick:(id) sender {
-    [_flasher flash:(NSString *)[_mcuBox objectValue] withFile:(NSString *)[_filepathBox objectValue]];
+    if ([self areDevicesAvailable]) {
+        int error = 0;
+        if ([[_mcuBox objectValue] isEqualToString:@""]) {
+            [_printer print:@"Please select a microcontroller" withType:MessageType_Error];
+            error++;
+        }
+        if ([[_filepathBox objectValue] isEqualToString:@""]) {
+            [_printer print:@"Please select a file" withType:MessageType_Error];
+            error++;
+        }
+        if (error == 0) {
+            [_printer print:@"Attempting to flash, please don't remove deice" withType:MessageType_Bootloader];
+            [_flasher performSelector:@selector(flash:withFile:) withObject:[_mcuBox objectValue] withObject:[_filepathBox objectValue]];
+        }
+    } else {
+        [_printer print:@"There are no devices available" withType:MessageType_Error];
+    }
 }
 
 - (IBAction) resetButtonClick:(id) sender {
+    if ([[_mcuBox objectValue] isEqualToString:@""]) {
+        [_printer print:@"Please select a microcontroller" withType:MessageType_Error];
+    } else {
+        [_flasher reset:(NSString *)[_mcuBox objectValue]];
+    }
+}
 
+- (BOOL)areDevicesAvailable {
+    BOOL available = NO;
+    for (int i = 0; i < NumberOfChipsets; i++) {
+        available |= devicesAvailable[i];
+    }
+    return available;
 }
 
 - (BOOL)canFlash:(Chipset)chipset {
-    return YES;
+    return (devicesAvailable[chipset] > 0);
 }
 
 - (void)deviceConnected:(Chipset)chipset {
-
+    devicesAvailable[chipset]+=1;
 }
 
 - (void)deviceDisconnected:(Chipset)chipset {
+    devicesAvailable[chipset]-=1;
 
 }
 
@@ -130,10 +157,10 @@
     [_printer printResponse:@" - Caterina" withType:MessageType_Info];
     [_printer printResponse:@" - STM32" withType:MessageType_Info];
     
-    [_flasher runProcess:@"dfu-programmer" withArgs:@[@"--help"]];
-    [_flasher runProcess:@"avrdude" withArgs:@[@"-C", [[NSBundle mainBundle] pathForResource:@"avrdude.conf" ofType:@""]]];
-    [_flasher runProcess:@"teensy_loader_cli" withArgs:@[@"-v"]];
-    [_flasher runProcess:@"dfu-util" withArgs:@[@""]];
+//    [_flasher runProcess:@"dfu-programmer" withArgs:@[@"--help"]];
+//    [_flasher runProcess:@"avrdude" withArgs:@[@"-C", [[NSBundle mainBundle] pathForResource:@"avrdude.conf" ofType:@""]]];
+//    [_flasher runProcess:@"teensy_loader_cli" withArgs:@[@"-v"]];
+//    [_flasher runProcess:@"dfu-util" withArgs:@[@""]];
     
     [HID setupWithPrinter:_printer];
     [USB setupWithPrinter:_printer andDelegate:self];
