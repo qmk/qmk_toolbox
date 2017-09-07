@@ -28,8 +28,10 @@ static Printing * _printer;
 
 @implementation USB
 
-+ (void)setupWithPrinter:(Printing *)printer {
++ (void)setupWithPrinter:(Printing *)printer andDelegate:(id<USBDelegate>)d {
 
+    delegate = d;
+    
     // https://developer.apple.com/library/content/documentation/DeviceDrivers/Conceptual/USBBook/USBDeviceInterfaces/USBDevInterfaces.html#//apple_ref/doc/uid/TP40002645-TPXREF101
     
     _printer = printer;	
@@ -135,6 +137,7 @@ static void DFUDeviceAdded(void *refCon, io_iterator_t iterator) {
     io_service_t    object;
     while ((object = IOIteratorNext(iterator))) {
         [_printer print:@"DFU device connected" withType:MessageType_Bootloader];
+        [delegate deviceConnected:DFU];
     }
 }
 
@@ -145,6 +148,7 @@ static void DFUDeviceRemoved(void *refCon, io_iterator_t iterator) {
     while ((object = IOIteratorNext(iterator)))
     {
         [_printer print:@"DFU device disconnected" withType:MessageType_Bootloader];
+        [delegate deviceDisconnected:DFU];
         kr = IOObjectRelease(object);
         if (kr != kIOReturnSuccess)
         {
@@ -158,6 +162,7 @@ static void CaterinaDeviceAdded(void *refCon, io_iterator_t iterator) {
     io_service_t    object;
     while ((object = IOIteratorNext(iterator))) {
         [_printer print:@"Caterina device connected" withType:MessageType_Bootloader];
+        [delegate deviceConnected:Caterina];
     }
 }
 
@@ -168,6 +173,7 @@ static void CaterinaDeviceRemoved(void *refCon, io_iterator_t iterator) {
     while ((object = IOIteratorNext(iterator)))
     {
         [_printer print:@"Caterina device disconnected" withType:MessageType_Bootloader];
+        [delegate deviceDisconnected:Caterina];
         kr = IOObjectRelease(object);
         if (kr != kIOReturnSuccess)
         {
@@ -181,6 +187,7 @@ static void HalfkayDeviceAdded(void *refCon, io_iterator_t iterator) {
     io_service_t    object;
     while ((object = IOIteratorNext(iterator))) {
         [_printer print:@"Halfkay device connected" withType:MessageType_Bootloader];
+        [delegate deviceConnected:Halfkay];
     }
 }
 
@@ -191,6 +198,7 @@ static void HalfkayDeviceRemoved(void *refCon, io_iterator_t iterator) {
     while ((object = IOIteratorNext(iterator)))
     {
         [_printer print:@"Halfkay device disconnected" withType:MessageType_Bootloader];
+        [delegate deviceDisconnected:Halfkay];
         kr = IOObjectRelease(object);
         if (kr != kIOReturnSuccess)
         {
@@ -204,6 +212,7 @@ static void STM32DeviceAdded(void *refCon, io_iterator_t iterator) {
     io_service_t    object;
     while ((object = IOIteratorNext(iterator))) {
         [_printer print:@"STM32 device connected" withType:MessageType_Bootloader];
+        [delegate deviceConnected:STM32];
     }
 }
 
@@ -214,6 +223,7 @@ static void STM32DeviceRemoved(void *refCon, io_iterator_t iterator) {
     while ((object = IOIteratorNext(iterator)))
     {
         [_printer print:@"STM32 device disconnected" withType:MessageType_Bootloader];
+        [delegate deviceDisconnected:STM32];
         kr = IOObjectRelease(object);
         if (kr != kIOReturnSuccess)
         {

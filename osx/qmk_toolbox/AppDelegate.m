@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "QMKWindow.h"
 
-@interface AppDelegate () <NSTextViewDelegate, NSComboBoxDelegate>
+@interface AppDelegate () <NSTextViewDelegate, NSComboBoxDelegate, FlashingDelegate, USBDelegate>
 
 @property (weak) IBOutlet QMKWindow *window;
 @property IBOutlet NSTextView * textView;
@@ -49,10 +49,22 @@
 }
 
 - (IBAction) flashButtonClick:(id) sender {
-
+    [_flasher flash:(NSString *)[_mcuBox objectValue] withFile:(NSString *)[_filepathBox objectValue]];
 }
 
 - (IBAction) resetButtonClick:(id) sender {
+
+}
+
+- (BOOL)canFlash:(Chipset)chipset {
+    return YES;
+}
+
+- (void)deviceConnected:(Chipset)chipset {
+
+}
+
+- (void)deviceDisconnected:(Chipset)chipset {
 
 }
 
@@ -74,15 +86,31 @@
     [_filepathBox selectItemWithObjectValue:filename];
 }
 
+- (BOOL)readFromURL:(NSURL *)inAbsoluteURL ofType:(NSString *)inTypeName error:(NSError **)outError {
+    [self setFilePath:inAbsoluteURL];
+    return YES;
+}
+
+- (void)applicationWillFinishLaunching:(NSNotification *)notification {
+    
+    NSAppleEventManager *appleEventManager = [NSAppleEventManager sharedAppleEventManager];
+    [appleEventManager setEventHandler:self andSelector:@selector(handleGetURLEvent:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
+    
+}
+
+- (void)handleGetURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)reply
+{
+    NSLog(@"%@", [[event paramDescriptorForKeyword:keyDirectObject] stringValue]);
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
-    
-    
-    //[_window registerForDraggedTypes:[NSArray arrayWithObject:NSFilenamesPboardType]];
+
     [_window setup];
     
     _printer = [[Printing alloc] initWithTextView:_textView];
     _flasher = [[Flashing alloc] initWithPrinter:_printer];
+    _flasher.delegate = self;
     
     NSString * fileRoot = [[NSBundle mainBundle] pathForResource:@"mcu-list" ofType:@"txt"];
     NSString * fileContents = [NSString stringWithContentsOfFile:fileRoot encoding:NSUTF8StringEncoding error:nil];
@@ -108,7 +136,11 @@
     [_flasher runProcess:@"dfu-util" withArgs:@[@""]];
     
     [HID setupWithPrinter:_printer];
-    [USB setupWithPrinter:_printer];
+    [USB setupWithPrinter:_printer andDelegate:self];
+}
+
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
+    return YES;
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {

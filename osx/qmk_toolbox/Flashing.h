@@ -10,9 +10,27 @@
 #include <AppKit/AppKit.h>
 #include "Printing.h"
 
+typedef enum {
+    DFU,
+    Halfkay,
+    Caterina,
+    STM32
+} Chipset;
+
+@class Flashing;
+@protocol FlashingDelegate <NSObject>
+@optional
+- (BOOL)canFlash:(Chipset)chipset;
+@end
+
 @interface Flashing : NSObject
 
 - (id)initWithPrinter:(Printing *)p;
-- (void)runProcess:(NSString *)command withArgs:(NSArray<NSString *> *)args;
+- (NSString *)runProcess:(NSString *)command withArgs:(NSArray<NSString *> *)args;
+
+- (void)flash:(NSString *)mcu withFile:(NSString *)file;
+- (void)reset:(NSString *)mcu;
+
+@property (nonatomic, assign) id <FlashingDelegate> delegate;
 
 @end

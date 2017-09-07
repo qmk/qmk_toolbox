@@ -9,9 +9,19 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 #import "Printing.h"
+#import "Flashing.h"
+
+@class USB;
+@protocol USBDelegate <NSObject>
+@optional
+- (void)deviceConnected:(Chipset)chipset;
+- (void)deviceDisconnected:(Chipset)chipset;
+@end
 
 @interface USB : NSObject
 
-+ (void)setupWithPrinter:(Printing *)printer;
++ (void)setupWithPrinter:(Printing *)printer andDelegate:(id<USBDelegate>)d;
 
 @end
+
+static id<USBDelegate> delegate;
