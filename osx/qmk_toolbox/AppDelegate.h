@@ -16,5 +16,7 @@
 
 @property Printing * printer;
 
+- (void)setFilePath:(NSURL *)url;
+
 @end
 

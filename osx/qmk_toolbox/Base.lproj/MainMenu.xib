@@ -15,6 +15,12 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
+                <outlet property="autoFlashButton" destination="TwL-TO-5Ka" id="pLB-Ll-mP5"/>
+                <outlet property="filepathBox" destination="fMz-rn-IEt" id="eSr-wv-y0f"/>
+                <outlet property="flashButton" destination="OKF-oG-mRx" id="3MC-L3-Hfy"/>
+                <outlet property="mcuBox" destination="A13-Sl-S0x" id="VCZ-JH-C9H"/>
+                <outlet property="openButton" destination="oJO-GM-iRa" id="1vj-RC-Mm9"/>
+                <outlet property="resetButton" destination="qEj-2h-OmC" id="mmT-oh-51z"/>
                 <outlet property="textView" destination="tMQ-2J-GgU" id="hiw-St-3iy"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
@@ -61,7 +67,7 @@
                 </menuItem>
             </items>
         </menu>
-        <window title="QMK Toolbox" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
+        <window title="QMK Toolbox" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="QMKWindow">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="661" height="475"/>
@@ -116,6 +122,9 @@
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="cellTitle"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="resetButtonClick:" target="Voe-Tx-rLC" id="OeF-Gz-mpL"/>
+                        </connections>
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OKF-oG-mRx">
                         <rect key="frame" x="512" y="386" width="80" height="32"/>
@@ -128,6 +137,9 @@
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="cellTitle"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="flashButtonClick:" target="Voe-Tx-rLC" id="qed-bj-dbt"/>
+                        </connections>
                     </button>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="TwL-TO-5Ka">
                         <rect key="frame" x="516" y="370" width="96" height="18"/>
@@ -162,16 +174,14 @@
                                 <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fMz-rn-IEt">
                                     <rect key="frame" x="7" y="7" width="464" height="25"/>
                                     <animations/>
-                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="XxC-Jz-p7t">
+                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Click Open or drag to window to select file" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="XxC-Jz-p7t">
                                         <font key="font" metaFont="cellTitle"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        <objectValues>
-                                            <string>Item 1</string>
-                                            <string>Item 2</string>
-                                            <string>Item 3</string>
-                                        </objectValues>
                                     </comboBoxCell>
+                                    <connections>
+                                        <outlet property="delegate" destination="Voe-Tx-rLC" id="RTL-ba-n38"/>
+                                    </connections>
                                 </comboBox>
                                 <comboBox verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A13-Sl-S0x">
                                     <rect key="frame" x="543" y="7" width="108" height="25"/>
@@ -179,16 +189,14 @@
                                         <constraint firstAttribute="width" constant="105" id="fYy-tf-ll3"/>
                                     </constraints>
                                     <animations/>
-                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="xEk-tg-smb">
+                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Select MCU" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="xEk-tg-smb">
                                         <font key="font" metaFont="cellTitle"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        <objectValues>
-                                            <string>Item 1</string>
-                                            <string>Item 2</string>
-                                            <string>Item 3</string>
-                                        </objectValues>
                                     </comboBoxCell>
+                                    <connections>
+                                        <outlet property="delegate" destination="Voe-Tx-rLC" id="nzF-ij-VIK"/>
+                                    </connections>
                                 </comboBox>
                                 <button verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oJO-GM-iRa">
                                     <rect key="frame" x="470" y="2" width="71" height="32"/>
@@ -200,6 +208,9 @@
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                         <font key="font" metaFont="cellTitle"/>
                                     </buttonCell>
+                                    <connections>
+                                        <action selector="openButtonClick:" target="Voe-Tx-rLC" id="3wi-np-wbs"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <constraints>

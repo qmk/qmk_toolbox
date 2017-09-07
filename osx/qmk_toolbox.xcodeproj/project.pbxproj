@@ -21,6 +21,8 @@
 		098AEE051F5F356000CA054D /* HID.m in Sources */ = {isa = PBXBuildFile; fileRef = 098AEE041F5F356000CA054D /* HID.m */; };
 		098AEE081F5F370900CA054D /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098AEE071F5F370900CA054D /* IOKit.framework */; };
 		098AEE0B1F5F97A000CA054D /* USB.m in Sources */ = {isa = PBXBuildFile; fileRef = 098AEE091F5F97A000CA054D /* USB.m */; };
+		098AEE0D1F60A81C00CA054D /* mcu-list.txt in Resources */ = {isa = PBXBuildFile; fileRef = 098AEE0C1F60A81C00CA054D /* mcu-list.txt */; };
+		098AEE101F60C6F600CA054D /* QMKWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 098AEE0F1F60C6F600CA054D /* QMKWindow.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +47,9 @@
 		098AEE071F5F370900CA054D /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		098AEE091F5F97A000CA054D /* USB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = USB.m; sourceTree = "<group>"; };
 		098AEE0A1F5F97A000CA054D /* USB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USB.h; sourceTree = "<group>"; };
+		098AEE0C1F60A81C00CA054D /* mcu-list.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "mcu-list.txt"; path = "../../mcu-list.txt"; sourceTree = "<group>"; };
+		098AEE0E1F60C6F600CA054D /* QMKWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMKWindow.h; sourceTree = "<group>"; };
+		098AEE0F1F60C6F600CA054D /* QMKWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMKWindow.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +98,8 @@
 				092964031F5C8B2C004F2D3F /* MainMenu.xib */,
 				092964061F5C8B2C004F2D3F /* Info.plist */,
 				092963FE1F5C8B2C004F2D3F /* Supporting Files */,
+				098AEE0E1F60C6F600CA054D /* QMKWindow.h */,
+				098AEE0F1F60C6F600CA054D /* QMKWindow.m */,
 			);
 			path = qmk_toolbox;
 			sourceTree = "<group>";
@@ -100,6 +107,7 @@
 		092963FE1F5C8B2C004F2D3F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				098AEE0C1F60A81C00CA054D /* mcu-list.txt */,
 				098AEDFA1F5E45C300CA054D /* dfu-util */,
 				092964121F5E4192004F2D3F /* avrdude.conf */,
 				092964101F5E4186004F2D3F /* avrdude */,
@@ -167,6 +175,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				098AEE0D1F60A81C00CA054D /* mcu-list.txt in Resources */,
 				0929640D1F5E403C004F2D3F /* dfu-programmer in Resources */,
 				092964021F5C8B2C004F2D3F /* Assets.xcassets in Resources */,
 				098AEDFB1F5E45C300CA054D /* dfu-util in Resources */,
@@ -184,6 +193,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				098AEE101F60C6F600CA054D /* QMKWindow.m in Sources */,
 				098AEE0B1F5F97A000CA054D /* USB.m in Sources */,
 				092964001F5C8B2C004F2D3F /* main.m in Sources */,
 				098AEE021F5F296000CA054D /* Flashing.m in Sources */,

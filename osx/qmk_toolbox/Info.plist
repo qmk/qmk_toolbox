@@ -4,6 +4,45 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>qmk</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>None</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>fm.qmk.archive</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>hex</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>None</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>fm.qmk.hex</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>bin</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>None</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>fm.qmk.bin</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIconFile</key>
@@ -20,6 +59,19 @@
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>None</string>
+			<key>CFBundleURLName</key>
+			<string>fm.qmk.open</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>qmk</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSMinimumSystemVersion</key>
@@ -30,5 +82,24 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>UTImportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+				<string>public.archive</string>
+			</array>
+			<key>UTTypeReferenceURL</key>
+			<string>http://qmk.fm/qmk_file_type</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>qmk</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
 </dict>
 </plist>
