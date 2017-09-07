@@ -26,7 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		092963F81F5C8B2C004F2D3F /* qmk_toolbox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = qmk_toolbox.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		092963F81F5C8B2C004F2D3F /* QMK Toolbox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "QMK Toolbox.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		092963FB1F5C8B2C004F2D3F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		092963FC1F5C8B2C004F2D3F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		092963FF1F5C8B2C004F2D3F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -76,7 +76,7 @@
 		092963F91F5C8B2C004F2D3F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				092963F81F5C8B2C004F2D3F /* qmk_toolbox.app */,
+				092963F81F5C8B2C004F2D3F /* QMK Toolbox.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -121,9 +121,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		092963F71F5C8B2C004F2D3F /* qmk_toolbox */ = {
+		092963F71F5C8B2C004F2D3F /* QMK Toolbox */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 092964091F5C8B2C004F2D3F /* Build configuration list for PBXNativeTarget "qmk_toolbox" */;
+			buildConfigurationList = 092964091F5C8B2C004F2D3F /* Build configuration list for PBXNativeTarget "QMK Toolbox" */;
 			buildPhases = (
 				092963F41F5C8B2C004F2D3F /* Sources */,
 				092963F51F5C8B2C004F2D3F /* Frameworks */,
@@ -133,9 +133,9 @@
 			);
 			dependencies = (
 			);
-			name = qmk_toolbox;
+			name = "QMK Toolbox";
 			productName = qmk_toolbox;
-			productReference = 092963F81F5C8B2C004F2D3F /* qmk_toolbox.app */;
+			productReference = 092963F81F5C8B2C004F2D3F /* QMK Toolbox.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -152,7 +152,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 092963F31F5C8B2C004F2D3F /* Build configuration list for PBXProject "qmk_toolbox" */;
+			buildConfigurationList = 092963F31F5C8B2C004F2D3F /* Build configuration list for PBXProject "QMK Toolbox" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -165,7 +165,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				092963F71F5C8B2C004F2D3F /* qmk_toolbox */,
+				092963F71F5C8B2C004F2D3F /* QMK Toolbox */,
 			);
 		};
 /* End PBXProject section */
@@ -304,7 +304,7 @@
 				INFOPLIST_FILE = qmk_toolbox/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "qmk.fm.qmk-toolbox";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "QMK Toolbox";
 			};
 			name = Debug;
 		};
@@ -316,14 +316,14 @@
 				INFOPLIST_FILE = qmk_toolbox/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "qmk.fm.qmk-toolbox";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "QMK Toolbox";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		092963F31F5C8B2C004F2D3F /* Build configuration list for PBXProject "qmk_toolbox" */ = {
+		092963F31F5C8B2C004F2D3F /* Build configuration list for PBXProject "QMK Toolbox" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				092964071F5C8B2C004F2D3F /* Debug */,
@@ -332,7 +332,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		092964091F5C8B2C004F2D3F /* Build configuration list for PBXNativeTarget "qmk_toolbox" */ = {
+		092964091F5C8B2C004F2D3F /* Build configuration list for PBXNativeTarget "QMK Toolbox" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0929640A1F5C8B2C004F2D3F /* Debug */,

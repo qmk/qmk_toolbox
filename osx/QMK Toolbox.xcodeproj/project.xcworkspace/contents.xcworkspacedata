@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:qmk_toolbox.xcodeproj">
+      location = "self:/Users/j/Downloads/qmk_toolbox/osx/QMK Toolbox.xcodeproj">
    </FileRef>
 </Workspace>
