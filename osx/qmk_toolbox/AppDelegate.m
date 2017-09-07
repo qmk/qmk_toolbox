@@ -59,7 +59,13 @@ int devicesAvailable[4] = {0, 0, 0, 0};
         }
         if (error == 0) {
             [_printer print:@"Attempting to flash, please don't remove deice" withType:MessageType_Bootloader];
-            [_flasher performSelector:@selector(flash:withFile:) withObject:[_mcuBox objectValue] withObject:[_filepathBox objectValue]];
+            
+            // this is dumb, but the delay is required to let the previous print command show up
+            double delayInSeconds = .01;
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                [_flasher performSelector:@selector(flash:withFile:) withObject:[_mcuBox objectValue] withObject:[_filepathBox objectValue]];
+            });
         }
     } else {
         [_printer print:@"There are no devices available" withType:MessageType_Error];
@@ -131,8 +137,6 @@ int devicesAvailable[4] = {0, 0, 0, 0};
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    // Insert code here to initialize your application
-
     [_window setup];
     
     _printer = [[Printing alloc] initWithTextView:_textView];

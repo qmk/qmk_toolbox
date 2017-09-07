@@ -303,7 +303,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = qmk_toolbox/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "qmk.fm.qmk-toolbox";
+				PRODUCT_BUNDLE_IDENTIFIER = fm.qmk.toolbox;
 				PRODUCT_NAME = "QMK Toolbox";
 			};
 			name = Debug;
@@ -315,7 +315,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = qmk_toolbox/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "qmk.fm.qmk-toolbox";
+				PRODUCT_BUNDLE_IDENTIFIER = fm.qmk.toolbox;
 				PRODUCT_NAME = "QMK Toolbox";
 			};
 			name = Release;
