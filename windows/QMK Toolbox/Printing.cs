@@ -62,35 +62,41 @@ namespace QMK_Toolbox {
         }
 
         public Tuple<string, Color> formatResponse(string str, MessageType type) {
-            if (richTextBox.Text.Last<char>() == '\n')
+            bool addBackNewline = false;
+            if (str.Last<char>() == '\n') {
                 str = str.Substring(0, str.Length - 1);
+                addBackNewline = true;
+            }
             str = str.Replace("\n", "\n    ");
+            if (addBackNewline)
+                str = str + "\n";
 
             Color color = Color.White;
             switch (type) {
                 case MessageType.Info:
                     color = Color.LightGray;
-                    str = prepend(str, "    ", true);
+                    str = prepend(str, "    ", false);
                     break;
                 case MessageType.Command:
                     color = Color.LightGray;
-                    str = prepend(str, "    ", true);
+                    str = prepend(str, "    ", false);
                     break;
                 case MessageType.Bootloader:
                     color = Color.Yellow;
-                    str = prepend(str, "    ", true);
+                    str = prepend(str, "    ", false);
                     break;
                 case MessageType.Error:
                     color = Color.DarkRed;
-                    str = prepend(str, "    ", true);
+                    str = prepend(str, "    ", false);
                     break;
                 case MessageType.HID:
                     color = Color.SkyBlue;
-                    str = prepend(str, "  > ", true);
+                    if (richTextBox.Text.Last<char>() == '\n')
+                        str = prepend(str, "  > ", false);
                     break;
             }
 
-            if (richTextBox.Text.Last<char>() != '\n')
+            if (lastMessage != type && richTextBox.Text.Last<char>() != '\n')
                 str = "\n" + str;
 
             lastMessage = type;
