@@ -7,6 +7,7 @@
 //
 
 #import "Flashing.h"
+#import "USB.h"
 
 @interface Flashing ()
 
@@ -16,6 +17,7 @@
 
 @implementation Flashing
 @synthesize delegate;
+@synthesize caterinaPort;
 
 - (id)initWithPrinter:(Printing *)p {
     if (self = [super init]) {
@@ -33,6 +35,7 @@
 
     NSTask *task = [[NSTask alloc] init];
     task.launchPath = [[NSBundle mainBundle] pathForResource:command ofType:@""];
+    task.currentDirectoryPath = [[NSBundle mainBundle] resourcePath];
     task.arguments = args;
     task.standardOutput = pipe;
     task.standardError = pipe;
@@ -66,6 +69,13 @@
         [self resetHalfkay:mcu];
 }
 
+- (void)eepromReset:(NSString *)mcu {
+    if ([delegate canFlash:DFU])
+        [self eepromResetDFU:mcu];
+    if ([delegate canFlash:Caterina])
+        [self eepromResetCaterina:mcu];
+}
+
 - (void)flashDFU:(NSString *)mcu withFile:(NSString *)file {
     NSString * result;
     result = [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"erase", @"--force"]];
@@ -81,8 +91,22 @@
     [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"reset"]];
 }
 
+- (void)eepromResetDFU:(NSString *)mcu {
+    NSString * result;
+    NSString * file = [[NSBundle mainBundle] pathForResource:[mcu stringByAppendingString:@"_eeprom_reset"] ofType:@"hex"];
+    result = [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"erase", @"--force"]];
+    result = [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"flash", @"--eeprom", file]];
+    [_printer print:@"Device has been erased - please reflash" withType:MessageType_Bootloader];
+}
+
 - (void)flashCaterina:(NSString *)mcu withFile:(NSString *)file {
-    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"avr109", @"-U", [NSString stringWithFormat:@"flash:w:\"%@\":i", file], @"-P"]];
+    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"avr109", @"-U", [NSString stringWithFormat:@"flash:w:\"%@\":i", file], @"-P", caterinaPort, @"-C", @"avrdude.conf"]];
+}
+
+- (void)eepromResetCaterina:(NSString *)mcu {
+    NSString * result;
+    NSString * file = [mcu stringByAppendingString:@"_eeprom_reset.hex"];
+    result = [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"avr109", @"-U", [NSString stringWithFormat:@"eeprom:w:%@:i", file], @"-P", caterinaPort, @"-C", @"avrdude.conf"]];
 }
 
 - (void)flashHalfkay:(NSString *)mcu withFile:(NSString *)file {

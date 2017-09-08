@@ -8,6 +8,9 @@
 
 #import "USB.h"
 #import <IOKit/usb/IOUSBLib.h>
+#include <IOKit/IOKitLib.h>
+#include <IOKit/serial/IOSerialKeys.h>
+#include <IOKit/IOBSD.h>
  
 //Global variables
 static IONotificationPortRef    gNotifyPort;
@@ -19,7 +22,6 @@ static io_iterator_t            gHalfkayAddedIter;
 static io_iterator_t            gHalfkayRemovedIter;
 static io_iterator_t            gSTM32AddedIter;
 static io_iterator_t            gSTM32RemovedIter;
-
 static Printing * _printer;
 
 @interface USB ()
@@ -161,9 +163,26 @@ static void DFUDeviceRemoved(void *refCon, io_iterator_t iterator) {
 static void CaterinaDeviceAdded(void *refCon, io_iterator_t iterator) {
     io_service_t    object;
     while ((object = IOIteratorNext(iterator))) {
-        [_printer print:@"Caterina device connected" withType:MessageType_Bootloader];
-        [delegate deviceConnected:Caterina];
+        double delayInSeconds = 1.;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            [_printer print:@"Caterina device connected" withType:MessageType_Bootloader];
+            [delegate deviceConnected:Caterina];
+            
+            io_iterator_t   serialPortIterator;
+            char        deviceFilePath[64];
+            MyFindModems(&serialPortIterator);
+            MyGetModemPath(serialPortIterator, deviceFilePath, sizeof(deviceFilePath));
+            if (!deviceFilePath[0]) {
+                printf("No modem port found.\n");
+            } else {
+                [delegate setCaterinaPort:[NSString stringWithFormat:@"%s", deviceFilePath]];
+                [_printer printResponse:[NSString stringWithFormat:@"Found port: %s", deviceFilePath] withType:MessageType_Bootloader];
+            }
+            IOObjectRelease(serialPortIterator);
+        });
     }
+
 }
 
 static void CaterinaDeviceRemoved(void *refCon, io_iterator_t iterator) {
@@ -231,6 +250,107 @@ static void STM32DeviceRemoved(void *refCon, io_iterator_t iterator) {
             continue;
         }
     }
+}
+
+static kern_return_t MyFindModems(io_iterator_t *matchingServices)
+{
+    kern_return_t       kernResult;
+    mach_port_t         masterPort;
+    CFMutableDictionaryRef  classesToMatch;
+ 
+    kernResult = IOMasterPort(MACH_PORT_NULL, &masterPort);
+    if (KERN_SUCCESS != kernResult)
+    {
+        printf("IOMasterPort returned %d\n", kernResult);
+    goto exit;
+    }
+ 
+    // Serial devices are instances of class IOSerialBSDClient.
+    classesToMatch = IOServiceMatching(kIOSerialBSDServiceValue);
+    if (classesToMatch == NULL)
+    {
+        printf("IOServiceMatching returned a NULL dictionary.\n");
+    }
+    else {
+        CFDictionarySetValue(classesToMatch,
+                             CFSTR(kIOSerialBSDTypeKey),
+                             CFSTR(kIOSerialBSDAllTypes));
+ 
+        // Each serial device object has a property with key
+        // kIOSerialBSDTypeKey and a value that is one of
+        // kIOSerialBSDAllTypes, kIOSerialBSDModemType,
+        // or kIOSerialBSDRS232Type. You can change the
+        // matching dictionary to find other types of serial
+        // devices by changing the last parameter in the above call
+        // to CFDictionarySetValue.
+    }
+ 
+    kernResult = IOServiceGetMatchingServices(masterPort, classesToMatch, matchingServices);
+    if (KERN_SUCCESS != kernResult)
+    {
+        printf("IOServiceGetMatchingServices returned %d\n", kernResult);
+    goto exit;
+    }
+ 
+exit:
+    return kernResult;
+}
+
+static kern_return_t MyGetModemPath(io_iterator_t serialPortIterator, char *deviceFilePath, CFIndex maxPathSize)
+{
+    io_object_t     modemService;
+    kern_return_t   kernResult = KERN_FAILURE;
+    Boolean     modemFound = false;
+ 
+    // Initialize the returned path
+    *deviceFilePath = '\0';
+ 
+    // Iterate across all modems found. In this example, we exit after
+    // finding the first modem.
+ 
+    while ((modemService = IOIteratorNext(serialPortIterator)))
+    {
+        CFTypeRef   deviceFilePathAsCFString;
+ 
+    // Get the callout device's path (/dev/cu.xxxxx).
+    // The callout device should almost always be
+    // used. You would use the dialin device (/dev/tty.xxxxx) when
+    // monitoring a serial port for
+    // incoming calls, for example, a fax listener.
+ 
+    deviceFilePathAsCFString = IORegistryEntryCreateCFProperty(modemService,
+                            CFSTR(kIOCalloutDeviceKey),
+                            kCFAllocatorDefault,
+                            0);
+        if (deviceFilePathAsCFString)
+        {
+            Boolean result;
+ 
+        // Convert the path from a CFString to a NULL-terminated C string
+        // for use with the POSIX open() call.
+ 
+        result = CFStringGetCString(deviceFilePathAsCFString,
+                                        deviceFilePath,
+                                        maxPathSize,
+                                        kCFStringEncodingASCII);
+            CFRelease(deviceFilePathAsCFString);
+ 
+            if (result)
+            {
+                printf("BSD path: %s", deviceFilePath);
+                modemFound = true;
+                kernResult = KERN_SUCCESS;
+            }
+        }
+ 
+        printf("\n");
+ 
+        // Release the io_service_t now that we are done with it.
+ 
+    (void) IOObjectRelease(modemService);
+    }
+ 
+    return kernResult;
 }
 
 @end

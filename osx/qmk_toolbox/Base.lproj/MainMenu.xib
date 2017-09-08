@@ -16,6 +16,7 @@
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
                 <outlet property="autoFlashButton" destination="TwL-TO-5Ka" id="pLB-Ll-mP5"/>
+                <outlet property="eepromResetButton" destination="RSb-Il-mNt" id="uEb-yN-jO6"/>
                 <outlet property="filepathBox" destination="fMz-rn-IEt" id="eSr-wv-y0f"/>
                 <outlet property="flashButton" destination="OKF-oG-mRx" id="3MC-L3-Hfy"/>
                 <outlet property="mcuBox" destination="A13-Sl-S0x" id="VCZ-JH-C9H"/>
@@ -65,6 +66,76 @@
                         </items>
                     </menu>
                 </menuItem>
+                <menuItem title="Edit" id="H3U-ZH-Kt2">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Edit" id="T7M-GG-BBy">
+                        <items>
+                            <menuItem isSeparatorItem="YES" id="lmr-nv-a2r"/>
+                            <menuItem title="Copy" keyEquivalent="c" id="MjW-wa-Xed">
+                                <connections>
+                                    <action selector="copy:" target="-1" id="fYS-D7-04j"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Select All" keyEquivalent="a" id="81O-MG-uFY">
+                                <connections>
+                                    <action selector="selectAll:" target="-1" id="2Fa-b6-Sr9"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="PPm-vL-ec8"/>
+                            <menuItem title="Find" id="hon-JS-hpW">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Find" id="RK9-8E-uUO">
+                                    <items>
+                                        <menuItem title="Find…" tag="1" keyEquivalent="f" id="fcb-kC-Sdi">
+                                            <connections>
+                                                <action selector="performFindPanelAction:" target="-1" id="sU1-5i-fIm"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Find Next" tag="2" keyEquivalent="g" id="Vcz-Uf-kmo">
+                                            <connections>
+                                                <action selector="performFindPanelAction:" target="-1" id="YFZ-J8-7Of"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Find Previous" tag="3" keyEquivalent="G" id="3Wq-xk-Og0">
+                                            <connections>
+                                                <action selector="performFindPanelAction:" target="-1" id="z1i-Uq-OAe"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Use Selection for Find" tag="7" keyEquivalent="e" id="tZA-AN-aAK">
+                                            <connections>
+                                                <action selector="performFindPanelAction:" target="-1" id="Oeh-Tk-OE7"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Jump to Selection" keyEquivalent="j" id="lON-jr-JdY">
+                                            <connections>
+                                                <action selector="centerSelectionInVisibleArea:" target="-1" id="pPz-Ca-y6L"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Speech" id="mbi-DC-uwU">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Speech" id="cZU-If-sgz">
+                                    <items>
+                                        <menuItem title="Start Speaking" id="Gch-sj-IUZ">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="startSpeaking:" target="-1" id="FjT-lQ-yTr"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Stop Speaking" id="NZc-7d-3UJ">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="stopSpeaking:" target="-1" id="ntc-TP-wqb"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
             </items>
         </menu>
         <window title="QMK Toolbox" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="QMKWindow">
@@ -83,7 +154,7 @@
                             <rect key="frame" x="1" y="1" width="639" height="318"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <textView editable="NO" importsGraphics="NO" findStyle="panel" verticallyResizable="YES" allowsNonContiguousLayout="YES" id="tMQ-2J-GgU">
+                                <textView editable="NO" importsGraphics="NO" findStyle="panel" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" id="tMQ-2J-GgU">
                                     <rect key="frame" x="0.0" y="0.0" width="639" height="318"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <animations/>
@@ -368,6 +439,21 @@
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
+                    <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RSb-Il-mNt">
+                        <rect key="frame" x="4" y="3" width="125" height="32"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="121" id="OrW-P7-Fri"/>
+                            <constraint firstAttribute="height" constant="21" id="ZJj-0M-KZ7"/>
+                        </constraints>
+                        <animations/>
+                        <buttonCell key="cell" type="push" title="Reset EEPROM" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aot-j7-w9r">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="cellTitle"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="eepromResetButtonClick:" target="Voe-Tx-rLC" id="xaR-XN-Tf6"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="w5R-Hk-e8X" secondAttribute="trailing" constant="10" id="1SK-rh-DGn"/>
@@ -384,11 +470,14 @@
                     <constraint firstItem="qEj-2h-OmC" firstAttribute="leading" secondItem="OKF-oG-mRx" secondAttribute="trailing" constant="4" id="Nc3-jf-JYQ"/>
                     <constraint firstItem="Vo9-7s-iob" firstAttribute="top" secondItem="w5R-Hk-e8X" secondAttribute="bottom" constant="10" id="TcF-cM-Pmg"/>
                     <constraint firstItem="LCo-O1-xnT" firstAttribute="top" secondItem="t67-0j-kLe" secondAttribute="bottom" constant="3" id="Ul1-S7-BR5"/>
+                    <constraint firstItem="RSb-Il-mNt" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="10" id="Zwx-cY-fGS"/>
                     <constraint firstAttribute="trailing" secondItem="9ht-zl-DdM" secondAttribute="trailing" constant="25" id="aCA-8H-6W1"/>
                     <constraint firstAttribute="trailing" secondItem="Vo9-7s-iob" secondAttribute="trailing" constant="10" id="dZW-SE-i9N"/>
+                    <constraint firstAttribute="bottom" secondItem="RSb-Il-mNt" secondAttribute="bottom" constant="10" id="hMV-Bz-Rd0"/>
                     <constraint firstItem="t67-0j-kLe" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="4" id="hY7-4X-Nrm"/>
                     <constraint firstItem="w5R-Hk-e8X" firstAttribute="top" secondItem="sFy-Lg-NKo" secondAttribute="bottom" constant="42" id="mNm-zP-Ll8"/>
                     <constraint firstItem="9ht-zl-DdM" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="4" id="me3-Ss-MQt"/>
+                    <constraint firstItem="RSb-Il-mNt" firstAttribute="top" secondItem="w5R-Hk-e8X" secondAttribute="bottom" constant="10" id="nVm-oo-6dO"/>
                     <constraint firstItem="LCo-O1-xnT" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="5" id="pIB-Hs-nnI"/>
                     <constraint firstItem="t67-0j-kLe" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="5" id="tnv-lz-t10"/>
                     <constraint firstItem="sFy-Lg-NKo" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="170" id="zjf-tj-SxC"/>

@@ -19,6 +19,7 @@
 @property IBOutlet NSButton * flashButton;
 @property IBOutlet NSButton * resetButton;
 @property IBOutlet NSButton * autoFlashButton;
+@property IBOutlet NSButton * eepromResetButton;
 
 @property Flashing * flasher;
 
@@ -79,6 +80,20 @@ int devicesAvailable[4] = {0, 0, 0, 0};
         [_flasher reset:(NSString *)[_mcuBox objectValue]];
     }
 }
+
+- (IBAction) eepromResetButtonClick:(id) sender {
+    if ([[_mcuBox objectValue] isEqualToString:@""]) {
+        [_printer print:@"Please select a microcontroller" withType:MessageType_Error];
+    } else {
+        [_flasher eepromReset:(NSString *)[_mcuBox objectValue]];
+    }
+}
+
+- (void)setCaterinaPort:(NSString *)port {
+    _flasher.caterinaPort = port;
+}
+
+
 
 - (BOOL)areDevicesAvailable {
     BOOL available = NO;
