@@ -81,9 +81,9 @@
     result = [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"erase", @"--force"]];
     result = [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"flash", file]];
     if ([result containsString:@"Bootloader and code overlap."]) {
-        result = [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"reset"]];
-    } else {
         [_printer print:@"File is too large for device" withType:MessageType_Error];
+    } else {
+        result = [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"reset"]];
     }
 }
 
@@ -100,7 +100,7 @@
 }
 
 - (void)flashCaterina:(NSString *)mcu withFile:(NSString *)file {
-    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"avr109", @"-U", [NSString stringWithFormat:@"flash:w:\"%@\":i", file], @"-P", caterinaPort, @"-C", @"avrdude.conf"]];
+    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"avr109", @"-U", [NSString stringWithFormat:@"flash:w:%@:i", file], @"-P", caterinaPort, @"-C", @"avrdude.conf"]];
 }
 
 - (void)eepromResetCaterina:(NSString *)mcu {

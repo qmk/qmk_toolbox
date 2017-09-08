@@ -109,6 +109,9 @@ int devicesAvailable[4] = {0, 0, 0, 0};
 
 - (void)deviceConnected:(Chipset)chipset {
     devicesAvailable[chipset]+=1;
+    if ([_autoFlashButton state] == NSOnState) {
+        [self flashButtonClick:NULL];
+    }
 }
 
 - (void)deviceDisconnected:(Chipset)chipset {
