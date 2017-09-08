@@ -172,12 +172,14 @@ int devicesAvailable[4] = {0, 0, 0, 0};
         [_mcuBox addItemWithObjectValue:str];
     }
 
-    [_printer print:@"QMK Toolbox" withType:MessageType_Info];
-    [_printer printResponse:@"Supports the following bootloaders:" withType:MessageType_Info];
-    [_printer printResponse:@" - DFU" withType:MessageType_Info];
-    [_printer printResponse:@" - Halfkay" withType:MessageType_Info];
-    [_printer printResponse:@" - Caterina" withType:MessageType_Info];
-    [_printer printResponse:@" - STM32" withType:MessageType_Info];
+    [_printer print:@"QMK Toolbox (http://qmk.fm/toolbox)" withType:MessageType_Info];
+    [_printer printResponse:@"Supporting following bootloaders:\n" withType:MessageType_Info];
+    [_printer printResponse:@" - DFU (Atmel, LUFA) via dfu-programmer (http://dfu-programmer.github.io/)\n" withType:MessageType_Info];
+    [_printer printResponse:@" - Caterina (Arduino, Pro Micro) via avrdude (http://nongnu.org/avrdude/)\n" withType:MessageType_Info];
+    [_printer printResponse:@" - Halfkay (Teensy, Ergodox EZ) via teensy_loader_cli (https://pjrc.com/teensy/loader_cli.html)\n" withType:MessageType_Info];
+    [_printer printResponse:@" - STM32 (ARM) via dfu-util (http://dfu-util.sourceforge.net/)\n" withType:MessageType_Info];
+
+    
     
 //    [_flasher runProcess:@"dfu-programmer" withArgs:@[@"--help"]];
 //    [_flasher runProcess:@"avrdude" withArgs:@[@"-C", [[NSBundle mainBundle] pathForResource:@"avrdude.conf" ofType:@""]]];
