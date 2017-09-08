@@ -523,8 +523,8 @@ namespace QMK_Toolbox {
 
         private void ReportWritten(bool success) {
             if (!InvokeRequired) {
-                button5.Enabled = true;
-                button6.Enabled = true;
+                //button5.Enabled = true;
+                //button6.Enabled = true;
                 if (success) {
                     printer.printResponse("Report sent sucessfully\n", MessageType.Info);
                 } else {
