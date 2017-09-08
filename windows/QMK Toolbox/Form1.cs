@@ -34,7 +34,10 @@ namespace QMK_Toolbox {
         string filePassedIn = string.Empty;
         string DOWNLOADS_FOLDER = "downloads";
 
-        Flashing f;
+        Printing printer;
+        Flashing flasher;
+
+        private int[] devicesAvailable = new int[] { 0, 0, 0, 0};
 
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         protected override void WndProc(ref Message m) {
@@ -68,31 +71,16 @@ namespace QMK_Toolbox {
 
         List<HidDevice> _devices = new List<HidDevice>();
 
-        public void P(string str, MessageType type) {
-            if (!InvokeRequired) {
-                Printing.color(richTextBox1, Printing.format(richTextBox1, str, type), type);
-            } else {
-                this.Invoke(new Action<string, MessageType>(P), new object[] { str, type });
+        public bool canFlash(Chipset chipset) {
+            return (devicesAvailable[(int)chipset] > 0);
+        }
+
+        public bool areDevicesAvailable() {
+            bool available = false;
+            for (int i = 0; i < (int)Chipset.NumberOfChipsets; i++) {
+                available |= (devicesAvailable[i] > 0);
             }
-        }
-        public void R(string str, MessageType type) {
-            if (!InvokeRequired) {
-                Printing.colorResponse(richTextBox1, Printing.formatResponse(richTextBox1, str, type), type);
-            } else {
-                try {
-                    this.Invoke(new Action<string, MessageType>(R), new object[] { str, type });
-                } catch (Exception e) {
-
-                }
-            }
-        }
-
-        public string getTarget() {
-            return targetBox.Text;
-        }
-
-        public string getHexFile() {
-            return hexFileBox.Text;
+            return available;
         }
 
         public Form1(string path) {
@@ -108,9 +96,8 @@ namespace QMK_Toolbox {
                 }
             }
 
-            f = new Flashing(this);
-            
-            richTextBox1.Cursor = Cursors.Arrow; // mouse cursor like in other controls
+            printer = new Printing(richTextBox1);
+            flasher = new Flashing(this, printer);
 
             backgroundWorker1 = new BackgroundWorker();
             backgroundWorker1.DoWork += backgroundWorker1_DoWork;
@@ -126,7 +113,7 @@ namespace QMK_Toolbox {
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e) {
-            ArrayList arraylist = new ArrayList(this.hexFileBox.Items);
+            ArrayList arraylist = new ArrayList(this.filepathBox.Items);
             Settings.Default.hexFileCollection = arraylist;
             Settings.Default.Save();
         }
@@ -134,28 +121,21 @@ namespace QMK_Toolbox {
         private void Form1_Load(object sender, EventArgs e) {
             backgroundWorker1.RunWorkerAsync();
 
-            var lines = File.ReadLines(f.mcuListPath);
-            foreach (var line in lines) {
-                string[] tokens = line.Split(',');
-                targetBox.Items.Add(tokens[0]);
+            foreach (var mcu in flasher.getMCUList()) {
+                mcuBox.Items.Add(mcu);
             }
 
             if (Settings.Default.hexFileCollection != null)
-                this.hexFileBox.Items.AddRange(Settings.Default.hexFileCollection.ToArray());
+                this.filepathBox.Items.AddRange(Settings.Default.hexFileCollection.ToArray());
 
             richTextBox1.Font = new Font(FontFamily.GenericMonospace, 8);
 
-            P("QMK Toolbox (http://qmk.fm/toolbox)", MessageType.Info);
-            R("Supporting following bootloaders:\n", MessageType.Info);
-            R(" - DFU (Atmel, LUFA) via dfu-programmer (http://dfu-programmer.github.io/)\n", MessageType.Info);
-            R(" - Caterina (Arduino, Pro Micro) via avrdude (http://nongnu.org/avrdude/)\n", MessageType.Info);
-            R(" - Halfkay (Teensy, Ergodox EZ) via teensy_loader_cli (https://pjrc.com/teensy/loader_cli.html)\n", MessageType.Info);
-            R(" - STM32 (ARM) via dfu-util (http://dfu-util.sourceforge.net/)\n", MessageType.Info);
-
-            f.SetupDFU();
-            f.SetupAvrdude();
-            f.SetupTeensy();
-            f.SetupDfuUtil();
+            printer.print("QMK Toolbox (http://qmk.fm/toolbox)", MessageType.Info);
+            printer.printResponse("Supporting following bootloaders:\n", MessageType.Info);
+            printer.printResponse(" - DFU (Atmel, LUFA) via dfu-programmer (http://dfu-programmer.github.io/)\n", MessageType.Info);
+            printer.printResponse(" - Caterina (Arduino, Pro Micro) via avrdude (http://nongnu.org/avrdude/)\n", MessageType.Info);
+            printer.printResponse(" - Halfkay (Teensy, Ergodox EZ) via teensy_loader_cli (https://pjrc.com/teensy/loader_cli.html)\n", MessageType.Info);
+            printer.printResponse(" - STM32 (ARM) via dfu-util (http://dfu-util.sourceforge.net/)\n", MessageType.Info);
 
             List<USBDeviceInfo> devices = new List<USBDeviceInfo>();
 
@@ -170,6 +150,84 @@ namespace QMK_Toolbox {
             if (filePassedIn != string.Empty)
                 ChangeFile(filePassedIn);
 
+        }
+
+        private void flashButton_Click(object sender, EventArgs e) {
+            if (!InvokeRequired) {
+                flashButton.Enabled = false;
+                resetButton.Enabled = false;
+
+                if (areDevicesAvailable()) {
+                    int error = 0;
+                    if (mcuBox.Text == "") {
+                        printer.print("Please select a microcontroller", MessageType.Error);
+                        error++;
+                    }
+                    if (filepathBox.Text == "") {
+                        printer.print("Please select a file", MessageType.Error);
+                        error++;
+                    }
+                    if (error == 0) {
+                        printer.print("Attempting to flash, please don't remove device", MessageType.Bootloader);
+                        flasher.flash(mcuBox.Text, filepathBox.Text);
+                    }
+                } else {
+                    printer.print("There are no devices available", MessageType.Error);
+                }
+
+                flashButton.Enabled = true;
+                resetButton.Enabled = true;
+            } else {
+                this.Invoke(new Action<object, EventArgs>(flashButton_Click), new object[] { sender, e });
+            }
+        }
+
+        private void resetButton_Click(object sender, EventArgs e) {
+            if (!InvokeRequired) {
+                flashButton.Enabled = false;
+                resetButton.Enabled = false;
+
+                if (areDevicesAvailable()) {
+                    int error = 0;
+                    if (mcuBox.Text == "") {
+                        printer.print("Please select a microcontroller", MessageType.Error);
+                        error++;
+                    }
+                    if (error == 0) {
+                        flasher.reset(mcuBox.Text);
+                    }
+                } else {
+                    printer.print("There are no devices available", MessageType.Error);
+                }
+
+                flashButton.Enabled = true;
+                resetButton.Enabled = true;
+            } else {
+                this.Invoke(new Action<object, EventArgs>(resetButton_Click), new object[] { sender, e });
+            }
+        }
+
+        private void eepromResetButton_Click(object sender, EventArgs e) {
+            if (!InvokeRequired) {
+                eepromResetButton.Enabled = false;
+
+                if (areDevicesAvailable()) {
+                    int error = 0;
+                    if (mcuBox.Text == "") {
+                        printer.print("Please select a microcontroller", MessageType.Error);
+                        error++;
+                    }
+                    if (error == 0) {
+                        flasher.eepromReset(mcuBox.Text);
+                    }
+                } else {
+                    printer.print("There are no devices available", MessageType.Error);
+                }
+                
+                eepromResetButton.Enabled = true;
+            } else {
+                this.Invoke(new Action<object, EventArgs>(eepromResetButton_Click), new object[] { sender, e });
+            }
         }
 
         private void UpdateHIDDevices() {
@@ -188,9 +246,9 @@ namespace QMK_Toolbox {
 
                     device.MonitorDeviceEvents = true;
 
-                    P(("Connecting to HID device: " + GetManufacturerString(device) + " - " + GetProductString(device) + " ").PadRight(deviceIDOffset, '-') + 
+                    printer.print(("Connecting to HID device: " + GetManufacturerString(device) + " - " + GetProductString(device) + " ").PadRight(deviceIDOffset, '-') + 
                         " | " + device.Attributes.VendorHexId + ":" + device.Attributes.ProductHexId, MessageType.HID);
-                    R("Parent ID Prefix: " + GetParentIDPrefix(device) + "\n", MessageType.Info);
+                    printer.printResponse("Parent ID Prefix: " + GetParentIDPrefix(device) + "\n", MessageType.Info);
 
                     device.ReadReport(OnReport);
                     device.CloseDevice();
@@ -202,9 +260,9 @@ namespace QMK_Toolbox {
                     device_exists |= existing_device.DevicePath.Equals(device.DevicePath);
                 }
                 if (!device_exists) {
-                    P(("Disconnected from HID device: " + GetManufacturerString(existing_device) + " - " + GetProductString(existing_device) + " ").PadRight(deviceIDOffset, '-') + 
+                    printer.print(("Disconnected from HID device: " + GetManufacturerString(existing_device) + " - " + GetProductString(existing_device) + " ").PadRight(deviceIDOffset, '-') + 
                     " | " + existing_device.Attributes.VendorHexId + ":" + existing_device.Attributes.ProductHexId, MessageType.HID);
-                    R("Parent ID Prefix: " + GetParentIDPrefix(existing_device) + "\n", MessageType.Info);
+                    printer.printResponse("Parent ID Prefix: " + GetParentIDPrefix(existing_device) + "\n", MessageType.Info);
                 }
             }
             _devices = devices;
@@ -246,24 +304,24 @@ namespace QMK_Toolbox {
             string device_name;
             if (dfu.Success) {
                 device_name = "DFU";
-                f.dfuAvailable = connected;
+                devicesAvailable[(int)Chipset.DFU] += connected ? 1 : -1;
             } else if (caterina.Success) {
                 device_name = "Caterina";
                 Regex regex = new Regex("(COM[0-9]+)");
                 var v = regex.Match(instance.GetPropertyValue("Name").ToString());
-                f._COM = v.Groups[1].ToString();
-                f.caterinaAvailable = connected;
+                flasher.caterinaPort = v.Groups[1].ToString();
+                devicesAvailable[(int)Chipset.Caterina] += connected ? 1 : -1;
             } else if (halfkay_vid.Success && halfkay_pid.Success && halfkay_nohid.Success) {
                 device_name = "Halfkay";
-                f.halfkayAvailable = connected;
+                devicesAvailable[(int)Chipset.Halfkay] += connected ? 1 : -1;
             } else if (dfuUtil_pid.Success && dfuUtil_vid.Success) {
                 device_name = "STM32";
-                f.dfuUtilAvailable = connected;
+                devicesAvailable[(int)Chipset.STM32] += connected ? 1 : -1;
             } else {
                 return false;
             }
 
-            P((device_name + " device " + connected_string + ": " + instance.GetPropertyValue("Name") + " ").PadRight(deviceIDOffset, '-') + " | 0x" + VID + ":0x" + PID, MessageType.Bootloader);
+            printer.print((device_name + " device " + connected_string + ": " + instance.GetPropertyValue("Name") + " ").PadRight(deviceIDOffset, '-') + " | 0x" + VID + ":0x" + PID, MessageType.Bootloader);
             return true;
         }
 
@@ -320,7 +378,7 @@ namespace QMK_Toolbox {
             for (int i = 0; i < data.Length; i++) {
                 outputString += (char)data[i];
                 if (i % 16 == 15 && i < data.Length) {
-                    R(outputString, MessageType.HID);
+                    printer.printResponse(outputString, MessageType.HID);
                     outputString = string.Empty;
                 }
             }
@@ -330,35 +388,23 @@ namespace QMK_Toolbox {
             }
         }
 
-        private void FlashButton_Click(object sender, EventArgs e) {
-            if (!InvokeRequired) {
-                button1.Enabled = false;
-                button3.Enabled = false;
-                f.Flash();
-                button1.Enabled = true;
-                button3.Enabled = true;
-            } else {
-                this.Invoke(new Action<object, EventArgs>(FlashButton_Click), new object[] { sender, e });
-            }
-        }
-
         private void ChangeFile(string filepath) {
             Uri uri = new Uri(filepath);
             if (uri.Scheme == "qmk") {
-                P("Downloading " + filepath.Replace("qmk:", ""), MessageType.Info);
+                printer.print("Downloading " + filepath.Replace("qmk:", ""), MessageType.Info);
                 WebClient wb = new WebClient();
                 if (!Directory.Exists(Path.Combine(Application.LocalUserAppDataPath, "downloads"))) {
                     Directory.CreateDirectory(Path.Combine(Application.LocalUserAppDataPath, "downloads"));
                 }
                 wb.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.33 Safari/537.36");
-                R("Storing at " + Path.Combine(Application.LocalUserAppDataPath, DOWNLOADS_FOLDER, filepath.Substring(filepath.LastIndexOf("/") + 1)), MessageType.Info);
+                printer.printResponse("Storing at " + Path.Combine(Application.LocalUserAppDataPath, DOWNLOADS_FOLDER, filepath.Substring(filepath.LastIndexOf("/") + 1)), MessageType.Info);
                 wb.DownloadFile(filepath.Replace("qmk:", ""), Path.Combine(Application.LocalUserAppDataPath, DOWNLOADS_FOLDER, filepath.Substring(filepath.LastIndexOf("/") + 1)));
                 filepath = Path.Combine(Application.LocalUserAppDataPath, DOWNLOADS_FOLDER, filepath.Substring(filepath.LastIndexOf("/") + 2));
             }
             if (filepath.EndsWith(".qmk", true, null)) {
-                P("Found .qmk file", MessageType.Info);
+                printer.print("Found .qmk file", MessageType.Info);
                 string qmk_filepath = Path.GetTempPath() + "qmk_toolbox" + filepath.Substring(filepath.LastIndexOf("\\")) + "\\";
-                R("Extracting to " + qmk_filepath + "\n", MessageType.Info);
+                printer.printResponse("Extracting to " + qmk_filepath + "\n", MessageType.Info);
                 if (Directory.Exists(qmk_filepath))
                     Directory.Delete(qmk_filepath, true);
                 ZipFile.ExtractToDirectory(filepath, qmk_filepath);
@@ -366,7 +412,7 @@ namespace QMK_Toolbox {
                 string readme = "";
                 Info info = new Info();
                 foreach (string file in files) {
-                    R(" - " + file.Substring(file.LastIndexOf("\\") + 1) + "\n", MessageType.Info);
+                    printer.printResponse(" - " + file.Substring(file.LastIndexOf("\\") + 1) + "\n", MessageType.Info);
                     if (file.Substring(file.LastIndexOf("\\") + 1).Equals("firmware.hex", StringComparison.OrdinalIgnoreCase) || 
                         file.Substring(file.LastIndexOf("\\") + 1).Equals("firmware.bin", StringComparison.OrdinalIgnoreCase))
                         ChangeFile(file);
@@ -376,17 +422,17 @@ namespace QMK_Toolbox {
                         info = JsonConvert.DeserializeObject<Info>(System.IO.File.ReadAllText(file));
                 }
                 if (!string.IsNullOrEmpty(info.keyboard)) {
-                    P("Keymap for keyboard \"" + info.keyboard + "\" - " + info.vendor_id + ":" + info.product_id, MessageType.Info);
+                    printer.print("Keymap for keyboard \"" + info.keyboard + "\" - " + info.vendor_id + ":" + info.product_id, MessageType.Info);
                 }
                 if (!readme.Equals("")) {
-                    P("Notes for this keymap:", MessageType.Info);
-                    R(readme, MessageType.Info);
+                    printer.print("Notes for this keymap:", MessageType.Info);
+                    printer.printResponse(readme, MessageType.Info);
                 }
 
             } else {
-                hexFileBox.Text = filepath;
-                if (!hexFileBox.Items.Contains(filepath))
-                    hexFileBox.Items.Add(filepath);
+                filepathBox.Text = filepath;
+                if (!filepathBox.Items.Contains(filepath))
+                    filepathBox.Items.Add(filepath);
             }
         }
 
@@ -404,7 +450,7 @@ namespace QMK_Toolbox {
             ManagementBaseObject instance = (ManagementBaseObject)e.NewEvent["TargetInstance"];
 
             if (DetectBootloader(instance) && checkBox1.Checked) {
-                FlashButton_Click(sender, e);
+                flashButton_Click(sender, e);
             }
             UpdateHIDDevices();
         }
@@ -432,21 +478,15 @@ namespace QMK_Toolbox {
             System.Threading.Thread.Sleep(2000000);
         }
 
-        private void button3_Click(object sender, EventArgs e) {
-            button3.Enabled = false;
-            f.Reset();
-            button3.Enabled = true;
-        }
-
         private void checkBox1_CheckedChanged(object sender, EventArgs e) {
             if (checkBox1.Checked) {
-                P("Auto-flash enabled", MessageType.Info);
-                button1.Enabled = false;
-                button3.Enabled = false;
+                printer.print("Auto-flash enabled", MessageType.Info);
+                flashButton.Enabled = false;
+                resetButton.Enabled = false;
             } else {
-                P("Auto-flash disabled", MessageType.Info);
-                button1.Enabled = true;
-                button3.Enabled = true;
+                printer.print("Auto-flash disabled", MessageType.Info);
+                flashButton.Enabled = true;
+                resetButton.Enabled = true;
             }
         }
 
@@ -468,13 +508,13 @@ namespace QMK_Toolbox {
             foreach (HidDevice device in _devices) {
                 device.CloseDevice();
             }
-            P("Listing compatible HID devices: (must have Usage Page "+ string.Format("0x{0:X4}", Flashing.UsagePage) + ")", MessageType.HID);
+            printer.print("Listing compatible HID devices: (must have Usage Page "+ string.Format("0x{0:X4}", Flashing.UsagePage) + ")", MessageType.HID);
             foreach (HidDevice device in _devices) {
                 if (device != null) {
                     device.OpenDevice();
-                    R((" - " + GetManufacturerString(device) + " - " + GetProductString(device) + " ").PadRight(deviceIDOffset, '-') + 
+                    printer.printResponse((" - " + GetManufacturerString(device) + " - " + GetProductString(device) + " ").PadRight(deviceIDOffset, '-') + 
                     " | " + device.Attributes.VendorHexId + ":" + device.Attributes.ProductHexId + "\n", MessageType.Info);
-                    R("   Parent ID Prefix: " + GetParentIDPrefix(device) + "\n", MessageType.Info);
+                    printer.printResponse("   Parent ID Prefix: " + GetParentIDPrefix(device) + "\n", MessageType.Info);
                 }
                 device.CloseDevice();
             }
@@ -486,9 +526,9 @@ namespace QMK_Toolbox {
                 button5.Enabled = true;
                 button6.Enabled = true;
                 if (success) {
-                    R("Report sent sucessfully\n", MessageType.Info);
+                    printer.printResponse("Report sent sucessfully\n", MessageType.Info);
                 } else {
-                    R("Report errored\n", MessageType.Error);
+                    printer.printResponse("Report errored\n", MessageType.Error);
                 }
             } else {
                 this.Invoke(new Action<bool>(ReportWritten), new object[] { success });
@@ -509,7 +549,7 @@ namespace QMK_Toolbox {
                 HidReport report = new HidReport(2, new HidDeviceData(data, HidDeviceData.ReadStatus.Success));
                 device.WriteReport(report, ReportWritten);
                 device.CloseDevice();
-                P("Sending report", MessageType.HID);
+                printer.print("Sending report", MessageType.HID);
             }
         }
 
@@ -527,7 +567,7 @@ namespace QMK_Toolbox {
                 HidReport report = new HidReport(2, new HidDeviceData(data, HidDeviceData.ReadStatus.Success));
                 device.WriteReport(report, ReportWritten);
                 device.CloseDevice();
-                P("Sending report", MessageType.HID);
+                printer.print("Sending report", MessageType.HID);
             }
         }
 
@@ -538,6 +578,7 @@ namespace QMK_Toolbox {
         private void Form1_DragEnter(object sender, DragEventArgs e) {
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
         }
+
     }
 
     class USBDeviceInfo {

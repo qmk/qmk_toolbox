@@ -15,118 +15,116 @@ namespace QMK_Toolbox {
         Error
     }
 
-    public static class Printing {
-        static MessageType lastMessage;
+    public class Printing {
+        MessageType lastMessage;
+        RichTextBox richTextBox;
 
-        public static void color(RichTextBox rtb, string str, MessageType type) {
+        public Printing(RichTextBox richTextBox) {
+            this.richTextBox = richTextBox;
+            this.richTextBox.Cursor = Cursors.Arrow; // mouse cursor like in other controls
+        }
+
+        private string prepend(string str, string indent, bool newline) {
+            string output = "";
+            if (newline)
+                output = indent + str + "\n";
+            else
+                output = indent + str;
+            return output;
+        }
+
+        public Tuple<string, Color> format(string str, MessageType type) {
             Color color = Color.White;
             switch (type) {
-                case MessageType.Bootloader:
-                    color = Color.Yellow;
-                    break;
-                case MessageType.Command:
                 case MessageType.Info:
                     color = Color.White;
+                    str = prepend(str, "*** ", true);
                     break;
-                case MessageType.HID:
-                    color = Color.LightSkyBlue;
+                case MessageType.Command:
+                    color = Color.White;
+                    str = prepend(str, ">>> ", true);
+                    break;
+                case MessageType.Bootloader:
+                    color = Color.Yellow;
+                    str = prepend(str, "*** ", true);
                     break;
                 case MessageType.Error:
                     color = Color.Red;
+                    str = prepend(str, "  ! ", true);
+                    break;
+                case MessageType.HID:
+                    color = Color.LightSkyBlue;
+                    str = prepend(str, "*** ", true);
                     break;
             }
             lastMessage = type;
-            Print(rtb, str, color);
+            return Tuple.Create(str, color);
         }
 
-        public static void colorResponse(RichTextBox rtb, string str, MessageType type) {
+        public Tuple<string, Color> formatResponse(string str, MessageType type) {
+            if (richTextBox.Text.Last<char>() == '\n')
+                str = str.Substring(0, str.Length - 1);
+            str = str.Replace("\n", "\n    ");
+
             Color color = Color.White;
             switch (type) {
-                case MessageType.Bootloader:
-                    color = Color.Yellow;
-                    break;
-                case MessageType.Command:
                 case MessageType.Info:
                     color = Color.LightGray;
+                    str = prepend(str, "    ", true);
                     break;
-                case MessageType.HID:
-                    color = Color.SkyBlue;
+                case MessageType.Command:
+                    color = Color.LightGray;
+                    str = prepend(str, "    ", true);
+                    break;
+                case MessageType.Bootloader:
+                    color = Color.Yellow;
+                    str = prepend(str, "    ", true);
                     break;
                 case MessageType.Error:
                     color = Color.DarkRed;
+                    str = prepend(str, "    ", true);
+                    break;
+                case MessageType.HID:
+                    color = Color.SkyBlue;
+                    str = prepend(str, "  > ", true);
                     break;
             }
+
+            if (richTextBox.Text.Last<char>() != '\n')
+                str = "\n" + str;
+
             lastMessage = type;
-            Print(rtb, str, color);
+            return Tuple.Create(str, color);
         }
 
-        public static void Print(RichTextBox rtb, string str, Color color) {
-            Print(rtb, str, false, color);
-        }
-
-        public static void Print(RichTextBox rtb, string str, bool bold = false, Color? color = null, HorizontalAlignment align = HorizontalAlignment.Left) {
-            if (string.IsNullOrEmpty(str))
-                return;
-            rtb.SelectionStart = rtb.TextLength;
-            rtb.SelectionLength = str.Length;
-            if (bold)
-                rtb.SelectionFont = new Font(rtb.Font, FontStyle.Bold);
-            rtb.SelectionColor = color ?? Color.White;
-            rtb.SelectionAlignment = align;
-            rtb.SelectionStart = rtb.TextLength;
-            rtb.SelectionLength = str.Length;
-            // This might be a better idea that prefixing each line
-            // richTextBox1.SelectionIndent = 20;
-            rtb.SelectedText = str;
-        }
-
-        public static string formatType(string output, string prefix, bool newline = true) {
-            output = prefix + output;
-            if (newline)
-                output += "\n";
-            return output;
-        }
-
-        public static string format(RichTextBox rtb, string str, MessageType type) {
-            if (rtb.Text.Length > 0 && rtb.Text[rtb.Text.Length - 1] != '\n')
-                Print(rtb, "\n");
-            switch (type) {
-                case MessageType.Bootloader:
-                case MessageType.HID:
-                case MessageType.Info:
-                    str = formatType(str, "*** ");
-                    break;
-                case MessageType.Command:
-                    str = formatType(str, ">>> ");
-                    break;
-                case MessageType.Error:
-                    str = formatType(str, "  ! ");
-                    break;
+        public void print(string str, MessageType type) {
+            if (!richTextBox.InvokeRequired) {
+                if (string.IsNullOrEmpty(str.Trim('\0')))
+                    return;
+                addToTextBox(format(str.Trim('\0'), type));
+            } else {
+                richTextBox.Invoke(new Action<string, MessageType>(print), new object[] { str, type });
             }
-            return str;
-        } 
+        }
 
-        public static string formatResponse(RichTextBox rtb, string output, MessageType type) {
-            output = output.Trim('\0');
-            if (output.Equals("\n") || output.Equals("\r") || String.IsNullOrEmpty(output))
-                return output;
-            bool endsWithNewline = (output[output.Length - 1] == '\n' || output[output.Length - 1] == '\r');
-            string indent = new String(' ', 4);
-            switch (type) {
-                case MessageType.Bootloader:
-                case MessageType.HID:
-                    indent = "  > ";
-                    break;
-                case MessageType.Info:
-                case MessageType.Command:
-                    break;
+        public void printResponse(string str, MessageType type) {
+            if (!richTextBox.InvokeRequired) {
+                if (string.IsNullOrEmpty(str.Trim('\0')))
+                    return;
+                addToTextBox(formatResponse(str.Trim('\0'), type));
+            } else {
+                richTextBox.Invoke(new Action<string, MessageType>(printResponse), new object[] { str, type });
             }
-            if (rtb.Text[rtb.Text.Length - 1] == '\n' || rtb.Text[rtb.Text.Length - 1] == '\r')
-                output = indent + output;
-            output = output.Replace("\n", "\n" + indent);
-            if (endsWithNewline)
-                output = output.Substring(0, output.Length - indent.Length);
-            return output;
+        }
+            
+        private void addToTextBox(Tuple<string, Color>items) {
+                string str = items.Item1;
+                Color color = items.Item2;
+
+                richTextBox.SelectionStart = richTextBox.TextLength;
+                richTextBox.SelectionLength = str.Length;
+                richTextBox.SelectionColor = color;
+                richTextBox.SelectedText = str;
         }
     }
 }

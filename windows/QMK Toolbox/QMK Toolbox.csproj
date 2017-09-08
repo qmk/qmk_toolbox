@@ -170,6 +170,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="avrdude.conf" />
+    <EmbeddedResource Include="atmega32u4_eeprom_reset.hex" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
@@ -194,8 +195,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="mcu-list.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="output.ico" />
     <EmbeddedResource Include="libusb-1.0.dll" />
     <EmbeddedResource Include="teensy_loader_cli.exe" />

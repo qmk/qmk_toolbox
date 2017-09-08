@@ -24,19 +24,19 @@
         /// </summary>
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.button1 = new System.Windows.Forms.Button();
+            this.flashButton = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.resetButton = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
-            this.targetBox = new System.Windows.Forms.ComboBox();
-            this.hexFileBox = new System.Windows.Forms.ComboBox();
+            this.mcuBox = new System.Windows.Forms.ComboBox();
+            this.filepathBox = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -49,24 +49,25 @@
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.eepromResetButton = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
-            // button1
+            // flashButton
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(652, 59);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(57, 23);
-            this.button1.TabIndex = 6;
-            this.button1.Tag = "Erase, flash, and reset the MCU with the provided .hex file";
-            this.button1.Text = "Flash";
-            this.button1.Click += new System.EventHandler(this.FlashButton_Click);
-            this.button1.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
-            this.button1.MouseHover += new System.EventHandler(this.btn_MouseLeave);
+            this.flashButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.flashButton.Location = new System.Drawing.Point(652, 59);
+            this.flashButton.Name = "flashButton";
+            this.flashButton.Size = new System.Drawing.Size(57, 23);
+            this.flashButton.TabIndex = 6;
+            this.flashButton.Tag = "Erase, flash, and reset the MCU with the provided .hex file";
+            this.flashButton.Text = "Flash";
+            this.flashButton.Click += new System.EventHandler(this.flashButton_Click);
+            this.flashButton.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
+            this.flashButton.MouseHover += new System.EventHandler(this.btn_MouseLeave);
             // 
             // checkBox1
             // 
@@ -124,18 +125,18 @@
             this.button2.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
             this.button2.MouseHover += new System.EventHandler(this.btn_MouseLeave);
             // 
-            // button3
+            // resetButton
             // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(715, 59);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(57, 23);
-            this.button3.TabIndex = 7;
-            this.button3.Tag = "Reset the MCU back into application mode";
-            this.button3.Text = "Reset";
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            this.button3.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
-            this.button3.MouseHover += new System.EventHandler(this.btn_MouseLeave);
+            this.resetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.resetButton.Location = new System.Drawing.Point(715, 59);
+            this.resetButton.Name = "resetButton";
+            this.resetButton.Size = new System.Drawing.Size(57, 23);
+            this.resetButton.TabIndex = 7;
+            this.resetButton.Tag = "Reset the MCU back into application mode";
+            this.resetButton.Text = "Reset";
+            this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
+            this.resetButton.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
+            this.resetButton.MouseHover += new System.EventHandler(this.btn_MouseLeave);
             // 
             // button4
             // 
@@ -170,6 +171,7 @@
             // button5
             // 
             this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button5.Enabled = false;
             this.button5.Location = new System.Drawing.Point(96, 613);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(119, 23);
@@ -182,6 +184,7 @@
             // button6
             // 
             this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button6.Enabled = false;
             this.button6.Location = new System.Drawing.Point(12, 613);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(78, 23);
@@ -191,34 +194,34 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
-            // targetBox
+            // mcuBox
             // 
-            this.targetBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.targetBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "targetSetting", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.targetBox.FormattingEnabled = true;
-            this.targetBox.Location = new System.Drawing.Point(551, 17);
-            this.targetBox.Name = "targetBox";
-            this.targetBox.Size = new System.Drawing.Size(214, 21);
-            this.targetBox.TabIndex = 4;
-            this.targetBox.Tag = "The target (MCU) of the flashing";
-            this.targetBox.Text = global::QMK_Toolbox.Properties.Settings.Default.targetSetting;
-            this.targetBox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
-            this.targetBox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
+            this.mcuBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.mcuBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "targetSetting", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.mcuBox.FormattingEnabled = true;
+            this.mcuBox.Location = new System.Drawing.Point(551, 17);
+            this.mcuBox.Name = "mcuBox";
+            this.mcuBox.Size = new System.Drawing.Size(214, 21);
+            this.mcuBox.TabIndex = 4;
+            this.mcuBox.Tag = "The target (MCU) of the flashing";
+            this.mcuBox.Text = global::QMK_Toolbox.Properties.Settings.Default.targetSetting;
+            this.mcuBox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
+            this.mcuBox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
             // 
-            // hexFileBox
+            // filepathBox
             // 
-            this.hexFileBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.filepathBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.hexFileBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "hexFileSetting", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.hexFileBox.FormattingEnabled = true;
-            this.hexFileBox.Location = new System.Drawing.Point(6, 19);
-            this.hexFileBox.Name = "hexFileBox";
-            this.hexFileBox.Size = new System.Drawing.Size(469, 21);
-            this.hexFileBox.TabIndex = 2;
-            this.hexFileBox.Tag = "The path for your .hex file";
-            this.hexFileBox.Text = global::QMK_Toolbox.Properties.Settings.Default.hexFileSetting;
-            this.hexFileBox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
-            this.hexFileBox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
+            this.filepathBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "hexFileSetting", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.filepathBox.FormattingEnabled = true;
+            this.filepathBox.Location = new System.Drawing.Point(6, 19);
+            this.filepathBox.Name = "filepathBox";
+            this.filepathBox.Size = new System.Drawing.Size(469, 21);
+            this.filepathBox.TabIndex = 2;
+            this.filepathBox.Tag = "The path for your .hex file";
+            this.filepathBox.Text = global::QMK_Toolbox.Properties.Settings.Default.hexFileSetting;
+            this.filepathBox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
+            this.filepathBox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
             // 
             // label2
             // 
@@ -294,9 +297,9 @@
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.button2);
-            this.groupBox2.Controls.Add(this.hexFileBox);
+            this.groupBox2.Controls.Add(this.filepathBox);
             this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.targetBox);
+            this.groupBox2.Controls.Add(this.mcuBox);
             this.groupBox2.Location = new System.Drawing.Point(6, 5);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(771, 48);
@@ -387,23 +390,35 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Flashers enabled";
             // 
+            // eepromResetButton
+            // 
+            this.eepromResetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.eepromResetButton.Location = new System.Drawing.Point(557, 613);
+            this.eepromResetButton.Name = "eepromResetButton";
+            this.eepromResetButton.Size = new System.Drawing.Size(110, 23);
+            this.eepromResetButton.TabIndex = 27;
+            this.eepromResetButton.Text = "Reset EEPROM";
+            this.eepromResetButton.UseVisualStyleBackColor = true;
+            this.eepromResetButton.Click += new System.EventHandler(this.eepromResetButton_Click);
+            // 
             // Form1
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 661);
+            this.Controls.Add(this.eepromResetButton);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button5);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.flashButton);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.richTextBox1);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.resetButton);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "QMK Toolbox";
@@ -426,14 +441,14 @@
         }
 
         #endregion
-        private System.Windows.Forms.ComboBox hexFileBox;
-        private System.Windows.Forms.ComboBox targetBox;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ComboBox filepathBox;
+        private System.Windows.Forms.ComboBox mcuBox;
+        private System.Windows.Forms.Button flashButton;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button resetButton;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.Button button4;
@@ -451,6 +466,7 @@
         private System.Windows.Forms.CheckBox checkBox4;
         private System.Windows.Forms.CheckBox checkBox5;
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button eepromResetButton;
     }
 }
 
