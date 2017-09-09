@@ -453,7 +453,7 @@
 				<key>OVERWRITE_PERMISSIONS</key>
 				<false/>
 				<key>VERSION</key>
-				<string>0.0.6</string>
+				<string>0.0.7</string>
 			</dict>
 			<key>UUID</key>
 			<string>9890D281-1549-46B1-8075-2C3C14A67FB9</string>
@@ -480,6 +480,17 @@
 		</dict>
 		<key>PROJECT_PRESENTATION</key>
 		<dict>
+			<key>BACKGROUND</key>
+			<dict>
+				<key>ALIGNMENT</key>
+				<integer>0</integer>
+				<key>BACKGROUND_PATH</key>
+				<dict/>
+				<key>CUSTOM</key>
+				<integer>0</integer>
+				<key>SCALING</key>
+				<integer>0</integer>
+			</dict>
 			<key>INSTALLATION TYPE</key>
 			<dict>
 				<key>HIERARCHIES</key>
@@ -500,6 +511,8 @@
 								</dict>
 								<key>PACKAGE_UUID</key>
 								<string>9890D281-1549-46B1-8075-2C3C14A67FB9</string>
+								<key>REQUIREMENTS</key>
+								<array/>
 								<key>TITLE</key>
 								<array/>
 								<key>TOOLTIP</key>
@@ -584,11 +597,18 @@
 			<key>LICENSE</key>
 			<dict>
 				<key>KEYWORDS</key>
-				<dict/>
+				<dict>
+					<key>COPYRIGHT HOLDERS</key>
+					<string>Jack Humbert</string>
+					<key>YEAR</key>
+					<string>2017</string>
+				</dict>
 				<key>LOCALIZATIONS</key>
 				<array/>
 				<key>MODE</key>
-				<integer>0</integer>
+				<integer>1</integer>
+				<key>TEMPLATE</key>
+				<string>MIT License</string>
 			</dict>
 			<key>README</key>
 			<dict>
