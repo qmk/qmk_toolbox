@@ -17,6 +17,7 @@ using System.Security.Permissions;
 namespace QMK_Toolbox {
     using HidLibrary;
     using Newtonsoft.Json;
+    using Syroot.Windows.IO;
     using System.Collections;
     using System.Collections.Generic;
     using System.Globalization;
@@ -32,12 +33,25 @@ namespace QMK_Toolbox {
         private const int deviceIDOffset = 70;
 
         string filePassedIn = string.Empty;
-        string DOWNLOADS_FOLDER = "downloads";
 
         Printing printer;
         Flashing flasher;
 
         private int[] devicesAvailable = new int[] { 0, 0, 0, 0};
+
+        public const Int32 MF_SEPARATOR = 0x800;
+        public const Int32 WM_SYSCOMMAND = 0x112;
+        public const Int32 MF_BYPOSITION = 0x400;
+        public const Int32 ABOUT = 1000;
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+        [DllImport("user32.dll")]
+        private static extern bool InsertMenu(IntPtr hMenu, Int32 wPosition, Int32 wFlags, Int32 wIDNewItem, string lpNewItem);
+
+        public Form1() {
+            InitializeComponent();
+        }
 
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         protected override void WndProc(ref Message m) {
@@ -48,11 +62,22 @@ namespace QMK_Toolbox {
                 ShowMe();
                 if (File.Exists(Path.Combine(Path.GetTempPath(), "qmk_toolbox/file_passed_in.txt"))) {
                     using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "qmk_toolbox/file_passed_in.txt"))) {
-                        ChangeFile(sr.ReadLine());
+                        setFilePath(sr.ReadLine());
                     }
                     File.Delete(Path.Combine(Path.GetTempPath(), "qmk_toolbox/file_passed_in.txt"));
                 }
             }
+            if (m.Msg == WM_SYSCOMMAND) {
+                switch (m.WParam.ToInt32()) {
+                    case ABOUT:
+                        AboutBox1 aboutBox = new AboutBox1();
+                        aboutBox.Show();
+                        return;
+                    default:
+                        break;
+                }
+            }
+
             base.WndProc(ref m);
         }
 
@@ -119,6 +144,12 @@ namespace QMK_Toolbox {
         }
 
         private void Form1_Load(object sender, EventArgs e) {
+
+            IntPtr MenuHandle = GetSystemMenu(this.Handle, false);
+            InsertMenu(MenuHandle, 0, MF_BYPOSITION | MF_SEPARATOR, 0, string.Empty); // <-- Add a menu seperator
+            InsertMenu(MenuHandle, 0, MF_BYPOSITION, ABOUT, "About");
+
+
             backgroundWorker1.RunWorkerAsync();
 
             foreach (var mcu in flasher.getMCUList()) {
@@ -148,7 +179,7 @@ namespace QMK_Toolbox {
             UpdateHIDDevices();
 
             if (filePassedIn != string.Empty)
-                ChangeFile(filePassedIn);
+                setFilePath(filePassedIn);
 
         }
 
@@ -246,9 +277,8 @@ namespace QMK_Toolbox {
 
                     device.MonitorDeviceEvents = true;
 
-                    printer.print(("Connecting to HID device: " + GetManufacturerString(device) + " - " + GetProductString(device) + " ").PadRight(deviceIDOffset, '-') + 
-                        " | " + device.Attributes.VendorHexId + ":" + device.Attributes.ProductHexId, MessageType.HID);
-                    printer.printResponse("Parent ID Prefix: " + GetParentIDPrefix(device) + "\n", MessageType.Info);
+                    printer.print(GetManufacturerString(device) + ": " + GetProductString(device) + " connected " + 
+                        " -- " + device.Attributes.VendorHexId + ":" + device.Attributes.ProductHexId + " (" + GetParentIDPrefix(device) + ")", MessageType.HID);
 
                     device.ReadReport(OnReport);
                     device.CloseDevice();
@@ -260,9 +290,8 @@ namespace QMK_Toolbox {
                     device_exists |= existing_device.DevicePath.Equals(device.DevicePath);
                 }
                 if (!device_exists) {
-                    printer.print(("Disconnected from HID device: " + GetManufacturerString(existing_device) + " - " + GetProductString(existing_device) + " ").PadRight(deviceIDOffset, '-') + 
-                    " | " + existing_device.Attributes.VendorHexId + ":" + existing_device.Attributes.ProductHexId, MessageType.HID);
-                    printer.printResponse("Parent ID Prefix: " + GetParentIDPrefix(existing_device) + "\n", MessageType.Info);
+                    printer.print("HID device disconnected" + 
+                    " -- " + existing_device.Attributes.VendorHexId + ":" + existing_device.Attributes.ProductHexId + " (" + GetParentIDPrefix(existing_device) + ")", MessageType.HID);
                 }
             }
             _devices = devices;
@@ -321,7 +350,7 @@ namespace QMK_Toolbox {
                 return false;
             }
 
-            printer.print((device_name + " device " + connected_string + ": " + instance.GetPropertyValue("Name") + " ").PadRight(deviceIDOffset, '-') + " | 0x" + VID + ":0x" + PID, MessageType.Bootloader);
+            printer.print(device_name + " device " + connected_string + ": " + instance.GetPropertyValue("Name") + " -- 0x" + VID + ":0x" + PID, MessageType.Bootloader);
             return true;
         }
 
@@ -388,18 +417,29 @@ namespace QMK_Toolbox {
             }
         }
 
-        private void ChangeFile(string filepath) {
+        private void filepathBox_KeyPress(object sender, KeyPressEventArgs e) {
+            if (e.KeyChar == 13) {
+                setFilePath(filepathBox.Text);
+            }
+        }
+
+        private void setFilePath(string filepath) {
             Uri uri = new Uri(filepath);
             if (uri.Scheme == "qmk") {
-                printer.print("Downloading " + filepath.Replace("qmk:", ""), MessageType.Info);
+                string url;
+                if (filepath.Contains("qmk://"))
+                    url = filepath.Replace("qmk://", "");
+                else
+                    url = filepath.Replace("qmk:", "");
+                printer.print("Downloading the file: " + url, MessageType.Info);
                 WebClient wb = new WebClient();
                 if (!Directory.Exists(Path.Combine(Application.LocalUserAppDataPath, "downloads"))) {
                     Directory.CreateDirectory(Path.Combine(Application.LocalUserAppDataPath, "downloads"));
                 }
                 wb.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.33 Safari/537.36");
-                printer.printResponse("Storing at " + Path.Combine(Application.LocalUserAppDataPath, DOWNLOADS_FOLDER, filepath.Substring(filepath.LastIndexOf("/") + 1)), MessageType.Info);
-                wb.DownloadFile(filepath.Replace("qmk:", ""), Path.Combine(Application.LocalUserAppDataPath, DOWNLOADS_FOLDER, filepath.Substring(filepath.LastIndexOf("/") + 1)));
-                filepath = Path.Combine(Application.LocalUserAppDataPath, DOWNLOADS_FOLDER, filepath.Substring(filepath.LastIndexOf("/") + 2));
+                filepath = Path.Combine(KnownFolders.Downloads.Path, filepath.Substring(filepath.LastIndexOf("/") + 1).Replace(".", "_" + Guid.NewGuid().ToString().Substring(0, 8) + "."));
+                wb.DownloadFile(url, filepath);
+                printer.printResponse("Filed saved to: " + filepath, MessageType.Info);
             }
             if (filepath.EndsWith(".qmk", true, null)) {
                 printer.print("Found .qmk file", MessageType.Info);
@@ -415,7 +455,7 @@ namespace QMK_Toolbox {
                     printer.printResponse(" - " + file.Substring(file.LastIndexOf("\\") + 1) + "\n", MessageType.Info);
                     if (file.Substring(file.LastIndexOf("\\") + 1).Equals("firmware.hex", StringComparison.OrdinalIgnoreCase) || 
                         file.Substring(file.LastIndexOf("\\") + 1).Equals("firmware.bin", StringComparison.OrdinalIgnoreCase))
-                        ChangeFile(file);
+                        setFilePath(file);
                     if (file.Substring(file.LastIndexOf("\\") + 1).Equals("readme.md", StringComparison.OrdinalIgnoreCase))
                         readme = System.IO.File.ReadAllText(file);
                     if (file.Substring(file.LastIndexOf("\\") + 1).Equals("info.json", StringComparison.OrdinalIgnoreCase))
@@ -430,15 +470,17 @@ namespace QMK_Toolbox {
                 }
 
             } else {
-                filepathBox.Text = filepath;
-                if (!filepathBox.Items.Contains(filepath))
-                    filepathBox.Items.Add(filepath);
+                if (filepath != "") {
+                    filepathBox.Text = filepath;
+                    if (!filepathBox.Items.Contains(filepath))
+                        filepathBox.Items.Add(filepath);
+                }
             }
         }
 
         private void button2_Click(object sender, EventArgs e) {
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
-                ChangeFile(openFileDialog1.FileName);
+                setFilePath(openFileDialog1.FileName);
             }
         }
 
@@ -572,7 +614,7 @@ namespace QMK_Toolbox {
         }
 
         private void Form1_DragDrop(object sender, DragEventArgs e) {
-            ChangeFile(((string[])e.Data.GetData(DataFormats.FileDrop, false)).First());
+            setFilePath(((string[])e.Data.GetData(DataFormats.FileDrop, false)).First());
         }
 
         private void Form1_DragEnter(object sender, DragEventArgs e) {

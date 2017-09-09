@@ -23,6 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.flashButton = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
@@ -50,10 +51,13 @@
             this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.eepromResetButton = new System.Windows.Forms.Button();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // flashButton
@@ -218,8 +222,9 @@
             this.filepathBox.Name = "filepathBox";
             this.filepathBox.Size = new System.Drawing.Size(469, 21);
             this.filepathBox.TabIndex = 2;
-            this.filepathBox.Tag = "The path for your .hex file";
+            this.filepathBox.Tag = "The path for your firmware file";
             this.filepathBox.Text = global::QMK_Toolbox.Properties.Settings.Default.hexFileSetting;
+            this.filepathBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.filepathBox_KeyPress);
             this.filepathBox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
             this.filepathBox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
             // 
@@ -259,6 +264,8 @@
             // 
             this.keymapBox.Enabled = false;
             this.keymapBox.FormattingEnabled = true;
+            this.keymapBox.Items.AddRange(new object[] {
+            "later version!"});
             this.keymapBox.Location = new System.Drawing.Point(214, 19);
             this.keymapBox.Name = "keymapBox";
             this.keymapBox.Size = new System.Drawing.Size(152, 21);
@@ -271,6 +278,8 @@
             // 
             this.keyboardBox.Enabled = false;
             this.keyboardBox.FormattingEnabled = true;
+            this.keyboardBox.Items.AddRange(new object[] {
+            "this feature coming in"});
             this.keyboardBox.Location = new System.Drawing.Point(6, 19);
             this.keyboardBox.Name = "keyboardBox";
             this.keyboardBox.Size = new System.Drawing.Size(202, 21);
@@ -401,12 +410,26 @@
             this.eepromResetButton.UseVisualStyleBackColor = true;
             this.eepromResetButton.Click += new System.EventHandler(this.eepromResetButton_Click);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 48);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Text = "About";
+            // 
             // Form1
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 661);
+            this.ContextMenuStrip = this.contextMenuStrip1;
             this.Controls.Add(this.eepromResetButton);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -435,6 +458,7 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -467,6 +491,8 @@
         private System.Windows.Forms.CheckBox checkBox5;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button eepromResetButton;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
     }
 }
 

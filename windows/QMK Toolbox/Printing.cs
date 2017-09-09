@@ -57,6 +57,10 @@ namespace QMK_Toolbox {
                     str = prepend(str, "*** ", true);
                     break;
             }
+
+            if (richTextBox.Text.Length > 0 && richTextBox.Text.Last<char>() != '\n')
+                str = "\n" + str;
+
             lastMessage = type;
             return Tuple.Create(str, color);
         }
@@ -96,7 +100,7 @@ namespace QMK_Toolbox {
                     break;
             }
 
-            if (lastMessage != type && richTextBox.Text.Last<char>() != '\n')
+            if (lastMessage != type && richTextBox.Text.Length > 0 && richTextBox.Text.Last<char>() != '\n')
                 str = "\n" + str;
 
             lastMessage = type;
