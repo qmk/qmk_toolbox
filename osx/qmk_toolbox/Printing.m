@@ -3,7 +3,7 @@
 //  qmk_toolbox
 //
 //  Created by Jack Humbert on 9/5/17.
-//  Copyright © 2017 QMK. All rights reserved.
+//  Copyright © 2017 Jack Humbert. This code is licensed under MIT license (see LICENSE.md for details).
 //
 
 #import "Printing.h"
@@ -73,6 +73,10 @@ MessageType lastMessage;
             str = [self prepend:str withIndent:@"*** " newline:true];
             break;
     }
+    
+    if (([textView.textStorage string].length > 0 && [[textView.textStorage string] characterAtIndex:[textView.textStorage length]-1] != '\n')) {
+        str = [NSString stringWithFormat:@"\n%@", str ];
+    }
 
     lastMessage = type;
     NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:str attributes:[self formatCommon:color]];
@@ -114,8 +118,9 @@ MessageType lastMessage;
             break;
     }
     
-    if (lastMessage != type && [[textView.textStorage string] characterAtIndex:[textView.textStorage length]-1] != '\n')
+    if (lastMessage != type && ([textView.textStorage string].length > 0 && [[textView.textStorage string] characterAtIndex:[textView.textStorage length]-1] != '\n')) {
         str = [NSString stringWithFormat:@"\n%@", str ];
+    }
     
     lastMessage = type;
     NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:str attributes:[self formatCommon:color]];

@@ -3,7 +3,7 @@
 //  qmk_toolbox
 //
 //  Created by Jack Humbert on 9/3/17.
-//  Copyright © 2017 QMK. All rights reserved.
+//  Copyright © 2017 Jack Humbert. This code is licensed under MIT license (see LICENSE.md for details).
 //
 
 #import "AppDelegate.h"
@@ -130,11 +130,38 @@ int devicesAvailable[4] = {0, 0, 0, 0};
     }
 }
 
-- (void)setFilePath:(NSURL *)url {
-    NSString * filename = [[NSString stringWithString:url.absoluteString] stringByReplacingOccurrencesOfString:@"file://" withString:@""];
-    if ([_filepathBox indexOfItemWithObjectValue:filename] == NSNotFound)
-        [_filepathBox addItemWithObjectValue:filename];
-    [_filepathBox selectItemWithObjectValue:filename];
+- (IBAction)updateFilePath:(id)sender {
+    if (![[_filepathBox objectValue] isEqualToString:@""])
+        [self setFilePath:[NSURL URLWithString:[_filepathBox objectValue]]];
+}
+
+- (void)setFilePath:(NSURL *)path {
+    NSString * filename = @"";
+    if ([path.scheme isEqualToString:@"file"])
+        filename = [[NSString stringWithString:path.absoluteString] stringByReplacingOccurrencesOfString:@"file://" withString:@""];
+    if ([path.scheme isEqualToString:@"qmk"]) {
+        NSURL * url;
+        if ([path.absoluteString containsString:@"qmk://"])
+            url = [NSURL URLWithString:[path.absoluteString stringByReplacingOccurrencesOfString:@"qmk://" withString:@""]];
+        else
+            url = [NSURL URLWithString:[path.absoluteString stringByReplacingOccurrencesOfString:@"qmk:" withString:@""]];
+        
+        [_printer print:[NSString stringWithFormat:@"Downloading the file: %@", url.absoluteString] withType:MessageType_Info];
+        NSData * data = [NSData dataWithContentsOfURL:url];
+        if (data) {
+            NSArray * paths = NSSearchPathForDirectoriesInDomains(NSDownloadsDirectory, NSUserDomainMask, YES);
+            NSString * downloadsDirectory = [paths objectAtIndex:0];
+            NSString * name = [url.lastPathComponent stringByReplacingOccurrencesOfString:@"." withString:[NSString stringWithFormat:@"_%@.", [[[NSProcessInfo processInfo] globallyUniqueString] substringToIndex:8]]];
+            filename = [NSString stringWithFormat:@"%@/%@", downloadsDirectory, name];
+            [data writeToFile:filename atomically:YES];
+            [_printer printResponse:[NSString stringWithFormat:@"File saved to: %@", filename] withType:MessageType_Info];
+        }
+    }
+    if (![filename isEqualToString:@""]) {
+        if ([_filepathBox indexOfItemWithObjectValue:filename] == NSNotFound)
+            [_filepathBox addItemWithObjectValue:filename];
+        [_filepathBox selectItemWithObjectValue:filename];
+    }
 }
 
 - (BOOL)readFromURL:(NSURL *)inAbsoluteURL ofType:(NSString *)inTypeName error:(NSError **)outError {
@@ -151,7 +178,7 @@ int devicesAvailable[4] = {0, 0, 0, 0};
 
 - (void)handleGetURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)reply
 {
-    NSLog(@"%@", [[event paramDescriptorForKeyword:keyDirectObject] stringValue]);
+    [self setFilePath:[NSURL URLWithString:[[event paramDescriptorForKeyword:keyDirectObject] stringValue]]];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {

@@ -76,6 +76,11 @@
                                     <action selector="copy:" target="-1" id="fYS-D7-04j"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Paste" keyEquivalent="v" id="v8F-pl-kun">
+                                <connections>
+                                    <action selector="paste:" target="-1" id="cet-fV-4TL"/>
+                                </connections>
+                            </menuItem>
                             <menuItem title="Select All" keyEquivalent="a" id="81O-MG-uFY">
                                 <connections>
                                     <action selector="selectAll:" target="-1" id="2Fa-b6-Sr9"/>
@@ -251,6 +256,7 @@
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </comboBoxCell>
                                     <connections>
+                                        <action selector="updateFilePath:" target="Voe-Tx-rLC" id="x5m-eJ-1Vp"/>
                                         <outlet property="delegate" destination="Voe-Tx-rLC" id="RTL-ba-n38"/>
                                     </connections>
                                 </comboBox>
@@ -309,7 +315,7 @@
                                 <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j37-hH-gaF">
                                     <rect key="frame" x="7" y="7" width="153" height="25"/>
                                     <animations/>
-                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="5mG-K9-oUt">
+                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="this feature coming in a " drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="5mG-K9-oUt">
                                         <font key="font" metaFont="cellTitle"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -326,7 +332,7 @@
                                         <constraint firstAttribute="width" constant="127" id="Rmh-Vs-2bF"/>
                                     </constraints>
                                     <animations/>
-                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="S8q-ac-xFc">
+                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="later version!" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="S8q-ac-xFc">
                                         <font key="font" metaFont="cellTitle"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
