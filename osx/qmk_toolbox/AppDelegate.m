@@ -59,7 +59,7 @@ int devicesAvailable[4] = {0, 0, 0, 0};
             error++;
         }
         if (error == 0) {
-            [_printer print:@"Attempting to flash, please don't remove deice" withType:MessageType_Bootloader];
+            [_printer print:@"Attempting to flash, please don't remove device" withType:MessageType_Bootloader];
             
             // this is dumb, but the delay is required to let the previous print command show up
             double delayInSeconds = .01;
