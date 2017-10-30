@@ -47,7 +47,7 @@
         if ([[[file pathExtension] lowercaseString] isEqualToString:@"qmk"] ||
             [[[file pathExtension] lowercaseString] isEqualToString:@"hex"] ||
             [[[file pathExtension] lowercaseString] isEqualToString:@"bin"]) {
-            [[[NSApplication sharedApplication] delegate] setFilePath:[NSURL URLWithString:file]];
+            [(AppDelegate *)[[NSApplication sharedApplication] delegate] setFilePath:[NSURL URLWithString:file]];
         } else {
             NSAlert *alert = [[NSAlert alloc] init];
 
