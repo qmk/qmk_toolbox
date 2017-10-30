@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "Constants.h"
 #import "QMKWindow.h"
 
 @interface AppDelegate () <NSTextViewDelegate, NSComboBoxDelegate, FlashingDelegate, USBDelegate>
@@ -202,6 +203,11 @@ int devicesAvailable[5] = {0, 0, 0, 0, 0};
         [_mcuBox addItemWithObjectValue:str];
     }
     [_mcuBox selectItemAtIndex:0];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *lastUsedMCU = [defaults stringForKey:QMKMicrocontrollerKey];
+    if (lastUsedMCU) {
+        [self.mcuBox selectItemWithObjectValue:lastUsedMCU];
+    }
     
     [self loadKeyboards];
     [self loadKeymaps];
@@ -223,6 +229,12 @@ int devicesAvailable[5] = {0, 0, 0, 0, 0};
     
     [HID setupWithPrinter:_printer];
     [USB setupWithPrinter:_printer andDelegate:self];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mcuSelectionChanged) name:NSComboBoxSelectionDidChangeNotification object:_mcuBox];
+}
+
+- (void)mcuSelectionChanged {
+    [[NSUserDefaults standardUserDefaults] setValue:self.mcuBox.objectValueOfSelectedItem forKey:QMKMicrocontrollerKey];
 }
 
 - (void)loadKeyboards {

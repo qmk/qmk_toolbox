@@ -25,6 +25,7 @@
 		098AEE0B1F5F97A000CA054D /* USB.m in Sources */ = {isa = PBXBuildFile; fileRef = 098AEE091F5F97A000CA054D /* USB.m */; };
 		098AEE101F60C6F600CA054D /* QMKWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 098AEE0F1F60C6F600CA054D /* QMKWindow.m */; };
 		09D79CB61FB0DD7F0086ABF6 /* libusb-1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */; };
+		303568C11FA7DEF400803BEF /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 303568C01FA7DEF400803BEF /* Constants.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,8 @@
 		098AEE0E1F60C6F600CA054D /* QMKWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = QMKWindow.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		098AEE0F1F60C6F600CA054D /* QMKWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = QMKWindow.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libusb-1.0.0.dylib"; sourceTree = SOURCE_ROOT; };
+		303568C01FA7DEF400803BEF /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
+		303568C21FA7DF0900803BEF /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +92,8 @@
 		092963FA1F5C8B2C004F2D3F /* qmk_toolbox */ = {
 			isa = PBXGroup;
 			children = (
+				303568C21FA7DF0900803BEF /* Constants.h */,
+				303568C01FA7DEF400803BEF /* Constants.m */,
 				098AEE0A1F5F97A000CA054D /* USB.h */,
 				098AEE091F5F97A000CA054D /* USB.m */,
 				098AEE031F5F296B00CA054D /* Flashing.h */,
@@ -204,6 +209,7 @@
 				098AEE101F60C6F600CA054D /* QMKWindow.m in Sources */,
 				098AEE0B1F5F97A000CA054D /* USB.m in Sources */,
 				092964001F5C8B2C004F2D3F /* main.m in Sources */,
+				303568C11FA7DEF400803BEF /* Constants.m in Sources */,
 				098AEE021F5F296000CA054D /* Flashing.m in Sources */,
 				098AEE051F5F356000CA054D /* HID.m in Sources */,
 				092963FD1F5C8B2C004F2D3F /* AppDelegate.m in Sources */,
