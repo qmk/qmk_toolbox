@@ -53,5 +53,11 @@
     <Setting Name="outputZoom" Type="System.Single" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
+    <Setting Name="keyboard" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="keymap" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

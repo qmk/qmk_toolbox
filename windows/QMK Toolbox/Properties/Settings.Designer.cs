@@ -219,5 +219,29 @@ namespace QMK_Toolbox.Properties {
                 this["outputZoom"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string keyboard {
+            get {
+                return ((string)(this["keyboard"]));
+            }
+            set {
+                this["keyboard"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string keymap {
+            get {
+                return ((string)(this["keymap"]));
+            }
+            set {
+                this["keymap"] = value;
+            }
+        }
     }
 }

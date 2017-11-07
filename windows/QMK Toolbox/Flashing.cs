@@ -36,6 +36,7 @@ namespace QMK_Toolbox {
             "teensy_loader_cli.exe",
             "dfu-util.exe",
             "libusb-1.0.dll",
+            "libusb0.dll", // amd64/libusb0.dll
             "mcu-list.txt",
             "atmega32u4_eeprom_reset.hex"
         };
@@ -109,7 +110,7 @@ namespace QMK_Toolbox {
         private void flashDFU(string mcu, string file) {
             string result;
             result = runProcess("dfu-programmer.exe", mcu + " erase --force");
-            result = runProcess("dfu-programmer.exe", mcu + " flash " + file);
+            result = runProcess("dfu-programmer.exe", mcu + " flash \"" + file + "\"");
             if (result.Contains("Bootloader and code overlap.")) {
                 printer.print("File is too large for device", MessageType.Error);
             } else {
@@ -125,7 +126,7 @@ namespace QMK_Toolbox {
             string result;
             string file = mcu + "_eeprom_reset.hex";
             result = runProcess("dfu-programmer.exe", mcu + " erase --force");
-            result = runProcess("dfu-programmer.exe", mcu + " flash --eeprom " + file);
+            result = runProcess("dfu-programmer.exe", mcu + " flash --eeprom \"" + file + "\"");
             printer.print("Device has been erased - please reflash", MessageType.Bootloader);
         }
 
@@ -147,7 +148,7 @@ namespace QMK_Toolbox {
         }
 
         private void flashSTM32(string mcu, string file) {
-            runProcess("dfu-util.exe", "-a 0 -d 0483:df11 -s 0x08000000 -D " + file);
+            runProcess("dfu-util.exe", "-a 0 -d 0483:df11 -s 0x08000000 -D \"" + file + "\"");
         }
     }
 

@@ -28,7 +28,6 @@
             this.flashButton = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.button2 = new System.Windows.Forms.Button();
             this.resetButton = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
@@ -36,14 +35,11 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
-            this.mcuBox = new System.Windows.Forms.ComboBox();
-            this.filepathBox = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.keymapBox = new System.Windows.Forms.ComboBox();
-            this.keyboardBox = new System.Windows.Forms.ComboBox();
-            this.button7 = new System.Windows.Forms.Button();
+            this.loadKeymap = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
@@ -53,6 +49,10 @@
             this.eepromResetButton = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.filepathBox = new System.Windows.Forms.ComboBox();
+            this.mcuBox = new System.Windows.Forms.ComboBox();
+            this.keyboardBox = new System.Windows.Forms.ComboBox();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -92,28 +92,6 @@
             // openFileDialog1
             // 
             this.openFileDialog1.Filter = "Intel Hex|*.hex|Binary|*.bin";
-            // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox1.DataBindings.Add(new System.Windows.Forms.Binding("ZoomFactor", global::QMK_Toolbox.Properties.Settings.Default, "outputZoom", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.richTextBox1.DetectUrls = false;
-            this.richTextBox1.Font = new System.Drawing.Font("Courier Prime", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBox1.ForeColor = System.Drawing.Color.White;
-            this.richTextBox1.HideSelection = false;
-            this.richTextBox1.Location = new System.Drawing.Point(12, 112);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(760, 495);
-            this.richTextBox1.TabIndex = 1;
-            this.richTextBox1.Text = "";
-            this.richTextBox1.WordWrap = false;
-            this.richTextBox1.ZoomFactor = global::QMK_Toolbox.Properties.Settings.Default.outputZoom;
-            this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
             // 
             // button2
             // 
@@ -198,36 +176,6 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
-            // mcuBox
-            // 
-            this.mcuBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.mcuBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "targetSetting", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.mcuBox.FormattingEnabled = true;
-            this.mcuBox.Location = new System.Drawing.Point(551, 17);
-            this.mcuBox.Name = "mcuBox";
-            this.mcuBox.Size = new System.Drawing.Size(214, 21);
-            this.mcuBox.TabIndex = 4;
-            this.mcuBox.Tag = "The target (MCU) of the flashing";
-            this.mcuBox.Text = global::QMK_Toolbox.Properties.Settings.Default.targetSetting;
-            this.mcuBox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
-            this.mcuBox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
-            // 
-            // filepathBox
-            // 
-            this.filepathBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.filepathBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "hexFileSetting", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.filepathBox.FormattingEnabled = true;
-            this.filepathBox.Location = new System.Drawing.Point(6, 19);
-            this.filepathBox.Name = "filepathBox";
-            this.filepathBox.Size = new System.Drawing.Size(469, 21);
-            this.filepathBox.TabIndex = 2;
-            this.filepathBox.Tag = "The path for your firmware file";
-            this.filepathBox.Text = global::QMK_Toolbox.Properties.Settings.Default.hexFileSetting;
-            this.filepathBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.filepathBox_KeyPress);
-            this.filepathBox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
-            this.filepathBox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
-            // 
             // label2
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -243,7 +191,7 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.keymapBox);
             this.groupBox1.Controls.Add(this.keyboardBox);
-            this.groupBox1.Controls.Add(this.button7);
+            this.groupBox1.Controls.Add(this.loadKeymap);
             this.groupBox1.Location = new System.Drawing.Point(6, 58);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(444, 48);
@@ -262,6 +210,7 @@
             // 
             // keymapBox
             // 
+            this.keymapBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "keymap", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.keymapBox.Enabled = false;
             this.keymapBox.FormattingEnabled = true;
             this.keymapBox.Items.AddRange(new object[] {
@@ -271,35 +220,23 @@
             this.keymapBox.Size = new System.Drawing.Size(152, 21);
             this.keymapBox.TabIndex = 4;
             this.keymapBox.Tag = "The target (MCU) of the flashing";
+            this.keymapBox.Text = global::QMK_Toolbox.Properties.Settings.Default.keymap;
             this.keymapBox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
             this.keymapBox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
             // 
-            // keyboardBox
+            // loadKeymap
             // 
-            this.keyboardBox.Enabled = false;
-            this.keyboardBox.FormattingEnabled = true;
-            this.keyboardBox.Items.AddRange(new object[] {
-            "this feature coming in"});
-            this.keyboardBox.Location = new System.Drawing.Point(6, 19);
-            this.keyboardBox.Name = "keyboardBox";
-            this.keyboardBox.Size = new System.Drawing.Size(202, 21);
-            this.keyboardBox.TabIndex = 4;
-            this.keyboardBox.Tag = "The target (MCU) of the flashing";
-            this.keyboardBox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
-            this.keyboardBox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
-            // 
-            // button7
-            // 
-            this.button7.Enabled = false;
-            this.button7.Location = new System.Drawing.Point(372, 18);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(64, 23);
-            this.button7.TabIndex = 3;
-            this.button7.Tag = "Load firmware from qmk.fm for this keyboard and keymap";
-            this.button7.Text = "Load";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
-            this.button7.MouseHover += new System.EventHandler(this.btn_MouseLeave);
+            this.loadKeymap.Enabled = false;
+            this.loadKeymap.Location = new System.Drawing.Point(372, 18);
+            this.loadKeymap.Name = "loadKeymap";
+            this.loadKeymap.Size = new System.Drawing.Size(64, 23);
+            this.loadKeymap.TabIndex = 3;
+            this.loadKeymap.Tag = "Load firmware from qmk.fm for this keyboard and keymap";
+            this.loadKeymap.Text = "Load";
+            this.loadKeymap.UseVisualStyleBackColor = true;
+            this.loadKeymap.Click += new System.EventHandler(this.loadKeymap_Click);
+            this.loadKeymap.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
+            this.loadKeymap.MouseHover += new System.EventHandler(this.btn_MouseLeave);
             // 
             // groupBox2
             // 
@@ -415,13 +352,81 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(108, 26);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
+            // 
+            // filepathBox
+            // 
+            this.filepathBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.filepathBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "hexFileSetting", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.filepathBox.FormattingEnabled = true;
+            this.filepathBox.Location = new System.Drawing.Point(6, 19);
+            this.filepathBox.Name = "filepathBox";
+            this.filepathBox.Size = new System.Drawing.Size(469, 21);
+            this.filepathBox.TabIndex = 2;
+            this.filepathBox.Tag = "The path for your firmware file";
+            this.filepathBox.Text = global::QMK_Toolbox.Properties.Settings.Default.hexFileSetting;
+            this.filepathBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.filepathBox_KeyPress);
+            this.filepathBox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
+            this.filepathBox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
+            // 
+            // mcuBox
+            // 
+            this.mcuBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.mcuBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "targetSetting", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.mcuBox.FormattingEnabled = true;
+            this.mcuBox.Location = new System.Drawing.Point(551, 17);
+            this.mcuBox.Name = "mcuBox";
+            this.mcuBox.Size = new System.Drawing.Size(214, 21);
+            this.mcuBox.TabIndex = 4;
+            this.mcuBox.Tag = "The target (MCU) of the flashing";
+            this.mcuBox.Text = global::QMK_Toolbox.Properties.Settings.Default.targetSetting;
+            this.mcuBox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
+            this.mcuBox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
+            // 
+            // keyboardBox
+            // 
+            this.keyboardBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "keyboard", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.keyboardBox.Enabled = false;
+            this.keyboardBox.FormattingEnabled = true;
+            this.keyboardBox.Items.AddRange(new object[] {
+            "this feature coming in"});
+            this.keyboardBox.Location = new System.Drawing.Point(6, 19);
+            this.keyboardBox.Name = "keyboardBox";
+            this.keyboardBox.Size = new System.Drawing.Size(202, 21);
+            this.keyboardBox.TabIndex = 4;
+            this.keyboardBox.Tag = "The target (MCU) of the flashing";
+            this.keyboardBox.Text = global::QMK_Toolbox.Properties.Settings.Default.keyboard;
+            this.keyboardBox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
+            this.keyboardBox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox1.DataBindings.Add(new System.Windows.Forms.Binding("ZoomFactor", global::QMK_Toolbox.Properties.Settings.Default, "outputZoom", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.richTextBox1.DetectUrls = false;
+            this.richTextBox1.Font = new System.Drawing.Font("Courier Prime", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBox1.ForeColor = System.Drawing.Color.White;
+            this.richTextBox1.HideSelection = false;
+            this.richTextBox1.Location = new System.Drawing.Point(12, 112);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ReadOnly = true;
+            this.richTextBox1.Size = new System.Drawing.Size(760, 495);
+            this.richTextBox1.TabIndex = 1;
+            this.richTextBox1.Text = "";
+            this.richTextBox1.WordWrap = false;
+            this.richTextBox1.ZoomFactor = global::QMK_Toolbox.Properties.Settings.Default.outputZoom;
+            this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
             // 
             // Form1
             // 
@@ -482,7 +487,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ComboBox keymapBox;
         private System.Windows.Forms.ComboBox keyboardBox;
-        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button loadKeymap;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.CheckBox checkBox2;

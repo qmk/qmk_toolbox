@@ -158,6 +158,8 @@ namespace QMK_Toolbox {
             foreach (var mcu in flasher.getMCUList()) {
                 mcuBox.Items.Add(mcu);
             }
+            if (mcuBox.SelectedIndex == -1)
+                mcuBox.SelectedIndex = 0;
 
             if (Settings.Default.hexFileCollection != null)
                 this.filepathBox.Items.AddRange(Settings.Default.hexFileCollection.ToArray());
@@ -184,6 +186,35 @@ namespace QMK_Toolbox {
             if (filePassedIn != string.Empty)
                 setFilePath(filePassedIn);
 
+            LoadKeyboardList();
+            LoadKeymapList();
+
+        }
+
+        private void LoadKeyboardList() {
+            using (WebClient wc = new WebClient()) {
+                var json = wc.DownloadString("http://compile.qmk.fm/v1/keyboards");
+                List<String> keyboards = JsonConvert.DeserializeObject<List<String>>(json);
+                keyboardBox.Items.Clear();
+                foreach (var keyboard in keyboards) {
+                    keyboardBox.Items.Add(keyboard);
+                }
+                if (keyboardBox.SelectedIndex == -1)
+                    keyboardBox.SelectedIndex = 0;
+                keyboardBox.Enabled = true;
+            }
+        }
+
+        private void LoadKeymapList() {
+            keymapBox.Items.Clear();
+            keymapBox.Items.Add("default");
+            keymapBox.SelectedIndex = 0;
+            // keymapBox.Enabled = true;
+            loadKeymap.Enabled = true;
+        }
+
+        private void loadKeymap_Click(object sender, EventArgs e) {
+            setFilePath("qmk:http://qmk.fm/compiled/" + keyboardBox.SelectedItem.ToString().Replace("/", "_") + "_default.hex");
         }
 
         private void flashButton_Click(object sender, EventArgs e) {

@@ -208,6 +208,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="mcu-list.txt" />
+    <EmbeddedResource Include="libusb0.dll" />
     <Content Include="output.ico" />
     <EmbeddedResource Include="libusb-1.0.dll" />
     <EmbeddedResource Include="teensy_loader_cli.exe" />
