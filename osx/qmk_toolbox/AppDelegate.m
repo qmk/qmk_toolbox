@@ -20,6 +20,9 @@
 @property IBOutlet NSButton * resetButton;
 @property IBOutlet NSButton * autoFlashButton;
 @property IBOutlet NSButton * eepromResetButton;
+@property IBOutlet NSComboBox * keyboardBox;
+@property IBOutlet NSComboBox * keymapBox;
+@property IBOutlet NSButton * loadButton;
 
 @property Flashing * flasher;
 
@@ -198,6 +201,10 @@ int devicesAvailable[4] = {0, 0, 0, 0};
     for (NSString * str in allLinedStrings) {
         [_mcuBox addItemWithObjectValue:str];
     }
+    [_mcuBox selectItemAtIndex:0];
+    
+    [self loadKeyboards];
+    [self loadKeymaps];
 
     [_printer print:@"QMK Toolbox (http://qmk.fm/toolbox)" withType:MessageType_Info];
     [_printer printResponse:@"Supporting following bootloaders:\n" withType:MessageType_Info];
@@ -215,6 +222,36 @@ int devicesAvailable[4] = {0, 0, 0, 0};
     
     [HID setupWithPrinter:_printer];
     [USB setupWithPrinter:_printer andDelegate:self];
+}
+
+- (void)loadKeyboards {
+    NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://compile.qmk.fm/v1/keyboards"]];
+    NSError * error = nil;
+    NSArray * keyboards = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+    [_keyboardBox removeAllItems];
+    [_keyboardBox addItemsWithObjectValues:keyboards];
+    [_keyboardBox selectItemAtIndex:0];
+    _keyboardBox.enabled = YES;
+}
+
+
+- (void)loadKeymaps {
+//    NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://compile.qmk.fm/v1/keyboards"]];
+//    NSError * error = nil;
+//    NSArray * keyboards = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+    [_keymapBox removeAllItems];
+    [_keymapBox addItemWithObjectValue:@"default"];
+    [_keymapBox selectItemAtIndex:0];
+//    for (NSString * keyboard in keyboards) {
+//        [_keyboardBox addItemsWithObjectValues:keyboards];
+//    }
+//    _keymapBox.enabled = YES;
+    _loadButton.enabled = YES;
+}
+
+- (IBAction)loadKeymapClick:(id)sender {
+    NSString * keyboard = [[_keyboardBox objectValue] stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+    [self setFilePath:[NSURL URLWithString:[NSString stringWithFormat:@"qmk:http://qmk.fm/compiled/%@_default.hex", keyboard]]];
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {

@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9059" systemVersion="15D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9059" systemVersion="16G29" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9059"/>
@@ -19,6 +19,9 @@
                 <outlet property="eepromResetButton" destination="RSb-Il-mNt" id="uEb-yN-jO6"/>
                 <outlet property="filepathBox" destination="fMz-rn-IEt" id="eSr-wv-y0f"/>
                 <outlet property="flashButton" destination="OKF-oG-mRx" id="3MC-L3-Hfy"/>
+                <outlet property="keyboardBox" destination="j37-hH-gaF" id="Vhv-Th-t9k"/>
+                <outlet property="keymapBox" destination="kHS-JF-7Py" id="suN-oq-4uk"/>
+                <outlet property="loadButton" destination="NAG-fy-neW" id="K0O-ve-BFP"/>
                 <outlet property="mcuBox" destination="A13-Sl-S0x" id="VCZ-JH-C9H"/>
                 <outlet property="openButton" destination="oJO-GM-iRa" id="1vj-RC-Mm9"/>
                 <outlet property="resetButton" destination="qEj-2h-OmC" id="mmT-oh-51z"/>
@@ -147,7 +150,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="661" height="475"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <value key="minSize" type="size" width="661" height="200"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="661" height="475"/>
@@ -260,7 +263,7 @@
                                         <outlet property="delegate" destination="Voe-Tx-rLC" id="RTL-ba-n38"/>
                                     </connections>
                                 </comboBox>
-                                <comboBox verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A13-Sl-S0x">
+                                <comboBox verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A13-Sl-S0x">
                                     <rect key="frame" x="543" y="7" width="108" height="25"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="105" id="fYy-tf-ll3"/>
@@ -275,7 +278,7 @@
                                         <outlet property="delegate" destination="Voe-Tx-rLC" id="nzF-ij-VIK"/>
                                     </connections>
                                 </comboBox>
-                                <button verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oJO-GM-iRa">
+                                <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oJO-GM-iRa">
                                     <rect key="frame" x="470" y="2" width="71" height="32"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="59" id="u2Q-Np-4xa"/>
@@ -315,7 +318,7 @@
                                 <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j37-hH-gaF">
                                     <rect key="frame" x="7" y="7" width="153" height="25"/>
                                     <animations/>
-                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="this feature coming in a " drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="5mG-K9-oUt">
+                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="" drawsBackground="YES" completes="NO" numberOfVisibleItems="20" id="5mG-K9-oUt">
                                         <font key="font" metaFont="cellTitle"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -332,7 +335,7 @@
                                         <constraint firstAttribute="width" constant="127" id="Rmh-Vs-2bF"/>
                                     </constraints>
                                     <animations/>
-                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="later version!" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="S8q-ac-xFc">
+                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="S8q-ac-xFc">
                                         <font key="font" metaFont="cellTitle"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -353,6 +356,9 @@
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                         <font key="font" metaFont="cellTitle"/>
                                     </buttonCell>
+                                    <connections>
+                                        <action selector="loadKeymapClick:" target="Voe-Tx-rLC" id="FGB-FY-YUE"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <constraints>
