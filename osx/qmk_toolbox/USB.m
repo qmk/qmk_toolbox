@@ -22,6 +22,8 @@ static io_iterator_t            gHalfkayAddedIter;
 static io_iterator_t            gHalfkayRemovedIter;
 static io_iterator_t            gSTM32AddedIter;
 static io_iterator_t            gSTM32RemovedIter;
+static io_iterator_t            gKiibohdAddedIter;
+static io_iterator_t            gKiibohdRemovedIter;
 static Printing * _printer;
 
 @interface USB ()
@@ -42,6 +44,7 @@ static Printing * _printer;
     CFMutableDictionaryRef  CaterinaMatchingDict;
     CFMutableDictionaryRef  HalfkayMatchingDict;
     CFMutableDictionaryRef  STM32MatchingDict;
+    CFMutableDictionaryRef  KiibohdMatchingDict;
     CFRunLoopSourceRef      runLoopSource;
     kern_return_t           kr;
     SInt32                  usbVendor;
@@ -124,6 +127,24 @@ static Printing * _printer;
     kr = IOServiceAddMatchingNotification(gNotifyPort, kIOTerminatedNotification, STM32MatchingDict, STM32DeviceRemoved, NULL, &gSTM32RemovedIter);
     STM32DeviceRemoved(NULL, gSTM32RemovedIter);
  
+ 
+    // Kiibohd
+    
+    usbVendor = 0x1C11;
+    usbProduct = 0xB007;
+    
+    KiibohdMatchingDict = IOServiceMatching(kIOUSBDeviceClassName);
+    KiibohdMatchingDict = (CFMutableDictionaryRef) CFRetain(KiibohdMatchingDict);
+    KiibohdMatchingDict = (CFMutableDictionaryRef) CFRetain(KiibohdMatchingDict);
+ 
+    CFDictionarySetValue(KiibohdMatchingDict, CFSTR(kUSBVendorID), CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt32Type, &usbVendor));
+    CFDictionarySetValue(KiibohdMatchingDict, CFSTR(kUSBProductID), CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt32Type, &usbProduct));
+
+    kr = IOServiceAddMatchingNotification(gNotifyPort, kIOFirstMatchNotification, KiibohdMatchingDict, KiibohdDeviceAdded, NULL, &gKiibohdAddedIter);
+    STM32DeviceAdded(NULL, gSTM32AddedIter);
+ 
+    kr = IOServiceAddMatchingNotification(gNotifyPort, kIOTerminatedNotification, KiibohdMatchingDict, KiibohdDeviceRemoved, NULL, &gKiibohdRemovedIter);
+    STM32DeviceRemoved(NULL, gSTM32RemovedIter);
  
  
  
@@ -242,6 +263,31 @@ static void STM32DeviceRemoved(void *refCon, io_iterator_t iterator) {
     while ((object = IOIteratorNext(iterator)))
     {
         [_printer print:@"STM32 device disconnected" withType:MessageType_Bootloader];
+        [delegate deviceDisconnected:STM32];
+        kr = IOObjectRelease(object);
+        if (kr != kIOReturnSuccess)
+        {
+            printf("Couldn’t release raw device object: %08x\n", kr);
+            continue;
+        }
+    }
+}
+
+static void KiibohdDeviceAdded(void *refCon, io_iterator_t iterator) {
+    io_service_t    object;
+    while ((object = IOIteratorNext(iterator))) {
+        [_printer print:@"Kiibohd device connected" withType:MessageType_Bootloader];
+        [delegate deviceConnected:STM32];
+    }
+}
+
+static void KiibohdDeviceRemoved(void *refCon, io_iterator_t iterator) {
+    kern_return_t   kr;
+    io_service_t    object;
+ 
+    while ((object = IOIteratorNext(iterator)))
+    {
+        [_printer print:@"Kiibohd device disconnected" withType:MessageType_Bootloader];
         [delegate deviceDisconnected:STM32];
         kr = IOObjectRelease(object);
         if (kr != kIOReturnSuccess)

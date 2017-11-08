@@ -15,6 +15,7 @@ typedef enum {
     Halfkay,
     Caterina,
     STM32,
+    Kiibohd,
     NumberOfChipsets
 } Chipset;
 
