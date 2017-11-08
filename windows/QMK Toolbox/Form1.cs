@@ -172,6 +172,7 @@ namespace QMK_Toolbox {
             printer.printResponse(" - Caterina (Arduino, Pro Micro) via avrdude (http://nongnu.org/avrdude/)\n", MessageType.Info);
             printer.printResponse(" - Halfkay (Teensy, Ergodox EZ) via teensy_loader_cli (https://pjrc.com/teensy/loader_cli.html)\n", MessageType.Info);
             printer.printResponse(" - STM32 (ARM) via dfu-util (http://dfu-util.sourceforge.net/)\n", MessageType.Info);
+            printer.printResponse(" - Kiibohd (ARM) via dfu-util (http://dfu-util.sourceforge.net/)\n", MessageType.Info);
 
             List<USBDeviceInfo> devices = new List<USBDeviceInfo>();
 
@@ -358,6 +359,8 @@ namespace QMK_Toolbox {
             var halfkay_nohid = Regex.Match(instance.GetPropertyValue("Name").ToString(), @".*USB.*");
             var dfuUtil_pid = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*VID_0483.*");
             var dfuUtil_vid = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*PID_DF11.*");
+            var kiibohd_pid = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*VID_1C11.*");
+            var kiibohd_vid = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*PID_B007.*");
 
             Regex deviceid_regex = new Regex("VID_([0-9A-F]+).*PID_([0-9A-F]+)");
             var vp = deviceid_regex.Match(instance.GetPropertyValue("DeviceID").ToString());
@@ -380,6 +383,9 @@ namespace QMK_Toolbox {
             } else if (dfuUtil_pid.Success && dfuUtil_vid.Success) {
                 device_name = "STM32";
                 devicesAvailable[(int)Chipset.STM32] += connected ? 1 : -1;
+            } else if (kiibohd_pid.Success && kiibohd_vid.Success) {
+                device_name = "Kiibohd";
+                devicesAvailable[(int)Chipset.Kiibohd] += connected ? 1 : -1;
             } else {
                 return false;
             }

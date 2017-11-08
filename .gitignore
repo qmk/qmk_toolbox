@@ -305,3 +305,6 @@ fastlane/test_output
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
+
+qmk_toolbox.exe
+qmk_toolbox_install.exe

@@ -16,6 +16,7 @@ namespace QMK_Toolbox {
         Halfkay,
         Caterina,
         STM32,
+        Kiibohd,
         NumberOfChipsets
     };
     public class Flashing {
@@ -36,7 +37,7 @@ namespace QMK_Toolbox {
             "teensy_loader_cli.exe",
             "dfu-util.exe",
             "libusb-1.0.dll",
-            "libusb0.dll", // amd64/libusb0.dll
+            "libusb0.dll", // x86/libusb0_x86.dll
             "mcu-list.txt",
             "atmega32u4_eeprom_reset.hex"
         };
@@ -91,6 +92,8 @@ namespace QMK_Toolbox {
                 flashHalfkay(mcu, file);
             if (f.canFlash(Chipset.STM32))
                 flashSTM32(mcu, file);
+            if (f.canFlash(Chipset.Kiibohd))
+                flashKiibohd(file);
         }
 
         public void reset(string mcu) {
@@ -149,6 +152,10 @@ namespace QMK_Toolbox {
 
         private void flashSTM32(string mcu, string file) {
             runProcess("dfu-util.exe", "-a 0 -d 0483:df11 -s 0x08000000 -D \"" + file + "\"");
+        }
+
+        private void flashKiibohd(string file) {
+            runProcess("dfu-util.exe", "-D \"" + file + "\"");
         }
     }
 
