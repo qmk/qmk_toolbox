@@ -30,7 +30,7 @@
 
 @implementation AppDelegate
 
-int devicesAvailable[4] = {0, 0, 0, 0};
+int devicesAvailable[5] = {0, 0, 0, 0, 0};
 
 - (IBAction) openButtonClick:(id) sender {
    NSOpenPanel* panel = [NSOpenPanel openPanel];

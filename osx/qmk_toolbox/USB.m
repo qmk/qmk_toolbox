@@ -277,7 +277,7 @@ static void KiibohdDeviceAdded(void *refCon, io_iterator_t iterator) {
     io_service_t    object;
     while ((object = IOIteratorNext(iterator))) {
         [_printer print:@"Kiibohd device connected" withType:MessageType_Bootloader];
-        [delegate deviceConnected:STM32];
+        [delegate deviceConnected:Kiibohd];
     }
 }
 
@@ -288,7 +288,7 @@ static void KiibohdDeviceRemoved(void *refCon, io_iterator_t iterator) {
     while ((object = IOIteratorNext(iterator)))
     {
         [_printer print:@"Kiibohd device disconnected" withType:MessageType_Bootloader];
-        [delegate deviceDisconnected:STM32];
+        [delegate deviceDisconnected:Kiibohd];
         kr = IOObjectRelease(object);
         if (kr != kIOReturnSuccess)
         {
