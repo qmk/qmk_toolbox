@@ -40,7 +40,7 @@ namespace QMK_Toolbox {
         Printing printer;
         Flashing flasher;
 
-        private int[] devicesAvailable = new int[] { 0, 0, 0, 0};
+        private int[] devicesAvailable = new int[] { 0, 0, 0, 0, 0};
 
         public const Int32 MF_SEPARATOR = 0x800;
         public const Int32 WM_SYSCOMMAND = 0x112;
