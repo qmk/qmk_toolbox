@@ -60,6 +60,8 @@
         [self flashHalfkay:mcu withFile:file];
     if ([delegate canFlash:STM32])
         [self flashSTM32WithFile:file];
+    if ([delegate canFlash:Kiibohd])
+        [self flashKiibohdWithFile:file];
 }
 
 - (void)reset:(NSString *)mcu {
@@ -119,6 +121,10 @@
 
 - (void)flashSTM32WithFile:(NSString *)file {
     [self runProcess:@"dfu-util" withArgs:@[@"-a", @"0", @"-d", @"0482:df11", @"-s", @"0x8000000", @"-D", file]];
+}
+
+- (void)flashKiibohdWithFile:(NSString *)file {
+    [self runProcess:@"dfu-util" withArgs:@[@"-D", file]];
 }
 
 @end

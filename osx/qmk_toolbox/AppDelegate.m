@@ -212,6 +212,7 @@ int devicesAvailable[4] = {0, 0, 0, 0};
     [_printer printResponse:@" - Caterina (Arduino, Pro Micro) via avrdude (http://nongnu.org/avrdude/)\n" withType:MessageType_Info];
     [_printer printResponse:@" - Halfkay (Teensy, Ergodox EZ) via teensy_loader_cli (https://pjrc.com/teensy/loader_cli.html)\n" withType:MessageType_Info];
     [_printer printResponse:@" - STM32 (ARM) via dfu-util (http://dfu-util.sourceforge.net/)\n" withType:MessageType_Info];
+    [_printer printResponse:@" - Kiibohd (ARM) via dfu-util (http://dfu-util.sourceforge.net/)\n" withType:MessageType_Info];
 
     
     
