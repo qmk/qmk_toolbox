@@ -353,6 +353,8 @@ namespace QMK_Toolbox {
             var dfu = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*VID_03EB.*");
             // Detects Arduino Vendor ID
             var caterina = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*VID_2341.*");
+            // Detects Sparkfun Vendor ID
+            var caterina_alt_vid = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*VID_1B4F.*");
             // Detects PJRC Vendor ID
             var halfkay_vid = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*VID_16C0.*");
             var halfkay_pid = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*PID_0478.*");
