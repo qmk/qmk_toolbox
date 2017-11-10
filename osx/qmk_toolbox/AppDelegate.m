@@ -165,6 +165,7 @@ int devicesAvailable[5] = {0, 0, 0, 0, 0};
         if ([_filepathBox indexOfItemWithObjectValue:filename] == NSNotFound)
             [_filepathBox addItemWithObjectValue:filename];
         [_filepathBox selectItemWithObjectValue:filename];
+        [[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:[[NSURL alloc] initFileURLWithPath:filename]];
     }
 }
 
@@ -195,6 +196,7 @@ int devicesAvailable[5] = {0, 0, 0, 0, 0};
     [self loadMicrocontrollers];
     [self loadKeyboards];
     [self loadKeymaps];
+    [self loadRecentDocuments];
 
     [_printer print:@"QMK Toolbox (http://qmk.fm/toolbox)" withType:MessageType_Info];
     [_printer printResponse:@"Supporting following bootloaders:\n" withType:MessageType_Info];
@@ -263,6 +265,14 @@ int devicesAvailable[5] = {0, 0, 0, 0, 0};
 //    }
 //    _keymapBox.enabled = YES;
     _loadButton.enabled = YES;
+}
+
+- (void)loadRecentDocuments {
+    NSArray<NSURL *> *recentDocuments = [[NSDocumentController sharedDocumentController] recentDocumentURLs];
+    for (NSURL *document in recentDocuments) {
+        [self.filepathBox addItemWithObjectValue:document.path];
+    }
+    [self.filepathBox selectItemAtIndex:0];
 }
 
 - (IBAction)loadKeymapClick:(id)sender {
