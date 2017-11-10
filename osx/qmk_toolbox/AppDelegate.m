@@ -192,23 +192,7 @@ int devicesAvailable[5] = {0, 0, 0, 0, 0};
     _flasher = [[Flashing alloc] initWithPrinter:_printer];
     _flasher.delegate = self;
     
-    NSString * fileRoot = [[NSBundle mainBundle] pathForResource:@"mcu-list" ofType:@"txt"];
-    NSString * fileContents = [NSString stringWithContentsOfFile:fileRoot encoding:NSUTF8StringEncoding error:nil];
-
-    // first, separate by new line
-    NSArray * allLinedStrings = [fileContents componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-
-    // choose whatever input identity you have decided. in this case ;
-    for (NSString * str in allLinedStrings) {
-        [_mcuBox addItemWithObjectValue:str];
-    }
-    [_mcuBox selectItemAtIndex:0];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *lastUsedMCU = [defaults stringForKey:QMKMicrocontrollerKey];
-    if (lastUsedMCU) {
-        [self.mcuBox selectItemWithObjectValue:lastUsedMCU];
-    }
-    
+    [self loadMicrocontrollers];
     [self loadKeyboards];
     [self loadKeymaps];
 
@@ -235,6 +219,25 @@ int devicesAvailable[5] = {0, 0, 0, 0, 0};
 
 - (void)mcuSelectionChanged {
     [[NSUserDefaults standardUserDefaults] setValue:self.mcuBox.objectValueOfSelectedItem forKey:QMKMicrocontrollerKey];
+}
+
+- (void)loadMicrocontrollers {
+    NSString * fileRoot = [[NSBundle mainBundle] pathForResource:@"mcu-list" ofType:@"txt"];
+    NSString * fileContents = [NSString stringWithContentsOfFile:fileRoot encoding:NSUTF8StringEncoding error:nil];
+    
+    // first, separate by new line
+    NSArray * allLinedStrings = [fileContents componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    
+    // choose whatever input identity you have decided. in this case ;
+    for (NSString * str in allLinedStrings) {
+        [_mcuBox addItemWithObjectValue:str];
+    }
+    [_mcuBox selectItemAtIndex:0];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *lastUsedMCU = [defaults stringForKey:QMKMicrocontrollerKey];
+    if (lastUsedMCU) {
+        [self.mcuBox selectItemWithObjectValue:lastUsedMCU];
+    }
 }
 
 - (void)loadKeyboards {
