@@ -354,7 +354,7 @@ namespace QMK_Toolbox {
             // Detects Arduino Vendor ID
             var caterina = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*VID_2341.*");
             // Detects Sparkfun Vendor ID
-            var caterina_alt_vid = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*VID_1B4F.*");
+            var caterina_alt = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*VID_1B4F.*");
             // Detects PJRC Vendor ID
             var halfkay_vid = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*VID_16C0.*");
             var halfkay_pid = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*PID_0478.*");
@@ -373,7 +373,7 @@ namespace QMK_Toolbox {
             if (dfu.Success) {
                 device_name = "DFU";
                 devicesAvailable[(int)Chipset.DFU] += connected ? 1 : -1;
-            } else if (caterina.Success) {
+            } else if (caterina.Success || caterina_alt.Success) {
                 device_name = "Caterina";
                 Regex regex = new Regex("(COM[0-9]+)");
                 var v = regex.Match(instance.GetPropertyValue("Name").ToString());
