@@ -42,6 +42,7 @@ static Printing * _printer;
     mach_port_t             masterPort;
     CFMutableDictionaryRef  DFUMatchingDict;
     CFMutableDictionaryRef  CaterinaMatchingDict;
+    CFMutableDictionaryRef  CaterinaAltMatchingDict;
     CFMutableDictionaryRef  HalfkayMatchingDict;
     CFMutableDictionaryRef  STM32MatchingDict;
     CFMutableDictionaryRef  KiibohdMatchingDict;
@@ -91,6 +92,22 @@ static Printing * _printer;
     kr = IOServiceAddMatchingNotification(gNotifyPort, kIOTerminatedNotification, CaterinaMatchingDict, CaterinaDeviceRemoved, NULL, &gCaterinaRemovedIter);
     CaterinaDeviceRemoved(NULL, gCaterinaRemovedIter);
     
+    // Caterina Alt
+    usbVendor = 0x1B4F;
+    
+    CaterinaAltMatchingDict = IOServiceMatching(kIOUSBDeviceClassName);
+    CaterinaAltMatchingDict = (CFMutableDictionaryRef) CFRetain(CaterinaAltMatchingDict);
+    CaterinaAltMatchingDict = (CFMutableDictionaryRef) CFRetain(CaterinaAltMatchingDict);
+ 
+    CFDictionarySetValue(CaterinaAltMatchingDict, CFSTR(kUSBVendorID), CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt32Type, &usbVendor));
+    CFDictionarySetValue(CaterinaAltMatchingDict, CFSTR(kUSBProductID), CFSTR("*"));
+
+    kr = IOServiceAddMatchingNotification(gNotifyPort, kIOFirstMatchNotification, CaterinaAltMatchingDict, CaterinaDeviceAdded, NULL, &gCaterinaAddedIter);
+    CaterinaDeviceAdded(NULL, gCaterinaAddedIter);
+ 
+    kr = IOServiceAddMatchingNotification(gNotifyPort, kIOTerminatedNotification, CaterinaAltMatchingDict, CaterinaDeviceRemoved, NULL, &gCaterinaRemovedIter);
+    CaterinaDeviceRemoved(NULL, gCaterinaRemovedIter);
+    
     
     // Halfkay
     usbVendor = 0x16C0;
@@ -129,7 +146,6 @@ static Printing * _printer;
  
  
     // Kiibohd
-    
     usbVendor = 0x1C11;
     usbProduct = 0xB007;
     
