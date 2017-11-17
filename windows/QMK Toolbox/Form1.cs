@@ -40,7 +40,7 @@ namespace QMK_Toolbox {
         Printing printer;
         Flashing flasher;
 
-        private int[] devicesAvailable = new int[] { 0, 0, 0, 0, 0};
+        private int[] devicesAvailable = new int[(int)Chipset.NumberOfChipsets];
 
         public const Int32 MF_SEPARATOR = 0x800;
         public const Int32 WM_SYSCOMMAND = 0x112;
@@ -173,6 +173,9 @@ namespace QMK_Toolbox {
             printer.printResponse(" - Halfkay (Teensy, Ergodox EZ) via teensy_loader_cli (https://pjrc.com/teensy/loader_cli.html)\n", MessageType.Info);
             printer.printResponse(" - STM32 (ARM) via dfu-util (http://dfu-util.sourceforge.net/)\n", MessageType.Info);
             printer.printResponse(" - Kiibohd (ARM) via dfu-util (http://dfu-util.sourceforge.net/)\n", MessageType.Info);
+            printer.printResponse("And the following ISP flasher protocols:\n", MessageType.Info);
+            printer.printResponse(" - USBTiny (AVR Pocket)\n", MessageType.Info);
+            printer.printResponse(" - AVRISP (Arduino ISP)\n", MessageType.Info);
 
             List<USBDeviceInfo> devices = new List<USBDeviceInfo>();
 
@@ -313,7 +316,7 @@ namespace QMK_Toolbox {
                     device.MonitorDeviceEvents = true;
 
                     printer.print(GetManufacturerString(device) + ": " + GetProductString(device) + " connected " + 
-                        " -- " + device.Attributes.VendorHexId + ":" + device.Attributes.ProductHexId + " (" + GetParentIDPrefix(device) + ")", MessageType.HID);
+                        " -- " + device.Attributes.VendorId.ToString("X4") + ":" + device.Attributes.ProductId.ToString("X4") + ":" + device.Attributes.Version.ToString("X4") + " (" + GetParentIDPrefix(device) + ")", MessageType.HID);
 
                     device.ReadReport(OnReport);
                     device.CloseDevice();
@@ -326,7 +329,7 @@ namespace QMK_Toolbox {
                 }
                 if (!device_exists) {
                     printer.print("HID device disconnected" + 
-                    " -- " + existing_device.Attributes.VendorHexId + ":" + existing_device.Attributes.ProductHexId + " (" + GetParentIDPrefix(existing_device) + ")", MessageType.HID);
+                    " -- " + existing_device.Attributes.VendorId.ToString("X4") + ":" + existing_device.Attributes.ProductId.ToString("X4") + ":" + existing_device.Attributes.Version.ToString("X4") + " (" + GetParentIDPrefix(existing_device) + ")", MessageType.HID);
                 }
             }
             _devices = devices;
@@ -346,53 +349,69 @@ namespace QMK_Toolbox {
             return found;
         }
 
+        private bool matchVID(string DID, UInt16 VID) {
+            var reg = Regex.Match(DID, "USB.*VID_" + VID.ToString("X4") + ".*");
+            return reg.Success;
+        }
+
+        private bool matchPID(string DID, UInt16 PID) {
+            var reg = Regex.Match(DID, "USB.*PID_" + PID.ToString("X4") + ".*");
+            return reg.Success;
+        }
+
         private bool DetectBootloader(ManagementBaseObject instance, bool connected = true) {
             string connected_string = connected ? "connected" : "disconnected";
+            string device_id = instance.GetPropertyValue("DeviceID").ToString();
 
-            // Detects Atmel Vendor ID
-            var dfu = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*VID_03EB.*");
-            // Detects Arduino Vendor ID
-            var caterina = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*VID_2341.*");
-            // Detects Sparkfun Vendor ID
-            var caterina_alt = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*VID_1B4F.*");
-            // Detects PJRC Vendor ID
-            var halfkay_vid = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*VID_16C0.*");
-            var halfkay_pid = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*PID_0478.*");
-            var halfkay_nohid = Regex.Match(instance.GetPropertyValue("Name").ToString(), @".*USB.*");
-            var dfuUtil_pid = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*VID_0483.*");
-            var dfuUtil_vid = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*PID_DF11.*");
-            var kiibohd_pid = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*VID_1C11.*");
-            var kiibohd_vid = Regex.Match(instance.GetPropertyValue("DeviceID").ToString(), @".*PID_B007.*");
-
-            Regex deviceid_regex = new Regex("VID_([0-9A-F]+).*PID_([0-9A-F]+)");
+            Regex deviceid_regex = new Regex(@"VID_([0-9A-F]+).*PID_([0-9A-F]+)\\([0-9A-F]+)");
             var vp = deviceid_regex.Match(instance.GetPropertyValue("DeviceID").ToString());
             string VID = vp.Groups[1].ToString();
             string PID = vp.Groups[2].ToString();
+            string VER = vp.Groups[3].ToString();
 
             string device_name;
-            if (dfu.Success) {
+            // Detects Atmel Vendor ID
+            if (matchVID(device_id, 0x03EB)) { 
                 device_name = "DFU";
                 devicesAvailable[(int)Chipset.DFU] += connected ? 1 : -1;
-            } else if (caterina.Success || caterina_alt.Success) {
+            // Detects Arduino Vendor ID, Sparkfun Vendor ID
+            } else if (matchVID(device_id, 0x2341) || matchVID(device_id, 0x1B4F)) { 
                 device_name = "Caterina";
                 Regex regex = new Regex("(COM[0-9]+)");
                 var v = regex.Match(instance.GetPropertyValue("Name").ToString());
                 flasher.caterinaPort = v.Groups[1].ToString();
                 devicesAvailable[(int)Chipset.Caterina] += connected ? 1 : -1;
-            } else if (halfkay_vid.Success && halfkay_pid.Success && halfkay_nohid.Success) {
+            // Detects PJRC VID & PID
+            } else if (matchVID(device_id, 0x16C0) && matchPID(device_id, 0x0478)) {
                 device_name = "Halfkay";
                 devicesAvailable[(int)Chipset.Halfkay] += connected ? 1 : -1;
-            } else if (dfuUtil_pid.Success && dfuUtil_vid.Success) {
+            // Detects STM32 PID & VID
+            } else if (matchVID(device_id, 0x0483) && matchPID(device_id, 0xDF11)) {
                 device_name = "STM32";
                 devicesAvailable[(int)Chipset.STM32] += connected ? 1 : -1;
-            } else if (kiibohd_pid.Success && kiibohd_vid.Success) {
+            // Detects Kiibohd VID & PID
+            } else if (matchVID(device_id, 0x1C11) && matchPID(device_id, 0xB007)) {
                 device_name = "Kiibohd";
                 devicesAvailable[(int)Chipset.Kiibohd] += connected ? 1 : -1;
+                // Detects Arduino ISP VID & PID
+            } else if (matchVID(device_id, 0x16C0) && matchPID(device_id, 0x0483)) {
+                device_name = "Arduino ISP";
+                Regex regex = new Regex("(COM[0-9]+)");
+                var v = regex.Match(instance.GetPropertyValue("Name").ToString());
+                flasher.caterinaPort = v.Groups[1].ToString();
+                devicesAvailable[(int)Chipset.ArduinoISP] += connected ? 1 : -1;
+                // Detects AVR Pocket ISP VID & PID
+            } else if (matchVID(device_id, 0x1781) && matchPID(device_id, 0x0C9F)) {
+                device_name = "AVR Pocket ISP";
+                Regex regex = new Regex("(COM[0-9]+)");
+                var v = regex.Match(instance.GetPropertyValue("Name").ToString());
+                flasher.caterinaPort = v.Groups[1].ToString();
+                devicesAvailable[(int)Chipset.AVRPocket] += connected ? 1 : -1;
             } else {
                 return false;
             }
 
-            printer.print(device_name + " device " + connected_string + ": " + instance.GetPropertyValue("Name") + " -- 0x" + VID + ":0x" + PID, MessageType.Bootloader);
+            printer.print(device_name + " device " + connected_string + ": " + instance.GetPropertyValue("Name") + " -- " + VID + ":" + PID + ":" + VER, MessageType.Bootloader);
             return true;
         }
 

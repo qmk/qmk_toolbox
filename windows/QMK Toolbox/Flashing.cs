@@ -3,10 +3,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -17,9 +19,11 @@ namespace QMK_Toolbox {
         Caterina,
         STM32,
         Kiibohd,
+        ArduinoISP,
+        AVRPocket,
         NumberOfChipsets
     };
-    public class Flashing {
+    public class Flashing : EventArgs {
         private System.Diagnostics.Process process;
         private System.Diagnostics.ProcessStartInfo startInfo;
 
@@ -58,11 +62,25 @@ namespace QMK_Toolbox {
             }
 
             process = new System.Diagnostics.Process();
+            //process.EnableRaisingEvents = true;
+            //process.OutputDataReceived += OnOutputDataReceived;
+            //process.ErrorDataReceived += OnErrorDataReceived;
             startInfo = new System.Diagnostics.ProcessStartInfo();
             startInfo.UseShellExecute = false;
             startInfo.RedirectStandardError = true;
             startInfo.RedirectStandardOutput = true;
+            startInfo.RedirectStandardInput = true;
             startInfo.CreateNoWindow = true;
+        }
+
+        void OnOutputDataReceived(object sender, DataReceivedEventArgs e) {
+            Debug.Write(e.Data);
+            printer.printResponse(e.Data, MessageType.Info);
+        }
+
+        void OnErrorDataReceived(object sender, DataReceivedEventArgs e) {
+            Debug.Write(e.Data);
+            printer.printResponse(e.Data, MessageType.Info);
         }
 
         private string runProcess(string command, string args) {
@@ -71,11 +89,28 @@ namespace QMK_Toolbox {
             startInfo.FileName = Path.Combine(Application.LocalUserAppDataPath, command);
             startInfo.Arguments = args;
             process.StartInfo = startInfo;
+            string output = "";
+
             process.Start();
-            process.WaitForExit();
-            string output = process.StandardOutput.ReadToEnd();
-            output += process.StandardError.ReadToEnd();
-            printer.printResponse(output, MessageType.Command);
+            while (!process.HasExited) {
+                char[] buffer = new char[4096];
+                while (process.StandardOutput.Peek() > -1 || process.StandardError.Peek() > -1) {
+                    if (process.StandardOutput.Peek() > -1) {
+                        var length = process.StandardOutput.Read(buffer, 0, buffer.Length);
+                        string data = new string(buffer, 0, length);
+                        output += data;
+                        printer.printResponse(data, MessageType.Info);
+                    }
+                    if (process.StandardError.Peek() > -1) {
+                        var length = process.StandardError.Read(buffer, 0, buffer.Length);
+                        string data = new string(buffer, 0, length);
+                        output += data;
+                        printer.printResponse(data, MessageType.Info);
+                    }
+                    Application.DoEvents(); // This keeps your form responsive by processing events
+                }
+
+            }
             return output;
         }
 
@@ -94,6 +129,10 @@ namespace QMK_Toolbox {
                 flashSTM32(mcu, file);
             if (f.canFlash(Chipset.Kiibohd))
                 flashKiibohd(file);
+            if (f.canFlash(Chipset.ArduinoISP))
+                flashArduinoISP(mcu, file);
+            if (f.canFlash(Chipset.AVRPocket))
+                flashAVRPocket(mcu, file);
         }
 
         public void reset(string mcu) {
@@ -157,6 +196,15 @@ namespace QMK_Toolbox {
         private void flashKiibohd(string file) {
             runProcess("dfu-util.exe", "-D \"" + file + "\"");
         }
-    }
 
+        private void flashArduinoISP(string mcu, string file) {
+            string result = runProcess("avrdude.exe", "-p " + mcu + " -c avrisp -U flash:w:\"" + file + "\":i -P " + caterinaPort);
+            printer.print("Flash complete", MessageType.Bootloader);
+        }
+
+        private void flashAVRPocket(string mcu, string file) {
+            string result = runProcess("avrdude.exe", "-p " + mcu + " -c usbtiny -U flash:w:\"" + file + "\":i -P " + caterinaPort);
+            printer.print("Flash complete", MessageType.Bootloader);
+        }
+    }
 }
