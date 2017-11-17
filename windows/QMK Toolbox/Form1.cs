@@ -393,20 +393,20 @@ namespace QMK_Toolbox {
             } else if (matchVID(device_id, 0x1C11) && matchPID(device_id, 0xB007)) {
                 device_name = "Kiibohd";
                 devicesAvailable[(int)Chipset.Kiibohd] += connected ? 1 : -1;
-                // Detects Arduino ISP VID & PID
+            // Detects Arduino ISP VID & PID
             } else if (matchVID(device_id, 0x16C0) && matchPID(device_id, 0x0483)) {
-                device_name = "Arduino ISP";
+                device_name = "AVRISP";
                 Regex regex = new Regex("(COM[0-9]+)");
                 var v = regex.Match(instance.GetPropertyValue("Name").ToString());
                 flasher.caterinaPort = v.Groups[1].ToString();
-                devicesAvailable[(int)Chipset.ArduinoISP] += connected ? 1 : -1;
-                // Detects AVR Pocket ISP VID & PID
+                devicesAvailable[(int)Chipset.AVRISP] += connected ? 1 : -1;
+            // Detects AVR Pocket ISP VID & PID
             } else if (matchVID(device_id, 0x1781) && matchPID(device_id, 0x0C9F)) {
-                device_name = "AVR Pocket ISP";
+                device_name = "USB Tiny";
                 Regex regex = new Regex("(COM[0-9]+)");
                 var v = regex.Match(instance.GetPropertyValue("Name").ToString());
                 flasher.caterinaPort = v.Groups[1].ToString();
-                devicesAvailable[(int)Chipset.AVRPocket] += connected ? 1 : -1;
+                devicesAvailable[(int)Chipset.USBTiny] += connected ? 1 : -1;
             } else {
                 return false;
             }

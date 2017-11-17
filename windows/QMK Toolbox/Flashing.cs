@@ -19,8 +19,8 @@ namespace QMK_Toolbox {
         Caterina,
         STM32,
         Kiibohd,
-        ArduinoISP,
-        AVRPocket,
+        AVRISP,
+        USBTiny,
         NumberOfChipsets
     };
     public class Flashing : EventArgs {
@@ -129,10 +129,10 @@ namespace QMK_Toolbox {
                 flashSTM32(mcu, file);
             if (f.canFlash(Chipset.Kiibohd))
                 flashKiibohd(file);
-            if (f.canFlash(Chipset.ArduinoISP))
-                flashArduinoISP(mcu, file);
-            if (f.canFlash(Chipset.AVRPocket))
-                flashAVRPocket(mcu, file);
+            if (f.canFlash(Chipset.AVRISP))
+                flashAVRISP(mcu, file);
+            if (f.canFlash(Chipset.USBTiny))
+                flashUSBTiny(mcu, file);
         }
 
         public void reset(string mcu) {
@@ -197,12 +197,12 @@ namespace QMK_Toolbox {
             runProcess("dfu-util.exe", "-D \"" + file + "\"");
         }
 
-        private void flashArduinoISP(string mcu, string file) {
+        private void flashAVRISP(string mcu, string file) {
             string result = runProcess("avrdude.exe", "-p " + mcu + " -c avrisp -U flash:w:\"" + file + "\":i -P " + caterinaPort);
             printer.print("Flash complete", MessageType.Bootloader);
         }
 
-        private void flashAVRPocket(string mcu, string file) {
+        private void flashUSBTiny(string mcu, string file) {
             string result = runProcess("avrdude.exe", "-p " + mcu + " -c usbtiny -U flash:w:\"" + file + "\":i -P " + caterinaPort);
             printer.print("Flash complete", MessageType.Bootloader);
         }
