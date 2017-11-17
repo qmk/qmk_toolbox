@@ -62,6 +62,10 @@
         [self flashSTM32WithFile:file];
     if ([delegate canFlash:Kiibohd])
         [self flashKiibohdWithFile:file];
+    if ([delegate canFlash:AVRISP])
+        [self flashAVRISP:mcu withFile:file];
+    if ([delegate canFlash:Kiibohd])
+        [self flashUSBTiny:mcu withFile:file];
 }
 
 - (void)reset:(NSString *)mcu {
@@ -125,6 +129,14 @@
 
 - (void)flashKiibohdWithFile:(NSString *)file {
     [self runProcess:@"dfu-util" withArgs:@[@"-D", file]];
+}
+
+- (void)flashAVRISP:(NSString *)mcu withFile:(NSString *)file {
+    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"avrisp", @"-U", [NSString stringWithFormat:@"flash:w:%@:i", file], @"-P", caterinaPort, @"-C", @"avrdude.conf"]];
+}
+
+- (void)flashUSBTiny:(NSString *)mcu withFile:(NSString *)file {
+    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"usbtinp", @"-U", [NSString stringWithFormat:@"flash:w:%@:i", file], @"-P", caterinaPort, @"-C", @"avrdude.conf"]];
 }
 
 @end

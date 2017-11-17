@@ -31,7 +31,7 @@
 
 @implementation AppDelegate
 
-int devicesAvailable[5] = {0, 0, 0, 0, 0};
+int devicesAvailable[NumberOfChipsets];
 
 - (IBAction) openButtonClick:(id) sender {
    NSOpenPanel* panel = [NSOpenPanel openPanel];
@@ -205,7 +205,9 @@ int devicesAvailable[5] = {0, 0, 0, 0, 0};
     [_printer printResponse:@" - Halfkay (Teensy, Ergodox EZ) via teensy_loader_cli (https://pjrc.com/teensy/loader_cli.html)\n" withType:MessageType_Info];
     [_printer printResponse:@" - STM32 (ARM) via dfu-util (http://dfu-util.sourceforge.net/)\n" withType:MessageType_Info];
     [_printer printResponse:@" - Kiibohd (ARM) via dfu-util (http://dfu-util.sourceforge.net/)\n" withType:MessageType_Info];
-
+    [_printer printResponse:@"And the following ISP flasher protocols:\n" withType:MessageType_Info];
+    [_printer printResponse:@" - USBTiny (AVR Pocket)\n" withType:MessageType_Info];
+    [_printer printResponse:@" - AVRISP (Arduino ISP)\n" withType:MessageType_Info];
     
     
 //    [_flasher runProcess:@"dfu-programmer" withArgs:@[@"--help"]];

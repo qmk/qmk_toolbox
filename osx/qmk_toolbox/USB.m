@@ -24,6 +24,10 @@ static io_iterator_t            gSTM32AddedIter;
 static io_iterator_t            gSTM32RemovedIter;
 static io_iterator_t            gKiibohdAddedIter;
 static io_iterator_t            gKiibohdRemovedIter;
+static io_iterator_t            gAVRISPAddedIter;
+static io_iterator_t            gAVRISPRemovedIter;
+static io_iterator_t            gUSBTinyAddedIter;
+static io_iterator_t            gUSBTinyRemovedIter;
 static Printing * _printer;
 
 @interface USB ()
@@ -46,6 +50,8 @@ static Printing * _printer;
     CFMutableDictionaryRef  HalfkayMatchingDict;
     CFMutableDictionaryRef  STM32MatchingDict;
     CFMutableDictionaryRef  KiibohdMatchingDict;
+    CFMutableDictionaryRef  AVRISPMatchingDict;
+    CFMutableDictionaryRef  USBTinyMatchingDict;
     CFRunLoopSourceRef      runLoopSource;
     kern_return_t           kr;
     SInt32                  usbVendor;
@@ -162,6 +168,39 @@ static Printing * _printer;
     kr = IOServiceAddMatchingNotification(gNotifyPort, kIOTerminatedNotification, KiibohdMatchingDict, KiibohdDeviceRemoved, NULL, &gKiibohdRemovedIter);
     STM32DeviceRemoved(NULL, gSTM32RemovedIter);
  
+    // AVRISP
+    usbVendor = 0x16C0;
+    usbProduct = 0x0483;
+    
+    AVRISPMatchingDict = IOServiceMatching(kIOUSBDeviceClassName);
+    AVRISPMatchingDict = (CFMutableDictionaryRef) CFRetain(AVRISPMatchingDict);
+    AVRISPMatchingDict = (CFMutableDictionaryRef) CFRetain(AVRISPMatchingDict);
+ 
+    CFDictionarySetValue(AVRISPMatchingDict, CFSTR(kUSBVendorID), CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt32Type, &usbVendor));
+    CFDictionarySetValue(AVRISPMatchingDict, CFSTR(kUSBProductID), CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt32Type, &usbProduct));
+
+    kr = IOServiceAddMatchingNotification(gNotifyPort, kIOFirstMatchNotification, AVRISPMatchingDict, AVRISPDeviceAdded, NULL, &gAVRISPAddedIter);
+    AVRISPDeviceAdded(NULL, gAVRISPAddedIter);
+ 
+    kr = IOServiceAddMatchingNotification(gNotifyPort, kIOTerminatedNotification, AVRISPMatchingDict, AVRISPDeviceRemoved, NULL, &gAVRISPRemovedIter);
+    AVRISPDeviceRemoved(NULL, gAVRISPRemovedIter);
+    
+    // USBTiny
+    usbVendor = 0x16C0;
+    usbProduct = 0x0483;
+    
+    USBTinyMatchingDict = IOServiceMatching(kIOUSBDeviceClassName);
+    USBTinyMatchingDict = (CFMutableDictionaryRef) CFRetain(USBTinyMatchingDict);
+    USBTinyMatchingDict = (CFMutableDictionaryRef) CFRetain(USBTinyMatchingDict);
+ 
+    CFDictionarySetValue(USBTinyMatchingDict, CFSTR(kUSBVendorID), CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt32Type, &usbVendor));
+    CFDictionarySetValue(USBTinyMatchingDict, CFSTR(kUSBProductID), CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt32Type, &usbProduct));
+
+    kr = IOServiceAddMatchingNotification(gNotifyPort, kIOFirstMatchNotification, USBTinyMatchingDict, USBTinyDeviceAdded, NULL, &gUSBTinyAddedIter);
+    USBTinyDeviceAdded(NULL, gUSBTinyAddedIter);
+ 
+    kr = IOServiceAddMatchingNotification(gNotifyPort, kIOTerminatedNotification, USBTinyMatchingDict, USBTinyDeviceRemoved, NULL, &gUSBTinyRemovedIter);
+    USBTinyDeviceRemoved(NULL, gUSBTinyRemovedIter);
  
  
     //Finished with master port
@@ -305,6 +344,56 @@ static void KiibohdDeviceRemoved(void *refCon, io_iterator_t iterator) {
     {
         [_printer print:@"Kiibohd device disconnected" withType:MessageType_Bootloader];
         [delegate deviceDisconnected:Kiibohd];
+        kr = IOObjectRelease(object);
+        if (kr != kIOReturnSuccess)
+        {
+            printf("Couldn’t release raw device object: %08x\n", kr);
+            continue;
+        }
+    }
+}
+
+static void AVRISPDeviceAdded(void *refCon, io_iterator_t iterator) {
+    io_service_t    object;
+    while ((object = IOIteratorNext(iterator))) {
+        [_printer print:@"AVRISP device connected" withType:MessageType_Bootloader];
+        [delegate deviceConnected:AVRISP];
+    }
+}
+
+static void AVRISPDeviceRemoved(void *refCon, io_iterator_t iterator) {
+    kern_return_t   kr;
+    io_service_t    object;
+ 
+    while ((object = IOIteratorNext(iterator)))
+    {
+        [_printer print:@"AVRISP device disconnected" withType:MessageType_Bootloader];
+        [delegate deviceDisconnected:AVRISP];
+        kr = IOObjectRelease(object);
+        if (kr != kIOReturnSuccess)
+        {
+            printf("Couldn’t release raw device object: %08x\n", kr);
+            continue;
+        }
+    }
+}
+
+static void USBTinyDeviceAdded(void *refCon, io_iterator_t iterator) {
+    io_service_t    object;
+    while ((object = IOIteratorNext(iterator))) {
+        [_printer print:@"USBTiny device connected" withType:MessageType_Bootloader];
+        [delegate deviceConnected:USBTiny];
+    }
+}
+
+static void USBTinyDeviceRemoved(void *refCon, io_iterator_t iterator) {
+    kern_return_t   kr;
+    io_service_t    object;
+ 
+    while ((object = IOIteratorNext(iterator)))
+    {
+        [_printer print:@"USBTiny device disconnected" withType:MessageType_Bootloader];
+        [delegate deviceDisconnected:USBTiny];
         kr = IOObjectRelease(object);
         if (kr != kIOReturnSuccess)
         {

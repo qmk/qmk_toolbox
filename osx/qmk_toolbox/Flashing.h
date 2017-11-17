@@ -16,6 +16,8 @@ typedef enum {
     Caterina,
     STM32,
     Kiibohd,
+    AVRISP,
+    USBTiny,
     NumberOfChipsets
 } Chipset;
 
