@@ -14,6 +14,7 @@ typedef enum {
     DFU,
     Halfkay,
     Caterina,
+    CaterinaAlt,
     STM32,
     Kiibohd,
     AVRISP,
