@@ -500,7 +500,7 @@ namespace QMK_Toolbox {
                 wb.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.33 Safari/537.36");
                 filepath = Path.Combine(KnownFolders.Downloads.Path, filepath.Substring(filepath.LastIndexOf("/") + 1).Replace(".", "_" + Guid.NewGuid().ToString().Substring(0, 8) + "."));
                 wb.DownloadFile(url, filepath);
-                printer.printResponse("Filed saved to: " + filepath, MessageType.Info);
+                printer.printResponse("File saved to: " + filepath, MessageType.Info);
             }
             if (filepath.EndsWith(".qmk", true, null)) {
                 printer.print("Found .qmk file", MessageType.Info);
