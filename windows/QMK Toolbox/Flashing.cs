@@ -33,6 +33,7 @@ namespace QMK_Toolbox {
 
         private Form1 f;
         private Printing printer;
+        public USB usb;
 
         string[] resources = {
             "dfu-programmer.exe",
@@ -53,10 +54,9 @@ namespace QMK_Toolbox {
             File.WriteAllBytes(Path.Combine(Application.LocalUserAppDataPath, file), bytes);
         }
 
-        public Flashing(Form1 form, Printing printer) {
-            this.f = form;
+        public Flashing(Printing printer) {
             this.printer = printer;
-            
+
             foreach (string resource in resources) {
                 ExtractResource(resource);
             }
@@ -71,6 +71,10 @@ namespace QMK_Toolbox {
             startInfo.RedirectStandardOutput = true;
             startInfo.RedirectStandardInput = true;
             startInfo.CreateNoWindow = true;
+        }
+
+        public Flashing(Form1 form, Printing printer) : this(printer) {
+            this.f = form;
         }
 
         void OnOutputDataReceived(object sender, DataReceivedEventArgs e) {
@@ -119,33 +123,33 @@ namespace QMK_Toolbox {
         }
 
         public void flash(string mcu, string file) {
-            if (f.canFlash(Chipset.DFU))
+            if (usb.canFlash(Chipset.DFU))
                 flashDFU(mcu, file);
-            if (f.canFlash(Chipset.Caterina))
+            if (usb.canFlash(Chipset.Caterina))
                 flashCaterina(mcu, file);
-            if (f.canFlash(Chipset.Halfkay))
+            if (usb.canFlash(Chipset.Halfkay))
                 flashHalfkay(mcu, file);
-            if (f.canFlash(Chipset.STM32))
+            if (usb.canFlash(Chipset.STM32))
                 flashSTM32(mcu, file);
-            if (f.canFlash(Chipset.Kiibohd))
+            if (usb.canFlash(Chipset.Kiibohd))
                 flashKiibohd(file);
-            if (f.canFlash(Chipset.AVRISP))
+            if (usb.canFlash(Chipset.AVRISP))
                 flashAVRISP(mcu, file);
-            if (f.canFlash(Chipset.USBTiny))
+            if (usb.canFlash(Chipset.USBTiny))
                 flashUSBTiny(mcu, file);
         }
 
         public void reset(string mcu) {
-            if (f.canFlash(Chipset.DFU))
+            if (usb.canFlash(Chipset.DFU))
                 resetDFU(mcu);
-            if (f.canFlash(Chipset.Halfkay))
+            if (usb.canFlash(Chipset.Halfkay))
                 resetHalfkay(mcu);
         }
 
         public void eepromReset(string mcu) {
-            if (f.canFlash(Chipset.DFU))
+            if (usb.canFlash(Chipset.DFU))
                 eepromResetDFU(mcu);
-            if (f.canFlash(Chipset.Caterina))
+            if (usb.canFlash(Chipset.Caterina))
                 eepromResetCaterina(mcu);
         }
 

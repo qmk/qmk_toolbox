@@ -21,6 +21,11 @@ namespace QMK_Toolbox {
     public class Printing {
         MessageType lastMessage;
         RichTextBox richTextBox;
+        char lastChar = '\n';
+
+        public Printing() {
+
+        }
 
         public Printing(RichTextBox richTextBox) {
             this.richTextBox = richTextBox;
@@ -61,7 +66,7 @@ namespace QMK_Toolbox {
                     break;
             }
 
-            if (richTextBox.Text.Length > 0 && richTextBox.Text.Last<char>() != '\n')
+            if (lastChar != '\n')
                 str = "\n" + str;
 
             lastMessage = type;
@@ -103,7 +108,7 @@ namespace QMK_Toolbox {
                     break;
             }
 
-            if (lastMessage != type && richTextBox.Text.Length > 0 && richTextBox.Text.Last<char>() != '\n')
+            if (lastMessage != type && lastChar != '\n')
                 str = "\n" + str;
 
             lastMessage = type;
@@ -111,7 +116,7 @@ namespace QMK_Toolbox {
         }
 
         public void print(string str, MessageType type) {
-            if (!richTextBox.InvokeRequired) {
+            if (richTextBox == null || !richTextBox.InvokeRequired) {
                 if (string.IsNullOrEmpty(str.Trim('\0')))
                     return;
                 addToTextBox(format(str.Trim('\0'), type));
@@ -121,7 +126,7 @@ namespace QMK_Toolbox {
         }
 
         public void printResponse(string str, MessageType type) {
-            if (!richTextBox.InvokeRequired) {
+            if (richTextBox == null || !richTextBox.InvokeRequired) {
                 if (string.IsNullOrEmpty(str.Trim('\0')))
                     return;
                 addToTextBox(formatResponse(str.Trim('\0'), type));
@@ -133,11 +138,15 @@ namespace QMK_Toolbox {
         private void addToTextBox(Tuple<string, Color>items) {
                 string str = items.Item1;
                 Color color = items.Item2;
-
+            if (richTextBox != null) {
                 richTextBox.SelectionStart = richTextBox.TextLength;
                 richTextBox.SelectionLength = str.Length;
                 richTextBox.SelectionColor = color;
                 richTextBox.SelectedText = str;
+            } else {
+                Console.Write(str);
+            }
+            lastChar = str[str.Length-1];
         }
     }
 }
