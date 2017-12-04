@@ -30,8 +30,7 @@ namespace QMK_Toolbox {
         public const ushort UsagePage = 0xFF31;
         public const int Usage = 0x0074;
         public string caterinaPort = "";
-
-        private Form1 f;
+        
         private Printing printer;
         public USB usb;
 
@@ -71,10 +70,6 @@ namespace QMK_Toolbox {
             startInfo.RedirectStandardOutput = true;
             startInfo.RedirectStandardInput = true;
             startInfo.CreateNoWindow = true;
-        }
-
-        public Flashing(Form1 form, Printing printer) : this(printer) {
-            this.f = form;
         }
 
         void OnOutputDataReceived(object sender, DataReceivedEventArgs e) {

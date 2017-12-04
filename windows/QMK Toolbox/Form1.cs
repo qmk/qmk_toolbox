@@ -112,7 +112,7 @@ namespace QMK_Toolbox {
             }
 
             printer = new Printing(richTextBox1);
-            flasher = new Flashing(this, printer);
+            flasher = new Flashing(printer);
             usb = new USB(flasher, printer);
             flasher.usb = usb;
 

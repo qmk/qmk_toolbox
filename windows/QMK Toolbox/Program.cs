@@ -14,10 +14,21 @@ namespace QMK_Toolbox {
         /// The main entry point for the application.
         /// </summary>
         ///     
+
+        [DllImport("kernel32.dll")]
+        static extern bool AttachConsole(int dwProcessId);
+        private const int ATTACH_PARENT_PROCESS = -1;
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool FreeConsole();
+
         static Mutex mutex = new Mutex(true, "{8F7F0AC4-B9A1-45fd-A8CF-72F04E6BDE8F}");
         [STAThread]
         static void Main(string[] args) {
             if (args.Length > 0) {
+
+                AttachConsole(ATTACH_PARENT_PROCESS);
+
                 Printing printer = new Printing();
                 if (args.Length < 3) {
                     printer.print("QMK Toolbox (http://qmk.fm/toolbox)", MessageType.Info);
@@ -47,11 +58,15 @@ namespace QMK_Toolbox {
                         var mcu = args[1];
                         var filepath = args[2];
                         flasher.flash(mcu, filepath);
+                    } else if (args[0].Equals("list")) {
+
                     } else if (args[0].Equals("eepromReset")) {
 
                     }
 
                 }
+
+                FreeConsole();
             } else {
                 if (mutex.WaitOne(TimeSpan.Zero, true)) {
                     Application.EnableVisualStyles();
@@ -75,7 +90,7 @@ namespace QMK_Toolbox {
             }
         }
     }
-    
+
     // this class just wraps some Win32 stuff that we're going to use
     internal class NativeMethods {
         public const int HWND_BROADCAST = 0xffff;
