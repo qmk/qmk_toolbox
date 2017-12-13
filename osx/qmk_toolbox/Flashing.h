@@ -15,6 +15,7 @@ typedef enum {
     Halfkay,
     Caterina,
     CaterinaAlt,
+    FeatherBLE32u4,
     STM32,
     Kiibohd,
     AVRISP,

@@ -45,6 +45,7 @@ static Printing * _printer;
     CFMutableDictionaryRef  DFUMatchingDict;
     CFMutableDictionaryRef  CaterinaMatchingDict;
     CFMutableDictionaryRef  CaterinaAltMatchingDict;
+    CFMutableDictionaryRef  FeatherBLE32u4MatchingDict;
     CFMutableDictionaryRef  HalfkayMatchingDict;
     CFMutableDictionaryRef  STM32MatchingDict;
     CFMutableDictionaryRef  KiibohdMatchingDict;
@@ -100,6 +101,7 @@ dest##DeviceRemoved(NULL, g##dest##RemovedIter) \
     VID_MATCH(0x03EB, DFU);
     VID_MATCH(0x2341, Caterina);
     VID_MATCH_MAP(0x1B4F, CaterinaAlt, Caterina);
+    VID_MATCH_MAP(0x239a, FeatherBLE32u4, Caterina);
     VID_PID_MATCH(0x16C0, 0x0478, Halfkay);
     VID_PID_MATCH(0x0483, 0xDF11, STM32);
     VID_PID_MATCH(0x1C11, 0xB007, Kiibohd);
