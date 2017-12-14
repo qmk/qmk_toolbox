@@ -57,8 +57,8 @@ namespace QMK_Toolbox {
             if (matchVID(device_id, 0x03EB)) {
                 device_name = "DFU";
                 devicesAvailable[(int)Chipset.DFU] += connected ? 1 : -1;
-                // Detects Arduino Vendor ID, Sparkfun Vendor ID
-            } else if (matchVID(device_id, 0x2341) || matchVID(device_id, 0x1B4F)) {
+                // Detects Arduino Vendor ID, Sparkfun Vendor ID, Adafruit Vendor ID
+            } else if (matchVID(device_id, 0x2341) || matchVID(device_id, 0x1B4F) || matchVID(device_id, 0x239a)) {
                 device_name = "Caterina";
                 Regex regex = new Regex("(COM[0-9]+)");
                 var v = regex.Match(instance.GetPropertyValue("Name").ToString());
