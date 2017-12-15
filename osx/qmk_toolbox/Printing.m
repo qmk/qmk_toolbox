@@ -12,6 +12,7 @@
 
 NSTextView * textView;
 MessageType lastMessage;
+NSMutableDictionary * colorLookup;
 
 - (id)initWithTextView:(NSTextView *)tV {
     if (self = [super init]) {
@@ -26,6 +27,18 @@ MessageType lastMessage;
         [textView setSelectedTextAttributes:@{
             NSBackgroundColorAttributeName : [NSColor colorWithHue:0 saturation:0 brightness:.3 alpha:1]
         }];
+    }
+    return self;
+}
+
+- (id)init {
+    if (self = [super init]) {
+        colorLookup = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+            @37, [NSColor whiteColor],
+            @31, [NSColor redColor],
+            @33, [NSColor yellowColor],
+            @34, [NSColor blueColor],
+        nil];
     }
     return self;
 }
@@ -69,7 +82,10 @@ MessageType lastMessage;
             str = [self prepend:str withIndent:@"  ! " newline:true];
             break;
         case MessageType_HID:
-            color = [NSColor colorWithHue:200.0/360 saturation:.9 brightness:1. alpha:1.];
+            if (textView != nil)
+                color = [NSColor colorWithHue:200.0/360 saturation:.9 brightness:1. alpha:1.];
+            else
+                color = [NSColor blueColor];
             str = [self prepend:str withIndent:@"*** " newline:true];
             break;
     }
@@ -128,13 +144,29 @@ MessageType lastMessage;
 }
 
 - (void)print:(NSString *)str withType:(MessageType)type {
-    [textView.textStorage appendAttributedString:[self format:str forType:type]];
-    [textView scrollRangeToVisible: NSMakeRange(textView.string.length, 0)];
-
+    if (textView != NULL) {
+        [textView.textStorage appendAttributedString:[self format:str forType:type]];
+        [textView scrollRangeToVisible: NSMakeRange(textView.string.length, 0)];
+    } else {
+        NSAttributedString * formatedStr = [self format:str forType:type];
+        NSColor * color = [formatedStr attribute:NSForegroundColorAttributeName atIndex:0 longestEffectiveRange:nil inRange:NSMakeRange(0, formatedStr.length)];
+        printf("\x1b[%dm", [[colorLookup objectForKey:color] intValue]);
+        printf("%s", [[formatedStr string] UTF8String]);
+        printf("\x1b[0m");
+    }
 }
+
 - (void)printResponse:(NSString *)str withType:(MessageType)type {
-    [textView.textStorage appendAttributedString:[self formatResponse:str forType:type]];
-    [textView scrollRangeToVisible: NSMakeRange(textView.string.length, 0)];
+    if (textView != NULL) {
+        [textView.textStorage appendAttributedString:[self formatResponse:str forType:type]];
+        [textView scrollRangeToVisible: NSMakeRange(textView.string.length, 0)];
+    } else {
+        NSAttributedString * formatedStr = [self formatResponse:str forType:type];
+        NSColor * color = [formatedStr attribute:NSForegroundColorAttributeName atIndex:0 longestEffectiveRange:nil inRange:NSMakeRange(0, formatedStr.length)];
+        printf("\x1b[%dm", [[colorLookup objectForKey:color] intValue]);
+        printf("%s", [[formatedStr string] UTF8String]);
+        printf("\x1b[0m");
+    }
 }
 
 

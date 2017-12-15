@@ -56,7 +56,7 @@
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
-	<string>QMK Toolbox</string>
+	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundleIconFile</key>
 	<string>AppIcon</string>
 	<key>CFBundleIdentifier</key>
