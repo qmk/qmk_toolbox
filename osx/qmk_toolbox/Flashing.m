@@ -16,7 +16,6 @@
 @end
 
 @implementation Flashing
-@synthesize delegate;
 @synthesize caterinaPort;
 
 - (id)initWithPrinter:(Printing *)p {
@@ -52,33 +51,33 @@
 }
 
 - (void)flash:(NSString *)mcu withFile:(NSString *)file {
-    if ([delegate canFlash:DFU])
+    if ([USB canFlash:DFU])
         [self flashDFU:mcu withFile:file];
-    if ([delegate canFlash:Caterina])
+    if ([USB canFlash:Caterina])
         [self flashCaterina:mcu withFile:file];
-    if ([delegate canFlash:Halfkay])
+    if ([USB canFlash:Halfkay])
         [self flashHalfkay:mcu withFile:file];
-    if ([delegate canFlash:STM32])
+    if ([USB canFlash:STM32])
         [self flashSTM32WithFile:file];
-    if ([delegate canFlash:Kiibohd])
+    if ([USB canFlash:Kiibohd])
         [self flashKiibohdWithFile:file];
-    if ([delegate canFlash:AVRISP])
+    if ([USB canFlash:AVRISP])
         [self flashAVRISP:mcu withFile:file];
-    if ([delegate canFlash:USBTiny])
+    if ([USB canFlash:USBTiny])
         [self flashUSBTiny:mcu withFile:file];
 }
 
 - (void)reset:(NSString *)mcu {
-    if ([delegate canFlash:DFU])
+    if ([USB canFlash:DFU])
         [self resetDFU:mcu];
-    if ([delegate canFlash:Halfkay])
+    if ([USB canFlash:Halfkay])
         [self resetHalfkay:mcu];
 }
 
 - (void)eepromReset:(NSString *)mcu {
-    if ([delegate canFlash:DFU])
+    if ([USB canFlash:DFU])
         [self eepromResetDFU:mcu];
-    if ([delegate canFlash:Caterina])
+    if ([USB canFlash:Caterina])
         [self eepromResetCaterina:mcu];
 }
 

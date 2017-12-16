@@ -12,6 +12,7 @@
 
 NSTextView * textView;
 MessageType lastMessage;
+char lastChar = '\n';
 NSMutableDictionary * colorLookup;
 
 - (id)initWithTextView:(NSTextView *)tV {
@@ -34,10 +35,11 @@ NSMutableDictionary * colorLookup;
 - (id)init {
     if (self = [super init]) {
         colorLookup = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-            @37, [NSColor whiteColor],
+            @0, [NSColor whiteColor],
             @31, [NSColor redColor],
             @33, [NSColor yellowColor],
             @34, [NSColor blueColor],
+            @37, [NSColor lightGrayColor],
         nil];
     }
     return self;
@@ -90,10 +92,10 @@ NSMutableDictionary * colorLookup;
             break;
     }
     
-    if (([textView.textStorage string].length > 0 && [[textView.textStorage string] characterAtIndex:[textView.textStorage length]-1] != '\n')) {
+    if (lastChar != '\n') {
         str = [NSString stringWithFormat:@"\n%@", str ];
     }
-
+    lastChar = [str characterAtIndex:[str length] - 1];
     lastMessage = type;
     NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:str attributes:[self formatCommon:color]];
     return attrStr;
@@ -134,10 +136,11 @@ NSMutableDictionary * colorLookup;
             break;
     }
     
-    if (lastMessage != type && ([textView.textStorage string].length > 0 && [[textView.textStorage string] characterAtIndex:[textView.textStorage length]-1] != '\n')) {
+    if (lastMessage != type && lastChar != '\n') {
         str = [NSString stringWithFormat:@"\n%@", str ];
     }
     
+    lastChar = [str characterAtIndex:[str length] - 1];
     lastMessage = type;
     NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:str attributes:[self formatCommon:color]];
     return attrStr;

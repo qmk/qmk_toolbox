@@ -28,16 +28,20 @@ DEFINE_ITER(AVRISP);
 DEFINE_ITER(USBTiny);
 static Printing * _printer;
 
-@interface USB ()
+@interface USB () <USBDelegate>
 
 @end
 
 @implementation USB
 
-+ (void)setupWithPrinter:(Printing *)printer andDelegate:(id<USBDelegate>)d {
+static int devicesAvailable[NumberOfChipsets];
 
++ (void)setupWithPrinter:(Printing *)printer andDelegate:(id<USBDelegate>)d {
     delegate = d;
-    
+    [self setupWithPrinter:printer];
+}
+
++ (void)setupWithPrinter:(Printing *)printer {
     // https://developer.apple.com/library/content/documentation/DeviceDrivers/Conceptual/USBBook/USBDeviceInterfaces/USBDevInterfaces.html#//apple_ref/doc/uid/TP40002645-TPXREF101
     
     _printer = printer;	
@@ -125,7 +129,7 @@ static void type##DeviceAdded(void *refCon, io_iterator_t iterator) { \
     io_service_t object; \
     while ((object = IOIteratorNext(iterator))) { \
         [_printer print:[NSString stringWithFormat:@"%@ %@", @(STR(type)), @"device connected"] withType:MessageType_Bootloader]; \
-        [delegate deviceConnected:type]; \
+        deviceConnected(type); \
     } \
 } \
 static void type##DeviceRemoved(void *refCon, io_iterator_t iterator) { \
@@ -151,7 +155,7 @@ static void type##DeviceAdded(void *refCon, io_iterator_t iterator) { \
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC)); \
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){ \
             [_printer print:[NSString stringWithFormat:@"%@ %@", @(STR(type)), @"device connected"] withType:MessageType_Bootloader]; \
-            [delegate deviceConnected:type]; \
+            deviceConnected(type); \
             io_iterator_t serialPortIterator; \
             char deviceFilePath[64]; \
             MyFindModems(&serialPortIterator); \
@@ -172,7 +176,7 @@ static void type##DeviceRemoved(void *refCon, io_iterator_t iterator) { \
     while ((object = IOIteratorNext(iterator))) \
     { \
         [_printer print:[NSString stringWithFormat:@"%@ %@", @(STR(type)), @"device disconnected"] withType:MessageType_Bootloader]; \
-        [delegate deviceDisconnected:type]; \
+        deviceDisconnected(type); \
         kr = IOObjectRelease(object); \
         if (kr != kIOReturnSuccess) \
         { \
@@ -289,6 +293,28 @@ static kern_return_t MyGetModemPath(io_iterator_t serialPortIterator, char *devi
     }
  
     return kernResult;
+}
+
+static void deviceConnected(Chipset chipset) {
+    devicesAvailable[chipset]+=1;
+    [delegate deviceConnected:chipset];
+}
+
+static void deviceDisconnected(Chipset chipset) {
+    devicesAvailable[chipset]-=1;
+    [delegate deviceDisconnected:chipset];
+}
+
++ (BOOL) areDevicesAvailable {
+    BOOL available = NO;
+    for (int i = 0; i < NumberOfChipsets; i++) {
+        available |= devicesAvailable[i];
+    }
+    return available;
+}
+
++ (BOOL) canFlash:(Chipset) chipset {
+    return (devicesAvailable[chipset] > 0);
 }
 
 @end

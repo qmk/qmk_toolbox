@@ -21,7 +21,10 @@
 
 @interface USB : NSObject
 
++ (void)setupWithPrinter:(Printing *)printer;
 + (void)setupWithPrinter:(Printing *)printer andDelegate:(id<USBDelegate>)d;
++ (BOOL)areDevicesAvailable;
++ (BOOL)canFlash:(Chipset)chipset;
 
 @end
 

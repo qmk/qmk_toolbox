@@ -31,8 +31,6 @@
 
 @implementation AppDelegate
 
-int devicesAvailable[NumberOfChipsets];
-
 - (IBAction) openButtonClick:(id) sender {
    NSOpenPanel* panel = [NSOpenPanel openPanel];
    [panel setCanChooseDirectories:NO];
@@ -52,7 +50,7 @@ int devicesAvailable[NumberOfChipsets];
 }
 
 - (IBAction) flashButtonClick:(id) sender {
-    if ([self areDevicesAvailable]) {
+    if ([USB areDevicesAvailable]) {
         int error = 0;
         if ([[_mcuBox objectValue] isEqualToString:@""]) {
             [_printer print:@"Please select a microcontroller" withType:MessageType_Error];
@@ -97,29 +95,13 @@ int devicesAvailable[NumberOfChipsets];
     _flasher.caterinaPort = port;
 }
 
-
-
-- (BOOL)areDevicesAvailable {
-    BOOL available = NO;
-    for (int i = 0; i < NumberOfChipsets; i++) {
-        available |= devicesAvailable[i];
-    }
-    return available;
-}
-
-- (BOOL)canFlash:(Chipset)chipset {
-    return (devicesAvailable[chipset] > 0);
-}
-
 - (void)deviceConnected:(Chipset)chipset {
-    devicesAvailable[chipset]+=1;
     if ([_autoFlashButton state] == NSOnState) {
         [self flashButtonClick:NULL];
     }
 }
 
 - (void)deviceDisconnected:(Chipset)chipset {
-    devicesAvailable[chipset]-=1;
 
 }
 
