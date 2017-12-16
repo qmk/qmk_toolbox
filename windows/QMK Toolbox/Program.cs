@@ -25,12 +25,51 @@ namespace QMK_Toolbox {
         static Mutex mutex = new Mutex(true, "{8F7F0AC4-B9A1-45fd-A8CF-72F04E6BDE8F}");
         [STAThread]
         static void Main(string[] args) {
-            if (args.Length > 0) {
+            if (mutex.WaitOne(TimeSpan.Zero, true) && args.Length > 0) {
 
                 AttachConsole(ATTACH_PARENT_PROCESS);
 
                 Printing printer = new Printing();
-                if (args.Length < 3) {
+                if (args[0].Equals("list")) {
+                    Flashing flasher = new Flashing(printer);
+                    USB usb = new USB(flasher, printer);
+                    flasher.usb = usb;
+
+                    ManagementObjectCollection collection;
+                    using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity where DeviceID Like ""USB%"""))
+                        collection = searcher.Get();
+
+                    usb.DetectBootloaderFromCollection(collection);
+                    FreeConsole();
+                    Environment.Exit(0);
+                }
+
+                if (args[0].Equals("flash")) {
+                    Flashing flasher = new Flashing(printer);
+                    USB usb = new USB(flasher, printer);
+                    flasher.usb = usb;
+
+                    ManagementObjectCollection collection;
+                    using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity where DeviceID Like ""USB%"""))
+                        collection = searcher.Get();
+
+                    usb.DetectBootloaderFromCollection(collection);
+
+                    if (usb.areDevicesAvailable()) {
+                        var mcu = args[1];
+                        var filepath = args[2];
+                        printer.print("Attempting to flash, please don't remove device", MessageType.Bootloader);
+                        flasher.flash(mcu, filepath);
+                        FreeConsole();
+                        Environment.Exit(0);
+                    } else {
+                        printer.print("There are no devices available", MessageType.Error);
+                        FreeConsole();
+                        Environment.Exit(1);
+                    }
+                }
+
+                if (args[0].Equals("help")) {
                     printer.print("QMK Toolbox (http://qmk.fm/toolbox)", MessageType.Info);
                     printer.printResponse("Supporting following bootloaders:\n", MessageType.Info);
                     printer.printResponse(" - DFU (Atmel, LUFA) via dfu-programmer (http://dfu-programmer.github.io/)\n", MessageType.Info);
@@ -42,31 +81,13 @@ namespace QMK_Toolbox {
                     printer.printResponse(" - USBTiny (AVR Pocket)\n", MessageType.Info);
                     printer.printResponse(" - AVRISP (Arduino ISP)\n", MessageType.Info);
                     printer.printResponse("usage: qmk_toolbox.exe <mcu> <filepath>", MessageType.Info);
-                } else {
-                    printer.print("QMK Toolbox (http://qmk.fm/toolbox)", MessageType.Info);
-                    Flashing flasher = new Flashing(printer);
-                    USB usb = new USB(flasher, printer);
-                    flasher.usb = usb;
-
-                    ManagementObjectCollection collection;
-                    using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity where DeviceID Like ""USB%"""))
-                        collection = searcher.Get();
-
-                    usb.DetectBootloaderFromCollection(collection);
-
-                    if (args[0].Equals("flash")) {
-                        var mcu = args[1];
-                        var filepath = args[2];
-                        flasher.flash(mcu, filepath);
-                    } else if (args[0].Equals("list")) {
-
-                    } else if (args[0].Equals("eepromReset")) {
-
-                    }
-
+                    FreeConsole();
+                    Environment.Exit(0);
                 }
 
+                printer.print("Command not found - use \"help\" for all commands", MessageType.Error);
                 FreeConsole();
+                Environment.Exit(1);
             } else {
                 if (mutex.WaitOne(TimeSpan.Zero, true)) {
                     Application.EnableVisualStyles();
