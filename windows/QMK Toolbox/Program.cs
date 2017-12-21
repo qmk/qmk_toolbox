@@ -15,6 +15,37 @@ namespace QMK_Toolbox {
         /// </summary>
         ///     
 
+        [DllImport("setupapi.dll", SetLastError = true)]
+        public static extern bool SetupCopyOEMInf(
+
+        string SourceInfFileName,
+        string OEMSourceMediaLocation,
+        OemSourceMediaType OEMSourceMediaType,
+        OemCopyStyle CopyStyle,
+        string DestinationInfFileName,
+        int DestinationInfFileNameSize,
+        ref int RequiredSize,
+        string DestinationInfFileNameComponent
+
+        );
+
+        /// <summary>
+        /// Driver media type
+        /// </summary>
+        internal enum OemSourceMediaType {
+            SPOST_NONE = 0,
+            //Only use the following if you have a pnf file as well
+            SPOST_PATH = 1,
+            SPOST_URL = 2,
+            SPOST_MAX = 3
+        }
+
+        internal enum OemCopyStyle {
+            SP_COPY_NEWER = 0x0000004,   // copy only if source newer than or same as target
+            SP_COPY_NEWER_ONLY = 0x0010000,   // copy only if source file newer than target
+            SP_COPY_OEMINF_CATALOG_ONLY = 0x0040000,   // (SetupCopyOEMInf only) don't copy INF--just catalog
+        }
+
         [DllImport("kernel32.dll")]
         static extern bool AttachConsole(int dwProcessId);
         private const int ATTACH_PARENT_PROCESS = -1;

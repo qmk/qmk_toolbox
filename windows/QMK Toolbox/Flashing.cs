@@ -11,8 +11,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO.Compression;
+using System.Runtime.InteropServices;
+using System.ComponentModel;
 
 namespace QMK_Toolbox {
+
     public enum Chipset {
         DFU,
         Halfkay,
@@ -24,6 +28,7 @@ namespace QMK_Toolbox {
         NumberOfChipsets
     };
     public class Flashing : EventArgs {
+
         private System.Diagnostics.Process process;
         private System.Diagnostics.ProcessStartInfo startInfo;
 
@@ -43,7 +48,8 @@ namespace QMK_Toolbox {
             "libusb-1.0.dll",
             "libusb0.dll", // x86/libusb0_x86.dll
             "mcu-list.txt",
-            "atmega32u4_eeprom_reset.hex"
+            "atmega32u4_eeprom_reset.hex",
+            "dfu-prog-usb-1.2.2.zip"
         };
 
         private void ExtractResource(string file) {
@@ -58,6 +64,30 @@ namespace QMK_Toolbox {
 
             foreach (string resource in resources) {
                 ExtractResource(resource);
+            }
+
+            System.Management.SelectQuery query = new System.Management.SelectQuery("Win32_SystemDriver");
+            query.Condition = "Name = 'libusb0'";
+            System.Management.ManagementObjectSearcher searcher = new System.Management.ManagementObjectSearcher(query);
+            var drivers = searcher.Get();
+
+            if (drivers.Count > 0) {
+                printer.print("libusb0 driver found on system", MessageType.Info);
+            } else {
+                printer.print("libusb0 driver not found - attempting to install", MessageType.Info);
+
+                if (Directory.Exists(Path.Combine(Application.LocalUserAppDataPath, "dfu-prog-usb-1.2.2")))
+                    Directory.Delete(Path.Combine(Application.LocalUserAppDataPath, "dfu-prog-usb-1.2.2"), true);
+                ZipFile.ExtractToDirectory(Path.Combine(Application.LocalUserAppDataPath, "dfu-prog-usb-1.2.2.zip"), Application.LocalUserAppDataPath);
+
+                int size = 0;
+                bool success = Program.SetupCopyOEMInf(Path.Combine(Application.LocalUserAppDataPath, "dfu-prog-usb-1.2.2", "atmel_usb_dfu.inf"), "", Program.OemSourceMediaType.SPOST_NONE, Program.OemCopyStyle.SP_COPY_NEWER, null, 0,
+                            ref size, null);
+                if (!success) {
+                    var errorCode = Marshal.GetLastWin32Error();
+                    var errorString = new Win32Exception(errorCode).Message;
+                    printer.print("Error: " + errorString, MessageType.Error);
+                }
             }
 
             process = new System.Diagnostics.Process();

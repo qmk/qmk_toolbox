@@ -48,9 +48,10 @@ namespace QMK_Toolbox {
 
             Regex deviceid_regex = new Regex(@"VID_([0-9A-F]+).*PID_([0-9A-F]+)\\([0-9A-F]+)");
             var vp = deviceid_regex.Match(instance.GetPropertyValue("DeviceID").ToString());
-            string VID = vp.Groups[1].ToString();
-            string PID = vp.Groups[2].ToString();
-            string VER = vp.Groups[3].ToString();
+            string VID = vp.Groups[1].ToString().PadLeft(4, '0');
+            string PID = vp.Groups[2].ToString().PadLeft(4, '0');
+            string VER = vp.Groups[3].ToString().PadLeft(4, '0');
+            string UNI = instance.GetPropertyValue("ClassGuid").ToString();
 
             string device_name;
             // Detects Atmel Vendor ID
@@ -94,7 +95,7 @@ namespace QMK_Toolbox {
                 return false;
             }
 
-            printer.print(device_name + " device " + connected_string + ": " + instance.GetPropertyValue("Name") + " -- " + VID + ":" + PID + ":" + VER, MessageType.Bootloader);
+            printer.print(device_name + " device " + connected_string + ": " + instance.GetPropertyValue("Name") + " -- " + VID + ":" + PID + ":" + VER + " " + UNI + "", MessageType.Bootloader);
             return true;
         }
 

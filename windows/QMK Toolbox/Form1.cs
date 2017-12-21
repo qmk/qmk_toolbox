@@ -33,7 +33,7 @@ namespace QMK_Toolbox {
 
         private const int WM_DEVICECHANGE = 0x0219;
         private const int DBT_DEVNODES_CHANGED = 0x0007; //device changed
-        private const int deviceIDOffset = 70;
+        private const int deviceIDOffset = 55;
 
         string filePassedIn = string.Empty;
 
@@ -175,6 +175,7 @@ namespace QMK_Toolbox {
             usb.DetectBootloaderFromCollection(collection);
 
             UpdateHIDDevices();
+            updateHIDList();
 
             if (filePassedIn != string.Empty)
                 setFilePath(filePassedIn);
@@ -521,6 +522,27 @@ namespace QMK_Toolbox {
             //}
         }
 
+        private void updateHIDList() {
+            foreach (HidDevice device in _devices) {
+                device.CloseDevice();
+            }
+            var selected = hidList.SelectedIndex != -1 ? hidList.SelectedIndex : 0;
+            hidList.Items.Clear();
+            foreach (HidDevice device in _devices) {
+                if (device != null) {
+                    device.OpenDevice();
+                    string device_string = GetManufacturerString(device) + ": " + GetProductString(device) + " " +
+                    "-- " + device.Attributes.VendorId.ToString("X4") + ":" + device.Attributes.ProductId.ToString("X4") + ":" + device.Attributes.Version.ToString("X4") + " (" + GetParentIDPrefix(device) + ")";
+
+                    hidList.Items.Add(device_string);
+                } else {
+                    hidList.Items.Add("Invalid Device");
+                }
+                device.CloseDevice();
+            }
+            hidList.SelectedIndex = selected;
+        }
+
         private void button4_Click(object sender, EventArgs e) {
             ((Button)sender).Enabled = false;
             foreach (HidDevice device in _devices) {
@@ -530,9 +552,8 @@ namespace QMK_Toolbox {
             foreach (HidDevice device in _devices) {
                 if (device != null) {
                     device.OpenDevice();
-                    printer.printResponse((" - " + GetManufacturerString(device) + " - " + GetProductString(device) + " ").PadRight(deviceIDOffset, '-') + 
-                    " | " + device.Attributes.VendorHexId + ":" + device.Attributes.ProductHexId + "\n", MessageType.Info);
-                    printer.printResponse("   Parent ID Prefix: " + GetParentIDPrefix(device) + "\n", MessageType.Info);
+                    printer.printResponse((" - " + GetManufacturerString(device) + ": " + GetProductString(device) + " ").PadRight(0, ' ') + 
+                    "-- " + device.Attributes.VendorId.ToString("X4") + ":" + device.Attributes.ProductId.ToString("X4") + ":" + device.Attributes.Version.ToString("X4") + " (" + GetParentIDPrefix(device) + ")\n", MessageType.Info);
                 }
                 device.CloseDevice();
             }
@@ -541,8 +562,8 @@ namespace QMK_Toolbox {
 
         private void ReportWritten(bool success) {
             if (!InvokeRequired) {
-                //button5.Enabled = true;
-                //button6.Enabled = true;
+                button5.Enabled = true;
+                button6.Enabled = true;
                 if (success) {
                     printer.printResponse("Report sent sucessfully\n", MessageType.Info);
                 } else {
@@ -558,17 +579,16 @@ namespace QMK_Toolbox {
             foreach (HidDevice device in _devices) {
                 device.CloseDevice();
             }
-            foreach (HidDevice device in _devices) {
-                device.OpenDevice();
+            var device_i = hidList.SelectedIndex;
+                _devices[device_i].OpenDevice();
                 //device.Write(Encoding.ASCII.GetBytes("BOOTLOADER"), 0);
                 byte[] data = new byte[2];
                 data[0] = 0;
                 data[1] = 0xFE;
                 HidReport report = new HidReport(2, new HidDeviceData(data, HidDeviceData.ReadStatus.Success));
-                device.WriteReport(report, ReportWritten);
-                device.CloseDevice();
+            _devices[device_i].WriteReport(report, ReportWritten);
+            _devices[device_i].CloseDevice();
                 printer.print("Sending report", MessageType.HID);
-            }
         }
 
         private void button6_Click(object sender, EventArgs e) {
@@ -576,17 +596,16 @@ namespace QMK_Toolbox {
             foreach (HidDevice device in _devices) {
                 device.CloseDevice();
             }
-            foreach (HidDevice device in _devices) {
-                device.OpenDevice();
+            var device_i = hidList.SelectedIndex;
+            _devices[device_i].OpenDevice();
                 //device.Write(Encoding.ASCII.GetBytes("BOOTLOADER"), 0);
                 byte[] data = new byte[2];
                 data[0] = 0;
                 data[1] = 0x01;
                 HidReport report = new HidReport(2, new HidDeviceData(data, HidDeviceData.ReadStatus.Success));
-                device.WriteReport(report, ReportWritten);
-                device.CloseDevice();
+                _devices[device_i].WriteReport(report, ReportWritten);
+                _devices[device_i].CloseDevice();
                 printer.print("Sending report", MessageType.HID);
-            }
         }
 
         private void Form1_DragDrop(object sender, DragEventArgs e) {

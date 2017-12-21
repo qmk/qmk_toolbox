@@ -185,6 +185,7 @@
     </Compile>
     <EmbeddedResource Include="avrdude.conf" />
     <EmbeddedResource Include="atmega32u4_eeprom_reset.hex" />
+    <EmbeddedResource Include="dfu-prog-usb-1.2.2.zip" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
