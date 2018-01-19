@@ -19,3 +19,9 @@ Also listens to HID ascii from usage page 0xFF31 (compatible with the hid_listen
 ## How to download
 
 A Windows and OSX version are available, and you can get [the latest release here](https://github.com/qmk/qmk_toolbox/releases).
+
+For Homebrew users, it is also available as a Cask:
+
+```
+$ brew cask install caskroom/drivers/qmk-toolbox
+```
