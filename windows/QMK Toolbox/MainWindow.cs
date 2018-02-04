@@ -28,7 +28,7 @@ namespace QMK_Toolbox {
     using System.Net;
     using System.Text.RegularExpressions;
 
-    public partial class Form1 : Form {
+    public partial class MainWindow : Form {
         BackgroundWorker backgroundWorker1;
 
         private const int WM_DEVICECHANGE = 0x0219;
@@ -51,7 +51,7 @@ namespace QMK_Toolbox {
         [DllImport("user32.dll")]
         private static extern bool InsertMenu(IntPtr hMenu, Int32 wPosition, Int32 wFlags, Int32 wIDNewItem, string lpNewItem);
 
-        public Form1() {
+        public MainWindow() {
             InitializeComponent();
         }
 
@@ -98,7 +98,7 @@ namespace QMK_Toolbox {
 
         List<HidDevice> _devices = new List<HidDevice>();
 
-        public Form1(string path) {
+        public MainWindow(string path) {
             InitializeComponent();
 
             if (path != string.Empty) {
@@ -129,13 +129,13 @@ namespace QMK_Toolbox {
             // richTextBox1.ScrollToCaret();
         }
 
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e) {
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e) {
             ArrayList arraylist = new ArrayList(this.filepathBox.Items);
             Settings.Default.hexFileCollection = arraylist;
             Settings.Default.Save();
         }
 
-        private void Form1_Load(object sender, EventArgs e) {
+        private void MainWindow_Load(object sender, EventArgs e) {
 
             IntPtr MenuHandle = GetSystemMenu(this.Handle, false);
             InsertMenu(MenuHandle, 0, MF_BYPOSITION | MF_SEPARATOR, 0, string.Empty); // <-- Add a menu seperator
@@ -461,7 +461,7 @@ namespace QMK_Toolbox {
             }
         }
 
-        private void Form1_FormClosed(object sender, FormClosedEventArgs e) {
+        private void MainWindow_FormClosed(object sender, FormClosedEventArgs e) {
             Settings.Default.Save();
         }
 
@@ -608,11 +608,11 @@ namespace QMK_Toolbox {
                 printer.print("Sending report", MessageType.HID);
         }
 
-        private void Form1_DragDrop(object sender, DragEventArgs e) {
+        private void MainWindow_DragDrop(object sender, DragEventArgs e) {
             setFilePath(((string[])e.Data.GetData(DataFormats.FileDrop, false)).First());
         }
 
-        private void Form1_DragEnter(object sender, DragEventArgs e) {
+        private void MainWindow_DragEnter(object sender, DragEventArgs e) {
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
         }
 

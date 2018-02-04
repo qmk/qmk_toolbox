@@ -123,7 +123,7 @@ namespace QMK_Toolbox {
                 if (mutex.WaitOne(TimeSpan.Zero, true)) {
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
-                    Application.Run(args.Length == 0 ? new Form1(string.Empty) : new Form1(args[0]));
+                    Application.Run(args.Length == 0 ? new MainWindow(string.Empty) : new MainWindow(args[0]));
                     mutex.ReleaseMutex();
                 } else {
                     // send our Win32 message to make the currently running instance
