@@ -111,7 +111,7 @@ namespace QMK_Toolbox {
                 }
             }
 
-            printer = new Printing(richTextBox1);
+            printer = new Printing(logTextBox);
             flasher = new Flashing(printer);
             usb = new USB(flasher, printer);
             flasher.usb = usb;
@@ -121,12 +121,12 @@ namespace QMK_Toolbox {
             backgroundWorker1.WorkerReportsProgress = true;
         }
 
-        private void richTextBox1_TextChanged(object sender, EventArgs e) {
+        private void logTextBox_TextChanged(object sender, EventArgs e) {
             // This shouldn't be needed anymore
             // set the current caret position to the end
-            // richTextBox1.SelectionStart = richTextBox1.Text.Length;
+            // logTextBox.SelectionStart = logTextBox.Text.Length;
             // scroll it automatically
-            // richTextBox1.ScrollToCaret();
+            // logTextBox.ScrollToCaret();
         }
 
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e) {
@@ -153,7 +153,7 @@ namespace QMK_Toolbox {
             if (Settings.Default.hexFileCollection != null)
                 this.filepathBox.Items.AddRange(Settings.Default.hexFileCollection.ToArray());
 
-            richTextBox1.Font = new Font(FontFamily.GenericMonospace, 8);
+            logTextBox.Font = new Font(FontFamily.GenericMonospace, 8);
 
             printer.print("QMK Toolbox (http://qmk.fm/toolbox)", MessageType.Info);
             printer.printResponse("Supporting following bootloaders:\n", MessageType.Info);
@@ -455,9 +455,9 @@ namespace QMK_Toolbox {
             }
         }
 
-        private void button2_Click(object sender, EventArgs e) {
-            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
-                setFilePath(openFileDialog1.FileName);
+        private void openFileButton_Click(object sender, EventArgs e) {
+            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                setFilePath(openFileDialog.FileName);
             }
         }
 
@@ -468,7 +468,7 @@ namespace QMK_Toolbox {
         private void DeviceInsertedEvent(object sender, EventArrivedEventArgs e) {
             ManagementBaseObject instance = (ManagementBaseObject)e.NewEvent["TargetInstance"];
 
-            if (usb.DetectBootloader(instance) && checkBox1.Checked) {
+            if (usb.DetectBootloader(instance) && autoflashCheckbox.Checked) {
                 flashButton_Click(sender, e);
             }
             UpdateHIDDevices();
@@ -497,8 +497,8 @@ namespace QMK_Toolbox {
             System.Threading.Thread.Sleep(2000000);
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e) {
-            if (checkBox1.Checked) {
+        private void autoflashCheckbox_CheckedChanged(object sender, EventArgs e) {
+            if (autoflashCheckbox.Checked) {
                 printer.print("Auto-flash enabled", MessageType.Info);
                 flashButton.Enabled = false;
                 resetButton.Enabled = false;
@@ -512,13 +512,13 @@ namespace QMK_Toolbox {
         // Set the button's status tip.
         private void btn_MouseEnter(object sender, EventArgs e) {
             Control obj = sender as Control;
-            toolStripStatusLabel1.Text = obj.Tag.ToString();
+            toolStripStatusLabel.Text = obj.Tag.ToString();
         }
 
         // Remove the button's status tip.
         private void btn_MouseLeave(object sender, EventArgs e) {
-            //if (toolStripStatusLabel1.Text.Equals((sender as Control).Tag)) {
-            //    toolStripStatusLabel1.Text = "";
+            //if (toolStripStatusLabel.Text.Equals((sender as Control).Tag)) {
+            //    toolStripStatusLabel.Text = "";
             //}
         }
 
@@ -543,7 +543,7 @@ namespace QMK_Toolbox {
             hidList.SelectedIndex = selected;
         }
 
-        private void button4_Click(object sender, EventArgs e) {
+        private void listHidDevicesButton_Click(object sender, EventArgs e) {
             ((Button)sender).Enabled = false;
             foreach (HidDevice device in _devices) {
                 device.CloseDevice();
@@ -562,8 +562,8 @@ namespace QMK_Toolbox {
 
         private void ReportWritten(bool success) {
             if (!InvokeRequired) {
-                button5.Enabled = true;
-                button6.Enabled = true;
+                jumpToBootloaderButton.Enabled = true;
+                sayHelloButton.Enabled = true;
                 if (success) {
                     printer.printResponse("Report sent sucessfully\n", MessageType.Info);
                 } else {
@@ -574,8 +574,8 @@ namespace QMK_Toolbox {
             }
         }
 
-        private void button5_Click(object sender, EventArgs e) {
-            button5.Enabled = false;
+        private void jumpToBootloaderButton_Click(object sender, EventArgs e) {
+            jumpToBootloaderButton.Enabled = false;
             foreach (HidDevice device in _devices) {
                 device.CloseDevice();
             }
@@ -591,8 +591,8 @@ namespace QMK_Toolbox {
                 printer.print("Sending report", MessageType.HID);
         }
 
-        private void button6_Click(object sender, EventArgs e) {
-            button6.Enabled = false;
+        private void sayHelloButton_Click(object sender, EventArgs e) {
+            sayHelloButton.Enabled = false;
             foreach (HidDevice device in _devices) {
                 device.CloseDevice();
             }

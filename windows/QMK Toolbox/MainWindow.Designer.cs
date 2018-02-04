@@ -26,38 +26,38 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.flashButton = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.button2 = new System.Windows.Forms.Button();
+            this.autoflashCheckbox = new System.Windows.Forms.CheckBox();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.openFileButton = new System.Windows.Forms.Button();
             this.resetButton = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label4 = new System.Windows.Forms.Label();
+            this.listHidDevicesButton = new System.Windows.Forms.Button();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.jumpToBootloaderButton = new System.Windows.Forms.Button();
+            this.sayHelloButton = new System.Windows.Forms.Button();
+            this.mcuLabel = new System.Windows.Forms.Label();
+            this.qmkGroupBox = new System.Windows.Forms.GroupBox();
+            this.keymapLabel = new System.Windows.Forms.Label();
             this.keymapBox = new System.Windows.Forms.ComboBox();
             this.keyboardBox = new System.Windows.Forms.ComboBox();
             this.loadKeymap = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.fileGroupBox = new System.Windows.Forms.GroupBox();
             this.filepathBox = new System.Windows.Forms.ComboBox();
             this.mcuBox = new System.Windows.Forms.ComboBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.dfuCheckbox = new System.Windows.Forms.CheckBox();
+            this.caterinaCheckbox = new System.Windows.Forms.CheckBox();
+            this.halfkayCheckbox = new System.Windows.Forms.CheckBox();
+            this.stm32Checkbox = new System.Windows.Forms.CheckBox();
+            this.enabledFlasherGroupBox = new System.Windows.Forms.GroupBox();
             this.eepromResetButton = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.logTextBox = new System.Windows.Forms.RichTextBox();
             this.hidList = new System.Windows.Forms.ComboBox();
-            this.statusStrip1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.statusStrip.SuspendLayout();
+            this.qmkGroupBox.SuspendLayout();
+            this.fileGroupBox.SuspendLayout();
+            this.enabledFlasherGroupBox.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -74,39 +74,39 @@
             this.flashButton.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
             this.flashButton.MouseHover += new System.EventHandler(this.btn_MouseLeave);
             // 
-            // checkBox1
+            // autoflashCheckbox
             // 
-            this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox1.Location = new System.Drawing.Point(654, 88);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(76, 17);
-            this.checkBox1.TabIndex = 5;
-            this.checkBox1.Tag = "Automatically flash when a device is detected in DFU mode";
-            this.checkBox1.Text = "Auto-Flash";
-            this.checkBox1.UseVisualStyleBackColor = false;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
-            this.checkBox1.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
-            this.checkBox1.MouseHover += new System.EventHandler(this.btn_MouseLeave);
+            this.autoflashCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.autoflashCheckbox.AutoSize = true;
+            this.autoflashCheckbox.BackColor = System.Drawing.Color.Transparent;
+            this.autoflashCheckbox.Location = new System.Drawing.Point(654, 88);
+            this.autoflashCheckbox.Name = "autoflashCheckbox";
+            this.autoflashCheckbox.Size = new System.Drawing.Size(76, 17);
+            this.autoflashCheckbox.TabIndex = 5;
+            this.autoflashCheckbox.Tag = "Automatically flash when a device is detected in DFU mode";
+            this.autoflashCheckbox.Text = "Auto-Flash";
+            this.autoflashCheckbox.UseVisualStyleBackColor = false;
+            this.autoflashCheckbox.CheckedChanged += new System.EventHandler(this.autoflashCheckbox_CheckedChanged);
+            this.autoflashCheckbox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
+            this.autoflashCheckbox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
             // 
-            // openFileDialog1
+            // openFileDialog
             // 
-            this.openFileDialog1.Filter = "Intel Hex|*.hex|Binary|*.bin";
+            this.openFileDialog.Filter = "Intel Hex|*.hex|Binary|*.bin";
             // 
-            // button2
+            // openFileButton
             // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(481, 17);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(64, 23);
-            this.button2.TabIndex = 3;
-            this.button2.Tag = "Select a file from explorer";
-            this.button2.Text = "Open";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            this.button2.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
-            this.button2.MouseHover += new System.EventHandler(this.btn_MouseLeave);
+            this.openFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.openFileButton.Location = new System.Drawing.Point(481, 17);
+            this.openFileButton.Name = "openFileButton";
+            this.openFileButton.Size = new System.Drawing.Size(64, 23);
+            this.openFileButton.TabIndex = 3;
+            this.openFileButton.Tag = "Select a file from explorer";
+            this.openFileButton.Text = "Open";
+            this.openFileButton.UseVisualStyleBackColor = true;
+            this.openFileButton.Click += new System.EventHandler(this.openFileButton_Click);
+            this.openFileButton.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
+            this.openFileButton.MouseHover += new System.EventHandler(this.btn_MouseLeave);
             // 
             // resetButton
             // 
@@ -121,92 +121,92 @@
             this.resetButton.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
             this.resetButton.MouseHover += new System.EventHandler(this.btn_MouseLeave);
             // 
-            // button4
+            // listHidDevicesButton
             // 
-            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button4.Location = new System.Drawing.Point(673, 613);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(99, 23);
-            this.button4.TabIndex = 19;
-            this.button4.Tag = "List all HID devices that are compatible with HID listen (must use a certain usag" +
+            this.listHidDevicesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.listHidDevicesButton.Location = new System.Drawing.Point(673, 613);
+            this.listHidDevicesButton.Name = "listHidDevicesButton";
+            this.listHidDevicesButton.Size = new System.Drawing.Size(99, 23);
+            this.listHidDevicesButton.TabIndex = 19;
+            this.listHidDevicesButton.Tag = "List all HID devices that are compatible with HID listen (must use a certain usag" +
     "e page)";
-            this.button4.Text = "List HID Devices";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            this.button4.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
-            this.button4.MouseLeave += new System.EventHandler(this.btn_MouseLeave);
+            this.listHidDevicesButton.Text = "List HID Devices";
+            this.listHidDevicesButton.UseVisualStyleBackColor = true;
+            this.listHidDevicesButton.Click += new System.EventHandler(this.listHidDevicesButton_Click);
+            this.listHidDevicesButton.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
+            this.listHidDevicesButton.MouseLeave += new System.EventHandler(this.btn_MouseLeave);
             // 
-            // statusStrip1
+            // statusStrip
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 639);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(784, 22);
-            this.statusStrip1.TabIndex = 15;
-            this.statusStrip1.Text = "statusStrip1";
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel});
+            this.statusStrip.Location = new System.Drawing.Point(0, 639);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(784, 22);
+            this.statusStrip.TabIndex = 15;
+            this.statusStrip.Text = "statusStrip";
             // 
-            // toolStripStatusLabel1
+            // toolStripStatusLabel
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 17);
+            this.toolStripStatusLabel.Name = "toolStripStatusLabel";
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(0, 17);
             // 
-            // button5
+            // jumpToBootloaderButton
             // 
-            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button5.Enabled = false;
-            this.button5.Location = new System.Drawing.Point(96, 613);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(119, 23);
-            this.button5.TabIndex = 20;
-            this.button5.Tag = "Experimental feature for QMK boards using the hid_api branch";
-            this.button5.Text = "Jump to Bootloader";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.jumpToBootloaderButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.jumpToBootloaderButton.Enabled = false;
+            this.jumpToBootloaderButton.Location = new System.Drawing.Point(96, 613);
+            this.jumpToBootloaderButton.Name = "jumpToBootloaderButton";
+            this.jumpToBootloaderButton.Size = new System.Drawing.Size(119, 23);
+            this.jumpToBootloaderButton.TabIndex = 20;
+            this.jumpToBootloaderButton.Tag = "Experimental feature for QMK boards using the hid_api branch";
+            this.jumpToBootloaderButton.Text = "Jump to Bootloader";
+            this.jumpToBootloaderButton.UseVisualStyleBackColor = true;
+            this.jumpToBootloaderButton.Click += new System.EventHandler(this.jumpToBootloaderButton_Click);
             // 
-            // button6
+            // sayHelloButton
             // 
-            this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button6.Location = new System.Drawing.Point(12, 613);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(78, 23);
-            this.button6.TabIndex = 21;
-            this.button6.Tag = "Experimental feature for QMK boards using the hid_api branch";
-            this.button6.Text = "Say Hello";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.sayHelloButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.sayHelloButton.Location = new System.Drawing.Point(12, 613);
+            this.sayHelloButton.Name = "sayHelloButton";
+            this.sayHelloButton.Size = new System.Drawing.Size(78, 23);
+            this.sayHelloButton.TabIndex = 21;
+            this.sayHelloButton.Tag = "Experimental feature for QMK boards using the hid_api branch";
+            this.sayHelloButton.Text = "Say Hello";
+            this.sayHelloButton.UseVisualStyleBackColor = true;
+            this.sayHelloButton.Click += new System.EventHandler(this.sayHelloButton_Click);
             // 
-            // label2
+            // mcuLabel
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(551, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(76, 13);
-            this.label2.TabIndex = 22;
-            this.label2.Text = "Microcontroller";
+            this.mcuLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.mcuLabel.AutoSize = true;
+            this.mcuLabel.Location = new System.Drawing.Point(551, 0);
+            this.mcuLabel.Name = "mcuLabel";
+            this.mcuLabel.Size = new System.Drawing.Size(76, 13);
+            this.mcuLabel.TabIndex = 22;
+            this.mcuLabel.Text = "Microcontroller";
             // 
-            // groupBox1
+            // qmkGroupBox
             // 
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.keymapBox);
-            this.groupBox1.Controls.Add(this.keyboardBox);
-            this.groupBox1.Controls.Add(this.loadKeymap);
-            this.groupBox1.Location = new System.Drawing.Point(6, 58);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(444, 48);
-            this.groupBox1.TabIndex = 23;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Keyboard from qmk.fm";
+            this.qmkGroupBox.Controls.Add(this.keymapLabel);
+            this.qmkGroupBox.Controls.Add(this.keymapBox);
+            this.qmkGroupBox.Controls.Add(this.keyboardBox);
+            this.qmkGroupBox.Controls.Add(this.loadKeymap);
+            this.qmkGroupBox.Location = new System.Drawing.Point(6, 58);
+            this.qmkGroupBox.Name = "qmkGroupBox";
+            this.qmkGroupBox.Size = new System.Drawing.Size(444, 48);
+            this.qmkGroupBox.TabIndex = 23;
+            this.qmkGroupBox.TabStop = false;
+            this.qmkGroupBox.Text = "Keyboard from qmk.fm";
             // 
-            // label4
+            // keymapLabel
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(213, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(45, 13);
-            this.label4.TabIndex = 24;
-            this.label4.Text = "Keymap";
+            this.keymapLabel.AutoSize = true;
+            this.keymapLabel.Location = new System.Drawing.Point(213, 0);
+            this.keymapLabel.Name = "keymapLabel";
+            this.keymapLabel.Size = new System.Drawing.Size(45, 13);
+            this.keymapLabel.TabIndex = 24;
+            this.keymapLabel.Text = "Keymap";
             // 
             // keymapBox
             // 
@@ -254,20 +254,20 @@
             this.loadKeymap.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
             this.loadKeymap.MouseHover += new System.EventHandler(this.btn_MouseLeave);
             // 
-            // groupBox2
+            // fileGroupBox
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.fileGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.button2);
-            this.groupBox2.Controls.Add(this.filepathBox);
-            this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.mcuBox);
-            this.groupBox2.Location = new System.Drawing.Point(6, 5);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(771, 48);
-            this.groupBox2.TabIndex = 25;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Local file";
+            this.fileGroupBox.Controls.Add(this.openFileButton);
+            this.fileGroupBox.Controls.Add(this.filepathBox);
+            this.fileGroupBox.Controls.Add(this.mcuLabel);
+            this.fileGroupBox.Controls.Add(this.mcuBox);
+            this.fileGroupBox.Location = new System.Drawing.Point(6, 5);
+            this.fileGroupBox.Name = "fileGroupBox";
+            this.fileGroupBox.Size = new System.Drawing.Size(771, 48);
+            this.fileGroupBox.TabIndex = 25;
+            this.fileGroupBox.TabStop = false;
+            this.fileGroupBox.Text = "Local file";
             // 
             // filepathBox
             // 
@@ -299,88 +299,88 @@
             this.mcuBox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
             this.mcuBox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
             // 
-            // checkBox2
+            // dfuCheckbox
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox2.Checked = true;
-            this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox2.Enabled = false;
-            this.checkBox2.Location = new System.Drawing.Point(6, 13);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(48, 17);
-            this.checkBox2.TabIndex = 5;
-            this.checkBox2.Tag = "Atmel AVR, Lufa";
-            this.checkBox2.Text = "DFU";
-            this.checkBox2.UseVisualStyleBackColor = false;
-            this.checkBox2.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
-            this.checkBox2.MouseHover += new System.EventHandler(this.btn_MouseLeave);
+            this.dfuCheckbox.AutoSize = true;
+            this.dfuCheckbox.BackColor = System.Drawing.Color.Transparent;
+            this.dfuCheckbox.Checked = true;
+            this.dfuCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.dfuCheckbox.Enabled = false;
+            this.dfuCheckbox.Location = new System.Drawing.Point(6, 13);
+            this.dfuCheckbox.Name = "dfuCheckbox";
+            this.dfuCheckbox.Size = new System.Drawing.Size(48, 17);
+            this.dfuCheckbox.TabIndex = 5;
+            this.dfuCheckbox.Tag = "Atmel AVR, Lufa";
+            this.dfuCheckbox.Text = "DFU";
+            this.dfuCheckbox.UseVisualStyleBackColor = false;
+            this.dfuCheckbox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
+            this.dfuCheckbox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
             // 
-            // checkBox3
+            // caterinaCheckbox
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox3.Checked = true;
-            this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox3.Enabled = false;
-            this.checkBox3.Location = new System.Drawing.Point(66, 29);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(65, 17);
-            this.checkBox3.TabIndex = 5;
-            this.checkBox3.Tag = "Arduino, Pro micros";
-            this.checkBox3.Text = "Caterina";
-            this.checkBox3.UseVisualStyleBackColor = false;
-            this.checkBox3.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
-            this.checkBox3.MouseHover += new System.EventHandler(this.btn_MouseLeave);
+            this.caterinaCheckbox.AutoSize = true;
+            this.caterinaCheckbox.BackColor = System.Drawing.Color.Transparent;
+            this.caterinaCheckbox.Checked = true;
+            this.caterinaCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.caterinaCheckbox.Enabled = false;
+            this.caterinaCheckbox.Location = new System.Drawing.Point(66, 29);
+            this.caterinaCheckbox.Name = "caterinaCheckbox";
+            this.caterinaCheckbox.Size = new System.Drawing.Size(65, 17);
+            this.caterinaCheckbox.TabIndex = 5;
+            this.caterinaCheckbox.Tag = "Arduino, Pro micros";
+            this.caterinaCheckbox.Text = "Caterina";
+            this.caterinaCheckbox.UseVisualStyleBackColor = false;
+            this.caterinaCheckbox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
+            this.caterinaCheckbox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
             // 
-            // checkBox4
+            // halfkayCheckbox
             // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox4.Checked = true;
-            this.checkBox4.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox4.Enabled = false;
-            this.checkBox4.Location = new System.Drawing.Point(66, 13);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(62, 17);
-            this.checkBox4.TabIndex = 5;
-            this.checkBox4.Tag = "Teensy";
-            this.checkBox4.Text = "Halfkay";
-            this.checkBox4.UseVisualStyleBackColor = false;
-            this.checkBox4.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
-            this.checkBox4.MouseHover += new System.EventHandler(this.btn_MouseLeave);
+            this.halfkayCheckbox.AutoSize = true;
+            this.halfkayCheckbox.BackColor = System.Drawing.Color.Transparent;
+            this.halfkayCheckbox.Checked = true;
+            this.halfkayCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.halfkayCheckbox.Enabled = false;
+            this.halfkayCheckbox.Location = new System.Drawing.Point(66, 13);
+            this.halfkayCheckbox.Name = "halfkayCheckbox";
+            this.halfkayCheckbox.Size = new System.Drawing.Size(62, 17);
+            this.halfkayCheckbox.TabIndex = 5;
+            this.halfkayCheckbox.Tag = "Teensy";
+            this.halfkayCheckbox.Text = "Halfkay";
+            this.halfkayCheckbox.UseVisualStyleBackColor = false;
+            this.halfkayCheckbox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
+            this.halfkayCheckbox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
             // 
-            // checkBox5
+            // stm32Checkbox
             // 
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox5.Checked = true;
-            this.checkBox5.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox5.Enabled = false;
-            this.checkBox5.Location = new System.Drawing.Point(6, 29);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(61, 17);
-            this.checkBox5.TabIndex = 5;
-            this.checkBox5.Tag = "ARM Boards";
-            this.checkBox5.Text = "STM32";
-            this.checkBox5.UseVisualStyleBackColor = false;
-            this.checkBox5.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
-            this.checkBox5.MouseHover += new System.EventHandler(this.btn_MouseLeave);
+            this.stm32Checkbox.AutoSize = true;
+            this.stm32Checkbox.BackColor = System.Drawing.Color.Transparent;
+            this.stm32Checkbox.Checked = true;
+            this.stm32Checkbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.stm32Checkbox.Enabled = false;
+            this.stm32Checkbox.Location = new System.Drawing.Point(6, 29);
+            this.stm32Checkbox.Name = "stm32Checkbox";
+            this.stm32Checkbox.Size = new System.Drawing.Size(61, 17);
+            this.stm32Checkbox.TabIndex = 5;
+            this.stm32Checkbox.Tag = "ARM Boards";
+            this.stm32Checkbox.Text = "STM32";
+            this.stm32Checkbox.UseVisualStyleBackColor = false;
+            this.stm32Checkbox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
+            this.stm32Checkbox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
             // 
-            // groupBox3
+            // enabledFlasherGroupBox
             // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox3.Controls.Add(this.checkBox2);
-            this.groupBox3.Controls.Add(this.checkBox4);
-            this.groupBox3.Controls.Add(this.checkBox3);
-            this.groupBox3.Controls.Add(this.checkBox5);
-            this.groupBox3.Location = new System.Drawing.Point(456, 57);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.groupBox3.Size = new System.Drawing.Size(130, 48);
-            this.groupBox3.TabIndex = 26;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Flashers enabled";
+            this.enabledFlasherGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.enabledFlasherGroupBox.Controls.Add(this.dfuCheckbox);
+            this.enabledFlasherGroupBox.Controls.Add(this.halfkayCheckbox);
+            this.enabledFlasherGroupBox.Controls.Add(this.caterinaCheckbox);
+            this.enabledFlasherGroupBox.Controls.Add(this.stm32Checkbox);
+            this.enabledFlasherGroupBox.Location = new System.Drawing.Point(456, 57);
+            this.enabledFlasherGroupBox.Name = "enabledFlasherGroupBox";
+            this.enabledFlasherGroupBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.enabledFlasherGroupBox.Size = new System.Drawing.Size(130, 48);
+            this.enabledFlasherGroupBox.TabIndex = 26;
+            this.enabledFlasherGroupBox.TabStop = false;
+            this.enabledFlasherGroupBox.Text = "Flashers enabled";
             // 
             // eepromResetButton
             // 
@@ -406,27 +406,27 @@
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
             // 
-            // richTextBox1
+            // logTextBox
             // 
-            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.logTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox1.DataBindings.Add(new System.Windows.Forms.Binding("ZoomFactor", global::QMK_Toolbox.Properties.Settings.Default, "outputZoom", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.richTextBox1.DetectUrls = false;
-            this.richTextBox1.Font = new System.Drawing.Font("Courier Prime", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBox1.ForeColor = System.Drawing.Color.White;
-            this.richTextBox1.HideSelection = false;
-            this.richTextBox1.Location = new System.Drawing.Point(12, 112);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(760, 495);
-            this.richTextBox1.TabIndex = 1;
-            this.richTextBox1.Text = "";
-            this.richTextBox1.WordWrap = false;
-            this.richTextBox1.ZoomFactor = global::QMK_Toolbox.Properties.Settings.Default.outputZoom;
-            this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
+            this.logTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.logTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.logTextBox.DataBindings.Add(new System.Windows.Forms.Binding("ZoomFactor", global::QMK_Toolbox.Properties.Settings.Default, "outputZoom", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.logTextBox.DetectUrls = false;
+            this.logTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.logTextBox.ForeColor = System.Drawing.Color.White;
+            this.logTextBox.HideSelection = false;
+            this.logTextBox.Location = new System.Drawing.Point(12, 112);
+            this.logTextBox.Name = "logTextBox";
+            this.logTextBox.ReadOnly = true;
+            this.logTextBox.Size = new System.Drawing.Size(760, 495);
+            this.logTextBox.TabIndex = 1;
+            this.logTextBox.Text = "";
+            this.logTextBox.WordWrap = false;
+            this.logTextBox.ZoomFactor = global::QMK_Toolbox.Properties.Settings.Default.outputZoom;
+            this.logTextBox.TextChanged += new System.EventHandler(this.logTextBox_TextChanged);
             // 
             // hidList
             // 
@@ -446,16 +446,16 @@
             this.ContextMenuStrip = this.contextMenuStrip1;
             this.Controls.Add(this.hidList);
             this.Controls.Add(this.eepromResetButton);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button5);
+            this.Controls.Add(this.enabledFlasherGroupBox);
+            this.Controls.Add(this.fileGroupBox);
+            this.Controls.Add(this.qmkGroupBox);
+            this.Controls.Add(this.listHidDevicesButton);
+            this.Controls.Add(this.jumpToBootloaderButton);
             this.Controls.Add(this.flashButton);
-            this.Controls.Add(this.button6);
-            this.Controls.Add(this.checkBox1);
-            this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.sayHelloButton);
+            this.Controls.Add(this.autoflashCheckbox);
+            this.Controls.Add(this.statusStrip);
+            this.Controls.Add(this.logTextBox);
             this.Controls.Add(this.resetButton);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainWindow";
@@ -465,14 +465,14 @@
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainWindow_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainWindow_DragEnter);
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
+            this.qmkGroupBox.ResumeLayout(false);
+            this.qmkGroupBox.PerformLayout();
+            this.fileGroupBox.ResumeLayout(false);
+            this.fileGroupBox.PerformLayout();
+            this.enabledFlasherGroupBox.ResumeLayout(false);
+            this.enabledFlasherGroupBox.PerformLayout();
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -483,28 +483,28 @@
         private System.Windows.Forms.ComboBox filepathBox;
         private System.Windows.Forms.ComboBox mcuBox;
         private System.Windows.Forms.Button flashButton;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.CheckBox autoflashCheckbox;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.RichTextBox logTextBox;
+        private System.Windows.Forms.Button openFileButton;
         private System.Windows.Forms.Button resetButton;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.StatusStrip statusStrip;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
+        private System.Windows.Forms.Button listHidDevicesButton;
+        private System.Windows.Forms.Button jumpToBootloaderButton;
+        private System.Windows.Forms.Button sayHelloButton;
+        private System.Windows.Forms.Label mcuLabel;
+        private System.Windows.Forms.GroupBox qmkGroupBox;
         private System.Windows.Forms.ComboBox keymapBox;
         private System.Windows.Forms.ComboBox keyboardBox;
         private System.Windows.Forms.Button loadKeymap;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.CheckBox checkBox4;
-        private System.Windows.Forms.CheckBox checkBox5;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label keymapLabel;
+        private System.Windows.Forms.GroupBox fileGroupBox;
+        private System.Windows.Forms.CheckBox dfuCheckbox;
+        private System.Windows.Forms.CheckBox caterinaCheckbox;
+        private System.Windows.Forms.CheckBox halfkayCheckbox;
+        private System.Windows.Forms.CheckBox stm32Checkbox;
+        private System.Windows.Forms.GroupBox enabledFlasherGroupBox;
         private System.Windows.Forms.Button eepromResetButton;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
