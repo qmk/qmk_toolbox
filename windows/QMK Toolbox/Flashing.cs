@@ -238,7 +238,7 @@ namespace QMK_Toolbox
 
         private void FlashStm32(string mcu, string file) => RunProcess("dfu-util.exe", $"-a 0 -d 0483:df11 -s 0x08000000 -D \"{file}\"");
 
-        private void FlashKiibohd(string file) => RunProcess("dfu-util.exe", "-D \"" + file + "\"");
+        private void FlashKiibohd(string file) => RunProcess("dfu-util.exe", $"-D \"{file}\"");
 
         private void FlashAvrisp(string mcu, string file)
         {
