@@ -3,7 +3,6 @@
 
 using QMK_Toolbox.Properties;
 using System;
-using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.IO.Compression;
@@ -30,7 +29,6 @@ namespace QMK_Toolbox
         private const int DeviceIdOffset = 55;
 
         private readonly string _filePassedIn = string.Empty;
-        private readonly BackgroundWorker _backgroundWorker;
         private readonly Printing _printer;
         private readonly Flashing _flasher;
         private readonly Usb _usb;
@@ -122,9 +120,7 @@ namespace QMK_Toolbox
             _usb = new Usb(_flasher, _printer);
             _flasher.Usb = _usb;
 
-            _backgroundWorker = new BackgroundWorker();
-            _backgroundWorker.DoWork += backgroundWorker1_DoWork;
-            _backgroundWorker.WorkerReportsProgress = true;
+            StartListeningForDeviceEvents();
         }
 
         private void logTextBox_TextChanged(object sender, EventArgs e)
@@ -149,7 +145,7 @@ namespace QMK_Toolbox
             InsertMenu(menuHandle, 0, MfByposition | MfSeparator, 0, string.Empty); // <-- Add a menu seperator
             InsertMenu(menuHandle, 0, MfByposition, About, "About");
 
-            _backgroundWorker.RunWorkerAsync();
+            //_backgroundWorker.RunWorkerAsync();
 
             foreach (var mcu in _flasher.GetMcuList())
             {
@@ -182,7 +178,7 @@ namespace QMK_Toolbox
 
             _usb.DetectBootloaderFromCollection(collection);
 
-            UpdateHidDevices();
+            UpdateHidDevices(false);
             UpdateHidList();
 
             if (_filePassedIn != string.Empty)
@@ -329,23 +325,20 @@ namespace QMK_Toolbox
             }
         }
 
-        private void UpdateHidDevices()
+        private void UpdateHidDevices(bool disconnected)
         {
-            var devices = new List<HidDevice>(GetListableDevices());
+            var devices = GetListableDevices().ToList();
 
-            foreach (var device in devices)
+            if (!disconnected)
             {
-                var deviceExists = false;
-                foreach (var existingDevice in _devices)
+                foreach (var device in devices)
                 {
-                    deviceExists |= existingDevice.DevicePath.Equals(device.DevicePath);
-                }
-                if (device != null && !deviceExists)
-                {
+                    var deviceExists = _devices.Aggregate(false, (current, dev) => current | dev.DevicePath.Equals(device.DevicePath));
+
+                    if (device == null || deviceExists) continue;
+
                     _devices.Add(device);
                     device.OpenDevice();
-                    //device.Inserted += DeviceAttachedHandler;
-                    //device.Removed += DeviceRemovedHandler;
 
                     device.MonitorDeviceEvents = true;
 
@@ -355,54 +348,41 @@ namespace QMK_Toolbox
                     device.CloseDevice();
                 }
             }
-            foreach (var existingDevice in _devices)
+            else
             {
-                var deviceExists = false;
-                foreach (var device in devices)
+                foreach (var existingDevice in _devices)
                 {
-                    deviceExists |= existingDevice.DevicePath.Equals(device.DevicePath);
-                }
-                if (!deviceExists)
-                {
-                    _printer.Print($"HID device disconnected -- {existingDevice.Attributes.VendorId:X4}:{existingDevice.Attributes.ProductId:X4}:{existingDevice.Attributes.Version:X4} ({GetParentIdPrefix(existingDevice)})", MessageType.Hid);
+                    var deviceExists = devices.Aggregate(false, (current, device) => current | existingDevice.DevicePath.Equals(device.DevicePath));
+
+                    if (!deviceExists)
+                    {
+                        _printer.Print($"HID device disconnected -- {existingDevice.Attributes.VendorId:X4}:{existingDevice.Attributes.ProductId:X4}:{existingDevice.Attributes.Version:X4} ({GetParentIdPrefix(existingDevice)})", MessageType.Hid);
+                    }
                 }
             }
+
             _devices = devices;
         }
 
-        private string GetParentIdPrefix(HidDevice d)
-        {
-            var regex = new Regex("#([&0-9a-fA-F]+)#");
-            var vp = regex.Match(d.DevicePath);
-            return vp.Groups[1].ToString();
-        }
+        private static IEnumerable<HidDevice> GetListableDevices() =>
+            HidDevices.Enumerate()
+                .Where(d => d.IsConnected)
+                .Where(device => (ushort)device.Capabilities.UsagePage == Flashing.UsagePage);
 
-        private IEnumerable<HidDevice> GetListableDevices()
-        {
-            var devices = HidDevices.Enumerate();
-            var listenableDevices = new List<HidDevice>();
-            foreach (var device in devices)
-            {
-                if ((ushort)device.Capabilities.UsagePage == Flashing.UsagePage)
-                    listenableDevices.Add(device);
-            }
-            return listenableDevices;
-        }
+        private static string GetParentIdPrefix(IHidDevice d) => Regex.Match(d.DevicePath, "#([&0-9a-fA-F]+)#").Groups[1].ToString();
 
         private static string GetProductString(IHidDevice d)
         {
-            if (d == null)
-                return "";
+            if (d == null) return "";
             d.ReadProduct(out var bs);
-            return bs.Where(b => b > 0).Aggregate("", (current, b) => current + ((char)b).ToString());
+            return System.Text.Encoding.Default.GetString(bs.Where(b => b > 0).ToArray());
         }
 
-        private string GetManufacturerString(HidDevice d)
+        private static string GetManufacturerString(IHidDevice d)
         {
-            if (d == null)
-                return "";
+            if (d == null) return "";
             d.ReadManufacturer(out var bs);
-            return bs.Where(b => b > 0).Aggregate("", (current, b) => current + ((char)b).ToString());
+            return System.Text.Encoding.Default.GetString(bs.Where(b => b > 0).ToArray());
         }
 
         private void DeviceAttachedHandler()
@@ -517,40 +497,42 @@ namespace QMK_Toolbox
             Settings.Default.Save();
         }
 
-        private void DeviceInsertedEvent(object sender, EventArrivedEventArgs e)
+        private void DeviceEvent(object sender, EventArrivedEventArgs e)
         {
-            var instance = (ManagementBaseObject)e.NewEvent["TargetInstance"];
+            (sender as ManagementEventWatcher)?.Stop();
 
-            if (_usb.DetectBootloader(instance) && autoflashCheckbox.Checked)
+
+            if (!(e.NewEvent["TargetInstance"] is ManagementBaseObject instance))
+            {
+                return;
+            }
+
+            var deviceDisconnected = e.NewEvent.ClassPath.ClassName.Equals("__InstanceDeletionEvent");
+
+            if (deviceDisconnected)
+            {
+                _usb.DetectBootloader(instance, false);
+            }
+            else if (_usb.DetectBootloader(instance) && autoflashCheckbox.Checked)
             {
                 flashButton_Click(sender, e);
             }
-            UpdateHidDevices();
+
+            UpdateHidDevices(deviceDisconnected);
+            (sender as ManagementEventWatcher)?.Start();
         }
 
-        private void DeviceRemovedEvent(object sender, EventArrivedEventArgs e)
+        private void StartListeningForDeviceEvents()
         {
-            var instance = (ManagementBaseObject)e.NewEvent["TargetInstance"];
-
-            _usb.DetectBootloader(instance, false);
-            UpdateHidDevices();
+            StartManagementEventWatcher("__InstanceCreationEvent");
+            StartManagementEventWatcher("__InstanceDeletionEvent");
         }
 
-        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        private void StartManagementEventWatcher(string eventType)
         {
-            var insertQuery = new WqlEventQuery("SELECT * FROM __InstanceCreationEvent WITHIN 2 WHERE TargetInstance ISA 'Win32_PnPEntity'");
-
-            var insertWatcher = new ManagementEventWatcher(insertQuery);
-            insertWatcher.EventArrived += DeviceInsertedEvent;
-            insertWatcher.Start();
-
-            var removeQuery = new WqlEventQuery("SELECT * FROM __InstanceDeletionEvent WITHIN 2 WHERE TargetInstance ISA 'Win32_PnPEntity'");
-            var removeWatcher = new ManagementEventWatcher(removeQuery);
-            removeWatcher.EventArrived += DeviceRemovedEvent;
-            removeWatcher.Start();
-
-            // Do something while waiting for events
-            System.Threading.Thread.Sleep(2000000);
+            var watcher = new ManagementEventWatcher($"SELECT * FROM {eventType} WITHIN 2 WHERE TargetInstance ISA 'Win32_PnPEntity'");
+            watcher.EventArrived += DeviceEvent;
+            watcher.Start();
         }
 
         private void autoflashCheckbox_CheckedChanged(object sender, EventArgs e)
@@ -604,7 +586,7 @@ namespace QMK_Toolbox
                 {
                     hidList.Items.Add("Invalid Device");
                 }
-                device.CloseDevice();
+                device?.CloseDevice();
             }
 
             if (hidList.Items.Count > 0)
