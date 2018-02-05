@@ -2,6 +2,7 @@
 //  Copyright © 2017 Jack Humbert. This code is licensed under MIT license (see LICENSE.md for details).
 
 using System;
+using System.IO.Ports;
 using System.Management;
 using System.Text.RegularExpressions;
 
@@ -55,8 +56,8 @@ namespace QMK_Toolbox
             else if (MatchVid(deviceId, 0x2341) || MatchVid(deviceId, 0x1B4F) || MatchVid(deviceId, 0x239a)) // Detects Arduino Vendor ID, Sparkfun Vendor ID, Adafruit Vendor ID
             {
                 deviceName = "Caterina";
-                var v = comRegex.Match(instance.GetPropertyValue("Name").ToString());
-                _flasher.CaterinaPort = v.Groups[1].ToString();
+
+                _flasher.CaterinaPort = GetComPort(deviceId);
                 _devicesAvailable[(int)Chipset.Caterina] += connected ? 1 : -1;
             }
             else if (MatchVid(deviceId, 0x16C0) && MatchPid(deviceId, 0x0478)) // Detects PJRC VID & PID
@@ -77,15 +78,15 @@ namespace QMK_Toolbox
             else if (MatchVid(deviceId, 0x16C0) && MatchPid(deviceId, 0x0483)) // Detects Arduino ISP VID & PID
             {
                 deviceName = "AVRISP";
-                var v = comRegex.Match(instance.GetPropertyValue("Name").ToString());
-                _flasher.CaterinaPort = v.Groups[1].ToString();
+
+                _flasher.CaterinaPort = GetComPort(deviceId);
                 _devicesAvailable[(int)Chipset.Avrisp] += connected ? 1 : -1;
             }
             else if (MatchVid(deviceId, 0x1781) && MatchPid(deviceId, 0x0C9F)) // Detects AVR Pocket ISP VID & PID
             {
                 deviceName = "USB Tiny";
-                var v = comRegex.Match(instance.GetPropertyValue("Name").ToString());
-                _flasher.CaterinaPort = v.Groups[1].ToString();
+
+                _flasher.CaterinaPort = GetComPort(deviceId);
                 _devicesAvailable[(int)Chipset.UsbTiny] += connected ? 1 : -1;
             }
             else
@@ -95,6 +96,22 @@ namespace QMK_Toolbox
 
             _printer.Print($"{deviceName} device {connectedString}: {instance.GetPropertyValue("Name")} -- {vid}:{pid}:{ver} {uni}", MessageType.Bootloader);
             return true;
+        }
+
+        public string GetComPort(string deviceId)
+        {
+            using (var searcher = new ManagementObjectSearcher("Select * from Win32_SerialPort"))
+            {
+                foreach (var device in searcher.Get())
+                {
+                    if (device.GetPropertyValue("PNPDeviceID").ToString().Equals(deviceId))
+                    {
+                        return device.GetPropertyValue("DeviceID").ToString();
+                    }
+                }
+            }
+
+            return string.Empty;
         }
 
         public bool CanFlash(Chipset chipset) => _devicesAvailable[(int)chipset] > 0;
