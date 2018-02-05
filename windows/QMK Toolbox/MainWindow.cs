@@ -606,7 +606,11 @@ namespace QMK_Toolbox
                 }
                 device.CloseDevice();
             }
-            hidList.SelectedIndex = selected;
+
+            if (hidList.Items.Count > 0)
+            {
+                hidList.SelectedIndex = selected;
+            }
         }
 
         private void listHidDevicesButton_Click(object sender, EventArgs e)
