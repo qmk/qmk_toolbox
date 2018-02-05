@@ -194,18 +194,28 @@ namespace QMK_Toolbox
 
         private void LoadKeyboardList()
         {
-            using (var wc = new WebClient())
+            try
             {
-                var json = wc.DownloadString("http://compile.qmk.fm/v1/keyboards");
-                var keyboards = JsonConvert.DeserializeObject<List<string>>(json);
-                keyboardBox.Items.Clear();
-                foreach (var keyboard in keyboards)
+                using (var wc = new WebClient())
                 {
-                    keyboardBox.Items.Add(keyboard);
+                    var json = wc.DownloadString("http://compile.qmk.fm/v1/keyboards");
+                    var keyboards = JsonConvert.DeserializeObject<List<string>>(json);
+                    keyboardBox.Items.Clear();
+                    foreach (var keyboard in keyboards)
+                    {
+                        keyboardBox.Items.Add(keyboard);
+                    }
+                    if (keyboardBox.SelectedIndex == -1)
+                        keyboardBox.SelectedIndex = 0;
+                    keyboardBox.Enabled = true;
                 }
-                if (keyboardBox.SelectedIndex == -1)
-                    keyboardBox.SelectedIndex = 0;
-                keyboardBox.Enabled = true;
+            }
+            catch (Exception e)
+            {
+                _printer.PrintResponse("Something went wrong when trying to get the keyboard list from QMK.FM, you might not have a internet connection or the servers are down.", MessageType.Error);
+                keymapBox.Enabled = false;
+                keyboardBox.Enabled = false;
+                loadKeymap.Enabled = false;
             }
         }
 
