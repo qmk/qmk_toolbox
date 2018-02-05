@@ -56,7 +56,7 @@ namespace QMK_Toolbox
             else if (MatchVid(deviceId, 0x2341) || MatchVid(deviceId, 0x1B4F) || MatchVid(deviceId, 0x239a)) // Detects Arduino Vendor ID, Sparkfun Vendor ID, Adafruit Vendor ID
             {
                 deviceName = "Caterina";
-
+              
                 _flasher.CaterinaPort = GetComPort(deviceId);
                 _devicesAvailable[(int)Chipset.Caterina] += connected ? 1 : -1;
             }
@@ -78,7 +78,6 @@ namespace QMK_Toolbox
             else if (MatchVid(deviceId, 0x16C0) && MatchPid(deviceId, 0x0483)) // Detects Arduino ISP VID & PID
             {
                 deviceName = "AVRISP";
-
                 _flasher.CaterinaPort = GetComPort(deviceId);
                 _devicesAvailable[(int)Chipset.Avrisp] += connected ? 1 : -1;
             }
