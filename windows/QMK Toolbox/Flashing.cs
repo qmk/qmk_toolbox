@@ -10,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using QMK_Toolbox.Helpers;
 
 namespace QMK_Toolbox
 {
@@ -50,24 +51,12 @@ namespace QMK_Toolbox
             "dfu-prog-usb-1.2.2.zip"
         };
 
-        private static void ExtractResource(string file)
-        {
-            var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("QMK_Toolbox." + file);
-            if (stream == null) return;
-
-            var bytes = new byte[(int)stream.Length];
-            stream.Read(bytes, 0, bytes.Length);
-            File.WriteAllBytes(Path.Combine(Application.LocalUserAppDataPath, file), bytes);
-        }
+        
 
         public Flashing(Printing printer)
         {
             _printer = printer;
-
-            foreach (var resource in _resources)
-            {
-                ExtractResource(resource);
-            }
+            EmbeddedResourceHelper.ExtractResources(_resources);
 
             var query = new System.Management.SelectQuery("Win32_SystemDriver") { Condition = "Name = 'libusb0'" };
             var searcher = new System.Management.ManagementObjectSearcher(query);

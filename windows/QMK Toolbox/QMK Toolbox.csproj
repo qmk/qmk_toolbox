@@ -209,8 +209,10 @@
     <EmbeddedResource Include="dfu-programmer.exe" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="qmk_driver_installer.exe" />
     <EmbeddedResource Include="mcu-list.txt" />
     <EmbeddedResource Include="libusb0.dll" />
+    <EmbeddedResource Include="drivers.txt" />
     <Content Include="output.ico" />
     <EmbeddedResource Include="libusb-1.0.dll" />
     <EmbeddedResource Include="teensy_loader_cli.exe" />
