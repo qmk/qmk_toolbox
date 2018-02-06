@@ -385,7 +385,7 @@
             // eepromResetButton
             // 
             this.eepromResetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.eepromResetButton.Location = new System.Drawing.Point(572, 613
+            this.eepromResetButton.Location = new System.Drawing.Point(572, 613);
             this.eepromResetButton.Name = "eepromResetButton";
             this.eepromResetButton.Size = new System.Drawing.Size(110, 23);
             this.eepromResetButton.TabIndex = 27;
