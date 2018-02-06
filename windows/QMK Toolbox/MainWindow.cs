@@ -3,13 +3,17 @@
 
 using QMK_Toolbox.Properties;
 using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
+using System.Security.Principal;
 using System.Windows.Forms;
+using QMK_Toolbox.Helpers;
 
 namespace QMK_Toolbox
 {
@@ -47,6 +51,37 @@ namespace QMK_Toolbox
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private static bool InstallDrivers()
+        {
+            const string drivers = "drivers.txt";
+            const string installer = "qmk_driver_installer.exe";
+
+            var driversPath = Path.Combine(Application.LocalUserAppDataPath, drivers);
+            var installerPath = Path.Combine(Application.LocalUserAppDataPath, installer);
+
+            if (!File.Exists(driversPath)) EmbeddedResourceHelper.ExtractResources(drivers);
+            if (File.Exists(installerPath)) EmbeddedResourceHelper.ExtractResources(installer);
+
+            var process = new Process
+            {
+                StartInfo = new ProcessStartInfo(installerPath, $"--all \"{driversPath}\"")
+                {
+                    Verb = "runas"
+                }
+            };
+
+            try
+            {
+                process.Start();
+                return true;
+            }
+            catch (Win32Exception)
+            {
+                var tryAgain = MessageBox.Show("This action requires administrator rights, do you want to try again?", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) == DialogResult.Retry;
+                return tryAgain && InstallDrivers();
+            }
         }
 
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
@@ -97,10 +132,8 @@ namespace QMK_Toolbox
 
         private List<HidDevice> _devices = new List<HidDevice>();
 
-        public MainWindow(string path)
+        public MainWindow(string path) : this()
         {
-            InitializeComponent();
-
             if (path != string.Empty)
             {
                 if (Path.GetExtension(path)?.ToLower() == ".qmk" ||
@@ -705,6 +738,20 @@ namespace QMK_Toolbox
             flashButton.Enabled = !flashWhenReadyCheckbox.Checked;
             autoflashCheckbox.Enabled = !flashWhenReadyCheckbox.Checked;
             resetButton.Enabled = !flashWhenReadyCheckbox.Checked;
+        }
+
+        private void MainWindow_Shown(object sender, EventArgs e)
+        {
+            if (!Settings.Default.firstStart) return;
+
+            var questionResult = MessageBox.Show("Would you like to install drivers for your devices?", "Driver installation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
+            if (questionResult)
+            {
+                Settings.Default.driversInstalled = InstallDrivers();
+            }
+
+            Settings.Default.firstStart = false;
+            Settings.Default.Save();
         }
     }
 
