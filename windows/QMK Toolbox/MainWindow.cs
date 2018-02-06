@@ -211,7 +211,7 @@ namespace QMK_Toolbox
 
             _usb.DetectBootloaderFromCollection(collection);
 
-            UpdateHidDevices(false)
+            UpdateHidDevices(false);
             UpdateHidList();
 
             if (_filePassedIn != string.Empty)
