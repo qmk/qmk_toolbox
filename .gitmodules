@@ -1,0 +1,3 @@
+[submodule "windows/qmk_driver_installer"]
+	path = windows/qmk_driver_installer
+	url = https://github.com/qmk/qmk_driver_installer
