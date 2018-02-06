@@ -156,6 +156,7 @@
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Flashing.cs" />
+    <Compile Include="Helpers\EmbeddedResourceHelper.cs" />
     <Compile Include="Info.cs" />
     <Compile Include="Printing.cs" />
     <Compile Include="MainWindow.cs">
