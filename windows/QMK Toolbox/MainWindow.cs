@@ -521,10 +521,16 @@ namespace QMK_Toolbox
         {
             var instance = (ManagementBaseObject)e.NewEvent["TargetInstance"];
 
-            if (_usb.DetectBootloader(instance) && autoflashCheckbox.Checked)
+            if (_usb.DetectBootloader(instance) && (autoflashCheckbox.Checked || flashWhenReadyCheckbox.Checked))
             {
                 flashButton_Click(sender, e);
+
+                if (flashWhenReadyCheckbox.Checked)
+                {
+                    Invoke(new Action(() => flashWhenReadyCheckbox.Checked = false));
+                }
             }
+
             UpdateHidDevices();
         }
 
@@ -702,6 +708,13 @@ namespace QMK_Toolbox
         private void MainWindow_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+        }
+
+        private void flashWhenReadyCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            flashButton.Enabled = !flashWhenReadyCheckbox.Checked;
+            autoflashCheckbox.Enabled = !flashWhenReadyCheckbox.Checked;
+            resetButton.Enabled = !flashWhenReadyCheckbox.Checked;
         }
     }
 

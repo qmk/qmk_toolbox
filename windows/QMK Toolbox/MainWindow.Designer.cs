@@ -54,6 +54,7 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logTextBox = new System.Windows.Forms.RichTextBox();
             this.hidList = new System.Windows.Forms.ComboBox();
+            this.flashWhenReadyCheckbox = new System.Windows.Forms.CheckBox();
             this.statusStrip.SuspendLayout();
             this.qmkGroupBox.SuspendLayout();
             this.fileGroupBox.SuspendLayout();
@@ -64,7 +65,7 @@
             // flashButton
             // 
             this.flashButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.flashButton.Location = new System.Drawing.Point(652, 59);
+            this.flashButton.Location = new System.Drawing.Point(667, 59);
             this.flashButton.Name = "flashButton";
             this.flashButton.Size = new System.Drawing.Size(57, 23);
             this.flashButton.TabIndex = 6;
@@ -79,7 +80,7 @@
             this.autoflashCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.autoflashCheckbox.AutoSize = true;
             this.autoflashCheckbox.BackColor = System.Drawing.Color.Transparent;
-            this.autoflashCheckbox.Location = new System.Drawing.Point(654, 88);
+            this.autoflashCheckbox.Location = new System.Drawing.Point(710, 86);
             this.autoflashCheckbox.Name = "autoflashCheckbox";
             this.autoflashCheckbox.Size = new System.Drawing.Size(76, 17);
             this.autoflashCheckbox.TabIndex = 5;
@@ -97,7 +98,7 @@
             // openFileButton
             // 
             this.openFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.openFileButton.Location = new System.Drawing.Point(481, 17);
+            this.openFileButton.Location = new System.Drawing.Point(476, 17);
             this.openFileButton.Name = "openFileButton";
             this.openFileButton.Size = new System.Drawing.Size(64, 23);
             this.openFileButton.TabIndex = 3;
@@ -111,7 +112,7 @@
             // resetButton
             // 
             this.resetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.resetButton.Location = new System.Drawing.Point(715, 59);
+            this.resetButton.Location = new System.Drawing.Point(730, 59);
             this.resetButton.Name = "resetButton";
             this.resetButton.Size = new System.Drawing.Size(57, 23);
             this.resetButton.TabIndex = 7;
@@ -124,7 +125,7 @@
             // listHidDevicesButton
             // 
             this.listHidDevicesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.listHidDevicesButton.Location = new System.Drawing.Point(673, 613);
+            this.listHidDevicesButton.Location = new System.Drawing.Point(688, 613);
             this.listHidDevicesButton.Name = "listHidDevicesButton";
             this.listHidDevicesButton.Size = new System.Drawing.Size(99, 23);
             this.listHidDevicesButton.TabIndex = 19;
@@ -142,7 +143,7 @@
             this.toolStripStatusLabel});
             this.statusStrip.Location = new System.Drawing.Point(0, 639);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(784, 22);
+            this.statusStrip.Size = new System.Drawing.Size(799, 22);
             this.statusStrip.TabIndex = 15;
             this.statusStrip.Text = "statusStrip";
             // 
@@ -153,9 +154,9 @@
             // 
             // jumpToBootloaderButton
             // 
-            this.jumpToBootloaderButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.jumpToBootloaderButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.jumpToBootloaderButton.Enabled = false;
-            this.jumpToBootloaderButton.Location = new System.Drawing.Point(96, 613);
+            this.jumpToBootloaderButton.Location = new System.Drawing.Point(97, 613);
             this.jumpToBootloaderButton.Name = "jumpToBootloaderButton";
             this.jumpToBootloaderButton.Size = new System.Drawing.Size(119, 23);
             this.jumpToBootloaderButton.TabIndex = 20;
@@ -166,7 +167,7 @@
             // 
             // sayHelloButton
             // 
-            this.sayHelloButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.sayHelloButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.sayHelloButton.Location = new System.Drawing.Point(12, 613);
             this.sayHelloButton.Name = "sayHelloButton";
             this.sayHelloButton.Size = new System.Drawing.Size(78, 23);
@@ -180,7 +181,7 @@
             // 
             this.mcuLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.mcuLabel.AutoSize = true;
-            this.mcuLabel.Location = new System.Drawing.Point(551, 0);
+            this.mcuLabel.Location = new System.Drawing.Point(546, 0);
             this.mcuLabel.Name = "mcuLabel";
             this.mcuLabel.Size = new System.Drawing.Size(76, 13);
             this.mcuLabel.TabIndex = 22;
@@ -264,7 +265,7 @@
             this.fileGroupBox.Controls.Add(this.mcuBox);
             this.fileGroupBox.Location = new System.Drawing.Point(6, 5);
             this.fileGroupBox.Name = "fileGroupBox";
-            this.fileGroupBox.Size = new System.Drawing.Size(771, 48);
+            this.fileGroupBox.Size = new System.Drawing.Size(786, 48);
             this.fileGroupBox.TabIndex = 25;
             this.fileGroupBox.TabStop = false;
             this.fileGroupBox.Text = "Local file";
@@ -277,7 +278,7 @@
             this.filepathBox.FormattingEnabled = true;
             this.filepathBox.Location = new System.Drawing.Point(6, 19);
             this.filepathBox.Name = "filepathBox";
-            this.filepathBox.Size = new System.Drawing.Size(469, 21);
+            this.filepathBox.Size = new System.Drawing.Size(464, 21);
             this.filepathBox.TabIndex = 2;
             this.filepathBox.Tag = "The path for your firmware file";
             this.filepathBox.Text = global::QMK_Toolbox.Properties.Settings.Default.hexFileSetting;
@@ -290,7 +291,7 @@
             this.mcuBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.mcuBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "targetSetting", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.mcuBox.FormattingEnabled = true;
-            this.mcuBox.Location = new System.Drawing.Point(551, 17);
+            this.mcuBox.Location = new System.Drawing.Point(546, 17);
             this.mcuBox.Name = "mcuBox";
             this.mcuBox.Size = new System.Drawing.Size(214, 21);
             this.mcuBox.TabIndex = 4;
@@ -369,7 +370,6 @@
             // 
             // enabledFlasherGroupBox
             // 
-            this.enabledFlasherGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.enabledFlasherGroupBox.Controls.Add(this.dfuCheckbox);
             this.enabledFlasherGroupBox.Controls.Add(this.halfkayCheckbox);
             this.enabledFlasherGroupBox.Controls.Add(this.caterinaCheckbox);
@@ -385,7 +385,7 @@
             // eepromResetButton
             // 
             this.eepromResetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.eepromResetButton.Location = new System.Drawing.Point(557, 613);
+            this.eepromResetButton.Location = new System.Drawing.Point(572, 613
             this.eepromResetButton.Name = "eepromResetButton";
             this.eepromResetButton.Size = new System.Drawing.Size(110, 23);
             this.eepromResetButton.TabIndex = 27;
@@ -421,7 +421,7 @@
             this.logTextBox.Location = new System.Drawing.Point(12, 112);
             this.logTextBox.Name = "logTextBox";
             this.logTextBox.ReadOnly = true;
-            this.logTextBox.Size = new System.Drawing.Size(760, 495);
+            this.logTextBox.Size = new System.Drawing.Size(775, 495);
             this.logTextBox.TabIndex = 1;
             this.logTextBox.Text = "";
             this.logTextBox.WordWrap = false;
@@ -430,6 +430,8 @@
             // 
             // hidList
             // 
+            this.hidList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.hidList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.hidList.FormattingEnabled = true;
             this.hidList.Location = new System.Drawing.Point(222, 615);
@@ -437,13 +439,26 @@
             this.hidList.Size = new System.Drawing.Size(329, 21);
             this.hidList.TabIndex = 29;
             // 
+            // flashWhenReadyCheckbox
+            // 
+            this.flashWhenReadyCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.flashWhenReadyCheckbox.AutoSize = true;
+            this.flashWhenReadyCheckbox.Location = new System.Drawing.Point(593, 86);
+            this.flashWhenReadyCheckbox.Name = "flashWhenReadyCheckbox";
+            this.flashWhenReadyCheckbox.Size = new System.Drawing.Size(109, 17);
+            this.flashWhenReadyCheckbox.TabIndex = 30;
+            this.flashWhenReadyCheckbox.Text = "Flash when ready";
+            this.flashWhenReadyCheckbox.UseVisualStyleBackColor = true;
+            this.flashWhenReadyCheckbox.CheckedChanged += new System.EventHandler(this.flashWhenReadyCheckbox_CheckedChanged);
+            // 
             // MainWindow
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 661);
+            this.ClientSize = new System.Drawing.Size(799, 661);
             this.ContextMenuStrip = this.contextMenuStrip1;
+            this.Controls.Add(this.flashWhenReadyCheckbox);
             this.Controls.Add(this.hidList);
             this.Controls.Add(this.eepromResetButton);
             this.Controls.Add(this.enabledFlasherGroupBox);
@@ -458,6 +473,7 @@
             this.Controls.Add(this.logTextBox);
             this.Controls.Add(this.resetButton);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(815, 700);
             this.Name = "MainWindow";
             this.Text = "QMK Toolbox";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
@@ -509,6 +525,7 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ComboBox hidList;
+        private System.Windows.Forms.CheckBox flashWhenReadyCheckbox;
     }
 }
 
