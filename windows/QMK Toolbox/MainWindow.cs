@@ -174,6 +174,11 @@ namespace QMK_Toolbox
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
+            ServicePointManager.SecurityProtocol =
+                SecurityProtocolType.Tls |
+                SecurityProtocolType.Tls11 |
+                SecurityProtocolType.Tls12;
+
             var menuHandle = GetSystemMenu(Handle, false);
             InsertMenu(menuHandle, 0, MfByposition | MfSeparator, 0, string.Empty); // <-- Add a menu seperator
             InsertMenu(menuHandle, 0, MfByposition, About, "About");
@@ -192,7 +197,7 @@ namespace QMK_Toolbox
 
             logTextBox.Font = new Font(FontFamily.GenericMonospace, 8);
 
-            _printer.Print("QMK Toolbox (http://qmk.fm/toolbox)", MessageType.Info);
+            _printer.Print("QMK Toolbox (https://qmk.fm/toolbox)", MessageType.Info);
             _printer.PrintResponse("Supporting following bootloaders:\n", MessageType.Info);
             _printer.PrintResponse(" - DFU (Atmel, LUFA) via dfu-programmer (http://dfu-programmer.github.io/)\n", MessageType.Info);
             _printer.PrintResponse(" - Caterina (Arduino, Pro Micro) via avrdude (http://nongnu.org/avrdude/)\n", MessageType.Info);
@@ -227,7 +232,7 @@ namespace QMK_Toolbox
             {
                 using (var wc = new WebClient())
                 {
-                    var json = wc.DownloadString("http://compile.qmk.fm/v1/keyboards");
+                    var json = wc.DownloadString("https://compile.qmk.fm/v1/keyboards");
                     var keyboards = JsonConvert.DeserializeObject<List<string>>(json);
                     keyboardBox.Items.Clear();
                     foreach (var keyboard in keyboards)
@@ -259,7 +264,7 @@ namespace QMK_Toolbox
 
         private void loadKeymap_Click(object sender, EventArgs e)
         {
-            SetFilePath($"qmk:http://qmk.fm/compiled/{keyboardBox.SelectedItem.ToString().Replace("/", "_")}_default.hex");
+            SetFilePath($"qmk:https://qmk.fm/compiled/{keyboardBox.SelectedItem.ToString().Replace("/", "_")}_default.hex");
         }
 
         private void flashButton_Click(object sender, EventArgs e)
@@ -474,17 +479,28 @@ namespace QMK_Toolbox
             {
                 string url;
                 url = filepath.Replace(filepath.Contains("qmk://") ? "qmk://" : "qmk:", "");
-
-                _printer.Print($"Downloading the file: {url}", MessageType.Info);
-                var wb = new WebClient();
                 if (!Directory.Exists(Path.Combine(Application.LocalUserAppDataPath, "downloads")))
                 {
                     Directory.CreateDirectory(Path.Combine(Application.LocalUserAppDataPath, "downloads"));
                 }
-                wb.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.33 Safari/537.36");
-                filepath = Path.Combine(KnownFolders.Downloads.Path, filepath.Substring(filepath.LastIndexOf("/") + 1).Replace(".", "_" + Guid.NewGuid().ToString().Substring(0, 8) + "."));
-                wb.DownloadFile(url, filepath);
+                
+                try
+                {
+                    _printer.Print($"Downloading the file: {url}", MessageType.Info);
+                    using (var wb = new WebClient())
+                    {
+                        wb.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.33 Safari/537.36");
+                        filepath = Path.Combine(KnownFolders.Downloads.Path, filepath.Substring(filepath.LastIndexOf("/") + 1).Replace(".", "_" + Guid.NewGuid().ToString().Substring(0, 8) + "."));
+                        wb.DownloadFile(url, filepath);
+                    }
+                }
+                catch (Exception e)
+                {
+                    _printer.PrintResponse("Something went wrong when trying to get the default keymap file.", MessageType.Error);
+                    return;
+                }
                 _printer.PrintResponse($"File saved to: {filepath}", MessageType.Info);
+
             }
             if (filepath.EndsWith(".qmk", true, null))
             {
