@@ -23,6 +23,7 @@ namespace QMK_Toolbox
         Kiibohd,
         Avrisp,
         UsbTiny,
+        BootloadHID,
         NumberOfChipsets
     };
 
@@ -48,7 +49,8 @@ namespace QMK_Toolbox
             "libusb0.dll", // x86/libusb0_x86.dll
             "mcu-list.txt",
             "atmega32u4_eeprom_reset.hex",
-            "dfu-prog-usb-1.2.2.zip"
+            "dfu-prog-usb-1.2.2.zip",
+            "bootloadHID.exe",
         };
 
         
@@ -175,6 +177,8 @@ namespace QMK_Toolbox
                 FlashAvrisp(mcu, file);
             if (Usb.CanFlash(Chipset.UsbTiny))
                 FlashUsbTiny(mcu, file);
+            if (Usb.CanFlash(Chipset.BootloadHID))
+                FlashBootloadHID(file);
         }
 
         public void Reset(string mcu)
@@ -240,5 +244,7 @@ namespace QMK_Toolbox
             RunProcess("avrdude.exe", $"-p {mcu} -c usbtiny -U flash:w:\"{file}\":i -P {CaterinaPort}");
             _printer.Print("Flash complete", MessageType.Bootloader);
         }
+
+        private void FlashBootloadHID(string file) => RunProcess("bootloadHID.exe", $"-r \"{file}\"");
     }
 }

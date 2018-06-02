@@ -204,6 +204,7 @@ namespace QMK_Toolbox
             _printer.PrintResponse(" - Halfkay (Teensy, Ergodox EZ) via teensy_loader_cli (https://pjrc.com/teensy/loader_cli.html)\n", MessageType.Info);
             _printer.PrintResponse(" - STM32 (ARM) via dfu-util (http://dfu-util.sourceforge.net/)\n", MessageType.Info);
             _printer.PrintResponse(" - Kiibohd (ARM) via dfu-util (http://dfu-util.sourceforge.net/)\n", MessageType.Info);
+            _printer.PrintResponse(" - BootloadHID (Atmel, ps2avrGB, CA66) via bootloadHID (https://www.obdev.at/products/vusb/bootloadhid.html)\n", MessageType.Info);
             _printer.PrintResponse("And the following ISP flasher protocols:\n", MessageType.Info);
             _printer.PrintResponse(" - USBTiny (AVR Pocket)\n", MessageType.Info);
             _printer.PrintResponse(" - AVRISP (Arduino ISP)\n", MessageType.Info);
@@ -768,6 +769,16 @@ namespace QMK_Toolbox
 
             Settings.Default.firstStart = false;
             Settings.Default.Save();
+        }
+
+        private void openFileDialog_FileOk(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void statusStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
         }
     }
 
