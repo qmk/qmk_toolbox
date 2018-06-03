@@ -187,6 +187,8 @@ namespace QMK_Toolbox
                 ResetDfu(mcu);
             if (Usb.CanFlash(Chipset.Halfkay))
                 ResetHalfkay(mcu);
+            if (Usb.CanFlash(Chipset.BootloadHID))
+                ResetBootloadHID();
         }
 
         public void EepromReset(string mcu)
@@ -246,5 +248,6 @@ namespace QMK_Toolbox
         }
 
         private void FlashBootloadHID(string file) => RunProcess("bootloadHID.exe", $"-r \"{file}\"");
+        private void ResetBootloadHID() => RunProcess("bootloadHID.exe", $"-r");
     }
 }
