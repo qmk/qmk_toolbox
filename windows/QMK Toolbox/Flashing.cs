@@ -10,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.Threading;
 using QMK_Toolbox.Helpers;
 
 namespace QMK_Toolbox
@@ -121,39 +122,46 @@ namespace QMK_Toolbox
             _printer.PrintResponse(e.Data, MessageType.Info);
         }
 
-        private string RunProcess(string command, string args)
+        private void ProcessOutput(Object streamReader)
+        {
+            StreamReader _stream = (StreamReader)streamReader;
+            var output = "";
+
+            while (!_stream.EndOfStream)
+            {
+                output = _stream.ReadLine() + "\n";
+                _printer.PrintResponse(output, MessageType.Info);
+
+                if (output.Contains("Bootloader and code overlap.") || // DFU
+                    output.Contains("exceeds remaining flash size!") || // BootloadHID
+                    output.Contains("Not enough bytes in device info report")) // BootloadHID
+                {
+                    _printer.Print("File is too large for device", MessageType.Error);
+                }
+            }
+        }
+        private void RunProcess(string command, string args)
         {
             _printer.Print($"{command} {args}", MessageType.Command);
             _startInfo.WorkingDirectory = Application.LocalUserAppDataPath;
             _startInfo.FileName = Path.Combine(Application.LocalUserAppDataPath, command);
             _startInfo.Arguments = args;
+            _startInfo.RedirectStandardOutput = true;
+            _startInfo.RedirectStandardError = true;
+            _startInfo.UseShellExecute = false;
             _process.StartInfo = _startInfo;
-            var output = "";
 
             _process.Start();
-            while (!_process.HasExited)
-            {
-                var buffer = new char[4096];
-                while (_process.StandardOutput.Peek() > -1 || _process.StandardError.Peek() > -1)
-                {
-                    if (_process.StandardOutput.Peek() > -1)
-                    {
-                        var length = _process.StandardOutput.Read(buffer, 0, buffer.Length);
-                        var data = new string(buffer, 0, length);
-                        output += data;
-                        _printer.PrintResponse(data, MessageType.Info);
-                    }
-                    if (_process.StandardError.Peek() > -1)
-                    {
-                        var length = _process.StandardError.Read(buffer, 0, buffer.Length);
-                        var data = new string(buffer, 0, length);
-                        output += data;
-                        _printer.PrintResponse(data, MessageType.Info);
-                    }
-                    Application.DoEvents(); // This keeps your form responsive by processing events
-                }
-            }
-            return output;
+
+            // Thread that handles STDOUT
+            Thread _ThreadProcessOutput = new Thread(ProcessOutput);
+            _ThreadProcessOutput.Start(_process.StandardOutput);
+
+            // Thread that handles STDERR
+            _ThreadProcessOutput = new Thread(ProcessOutput);
+            _ThreadProcessOutput.Start(_process.StandardError);
+
+            _process.WaitForExit();
         }
 
         public string[] GetMcuList()
@@ -201,16 +209,9 @@ namespace QMK_Toolbox
 
         private void FlashDfu(string mcu, string file)
         {
-            var result = RunProcess("dfu-programmer.exe", $"{mcu} erase --force");
-            result = RunProcess("dfu-programmer.exe", $"{mcu} flash \"{file}\"");
-            if (result.Contains("Bootloader and code overlap."))
-            {
-                _printer.Print("File is too large for device", MessageType.Error);
-            }
-            else
-            {
-                RunProcess("dfu-programmer.exe", $"{mcu} reset");
-            }
+            RunProcess("dfu-programmer.exe", $"{mcu} erase --force");
+            RunProcess("dfu-programmer.exe", $"{mcu} flash \"{file}\"");
+            RunProcess("dfu-programmer.exe", $"{mcu} reset");
         }
 
         private void ResetDfu(string mcu) => RunProcess("dfu-programmer.exe", $"{mcu} reset");

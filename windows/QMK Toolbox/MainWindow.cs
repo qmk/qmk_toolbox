@@ -9,6 +9,7 @@ using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Threading;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using System.Security.Principal;
@@ -275,32 +276,41 @@ namespace QMK_Toolbox
                 flashButton.Enabled = false;
                 resetButton.Enabled = false;
 
-                if (_usb.AreDevicesAvailable())
+                // Keep the form responsive during firmware flashing
+                new Thread(() =>
                 {
-                    var error = 0;
-                    if (mcuBox.Text == "")
+                    if (_usb.AreDevicesAvailable())
                     {
-                        _printer.Print("Please select a microcontroller", MessageType.Error);
-                        error++;
+                        var error = 0;
+                        if (mcuBox.Text == "")
+                        {
+                            _printer.Print("Please select a microcontroller", MessageType.Error);
+                            error++;
+                        }
+                        if (filepathBox.Text == "")
+                        {
+                            _printer.Print("Please select a file", MessageType.Error);
+                            error++;
+                        }
+                        if (error == 0)
+                        {
+                            _printer.Print("Attempting to flash, please don't remove device", MessageType.Bootloader);
+                            _flasher.Flash(mcuBox.Text, filepathBox.Text);
+                        }
                     }
-                    if (filepathBox.Text == "")
+                    else
                     {
-                        _printer.Print("Please select a file", MessageType.Error);
-                        error++;
+                        _printer.Print("There are no devices available", MessageType.Error);
                     }
-                    if (error == 0)
-                    {
-                        _printer.Print("Attempting to flash, please don't remove device", MessageType.Bootloader);
-                        _flasher.Flash(mcuBox.Text, filepathBox.Text);
-                    }
-                }
-                else
-                {
-                    _printer.Print("There are no devices available", MessageType.Error);
-                }
 
-                flashButton.Enabled = true;
-                resetButton.Enabled = true;
+                    // Re-enable flash/reset button after flashing 
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        flashButton.Enabled = true;
+                        resetButton.Enabled = true;
+                    });
+
+                }).Start();
             }
             else
             {
