@@ -10,7 +10,7 @@ Supporting following bootloaders:
  - Halfkay (Teensy, Ergodox EZ) via teensy_loader_cli (https://pjrc.com/teensy/loader_cli.html)
  - STM32 (ARM) via dfu-util (http://dfu-util.sourceforge.net/)
  
-If there's an interest in any, more can be added if their commands are know.
+If there's an interest in any, more can be added if their commands are known.
  
 # HID Listening
  
