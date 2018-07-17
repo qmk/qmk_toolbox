@@ -256,7 +256,8 @@
     for (NSURL *document in recentDocuments) {
         [self.filepathBox addItemWithObjectValue:document.path];
     }
-    [self.filepathBox selectItemAtIndex:0];
+    if (self.filepathBox.numberOfItems > 0)
+        [self.filepathBox selectItemAtIndex:0];
 }
 
 - (IBAction)loadKeymapClick:(id)sender {
