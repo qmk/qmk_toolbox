@@ -9,6 +9,7 @@ Supporting following bootloaders:
  - Caterina (Arduino, Pro Micro) via avrdude (http://nongnu.org/avrdude/)
  - Halfkay (Teensy, Ergodox EZ) via teensy_loader_cli (https://pjrc.com/teensy/loader_cli.html)
  - STM32 (ARM) via dfu-util (http://dfu-util.sourceforge.net/)
+ - BootloadHID (Atmel, ps2avrGB, CA66) via bootloadHID (https://www.obdev.at/products/vusb/bootloadhid.html)
  
 If there's an interest in any, more can be added if their commands are known.
  

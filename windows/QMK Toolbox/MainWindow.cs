@@ -9,6 +9,7 @@ using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Threading;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using System.Security.Principal;
@@ -204,6 +205,7 @@ namespace QMK_Toolbox
             _printer.PrintResponse(" - Halfkay (Teensy, Ergodox EZ) via teensy_loader_cli (https://pjrc.com/teensy/loader_cli.html)\n", MessageType.Info);
             _printer.PrintResponse(" - STM32 (ARM) via dfu-util (http://dfu-util.sourceforge.net/)\n", MessageType.Info);
             _printer.PrintResponse(" - Kiibohd (ARM) via dfu-util (http://dfu-util.sourceforge.net/)\n", MessageType.Info);
+            _printer.PrintResponse(" - BootloadHID (Atmel, ps2avrGB, CA66) via bootloadHID (https://www.obdev.at/products/vusb/bootloadhid.html)\n", MessageType.Info);
             _printer.PrintResponse("And the following ISP flasher protocols:\n", MessageType.Info);
             _printer.PrintResponse(" - USBTiny (AVR Pocket)\n", MessageType.Info);
             _printer.PrintResponse(" - AVRISP (Arduino ISP)\n", MessageType.Info);
@@ -274,32 +276,41 @@ namespace QMK_Toolbox
                 flashButton.Enabled = false;
                 resetButton.Enabled = false;
 
-                if (_usb.AreDevicesAvailable())
+                // Keep the form responsive during firmware flashing
+                new Thread(() =>
                 {
-                    var error = 0;
-                    if (mcuBox.Text == "")
+                    if (_usb.AreDevicesAvailable())
                     {
-                        _printer.Print("Please select a microcontroller", MessageType.Error);
-                        error++;
+                        var error = 0;
+                        if (mcuBox.Text == "")
+                        {
+                            _printer.Print("Please select a microcontroller", MessageType.Error);
+                            error++;
+                        }
+                        if (filepathBox.Text == "")
+                        {
+                            _printer.Print("Please select a file", MessageType.Error);
+                            error++;
+                        }
+                        if (error == 0)
+                        {
+                            _printer.Print("Attempting to flash, please don't remove device", MessageType.Bootloader);
+                            _flasher.Flash(mcuBox.Text, filepathBox.Text);
+                        }
                     }
-                    if (filepathBox.Text == "")
+                    else
                     {
-                        _printer.Print("Please select a file", MessageType.Error);
-                        error++;
+                        _printer.Print("There are no devices available", MessageType.Error);
                     }
-                    if (error == 0)
-                    {
-                        _printer.Print("Attempting to flash, please don't remove device", MessageType.Bootloader);
-                        _flasher.Flash(mcuBox.Text, filepathBox.Text);
-                    }
-                }
-                else
-                {
-                    _printer.Print("There are no devices available", MessageType.Error);
-                }
 
-                flashButton.Enabled = true;
-                resetButton.Enabled = true;
+                    // Re-enable flash/reset button after flashing 
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        flashButton.Enabled = true;
+                        resetButton.Enabled = true;
+                    });
+
+                }).Start();
             }
             else
             {
@@ -768,6 +779,16 @@ namespace QMK_Toolbox
 
             Settings.Default.firstStart = false;
             Settings.Default.Save();
+        }
+
+        private void openFileDialog_FileOk(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void statusStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
         }
     }
 
