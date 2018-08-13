@@ -123,7 +123,7 @@
 }
 
 - (void)flashSTM32WithFile:(NSString *)file {
-    [self runProcess:@"dfu-util" withArgs:@[@"-a", @"0", @"-d", @"0482:df11", @"-s", @"0x8000000", @"-D", file]];
+    [self runProcess:@"dfu-util" withArgs:@[@"-a", @"0", @"-d", @"0482:df11", @"-s", @"0x8000000:leave", @"-D", file]];
 }
 
 - (void)flashKiibohdWithFile:(NSString *)file {

@@ -232,7 +232,7 @@ namespace QMK_Toolbox
 
         private void ResetHalfkay(string mcu) => RunProcess("teensy_loader_cli.exe", $"-mmcu={mcu} -bv");
 
-        private void FlashStm32(string mcu, string file) => RunProcess("dfu-util.exe", $"-a 0 -d 0483:df11 -s 0x08000000 -D \"{file}\"");
+        private void FlashStm32(string mcu, string file) => RunProcess("dfu-util.exe", $"-a 0 -d 0483:df11 -s 0x08000000:leave -D \"{file}\"");
 
         private void FlashKiibohd(string file) => RunProcess("dfu-util.exe", $"-D \"{file}\"");
 
