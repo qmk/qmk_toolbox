@@ -188,6 +188,7 @@
     <EmbeddedResource Include="avrdude.conf" />
     <EmbeddedResource Include="atmega32u4_eeprom_reset.hex" />
     <EmbeddedResource Include="dfu-prog-usb-1.2.2.zip" />
+    <EmbeddedResource Include="applet-flash-samd51j18a.bin" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
@@ -216,6 +217,8 @@
     <EmbeddedResource Include="libusb0.dll" />
     <EmbeddedResource Include="drivers.txt" />
     <EmbeddedResource Include="bootloadHID.exe" />
+    <EmbeddedResource Include="mdloader.exe" />
+    <EmbeddedResource Include="mdloader64.exe" />
     <Content Include="output.ico" />
     <EmbeddedResource Include="libusb-1.0.dll" />
     <EmbeddedResource Include="teensy_loader_cli.exe" />

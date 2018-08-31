@@ -48,7 +48,13 @@ namespace QMK_Toolbox
             var comRegex = new Regex("(COM[0-9]+)");
 
             string deviceName;
-            if (MatchVid(deviceId, 0x03EB)) // Detects Atmel Vendor ID
+            if (MatchVid(deviceId, 0x03EB) && MatchPid(deviceId, 0x6124)) // Detects Atmel SAM-BA VID & PID
+            {
+                deviceName = "Atmel SAM-BA";
+                _flasher.CaterinaPort = GetComPort(deviceId);
+                _devicesAvailable[(int)Chipset.AtmelSamBa] += connected ? 1 : -1;
+            }
+            else if (MatchVid(deviceId, 0x03EB)) // Detects Atmel Vendor ID for other Atmel devices
             {
                 deviceName = "DFU";
                 _devicesAvailable[(int)Chipset.Dfu] += connected ? 1 : -1;
@@ -56,7 +62,6 @@ namespace QMK_Toolbox
             else if (MatchVid(deviceId, 0x2341) || MatchVid(deviceId, 0x1B4F) || MatchVid(deviceId, 0x239a)) // Detects Arduino Vendor ID, Sparkfun Vendor ID, Adafruit Vendor ID
             {
                 deviceName = "Caterina";
-              
                 _flasher.CaterinaPort = GetComPort(deviceId);
                 _devicesAvailable[(int)Chipset.Caterina] += connected ? 1 : -1;
             }
@@ -87,12 +92,12 @@ namespace QMK_Toolbox
 
                 _flasher.CaterinaPort = GetComPort(deviceId);
                 _devicesAvailable[(int)Chipset.UsbTiny] += connected ? 1 : -1;
-            }
-            else if(MatchVid(deviceId, 0x16C0) && MatchPid(deviceId, 0x05DF)) // Detects Objective Development VID & PID
+            } 
+            else if (MatchVid(deviceId, 0x16C0) && MatchPid(deviceId, 0x05DF)) // Detects Objective Development VID & PID
             {
                 deviceName = "BootloadHID";
                 _devicesAvailable[(int)Chipset.BootloadHID] += connected ? 1 : -1;
-            }
+            } 
             else
             {
                 return false;

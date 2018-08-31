@@ -25,6 +25,7 @@ namespace QMK_Toolbox
         Avrisp,
         UsbTiny,
         BootloadHID,
+        AtmelSamBa,
         NumberOfChipsets
     };
 
@@ -52,6 +53,8 @@ namespace QMK_Toolbox
             "atmega32u4_eeprom_reset.hex",
             "dfu-prog-usb-1.2.2.zip",
             "bootloadHID.exe",
+            "mdloadler64.exe",
+            "applet-flash-samd51j18a.bin"
         };
 
         
@@ -61,6 +64,7 @@ namespace QMK_Toolbox
             _printer = printer;
             EmbeddedResourceHelper.ExtractResources(_resources);
 
+            /*
             var query = new System.Management.SelectQuery("Win32_SystemDriver") { Condition = "Name = 'libusb0'" };
             var searcher = new System.Management.ManagementObjectSearcher(query);
             var drivers = searcher.Get();
@@ -95,6 +99,7 @@ namespace QMK_Toolbox
                     printer.Print("Error: " + errorString, MessageType.Error);
                 }
             }
+            */
 
             _process = new Process();
             //process.EnableRaisingEvents = true;
@@ -187,6 +192,8 @@ namespace QMK_Toolbox
                 FlashUsbTiny(mcu, file);
             if (Usb.CanFlash(Chipset.BootloadHID))
                 FlashBootloadHID(file);
+            if (Usb.CanFlash(Chipset.AtmelSamBa))
+                FlashAtmelSamBa(file);
         }
 
         public void Reset(string mcu)
@@ -250,5 +257,7 @@ namespace QMK_Toolbox
 
         private void FlashBootloadHID(string file) => RunProcess("bootloadHID.exe", $"-r \"{file}\"");
         private void ResetBootloadHID() => RunProcess("bootloadHID.exe", $"-r");
+
+        private void FlashAtmelSamBa(string file) => RunProcess("mdloader64.exe", $"-p {CaterinaPort} -D \"{file}\"");
     }
 }
