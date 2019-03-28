@@ -123,11 +123,19 @@
 }
 
 - (void)flashSTM32WithFile:(NSString *)file {
-    [self runProcess:@"dfu-util" withArgs:@[@"-a", @"0", @"-d", @"0482:df11", @"-s", @"0x8000000:leave", @"-D", file]];
+    if([file hasSuffix:@".bin"]) {
+        [self runProcess:@"dfu-util" withArgs:@[@"-a", @"0", @"-d", @"0482:df11", @"-s", @"0x8000000:leave", @"-D", file]];
+    } else {
+        [_printer print:@"Only firmware files in .bin format can be flashed with dfu-util!" withType:MessageType_Error];
+    }
 }
 
 - (void)flashKiibohdWithFile:(NSString *)file {
-    [self runProcess:@"dfu-util" withArgs:@[@"-D", file]];
+    if([file hasSuffix:@".bin"]) {
+        [self runProcess:@"dfu-util" withArgs:@[@"-D", file]];
+    } else {
+        [_printer print:@"Only firmware files in .bin format can be flashed with dfu-util!" withType:MessageType_Error];
+    }
 }
 
 - (void)flashAVRISP:(NSString *)mcu withFile:(NSString *)file {
