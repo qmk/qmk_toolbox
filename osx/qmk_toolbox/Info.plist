@@ -47,7 +47,7 @@
 			<string>Viewer</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>fm.qmk.bin</string>
+				<string>com.apple.macbinary-archive</string>
 			</array>
 			<key>LSTypeIsPackage</key>
 			<integer>0</integer>
@@ -121,8 +121,8 @@
 				<string>public.data</string>
 				<string>public.archive</string>
 			</array>
-			<key>UTTypeReferenceURL</key>
-			<string>http://qmk.fm/qmk_file_type</string>
+			<key>UTTypeIdentifier</key>
+			<string>fm.qmk.qmk</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
@@ -131,22 +131,19 @@
 				</array>
 			</dict>
 		</dict>
-	</array>
-	<key>UTImportedTypeDeclarations</key>
-	<array>
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
 				<string>public.data</string>
 				<string>public.archive</string>
 			</array>
-			<key>UTTypeReferenceURL</key>
-			<string>http://qmk.fm/qmk_file_type</string>
+			<key>UTTypeIdentifier</key>
+			<string>fm.qmk.hex</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
 				<array>
-					<string>qmk</string>
+					<string>hex</string>
 				</array>
 			</dict>
 		</dict>

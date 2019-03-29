@@ -109,7 +109,7 @@
     if ([[[filename pathExtension] lowercaseString] isEqualToString:@"qmk"] ||
     [[[filename pathExtension] lowercaseString] isEqualToString:@"hex"] ||
     [[[filename pathExtension] lowercaseString] isEqualToString:@"bin"]) {
-        [self setFilePath:[NSURL URLWithString:filename]];
+        [self setFilePath:[NSURL fileURLWithPath:filename]];
         return true;
     } else {
         return false;
