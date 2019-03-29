@@ -241,7 +241,7 @@ namespace QMK_Toolbox
 
         private void FlashStm32(string mcu, string file)
         {
-            if (file.EndsWith(".bin")) {
+            if (Path.GetExtension(file).ToLower() == ".bin") {
                 RunProcess("dfu-util.exe", $"-a 0 -d 0483:df11 -s 0x08000000:leave -D \"{file}\"");
             } else {
                 _printer.Print("Only firmware files in .bin format can be flashed with dfu-util!", MessageType.Error);
@@ -250,7 +250,7 @@ namespace QMK_Toolbox
 
         private void FlashKiibohd(string file)
         {
-            if (file.EndsWith(".bin")) {
+            if (Path.GetExtension(file).ToLower() == ".bin") {
                 RunProcess("dfu-util.exe", $"-D \"{file}\"");
             } else {
                 _printer.Print("Only firmware files in .bin format can be flashed with dfu-util!", MessageType.Error);
