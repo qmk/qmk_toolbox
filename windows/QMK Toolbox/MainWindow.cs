@@ -267,7 +267,7 @@ namespace QMK_Toolbox
 
         private void loadKeymap_Click(object sender, EventArgs e)
         {
-            SetFilePath($"qmk:https://qmk.fm/compiled/{keyboardBox.SelectedItem.ToString().Replace("/", "_")}_default.hex");
+            SetFilePath($"qmk:http://qmk.fm/compiled/{keyboardBox.SelectedItem.ToString().Replace("/", "_")}_default.hex");
         }
 
         private void flashButton_Click(object sender, EventArgs e)
