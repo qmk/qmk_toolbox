@@ -25,6 +25,7 @@ DEFINE_ITER(Halfkay);
 DEFINE_ITER(STM32);
 DEFINE_ITER(Kiibohd);
 DEFINE_ITER(AVRISP);
+DEFINE_ITER(USBAsp);
 DEFINE_ITER(USBTiny);
 static Printing * _printer;
 
@@ -54,6 +55,7 @@ static int devicesAvailable[NumberOfChipsets];
     CFMutableDictionaryRef  STM32MatchingDict;
     CFMutableDictionaryRef  KiibohdMatchingDict;
     CFMutableDictionaryRef  AVRISPMatchingDict;
+    CFMutableDictionaryRef  USBAspMatchingDict;
     CFMutableDictionaryRef  USBTinyMatchingDict;
     CFRunLoopSourceRef      runLoopSource;
     kern_return_t           kr;
@@ -110,6 +112,7 @@ dest##DeviceRemoved(NULL, g##dest##RemovedIter) \
     VID_PID_MATCH(0x0483, 0xDF11, STM32);
     VID_PID_MATCH(0x1C11, 0xB007, Kiibohd);
     VID_PID_MATCH(0x16C0, 0x0483, AVRISP);
+    VID_PID_MATCH(0x16C0, 0x05DC, USBAsp);
     VID_PID_MATCH(0x1781, 0x0C9F, USBTiny);
  
  
@@ -192,6 +195,7 @@ DEVICE_EVENTS(Halfkay);
 DEVICE_EVENTS(STM32);
 DEVICE_EVENTS(Kiibohd);
 DEVICE_EVENTS_PORT(AVRISP);
+DEVICE_EVENTS(USBAsp);
 DEVICE_EVENTS_PORT(USBTiny);
 
 static kern_return_t MyFindModems(io_iterator_t *matchingServices)

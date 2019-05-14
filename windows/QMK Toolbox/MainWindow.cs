@@ -210,6 +210,7 @@ namespace QMK_Toolbox
             _printer.PrintResponse("And the following ISP flasher protocols:\n", MessageType.Info);
             _printer.PrintResponse(" - USBTiny (AVR Pocket)\n", MessageType.Info);
             _printer.PrintResponse(" - AVRISP (Arduino ISP)\n", MessageType.Info);
+            _printer.PrintResponse(" - USBASP (AVR ISP)\n" MessageType.Info);
 
             var devices = new List<UsbDeviceInfo>();
 

@@ -23,6 +23,7 @@ namespace QMK_Toolbox
         Stm32,
         Kiibohd,
         Avrisp,
+        Usbasp,
         UsbTiny,
         BootloadHID,
         AtmelSamBa,
@@ -188,6 +189,8 @@ namespace QMK_Toolbox
                 FlashKiibohd(file);
             if (Usb.CanFlash(Chipset.Avrisp))
                 FlashAvrisp(mcu, file);
+            if (Usb.CanFlash(Chipset.Usbasp))
+                FlashUsbasp(mcu, file);
             if (Usb.CanFlash(Chipset.UsbTiny))
                 FlashUsbTiny(mcu, file);
             if (Usb.CanFlash(Chipset.BootloadHID))
@@ -260,6 +263,12 @@ namespace QMK_Toolbox
         private void FlashAvrisp(string mcu, string file)
         {
             RunProcess("avrdude.exe", $"-p {mcu} -c avrisp -U flash:w:\"{file}\":i -P {CaterinaPort}");
+            _printer.Print("Flash complete", MessageType.Bootloader);
+        }
+
+        private void FlashUsbasp(string mcu, string file)
+        {
+            RunProcess("avrdude.exe", $"-p {mcu} -c avrisp -U flash:w:\"{file}\":i");
             _printer.Print("Flash complete", MessageType.Bootloader);
         }
 

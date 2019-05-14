@@ -53,6 +53,7 @@ int main(int argc, const char * argv[]) {
             [_printer printResponse:@"And the following ISP flasher protocols:\n" withType:MessageType_Info];
             [_printer printResponse:@" - USBTiny (AVR Pocket)\n" withType:MessageType_Info];
             [_printer printResponse:@" - AVRISP (Arduino ISP)\n" withType:MessageType_Info];
+            [_printer printResponse:@" - USBASP (AVR ISP)\n" withType:MessageType_Info];
             
             [_printer print:@"usage: QMK\\ Toolbox [command]" withType:MessageType_Info];
             [_printer printResponse:@"commands available:\n" withType:MessageType_Info];
