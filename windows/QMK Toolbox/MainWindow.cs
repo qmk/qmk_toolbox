@@ -235,7 +235,7 @@ namespace QMK_Toolbox
             {
                 using (var wc = new WebClient())
                 {
-                    var json = wc.DownloadString("https://compile.qmk.fm/v1/keyboards");
+                    var json = wc.DownloadString("http://api.qmk.fm/v1/keyboards");
                     var keyboards = JsonConvert.DeserializeObject<List<string>>(json);
                     keyboardBox.Items.Clear();
                     foreach (var keyboard in keyboards)
