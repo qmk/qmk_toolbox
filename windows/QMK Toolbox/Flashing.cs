@@ -223,12 +223,7 @@ namespace QMK_Toolbox
 
         private void ResetDfu(string mcu) => RunProcess("dfu-programmer.exe", $"{mcu} reset");
 
-        private void EepromResetDfu(string mcu)
-        {
-            RunProcess("dfu-programmer.exe", $"{mcu} erase --force");
-            RunProcess("dfu-programmer.exe", $"{mcu} flash --eeprom \"reset.eep\"");
-            _printer.Print("Device has been erased - please reflash", MessageType.Bootloader);
-        }
+        private void EepromResetDfu(string mcu) => RunProcess("dfu-programmer.exe", $"{mcu} flash --eeprom \"reset.eep\"");
 
         private void FlashCaterina(string mcu, string file) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U flash:w:\"{file}\":i -P {CaterinaPort}");
 
