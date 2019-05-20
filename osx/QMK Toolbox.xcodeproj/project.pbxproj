@@ -15,7 +15,6 @@
 		0929640F1F5E4068004F2D3F /* teensy_loader_cli in Resources */ = {isa = PBXBuildFile; fileRef = 0929640E1F5E4068004F2D3F /* teensy_loader_cli */; };
 		092964111F5E4186004F2D3F /* avrdude in Resources */ = {isa = PBXBuildFile; fileRef = 092964101F5E4186004F2D3F /* avrdude */; };
 		09522BB31F61E32700AEBC5E /* mcu-list.txt in Resources */ = {isa = PBXBuildFile; fileRef = 09522BB21F61E32700AEBC5E /* mcu-list.txt */; };
-		09522BB71F61E33B00AEBC5E /* atmega32u4_eeprom_reset.hex in Resources */ = {isa = PBXBuildFile; fileRef = 09522BB61F61E33B00AEBC5E /* atmega32u4_eeprom_reset.hex */; };
 		09522BBB1F6216BA00AEBC5E /* avrdude.conf in Resources */ = {isa = PBXBuildFile; fileRef = 09522BBA1F6216BA00AEBC5E /* avrdude.conf */; };
 		098AEDFB1F5E45C300CA054D /* dfu-util in Resources */ = {isa = PBXBuildFile; fileRef = 098AEDFA1F5E45C300CA054D /* dfu-util */; };
 		098AEDFE1F5F220500CA054D /* Printing.m in Sources */ = {isa = PBXBuildFile; fileRef = 098AEDFD1F5F220500CA054D /* Printing.m */; };
@@ -27,6 +26,7 @@
 		09D79CBA1FB8A6360086ABF6 /* libusb-1.0.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		09D79CBC1FB8A64B0086ABF6 /* libusb-0.1.4.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		303568C11FA7DEF400803BEF /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 303568C01FA7DEF400803BEF /* Constants.m */; };
+		C93A0FF42292232E0006C88F /* reset.eep in Resources */ = {isa = PBXBuildFile; fileRef = C93A0FF32292232D0006C88F /* reset.eep */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -55,7 +55,6 @@
 		0929640E1F5E4068004F2D3F /* teensy_loader_cli */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = teensy_loader_cli; path = ../teensy_loader_cli; sourceTree = "<group>"; };
 		092964101F5E4186004F2D3F /* avrdude */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = avrdude; path = ../avrdude; sourceTree = "<group>"; };
 		09522BB21F61E32700AEBC5E /* mcu-list.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "mcu-list.txt"; path = "../../common/mcu-list.txt"; sourceTree = "<group>"; };
-		09522BB61F61E33B00AEBC5E /* atmega32u4_eeprom_reset.hex */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = atmega32u4_eeprom_reset.hex; path = ../../common/atmega32u4_eeprom_reset.hex; sourceTree = "<group>"; };
 		09522BBA1F6216BA00AEBC5E /* avrdude.conf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = avrdude.conf; path = ../../common/avrdude.conf; sourceTree = "<group>"; };
 		098AEDFA1F5E45C300CA054D /* dfu-util */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = "dfu-util"; path = "../dfu-util"; sourceTree = "<group>"; };
 		098AEDFC1F5F220500CA054D /* Printing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Printing.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -73,6 +72,7 @@
 		09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libusb-0.1.4.dylib"; sourceTree = SOURCE_ROOT; };
 		303568C01FA7DEF400803BEF /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		303568C21FA7DF0900803BEF /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		C93A0FF32292232D0006C88F /* reset.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset.eep; path = ../../common/reset.eep; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,10 +132,10 @@
 		092963FE1F5C8B2C004F2D3F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C93A0FF32292232D0006C88F /* reset.eep */,
 				09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */,
 				09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */,
 				09522BBA1F6216BA00AEBC5E /* avrdude.conf */,
-				09522BB61F61E33B00AEBC5E /* atmega32u4_eeprom_reset.hex */,
 				09522BB21F61E32700AEBC5E /* mcu-list.txt */,
 				098AEDFA1F5E45C300CA054D /* dfu-util */,
 				092964101F5E4186004F2D3F /* avrdude */,
@@ -205,6 +205,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				09522BB31F61E32700AEBC5E /* mcu-list.txt in Resources */,
+				C93A0FF42292232E0006C88F /* reset.eep in Resources */,
 				0929640D1F5E403C004F2D3F /* dfu-programmer in Resources */,
 				092964021F5C8B2C004F2D3F /* Assets.xcassets in Resources */,
 				09522BBB1F6216BA00AEBC5E /* avrdude.conf in Resources */,
@@ -212,7 +213,6 @@
 				0929640F1F5E4068004F2D3F /* teensy_loader_cli in Resources */,
 				092964111F5E4186004F2D3F /* avrdude in Resources */,
 				092964051F5C8B2C004F2D3F /* MainMenu.xib in Resources */,
-				09522BB71F61E33B00AEBC5E /* atmega32u4_eeprom_reset.hex in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
