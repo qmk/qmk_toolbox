@@ -50,7 +50,7 @@ namespace QMK_Toolbox
             "libusb-1.0.dll",
             "libusb0.dll", // x86/libusb0_x86.dll
             "mcu-list.txt",
-            "atmega32u4_eeprom_reset.hex",
+            "reset.eep",
             "dfu-prog-usb-1.2.2.zip",
             "bootloadHID.exe",
             "mdloadler64.exe",
@@ -225,15 +225,14 @@ namespace QMK_Toolbox
 
         private void EepromResetDfu(string mcu)
         {
-            var file = mcu + "_eeprom_reset.hex";
             RunProcess("dfu-programmer.exe", $"{mcu} erase --force");
-            RunProcess("dfu-programmer.exe", $"{mcu} flash --eeprom \"{file}\"");
+            RunProcess("dfu-programmer.exe", $"{mcu} flash --eeprom \"reset.eep\"");
             _printer.Print("Device has been erased - please reflash", MessageType.Bootloader);
         }
 
         private void FlashCaterina(string mcu, string file) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U flash:w:\"{file}\":i -P {CaterinaPort}");
 
-        private void EepromResetCaterina(string mcu) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U eeprom:w:\"{mcu}_eeprom_reset.hex\":i -P {CaterinaPort}");
+        private void EepromResetCaterina(string mcu) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U eeprom:w:\"reset.eep\":i -P {CaterinaPort}");
 
         private void FlashHalfkay(string mcu, string file) => RunProcess("teensy_loader_cli.exe", $"-mmcu={mcu} \"{file}\" -v");
 

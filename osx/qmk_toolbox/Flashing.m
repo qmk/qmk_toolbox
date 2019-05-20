@@ -98,7 +98,7 @@
 
 - (void)eepromResetDFU:(NSString *)mcu {
     NSString * result;
-    NSString * file = [[NSBundle mainBundle] pathForResource:[mcu stringByAppendingString:@"_eeprom_reset"] ofType:@"hex"];
+    NSString * file = [[NSBundle mainBundle] pathForResource:@"reset" ofType:@"eep"];
     result = [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"erase", @"--force"]];
     result = [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"flash", @"--eeprom", file]];
     [_printer print:@"Device has been erased - please reflash" withType:MessageType_Bootloader];
@@ -110,7 +110,7 @@
 
 - (void)eepromResetCaterina:(NSString *)mcu {
     NSString * result;
-    NSString * file = [mcu stringByAppendingString:@"_eeprom_reset.hex"];
+    NSString * file = [[NSBundle mainBundle] pathForResource:@"reset" ofType:@"eep"];
     result = [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"avr109", @"-U", [NSString stringWithFormat:@"eeprom:w:%@:i", file], @"-P", caterinaPort, @"-C", @"avrdude.conf"]];
 }
 
