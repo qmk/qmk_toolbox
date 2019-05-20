@@ -42,7 +42,7 @@
             this.keyboardBox = new System.Windows.Forms.ComboBox();
             this.loadKeymap = new System.Windows.Forms.Button();
             this.fileGroupBox = new System.Windows.Forms.GroupBox();
-            this.filepathBox = new System.Windows.Forms.ComboBox();
+            this.filepathBox = new BetterComboBox();
             this.mcuBox = new System.Windows.Forms.ComboBox();
             this.dfuCheckbox = new System.Windows.Forms.CheckBox();
             this.caterinaCheckbox = new System.Windows.Forms.CheckBox();
@@ -284,7 +284,7 @@
             this.filepathBox.TabIndex = 2;
             this.filepathBox.Tag = "The path for your firmware file";
             this.filepathBox.Text = global::QMK_Toolbox.Properties.Settings.Default.hexFileSetting;
-            this.filepathBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.filepathBox_KeyPress);
+            this.filepathBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.filepathBox_KeyDown);
             this.filepathBox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
             this.filepathBox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
             // 

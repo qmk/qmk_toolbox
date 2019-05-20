@@ -156,6 +156,9 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="BetterComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Flashing.cs" />
     <Compile Include="Helpers\EmbeddedResourceHelper.cs" />
     <Compile Include="Info.cs" />
