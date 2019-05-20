@@ -20,6 +20,7 @@ typedef enum {
     Kiibohd,
     AVRISP,
     USBTiny,
+    USBAsp,
     NumberOfChipsets
 } Chipset;
 

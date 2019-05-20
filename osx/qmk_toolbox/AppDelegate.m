@@ -190,6 +190,7 @@
     [_printer printResponse:@"And the following ISP flasher protocols:\n" withType:MessageType_Info];
     [_printer printResponse:@" - USBTiny (AVR Pocket)\n" withType:MessageType_Info];
     [_printer printResponse:@" - AVRISP (Arduino ISP)\n" withType:MessageType_Info];
+    [_printer printResponse:@" - USBASP (AVR ISP)\n" withType:MessageType_Info];
     
     
 //    [_flasher runProcess:@"dfu-programmer" withArgs:@[@"--help"]];

@@ -125,6 +125,7 @@ namespace QMK_Toolbox
                     printer.PrintResponse(" - USBTiny (AVR Pocket)\n", MessageType.Info);
                     printer.PrintResponse(" - AVRISP (Arduino ISP)\n", MessageType.Info);
                     printer.PrintResponse("usage: qmk_toolbox.exe <mcu> <filepath>", MessageType.Info);
+                    printer.PrintResponse(" - USBASP (AVR ISP)\n", MessageType.Info);
                     FreeConsole();
                     Environment.Exit(0);
                 }

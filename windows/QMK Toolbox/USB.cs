@@ -86,6 +86,12 @@ namespace QMK_Toolbox
                 _flasher.CaterinaPort = GetComPort(deviceId);
                 _devicesAvailable[(int)Chipset.Avrisp] += connected ? 1 : -1;
             }
+            else if (MatchVid(deviceId, 0x16C0) && MatchPid(deviceId, 0x05DC)) // Detects AVR USBAsp VID & PID
+            {
+                deviceName = "USBAsp";
+                _flasher.CaterinaPort = GetComPort(deviceId);
+                _devicesAvailable[(int)Chipset.Usbasp] += connected ? 1 : -1;
+            }
             else if (MatchVid(deviceId, 0x1781) && MatchPid(deviceId, 0x0C9F)) // Detects AVR Pocket ISP VID & PID
             {
                 deviceName = "USB Tiny";
