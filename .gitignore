@@ -246,6 +246,7 @@ ModelManifest.xml
 .fake/
 
 # Xcode
+.DS_Store
 
 ## Build generated
 build/
@@ -260,6 +261,8 @@ DerivedData/
 !default.mode2v3
 *.perspectivev3
 !default.perspectivev3
+*.xcworkspace
+!default.xcworkspace
 xcuserdata/
 
 ## Other
