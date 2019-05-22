@@ -101,7 +101,7 @@
 - (void)eepromResetDFU:(NSString *)mcu {
     NSString * result;
     NSString * file = [[NSBundle mainBundle] pathForResource:@"reset" ofType:@"eep"];
-    result = [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"flash", @"--eeprom", file]];
+    result = [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"flash", @"--force", @"--eeprom", file]];
 }
 
 - (void)flashCaterina:(NSString *)mcu withFile:(NSString *)file {
