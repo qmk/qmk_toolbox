@@ -1,4 +1,4 @@
-﻿//  Created by Jack Humbert on 9/1/17.
+//  Created by Jack Humbert on 9/1/17.
 //  Copyright © 2017 Jack Humbert. This code is licensed under MIT license (see LICENSE.md for details).
 
 using QMK_Toolbox.Properties;
@@ -305,7 +305,7 @@ namespace QMK_Toolbox
                         _printer.Print("There are no devices available", MessageType.Error);
                     }
 
-                    // Re-enable flash/reset button after flashing 
+                    // Re-enable flash/reset button after flashing
                     this.Invoke((MethodInvoker)delegate
                     {
                         flashButton.Enabled = true;
@@ -522,7 +522,7 @@ namespace QMK_Toolbox
                 {
                     Directory.CreateDirectory(Path.Combine(Application.LocalUserAppDataPath, "downloads"));
                 }
-                
+
                 try
                 {
                     _printer.Print($"Downloading the file: {url}", MessageType.Info);
@@ -776,6 +776,11 @@ namespace QMK_Toolbox
             _devices[deviceIndex].WriteReport(report, ReportWritten);
             _devices[deviceIndex].CloseDevice();
             _printer.Print("Sending report", MessageType.Hid);
+        }
+
+        private void clearButton_Click(object sender, EventArgs e)
+        {
+            logTextBox.Clear();
         }
 
         private void MainWindow_DragDrop(object sender, DragEventArgs e)
