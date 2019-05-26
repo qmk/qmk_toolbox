@@ -170,6 +170,9 @@
                                     <size key="minSize" width="639" height="318"/>
                                     <size key="maxSize" width="641" height="10000000"/>
                                     <color key="insertionPointColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <connections>
+                                        <outlet property="menu" destination="H9m-Y6-elE" id="oIU-k2-DPl"/>
+                                    </connections>
                                 </textView>
                             </subviews>
                         </clipView>
@@ -465,5 +468,16 @@
             </view>
             <point key="canvasLocation" x="349.5" y="454.5"/>
         </window>
+        <menu id="H9m-Y6-elE">
+            <items>
+                <menuItem title="Clear" id="82o-TW-Mbd">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="clearButtonClick:" target="Voe-Tx-rLC" id="6FO-CI-SpB"/>
+                    </connections>
+                </menuItem>
+            </items>
+            <point key="canvasLocation" x="367" y="140"/>
+        </menu>
     </objects>
 </document>

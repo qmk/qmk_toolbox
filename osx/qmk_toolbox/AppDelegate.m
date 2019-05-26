@@ -266,6 +266,10 @@
     [self setFilePath:[NSURL URLWithString:[NSString stringWithFormat:@"qmk:http://qmk.fm/compiled/%@_default.hex", keyboard]]];
 }
 
+- (IBAction)clearButtonClick:(id)sender {
+    [[self textView] setString: @""];
+}
+
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
     return YES;
 }
