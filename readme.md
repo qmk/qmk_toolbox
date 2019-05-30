@@ -42,5 +42,6 @@ A Windows and macOS version are available, and you can get [the latest release h
 For Homebrew users, it is also available as a Cask:
 
 ```
-$ brew cask install caskroom/drivers/qmk-toolbox
+$ brew tap homebrew/cask-drivers
+$ brew cask install qmk-toolbox
 ```
