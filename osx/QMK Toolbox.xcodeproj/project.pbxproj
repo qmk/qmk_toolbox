@@ -159,6 +159,7 @@
 				121DE8A222A0E55700A30D70 /* ShellScript */,
 				092963F61F5C8B2C004F2D3F /* Resources */,
 				09D79CB91FB8A6320086ABF6 /* Copy Files */,
+				121DE8A322A0E7E300A30D70 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -236,7 +237,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nset -e\nchmod 555 ./dfu-util\nchmod 555 ./avrdude\nchmod 555 ./teensy_loader_cli\nchmod 555 ./dfu-programmer\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nset -e\nchmod 555 ./dfu-util ./avrdude ./teensy_loader_cli ./dfu-programmer\n";
+		};
+		121DE8A322A0E7E300A30D70 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nset -e\nchmod 666 ./dfu-util ./avrdude ./teensy_loader_cli ./dfu-programmer\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
