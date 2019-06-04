@@ -124,7 +124,7 @@
 - (void)setFilePath:(NSURL *)path {
     NSString * filename = @"";
     if ([path.scheme isEqualToString:@"file"])
-        filename = [[NSString stringWithString:path.absoluteString] stringByReplacingOccurrencesOfString:@"file://" withString:@""];
+        filename = [[path.absoluteString stringByRemovingPercentEncoding] stringByReplacingOccurrencesOfString:@"file://" withString:@""];
     if ([path.scheme isEqualToString:@"qmk"]) {
         NSURL * url;
         if ([path.absoluteString containsString:@"qmk://"])
