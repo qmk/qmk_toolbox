@@ -247,7 +247,6 @@ static kern_return_t MyGetModemPath(io_iterator_t serialPortIterator, char *devi
 {
     io_object_t     modemService;
     kern_return_t   kernResult = KERN_FAILURE;
-    Boolean     modemFound = false;
  
     // Initialize the returned path
     *deviceFilePath = '\0';
@@ -288,7 +287,6 @@ static kern_return_t MyGetModemPath(io_iterator_t serialPortIterator, char *devi
                 if ([testDevice rangeOfString:@"Bluetooth"].location == NSNotFound) {
                     memcpy(deviceFilePath, testDeviceFilePath, FILEPATH_SIZE);
                     printf("BSD path: %s\n", deviceFilePath);
-                    modemFound = true;
                     kernResult = KERN_SUCCESS;
                 } else {
                     printf("BSD path (ignored): %s\n", testDeviceFilePath);
