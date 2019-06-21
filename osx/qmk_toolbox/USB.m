@@ -258,24 +258,23 @@ static kern_return_t MyGetModemPath(io_iterator_t serialPortIterator, char *devi
     {
         CFTypeRef   deviceFilePathAsCFString;
  
-    // Get the callout device's path (/dev/cu.xxxxx).
-    // The callout device should almost always be
-    // used. You would use the dialin device (/dev/tty.xxxxx) when
-    // monitoring a serial port for
-    // incoming calls, for example, a fax listener.
+        // Get the callout device's path (/dev/cu.xxxxx).
+        // The callout device should almost always be
+        // used. You would use the dialin device (/dev/tty.xxxxx) when
+        // monitoring a serial port for
+        // incoming calls, for example, a fax listener.
  
-    deviceFilePathAsCFString = IORegistryEntryCreateCFProperty(modemService,
-                            CFSTR(kIOCalloutDeviceKey),
-                            kCFAllocatorDefault,
-                            0);
+        deviceFilePathAsCFString = IORegistryEntryCreateCFProperty(modemService,
+                                                                   CFSTR(kIOCalloutDeviceKey),
+                                                                   kCFAllocatorDefault,
+                                                                   0);
         if (deviceFilePathAsCFString)
         {
             Boolean result;
  
-        // Convert the path from a CFString to a NULL-terminated C string
-        // for use with the POSIX open() call.
- 
-        result = CFStringGetCString(deviceFilePathAsCFString,
+            // Convert the path from a CFString to a NULL-terminated C string
+            // for use with the POSIX open() call.
+            result = CFStringGetCString(deviceFilePathAsCFString,
                                         deviceFilePath,
                                         maxPathSize,
                                         kCFStringEncodingASCII);
@@ -292,8 +291,7 @@ static kern_return_t MyGetModemPath(io_iterator_t serialPortIterator, char *devi
         printf("\n");
  
         // Release the io_service_t now that we are done with it.
- 
-    (void) IOObjectRelease(modemService);
+        IOObjectRelease(modemService);
     }
  
     return kernResult;
