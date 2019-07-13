@@ -21,19 +21,7 @@ Also listens to HID ascii from usage page 0xFF31 (compatible with the hid_listen
 
 ## Dependencies
 
-### Windows
-When using the QMK Toolbox on Windows, please install the mandatory drivers first. You can get [the latest release here](https://github.com/qmk/qmk_driver_installer/releases)
-
-### macOS
-If you're using [homebrew](http://brew.sh/), you can use the following commands:
-
-    brew tap osx-cross/avr
-    brew tap PX4/homebrew-px4
-    brew update
-    brew install avr-gcc
-    brew install dfu-programmer
-    brew install gcc-arm-none-eabi
-    brew install avrdude
+When using the QMK Toolbox on Windows, please install the mandatory drivers first. You can get [the latest release here](https://github.com/qmk/qmk_driver_installer/releases).
 
 ## Download
 
