@@ -3,7 +3,7 @@
 
 #define MyAppName "QMK Toolbox"
 #define MyAppHandle "qmk"
-#define MyAppVersion "0.0.10"
+#define MyAppVersion "0.0.11"
 #define MyAppPublisher "QMK"
 #define MyAppURL "http://qmk.fm"
 #define MyAppExeName "qmk_toolbox.exe"
