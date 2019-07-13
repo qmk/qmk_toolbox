@@ -12,7 +12,7 @@
 #include <IOKit/serial/IOSerialKeys.h>
 #include <IOKit/IOBSD.h>
 
-
+#define FILEPATH_SIZE 64
 #define DEFINE_ITER(type) \
 static io_iterator_t            g##type##AddedIter; \
 static io_iterator_t            g##type##RemovedIter
@@ -160,11 +160,12 @@ static void type##DeviceAdded(void *refCon, io_iterator_t iterator) { \
             [_printer print:[NSString stringWithFormat:@"%@ %@", @(STR(type)), @"device connected"] withType:MessageType_Bootloader]; \
             deviceConnected(type); \
             io_iterator_t serialPortIterator; \
-            char deviceFilePath[64]; \
+            char deviceFilePath[FILEPATH_SIZE]; \
             MyFindModems(&serialPortIterator); \
             MyGetModemPath(serialPortIterator, deviceFilePath, sizeof(deviceFilePath)); \
             if (!deviceFilePath[0]) { \
                 printf("No modem port found.\n"); \
+                [_printer printResponse:@"No modem port found, try again." withType:MessageType_Bootloader]; \
             } else { \
                 [delegate setCaterinaPort:[NSString stringWithFormat:@"%s", deviceFilePath]]; \
                 [_printer printResponse:[NSString stringWithFormat:@"Found port: %s", deviceFilePath] withType:MessageType_Bootloader]; \
@@ -246,7 +247,6 @@ static kern_return_t MyGetModemPath(io_iterator_t serialPortIterator, char *devi
 {
     io_object_t     modemService;
     kern_return_t   kernResult = KERN_FAILURE;
-    Boolean     modemFound = false;
  
     // Initialize the returned path
     *deviceFilePath = '\0';
@@ -258,42 +258,44 @@ static kern_return_t MyGetModemPath(io_iterator_t serialPortIterator, char *devi
     {
         CFTypeRef   deviceFilePathAsCFString;
  
-    // Get the callout device's path (/dev/cu.xxxxx).
-    // The callout device should almost always be
-    // used. You would use the dialin device (/dev/tty.xxxxx) when
-    // monitoring a serial port for
-    // incoming calls, for example, a fax listener.
+        // Get the callout device's path (/dev/cu.xxxxx).
+        // The callout device should almost always be
+        // used. You would use the dialin device (/dev/tty.xxxxx) when
+        // monitoring a serial port for
+        // incoming calls, for example, a fax listener.
  
-    deviceFilePathAsCFString = IORegistryEntryCreateCFProperty(modemService,
-                            CFSTR(kIOCalloutDeviceKey),
-                            kCFAllocatorDefault,
-                            0);
+        deviceFilePathAsCFString = IORegistryEntryCreateCFProperty(modemService,
+                                                                   CFSTR(kIOCalloutDeviceKey),
+                                                                   kCFAllocatorDefault,
+                                                                   0);
         if (deviceFilePathAsCFString)
         {
             Boolean result;
  
-        // Convert the path from a CFString to a NULL-terminated C string
-        // for use with the POSIX open() call.
- 
-        result = CFStringGetCString(deviceFilePathAsCFString,
-                                        deviceFilePath,
+            // Convert the path from a CFString to a NULL-terminated C string
+            // for use with the POSIX open() call.
+            char testDeviceFilePath[FILEPATH_SIZE];
+            result = CFStringGetCString(deviceFilePathAsCFString,
+                                        testDeviceFilePath,
                                         maxPathSize,
                                         kCFStringEncodingASCII);
             CFRelease(deviceFilePathAsCFString);
  
             if (result)
             {
-                printf("BSD path: %s", deviceFilePath);
-                modemFound = true;
-                kernResult = KERN_SUCCESS;
+                NSString *testDevice = [NSString stringWithUTF8String:testDeviceFilePath];
+                if ([testDevice rangeOfString:@"Bluetooth"].location == NSNotFound) {
+                    memcpy(deviceFilePath, testDeviceFilePath, FILEPATH_SIZE);
+                    printf("BSD path: %s\n", deviceFilePath);
+                    kernResult = KERN_SUCCESS;
+                } else {
+                    printf("BSD path (ignored): %s\n", testDeviceFilePath);
+                    continue;
+                }
             }
         }
- 
-        printf("\n");
- 
         // Release the io_service_t now that we are done with it.
- 
-    (void) IOObjectRelease(modemService);
+        IOObjectRelease(modemService);
     }
  
     return kernResult;
