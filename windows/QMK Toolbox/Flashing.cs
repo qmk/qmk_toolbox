@@ -262,7 +262,7 @@ namespace QMK_Toolbox
 
         private void FlashUsbasp(string mcu, string file)
         {
-            RunProcess("avrdude.exe", $"-p {mcu} -c avrisp -U flash:w:\"{file}\":i");
+            RunProcess("avrdude.exe", $"-p {mcu} -c usbasp -U flash:w:\"{file}\":i");
             _printer.Print("Flash complete", MessageType.Bootloader);
         }
 
