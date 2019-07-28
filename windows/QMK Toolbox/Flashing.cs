@@ -54,7 +54,7 @@ namespace QMK_Toolbox
             "reset.eep",
             "dfu-prog-usb-1.2.2.zip",
             "bootloadHID.exe",
-            "mdloadler64.exe",
+            "mdloader_windows.exe",
             "applet-flash-samd51j18a.bin"
         };
 
@@ -275,6 +275,8 @@ namespace QMK_Toolbox
         private void FlashBootloadHID(string file) => RunProcess("bootloadHID.exe", $"-r \"{file}\"");
         private void ResetBootloadHID() => RunProcess("bootloadHID.exe", $"-r");
 
-        private void FlashAtmelSamBa(string file) => RunProcess("mdloader64.exe", $"-p {CaterinaPort} -D \"{file}\"");
+        private void FlashAtmelSamBa(string file) => RunProcess("mdloader_windows.exe", $"-p {CaterinaPort} -D \"{file}\"");
+
+        private void ResetAtmelSamBa() => RunProcess("mdloader_windows.exe" $"-p {CaterinaPort} --restart");
     }
 }
