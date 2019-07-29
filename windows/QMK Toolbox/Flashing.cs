@@ -277,6 +277,6 @@ namespace QMK_Toolbox
 
         private void FlashAtmelSamBa(string file) => RunProcess("mdloader_windows.exe", $"-p {CaterinaPort} -D \"{file}\"");
 
-        private void ResetAtmelSamBa() => RunProcess("mdloader_windows.exe" $"-p {CaterinaPort} --restart");
+        private void ResetAtmelSamBa() => RunProcess("mdloader_windows.exe", $"-p {CaterinaPort} --restart");
     }
 }
