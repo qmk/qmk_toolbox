@@ -196,8 +196,6 @@ namespace QMK_Toolbox
             if (Settings.Default.hexFileCollection != null)
                 filepathBox.Items.AddRange(Settings.Default.hexFileCollection.ToArray());
 
-            logTextBox.Font = new Font(FontFamily.GenericMonospace, 8);
-
             _printer.Print("QMK Toolbox (https://qmk.fm/toolbox)", MessageType.Info);
             _printer.PrintResponse("Supporting following bootloaders:\n", MessageType.Info);
             _printer.PrintResponse(" - DFU (Atmel, LUFA) via dfu-programmer (http://dfu-programmer.github.io/)\n", MessageType.Info);
