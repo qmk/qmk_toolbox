@@ -43,12 +43,14 @@ static IOHIDManagerRef _hidManager;
 }
 
 static NSString * formatDevice(NSString * str, IOHIDDeviceRef device) {
-    return [NSString stringWithFormat:@"%@ - %@ %@ -- 0x%X:0x%X",
+    unsigned short vendorId = [(NSNumber *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey)) shortValue];
+    unsigned short productId = [(NSNumber *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey)) shortValue];
+    return [NSString stringWithFormat:@"%@ - %@ %@ -- %04X:%04X",
         IOHIDDeviceGetProperty(device, CFSTR(kIOHIDManufacturerKey)),
         IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey)),
         str,
-        (int)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey)) / 256,
-        (int)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey)) / 256
+        vendorId,
+        productId
     ];
 }
 
