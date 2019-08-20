@@ -19,6 +19,7 @@ static io_iterator_t            g##type##RemovedIter
 
 //Global variables
 static IONotificationPortRef    gNotifyPort;
+DEFINE_ITER(AtmelSAMBA);
 DEFINE_ITER(DFU);
 DEFINE_ITER(Caterina);
 DEFINE_ITER(Halfkay);
@@ -47,6 +48,7 @@ static int devicesAvailable[NumberOfChipsets];
     
     _printer = printer;	
     mach_port_t             masterPort;
+    CFMutableDictionaryRef  AtmelSAMBAMatchingDict;
     CFMutableDictionaryRef  DFUMatchingDict;
     CFMutableDictionaryRef  CaterinaMatchingDict;
     CFMutableDictionaryRef  CaterinaAltMatchingDict;
@@ -104,6 +106,7 @@ kr = IOServiceAddMatchingNotification(gNotifyPort, kIOTerminatedNotification, ty
 dest##DeviceRemoved(NULL, g##dest##RemovedIter) \
     
     
+    VID_PID_MATCH(0x03EB, 0x6124, AtmelSAMBA);
     VID_MATCH(0x03EB, DFU);
     VID_MATCH(0x2341, Caterina);
     VID_MATCH_MAP(0x1B4F, CaterinaAlt, Caterina);
@@ -190,6 +193,7 @@ static void type##DeviceRemoved(void *refCon, io_iterator_t iterator) { \
     } \
 }
 
+DEVICE_EVENTS_PORT(AtmelSAMBA);
 DEVICE_EVENTS(DFU);
 DEVICE_EVENTS_PORT(Caterina);
 DEVICE_EVENTS(Halfkay);

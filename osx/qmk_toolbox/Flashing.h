@@ -11,6 +11,7 @@
 #include "Printing.h"
 
 typedef enum {
+    AtmelSAMBA,
     DFU,
     Halfkay,
     Caterina,

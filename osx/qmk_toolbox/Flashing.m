@@ -67,6 +67,8 @@
         [self flashUSBAsp:mcu withFile:file];
     if ([USB canFlash:USBTiny])
         [self flashUSBTiny:mcu withFile:file];
+    if ([USB canFlash:AtmelSAMBA])
+        [self flashAtmelSAMBAwithFile:file];
 }
 
 - (void)reset:(NSString *)mcu {
@@ -74,6 +76,8 @@
         [self resetDFU:mcu];
     if ([USB canFlash:Halfkay])
         [self resetHalfkay:mcu];
+    if ([USB canFlash:AtmelSAMBA])
+        [self resetAtmelSAMBA];
 }
 
 - (void)eepromReset:(NSString *)mcu {
@@ -156,6 +160,14 @@
 
 - (void)flashUSBAsp:(NSString *)mcu withFile:(NSString *)file {
     [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"usbasp", @"-U", [NSString stringWithFormat:@"flash:w:%@:i", file], @"-C", @"avrdude.conf"]];
+}
+
+- (void)flashAtmelSAMBAwithFile: (NSString *)file {
+    [self runProcess:@"mdloader_mac" withArgs:@[@"-p", caterinaPort, @"-D", file]];
+}
+
+- (void)resetAtmelSAMBA {
+    [self runProcess:@"mdloader_mac" withArgs:@[@"-p", caterinaPort, @"--restart"]];
 }
 
 @end

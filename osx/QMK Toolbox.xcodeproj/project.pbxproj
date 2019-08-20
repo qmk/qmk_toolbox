@@ -28,6 +28,8 @@
 		303568C11FA7DEF400803BEF /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 303568C01FA7DEF400803BEF /* Constants.m */; };
 		3A7770DA22BD3BA300398C40 /* libftdi.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3A7770D822BD3B8200398C40 /* libftdi.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		C93A0FF42292232E0006C88F /* reset.eep in Resources */ = {isa = PBXBuildFile; fileRef = C93A0FF32292232D0006C88F /* reset.eep */; };
+		C9A09B5722EE6826008C3CF3 /* mdloader_mac in Resources */ = {isa = PBXBuildFile; fileRef = C9A09B5622EE6826008C3CF3 /* mdloader_mac */; };
+		C9A09B5922EE6837008C3CF3 /* applet-flash-samd51j18a.bin in Resources */ = {isa = PBXBuildFile; fileRef = C9A09B5822EE6837008C3CF3 /* applet-flash-samd51j18a.bin */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -76,6 +78,8 @@
 		303568C21FA7DF0900803BEF /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		3A7770D822BD3B8200398C40 /* libftdi.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libftdi.1.dylib; sourceTree = SOURCE_ROOT; };
 		C93A0FF32292232D0006C88F /* reset.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset.eep; path = ../../common/reset.eep; sourceTree = "<group>"; };
+		C9A09B5622EE6826008C3CF3 /* mdloader_mac */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = mdloader_mac; sourceTree = SOURCE_ROOT; };
+		C9A09B5822EE6837008C3CF3 /* applet-flash-samd51j18a.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; name = "applet-flash-samd51j18a.bin"; path = "../../common/applet-flash-samd51j18a.bin"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +139,8 @@
 		092963FE1F5C8B2C004F2D3F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C9A09B5822EE6837008C3CF3 /* applet-flash-samd51j18a.bin */,
+				C9A09B5622EE6826008C3CF3 /* mdloader_mac */,
 				C93A0FF32292232D0006C88F /* reset.eep */,
 				3A7770D822BD3B8200398C40 /* libftdi.1.dylib */,
 				09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */,
@@ -214,9 +220,11 @@
 				092964021F5C8B2C004F2D3F /* Assets.xcassets in Resources */,
 				09522BBB1F6216BA00AEBC5E /* avrdude.conf in Resources */,
 				098AEDFB1F5E45C300CA054D /* dfu-util in Resources */,
+				C9A09B5722EE6826008C3CF3 /* mdloader_mac in Resources */,
 				0929640F1F5E4068004F2D3F /* teensy_loader_cli in Resources */,
 				092964111F5E4186004F2D3F /* avrdude in Resources */,
 				092964051F5C8B2C004F2D3F /* MainMenu.xib in Resources */,
+				C9A09B5922EE6837008C3CF3 /* applet-flash-samd51j18a.bin in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
