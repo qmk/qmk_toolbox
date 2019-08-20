@@ -215,6 +215,8 @@ namespace QMK_Toolbox
                 EepromResetDfu(mcu);
             if (Usb.CanFlash(Chipset.Caterina))
                 EepromResetCaterina(mcu);
+            if (Usb.CanFlash(Chipset.Usbasp))
+                EepromResetUsbasp(mcu);
         }
 
         private void FlashDfu(string mcu, string file)
@@ -231,6 +233,8 @@ namespace QMK_Toolbox
         private void FlashCaterina(string mcu, string file) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U flash:w:\"{file}\":i -P {CaterinaPort}");
 
         private void EepromResetCaterina(string mcu) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U eeprom:w:\"reset.eep\":i -P {CaterinaPort}");
+
+        private void EepromResetUsbasp(string mcu) => RunProcess("avrdude.exe", $"-p {mcu} -c usbasp -U eeprom:w:\"reset.eep\":i -P {CaterinaPort}");
 
         private void FlashHalfkay(string mcu, string file) => RunProcess("teensy_loader_cli.exe", $"-mmcu={mcu} \"{file}\" -v");
 
