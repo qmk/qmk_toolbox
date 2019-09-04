@@ -218,13 +218,16 @@
     
     // choose whatever input identity you have decided. in this case ;
     for (NSString * str in allLinedStrings) {
-        [_mcuBox addItemWithObjectValue:str];
+        if ([str length] > 0) {
+            [self.mcuBox addItemWithObjectValue:str];
+        }
     }
-    [_mcuBox selectItemAtIndex:0];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *lastUsedMCU = [defaults stringForKey:QMKMicrocontrollerKey];
     if (lastUsedMCU) {
         [self.mcuBox selectItemWithObjectValue:lastUsedMCU];
+    } else {
+        [self.mcuBox selectItemWithObjectValue:@"atmega32u4"];
     }
 }
 

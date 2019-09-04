@@ -1,6 +1,8 @@
-atmega32u4
 at90usb1286
-atmega32u2
+at90usb646
 atmega16u2
+atmega16u4
 atmega328p
 atmega32a
+atmega32u2
+atmega32u4

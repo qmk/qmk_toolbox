@@ -170,6 +170,7 @@ namespace QMK_Toolbox
         {
             var arraylist = new ArrayList(filepathBox.Items);
             Settings.Default.hexFileCollection = arraylist;
+            Settings.Default.targetSetting = mcuBox.GetItemText(mcuBox.SelectedItem);
             Settings.Default.Save();
         }
 
@@ -190,8 +191,6 @@ namespace QMK_Toolbox
             {
                 mcuBox.Items.Add(mcu);
             }
-            if (mcuBox.SelectedIndex == -1)
-                mcuBox.SelectedIndex = 0;
 
             if (Settings.Default.hexFileCollection != null)
                 filepathBox.Items.AddRange(Settings.Default.hexFileCollection.ToArray());
