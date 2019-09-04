@@ -275,6 +275,8 @@ namespace QMK_Toolbox
             {
                 flashButton.Enabled = false;
                 resetButton.Enabled = false;
+                var mcu = mcuBox.Text;
+                var filePath = filepathBox.Text;
 
                 // Keep the form responsive during firmware flashing
                 new Thread(() =>
@@ -282,12 +284,12 @@ namespace QMK_Toolbox
                     if (_usb.AreDevicesAvailable())
                     {
                         var error = 0;
-                        if (mcuBox.Text == "")
+                        if (mcu == "")
                         {
                             _printer.Print("Please select a microcontroller", MessageType.Error);
                             error++;
                         }
-                        if (filepathBox.Text == "")
+                        if (filePath == "")
                         {
                             _printer.Print("Please select a file", MessageType.Error);
                             error++;
@@ -295,7 +297,7 @@ namespace QMK_Toolbox
                         if (error == 0)
                         {
                             _printer.Print("Attempting to flash, please don't remove device", MessageType.Bootloader);
-                            _flasher.Flash(mcuBox.Text, filepathBox.Text);
+                            _flasher.Flash(mcu, filePath);
                         }
                     }
                     else
