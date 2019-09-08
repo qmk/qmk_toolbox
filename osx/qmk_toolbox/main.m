@@ -44,16 +44,17 @@ int main(int argc, const char * argv[]) {
         
         if (!strcmp(argv[1], "help")) {
             [_printer print:@"QMK Toolbox (http://qmk.fm/toolbox)" withType:MessageType_Info];
-            [_printer printResponse:@"Supporting following bootloaders:\n" withType:MessageType_Info];
-            [_printer printResponse:@" - DFU (Atmel, LUFA) via dfu-programmer (http://dfu-programmer.github.io/)\n" withType:MessageType_Info];
+            [_printer printResponse:@"Supported bootloaders:\n" withType:MessageType_Info];
+            [_printer printResponse:@" - Atmel/LUFA/QMK DFU via dfu-programmer (http://dfu-programmer.github.io/)\n" withType:MessageType_Info];
             [_printer printResponse:@" - Caterina (Arduino, Pro Micro) via avrdude (http://nongnu.org/avrdude/)\n" withType:MessageType_Info];
-            [_printer printResponse:@" - Halfkay (Teensy, Ergodox EZ) via teensy_loader_cli (https://pjrc.com/teensy/loader_cli.html)\n" withType:MessageType_Info];
-            [_printer printResponse:@" - STM32 (ARM) via dfu-util (http://dfu-util.sourceforge.net/)\n" withType:MessageType_Info];
-            [_printer printResponse:@" - Kiibohd (ARM) via dfu-util (http://dfu-util.sourceforge.net/)\n" withType:MessageType_Info];
-            [_printer printResponse:@"And the following ISP flasher protocols:\n" withType:MessageType_Info];
+            [_printer printResponse:@" - Halfkay (Teensy, Ergodox EZ) via Teensy Loader (https://pjrc.com/teensy/loader_cli.html)\n" withType:MessageType_Info];
+            [_printer printResponse:@" - ARM DFU (STM32, Kiibohd) via dfu-util (http://dfu-util.sourceforge.net/)\n" withType:MessageType_Info];
+            [_printer printResponse:@" - Atmel SAM-BA (Massdrop) via Massdrop Loader (https://github.com/massdrop/mdloader)\n" withType:MessageType_Info];
+            [_printer printResponse:@" - BootloadHID (Atmel, PS2AVRGB) via bootloadHID (https://www.obdev.at/products/vusb/bootloadhid.html)\n" withType:MessageType_Info];
+            [_printer printResponse:@"Supported ISP flashers:\n" withType:MessageType_Info];
             [_printer printResponse:@" - USBTiny (AVR Pocket)\n" withType:MessageType_Info];
             [_printer printResponse:@" - AVRISP (Arduino ISP)\n" withType:MessageType_Info];
-            [_printer printResponse:@" - USBASP (AVR ISP)\n" withType:MessageType_Info];
+            [_printer printResponse:@" - USBasp (AVR ISP)\n" withType:MessageType_Info];
             
             [_printer print:@"usage: QMK\\ Toolbox [command]" withType:MessageType_Info];
             [_printer printResponse:@"commands available:\n" withType:MessageType_Info];

@@ -197,18 +197,17 @@ namespace QMK_Toolbox
                 filepathBox.Items.AddRange(Settings.Default.hexFileCollection.ToArray());
 
             _printer.Print("QMK Toolbox (https://qmk.fm/toolbox)", MessageType.Info);
-            _printer.PrintResponse("Supporting following bootloaders:\n", MessageType.Info);
-            _printer.PrintResponse(" - DFU (Atmel, LUFA) via dfu-programmer (http://dfu-programmer.github.io/)\n", MessageType.Info);
+            _printer.PrintResponse("Supported bootloaders:\n", MessageType.Info);
+            _printer.PrintResponse(" - Atmel/LUFA/QMK DFU via dfu-programmer (http://dfu-programmer.github.io/)\n", MessageType.Info);
             _printer.PrintResponse(" - Caterina (Arduino, Pro Micro) via avrdude (http://nongnu.org/avrdude/)\n", MessageType.Info);
-            _printer.PrintResponse(" - Halfkay (Teensy, Ergodox EZ) via teensy_loader_cli (https://pjrc.com/teensy/loader_cli.html)\n", MessageType.Info);
-            _printer.PrintResponse(" - STM32 (ARM) via dfu-util (http://dfu-util.sourceforge.net/)\n", MessageType.Info);
-            _printer.PrintResponse(" - Kiibohd (ARM) via dfu-util (http://dfu-util.sourceforge.net/)\n", MessageType.Info);
-            _printer.PrintResponse(" - BootloadHID (Atmel, ps2avrGB, CA66) via bootloadHID (https://www.obdev.at/products/vusb/bootloadhid.html)\n", MessageType.Info);
-            _printer.PrintResponse(" - Atmel SAM-BA via mdloader (https://github.com/massdrop/mdloader)\n", MessageType.Info);
-            _printer.PrintResponse("And the following ISP flasher protocols:\n", MessageType.Info);
+            _printer.PrintResponse(" - Halfkay (Teensy, Ergodox EZ) via Teensy Loader (https://pjrc.com/teensy/loader_cli.html)\n", MessageType.Info);
+            _printer.PrintResponse(" - ARM DFU (STM32, Kiibohd) via dfu-util (http://dfu-util.sourceforge.net/)\n", MessageType.Info);
+            _printer.PrintResponse(" - Atmel SAM-BA (Massdrop) via Massdrop Loader (https://github.com/massdrop/mdloader)\n", MessageType.Info);
+            _printer.PrintResponse(" - BootloadHID (Atmel, PS2AVRGB) via bootloadHID (https://www.obdev.at/products/vusb/bootloadhid.html)\n", MessageType.Info);
+            _printer.PrintResponse("Supported ISP flashers:\n", MessageType.Info);
             _printer.PrintResponse(" - USBTiny (AVR Pocket)\n", MessageType.Info);
             _printer.PrintResponse(" - AVRISP (Arduino ISP)\n", MessageType.Info);
-            _printer.PrintResponse(" - USBASP (AVR ISP)\n", MessageType.Info);
+            _printer.PrintResponse(" - USBasp (AVR ISP)\n", MessageType.Info);
 
             var devices = new List<UsbDeviceInfo>();
 
