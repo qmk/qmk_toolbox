@@ -288,7 +288,7 @@ static kern_return_t MyGetModemPath(io_iterator_t serialPortIterator, char *devi
             if (result)
             {
                 NSString *testDevice = [NSString stringWithUTF8String:testDeviceFilePath];
-                if ([testDevice rangeOfString:@"Bluetooth"].location == NSNotFound) {
+                if ([testDevice rangeOfString:@"usbmodem"].location != NSNotFound) {
                     memcpy(deviceFilePath, testDeviceFilePath, FILEPATH_SIZE);
                     printf("BSD path: %s\n", deviceFilePath);
                     kernResult = KERN_SUCCESS;
