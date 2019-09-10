@@ -1,27 +1,43 @@
 # QMK Toolbox
 
-This is a collection of useful tools packaged into one app. This is a pretty recent development, but is looking to replace the QMK Flasher.
+This is a collection of flashing tools packaged into one app. It supports auto-detection and auto-flashing of firmware to keyboards.
+
+![](https://i.imgur.com/7bFh7vJ.png)
 
 # Flashing
 
-Supporting following bootloaders:
- - DFU (Atmel, LUFA) via dfu-programmer (http://dfu-programmer.github.io/)
- - Caterina (Arduino, Pro Micro) via avrdude (http://nongnu.org/avrdude/)
- - Halfkay (Teensy, Ergodox EZ) via teensy_loader_cli (https://pjrc.com/teensy/loader_cli.html)
- - STM32 (ARM) via dfu-util (http://dfu-util.sourceforge.net/)
- - BootloadHID (Atmel, ps2avrGB, CA66) via bootloadHID (https://www.obdev.at/products/vusb/bootloadhid.html)
+QMK Toolbox supports the following bootloaders:
+
+ - Atmel/LUFA/QMK DFU via [dfu-programmer](http://dfu-programmer.github.io/)
+ - Caterina (Arduino, Pro Micro) via [avrdude](http://nongnu.org/avrdude/)
+ - Halfkay (Teensy, Ergodox EZ) via [Teensy Loader](https://pjrc.com/teensy/loader_cli.html)
+ - ARM DFU (STM32, Kiibohd) via [dfu-util](http://dfu-util.sourceforge.net/)
+ - Atmel SAM-BA (Massdrop) via [Massdrop Loader](https://github.com/massdrop/mdloader)
+ - BootloadHID (Atmel, PS2AVRGB) via [bootloadHID](https://www.obdev.at/products/vusb/bootloadhid.html)
+
+And the following ISP flashers:
+
+ - USBTiny (AVR Pocket)
+ - AVRISP (Arduino ISP)
+ - USBasp (AVR ISP)
 
 If there's an interest in any others, they can be added if their commands are known.
 
-# HID Listening
+# HID Console
 
-Also listens to HID ascii from usage page 0xFF31 (compatible with the hid_listen provided by PJRC) - connects automatically and to all sources available.
+The Toolbox also listens to HID messages on usage page `0xFF31` and usage `0x0074`, compatible with PJRC's [`hid_listen`](https://www.pjrc.com/teensy/hid_listen.html).
+
+If you have `CONSOLE_ENABLE = yes` in your keyboard's `rules.mk`, you can print messages with `xprintf()`, useful for debugging:
+
+![](https://i.imgur.com/03xuJhU.png)
+
+See the [QMK Docs](https://docs.qmk.fm/#/newbs_testing_debugging?id=debugging) for more information.
 
 # Installation
 
 ## Dependencies
 
-When using the QMK Toolbox on Windows, please install the mandatory drivers first. You can get [the latest release here](https://github.com/qmk/qmk_driver_installer/releases).
+When using the QMK Toolbox on Windows, it will prompt at first run to install the necessary drivers. You can get the latest release of the QMK Driver Installer [here](https://github.com/qmk/qmk_driver_installer/releases).
 
 ## Download
 
