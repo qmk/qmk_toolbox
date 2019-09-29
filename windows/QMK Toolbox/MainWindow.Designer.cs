@@ -295,6 +295,7 @@ namespace QMK_Toolbox {
             // 
             this.mcuBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.mcuBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "targetSetting", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.mcuBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.mcuBox.FormattingEnabled = true;
             this.mcuBox.Location = new System.Drawing.Point(546, 16);
             this.mcuBox.Name = "mcuBox";

@@ -6,7 +6,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="targetSetting" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">atmega32u4</Value>
     </Setting>
     <Setting Name="autoSetting" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

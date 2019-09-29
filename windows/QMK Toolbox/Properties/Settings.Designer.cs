@@ -37,7 +37,7 @@ namespace QMK_Toolbox.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("atmega32u4")]
         public string targetSetting {
             get {
                 return ((string)(this["targetSetting"]));
