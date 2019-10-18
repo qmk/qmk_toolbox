@@ -157,7 +157,7 @@ static void type##DeviceRemoved(void *refCon, io_iterator_t iterator) { \
 static void type##DeviceAdded(void *refCon, io_iterator_t iterator) { \
     io_service_t    object; \
     while ((object = IOIteratorNext(iterator))) { \
-        double delayInSeconds = 1.; \
+        double delayInSeconds = 2.; \
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC)); \
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){ \
             [_printer print:[NSString stringWithFormat:@"%@ %@", @(STR(type)), @"device connected"] withType:MessageType_Bootloader]; \
