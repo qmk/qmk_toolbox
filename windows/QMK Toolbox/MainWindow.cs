@@ -63,7 +63,7 @@ namespace QMK_Toolbox
             var installerPath = Path.Combine(Application.LocalUserAppDataPath, installer);
 
             if (!File.Exists(driversPath)) EmbeddedResourceHelper.ExtractResources(drivers);
-            if (File.Exists(installerPath)) EmbeddedResourceHelper.ExtractResources(installer);
+            if (!File.Exists(installerPath)) EmbeddedResourceHelper.ExtractResources(installer);
 
             var process = new Process
             {
