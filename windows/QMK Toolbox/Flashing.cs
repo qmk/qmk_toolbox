@@ -22,10 +22,10 @@ namespace QMK_Toolbox
         Caterina,
         Stm32,
         Kiibohd,
-        Avrisp,
-        Usbasp,
+        AvrIsp,
+        UsbAsp,
         UsbTiny,
-        BootloadHID,
+        BootloadHid,
         AtmelSamBa,
         NumberOfChipsets
     };
@@ -65,47 +65,7 @@ namespace QMK_Toolbox
             _printer = printer;
             EmbeddedResourceHelper.ExtractResources(_resources);
 
-            /*
-            var query = new System.Management.SelectQuery("Win32_SystemDriver") { Condition = "Name = 'libusb0'" };
-            var searcher = new System.Management.ManagementObjectSearcher(query);
-            var drivers = searcher.Get();
-
-            if (drivers.Count > 0)
-            {
-                printer.Print("libusb0 driver found on system", MessageType.Info);
-            }
-            else
-            {
-                printer.Print("libusb0 driver not found - attempting to install", MessageType.Info);
-
-                if (Directory.Exists(Path.Combine(Application.LocalUserAppDataPath, "dfu-prog-usb-1.2.2")))
-                    Directory.Delete(Path.Combine(Application.LocalUserAppDataPath, "dfu-prog-usb-1.2.2"), true);
-                ZipFile.ExtractToDirectory(Path.Combine(Application.LocalUserAppDataPath, "dfu-prog-usb-1.2.2.zip"), Application.LocalUserAppDataPath);
-
-                var size = 0;
-                var success = Program.SetupCopyOEMInf(Path.Combine(Application.LocalUserAppDataPath,
-                        "dfu-prog-usb-1.2.2",
-                        "atmel_usb_dfu.inf"),
-                    "",
-                    Program.OemSourceMediaType.SpostNone,
-                    Program.OemCopyStyle.SpCopyNewer,
-                    null,
-                    0,
-                    ref size,
-                    null);
-                if (!success)
-                {
-                    var errorCode = Marshal.GetLastWin32Error();
-                    var errorString = new Win32Exception(errorCode).Message;
-                    printer.Print("Error: " + errorString, MessageType.Error);
-                }
-            }
-            */
-
             _process = new Process();
-            //process.EnableRaisingEvents = true;
-            //process.OutputDataReceived += OnOutputDataReceived;
-            //process.ErrorDataReceived += OnErrorDataReceived;
             _startInfo = new ProcessStartInfo
             {
                 UseShellExecute = false,
@@ -187,14 +147,14 @@ namespace QMK_Toolbox
                 FlashStm32(mcu, file);
             if (Usb.CanFlash(Chipset.Kiibohd))
                 FlashKiibohd(file);
-            if (Usb.CanFlash(Chipset.Avrisp))
-                FlashAvrisp(mcu, file);
-            if (Usb.CanFlash(Chipset.Usbasp))
-                FlashUsbasp(mcu, file);
+            if (Usb.CanFlash(Chipset.AvrIsp))
+                FlashAvrIsp(mcu, file);
+            if (Usb.CanFlash(Chipset.UsbAsp))
+                FlashUsbAsp(mcu, file);
             if (Usb.CanFlash(Chipset.UsbTiny))
                 FlashUsbTiny(mcu, file);
-            if (Usb.CanFlash(Chipset.BootloadHID))
-                FlashBootloadHID(file);
+            if (Usb.CanFlash(Chipset.BootloadHid))
+                FlashBootloadHid(file);
             if (Usb.CanFlash(Chipset.AtmelSamBa))
                 FlashAtmelSamBa(file);
         }
@@ -205,8 +165,8 @@ namespace QMK_Toolbox
                 ResetDfu(mcu);
             if (Usb.CanFlash(Chipset.Halfkay))
                 ResetHalfkay(mcu);
-            if (Usb.CanFlash(Chipset.BootloadHID))
-                ResetBootloadHID();
+            if (Usb.CanFlash(Chipset.BootloadHid))
+                ResetBootloadHid();
         }
 
         public void EepromReset(string mcu)
@@ -215,8 +175,8 @@ namespace QMK_Toolbox
                 EepromResetDfu(mcu);
             if (Usb.CanFlash(Chipset.Caterina))
                 EepromResetCaterina(mcu);
-            if (Usb.CanFlash(Chipset.Usbasp))
-                EepromResetUsbasp(mcu);
+            if (Usb.CanFlash(Chipset.UsbAsp))
+                EepromResetUsbAsp(mcu);
         }
 
         private void FlashDfu(string mcu, string file)
@@ -234,7 +194,7 @@ namespace QMK_Toolbox
 
         private void EepromResetCaterina(string mcu) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U eeprom:w:\"reset.eep\":i -P {CaterinaPort}");
 
-        private void EepromResetUsbasp(string mcu) => RunProcess("avrdude.exe", $"-p {mcu} -c usbasp -U eeprom:w:\"reset.eep\":i -P {CaterinaPort}");
+        private void EepromResetUsbAsp(string mcu) => RunProcess("avrdude.exe", $"-p {mcu} -c usbasp -U eeprom:w:\"reset.eep\":i -P {CaterinaPort}");
 
         private void FlashHalfkay(string mcu, string file) => RunProcess("teensy_loader_cli.exe", $"-mmcu={mcu} \"{file}\" -v");
 
@@ -258,13 +218,13 @@ namespace QMK_Toolbox
             }
         }
 
-        private void FlashAvrisp(string mcu, string file)
+        private void FlashAvrIsp(string mcu, string file)
         {
             RunProcess("avrdude.exe", $"-p {mcu} -c avrisp -U flash:w:\"{file}\":i -P {CaterinaPort}");
             _printer.Print("Flash complete", MessageType.Bootloader);
         }
 
-        private void FlashUsbasp(string mcu, string file)
+        private void FlashUsbAsp(string mcu, string file)
         {
             RunProcess("avrdude.exe", $"-p {mcu} -c usbasp -U flash:w:\"{file}\":i");
             _printer.Print("Flash complete", MessageType.Bootloader);
@@ -276,8 +236,8 @@ namespace QMK_Toolbox
             _printer.Print("Flash complete", MessageType.Bootloader);
         }
 
-        private void FlashBootloadHID(string file) => RunProcess("bootloadHID.exe", $"-r \"{file}\"");
-        private void ResetBootloadHID() => RunProcess("bootloadHID.exe", $"-r");
+        private void FlashBootloadHid(string file) => RunProcess("bootloadHID.exe", $"-r \"{file}\"");
+        private void ResetBootloadHid() => RunProcess("bootloadHID.exe", $"-r");
 
         private void FlashAtmelSamBa(string file) => RunProcess("mdloader_windows.exe", $"-p {CaterinaPort} -D \"{file}\"");
 

@@ -34,18 +34,18 @@ namespace QMK_Toolbox
 
         private static bool MatchPid(string did, ushort pid) => Regex.Match(did, $"USB.*PID_{pid:X4}.*").Success;
 
+        private static bool MatchRev(string did, ushort rev) => Regex.Match(did, $"USB.*REV_{rev:X4}.*").Success;
+
         public bool DetectBootloader(ManagementBaseObject instance, bool connected = true)
         {
-            var connectedString = connected ? "connected" : "disconnected";
-            var deviceId = instance.GetPropertyValue("DeviceID").ToString();
+            var hardwareIds = (System.String[])instance.GetPropertyValue("HardwareID");
+            var deviceId = hardwareIds[0];
 
-            var deviceidRegex = new Regex(@"VID_([0-9A-F]+).*PID_([0-9A-F]+)\\([0-9A-F]+)");
-            var vp = deviceidRegex.Match(instance.GetPropertyValue("DeviceID").ToString());
+            var deviceidRegex = new Regex(@"VID_([0-9A-F]+).*PID_([0-9A-F]+).*REV_([0-9A-F]+)");
+            var vp = deviceidRegex.Match(deviceId);
             var vid = vp.Groups[1].ToString().PadLeft(4, '0');
             var pid = vp.Groups[2].ToString().PadLeft(4, '0');
-            var ver = vp.Groups[3].ToString().PadLeft(4, '0');
-            var uni = instance.GetPropertyValue("ClassGuid").ToString();
-            var comRegex = new Regex("(COM[0-9]+)");
+            var rev = vp.Groups[3].ToString().PadLeft(4, '0');
 
             string deviceName;
             if (MatchVid(deviceId, 0x03EB) && MatchPid(deviceId, 0x6124)) // Detects Atmel SAM-BA VID & PID
@@ -59,7 +59,7 @@ namespace QMK_Toolbox
                 deviceName = "DFU";
                 _devicesAvailable[(int)Chipset.Dfu] += connected ? 1 : -1;
             }
-            else if (MatchVid(deviceId, 0x2341) || MatchVid(deviceId, 0x1B4F) || MatchVid(deviceId, 0x239a)) // Detects Arduino Vendor ID, Sparkfun Vendor ID, Adafruit Vendor ID
+            else if (MatchVid(deviceId, 0x2341) || MatchVid(deviceId, 0x1B4F) || MatchVid(deviceId, 0x239A)) // Detects Arduino Vendor ID, Sparkfun Vendor ID, Adafruit Vendor ID
             {
                 deviceName = "Caterina";
                 _flasher.CaterinaPort = GetComPort(deviceId);
@@ -84,13 +84,13 @@ namespace QMK_Toolbox
             {
                 deviceName = "AVRISP";
                 _flasher.CaterinaPort = GetComPort(deviceId);
-                _devicesAvailable[(int)Chipset.Avrisp] += connected ? 1 : -1;
+                _devicesAvailable[(int)Chipset.AvrIsp] += connected ? 1 : -1;
             }
             else if (MatchVid(deviceId, 0x16C0) && MatchPid(deviceId, 0x05DC)) // Detects AVR USBAsp VID & PID
             {
                 deviceName = "USBAsp";
                 _flasher.CaterinaPort = GetComPort(deviceId);
-                _devicesAvailable[(int)Chipset.Usbasp] += connected ? 1 : -1;
+                _devicesAvailable[(int)Chipset.UsbAsp] += connected ? 1 : -1;
             }
             else if (MatchVid(deviceId, 0x1781) && MatchPid(deviceId, 0x0C9F)) // Detects AVR Pocket ISP VID & PID
             {
@@ -102,14 +102,15 @@ namespace QMK_Toolbox
             else if (MatchVid(deviceId, 0x16C0) && MatchPid(deviceId, 0x05DF)) // Detects Objective Development VID & PID
             {
                 deviceName = "BootloadHID";
-                _devicesAvailable[(int)Chipset.BootloadHID] += connected ? 1 : -1;
+                _devicesAvailable[(int)Chipset.BootloadHid] += connected ? 1 : -1;
             } 
             else
             {
                 return false;
             }
 
-            _printer.Print($"{deviceName} device {connectedString}: {instance.GetPropertyValue("Name")} -- {vid}:{pid}:{ver} {uni}", MessageType.Bootloader);
+            var connectedString = connected ? "connected" : "disconnected";
+            _printer.Print($"{deviceName} device {connectedString}: {instance.GetPropertyValue("Manufacturer")} {instance.GetPropertyValue("Name")} ({vid}:{pid}:{rev})", MessageType.Bootloader);
             return true;
         }
 

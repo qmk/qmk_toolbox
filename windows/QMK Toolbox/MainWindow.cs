@@ -401,7 +401,7 @@ namespace QMK_Toolbox
 
                     device.MonitorDeviceEvents = true;
 
-                    _printer.Print($"{GetManufacturerString(device)}: {GetProductString(device)} connected  -- {device.Attributes.VendorId:X4}:{device.Attributes.ProductId:X4}:{device.Attributes.Version:X4} ({GetParentIdPrefix(device)})", MessageType.Hid);
+                    _printer.Print($"HID device connected: {GetManufacturerString(device)} {GetProductString(device)} ({device.Attributes.VendorId:X4}:{device.Attributes.ProductId:X4}:{device.Attributes.Version:X4})", MessageType.Hid);
 
                     device.ReadReport(OnReport);
                     device.CloseDevice();
@@ -415,7 +415,7 @@ namespace QMK_Toolbox
 
                     if (!deviceExists)
                     {
-                        _printer.Print($"HID device disconnected -- {existingDevice.Attributes.VendorId:X4}:{existingDevice.Attributes.ProductId:X4}:{existingDevice.Attributes.Version:X4} ({GetParentIdPrefix(existingDevice)})", MessageType.Hid);
+                        _printer.Print($"HID device disconnected ({existingDevice.Attributes.VendorId:X4}:{existingDevice.Attributes.ProductId:X4}:{existingDevice.Attributes.Version:X4})", MessageType.Hid);
                     }
                 }
             }
