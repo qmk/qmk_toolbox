@@ -9,4 +9,4 @@ Requirements:
 
 Run the following command to build a release:
 
-```./build_release.sh```
+```./build_release.command```
