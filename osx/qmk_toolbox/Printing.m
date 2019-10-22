@@ -65,84 +65,98 @@ NSMutableDictionary * colorLookup;
 }
 
 - (NSMutableAttributedString *)format:(NSString *) str forType:(MessageType)type {
-    NSColor * color = [NSColor whiteColor];
-    switch(type) {
-        case MessageType_Info:
-            color = [NSColor whiteColor];
-            str = [self prepend:str withIndent:@"*** " newline:true];
-            break;
-        case MessageType_Command:
-            color = [NSColor whiteColor];
-            str = [self prepend:str withIndent:@">>> " newline:true];
-            break;
-        case MessageType_Bootloader:
-            color = [NSColor yellowColor];
-            str = [self prepend:str withIndent:@"*** " newline:true];
-            break;
-        case MessageType_Error:
-            color = [NSColor redColor];
-            str = [self prepend:str withIndent:@"  ! " newline:true];
-            break;
-        case MessageType_HID:
-            if (textView != nil)
-                color = [NSColor colorWithHue:200.0/360 saturation:.9 brightness:1. alpha:1.];
-            else
-                color = [NSColor blueColor];
-            str = [self prepend:str withIndent:@"*** " newline:true];
-            break;
+    NSMutableAttributedString *attrStr;
+
+    if([str length] > 0) {
+        NSColor * color = [NSColor whiteColor];
+        switch(type) {
+            case MessageType_Info:
+                color = [NSColor whiteColor];
+                str = [self prepend:str withIndent:@"*** " newline:true];
+                break;
+            case MessageType_Command:
+                color = [NSColor whiteColor];
+                str = [self prepend:str withIndent:@">>> " newline:true];
+                break;
+            case MessageType_Bootloader:
+                color = [NSColor yellowColor];
+                str = [self prepend:str withIndent:@"*** " newline:true];
+                break;
+            case MessageType_Error:
+                color = [NSColor redColor];
+                str = [self prepend:str withIndent:@"  ! " newline:true];
+                break;
+            case MessageType_HID:
+                if (textView != nil)
+                    color = [NSColor colorWithHue:200.0/360 saturation:.9 brightness:1. alpha:1.];
+                else
+                    color = [NSColor blueColor];
+                    str = [self prepend:str withIndent:@"*** " newline:true];
+                    break;
+        }
+
+        if (lastChar != '\n') {
+            str = [NSString stringWithFormat:@"\n%@", str ];
+        }
+        lastChar = [str characterAtIndex:[str length] - 1];
+        lastMessage = type;
+        attrStr = [[NSMutableAttributedString alloc] initWithString:str attributes:[self formatCommon:color]];
+    } else {
+        attrStr = [[NSMutableAttributedString alloc] initWithString:@""];
     }
-    
-    if (lastChar != '\n') {
-        str = [NSString stringWithFormat:@"\n%@", str ];
-    }
-    lastChar = [str characterAtIndex:[str length] - 1];
-    lastMessage = type;
-    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:str attributes:[self formatCommon:color]];
+
     return attrStr;
 }
 
 - (NSMutableAttributedString *)formatResponse:(NSString *) str forType:(MessageType)type {
-    bool addBackNewLine = false;
-    if ([str characterAtIndex:[str length] - 1] == '\n') {
-        str = [str substringToIndex:(str.length - 1	)];
-        addBackNewLine = true;
+    NSMutableAttributedString *attrStr;
+
+    if([str length] > 0) {
+        bool addBackNewLine = false;
+        if ([str characterAtIndex:[str length] - 1] == '\n') {
+            str = [str substringToIndex:(str.length - 1	)];
+            addBackNewLine = true;
+        }
+        str = [str stringByReplacingOccurrencesOfString:@"\n" withString:@"\n    "];
+        if (addBackNewLine)
+            str = [NSString stringWithFormat:@"%@\n", str];
+
+        NSColor * color = [NSColor whiteColor];
+        switch(type) {
+            case MessageType_Info:
+                color = [NSColor lightGrayColor];
+                str = [self prepend:str withIndent:@"    " newline:false];
+                break;
+            case MessageType_Command:
+                color = [NSColor lightGrayColor];
+                str = [self prepend:str withIndent:@"    " newline:false];
+                break;
+            case MessageType_Bootloader:
+                color = [NSColor yellowColor];
+                str = [self prepend:str withIndent:@"    " newline:false];
+                break;
+            case MessageType_Error:
+                color = [NSColor redColor];
+                str = [self prepend:str withIndent:@"    " newline:false];
+                break;
+            case MessageType_HID:
+                color = [NSColor colorWithHue:200.0/360 saturation:.5 brightness:.9 alpha:1.];
+                if ([[textView.textStorage string] characterAtIndex:[textView.textStorage length]-1] == '\n')
+                    str = [self prepend:str withIndent:@"  > " newline:false];
+                break;
+        }
+
+        if (lastMessage != type && lastChar != '\n') {
+            str = [NSString stringWithFormat:@"\n%@", str ];
+        }
+
+        lastChar = [str characterAtIndex:[str length] - 1];
+        lastMessage = type;
+        attrStr = [[NSMutableAttributedString alloc] initWithString:str attributes:[self formatCommon:color]];
+    } else {
+        attrStr = [[NSMutableAttributedString alloc] initWithString:@""];
     }
-    str = [str stringByReplacingOccurrencesOfString:@"\n" withString:@"\n    "];
-    if (addBackNewLine)
-        str = [NSString stringWithFormat:@"%@\n", str];
-    
-    NSColor * color = [NSColor whiteColor];
-    switch(type) {
-        case MessageType_Info:
-            color = [NSColor lightGrayColor];
-            str = [self prepend:str withIndent:@"    " newline:false];
-            break;
-        case MessageType_Command:
-            color = [NSColor lightGrayColor];
-            str = [self prepend:str withIndent:@"    " newline:false];
-            break;
-        case MessageType_Bootloader:
-            color = [NSColor yellowColor];
-            str = [self prepend:str withIndent:@"    " newline:false];
-            break;
-        case MessageType_Error:
-            color = [NSColor redColor];
-            str = [self prepend:str withIndent:@"    " newline:false];
-            break;
-        case MessageType_HID:
-            color = [NSColor colorWithHue:200.0/360 saturation:.5 brightness:.9 alpha:1.];
-            if ([[textView.textStorage string] characterAtIndex:[textView.textStorage length]-1] == '\n')
-                str = [self prepend:str withIndent:@"  > " newline:false];
-            break;
-    }
-    
-    if (lastMessage != type && lastChar != '\n') {
-        str = [NSString stringWithFormat:@"\n%@", str ];
-    }
-    
-    lastChar = [str characterAtIndex:[str length] - 1];
-    lastMessage = type;
-    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:str attributes:[self formatCommon:color]];
+
     return attrStr;
 }
 
