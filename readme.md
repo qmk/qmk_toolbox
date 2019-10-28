@@ -1,5 +1,11 @@
 # QMK Toolbox
 
+[![Current Version](https://img.shields.io/github/tag/qmk/qmk_toolbox.svg)](https://github.com/qmk/qmk_toolbox/tags)
+[![Discord](https://img.shields.io/discord/440868230475677696.svg)](https://discord.gg/Uq7gcHh)
+[![License](https://img.shields.io/github/license/qmk/qmk_toolbox)](https://github.com/qmk/qmk_toolbox/blob/master/LICENSE.md)
+[![GitHub contributors](https://img.shields.io/github/contributors/qmk/qmk_toolbox.svg)](https://github.com/qmk/qmk_toolbox/pulse/monthly)
+[![GitHub forks](https://img.shields.io/github/forks/qmk/qmk_toolbox.svg?style=social&label=Fork)](https://github.com/qmk/qmk_toolbox/)
+
 This is a collection of flashing tools packaged into one app. It supports auto-detection and auto-flashing of firmware to keyboards.
 
 ![](https://i.imgur.com/7bFh7vJ.png)
