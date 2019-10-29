@@ -1,10 +1,16 @@
 # QMK Toolbox
 
+[![Current Version](https://img.shields.io/github/tag/qmk/qmk_toolbox.svg)](https://github.com/qmk/qmk_toolbox/tags)
+[![Discord](https://img.shields.io/discord/440868230475677696.svg)](https://discord.gg/Uq7gcHh)
+[![License](https://img.shields.io/github/license/qmk/qmk_toolbox)](https://github.com/qmk/qmk_toolbox/blob/master/LICENSE.md)
+[![GitHub contributors](https://img.shields.io/github/contributors/qmk/qmk_toolbox.svg)](https://github.com/qmk/qmk_toolbox/pulse/monthly)
+[![GitHub forks](https://img.shields.io/github/forks/qmk/qmk_toolbox.svg?style=social&label=Fork)](https://github.com/qmk/qmk_toolbox/)
+
 This is a collection of flashing tools packaged into one app. It supports auto-detection and auto-flashing of firmware to keyboards.
 
 ![](https://i.imgur.com/7bFh7vJ.png)
 
-# Flashing
+## Flashing
 
 QMK Toolbox supports the following bootloaders:
 
@@ -23,7 +29,7 @@ And the following ISP flashers:
 
 If there's an interest in any others, they can be added if their commands are known.
 
-# HID Console
+## HID Console
 
 The Toolbox also listens to HID messages on usage page `0xFF31` and usage `0x0074`, compatible with PJRC's [`hid_listen`](https://www.pjrc.com/teensy/hid_listen.html).
 
@@ -33,13 +39,13 @@ If you have `CONSOLE_ENABLE = yes` in your keyboard's `rules.mk`, you can print 
 
 See the [QMK Docs](https://docs.qmk.fm/#/newbs_testing_debugging?id=debugging) for more information.
 
-# Installation
+## Installation
 
-## Dependencies
+### Dependencies
 
 When using the QMK Toolbox on Windows, it will prompt at first run to install the necessary drivers. You can get the latest release of the QMK Driver Installer [here](https://github.com/qmk/qmk_driver_installer/releases).
 
-## Download
+### Download
 
 A Windows and macOS version are available, and you can get [the latest release here](https://github.com/qmk/qmk_toolbox/releases).
 
