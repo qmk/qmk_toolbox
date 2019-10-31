@@ -47,7 +47,7 @@ When using the QMK Toolbox on Windows, it will prompt at first run to install th
 
 ### Download
 
-A Windows and macOS version are available, and you can get [the latest release here](https://github.com/qmk/qmk_toolbox/releases).
+Windows and macOS versions are available, and you can get [the latest release here](https://github.com/qmk/qmk_toolbox/releases).
 
 For Homebrew users, it is also available as a Cask:
 
