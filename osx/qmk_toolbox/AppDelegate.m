@@ -134,6 +134,12 @@
         
         [_printer print:[NSString stringWithFormat:@"Downloading the file: %@", url.absoluteString] withType:MessageType_Info];
         NSData * data = [NSData dataWithContentsOfURL:url];
+        if (!data) {
+            // Try .bin extension if .hex 404'd
+            url = [[url URLByDeletingPathExtension] URLByAppendingPathExtension:@"bin"];
+            [_printer print:[NSString stringWithFormat:@"No .hex file found, trying %@", url.absoluteString] withType:MessageType_Info];
+            data = [NSData dataWithContentsOfURL:url];
+        }
         if (data) {
             NSArray * paths = NSSearchPathForDirectoriesInDomains(NSDownloadsDirectory, NSUserDomainMask, YES);
             NSString * downloadsDirectory = [paths objectAtIndex:0];
