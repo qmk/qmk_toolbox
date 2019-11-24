@@ -98,12 +98,12 @@ namespace QMK_Toolbox
 
                 _flasher.CaterinaPort = GetComPort(deviceId);
                 _devicesAvailable[(int)Chipset.UsbTiny] += connected ? 1 : -1;
-            } 
+            }
             else if (MatchVid(deviceId, 0x16C0) && MatchPid(deviceId, 0x05DF)) // Detects Objective Development VID & PID
             {
                 deviceName = "BootloadHID";
                 _devicesAvailable[(int)Chipset.BootloadHid] += connected ? 1 : -1;
-            } 
+            }
             else
             {
                 return false;

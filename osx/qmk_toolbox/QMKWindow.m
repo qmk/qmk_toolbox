@@ -22,26 +22,26 @@
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard;
     NSDragOperation sourceDragMask;
- 
+
     sourceDragMask = [sender draggingSourceOperationMask];
     pboard = [sender draggingPasteboard];
- 
+
     if ( [[pboard types] containsObject:NSFilenamesPboardType] ) {
         if (sourceDragMask & NSDragOperationLink) {
             return NSDragOperationLink;
         }
     }
-    
+
     return NSDragOperationNone;
 }
 
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard;
     NSDragOperation sourceDragMask;
- 
+
     sourceDragMask = [sender draggingSourceOperationMask];
     pboard = [sender draggingPasteboard];
- 
+
     NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
     for (NSString * file in files) {
         if ([[[file pathExtension] lowercaseString] isEqualToString:@"qmk"] ||

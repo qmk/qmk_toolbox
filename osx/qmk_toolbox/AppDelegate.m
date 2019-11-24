@@ -32,21 +32,18 @@
 @implementation AppDelegate
 
 - (IBAction) openButtonClick:(id) sender {
-   NSOpenPanel* panel = [NSOpenPanel openPanel];
-   [panel setCanChooseDirectories:NO];
-   [panel setAllowsMultipleSelection:NO];
-   [panel setMessage:@"Select firmware to load"];
-   NSArray* types = @[@"qmk", @"bin", @"hex"];
-   [panel setAllowedFileTypes:types];
- 
-   [panel beginWithCompletionHandler:^(NSInteger result){
-      if (result == NSFileHandlingPanelOKButton) {
-         [self setFilePath:[[panel URLs] objectAtIndex:0]];
- 
-         // Open  the document.
-      }
- 
-   }];
+    NSOpenPanel* panel = [NSOpenPanel openPanel];
+    [panel setCanChooseDirectories:NO];
+    [panel setAllowsMultipleSelection:NO];
+    [panel setMessage:@"Select firmware to load"];
+    NSArray* types = @[@"qmk", @"bin", @"hex"];
+    [panel setAllowedFileTypes:types];
+
+    [panel beginWithCompletionHandler:^(NSInteger result){
+        if (result == NSFileHandlingPanelOKButton) {
+            [self setFilePath:[[panel URLs] objectAtIndex:0]];
+        }
+    }];
 }
 
 - (IBAction) flashButtonClick:(id) sender {
@@ -62,7 +59,7 @@
         }
         if (error == 0) {
             [_printer print:@"Attempting to flash, please don't remove device" withType:MessageType_Bootloader];
-            
+
             // this is dumb, but the delay is required to let the previous print command show up
             double delayInSeconds = .01;
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
@@ -101,9 +98,7 @@
     }
 }
 
-- (void)deviceDisconnected:(Chipset)chipset {
-
-}
+- (void)deviceDisconnected:(Chipset)chipset {}
 
 - (BOOL)application:(NSApplication *)sender openFile:(NSString *)filename {
     if ([[[filename pathExtension] lowercaseString] isEqualToString:@"qmk"] ||
@@ -131,7 +126,7 @@
             url = [NSURL URLWithString:[path.absoluteString stringByReplacingOccurrencesOfString:@"qmk://" withString:@""]];
         else
             url = [NSURL URLWithString:[path.absoluteString stringByReplacingOccurrencesOfString:@"qmk:" withString:@""]];
-        
+
         [_printer print:[NSString stringWithFormat:@"Downloading the file: %@", url.absoluteString] withType:MessageType_Info];
         NSData * data = [NSData dataWithContentsOfURL:url];
         if (data) {
@@ -157,10 +152,8 @@
 }
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
-    
     NSAppleEventManager *appleEventManager = [NSAppleEventManager sharedAppleEventManager];
     [appleEventManager setEventHandler:self andSelector:@selector(handleGetURLEvent:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
-    
 }
 
 - (void)handleGetURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)reply
@@ -170,11 +163,11 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     [_window setup];
-    
+
     _printer = [[Printing alloc] initWithTextView:_textView];
     _flasher = [[Flashing alloc] initWithPrinter:_printer];
     _flasher.delegate = self;
-    
+
     [self loadMicrocontrollers];
     [self loadKeyboards];
     [self loadKeymaps];
@@ -192,16 +185,15 @@
     [_printer printResponse:@" - USBTiny (AVR Pocket)\n" withType:MessageType_Info];
     [_printer printResponse:@" - AVRISP (Arduino ISP)\n" withType:MessageType_Info];
     [_printer printResponse:@" - USBasp (AVR ISP)\n" withType:MessageType_Info];
-    
-    
+
 //    [_flasher runProcess:@"dfu-programmer" withArgs:@[@"--help"]];
 //    [_flasher runProcess:@"avrdude" withArgs:@[@"-C", [[NSBundle mainBundle] pathForResource:@"avrdude.conf" ofType:@""]]];
 //    [_flasher runProcess:@"teensy_loader_cli" withArgs:@[@"-v"]];
 //    [_flasher runProcess:@"dfu-util" withArgs:@[@""]];
-    
+
     [HID setupWithPrinter:_printer];
     [USB setupWithPrinter:_printer andDelegate:self];
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mcuSelectionChanged) name:NSComboBoxSelectionDidChangeNotification object:_mcuBox];
 }
 
@@ -212,10 +204,10 @@
 - (void)loadMicrocontrollers {
     NSString * fileRoot = [[NSBundle mainBundle] pathForResource:@"mcu-list" ofType:@"txt"];
     NSString * fileContents = [NSString stringWithContentsOfFile:fileRoot encoding:NSUTF8StringEncoding error:nil];
-    
+
     // first, separate by new line
     NSArray * allLinedStrings = [fileContents componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-    
+
     // choose whatever input identity you have decided. in this case ;
     for (NSString * str in allLinedStrings) {
         if ([str length] > 0) {
@@ -240,7 +232,6 @@
     [_keyboardBox selectItemAtIndex:0];
     _keyboardBox.enabled = YES;
 }
-
 
 - (void)loadKeymaps {
 //    NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://compile.qmk.fm/v1/keyboards"]];

@@ -22,12 +22,12 @@ int main(int argc, const char * argv[]) {
 //    }
     if (argc > 1 && strcmp(argv[1], "-NSDocumentRevisionsDebugMode")) {
         _printer = [[Printing alloc] init];
-        
+
         if (!strcmp(argv[1], "list")) {
             [USB setupWithPrinter:_printer];
             return 0;
         }
-        
+
         if (!strcmp(argv[1], "flash") && argc == 4) {
             _flasher = [[Flashing alloc] initWithPrinter:_printer];
             [HID setupWithPrinter:_printer];
@@ -41,7 +41,7 @@ int main(int argc, const char * argv[]) {
                 return 1;
             }
         }
-        
+
         if (!strcmp(argv[1], "help")) {
             [_printer print:@"QMK Toolbox (http://qmk.fm/toolbox)" withType:MessageType_Info];
             [_printer printResponse:@"Supported bootloaders:\n" withType:MessageType_Info];
@@ -55,7 +55,7 @@ int main(int argc, const char * argv[]) {
             [_printer printResponse:@" - USBTiny (AVR Pocket)\n" withType:MessageType_Info];
             [_printer printResponse:@" - AVRISP (Arduino ISP)\n" withType:MessageType_Info];
             [_printer printResponse:@" - USBasp (AVR ISP)\n" withType:MessageType_Info];
-            
+
             [_printer print:@"usage: QMK\\ Toolbox [command]" withType:MessageType_Info];
             [_printer printResponse:@"commands available:\n" withType:MessageType_Info];
             [_printer printResponse:@" - help                 print this message\n" withType:MessageType_Info];
@@ -63,10 +63,9 @@ int main(int argc, const char * argv[]) {
             [_printer printResponse:@" - flash [mcu] [file]   if available, flash the [mcu] with [file]\n" withType:MessageType_Info];
             return 0;
         }
-        
+
         [_printer print:@"Command not found - use \"help\" for all commands" withType:MessageType_Error];
         return 1;
-        
     } else {
         return NSApplicationMain(argc, argv);
     }

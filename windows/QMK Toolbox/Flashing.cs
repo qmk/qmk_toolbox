@@ -58,8 +58,6 @@ namespace QMK_Toolbox
             "applet-flash-samd51j18a.bin"
         };
 
-        
-
         public Flashing(Printing printer)
         {
             _printer = printer;
