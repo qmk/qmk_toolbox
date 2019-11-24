@@ -116,7 +116,7 @@ namespace QMK_Toolbox
 
         public string GetComPort(ManagementBaseObject instance)
         {
-            using (var searcher = new ManagementObjectSearcher("Select * from Win32_SerialPort"))
+            using (var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_SerialPort"))
             {
                 foreach (var device in searcher.Get())
                 {
