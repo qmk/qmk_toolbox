@@ -120,7 +120,7 @@ namespace QMK_Toolbox
             {
                 foreach (var device in searcher.Get())
                 {
-                    if (device.GetPropertyValue("PNPDeviceID").ToString().Equals(instance.GetPropertyValue("PNPDeviceId").ToString()))
+                    if (device.GetPropertyValue("PNPDeviceID").ToString().Equals(instance.GetPropertyValue("PNPDeviceID").ToString()))
                     {
                         return device.GetPropertyValue("DeviceID").ToString();
                     }
