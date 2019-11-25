@@ -87,7 +87,7 @@
     if ([[_mcuBox objectValue] isEqualToString:@""]) {
         [_printer print:@"Please select a microcontroller" withType:MessageType_Error];
     } else {
-        [_flasher clearEEPROM(NSString *)[_mcuBox objectValue]];
+        [_flasher clearEEPROM:(NSString *)[_mcuBox objectValue]];
     }
 }
 
