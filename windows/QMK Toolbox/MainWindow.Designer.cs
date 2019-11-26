@@ -33,8 +33,6 @@ namespace QMK_Toolbox {
             this.listHidDevicesButton = new System.Windows.Forms.Button();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.jumpToBootloaderButton = new System.Windows.Forms.Button();
-            this.sayHelloButton = new System.Windows.Forms.Button();
             this.mcuLabel = new System.Windows.Forms.Label();
             this.qmkGroupBox = new System.Windows.Forms.GroupBox();
             this.keymapLabel = new System.Windows.Forms.Label();
@@ -156,31 +154,6 @@ namespace QMK_Toolbox {
             // 
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
             this.toolStripStatusLabel.Size = new System.Drawing.Size(0, 17);
-            // 
-            // jumpToBootloaderButton
-            // 
-            this.jumpToBootloaderButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.jumpToBootloaderButton.Enabled = false;
-            this.jumpToBootloaderButton.Location = new System.Drawing.Point(97, 566);
-            this.jumpToBootloaderButton.Name = "jumpToBootloaderButton";
-            this.jumpToBootloaderButton.Size = new System.Drawing.Size(119, 21);
-            this.jumpToBootloaderButton.TabIndex = 20;
-            this.jumpToBootloaderButton.Tag = "Experimental feature for QMK boards using the hid_api branch";
-            this.jumpToBootloaderButton.Text = "Jump to Bootloader";
-            this.jumpToBootloaderButton.UseVisualStyleBackColor = true;
-            this.jumpToBootloaderButton.Click += new System.EventHandler(this.jumpToBootloaderButton_Click);
-            // 
-            // sayHelloButton
-            // 
-            this.sayHelloButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.sayHelloButton.Location = new System.Drawing.Point(12, 566);
-            this.sayHelloButton.Name = "sayHelloButton";
-            this.sayHelloButton.Size = new System.Drawing.Size(78, 21);
-            this.sayHelloButton.TabIndex = 21;
-            this.sayHelloButton.Tag = "Experimental feature for QMK boards using the hid_api branch";
-            this.sayHelloButton.Text = "Say Hello";
-            this.sayHelloButton.UseVisualStyleBackColor = true;
-            this.sayHelloButton.Click += new System.EventHandler(this.sayHelloButton_Click);
             // 
             // mcuLabel
             // 
@@ -390,8 +363,8 @@ namespace QMK_Toolbox {
             // 
             // eepromResetButton
             // 
-            this.eepromResetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.eepromResetButton.Location = new System.Drawing.Point(572, 566);
+            this.eepromResetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.eepromResetButton.Location = new System.Drawing.Point(12, 566);
             this.eepromResetButton.Name = "eepromResetButton";
             this.eepromResetButton.Size = new System.Drawing.Size(110, 21);
             this.eepromResetButton.TabIndex = 27;
@@ -455,9 +428,9 @@ namespace QMK_Toolbox {
             | System.Windows.Forms.AnchorStyles.Right)));
             this.hidList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.hidList.FormattingEnabled = true;
-            this.hidList.Location = new System.Drawing.Point(222, 568);
+            this.hidList.Location = new System.Drawing.Point(128, 568);
             this.hidList.Name = "hidList";
-            this.hidList.Size = new System.Drawing.Size(329, 20);
+            this.hidList.Size = new System.Drawing.Size(554, 20);
             this.hidList.TabIndex = 29;
             // 
             // flashWhenReadyCheckbox
@@ -486,9 +459,7 @@ namespace QMK_Toolbox {
             this.Controls.Add(this.fileGroupBox);
             this.Controls.Add(this.qmkGroupBox);
             this.Controls.Add(this.listHidDevicesButton);
-            this.Controls.Add(this.jumpToBootloaderButton);
             this.Controls.Add(this.flashButton);
-            this.Controls.Add(this.sayHelloButton);
             this.Controls.Add(this.autoflashCheckbox);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.logTextBox);
@@ -530,8 +501,6 @@ namespace QMK_Toolbox {
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
         private System.Windows.Forms.Button listHidDevicesButton;
-        private System.Windows.Forms.Button jumpToBootloaderButton;
-        private System.Windows.Forms.Button sayHelloButton;
         private System.Windows.Forms.Label mcuLabel;
         private System.Windows.Forms.GroupBox qmkGroupBox;
         private System.Windows.Forms.ComboBox keymapBox;
