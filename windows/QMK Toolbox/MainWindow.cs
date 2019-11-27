@@ -812,14 +812,9 @@ namespace QMK_Toolbox
             Settings.Default.Save();
         }
 
-        private void openFileDialog_FileOk(object sender, CancelEventArgs e)
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void statusStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
+            (new AboutBox()).ShowDialog();
         }
     }
 
