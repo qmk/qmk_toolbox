@@ -34,7 +34,7 @@ namespace QMK_Toolbox
             }
         }
 
-        public string AssemblyVersion => Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        public string AssemblyVersion => Application.ProductVersion;
 
         public string AssemblyDescription
         {

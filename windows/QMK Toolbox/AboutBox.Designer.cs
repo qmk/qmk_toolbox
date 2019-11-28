@@ -76,7 +76,7 @@
             this.labelVersion.Name = "labelVersion";
             this.labelVersion.Size = new System.Drawing.Size(78, 13);
             this.labelVersion.TabIndex = 3;
-            this.labelVersion.Text = "Version 0.0.0.0";
+            this.labelVersion.Text = "Version 0.0.0";
             this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // textBox1

@@ -108,8 +108,7 @@ namespace QMK_Toolbox
             {
                 if (m.WParam.ToInt32() == About)
                 {
-                    var aboutBox = new AboutBox();
-                    aboutBox.Show();
+                    (new AboutBox()).ShowDialog();
                     return;
                 }
             }
