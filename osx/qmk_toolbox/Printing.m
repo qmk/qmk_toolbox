@@ -18,13 +18,13 @@ NSMutableDictionary * colorLookup;
 - (id)initWithTextView:(NSTextView *)tV {
     if (self = [super init]) {
         textView = tV;
-        
+
         NSSize layoutSize = [textView maxSize];
         layoutSize.width = layoutSize.height;
         [textView setMaxSize:layoutSize];
         [[textView textContainer] setWidthTracksTextView:NO];
         [[textView textContainer] setContainerSize:layoutSize];
-        
+
         [textView setSelectedTextAttributes:@{
             NSBackgroundColorAttributeName : [NSColor colorWithHue:0 saturation:0 brightness:.3 alpha:1]
         }];
@@ -61,7 +61,6 @@ NSMutableDictionary * colorLookup;
         NSFontAttributeName: font
     };
     return attrs;
-    
 }
 
 - (NSMutableAttributedString *)format:(NSString *) str forType:(MessageType)type {
@@ -114,7 +113,7 @@ NSMutableDictionary * colorLookup;
     if([str length] > 0) {
         bool addBackNewLine = false;
         if ([str characterAtIndex:[str length] - 1] == '\n') {
-            str = [str substringToIndex:(str.length - 1	)];
+            str = [str substringToIndex:(str.length - 1)];
             addBackNewLine = true;
         }
         str = [str stringByReplacingOccurrencesOfString:@"\n" withString:@"\n    "];
@@ -185,6 +184,5 @@ NSMutableDictionary * colorLookup;
         printf("\x1b[0m");
     }
 }
-
 
 @end

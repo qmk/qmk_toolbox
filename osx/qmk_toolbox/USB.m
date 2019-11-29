@@ -45,8 +45,8 @@ static int devicesAvailable[NumberOfChipsets];
 
 + (void)setupWithPrinter:(Printing *)printer {
     // https://developer.apple.com/library/content/documentation/DeviceDrivers/Conceptual/USBBook/USBDeviceInterfaces/USBDevInterfaces.html#//apple_ref/doc/uid/TP40002645-TPXREF101
-    
-    _printer = printer;	
+
+    _printer = printer;
     mach_port_t             masterPort;
     CFMutableDictionaryRef  AtmelSAMBAMatchingDict;
     CFMutableDictionaryRef  DFUMatchingDict;
@@ -63,7 +63,7 @@ static int devicesAvailable[NumberOfChipsets];
     kern_return_t           kr;
     SInt32                  usbVendor;
     SInt32                  usbProduct;
- 
+
     //Create a master port for communication with the I/O Kit
     kr = IOMasterPort(MACH_PORT_NULL, &masterPort);
 
@@ -85,8 +85,8 @@ kr = IOServiceAddMatchingNotification(gNotifyPort, kIOFirstMatchNotification, ty
 dest##DeviceAdded(NULL, g##dest##AddedIter); \
 \
 kr = IOServiceAddMatchingNotification(gNotifyPort, kIOTerminatedNotification, type##MatchingDict, dest##DeviceRemoved, NULL, &g##dest##RemovedIter); \
-dest##DeviceRemoved(NULL, g##dest##RemovedIter) \
-    
+dest##DeviceRemoved(NULL, g##dest##RemovedIter)
+
 #define VID_PID_MATCH(VID, PID, type) VID_PID_MATCH_MAP(VID, PID, type, type)
 #define VID_PID_MATCH_MAP(VID, PID, type, dest) \
 usbVendor = VID; \
@@ -103,9 +103,8 @@ kr = IOServiceAddMatchingNotification(gNotifyPort, kIOFirstMatchNotification, ty
 dest##DeviceAdded(NULL, g##dest##AddedIter); \
 \
 kr = IOServiceAddMatchingNotification(gNotifyPort, kIOTerminatedNotification, type##MatchingDict, dest##DeviceRemoved, NULL, &g##dest##RemovedIter); \
-dest##DeviceRemoved(NULL, g##dest##RemovedIter) \
-    
-    
+dest##DeviceRemoved(NULL, g##dest##RemovedIter)
+
     VID_PID_MATCH(0x03EB, 0x6124, AtmelSAMBA);
     VID_MATCH(0x03EB, DFU);
     VID_MATCH(0x2341, Caterina);
@@ -117,12 +116,11 @@ dest##DeviceRemoved(NULL, g##dest##RemovedIter) \
     VID_PID_MATCH(0x16C0, 0x0483, AVRISP);
     VID_PID_MATCH(0x16C0, 0x05DC, USBAsp);
     VID_PID_MATCH(0x1781, 0x0C9F, USBTiny);
- 
- 
+
     //Finished with master port
     mach_port_deallocate(mach_task_self(), masterPort);
     masterPort = 0;
- 
+
     //Start the run loop so notifications will be received
     //CFRunLoopRun();
 }
@@ -208,14 +206,14 @@ static kern_return_t MyFindModems(io_iterator_t *matchingServices)
     kern_return_t       kernResult;
     mach_port_t         masterPort;
     CFMutableDictionaryRef  classesToMatch;
- 
+
     kernResult = IOMasterPort(MACH_PORT_NULL, &masterPort);
     if (KERN_SUCCESS != kernResult)
     {
         printf("IOMasterPort returned %d\n", kernResult);
-    goto exit;
+        goto exit;
     }
- 
+
     // Serial devices are instances of class IOSerialBSDClient.
     classesToMatch = IOServiceMatching(kIOSerialBSDServiceValue);
     if (classesToMatch == NULL)
@@ -226,7 +224,7 @@ static kern_return_t MyFindModems(io_iterator_t *matchingServices)
         CFDictionarySetValue(classesToMatch,
                              CFSTR(kIOSerialBSDTypeKey),
                              CFSTR(kIOSerialBSDAllTypes));
- 
+
         // Each serial device object has a property with key
         // kIOSerialBSDTypeKey and a value that is one of
         // kIOSerialBSDAllTypes, kIOSerialBSDModemType,
@@ -235,14 +233,14 @@ static kern_return_t MyFindModems(io_iterator_t *matchingServices)
         // devices by changing the last parameter in the above call
         // to CFDictionarySetValue.
     }
- 
+
     kernResult = IOServiceGetMatchingServices(masterPort, classesToMatch, matchingServices);
     if (KERN_SUCCESS != kernResult)
     {
         printf("IOServiceGetMatchingServices returned %d\n", kernResult);
-    goto exit;
+        goto exit;
     }
- 
+
 exit:
     return kernResult;
 }
@@ -251,23 +249,23 @@ static kern_return_t MyGetModemPath(io_iterator_t serialPortIterator, char *devi
 {
     io_object_t     modemService;
     kern_return_t   kernResult = KERN_FAILURE;
- 
+
     // Initialize the returned path
     *deviceFilePath = '\0';
- 
+
     // Iterate across all modems found. In this example, we exit after
     // finding the first modem.
- 
+
     while ((modemService = IOIteratorNext(serialPortIterator)))
     {
         CFTypeRef   deviceFilePathAsCFString;
- 
+
         // Get the callout device's path (/dev/cu.xxxxx).
         // The callout device should almost always be
         // used. You would use the dialin device (/dev/tty.xxxxx) when
         // monitoring a serial port for
         // incoming calls, for example, a fax listener.
- 
+
         deviceFilePathAsCFString = IORegistryEntryCreateCFProperty(modemService,
                                                                    CFSTR(kIOCalloutDeviceKey),
                                                                    kCFAllocatorDefault,
@@ -275,7 +273,7 @@ static kern_return_t MyGetModemPath(io_iterator_t serialPortIterator, char *devi
         if (deviceFilePathAsCFString)
         {
             Boolean result;
- 
+
             // Convert the path from a CFString to a NULL-terminated C string
             // for use with the POSIX open() call.
             char testDeviceFilePath[FILEPATH_SIZE];
@@ -284,7 +282,7 @@ static kern_return_t MyGetModemPath(io_iterator_t serialPortIterator, char *devi
                                         maxPathSize,
                                         kCFStringEncodingASCII);
             CFRelease(deviceFilePathAsCFString);
- 
+
             if (result)
             {
                 NSString *testDevice = [NSString stringWithUTF8String:testDeviceFilePath];
@@ -301,7 +299,7 @@ static kern_return_t MyGetModemPath(io_iterator_t serialPortIterator, char *devi
         // Release the io_service_t now that we are done with it.
         IOObjectRelease(modemService);
     }
- 
+
     return kernResult;
 }
 
