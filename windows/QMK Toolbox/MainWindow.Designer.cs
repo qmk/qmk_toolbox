@@ -275,8 +275,8 @@ namespace QMK_Toolbox {
             // 
             // clearEepromButton
             // 
-            this.clearEepromButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.clearEepromButton.Location = new System.Drawing.Point(572, 566);
+            this.clearEepromButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.clearEepromButton.Location = new System.Drawing.Point(12, 566);
             this.clearEepromButton.Name = "clearEepromButton";
             this.clearEepromButton.Size = new System.Drawing.Size(110, 21);
             this.clearEepromButton.TabIndex = 27;
