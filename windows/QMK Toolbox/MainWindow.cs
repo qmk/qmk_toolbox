@@ -211,7 +211,7 @@ namespace QMK_Toolbox
             var devices = new List<UsbDeviceInfo>();
 
             ManagementObjectCollection collection;
-            using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity where DeviceID Like ""USB%"""))
+            using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity WHERE DeviceID LIKE ""USB%"""))
                 collection = searcher.Get();
 
             _usb.DetectBootloaderFromCollection(collection);
