@@ -16,7 +16,7 @@
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
                 <outlet property="autoFlashButton" destination="TwL-TO-5Ka" id="pLB-Ll-mP5"/>
-                <outlet property="eepromResetButton" destination="RSb-Il-mNt" id="uEb-yN-jO6"/>
+                <outlet property="clearEEPROMButton" destination="RSb-Il-mNt" id="uEb-yN-jO6"/>
                 <outlet property="filepathBox" destination="fMz-rn-IEt" id="eSr-wv-y0f"/>
                 <outlet property="flashButton" destination="OKF-oG-mRx" id="3MC-L3-Hfy"/>
                 <outlet property="keyboardBox" destination="j37-hH-gaF" id="Vhv-Th-t9k"/>
@@ -429,12 +429,12 @@
                             <constraint firstAttribute="width" constant="121" id="OrW-P7-Fri"/>
                             <constraint firstAttribute="height" constant="21" id="ZJj-0M-KZ7"/>
                         </constraints>
-                        <buttonCell key="cell" type="push" title="Reset EEPROM" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aot-j7-w9r">
+                        <buttonCell key="cell" type="push" title="Clear EEPROM" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aot-j7-w9r">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="cellTitle"/>
                         </buttonCell>
                         <connections>
-                            <action selector="eepromResetButtonClick:" target="Voe-Tx-rLC" id="xaR-XN-Tf6"/>
+                            <action selector="clearEEPROMButtonClick:" target="Voe-Tx-rLC" id="xaR-XN-Tf6"/>
                         </connections>
                     </button>
                 </subviews>

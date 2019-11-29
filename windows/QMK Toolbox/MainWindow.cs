@@ -352,11 +352,11 @@ namespace QMK_Toolbox
             }
         }
 
-        private void eepromResetButton_Click(object sender, EventArgs e)
+        private void clearEepromButton_Click(object sender, EventArgs e)
         {
             if (!InvokeRequired)
             {
-                eepromResetButton.Enabled = false;
+                clearEepromButton.Enabled = false;
 
                 if (_usb.AreDevicesAvailable())
                 {
@@ -368,7 +368,7 @@ namespace QMK_Toolbox
                     }
                     if (error == 0)
                     {
-                        _flasher.EepromReset(mcuBox.Text);
+                        _flasher.ClearEeprom(mcuBox.Text);
                     }
                 }
                 else
@@ -376,11 +376,11 @@ namespace QMK_Toolbox
                     _printer.Print("There are no devices available", MessageType.Error);
                 }
 
-                eepromResetButton.Enabled = true;
+                clearEepromButton.Enabled = true;
             }
             else
             {
-                Invoke(new Action<object, EventArgs>(eepromResetButton_Click), sender, e);
+                Invoke(new Action<object, EventArgs>(clearEepromButton_Click), sender, e);
             }
         }
 

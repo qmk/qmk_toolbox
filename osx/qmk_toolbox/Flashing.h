@@ -38,7 +38,7 @@ typedef enum {
 
 - (void)flash:(NSString *)mcu withFile:(NSString *)file;
 - (void)reset:(NSString *)mcu;
-- (void)eepromReset:(NSString *)mcu;
+- (void)clearEEPROM:(NSString *)mcu;
 @property NSString * caterinaPort;
 
 @property (nonatomic, assign) id <FlashingDelegate> delegate;

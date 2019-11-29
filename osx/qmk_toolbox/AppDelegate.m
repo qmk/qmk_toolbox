@@ -20,7 +20,7 @@
 @property IBOutlet NSButton * flashButton;
 @property IBOutlet NSButton * resetButton;
 @property IBOutlet NSButton * autoFlashButton;
-@property IBOutlet NSButton * eepromResetButton;
+@property IBOutlet NSButton * clearEEPROMButton;
 @property IBOutlet NSComboBox * keyboardBox;
 @property IBOutlet NSComboBox * keymapBox;
 @property IBOutlet NSButton * loadButton;
@@ -83,11 +83,11 @@
     }
 }
 
-- (IBAction) eepromResetButtonClick:(id) sender {
+- (IBAction) clearEEPROMButtonClick:(id) sender {
     if ([[_mcuBox objectValue] isEqualToString:@""]) {
         [_printer print:@"Please select a microcontroller" withType:MessageType_Error];
     } else {
-        [_flasher eepromReset:(NSString *)[_mcuBox objectValue]];
+        [_flasher clearEEPROM:(NSString *)[_mcuBox objectValue]];
     }
 }
 
