@@ -42,12 +42,7 @@ namespace QMK_Toolbox {
             this.fileGroupBox = new System.Windows.Forms.GroupBox();
             this.filepathBox = new BetterComboBox();
             this.mcuBox = new System.Windows.Forms.ComboBox();
-            this.dfuCheckbox = new System.Windows.Forms.CheckBox();
-            this.caterinaCheckbox = new System.Windows.Forms.CheckBox();
-            this.halfkayCheckbox = new System.Windows.Forms.CheckBox();
-            this.stm32Checkbox = new System.Windows.Forms.CheckBox();
-            this.enabledFlasherGroupBox = new System.Windows.Forms.GroupBox();
-            this.eepromResetButton = new System.Windows.Forms.Button();
+            this.clearEepromButton = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logTextBox = new System.Windows.Forms.RichTextBox();
@@ -58,7 +53,6 @@ namespace QMK_Toolbox {
             this.statusStrip.SuspendLayout();
             this.qmkGroupBox.SuspendLayout();
             this.fileGroupBox.SuspendLayout();
-            this.enabledFlasherGroupBox.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
             this.SuspendLayout();
@@ -279,98 +273,16 @@ namespace QMK_Toolbox {
             this.mcuBox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
             this.mcuBox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
             // 
-            // dfuCheckbox
+            // clearEepromButton
             // 
-            this.dfuCheckbox.AutoSize = true;
-            this.dfuCheckbox.BackColor = System.Drawing.Color.Transparent;
-            this.dfuCheckbox.Checked = true;
-            this.dfuCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.dfuCheckbox.Enabled = false;
-            this.dfuCheckbox.Location = new System.Drawing.Point(6, 12);
-            this.dfuCheckbox.Name = "dfuCheckbox";
-            this.dfuCheckbox.Size = new System.Drawing.Size(46, 16);
-            this.dfuCheckbox.TabIndex = 5;
-            this.dfuCheckbox.Tag = "Atmel AVR, Lufa";
-            this.dfuCheckbox.Text = "DFU";
-            this.dfuCheckbox.UseVisualStyleBackColor = false;
-            this.dfuCheckbox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
-            this.dfuCheckbox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
-            // 
-            // caterinaCheckbox
-            // 
-            this.caterinaCheckbox.AutoSize = true;
-            this.caterinaCheckbox.BackColor = System.Drawing.Color.Transparent;
-            this.caterinaCheckbox.Checked = true;
-            this.caterinaCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.caterinaCheckbox.Enabled = false;
-            this.caterinaCheckbox.Location = new System.Drawing.Point(66, 27);
-            this.caterinaCheckbox.Name = "caterinaCheckbox";
-            this.caterinaCheckbox.Size = new System.Drawing.Size(63, 16);
-            this.caterinaCheckbox.TabIndex = 5;
-            this.caterinaCheckbox.Tag = "Arduino, Pro micros";
-            this.caterinaCheckbox.Text = "Caterina";
-            this.caterinaCheckbox.UseVisualStyleBackColor = false;
-            this.caterinaCheckbox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
-            this.caterinaCheckbox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
-            // 
-            // halfkayCheckbox
-            // 
-            this.halfkayCheckbox.AutoSize = true;
-            this.halfkayCheckbox.BackColor = System.Drawing.Color.Transparent;
-            this.halfkayCheckbox.Checked = true;
-            this.halfkayCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.halfkayCheckbox.Enabled = false;
-            this.halfkayCheckbox.Location = new System.Drawing.Point(66, 12);
-            this.halfkayCheckbox.Name = "halfkayCheckbox";
-            this.halfkayCheckbox.Size = new System.Drawing.Size(61, 16);
-            this.halfkayCheckbox.TabIndex = 5;
-            this.halfkayCheckbox.Tag = "Teensy";
-            this.halfkayCheckbox.Text = "Halfkay";
-            this.halfkayCheckbox.UseVisualStyleBackColor = false;
-            this.halfkayCheckbox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
-            this.halfkayCheckbox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
-            // 
-            // stm32Checkbox
-            // 
-            this.stm32Checkbox.AutoSize = true;
-            this.stm32Checkbox.BackColor = System.Drawing.Color.Transparent;
-            this.stm32Checkbox.Checked = true;
-            this.stm32Checkbox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.stm32Checkbox.Enabled = false;
-            this.stm32Checkbox.Location = new System.Drawing.Point(6, 27);
-            this.stm32Checkbox.Name = "stm32Checkbox";
-            this.stm32Checkbox.Size = new System.Drawing.Size(59, 16);
-            this.stm32Checkbox.TabIndex = 5;
-            this.stm32Checkbox.Tag = "ARM Boards";
-            this.stm32Checkbox.Text = "STM32";
-            this.stm32Checkbox.UseVisualStyleBackColor = false;
-            this.stm32Checkbox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
-            this.stm32Checkbox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
-            // 
-            // enabledFlasherGroupBox
-            // 
-            this.enabledFlasherGroupBox.Controls.Add(this.dfuCheckbox);
-            this.enabledFlasherGroupBox.Controls.Add(this.halfkayCheckbox);
-            this.enabledFlasherGroupBox.Controls.Add(this.caterinaCheckbox);
-            this.enabledFlasherGroupBox.Controls.Add(this.stm32Checkbox);
-            this.enabledFlasherGroupBox.Location = new System.Drawing.Point(456, 53);
-            this.enabledFlasherGroupBox.Name = "enabledFlasherGroupBox";
-            this.enabledFlasherGroupBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.enabledFlasherGroupBox.Size = new System.Drawing.Size(130, 44);
-            this.enabledFlasherGroupBox.TabIndex = 26;
-            this.enabledFlasherGroupBox.TabStop = false;
-            this.enabledFlasherGroupBox.Text = "Flashers enabled";
-            // 
-            // eepromResetButton
-            // 
-            this.eepromResetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.eepromResetButton.Location = new System.Drawing.Point(12, 566);
-            this.eepromResetButton.Name = "eepromResetButton";
-            this.eepromResetButton.Size = new System.Drawing.Size(110, 21);
-            this.eepromResetButton.TabIndex = 27;
-            this.eepromResetButton.Text = "Reset EEPROM";
-            this.eepromResetButton.UseVisualStyleBackColor = true;
-            this.eepromResetButton.Click += new System.EventHandler(this.eepromResetButton_Click);
+            this.clearEepromButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.clearEepromButton.Location = new System.Drawing.Point(572, 566);
+            this.clearEepromButton.Name = "clearEepromButton";
+            this.clearEepromButton.Size = new System.Drawing.Size(110, 21);
+            this.clearEepromButton.TabIndex = 27;
+            this.clearEepromButton.Text = "Clear EEPROM";
+            this.clearEepromButton.UseVisualStyleBackColor = true;
+            this.clearEepromButton.Click += new System.EventHandler(this.clearEepromButton_Click);
             // 
             // contextMenuStrip1
             // 
@@ -454,8 +366,7 @@ namespace QMK_Toolbox {
             this.ContextMenuStrip = this.contextMenuStrip1;
             this.Controls.Add(this.flashWhenReadyCheckbox);
             this.Controls.Add(this.hidList);
-            this.Controls.Add(this.eepromResetButton);
-            this.Controls.Add(this.enabledFlasherGroupBox);
+            this.Controls.Add(this.clearEepromButton);
             this.Controls.Add(this.fileGroupBox);
             this.Controls.Add(this.qmkGroupBox);
             this.Controls.Add(this.listHidDevicesButton);
@@ -480,8 +391,6 @@ namespace QMK_Toolbox {
             this.qmkGroupBox.PerformLayout();
             this.fileGroupBox.ResumeLayout(false);
             this.fileGroupBox.PerformLayout();
-            this.enabledFlasherGroupBox.ResumeLayout(false);
-            this.enabledFlasherGroupBox.PerformLayout();
             this.contextMenuStrip1.ResumeLayout(false);
             this.contextMenuStrip2.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -508,12 +417,7 @@ namespace QMK_Toolbox {
         private System.Windows.Forms.Button loadKeymap;
         private System.Windows.Forms.Label keymapLabel;
         private System.Windows.Forms.GroupBox fileGroupBox;
-        private System.Windows.Forms.CheckBox dfuCheckbox;
-        private System.Windows.Forms.CheckBox caterinaCheckbox;
-        private System.Windows.Forms.CheckBox halfkayCheckbox;
-        private System.Windows.Forms.CheckBox stm32Checkbox;
-        private System.Windows.Forms.GroupBox enabledFlasherGroupBox;
-        private System.Windows.Forms.Button eepromResetButton;
+        private System.Windows.Forms.Button clearEepromButton;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ComboBox hidList;
