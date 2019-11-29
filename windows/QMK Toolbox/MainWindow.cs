@@ -732,66 +732,6 @@ namespace QMK_Toolbox
             ((Button)sender).Enabled = true;
         }
 
-        private void ReportWritten(bool success)
-        {
-            if (!InvokeRequired)
-            {
-                jumpToBootloaderButton.Enabled = true;
-                sayHelloButton.Enabled = true;
-                if (success)
-                {
-                    _printer.PrintResponse("Report sent sucessfully\n", MessageType.Info);
-                }
-                else
-                {
-                    _printer.PrintResponse("Report errored\n", MessageType.Error);
-                }
-            }
-            else
-            {
-                Invoke(new Action<bool>(ReportWritten), success);
-            }
-        }
-
-        private void jumpToBootloaderButton_Click(object sender, EventArgs e)
-        {
-            jumpToBootloaderButton.Enabled = false;
-            foreach (var device in _devices)
-            {
-                device.CloseDevice();
-            }
-
-            var deviceIndex = hidList.SelectedIndex;
-            _devices[deviceIndex].OpenDevice();
-            //device.Write(Encoding.ASCII.GetBytes("BOOTLOADER"), 0);
-            var data = new byte[2];
-            data[0] = 0;
-            data[1] = 0xFE;
-            var report = new HidReport(2, new HidDeviceData(data, HidDeviceData.ReadStatus.Success));
-            _devices[deviceIndex].WriteReport(report, ReportWritten);
-            _devices[deviceIndex].CloseDevice();
-            _printer.Print("Sending report", MessageType.Hid);
-        }
-
-        private void sayHelloButton_Click(object sender, EventArgs e)
-        {
-            sayHelloButton.Enabled = false;
-            foreach (var device in _devices)
-            {
-                device.CloseDevice();
-            }
-            var deviceIndex = hidList.SelectedIndex;
-            _devices[deviceIndex].OpenDevice();
-            //device.Write(Encoding.ASCII.GetBytes("BOOTLOADER"), 0);
-            var data = new byte[2];
-            data[0] = 0;
-            data[1] = 0x01;
-            var report = new HidReport(2, new HidDeviceData(data, HidDeviceData.ReadStatus.Success));
-            _devices[deviceIndex].WriteReport(report, ReportWritten);
-            _devices[deviceIndex].CloseDevice();
-            _printer.Print("Sending report", MessageType.Hid);
-        }
-
         private void clearButton_Click(object sender, EventArgs e)
         {
             logTextBox.Clear();
