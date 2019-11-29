@@ -51,7 +51,7 @@ namespace QMK_Toolbox
             if (MatchVid(deviceId, 0x03EB) && MatchPid(deviceId, 0x6124)) // Detects Atmel SAM-BA VID & PID
             {
                 deviceName = "Atmel SAM-BA";
-                _flasher.CaterinaPort = GetComPort(deviceId);
+                _flasher.CaterinaPort = GetComPort(instance);
                 _devicesAvailable[(int)Chipset.AtmelSamBa] += connected ? 1 : -1;
             }
             else if (MatchVid(deviceId, 0x03EB)) // Detects Atmel Vendor ID for other Atmel devices
@@ -62,7 +62,7 @@ namespace QMK_Toolbox
             else if (MatchVid(deviceId, 0x2341) || MatchVid(deviceId, 0x1B4F) || MatchVid(deviceId, 0x239A)) // Detects Arduino Vendor ID, Sparkfun Vendor ID, Adafruit Vendor ID
             {
                 deviceName = "Caterina";
-                _flasher.CaterinaPort = GetComPort(deviceId);
+                _flasher.CaterinaPort = GetComPort(instance);
                 _devicesAvailable[(int)Chipset.Caterina] += connected ? 1 : -1;
             }
             else if (MatchVid(deviceId, 0x16C0) && MatchPid(deviceId, 0x0478)) // Detects PJRC VID & PID
@@ -83,20 +83,20 @@ namespace QMK_Toolbox
             else if (MatchVid(deviceId, 0x16C0) && MatchPid(deviceId, 0x0483)) // Detects Arduino ISP VID & PID
             {
                 deviceName = "AVRISP";
-                _flasher.CaterinaPort = GetComPort(deviceId);
+                _flasher.CaterinaPort = GetComPort(instance);
                 _devicesAvailable[(int)Chipset.AvrIsp] += connected ? 1 : -1;
             }
             else if (MatchVid(deviceId, 0x16C0) && MatchPid(deviceId, 0x05DC)) // Detects AVR USBAsp VID & PID
             {
                 deviceName = "USBAsp";
-                _flasher.CaterinaPort = GetComPort(deviceId);
+                _flasher.CaterinaPort = GetComPort(instance);
                 _devicesAvailable[(int)Chipset.UsbAsp] += connected ? 1 : -1;
             }
             else if (MatchVid(deviceId, 0x1781) && MatchPid(deviceId, 0x0C9F)) // Detects AVR Pocket ISP VID & PID
             {
                 deviceName = "USB Tiny";
 
-                _flasher.CaterinaPort = GetComPort(deviceId);
+                _flasher.CaterinaPort = GetComPort(instance);
                 _devicesAvailable[(int)Chipset.UsbTiny] += connected ? 1 : -1;
             } 
             else if (MatchVid(deviceId, 0x16C0) && MatchPid(deviceId, 0x05DF)) // Detects Objective Development VID & PID
@@ -114,13 +114,13 @@ namespace QMK_Toolbox
             return true;
         }
 
-        public string GetComPort(string deviceId)
+        public string GetComPort(ManagementBaseObject instance)
         {
-            using (var searcher = new ManagementObjectSearcher("Select * from Win32_SerialPort"))
+            using (var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_SerialPort"))
             {
                 foreach (var device in searcher.Get())
                 {
-                    if (device.GetPropertyValue("PNPDeviceID").ToString().Equals(deviceId))
+                    if (device.GetPropertyValue("PNPDeviceID").ToString().Equals(instance.GetPropertyValue("PNPDeviceID").ToString()))
                     {
                         return device.GetPropertyValue("DeviceID").ToString();
                     }

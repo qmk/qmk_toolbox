@@ -211,7 +211,7 @@ namespace QMK_Toolbox
             var devices = new List<UsbDeviceInfo>();
 
             ManagementObjectCollection collection;
-            using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity where DeviceID Like ""USB%"""))
+            using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity WHERE DeviceID LIKE ""USB%"""))
                 collection = searcher.Get();
 
             _usb.DetectBootloaderFromCollection(collection);
@@ -352,11 +352,11 @@ namespace QMK_Toolbox
             }
         }
 
-        private void eepromResetButton_Click(object sender, EventArgs e)
+        private void clearEepromButton_Click(object sender, EventArgs e)
         {
             if (!InvokeRequired)
             {
-                eepromResetButton.Enabled = false;
+                clearEepromButton.Enabled = false;
 
                 if (_usb.AreDevicesAvailable())
                 {
@@ -368,7 +368,7 @@ namespace QMK_Toolbox
                     }
                     if (error == 0)
                     {
-                        _flasher.EepromReset(mcuBox.Text);
+                        _flasher.ClearEeprom(mcuBox.Text);
                     }
                 }
                 else
@@ -376,11 +376,11 @@ namespace QMK_Toolbox
                     _printer.Print("There are no devices available", MessageType.Error);
                 }
 
-                eepromResetButton.Enabled = true;
+                clearEepromButton.Enabled = true;
             }
             else
             {
-                Invoke(new Action<object, EventArgs>(eepromResetButton_Click), sender, e);
+                Invoke(new Action<object, EventArgs>(clearEepromButton_Click), sender, e);
             }
         }
 
@@ -516,25 +516,28 @@ namespace QMK_Toolbox
             {
                 string url;
                 url = filepath.Replace(filepath.Contains("qmk://") ? "qmk://" : "qmk:", "");
-                if (!Directory.Exists(Path.Combine(Application.LocalUserAppDataPath, "downloads")))
-                {
-                    Directory.CreateDirectory(Path.Combine(Application.LocalUserAppDataPath, "downloads"));
-                }
+                filepath = Path.Combine(KnownFolders.Downloads.Path, filepath.Substring(filepath.LastIndexOf("/") + 1).Replace(".", "_" + Guid.NewGuid().ToString().Substring(0, 8) + "."));
 
                 try
                 {
                     _printer.Print($"Downloading the file: {url}", MessageType.Info);
-                    using (var wb = new WebClient())
-                    {
-                        wb.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.33 Safari/537.36");
-                        filepath = Path.Combine(KnownFolders.Downloads.Path, filepath.Substring(filepath.LastIndexOf("/") + 1).Replace(".", "_" + Guid.NewGuid().ToString().Substring(0, 8) + "."));
-                        wb.DownloadFile(url, filepath);
-                    }
+                    DownloadFirmwareFile(url, filepath);
                 }
-                catch (Exception e)
+                catch (Exception e1)
                 {
-                    _printer.PrintResponse("Something went wrong when trying to get the default keymap file.", MessageType.Error);
-                    return;
+                    try
+                    {
+                        // Try .bin extension if hex 404'd
+                        url = Path.ChangeExtension(url, "bin");
+                        filepath = Path.ChangeExtension(filepath, "bin");
+                        _printer.Print($"No .hex file found, trying {url}", MessageType.Info);
+                        DownloadFirmwareFile(url, filepath);
+                    }
+                    catch (Exception e2)
+                    {
+                        _printer.PrintResponse("Something went wrong when trying to get the default keymap file.", MessageType.Error);
+                        return;
+                    }
                 }
                 _printer.PrintResponse($"File saved to: {filepath}", MessageType.Info);
 
@@ -577,6 +580,19 @@ namespace QMK_Toolbox
                 filepathBox.Text = filepath;
                 if (!filepathBox.Items.Contains(filepath))
                     filepathBox.Items.Add(filepath);
+            }
+        }
+
+        private void DownloadFirmwareFile(string url, string filepath)
+        {
+            if (!Directory.Exists(Path.Combine(Application.LocalUserAppDataPath, "downloads")))
+            {
+                Directory.CreateDirectory(Path.Combine(Application.LocalUserAppDataPath, "downloads"));
+            }
+            using (var wb = new WebClient())
+            {
+                wb.Headers.Add("User-Agent", "QMK Toolbox");
+                wb.DownloadFile(url, filepath);
             }
         }
 

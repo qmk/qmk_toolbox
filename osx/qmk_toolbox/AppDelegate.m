@@ -20,7 +20,7 @@
 @property IBOutlet NSButton * flashButton;
 @property IBOutlet NSButton * resetButton;
 @property IBOutlet NSButton * autoFlashButton;
-@property IBOutlet NSButton * eepromResetButton;
+@property IBOutlet NSButton * clearEEPROMButton;
 @property IBOutlet NSComboBox * keyboardBox;
 @property IBOutlet NSComboBox * keymapBox;
 @property IBOutlet NSButton * loadButton;
@@ -83,11 +83,11 @@
     }
 }
 
-- (IBAction) eepromResetButtonClick:(id) sender {
+- (IBAction) clearEEPROMButtonClick:(id) sender {
     if ([[_mcuBox objectValue] isEqualToString:@""]) {
         [_printer print:@"Please select a microcontroller" withType:MessageType_Error];
     } else {
-        [_flasher eepromReset:(NSString *)[_mcuBox objectValue]];
+        [_flasher clearEEPROM:(NSString *)[_mcuBox objectValue]];
     }
 }
 
@@ -134,6 +134,12 @@
         
         [_printer print:[NSString stringWithFormat:@"Downloading the file: %@", url.absoluteString] withType:MessageType_Info];
         NSData * data = [NSData dataWithContentsOfURL:url];
+        if (!data) {
+            // Try .bin extension if .hex 404'd
+            url = [[url URLByDeletingPathExtension] URLByAppendingPathExtension:@"bin"];
+            [_printer print:[NSString stringWithFormat:@"No .hex file found, trying %@", url.absoluteString] withType:MessageType_Info];
+            data = [NSData dataWithContentsOfURL:url];
+        }
         if (data) {
             NSArray * paths = NSSearchPathForDirectoriesInDomains(NSDownloadsDirectory, NSUserDomainMask, YES);
             NSString * downloadsDirectory = [paths objectAtIndex:0];

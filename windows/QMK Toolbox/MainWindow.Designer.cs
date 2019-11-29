@@ -44,7 +44,7 @@ namespace QMK_Toolbox {
             this.fileGroupBox = new System.Windows.Forms.GroupBox();
             this.filepathBox = new BetterComboBox();
             this.mcuBox = new System.Windows.Forms.ComboBox();
-            this.eepromResetButton = new System.Windows.Forms.Button();
+            this.clearEepromButton = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logTextBox = new System.Windows.Forms.RichTextBox();
@@ -300,16 +300,16 @@ namespace QMK_Toolbox {
             this.mcuBox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
             this.mcuBox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
             // 
-            // eepromResetButton
+            // clearEepromButton
             // 
-            this.eepromResetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.eepromResetButton.Location = new System.Drawing.Point(572, 566);
-            this.eepromResetButton.Name = "eepromResetButton";
-            this.eepromResetButton.Size = new System.Drawing.Size(110, 21);
-            this.eepromResetButton.TabIndex = 27;
-            this.eepromResetButton.Text = "Reset EEPROM";
-            this.eepromResetButton.UseVisualStyleBackColor = true;
-            this.eepromResetButton.Click += new System.EventHandler(this.eepromResetButton_Click);
+            this.clearEepromButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.clearEepromButton.Location = new System.Drawing.Point(572, 566);
+            this.clearEepromButton.Name = "clearEepromButton";
+            this.clearEepromButton.Size = new System.Drawing.Size(110, 21);
+            this.clearEepromButton.TabIndex = 27;
+            this.clearEepromButton.Text = "Clear EEPROM";
+            this.clearEepromButton.UseVisualStyleBackColor = true;
+            this.clearEepromButton.Click += new System.EventHandler(this.clearEepromButton_Click);
             // 
             // contextMenuStrip1
             // 
@@ -393,7 +393,7 @@ namespace QMK_Toolbox {
             this.ContextMenuStrip = this.contextMenuStrip1;
             this.Controls.Add(this.flashWhenReadyCheckbox);
             this.Controls.Add(this.hidList);
-            this.Controls.Add(this.eepromResetButton);
+            this.Controls.Add(this.clearEepromButton);
             this.Controls.Add(this.fileGroupBox);
             this.Controls.Add(this.qmkGroupBox);
             this.Controls.Add(this.listHidDevicesButton);
@@ -448,7 +448,7 @@ namespace QMK_Toolbox {
         private System.Windows.Forms.Button loadKeymap;
         private System.Windows.Forms.Label keymapLabel;
         private System.Windows.Forms.GroupBox fileGroupBox;
-        private System.Windows.Forms.Button eepromResetButton;
+        private System.Windows.Forms.Button clearEepromButton;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ComboBox hidList;
