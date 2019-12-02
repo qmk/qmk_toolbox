@@ -44,9 +44,9 @@ namespace QMK_Toolbox
 
         internal enum OemCopyStyle
         {
-            SpCopyNewer = 0x0000004,   // copy only if source newer than or same as target
-            SpCopyNewerOnly = 0x0010000,   // copy only if source file newer than target
-            SpCopyOeminfCatalogOnly = 0x0040000,   // (SetupCopyOEMInf only) don't copy INF--just catalog
+            SpCopyNewer = 0x0000004, // copy only if source newer than or same as target
+            SpCopyNewerOnly = 0x0010000, // copy only if source file newer than target
+            SpCopyOeminfCatalogOnly = 0x0040000, // (SetupCopyOEMInf only) don't copy INF--just catalog
         }
 
         [DllImport("kernel32.dll")]
@@ -74,7 +74,7 @@ namespace QMK_Toolbox
                     flasher.Usb = usb;
 
                     ManagementObjectCollection collection;
-                    using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity where DeviceID Like ""USB%"""))
+                    using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity WHERE DeviceID LIKE ""USB%"""))
                         collection = searcher.Get();
 
                     usb.DetectBootloaderFromCollection(collection);
@@ -89,7 +89,7 @@ namespace QMK_Toolbox
                     flasher.Usb = usb;
 
                     ManagementObjectCollection collection;
-                    using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity where DeviceID Like ""USB%"""))
+                    using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity WHERE DeviceID LIKE ""USB%"""))
                         collection = searcher.Get();
 
                     usb.DetectBootloaderFromCollection(collection);

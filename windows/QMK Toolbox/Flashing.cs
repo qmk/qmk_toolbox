@@ -58,8 +58,6 @@ namespace QMK_Toolbox
             "applet-flash-samd51j18a.bin"
         };
 
-        
-
         public Flashing(Printing printer)
         {
             _printer = printer;
@@ -169,14 +167,14 @@ namespace QMK_Toolbox
                 ResetBootloadHid();
         }
 
-        public void EepromReset(string mcu)
+        public void ClearEeprom(string mcu)
         {
             if (Usb.CanFlash(Chipset.Dfu))
-                EepromResetDfu(mcu);
+                ClearEepromDfu(mcu);
             if (Usb.CanFlash(Chipset.Caterina))
-                EepromResetCaterina(mcu);
+                ClearEepromCaterina(mcu);
             if (Usb.CanFlash(Chipset.UsbAsp))
-                EepromResetUsbAsp(mcu);
+                ClearEepromUsbAsp(mcu);
         }
 
         private void FlashDfu(string mcu, string file)
@@ -188,13 +186,13 @@ namespace QMK_Toolbox
 
         private void ResetDfu(string mcu) => RunProcess("dfu-programmer.exe", $"{mcu} reset");
 
-        private void EepromResetDfu(string mcu) => RunProcess("dfu-programmer.exe", $"{mcu} flash --force --eeprom \"reset.eep\"");
+        private void ClearEepromDfu(string mcu) => RunProcess("dfu-programmer.exe", $"{mcu} flash --force --eeprom \"reset.eep\"");
 
         private void FlashCaterina(string mcu, string file) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U flash:w:\"{file}\":i -P {CaterinaPort}");
 
-        private void EepromResetCaterina(string mcu) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U eeprom:w:\"reset.eep\":i -P {CaterinaPort}");
+        private void ClearEepromCaterina(string mcu) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U eeprom:w:\"reset.eep\":i -P {CaterinaPort}");
 
-        private void EepromResetUsbAsp(string mcu) => RunProcess("avrdude.exe", $"-p {mcu} -c usbasp -U eeprom:w:\"reset.eep\":i -P {CaterinaPort}");
+        private void ClearEepromUsbAsp(string mcu) => RunProcess("avrdude.exe", $"-p {mcu} -c usbasp -U eeprom:w:\"reset.eep\":i -P {CaterinaPort}");
 
         private void FlashHalfkay(string mcu, string file) => RunProcess("teensy_loader_cli.exe", $"-mmcu={mcu} \"{file}\" -v");
 

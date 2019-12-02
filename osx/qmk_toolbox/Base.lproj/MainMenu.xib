@@ -16,7 +16,7 @@
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
                 <outlet property="autoFlashButton" destination="TwL-TO-5Ka" id="pLB-Ll-mP5"/>
-                <outlet property="eepromResetButton" destination="RSb-Il-mNt" id="uEb-yN-jO6"/>
+                <outlet property="clearEEPROMButton" destination="RSb-Il-mNt" id="uEb-yN-jO6"/>
                 <outlet property="filepathBox" destination="fMz-rn-IEt" id="eSr-wv-y0f"/>
                 <outlet property="flashButton" destination="OKF-oG-mRx" id="3MC-L3-Hfy"/>
                 <outlet property="keyboardBox" destination="j37-hH-gaF" id="Vhv-Th-t9k"/>
@@ -381,60 +381,18 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <box fixedFrame="YES" borderType="line" title="Flashers enabled" translatesAutoresizingMaskIntoConstraints="NO" id="evj-nT-3rt">
-                        <rect key="frame" x="375" y="366" width="138" height="53"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <view key="contentView" id="v7y-68-qub">
-                            <rect key="frame" x="3" y="3" width="132" height="35"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <subviews>
-                                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cP7-9M-IMj">
-                                    <rect key="frame" x="3" y="17" width="61" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="DFU" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="RMa-yV-bBM">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                </button>
-                                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PJa-Ql-yez">
-                                    <rect key="frame" x="3" y="1" width="61" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="STM32" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="3zw-eS-1X4">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                </button>
-                                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A0D-sQ-QtQ">
-                                    <rect key="frame" x="63" y="17" width="61" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="Halfkay" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="4mq-AW-gOT">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                </button>
-                                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xhz-Xi-9Hb">
-                                    <rect key="frame" x="63" y="1" width="75" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="Caterina" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="FQM-EC-DQI">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                </button>
-                            </subviews>
-                        </view>
-                    </box>
                     <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RSb-Il-mNt">
                         <rect key="frame" x="4" y="3" width="125" height="32"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="121" id="OrW-P7-Fri"/>
                             <constraint firstAttribute="height" constant="21" id="ZJj-0M-KZ7"/>
                         </constraints>
-                        <buttonCell key="cell" type="push" title="Reset EEPROM" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aot-j7-w9r">
+                        <buttonCell key="cell" type="push" title="Clear EEPROM" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aot-j7-w9r">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="cellTitle"/>
                         </buttonCell>
                         <connections>
-                            <action selector="eepromResetButtonClick:" target="Voe-Tx-rLC" id="xaR-XN-Tf6"/>
+                            <action selector="clearEEPROMButtonClick:" target="Voe-Tx-rLC" id="xaR-XN-Tf6"/>
                         </connections>
                     </button>
                 </subviews>
