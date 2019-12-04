@@ -193,10 +193,9 @@
 			};
 			buildConfigurationList = 092963F31F5C8B2C004F2D3F /* Build configuration list for PBXProject "QMK Toolbox" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);
