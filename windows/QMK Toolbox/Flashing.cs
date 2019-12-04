@@ -49,10 +49,8 @@ namespace QMK_Toolbox
             "teensy_loader_cli.exe",
             "dfu-util.exe",
             "libusb-1.0.dll",
-            "libusb0.dll", // x86/libusb0_x86.dll
             "mcu-list.txt",
             "reset.eep",
-            "dfu-prog-usb-1.2.2.zip",
             "bootloadHID.exe",
             "mdloader_windows.exe",
             "applet-flash-samd51j18a.bin"
