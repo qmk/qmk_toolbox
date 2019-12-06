@@ -40,7 +40,7 @@ namespace QMK_Toolbox {
             this.keyboardBox = new System.Windows.Forms.ComboBox();
             this.loadKeymap = new System.Windows.Forms.Button();
             this.fileGroupBox = new System.Windows.Forms.GroupBox();
-            this.filepathBox = new BetterComboBox();
+            this.filepathBox = new QMK_Toolbox.BetterComboBox();
             this.mcuBox = new System.Windows.Forms.ComboBox();
             this.clearEepromButton = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -89,7 +89,6 @@ namespace QMK_Toolbox {
             // openFileDialog
             // 
             this.openFileDialog.Filter = "Intel Hex|*.hex|Binary|*.bin";
-            this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_FileOk);
             // 
             // openFileButton
             // 
@@ -142,7 +141,6 @@ namespace QMK_Toolbox {
             this.statusStrip.Size = new System.Drawing.Size(799, 22);
             this.statusStrip.TabIndex = 15;
             this.statusStrip.Text = "statusStrip";
-            this.statusStrip.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.statusStrip_ItemClicked);
             // 
             // toolStripStatusLabel
             // 
@@ -296,6 +294,7 @@ namespace QMK_Toolbox {
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // logTextBox
             // 
@@ -399,7 +398,6 @@ namespace QMK_Toolbox {
         }
 
         #endregion
-        private System.Windows.Forms.ComboBox filepathBox;
         private System.Windows.Forms.ComboBox mcuBox;
         private System.Windows.Forms.Button flashButton;
         private System.Windows.Forms.CheckBox autoflashCheckbox;
@@ -424,6 +422,7 @@ namespace QMK_Toolbox {
         private System.Windows.Forms.CheckBox flashWhenReadyCheckbox;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
+        private BetterComboBox filepathBox;
     }
 }
 
