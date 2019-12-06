@@ -64,7 +64,7 @@
             double delayInSeconds = .01;
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
             dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                [_flasher performSelector:@selector(flash:withFile:) withObject:[_mcuBox objectValue] withObject:[_filepathBox objectValue]];
+                [self->_flasher performSelector:@selector(flash:withFile:) withObject:[self->_mcuBox objectValue] withObject:[self->_filepathBox objectValue]];
             });
         }
     } else {
