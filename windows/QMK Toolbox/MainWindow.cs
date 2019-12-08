@@ -481,31 +481,6 @@ namespace QMK_Toolbox
                 SetFilePath(filepathBox.Text);
                 e.Handled = true;
             }
-            else if (e.KeyCode == Keys.Delete)
-            {
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-
-                if (filepathBox.SelectedIndex < 0)
-                    return;
-
-                int selectionIndex = filepathBox.Items.IndexOf(filepathBox.Text);
-                int hoverIndex = filepathBox.SelectedIndex;
-
-                filepathBox.Items.RemoveAt(filepathBox.SelectedIndex);
-
-                if (hoverIndex == filepathBox.Items.Count)
-                    filepathBox.SelectedIndex = hoverIndex - 1;
-                else if (filepathBox.Items.Count > 0)
-                    filepathBox.SelectedIndex = hoverIndex;
-                else
-                    filepathBox.SelectedIndex = -1;
-            }
-        }
-
-        private void filepathBox_SelectionCommitted(object sender, EventArgs e)
-        {
-
         }
 
         private void SetFilePath(string filepath)
