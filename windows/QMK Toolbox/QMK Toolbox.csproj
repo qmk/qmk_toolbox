@@ -190,7 +190,6 @@
     </Compile>
     <EmbeddedResource Include="..\..\common\avrdude.conf" />
     <EmbeddedResource Include="..\..\common\reset.eep" />
-    <EmbeddedResource Include="dfu-prog-usb-1.2.2.zip" />
     <EmbeddedResource Include="..\..\common\applet-flash-samd51j18a.bin" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
@@ -209,15 +208,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="dfu-prog-usb-1.2.2\" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="dfu-programmer.exe" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="qmk_driver_installer.exe" />
     <EmbeddedResource Include="..\..\common\mcu-list.txt" />
-    <EmbeddedResource Include="libusb0.dll" />
     <EmbeddedResource Include="drivers.txt" />
     <EmbeddedResource Include="bootloadHID.exe" />
     <EmbeddedResource Include="mdloader_windows.exe" />

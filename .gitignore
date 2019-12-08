@@ -17,7 +17,6 @@
 [Rr]eleases/
 [Xx]64/
 [Xx]86/
-!/windows/QMK Toolbox/dfu-prog-usb-1.2.2/x86
 [Bb]uild/
 bld/
 [Bb]in/
