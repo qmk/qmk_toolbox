@@ -721,7 +721,8 @@ namespace QMK_Toolbox
                 if (device != null)
                 {
                     device.OpenDevice();
-                    _printer.PrintResponse($"{_devices.IndexOf(device)}: {GetManufacturerString(device)} {GetProductString(device)} ({device.Attributes.VendorId:X4}:{device.Attributes.ProductId:X4}:{device.Attributes.Version:X4})\n", MessageType.Info);
+                    var deviceIndex = _devices.IndexOf(device);
+                    _printer.PrintResponse($"{deviceIndex}: {hidList.Items[deviceIndex]}\n", MessageType.Info);
                 }
 
                 device?.CloseDevice();
