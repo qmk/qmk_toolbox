@@ -427,8 +427,6 @@ namespace QMK_Toolbox
                 .Where(d => d.IsConnected)
                 .Where(device => (ushort)device.Capabilities.UsagePage == Flashing.UsagePage);
 
-        private static string GetParentIdPrefix(IHidDevice d) => Regex.Match(d.DevicePath, "#([&0-9a-fA-F]+)#").Groups[1].ToString();
-
         private static string GetProductString(IHidDevice d)
         {
             if (d == null) return "";
@@ -693,7 +691,7 @@ namespace QMK_Toolbox
                 if (device != null)
                 {
                     device.OpenDevice();
-                    var deviceString = $"{GetManufacturerString(device)}: {GetProductString(device)} -- {device.Attributes.VendorId:X4}:{device.Attributes.ProductId:X4}:{device.Attributes.Version:X4} ({GetParentIdPrefix(device)})";
+                    var deviceString = $"{GetManufacturerString(device)} {GetProductString(device)} ({device.Attributes.VendorId:X4}:{device.Attributes.ProductId:X4}:{device.Attributes.Version:X4})";
 
                     hidList.Items.Add(deviceString);
                 }
@@ -723,7 +721,8 @@ namespace QMK_Toolbox
                 if (device != null)
                 {
                     device.OpenDevice();
-                    _printer.PrintResponse($"{$" - {GetManufacturerString(device)}: {GetProductString(device)} ".PadRight(0, ' ')}-- {device.Attributes.VendorId:X4}:{device.Attributes.ProductId:X4}:{device.Attributes.Version:X4} ({GetParentIdPrefix(device)})\n", MessageType.Info);
+                    var deviceIndex = _devices.IndexOf(device);
+                    _printer.PrintResponse($"{deviceIndex}: {hidList.Items[deviceIndex]}\n", MessageType.Info);
                 }
 
                 device?.CloseDevice();
