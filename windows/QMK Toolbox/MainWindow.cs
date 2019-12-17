@@ -207,8 +207,6 @@ namespace QMK_Toolbox
             _printer.PrintResponse(" - AVRISP (Arduino ISP)\n", MessageType.Info);
             _printer.PrintResponse(" - USBasp (AVR ISP)\n", MessageType.Info);
 
-            var devices = new List<UsbDeviceInfo>();
-
             ManagementObjectCollection collection;
             using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity WHERE DeviceID LIKE ""USB%"""))
                 collection = searcher.Get();
@@ -770,19 +768,5 @@ namespace QMK_Toolbox
         {
             (new AboutBox()).ShowDialog();
         }
-    }
-
-    internal class UsbDeviceInfo
-    {
-        public UsbDeviceInfo(string deviceId, string pnpDeviceId, string description)
-        {
-            DeviceId = deviceId;
-            PnpDeviceId = pnpDeviceId;
-            Description = description;
-        }
-
-        public string DeviceId { get; }
-        public string PnpDeviceId { get; }
-        public string Description { get; }
     }
 }
