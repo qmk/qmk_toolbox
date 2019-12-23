@@ -213,6 +213,7 @@
   <ItemGroup>
     <EmbeddedResource Include="qmk_driver_installer.exe" />
     <EmbeddedResource Include="..\..\common\mcu-list.txt" />
+    <EmbeddedResource Include="libusb0.dll" />
     <EmbeddedResource Include="drivers.txt" />
     <EmbeddedResource Include="bootloadHID.exe" />
     <EmbeddedResource Include="mdloader_windows.exe" />

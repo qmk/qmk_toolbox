@@ -49,6 +49,7 @@ namespace QMK_Toolbox
             "teensy_loader_cli.exe",
             "dfu-util.exe",
             "libusb-1.0.dll",
+            "libusb0.dll",
             "mcu-list.txt",
             "reset.eep",
             "bootloadHID.exe",
