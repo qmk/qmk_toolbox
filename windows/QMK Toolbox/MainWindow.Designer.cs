@@ -88,7 +88,8 @@ namespace QMK_Toolbox {
             // 
             // openFileDialog
             // 
-            this.openFileDialog.Filter = "Intel Hex|*.hex|Binary|*.bin";
+            this.openFileDialog.Filter = "Intel Hex and Binary (*.hex;*.bin)|*.hex;*.bin|Intel Hex (*.hex)|*.hex|Binary (*." +
+    "bin)|*.bin";
             // 
             // openFileButton
             // 
