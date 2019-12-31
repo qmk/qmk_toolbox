@@ -27,7 +27,7 @@ namespace QMK_Toolbox
             if (e.KeyCode == Keys.Delete)
             {
                 e.Handled = true;
-                e.SuppressKeyPress.true;
+                e.SuppressKeyPress = true;
 
                 if (SelectedIndex < 0)
                 {
