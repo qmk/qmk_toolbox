@@ -78,7 +78,7 @@
 		303568C21FA7DF0900803BEF /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		3A7770D822BD3B8200398C40 /* libftdi.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libftdi.1.dylib; sourceTree = SOURCE_ROOT; };
 		C93A0FF32292232D0006C88F /* reset.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset.eep; path = ../../common/reset.eep; sourceTree = "<group>"; };
-		C9A09B5622EE6826008C3CF3 /* mdloader_mac */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = mdloader_mac; sourceTree = SOURCE_ROOT; };
+		C9A09B5622EE6826008C3CF3 /* mdloader_mac */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = ../mdloader_mac; sourceTree = "<group>"; };
 		C9A09B5822EE6837008C3CF3 /* applet-flash-samd51j18a.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; name = "applet-flash-samd51j18a.bin"; path = "../../common/applet-flash-samd51j18a.bin"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
