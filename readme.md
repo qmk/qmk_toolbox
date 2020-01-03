@@ -43,7 +43,9 @@ See the [QMK Docs](https://docs.qmk.fm/#/newbs_testing_debugging?id=debugging) f
 
 ### Dependencies
 
-When using the QMK Toolbox on Windows, it will prompt at first run to install the necessary drivers. You can get the latest release of the QMK Driver Installer [here](https://github.com/qmk/qmk_driver_installer/releases).
+When using the QMK Toolbox on Windows, it will prompt at first run to install the necessary drivers.
+
+If you run into any issues with "Device not found" when flashing, then you may need to use [Zadig](https://docs.qmk.fm/#/driver_installation_zadig) to fix the issue.
 
 ### Download
 
@@ -51,7 +53,7 @@ Windows and macOS versions are available, and you can get [the latest release he
 
 For Homebrew users, it is also available as a Cask:
 
-```
+```sh
 $ brew tap homebrew/cask-drivers
 $ brew cask install qmk-toolbox
 ```
