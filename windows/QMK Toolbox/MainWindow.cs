@@ -732,7 +732,7 @@ namespace QMK_Toolbox
             if (Settings.Default.firstStart)
             {
                 var driverPromptResult = MessageBox.Show("Would you like to install drivers for your devices?", "Driver installation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (driverPromptResult = DialogResult.Yes)
+                if (driverPromptResult == DialogResult.Yes)
                 {
                     InstallDrivers();
                 }
