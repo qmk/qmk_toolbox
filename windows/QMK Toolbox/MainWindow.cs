@@ -76,6 +76,8 @@ namespace QMK_Toolbox
             try
             {
                 process.Start();
+                Settings.Default.driversInstalled = true;
+                Settings.Default.Save();
                 return true;
             }
             catch (Win32Exception)
@@ -727,21 +729,27 @@ namespace QMK_Toolbox
 
         private void MainWindow_Shown(object sender, EventArgs e)
         {
-            if (!Settings.Default.firstStart) return;
-
-            var questionResult = MessageBox.Show("Would you like to install drivers for your devices?", "Driver installation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
-            if (questionResult)
+            if (Settings.Default.firstStart)
             {
-                Settings.Default.driversInstalled = InstallDrivers();
-            }
+                var driverPromptResult = MessageBox.Show("Would you like to install drivers for your devices?", "Driver installation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (driverPromptResult = DialogResult.Yes)
+                {
+                    InstallDrivers();
+                }
 
-            Settings.Default.firstStart = false;
-            Settings.Default.Save();
+                Settings.Default.firstStart = false;
+                Settings.Default.Save();
+            }
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             (new AboutBox()).ShowDialog();
+        }
+
+        private void installDriversToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InstallDrivers();
         }
     }
 }

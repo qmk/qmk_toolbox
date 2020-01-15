@@ -50,6 +50,7 @@ namespace QMK_Toolbox {
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hidList = new System.Windows.Forms.ComboBox();
             this.flashWhenReadyCheckbox = new System.Windows.Forms.CheckBox();
+            this.installDriversToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.qmkGroupBox.SuspendLayout();
             this.fileGroupBox.SuspendLayout();
@@ -286,14 +287,15 @@ namespace QMK_Toolbox {
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.installDriversToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(110, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 70);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -356,6 +358,13 @@ namespace QMK_Toolbox {
             this.flashWhenReadyCheckbox.Text = "Flash when ready";
             this.flashWhenReadyCheckbox.UseVisualStyleBackColor = true;
             this.flashWhenReadyCheckbox.CheckedChanged += new System.EventHandler(this.flashWhenReadyCheckbox_CheckedChanged);
+            // 
+            // installDriversToolStripMenuItem
+            // 
+            this.installDriversToolStripMenuItem.Name = "installDriversToolStripMenuItem";
+            this.installDriversToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.installDriversToolStripMenuItem.Text = "Install Drivers...";
+            this.installDriversToolStripMenuItem.Click += new System.EventHandler(this.installDriversToolStripMenuItem_Click);
             // 
             // MainWindow
             // 
@@ -424,6 +433,7 @@ namespace QMK_Toolbox {
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
         private BetterComboBox filepathBox;
+        private System.Windows.Forms.ToolStripMenuItem installDriversToolStripMenuItem;
     }
 }
 
