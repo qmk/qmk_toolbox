@@ -157,7 +157,7 @@ namespace QMK_Toolbox {
             this.mcuLabel.Name = "mcuLabel";
             this.mcuLabel.Size = new System.Drawing.Size(78, 12);
             this.mcuLabel.TabIndex = 22;
-            this.mcuLabel.Text = "Microcontroller";
+            this.mcuLabel.Text = "MCU (AVR only)";
             // 
             // qmkGroupBox
             // 
