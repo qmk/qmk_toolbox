@@ -375,7 +375,7 @@
                             <constraint firstAttribute="height" constant="16" id="7hf-ak-jNR"/>
                             <constraint firstAttribute="width" constant="88" id="YDa-UX-xkr"/>
                         </constraints>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Microcontroller" id="ndf-Uu-8bq">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="MCU (AVR only)" id="ndf-Uu-8bq">
                             <font key="font" metaFont="smallSystem"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
