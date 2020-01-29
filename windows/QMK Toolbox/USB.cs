@@ -39,6 +39,11 @@ namespace QMK_Toolbox
         public bool DetectBootloader(ManagementBaseObject instance, bool connected = true)
         {
             var hardwareIds = (System.String[])instance.GetPropertyValue("HardwareID");
+            if (hardwareIds == null || hardwareIds.Length == 0)
+            {
+                return false;
+            }
+
             var deviceId = hardwareIds[0];
 
             var deviceidRegex = new Regex(@"VID_([0-9A-F]+).*PID_([0-9A-F]+).*REV_([0-9A-F]+)");
