@@ -164,6 +164,8 @@ namespace QMK_Toolbox
                 ResetHalfkay(mcu);
             if (Usb.CanFlash(Chipset.BootloadHid))
                 ResetBootloadHid();
+            if (Usb.CanFlash(Chipset.AtmelSamBa))
+                ResetAtmelSamBa();
         }
 
         public void ClearEeprom(string mcu)
