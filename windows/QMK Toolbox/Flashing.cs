@@ -238,7 +238,7 @@ namespace QMK_Toolbox
         private void FlashBootloadHid(string file) => RunProcess("bootloadHID.exe", $"-r \"{file}\"");
         private void ResetBootloadHid() => RunProcess("bootloadHID.exe", $"-r");
 
-        private void FlashAtmelSamBa(string file) => RunProcess("mdloader_windows.exe", $"-p {CaterinaPort} -D \"{file}\"");
+        private void FlashAtmelSamBa(string file) => RunProcess("mdloader_windows.exe", $"-p {CaterinaPort} -D \"{file}\" --restart");
 
         private void ResetAtmelSamBa() => RunProcess("mdloader_windows.exe", $"-p {CaterinaPort} --restart");
     }
