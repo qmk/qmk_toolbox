@@ -163,7 +163,7 @@
 }
 
 - (void)flashAtmelSAMBAwithFile: (NSString *)file {
-    [self runProcess:@"mdloader_mac" withArgs:@[@"-p", caterinaPort, @"-D", file]];
+    [self runProcess:@"mdloader_mac" withArgs:@[@"-p", caterinaPort, @"-D", file, @"--restart"]];
 }
 
 - (void)resetAtmelSAMBA {
