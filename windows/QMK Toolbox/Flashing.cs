@@ -196,6 +196,7 @@ namespace QMK_Toolbox
         }
 
         private void FlashBootloadHid(string file) => _processRunner.Run("bootloadHID.exe", $"-r \"{file}\"");
+
         private void ResetBootloadHid() => _processRunner.Run("bootloadHID.exe", $"-r");
 
         private void FlashAtmelSamBa(string file) => _processRunner.Run("mdloader_windows.exe", $"-p {CaterinaPort} -D \"{file}\" --restart");
