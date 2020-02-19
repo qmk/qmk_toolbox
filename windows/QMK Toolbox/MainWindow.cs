@@ -34,6 +34,7 @@ namespace QMK_Toolbox
         private const int DeviceIdOffset = 55;
 
         private readonly string _filePassedIn = string.Empty;
+        private readonly IProcessRunner _processRunner;
         private readonly Printing _printer;
         private readonly Flashing _flasher;
         private readonly Usb _usb;
@@ -151,7 +152,8 @@ namespace QMK_Toolbox
             }
 
             _printer = new Printing(logTextBox);
-            _flasher = new Flashing(_printer);
+            _processRunner = new ProcessRunner(_printer);
+            _flasher = new Flashing(_printer, _processRunner);
             _usb = new Usb(_flasher, _printer);
             _flasher.Usb = _usb;
 

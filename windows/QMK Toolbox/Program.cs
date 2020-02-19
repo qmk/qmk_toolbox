@@ -34,7 +34,8 @@ namespace QMK_Toolbox
                 var printer = new Printing();
                 if (args[0].Equals("list"))
                 {
-                    var flasher = new Flashing(printer);
+                    var processRunner = new ProcessRunner(printer);
+                    var flasher = new Flashing(printer, processRunner);
                     var usb = new Usb(flasher, printer);
                     flasher.Usb = usb;
 
@@ -49,7 +50,8 @@ namespace QMK_Toolbox
 
                 if (args[0].Equals("flash"))
                 {
-                    var flasher = new Flashing(printer);
+                    var processRunner = new ProcessRunner(printer);
+                    var flasher = new Flashing(printer, processRunner);
                     var usb = new Usb(flasher, printer);
                     flasher.Usb = usb;
 

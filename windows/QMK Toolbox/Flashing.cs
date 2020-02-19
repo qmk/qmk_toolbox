@@ -32,15 +32,15 @@ namespace QMK_Toolbox
     
     public class Flashing : EventArgs, IFlashing
     {
-        private readonly Process _process;
-        private readonly ProcessStartInfo _startInfo;
-
         public const ushort UsagePage = 0xFF31;
         public const int Usage = 0x0074;
-        public string CaterinaPort = "";
 
-        private readonly Printing _printer;
-        public Usb Usb;
+        public string CaterinaPort { get; set; } = string.Empty;
+
+        private readonly IPrinting _printer;
+        private readonly IProcessRunner _processRunner;
+
+        public IUsb Usb { get; set; }
 
         private readonly string[] _resources = {
             "dfu-programmer.exe",
@@ -57,20 +57,16 @@ namespace QMK_Toolbox
             "applet-flash-samd51j18a.bin"
         };
 
-        public Flashing(Printing printer)
+        public Flashing(IPrinting printer, IProcessRunner processRunner, bool extractResources = true)
         {
             _printer = printer;
-            EmbeddedResourceHelper.ExtractResources(_resources);
+            _processRunner = processRunner;
 
-            _process = new Process();
-            _startInfo = new ProcessStartInfo
+            if (extractResources)
             {
-                UseShellExecute = false,
-                RedirectStandardError = true,
-                RedirectStandardOutput = true,
-                RedirectStandardInput = true,
-                CreateNoWindow = true
-            };
+                // Allow this to be turned off for testing
+                EmbeddedResourceHelper.ExtractResources(_resources);
+            }
         }
 
         private void OnOutputDataReceived(object sender, DataReceivedEventArgs e)
@@ -83,48 +79,6 @@ namespace QMK_Toolbox
         {
             Debug.Write(e.Data);
             _printer.PrintResponse(e.Data, MessageType.Info);
-        }
-
-        private void ProcessOutput(Object streamReader)
-        {
-            StreamReader _stream = (StreamReader)streamReader;
-            var output = "";
-
-            while (!_stream.EndOfStream)
-            {
-                output = _stream.ReadLine() + "\n";
-                _printer.PrintResponse(output, MessageType.Info);
-
-                if (output.Contains("Bootloader and code overlap.") || // DFU
-                    output.Contains("exceeds remaining flash size!") || // BootloadHID
-                    output.Contains("Not enough bytes in device info report")) // BootloadHID
-                {
-                    _printer.Print("File is too large for device", MessageType.Error);
-                }
-            }
-        }
-        private void RunProcess(string command, string args)
-        {
-            _printer.Print($"{command} {args}", MessageType.Command);
-            _startInfo.WorkingDirectory = Application.LocalUserAppDataPath;
-            _startInfo.FileName = Path.Combine(Application.LocalUserAppDataPath, command);
-            _startInfo.Arguments = args;
-            _startInfo.RedirectStandardOutput = true;
-            _startInfo.RedirectStandardError = true;
-            _startInfo.UseShellExecute = false;
-            _process.StartInfo = _startInfo;
-
-            _process.Start();
-
-            // Thread that handles STDOUT
-            Thread _ThreadProcessOutput = new Thread(ProcessOutput);
-            _ThreadProcessOutput.Start(_process.StandardOutput);
-
-            // Thread that handles STDERR
-            _ThreadProcessOutput = new Thread(ProcessOutput);
-            _ThreadProcessOutput.Start(_process.StandardError);
-
-            _process.WaitForExit();
         }
 
         public string[] GetMcuList()
@@ -180,30 +134,30 @@ namespace QMK_Toolbox
 
         private void FlashDfu(string mcu, string file)
         {
-            RunProcess("dfu-programmer.exe", $"{mcu} erase --force");
-            RunProcess("dfu-programmer.exe", $"{mcu} flash \"{file}\"");
-            RunProcess("dfu-programmer.exe", $"{mcu} reset");
+            _processRunner.Run("dfu-programmer.exe", $"{mcu} erase --force");
+            _processRunner.Run("dfu-programmer.exe", $"{mcu} flash \"{file}\"");
+            _processRunner.Run("dfu-programmer.exe", $"{mcu} reset");
         }
 
-        private void ResetDfu(string mcu) => RunProcess("dfu-programmer.exe", $"{mcu} reset");
+        private void ResetDfu(string mcu) => _processRunner.Run("dfu-programmer.exe", $"{mcu} reset");
 
-        private void ClearEepromDfu(string mcu) => RunProcess("dfu-programmer.exe", $"{mcu} flash --force --eeprom \"reset.eep\"");
+        private void ClearEepromDfu(string mcu) => _processRunner.Run("dfu-programmer.exe", $"{mcu} flash --force --eeprom \"reset.eep\"");
 
-        private void FlashCaterina(string mcu, string file) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U flash:w:\"{file}\":i -P {CaterinaPort}");
+        private void FlashCaterina(string mcu, string file) => _processRunner.Run("avrdude.exe", $"-p {mcu} -c avr109 -U flash:w:\"{file}\":i -P {CaterinaPort}");
 
-        private void ClearEepromCaterina(string mcu) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U eeprom:w:\"reset.eep\":i -P {CaterinaPort}");
+        private void ClearEepromCaterina(string mcu) => _processRunner.Run("avrdude.exe", $"-p {mcu} -c avr109 -U eeprom:w:\"reset.eep\":i -P {CaterinaPort}");
 
-        private void ClearEepromUsbAsp(string mcu) => RunProcess("avrdude.exe", $"-p {mcu} -c usbasp -U eeprom:w:\"reset.eep\":i -P {CaterinaPort}");
+        private void ClearEepromUsbAsp(string mcu) => _processRunner.Run("avrdude.exe", $"-p {mcu} -c usbasp -U eeprom:w:\"reset.eep\":i -P {CaterinaPort}");
 
-        private void FlashHalfkay(string mcu, string file) => RunProcess("teensy_loader_cli.exe", $"-mmcu={mcu} \"{file}\" -v");
+        private void FlashHalfkay(string mcu, string file) => _processRunner.Run("teensy_loader_cli.exe", $"-mmcu={mcu} \"{file}\" -v");
 
-        private void ResetHalfkay(string mcu) => RunProcess("teensy_loader_cli.exe", $"-mmcu={mcu} -bv");
+        private void ResetHalfkay(string mcu) => _processRunner.Run("teensy_loader_cli.exe", $"-mmcu={mcu} -bv");
 
         private void FlashStm32(string mcu, string file)
         {
             if (Path.GetExtension(file)?.ToLower() == ".bin")
             {
-                RunProcess("dfu-util.exe", $"-a 0 -d 0483:df11 -s 0x08000000:leave -D \"{file}\"");
+                _processRunner.Run("dfu-util.exe", $"-a 0 -d 0483:df11 -s 0x08000000:leave -D \"{file}\"");
             }
             else
             {
@@ -215,7 +169,7 @@ namespace QMK_Toolbox
         {
             if (Path.GetExtension(file)?.ToLower() == ".bin")
             {
-                RunProcess("dfu-util.exe", $"-D \"{file}\"");
+                _processRunner.Run("dfu-util.exe", $"-D \"{file}\"");
             }
             else
             {
@@ -225,27 +179,27 @@ namespace QMK_Toolbox
 
         private void FlashAvrIsp(string mcu, string file)
         {
-            RunProcess("avrdude.exe", $"-p {mcu} -c avrisp -U flash:w:\"{file}\":i -P {CaterinaPort}");
+            _processRunner.Run("avrdude.exe", $"-p {mcu} -c avrisp -U flash:w:\"{file}\":i -P {CaterinaPort}");
             _printer.Print("Flash complete", MessageType.Bootloader);
         }
 
         private void FlashUsbAsp(string mcu, string file)
         {
-            RunProcess("avrdude.exe", $"-p {mcu} -c usbasp -U flash:w:\"{file}\":i");
+            _processRunner.Run("avrdude.exe", $"-p {mcu} -c usbasp -U flash:w:\"{file}\":i");
             _printer.Print("Flash complete", MessageType.Bootloader);
         }
 
         private void FlashUsbTiny(string mcu, string file)
         {
-            RunProcess("avrdude.exe", $"-p {mcu} -c usbtiny -U flash:w:\"{file}\":i -P {CaterinaPort}");
+            _processRunner.Run("avrdude.exe", $"-p {mcu} -c usbtiny -U flash:w:\"{file}\":i -P {CaterinaPort}");
             _printer.Print("Flash complete", MessageType.Bootloader);
         }
 
-        private void FlashBootloadHid(string file) => RunProcess("bootloadHID.exe", $"-r \"{file}\"");
-        private void ResetBootloadHid() => RunProcess("bootloadHID.exe", $"-r");
+        private void FlashBootloadHid(string file) => _processRunner.Run("bootloadHID.exe", $"-r \"{file}\"");
+        private void ResetBootloadHid() => _processRunner.Run("bootloadHID.exe", $"-r");
 
-        private void FlashAtmelSamBa(string file) => RunProcess("mdloader_windows.exe", $"-p {CaterinaPort} -D \"{file}\" --restart");
+        private void FlashAtmelSamBa(string file) => _processRunner.Run("mdloader_windows.exe", $"-p {CaterinaPort} -D \"{file}\" --restart");
 
-        private void ResetAtmelSamBa() => RunProcess("mdloader_windows.exe", $"-p {CaterinaPort} --restart");
+        private void ResetAtmelSamBa() => _processRunner.Run("mdloader_windows.exe", $"-p {CaterinaPort} --restart");
     }
 }

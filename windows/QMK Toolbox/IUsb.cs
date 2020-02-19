@@ -2,9 +2,7 @@
 //  Copyright © 2017 Jack Humbert. This code is licensed under MIT license (see LICENSE.md for details).
 
 using System;
-using System.IO.Ports;
 using System.Management;
-using System.Text.RegularExpressions;
 
 namespace QMK_Toolbox
 {

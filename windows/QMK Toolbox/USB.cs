@@ -11,10 +11,10 @@ namespace QMK_Toolbox
     public class Usb : IUsb
     {
         private readonly int[] _devicesAvailable = new int[(int)Chipset.NumberOfChipsets];
-        private readonly Flashing _flasher;
-        private readonly Printing _printer;
+        private readonly IFlashing _flasher;
+        private readonly IPrinting _printer;
 
-        public Usb(Flashing flasher, Printing printer)
+        public Usb(IFlashing flasher, IPrinting printer)
         {
             _flasher = flasher;
             _printer = printer;

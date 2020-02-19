@@ -164,6 +164,7 @@
     <Compile Include="IFlashing.cs" />
     <Compile Include="Info.cs" />
     <Compile Include="IPrinting.cs" />
+    <Compile Include="IProcessRunner.cs" />
     <Compile Include="IUsb.cs" />
     <Compile Include="Printing.cs" />
     <Compile Include="MainWindow.cs">
@@ -172,6 +173,7 @@
     <Compile Include="MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="ProcessRunner.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="USB.cs" />
