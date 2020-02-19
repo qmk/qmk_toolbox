@@ -17,7 +17,7 @@ namespace QMK_Toolbox
         Error
     }
 
-    public class Printing
+    public class Printing : IPrinting
     {
         private MessageType _lastMessage;
         private readonly RichTextBox _richTextBox;

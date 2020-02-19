@@ -29,8 +29,8 @@ namespace QMK_Toolbox
         AtmelSamBa,
         NumberOfChipsets
     };
-
-    public class Flashing : EventArgs
+    
+    public class Flashing : EventArgs, IFlashing
     {
         private readonly Process _process;
         private readonly ProcessStartInfo _startInfo;
@@ -201,18 +201,24 @@ namespace QMK_Toolbox
 
         private void FlashStm32(string mcu, string file)
         {
-            if (Path.GetExtension(file)?.ToLower() == ".bin") {
+            if (Path.GetExtension(file)?.ToLower() == ".bin")
+            {
                 RunProcess("dfu-util.exe", $"-a 0 -d 0483:df11 -s 0x08000000:leave -D \"{file}\"");
-            } else {
+            }
+            else
+            {
                 _printer.Print("Only firmware files in .bin format can be flashed with dfu-util!", MessageType.Error);
             }
         }
 
         private void FlashKiibohd(string file)
         {
-            if (Path.GetExtension(file)?.ToLower() == ".bin") {
+            if (Path.GetExtension(file)?.ToLower() == ".bin")
+            {
                 RunProcess("dfu-util.exe", $"-D \"{file}\"");
-            } else {
+            }
+            else
+            {
                 _printer.Print("Only firmware files in .bin format can be flashed with dfu-util!", MessageType.Error);
             }
         }

@@ -161,7 +161,10 @@
     </Compile>
     <Compile Include="Flashing.cs" />
     <Compile Include="Helpers\EmbeddedResourceHelper.cs" />
+    <Compile Include="IFlashing.cs" />
     <Compile Include="Info.cs" />
+    <Compile Include="IPrinting.cs" />
+    <Compile Include="IUsb.cs" />
     <Compile Include="Printing.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>

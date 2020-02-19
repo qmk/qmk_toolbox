@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace QMK_Toolbox
 {
-    public class Usb
+    public class Usb : IUsb
     {
         private readonly int[] _devicesAvailable = new int[(int)Chipset.NumberOfChipsets];
         private readonly Flashing _flasher;
