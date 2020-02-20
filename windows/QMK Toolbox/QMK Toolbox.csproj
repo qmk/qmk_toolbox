@@ -176,7 +176,7 @@
     <Compile Include="ProcessRunner.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="USB.cs" />
+    <Compile Include="Usb.cs" />
     <Compile Include="Wmi\IManagementBaseObject.cs" />
     <Compile Include="Wmi\IManagementObjectCollection.cs" />
     <Compile Include="Wmi\IManagementObjectSearcher.cs" />

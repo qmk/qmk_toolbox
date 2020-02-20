@@ -1,4 +1,7 @@
-﻿namespace QMK_Toolbox.Tests
+﻿//  Created by Mike Cooper on 2/20/20.
+//  Copyright © 2020 Mike Cooper. This code is licensed under MIT license (see LICENSE.md for details).
+
+namespace QMK_Toolbox.Tests
 {
     using System;
     using System.Collections.Generic;
