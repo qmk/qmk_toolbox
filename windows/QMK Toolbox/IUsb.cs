@@ -3,6 +3,7 @@
 
 using System;
 using System.Management;
+using QMK_Toolbox.Wmi;
 
 namespace QMK_Toolbox
 {
@@ -12,10 +13,10 @@ namespace QMK_Toolbox
 
         bool CanFlash(Chipset chipset);
 
-        bool DetectBootloader(ManagementBaseObject instance, bool connected = true);
+        bool DetectBootloader(IManagementBaseObject instance, bool connected = true);
 
-        bool DetectBootloaderFromCollection(ManagementObjectCollection collection, bool connected = true);
+        bool DetectBootloaderFromCollection(IManagementObjectCollection collection, bool connected = true);
 
-        string GetComPort(ManagementBaseObject instance);
+        string GetComPort(IManagementBaseObject instance);
     }
 }

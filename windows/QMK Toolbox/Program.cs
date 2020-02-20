@@ -4,6 +4,7 @@ using System.Management;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+using QMK_Toolbox.Wmi;
 
 namespace QMK_Toolbox
 {
@@ -36,11 +37,12 @@ namespace QMK_Toolbox
                 {
                     var processRunner = new ProcessRunner(printer);
                     var flasher = new Flashing(printer, processRunner);
-                    var usb = new Usb(flasher, printer);
+                    var searcherFactory = new ManagementObjectSearcherFactory();
+                    var usb = new Usb(flasher, printer, searcherFactory);
                     flasher.Usb = usb;
 
-                    ManagementObjectCollection collection;
-                    using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity WHERE DeviceID LIKE ""USB%"""))
+                    IManagementObjectCollection collection;
+                    using (var searcher = searcherFactory.Create(@"SELECT * FROM Win32_PnPEntity WHERE DeviceID LIKE ""USB%"""))
                         collection = searcher.Get();
 
                     usb.DetectBootloaderFromCollection(collection);
@@ -52,11 +54,12 @@ namespace QMK_Toolbox
                 {
                     var processRunner = new ProcessRunner(printer);
                     var flasher = new Flashing(printer, processRunner);
-                    var usb = new Usb(flasher, printer);
+                    var searcherFactory = new ManagementObjectSearcherFactory();
+                    var usb = new Usb(flasher, printer, searcherFactory);
                     flasher.Usb = usb;
 
-                    ManagementObjectCollection collection;
-                    using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity WHERE DeviceID LIKE ""USB%"""))
+                    IManagementObjectCollection collection;
+                    using (var searcher = searcherFactory.Create(@"SELECT * FROM Win32_PnPEntity WHERE DeviceID LIKE ""USB%"""))
                         collection = searcher.Get();
 
                     usb.DetectBootloaderFromCollection(collection);

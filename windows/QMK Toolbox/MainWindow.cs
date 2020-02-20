@@ -20,6 +20,7 @@ namespace QMK_Toolbox
 {
     using HidLibrary;
     using Newtonsoft.Json;
+    using QMK_Toolbox.Wmi;
     using Syroot.Windows.IO;
     using System.Collections;
     using System.Collections.Generic;
@@ -38,6 +39,7 @@ namespace QMK_Toolbox
         private readonly Printing _printer;
         private readonly Flashing _flasher;
         private readonly Usb _usb;
+        private readonly IManagementObjectSearcherFactory _searcherFactory;
 
         public const int MfSeparator = 0x800;
         public const int WmSyscommand = 0x112;
@@ -154,7 +156,8 @@ namespace QMK_Toolbox
             _printer = new Printing(logTextBox);
             _processRunner = new ProcessRunner(_printer);
             _flasher = new Flashing(_printer, _processRunner);
-            _usb = new Usb(_flasher, _printer);
+            _searcherFactory = new ManagementObjectSearcherFactory();
+            _usb = new Usb(_flasher, _printer, _searcherFactory);
             _flasher.Usb = _usb;
 
             StartListeningForDeviceEvents();
@@ -211,8 +214,8 @@ namespace QMK_Toolbox
             _printer.PrintResponse(" - AVRISP (Arduino ISP)\n", MessageType.Info);
             _printer.PrintResponse(" - USBasp (AVR ISP)\n", MessageType.Info);
 
-            ManagementObjectCollection collection;
-            using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity WHERE DeviceID LIKE ""USB%"""))
+            IManagementObjectCollection collection;
+            using (var searcher = _searcherFactory.Create(@"SELECT * FROM Win32_PnPEntity WHERE DeviceID LIKE ""USB%"""))
                 collection = searcher.Get();
 
             _usb.DetectBootloaderFromCollection(collection);
@@ -596,9 +599,9 @@ namespace QMK_Toolbox
 
             if (deviceDisconnected)
             {
-                _usb.DetectBootloader(instance, false);
+                _usb.DetectBootloader(new ManagementBaseObjectWrapper(instance), false);
             }
-            else if (_usb.DetectBootloader(instance) && autoflashCheckbox.Checked)
+            else if (_usb.DetectBootloader(new ManagementBaseObjectWrapper(instance)) && autoflashCheckbox.Checked)
             {
                 flashButton_Click(sender, e);
 

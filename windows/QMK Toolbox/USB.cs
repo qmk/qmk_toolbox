@@ -5,22 +5,25 @@ using System;
 using System.IO.Ports;
 using System.Management;
 using System.Text.RegularExpressions;
+using QMK_Toolbox.Wmi;
 
 namespace QMK_Toolbox
 {
     public class Usb : IUsb
     {
-        private readonly int[] _devicesAvailable = new int[(int)Chipset.NumberOfChipsets];
+        protected readonly int[] _devicesAvailable = new int[(int)Chipset.NumberOfChipsets];
         private readonly IFlashing _flasher;
         private readonly IPrinting _printer;
+        private readonly IManagementObjectSearcherFactory _searcherFactory;
 
-        public Usb(IFlashing flasher, IPrinting printer)
+        public Usb(IFlashing flasher, IPrinting printer, IManagementObjectSearcherFactory searcherFactory)
         {
             _flasher = flasher;
             _printer = printer;
+            _searcherFactory = searcherFactory;
         }
 
-        public bool DetectBootloaderFromCollection(ManagementObjectCollection collection, bool connected = true)
+        public bool DetectBootloaderFromCollection(IManagementObjectCollection collection, bool connected = true)
         {
             var found = false;
             foreach (var instance in collection)
@@ -30,13 +33,13 @@ namespace QMK_Toolbox
             return found;
         }
 
-        private static bool MatchVid(string did, ushort vid) => Regex.Match(did, $"USB.*VID_{vid:X4}.*").Success;
+        protected static bool MatchVid(string did, ushort vid) => Regex.Match(did, $"USB.*VID_{vid:X4}.*").Success;
 
-        private static bool MatchPid(string did, ushort pid) => Regex.Match(did, $"USB.*PID_{pid:X4}.*").Success;
+        protected static bool MatchPid(string did, ushort pid) => Regex.Match(did, $"USB.*PID_{pid:X4}.*").Success;
 
-        private static bool MatchRev(string did, ushort rev) => Regex.Match(did, $"USB.*REV_{rev:X4}.*").Success;
+        protected static bool MatchRev(string did, ushort rev) => Regex.Match(did, $"USB.*REV_{rev:X4}.*").Success;
 
-        public bool DetectBootloader(ManagementBaseObject instance, bool connected = true)
+        public bool DetectBootloader(IManagementBaseObject instance, bool connected = true)
         {
             var hardwareIds = (System.String[])instance.GetPropertyValue("HardwareID");
             if (hardwareIds == null || hardwareIds.Length == 0)
@@ -119,9 +122,9 @@ namespace QMK_Toolbox
             return true;
         }
 
-        public string GetComPort(ManagementBaseObject instance)
+        public string GetComPort(IManagementBaseObject instance)
         {
-            using (var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_SerialPort"))
+            using (var searcher = _searcherFactory.Create("SELECT * FROM Win32_SerialPort"))
             {
                 foreach (var device in searcher.Get())
                 {
