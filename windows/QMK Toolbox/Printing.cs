@@ -19,9 +19,9 @@ namespace QMK_Toolbox
 
     public class Printing : IPrinting
     {
-        private MessageType _lastMessage;
         private readonly RichTextBox _richTextBox;
-        private char _lastChar = '\n';
+        protected MessageType _lastMessage;
+        protected char _lastChar = '\n';
 
         public Printing()
         {
@@ -110,7 +110,8 @@ namespace QMK_Toolbox
 
                 case MessageType.Hid:
                     color = Color.SkyBlue;
-                    if (_richTextBox.Text.Last() == '\n')
+                    if (_richTextBox == null
+                        ||_richTextBox.Text.Last() == '\n')
                         str = Prepend(str, "  > ", false);
                     break;
             }
