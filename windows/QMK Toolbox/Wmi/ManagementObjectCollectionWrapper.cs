@@ -25,6 +25,11 @@ namespace QMK_Toolbox.Wmi
             }
         }
 
+        public ManagementObjectCollectionWrapper(IEnumerable<IManagementBaseObject> objects)
+        {
+            baseObjects = new List<IManagementBaseObject>(objects);
+        }
+
         public IEnumerator<IManagementBaseObject> GetEnumerator() => baseObjects.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => baseObjects.GetEnumerator();

@@ -2,6 +2,7 @@
 //  Copyright © 2020 Mike Cooper. This code is licensed under MIT license (see LICENSE.md for details).
 
 using System;
+using System.Collections.Generic;
 using System.Management;
 using QMK_Toolbox.Wmi;
 
@@ -15,7 +16,7 @@ namespace QMK_Toolbox
 
         bool DetectBootloader(IManagementBaseObject instance, bool connected = true);
 
-        bool DetectBootloaderFromCollection(IManagementObjectCollection collection, bool connected = true);
+        bool DetectBootloaderFromCollection(IEnumerable<IManagementBaseObject> collection, bool connected = true);
 
         string GetComPort(IManagementBaseObject instance);
     }

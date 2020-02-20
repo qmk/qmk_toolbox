@@ -564,6 +564,37 @@ namespace QMK_Toolbox.Tests
                 p.Print("BootloadHID device disconnected: Manufacturer Name (16C0:05DF:1234)", MessageType.Bootloader), Times.Once());
         }
 
+        [Test]
+        public void DetectBootloaderFromCollection_NoMatches_ReturnsFalse()
+        {
+            var managementObjects = new List<IManagementBaseObject>
+            {
+                GetInstanceMock(vendorId: 0x0000, productId: 0x0000).Object,
+                GetInstanceMock(vendorId: 0x0001, productId: 0x0001).Object,
+                GetInstanceMock(vendorId: 0x0002, productId: 0x0002).Object,
+            };
+
+            var result = usb.DetectBootloaderFromCollection(managementObjects);
+
+            result.Should().BeFalse();
+        }
+
+        [Test]
+        public void DetectBootloaderFromCollection_BootloadHidFound_ReturnsTrue()
+        {
+            var managementObjects = new List<IManagementBaseObject>
+            {
+                GetInstanceMock(vendorId: 0x0000, productId: 0x0000).Object,
+                GetInstanceMock(vendorId: 0x0001, productId: 0x0001).Object,
+                GetInstanceMock(vendorId: 0x0002, productId: 0x0002).Object,
+                GetInstanceMock(vendorId: 0x16C0, productId: 0x05DF, rev: 0x1234).Object,
+            };
+
+            var result = usb.DetectBootloaderFromCollection(managementObjects);
+
+            result.Should().BeTrue();
+        }
+
         private Mock<IManagementBaseObject> GetInstanceMock(string pnpHardwareId = "Id1", ushort? vendorId = null, ushort? productId = null, ushort? rev = null)
         {
             var instanceMock = new Mock<IManagementBaseObject>();

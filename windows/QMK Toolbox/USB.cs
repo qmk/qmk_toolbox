@@ -2,6 +2,7 @@
 //  Copyright © 2017 Jack Humbert. This code is licensed under MIT license (see LICENSE.md for details).
 
 using System;
+using System.Collections.Generic;
 using System.IO.Ports;
 using System.Management;
 using System.Text.RegularExpressions;
@@ -23,7 +24,7 @@ namespace QMK_Toolbox
             _searcherFactory = searcherFactory;
         }
 
-        public bool DetectBootloaderFromCollection(IManagementObjectCollection collection, bool connected = true)
+        public bool DetectBootloaderFromCollection(IEnumerable<IManagementBaseObject> collection, bool connected = true)
         {
             var found = false;
             foreach (var instance in collection)
