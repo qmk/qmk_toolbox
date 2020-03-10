@@ -176,7 +176,6 @@
 
     [self loadMicrocontrollers];
     [self loadKeyboards];
-    [self loadKeymaps];
     [self loadRecentDocuments];
 
     [_printer print:@"QMK Toolbox (http://qmk.fm/toolbox)" withType:MessageType_Info];
@@ -232,11 +231,14 @@
 - (void)loadKeyboards {
     NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://compile.qmk.fm/v1/keyboards"]];
     NSError * error = nil;
-    NSArray * keyboards = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-    [_keyboardBox removeAllItems];
-    [_keyboardBox addItemsWithObjectValues:keyboards];
-    [_keyboardBox selectItemAtIndex:0];
-    _keyboardBox.enabled = YES;
+    if (data != nil) {
+        NSArray * keyboards = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        [_keyboardBox removeAllItems];
+        [_keyboardBox addItemsWithObjectValues:keyboards];
+        [_keyboardBox selectItemAtIndex:0];
+        _keyboardBox.enabled = YES;
+        [self loadKeymaps];
+    }
 }
 
 - (void)loadKeymaps {
@@ -263,8 +265,10 @@
 }
 
 - (IBAction)loadKeymapClick:(id)sender {
-    NSString * keyboard = [[_keyboardBox objectValue] stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
-    [self setFilePath:[NSURL URLWithString:[NSString stringWithFormat:@"qmk:http://qmk.fm/compiled/%@_default.hex", keyboard]]];
+    if ([_keyboardBox numberOfItems] > 0) {
+        NSString * keyboard = [[_keyboardBox objectValue] stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+        [self setFilePath:[NSURL URLWithString:[NSString stringWithFormat:@"qmk:http://qmk.fm/compiled/%@_default.hex", keyboard]]];
+    }
 }
 
 - (IBAction)clearButtonClick:(id)sender {
