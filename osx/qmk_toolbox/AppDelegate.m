@@ -229,7 +229,7 @@
 }
 
 - (void)loadKeyboards {
-    NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://compile.qmk.fm/v1/keyboards"]];
+    NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://api.qmk.fm/v1/keyboards"]];
     NSError * error = nil;
     if (data != nil) {
         NSArray * keyboards = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
@@ -242,7 +242,7 @@
 }
 
 - (void)loadKeymaps {
-//    NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://compile.qmk.fm/v1/keyboards"]];
+//    NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://api.qmk.fm/v1/keyboards"]];
 //    NSError * error = nil;
 //    NSArray * keyboards = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
     [_keymapBox removeAllItems];
