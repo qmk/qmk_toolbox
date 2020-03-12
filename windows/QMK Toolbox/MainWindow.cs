@@ -67,7 +67,7 @@ namespace QMK_Toolbox
 
             var process = new Process
             {
-                StartInfo = new ProcessStartInfo(installerPath, $"--all \"{driversPath}\"")
+                StartInfo = new ProcessStartInfo(installerPath, $"--all --force \"{driversPath}\"")
                 {
                     Verb = "runas"
                 }
