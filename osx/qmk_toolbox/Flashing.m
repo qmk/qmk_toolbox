@@ -123,7 +123,7 @@
 - (void)clearEEPROMUSBAsp:(NSString *)mcu {
     NSString * result;
     NSString * file = [[NSBundle mainBundle] pathForResource:@"reset" ofType:@"eep"];
-    result = [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"usbasp", @"-U", [NSString stringWithFormat:@"eeprom:w:%@:i", file], @"-P", caterinaPort, @"-C", @"avrdude.conf"]];
+    result = [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"usbasp", @"-U", [NSString stringWithFormat:@"eeprom:w:%@:i", file], @"-C", @"avrdude.conf"]];
 }
 
 - (void)flashHalfkay:(NSString *)mcu withFile:(NSString *)file {
