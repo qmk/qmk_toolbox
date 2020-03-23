@@ -361,7 +361,7 @@
                         </constraints>
                     </box>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sFy-Lg-NKo">
-                        <rect key="frame" x="168" y="403" width="52" height="16"/>
+                        <rect key="frame" x="308" y="403" width="52" height="16"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="16" id="JnJ-lg-qh7"/>
                             <constraint firstAttribute="width" constant="48" id="sON-qv-qTg"/>
@@ -425,7 +425,7 @@
                     <constraint firstItem="LCo-O1-xnT" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="5" id="pIB-Hs-nnI"/>
                     <constraint firstItem="OKF-oG-mRx" firstAttribute="leading" secondItem="LCo-O1-xnT" secondAttribute="trailing" constant="8" id="reN-8u-DkO"/>
                     <constraint firstItem="t67-0j-kLe" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="5" id="tnv-lz-t10"/>
-                    <constraint firstItem="sFy-Lg-NKo" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="170" id="zjf-tj-SxC"/>
+                    <constraint firstItem="kHS-JF-7Py" firstAttribute="leading" secondItem="sFy-Lg-NKo" secondAttribute="leading" constant="-4" id="z5W-JH-tlg"/>
                 </constraints>
             </view>
             <point key="canvasLocation" x="349.5" y="454.5"/>
