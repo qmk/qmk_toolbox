@@ -234,6 +234,7 @@ namespace QMK_Toolbox
                     if (json != null) {
                         var keyboards = JsonConvert.DeserializeObject<List<string>>(json);
                         keyboardBox.Items.Clear();
+                        keyboardBox.Items.Add("--- Select a keyboard to download ---");
                         foreach (var keyboard in keyboards)
                         {
                             keyboardBox.Items.Add(keyboard);
