@@ -168,7 +168,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="backgroundColor" white="0.092534722220000004" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="484" height="303"/>
+                                    <size key="minSize" width="639" height="318"/>
                                     <size key="maxSize" width="641" height="10000000"/>
                                     <color key="insertionPointColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <connections>
@@ -254,8 +254,8 @@
                                         <outlet property="delegate" destination="Voe-Tx-rLC" id="RTL-ba-n38"/>
                                     </connections>
                                 </comboBox>
-                                <comboBox verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A13-Sl-S0x">
-                                    <rect key="frame" x="539" y="5" width="108" height="25"/>
+                                <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="A13-Sl-S0x">
+                                    <rect key="frame" x="539" y="6" width="108" height="24"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="105" id="fYy-tf-ll3"/>
                                     </constraints>
@@ -268,8 +268,8 @@
                                         <outlet property="delegate" destination="Voe-Tx-rLC" id="nzF-ij-VIK"/>
                                     </connections>
                                 </comboBox>
-                                <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oJO-GM-iRa">
-                                    <rect key="frame" x="466" y="0.0" width="71" height="32"/>
+                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oJO-GM-iRa">
+                                    <rect key="frame" x="466" y="1" width="71" height="32"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="59" id="u2Q-Np-4xa"/>
                                     </constraints>
@@ -285,6 +285,8 @@
                             <constraints>
                                 <constraint firstItem="A13-Sl-S0x" firstAttribute="leading" secondItem="oJO-GM-iRa" secondAttribute="trailing" constant="8" id="6Jx-W7-tiK"/>
                                 <constraint firstAttribute="trailing" secondItem="A13-Sl-S0x" secondAttribute="trailing" constant="7" id="MaR-VI-fJe"/>
+                                <constraint firstItem="A13-Sl-S0x" firstAttribute="top" secondItem="fMz-rn-IEt" secondAttribute="top" id="MaX-0I-Jzt"/>
+                                <constraint firstItem="oJO-GM-iRa" firstAttribute="top" secondItem="fMz-rn-IEt" secondAttribute="top" constant="-1" id="YGl-HK-Nd4"/>
                                 <constraint firstItem="fMz-rn-IEt" firstAttribute="leading" secondItem="R6x-jp-q9X" secondAttribute="leading" constant="7" id="Zec-GV-iDY"/>
                                 <constraint firstItem="oJO-GM-iRa" firstAttribute="leading" secondItem="fMz-rn-IEt" secondAttribute="trailing" constant="8" id="oBB-vL-74h"/>
                                 <constraint firstItem="fMz-rn-IEt" firstAttribute="top" secondItem="R6x-jp-q9X" secondAttribute="top" constant="7" id="pA1-O0-4lY"/>
