@@ -168,7 +168,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="backgroundColor" white="0.092534722220000004" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="639" height="318"/>
+                                    <size key="minSize" width="492" height="303"/>
                                     <size key="maxSize" width="641" height="10000000"/>
                                     <color key="insertionPointColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <connections>
@@ -356,7 +356,7 @@
                             </constraints>
                         </view>
                         <constraints>
-                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="365" id="38u-4Y-81g"/>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="500" id="38u-4Y-81g"/>
                             <constraint firstAttribute="height" constant="49" id="xKd-xI-5cI"/>
                         </constraints>
                     </box>
