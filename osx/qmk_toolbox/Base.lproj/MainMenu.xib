@@ -384,10 +384,10 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RSb-Il-mNt">
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RSb-Il-mNt">
                         <rect key="frame" x="4" y="3" width="125" height="32"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="121" id="OrW-P7-Fri"/>
+                            <constraint firstAttribute="width" constant="113" id="OrW-P7-Fri"/>
                             <constraint firstAttribute="height" constant="21" id="ZJj-0M-KZ7"/>
                         </constraints>
                         <buttonCell key="cell" type="push" title="Clear EEPROM" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aot-j7-w9r">
