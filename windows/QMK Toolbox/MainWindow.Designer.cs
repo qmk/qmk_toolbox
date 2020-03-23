@@ -210,6 +210,7 @@ namespace QMK_Toolbox {
             this.keyboardBox.TabIndex = 4;
             this.keyboardBox.Tag = "The target (MCU) of the flashing";
             this.keyboardBox.Text = global::QMK_Toolbox.Properties.Settings.Default.keyboard;
+            this.keyboardBox.SelectedIndexChanged += new System.EventHandler(this.KeyboardBox_SelectedIndexChanged);
             this.keyboardBox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
             this.keyboardBox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
             // 

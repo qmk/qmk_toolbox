@@ -242,6 +242,7 @@ namespace QMK_Toolbox
                         if (keyboardBox.SelectedIndex == -1)
                             keyboardBox.SelectedIndex = 0;
                         keyboardBox.Enabled = true;
+                        loadKeymap.Enabled = false;
                         LoadKeymapList();
                     }
                 }
@@ -261,7 +262,6 @@ namespace QMK_Toolbox
             keymapBox.Items.Add("default");
             keymapBox.SelectedIndex = 0;
             // keymapBox.Enabled = true;
-            loadKeymap.Enabled = true;
         }
 
         private void loadKeymap_Click(object sender, EventArgs e)
@@ -756,6 +756,11 @@ namespace QMK_Toolbox
         private void installDriversToolStripMenuItem_Click(object sender, EventArgs e)
         {
             InstallDrivers();
+        }
+
+        private void KeyboardBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            loadKeymap.Enabled = keyboardBox.SelectedIndex != 0;
         }
     }
 }
