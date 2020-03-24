@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -145,12 +145,13 @@
                     </menu>
                 </menuItem>
             </items>
+            <point key="canvasLocation" x="141" y="328"/>
         </menu>
         <window title="QMK Toolbox" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="QMKWindow">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="661" height="475"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
             <value key="minSize" type="size" width="661" height="200"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="661" height="475"/>
@@ -167,7 +168,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="backgroundColor" white="0.092534722220000004" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="639" height="318"/>
+                                    <size key="minSize" width="492" height="303"/>
                                     <size key="maxSize" width="641" height="10000000"/>
                                     <color key="insertionPointColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <connections>
@@ -242,7 +243,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fMz-rn-IEt">
-                                    <rect key="frame" x="7" y="5" width="460" height="25"/>
+                                    <rect key="frame" x="7" y="6" width="460" height="24"/>
                                     <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Click Open or drag to window to select file" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="XxC-Jz-p7t">
                                         <font key="font" metaFont="cellTitle"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -253,8 +254,8 @@
                                         <outlet property="delegate" destination="Voe-Tx-rLC" id="RTL-ba-n38"/>
                                     </connections>
                                 </comboBox>
-                                <comboBox verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A13-Sl-S0x">
-                                    <rect key="frame" x="539" y="5" width="108" height="25"/>
+                                <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="A13-Sl-S0x">
+                                    <rect key="frame" x="539" y="6" width="108" height="24"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="105" id="fYy-tf-ll3"/>
                                     </constraints>
@@ -267,8 +268,8 @@
                                         <outlet property="delegate" destination="Voe-Tx-rLC" id="nzF-ij-VIK"/>
                                     </connections>
                                 </comboBox>
-                                <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oJO-GM-iRa">
-                                    <rect key="frame" x="466" y="0.0" width="71" height="32"/>
+                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oJO-GM-iRa">
+                                    <rect key="frame" x="466" y="1" width="71" height="32"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="59" id="u2Q-Np-4xa"/>
                                     </constraints>
@@ -284,6 +285,8 @@
                             <constraints>
                                 <constraint firstItem="A13-Sl-S0x" firstAttribute="leading" secondItem="oJO-GM-iRa" secondAttribute="trailing" constant="8" id="6Jx-W7-tiK"/>
                                 <constraint firstAttribute="trailing" secondItem="A13-Sl-S0x" secondAttribute="trailing" constant="7" id="MaR-VI-fJe"/>
+                                <constraint firstItem="A13-Sl-S0x" firstAttribute="top" secondItem="fMz-rn-IEt" secondAttribute="top" id="MaX-0I-Jzt"/>
+                                <constraint firstItem="oJO-GM-iRa" firstAttribute="top" secondItem="fMz-rn-IEt" secondAttribute="top" constant="-1" id="YGl-HK-Nd4"/>
                                 <constraint firstItem="fMz-rn-IEt" firstAttribute="leading" secondItem="R6x-jp-q9X" secondAttribute="leading" constant="7" id="Zec-GV-iDY"/>
                                 <constraint firstItem="oJO-GM-iRa" firstAttribute="leading" secondItem="fMz-rn-IEt" secondAttribute="trailing" constant="8" id="oBB-vL-74h"/>
                                 <constraint firstItem="fMz-rn-IEt" firstAttribute="top" secondItem="R6x-jp-q9X" secondAttribute="top" constant="7" id="pA1-O0-4lY"/>
@@ -294,13 +297,13 @@
                         </constraints>
                     </box>
                     <box boxType="secondary" borderType="line" title="Keyboard from qmk.fm" translatesAutoresizingMaskIntoConstraints="NO" id="LCo-O1-xnT">
-                        <rect key="frame" x="2" y="366" width="371" height="53"/>
+                        <rect key="frame" x="2" y="366" width="511" height="53"/>
                         <view key="contentView" id="cS7-E3-hab">
-                            <rect key="frame" x="3" y="3" width="365" height="35"/>
+                            <rect key="frame" x="3" y="3" width="505" height="35"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j37-hH-gaF">
-                                    <rect key="frame" x="7" y="5" width="149" height="25"/>
+                                    <rect key="frame" x="7" y="6" width="289" height="24"/>
                                     <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="" drawsBackground="YES" completes="NO" numberOfVisibleItems="20" id="5mG-K9-oUt">
                                         <font key="font" metaFont="cellTitle"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -313,7 +316,7 @@
                                     </comboBoxCell>
                                 </comboBox>
                                 <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kHS-JF-7Py">
-                                    <rect key="frame" x="161" y="5" width="130" height="25"/>
+                                    <rect key="frame" x="301" y="6" width="130" height="24"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="127" id="Rmh-Vs-2bF"/>
                                     </constraints>
@@ -329,7 +332,7 @@
                                     </comboBoxCell>
                                 </comboBox>
                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NAG-fy-neW">
-                                    <rect key="frame" x="290" y="1" width="70" height="32"/>
+                                    <rect key="frame" x="430" y="1" width="70" height="32"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="58" id="wPl-Eb-7HZ"/>
                                     </constraints>
@@ -353,12 +356,12 @@
                             </constraints>
                         </view>
                         <constraints>
-                            <constraint firstAttribute="width" constant="365" id="38u-4Y-81g"/>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="500" id="38u-4Y-81g"/>
                             <constraint firstAttribute="height" constant="49" id="xKd-xI-5cI"/>
                         </constraints>
                     </box>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sFy-Lg-NKo">
-                        <rect key="frame" x="168" y="403" width="52" height="16"/>
+                        <rect key="frame" x="308" y="403" width="52" height="16"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="16" id="JnJ-lg-qh7"/>
                             <constraint firstAttribute="width" constant="48" id="sON-qv-qTg"/>
@@ -381,10 +384,10 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RSb-Il-mNt">
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RSb-Il-mNt">
                         <rect key="frame" x="4" y="3" width="125" height="32"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="121" id="OrW-P7-Fri"/>
+                            <constraint firstAttribute="width" constant="113" id="OrW-P7-Fri"/>
                             <constraint firstAttribute="height" constant="21" id="ZJj-0M-KZ7"/>
                         </constraints>
                         <buttonCell key="cell" type="push" title="Clear EEPROM" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aot-j7-w9r">
@@ -420,8 +423,9 @@
                     <constraint firstItem="9ht-zl-DdM" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="4" id="me3-Ss-MQt"/>
                     <constraint firstItem="RSb-Il-mNt" firstAttribute="top" secondItem="w5R-Hk-e8X" secondAttribute="bottom" constant="10" id="nVm-oo-6dO"/>
                     <constraint firstItem="LCo-O1-xnT" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="5" id="pIB-Hs-nnI"/>
+                    <constraint firstItem="OKF-oG-mRx" firstAttribute="leading" secondItem="LCo-O1-xnT" secondAttribute="trailing" constant="8" id="reN-8u-DkO"/>
                     <constraint firstItem="t67-0j-kLe" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="5" id="tnv-lz-t10"/>
-                    <constraint firstItem="sFy-Lg-NKo" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="170" id="zjf-tj-SxC"/>
+                    <constraint firstItem="kHS-JF-7Py" firstAttribute="leading" secondItem="sFy-Lg-NKo" secondAttribute="leading" constant="-4" id="z5W-JH-tlg"/>
                 </constraints>
             </view>
             <point key="canvasLocation" x="349.5" y="454.5"/>
