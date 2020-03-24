@@ -199,6 +199,8 @@ namespace QMK_Toolbox {
             // 
             // keyboardBox
             // 
+            this.keyboardBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.keyboardBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.keyboardBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "keyboard", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.keyboardBox.Enabled = false;
             this.keyboardBox.FormattingEnabled = true;
