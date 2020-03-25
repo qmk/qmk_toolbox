@@ -239,7 +239,6 @@
         NSArray * keyboards = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
         [_keyboardBox removeAllItems];
         [_keyboardBox addItemsWithObjectValues:keyboards];
-        [_keyboardBox selectItemAtIndex:0];
         _keyboardBox.enabled = YES;
         [self loadKeymaps];
     }

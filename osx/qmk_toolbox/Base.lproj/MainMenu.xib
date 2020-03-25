@@ -169,7 +169,7 @@
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="backgroundColor" white="0.092534722220000004" alpha="1" colorSpace="calibratedWhite"/>
                                     <size key="minSize" width="649" height="318"/>
-                                    <size key="maxSize" width="653" height="10000000"/>
+                                    <size key="maxSize" width="651" height="10000000"/>
                                     <color key="insertionPointColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <connections>
                                         <outlet property="menu" destination="H9m-Y6-elE" id="oIU-k2-DPl"/>
@@ -304,7 +304,7 @@
                             <subviews>
                                 <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j37-hH-gaF">
                                     <rect key="frame" x="7" y="6" width="285" height="24"/>
-                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="" drawsBackground="YES" completes="NO" numberOfVisibleItems="20" id="5mG-K9-oUt">
+                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Select a keyboard to download" drawsBackground="YES" numberOfVisibleItems="20" id="5mG-K9-oUt">
                                         <font key="font" metaFont="cellTitle"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
