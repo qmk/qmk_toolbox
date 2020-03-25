@@ -759,6 +759,11 @@ namespace QMK_Toolbox
             InstallDrivers();
         }
 
+        private void KeyboardBox_TextChanged(object sender, EventArgs e)
+        {
+            loadKeymap.Enabled = keyboardBox.SelectedIndex != 0 && keyboardBox.Items.Contains(keyboardBox.Text);
+        }
+
         private void KeyboardBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             loadKeymap.Enabled = keyboardBox.SelectedIndex != 0;
