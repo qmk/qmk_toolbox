@@ -80,6 +80,19 @@
         [self resetAtmelSAMBA];
 }
 
+- (BOOL)canReset {
+    NSArray<NSNumber *> *resettable = @[
+        @(DFU),
+        @(Halfkay),
+        @(AtmelSAMBA)
+    ];
+    for (NSNumber *chipset in resettable) {
+        if ([USB canFlash:(Chipset)chipset.intValue])
+            return YES;
+    }
+    return NO;
+}
+
 - (void)clearEEPROM:(NSString *)mcu {
     if ([USB canFlash:DFU])
         [self clearEEPROMDFU:mcu];

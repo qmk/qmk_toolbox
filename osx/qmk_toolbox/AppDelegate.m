@@ -96,9 +96,12 @@
     if ([_autoFlashButton state] == NSOnState) {
         [self flashButtonClick:NULL];
     }
+    self.resetButton.enabled = [self.flasher canReset];
 }
 
-- (void)deviceDisconnected:(Chipset)chipset {}
+- (void)deviceDisconnected:(Chipset)chipset {
+    self.resetButton.enabled = [self.flasher canReset];
+}
 
 - (BOOL)application:(NSApplication *)sender openFile:(NSString *)filename {
     if ([[[filename pathExtension] lowercaseString] isEqualToString:@"qmk"] ||
@@ -173,6 +176,7 @@
     _printer = [[Printing alloc] initWithTextView:_textView];
     _flasher = [[Flashing alloc] initWithPrinter:_printer];
     _flasher.delegate = self;
+    _resetButton.enabled = NO;
 
     [self loadMicrocontrollers];
     [self loadKeyboards];
