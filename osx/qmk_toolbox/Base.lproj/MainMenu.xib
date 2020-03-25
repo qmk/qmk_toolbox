@@ -150,26 +150,26 @@
         <window title="QMK Toolbox" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="QMKWindow">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="335" y="390" width="661" height="475"/>
+            <rect key="contentRect" x="335" y="390" width="671" height="475"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
-            <value key="minSize" type="size" width="661" height="200"/>
+            <value key="minSize" type="size" width="670" height="200"/>
             <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="661" height="475"/>
+                <rect key="frame" x="0.0" y="0.0" width="671" height="475"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <scrollView autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" scrollerKnobStyle="dark" translatesAutoresizingMaskIntoConstraints="NO" id="w5R-Hk-e8X">
-                        <rect key="frame" x="10" y="41" width="641" height="320"/>
+                        <rect key="frame" x="10" y="41" width="651" height="320"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="oaz-yh-Zob">
-                            <rect key="frame" x="1" y="1" width="639" height="318"/>
+                            <rect key="frame" x="1" y="1" width="649" height="318"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView editable="NO" importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" allowsNonContiguousLayout="YES" id="tMQ-2J-GgU">
-                                    <rect key="frame" x="0.0" y="0.0" width="639" height="318"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="649" height="318"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="backgroundColor" white="0.092534722220000004" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="492" height="303"/>
-                                    <size key="maxSize" width="641" height="10000000"/>
+                                    <size key="minSize" width="649" height="318"/>
+                                    <size key="maxSize" width="653" height="10000000"/>
                                     <color key="insertionPointColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <connections>
                                         <outlet property="menu" destination="H9m-Y6-elE" id="oIU-k2-DPl"/>
@@ -187,12 +187,12 @@
                         </scroller>
                     </scrollView>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qEj-2h-OmC">
-                        <rect key="frame" x="584" y="386" width="73" height="32"/>
+                        <rect key="frame" x="580" y="386" width="87" height="32"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="0c7-uS-SRH"/>
-                            <constraint firstAttribute="width" constant="61" id="mbB-cQ-ug3"/>
+                            <constraint firstAttribute="width" constant="75" id="mbB-cQ-ug3"/>
                         </constraints>
-                        <buttonCell key="cell" type="push" title="Reset" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="euK-aj-UAI">
+                        <buttonCell key="cell" type="push" title="Exit DFU" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="euK-aj-UAI">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="cellTitle"/>
                         </buttonCell>
@@ -201,7 +201,7 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OKF-oG-mRx">
-                        <rect key="frame" x="512" y="386" width="80" height="32"/>
+                        <rect key="frame" x="508" y="386" width="80" height="32"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="igB-eN-Klh"/>
                             <constraint firstAttribute="width" constant="68" id="sS6-6I-Jy2"/>
@@ -215,7 +215,7 @@
                         </connections>
                     </button>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="TwL-TO-5Ka">
-                        <rect key="frame" x="516" y="370" width="96" height="18"/>
+                        <rect key="frame" x="512" y="370" width="96" height="18"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="92" id="VS7-uL-i4O"/>
                             <constraint firstAttribute="height" constant="14" id="ssc-vc-JLH"/>
@@ -226,7 +226,7 @@
                         </buttonCell>
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vo9-7s-iob">
-                        <rect key="frame" x="524" y="3" width="133" height="32"/>
+                        <rect key="frame" x="534" y="3" width="133" height="32"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="Ga0-aA-gv3"/>
                             <constraint firstAttribute="width" constant="121" id="Vg3-Rm-RzM"/>
@@ -237,13 +237,13 @@
                         </buttonCell>
                     </button>
                     <box borderType="line" title="Local file" translatesAutoresizingMaskIntoConstraints="NO" id="t67-0j-kLe">
-                        <rect key="frame" x="2" y="418" width="657" height="53"/>
+                        <rect key="frame" x="2" y="418" width="667" height="53"/>
                         <view key="contentView" id="R6x-jp-q9X">
-                            <rect key="frame" x="3" y="3" width="651" height="35"/>
+                            <rect key="frame" x="3" y="3" width="661" height="35"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fMz-rn-IEt">
-                                    <rect key="frame" x="7" y="6" width="460" height="24"/>
+                                    <rect key="frame" x="7" y="6" width="470" height="24"/>
                                     <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Click Open or drag to window to select file" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="XxC-Jz-p7t">
                                         <font key="font" metaFont="cellTitle"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -255,7 +255,7 @@
                                     </connections>
                                 </comboBox>
                                 <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="A13-Sl-S0x">
-                                    <rect key="frame" x="539" y="6" width="108" height="24"/>
+                                    <rect key="frame" x="549" y="6" width="108" height="24"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="105" id="fYy-tf-ll3"/>
                                     </constraints>
@@ -269,7 +269,7 @@
                                     </connections>
                                 </comboBox>
                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oJO-GM-iRa">
-                                    <rect key="frame" x="466" y="1" width="71" height="32"/>
+                                    <rect key="frame" x="476" y="1" width="71" height="32"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="59" id="u2Q-Np-4xa"/>
                                     </constraints>
@@ -297,13 +297,13 @@
                         </constraints>
                     </box>
                     <box boxType="secondary" borderType="line" title="Keyboard from qmk.fm" translatesAutoresizingMaskIntoConstraints="NO" id="LCo-O1-xnT">
-                        <rect key="frame" x="2" y="366" width="511" height="53"/>
+                        <rect key="frame" x="2" y="366" width="507" height="53"/>
                         <view key="contentView" id="cS7-E3-hab">
-                            <rect key="frame" x="3" y="3" width="505" height="35"/>
+                            <rect key="frame" x="3" y="3" width="501" height="35"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j37-hH-gaF">
-                                    <rect key="frame" x="7" y="6" width="289" height="24"/>
+                                    <rect key="frame" x="7" y="6" width="285" height="24"/>
                                     <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="" drawsBackground="YES" completes="NO" numberOfVisibleItems="20" id="5mG-K9-oUt">
                                         <font key="font" metaFont="cellTitle"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -316,7 +316,7 @@
                                     </comboBoxCell>
                                 </comboBox>
                                 <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kHS-JF-7Py">
-                                    <rect key="frame" x="301" y="6" width="130" height="24"/>
+                                    <rect key="frame" x="297" y="6" width="130" height="24"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="127" id="Rmh-Vs-2bF"/>
                                     </constraints>
@@ -332,7 +332,7 @@
                                     </comboBoxCell>
                                 </comboBox>
                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NAG-fy-neW">
-                                    <rect key="frame" x="430" y="1" width="70" height="32"/>
+                                    <rect key="frame" x="426" y="1" width="70" height="32"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="58" id="wPl-Eb-7HZ"/>
                                     </constraints>
@@ -361,7 +361,7 @@
                         </constraints>
                     </box>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sFy-Lg-NKo">
-                        <rect key="frame" x="308" y="403" width="52" height="16"/>
+                        <rect key="frame" x="304" y="403" width="52" height="16"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="16" id="JnJ-lg-qh7"/>
                             <constraint firstAttribute="width" constant="48" id="sON-qv-qTg"/>
@@ -373,7 +373,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9ht-zl-DdM">
-                        <rect key="frame" x="546" y="455" width="92" height="16"/>
+                        <rect key="frame" x="556" y="455" width="92" height="16"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="16" id="7hf-ak-jNR"/>
                             <constraint firstAttribute="width" constant="88" id="YDa-UX-xkr"/>
@@ -401,7 +401,7 @@
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="w5R-Hk-e8X" secondAttribute="trailing" constant="10" id="1SK-rh-DGn"/>
-                    <constraint firstAttribute="trailing" secondItem="TwL-TO-5Ka" secondAttribute="trailing" constant="51" id="3oz-jj-y7u"/>
+                    <constraint firstItem="TwL-TO-5Ka" firstAttribute="leading" secondItem="OKF-oG-mRx" secondAttribute="leading" id="533-Os-hQd"/>
                     <constraint firstAttribute="trailing" secondItem="qEj-2h-OmC" secondAttribute="trailing" constant="10" id="56Q-ms-Qm2"/>
                     <constraint firstAttribute="bottom" secondItem="Vo9-7s-iob" secondAttribute="bottom" constant="10" id="AKw-MJ-48Q"/>
                     <constraint firstItem="w5R-Hk-e8X" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="10" id="BdT-Ww-Qmp"/>

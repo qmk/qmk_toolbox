@@ -61,7 +61,7 @@ namespace QMK_Toolbox {
             // flashButton
             // 
             this.flashButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.flashButton.Location = new System.Drawing.Point(667, 54);
+            this.flashButton.Location = new System.Drawing.Point(657, 54);
             this.flashButton.Name = "flashButton";
             this.flashButton.Size = new System.Drawing.Size(57, 21);
             this.flashButton.TabIndex = 6;
@@ -109,12 +109,12 @@ namespace QMK_Toolbox {
             // resetButton
             // 
             this.resetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.resetButton.Location = new System.Drawing.Point(730, 54);
+            this.resetButton.Location = new System.Drawing.Point(720, 54);
             this.resetButton.Name = "resetButton";
-            this.resetButton.Size = new System.Drawing.Size(57, 21);
+            this.resetButton.Size = new System.Drawing.Size(67, 21);
             this.resetButton.TabIndex = 7;
             this.resetButton.Tag = "Reset the MCU back into application mode";
-            this.resetButton.Text = "Reset";
+            this.resetButton.Text = "Exit DFU";
             this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
             this.resetButton.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
             this.resetButton.MouseHover += new System.EventHandler(this.btn_MouseLeave);
