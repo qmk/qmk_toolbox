@@ -147,7 +147,7 @@ namespace QMK_Toolbox
 
         private void ClearEepromCaterina(string mcu) => _processRunner.Run("avrdude.exe", $"-p {mcu} -c avr109 -U eeprom:w:\"reset.eep\":i -P {CaterinaPort}");
 
-        private void ClearEepromUsbAsp(string mcu) => _processRunner.Run("avrdude.exe", $"-p {mcu} -c usbasp -U eeprom:w:\"reset.eep\":i -P {CaterinaPort}");
+        private void ClearEepromUsbAsp(string mcu) => _processRunner.Run("avrdude.exe", $"-p {mcu} -c usbasp -U eeprom:w:\"reset.eep\":i");
 
         private void FlashHalfkay(string mcu, string file) => _processRunner.Run("teensy_loader_cli.exe", $"-mmcu={mcu} \"{file}\" -v");
 

@@ -70,7 +70,7 @@ namespace QMK_Toolbox
 
             var process = new Process
             {
-                StartInfo = new ProcessStartInfo(installerPath, $"--all \"{driversPath}\"")
+                StartInfo = new ProcessStartInfo(installerPath, $"--all --force \"{driversPath}\"")
                 {
                     Verb = "runas"
                 }
@@ -227,7 +227,6 @@ namespace QMK_Toolbox
                 SetFilePath(_filePassedIn);
 
             LoadKeyboardList();
-            LoadKeymapList();
         }
 
         private void LoadKeyboardList()
@@ -237,15 +236,18 @@ namespace QMK_Toolbox
                 using (var wc = new WebClient())
                 {
                     var json = wc.DownloadString("http://api.qmk.fm/v1/keyboards");
-                    var keyboards = JsonConvert.DeserializeObject<List<string>>(json);
-                    keyboardBox.Items.Clear();
-                    foreach (var keyboard in keyboards)
-                    {
-                        keyboardBox.Items.Add(keyboard);
+                    if (json != null) {
+                        var keyboards = JsonConvert.DeserializeObject<List<string>>(json);
+                        keyboardBox.Items.Clear();
+                        foreach (var keyboard in keyboards)
+                        {
+                            keyboardBox.Items.Add(keyboard);
+                        }
+                        if (keyboardBox.SelectedIndex == -1)
+                            keyboardBox.SelectedIndex = 0;
+                        keyboardBox.Enabled = true;
+                        LoadKeymapList();
                     }
-                    if (keyboardBox.SelectedIndex == -1)
-                        keyboardBox.SelectedIndex = 0;
-                    keyboardBox.Enabled = true;
                 }
             }
             catch (Exception e)
@@ -268,7 +270,10 @@ namespace QMK_Toolbox
 
         private void loadKeymap_Click(object sender, EventArgs e)
         {
-            SetFilePath($"qmk:https://qmk.fm/compiled/{keyboardBox.SelectedItem.ToString().Replace("/", "_")}_default.hex");
+            if (keyboardBox.Items.Count > 0)
+            {
+                SetFilePath($"qmk:https://qmk.fm/compiled/{keyboardBox.SelectedItem.ToString().Replace("/", "_")}_default.hex");
+            }
         }
 
         private void flashButton_Click(object sender, EventArgs e)
