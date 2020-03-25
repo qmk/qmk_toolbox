@@ -154,6 +154,7 @@ namespace QMK_Toolbox
             _flasher = new Flashing(_printer);
             _usb = new Usb(_flasher, _printer);
             _flasher.Usb = _usb;
+            resetButton.Enabled = false;
 
             StartListeningForDeviceEvents();
         }
@@ -311,7 +312,7 @@ namespace QMK_Toolbox
                     this.Invoke((MethodInvoker)delegate
                     {
                         flashButton.Enabled = true;
-                        resetButton.Enabled = true;
+                        resetButton.Enabled = _flasher.CanReset();
                     });
 
                 }).Start();
@@ -348,7 +349,7 @@ namespace QMK_Toolbox
                 }
 
                 flashButton.Enabled = true;
-                resetButton.Enabled = true;
+                resetButton.Enabled = _flasher.CanReset();
             }
             else
             {
@@ -613,6 +614,7 @@ namespace QMK_Toolbox
 
             UpdateHidDevices(deviceDisconnected);
             (sender as ManagementEventWatcher)?.Start();
+            resetButton.Enabled = _flasher.CanReset();
         }
 
         private void StartListeningForDeviceEvents()
@@ -640,7 +642,7 @@ namespace QMK_Toolbox
             {
                 _printer.Print("Auto-flash disabled", MessageType.Info);
                 flashButton.Enabled = true;
-                resetButton.Enabled = true;
+                resetButton.Enabled = _flasher.CanReset();
             }
         }
 
@@ -729,7 +731,6 @@ namespace QMK_Toolbox
         {
             flashButton.Enabled = !flashWhenReadyCheckbox.Checked;
             autoflashCheckbox.Enabled = !flashWhenReadyCheckbox.Checked;
-            resetButton.Enabled = !flashWhenReadyCheckbox.Checked;
         }
 
         private void MainWindow_Shown(object sender, EventArgs e)

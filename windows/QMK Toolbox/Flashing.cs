@@ -2,6 +2,7 @@
 //  Copyright © 2017 Jack Humbert. This code is licensed under MIT license (see LICENSE.md for details).
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -166,6 +167,22 @@ namespace QMK_Toolbox
                 ResetBootloadHid();
             if (Usb.CanFlash(Chipset.AtmelSamBa))
                 ResetAtmelSamBa();
+        }
+
+        public bool CanReset()
+        {
+            var resettable = new List<Chipset> {
+                Chipset.Dfu,
+                Chipset.Halfkay,
+                Chipset.BootloadHid,
+                Chipset.AtmelSamBa
+            };
+            foreach (Chipset chipset in resettable)
+            {
+                if (Usb.CanFlash(chipset))
+                    return true;
+            }
+            return false;
         }
 
         public void ClearEeprom(string mcu)
