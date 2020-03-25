@@ -240,8 +240,14 @@
         [_keyboardBox removeAllItems];
         [_keyboardBox addItemsWithObjectValues:keyboards];
         _keyboardBox.enabled = YES;
+        _keyboardBox.target = self;
+        _keyboardBox.action = @selector(keyboardBoxChanged);
         [self loadKeymaps];
     }
+}
+
+- (void)keyboardBoxChanged {
+    self.loadButton.enabled = self.keyboardBox.indexOfSelectedItem != -1;
 }
 
 - (void)loadKeymaps {
@@ -255,7 +261,7 @@
 //        [_keyboardBox addItemsWithObjectValues:keyboards];
 //    }
 //    _keymapBox.enabled = YES;
-    _loadButton.enabled = YES;
+    _loadButton.enabled = NO;
 }
 
 - (void)loadRecentDocuments {
