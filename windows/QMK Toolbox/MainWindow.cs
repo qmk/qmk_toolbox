@@ -269,7 +269,7 @@ namespace QMK_Toolbox
         {
             if (keyboardBox.Items.Count > 0)
             {
-                SetFilePath($"qmk:https://qmk.fm/compiled/{keyboardBox.SelectedItem.ToString().Replace("/", "_")}_default.hex");
+                SetFilePath($"qmk:https://qmk.fm/compiled/{keyboardBox.Text.Replace("/", "_")}_default.hex");
             }
         }
 
