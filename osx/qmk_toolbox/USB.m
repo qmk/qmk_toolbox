@@ -142,7 +142,7 @@ static void type##DeviceRemoved(void *refCon, io_iterator_t iterator) { \
     while ((object = IOIteratorNext(iterator))) \
     { \
         [_printer print:[NSString stringWithFormat:@"%@ %@", @(STR(type)), @"device disconnected"] withType:MessageType_Bootloader]; \
-        [delegate deviceDisconnected:type]; \
+        deviceDisconnected(type); \
         kr = IOObjectRelease(object); \
         if (kr != kIOReturnSuccess) \
         { \

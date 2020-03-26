@@ -38,6 +38,7 @@ typedef enum {
 
 - (void)flash:(NSString *)mcu withFile:(NSString *)file;
 - (void)reset:(NSString *)mcu;
+- (BOOL)canReset;
 - (void)clearEEPROM:(NSString *)mcu;
 @property NSString * caterinaPort;
 
