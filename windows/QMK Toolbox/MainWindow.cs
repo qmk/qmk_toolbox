@@ -43,6 +43,11 @@ namespace QMK_Toolbox
         public const int MfByposition = 0x400;
         public const int About = 1000;
 
+        private const int CB_SETCUEBANNER = 0x1703;
+
+        [System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto)]
+        private static extern int SendMessage(IntPtr hWnd, int msg, int wParam, [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.LPWStr)]string lParam);
+
         [DllImport("user32.dll")]
         private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
 
@@ -235,13 +240,13 @@ namespace QMK_Toolbox
                     if (json != null) {
                         var keyboards = JsonConvert.DeserializeObject<List<string>>(json);
                         keyboardBox.Items.Clear();
-                        keyboardBox.Items.Add("Select a keyboard to download");
+                        SendMessage(keyboardBox.Handle, CB_SETCUEBANNER, 0, "Select a keyboard to download");
                         foreach (var keyboard in keyboards)
                         {
                             keyboardBox.Items.Add(keyboard);
                         }
-                        if (keyboardBox.SelectedIndex == -1)
-                            keyboardBox.SelectedIndex = 0;
+                        keyboardBox.SelectedIndex = -1;
+                        keyboardBox.ResetText();
                         keyboardBox.Enabled = true;
                         loadKeymap.Enabled = false;
                         LoadKeymapList();
@@ -761,12 +766,7 @@ namespace QMK_Toolbox
 
         private void KeyboardBox_TextChanged(object sender, EventArgs e)
         {
-            loadKeymap.Enabled = keyboardBox.SelectedIndex != 0 && keyboardBox.Items.Contains(keyboardBox.Text);
-        }
-
-        private void KeyboardBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            loadKeymap.Enabled = keyboardBox.SelectedIndex != 0;
+            loadKeymap.Enabled = keyboardBox.Items.Contains(keyboardBox.Text);
         }
     }
 }
