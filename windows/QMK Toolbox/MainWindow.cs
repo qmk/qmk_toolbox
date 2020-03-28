@@ -43,6 +43,11 @@ namespace QMK_Toolbox
         public const int MfByposition = 0x400;
         public const int About = 1000;
 
+        private const int CB_SETCUEBANNER = 0x1703;
+
+        [System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto)]
+        private static extern int SendMessage(IntPtr hWnd, int msg, int wParam, [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.LPWStr)]string lParam);
+
         [DllImport("user32.dll")]
         private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
 
@@ -235,13 +240,15 @@ namespace QMK_Toolbox
                     if (json != null) {
                         var keyboards = JsonConvert.DeserializeObject<List<string>>(json);
                         keyboardBox.Items.Clear();
+                        SendMessage(keyboardBox.Handle, CB_SETCUEBANNER, 0, "Select a keyboard to download");
                         foreach (var keyboard in keyboards)
                         {
                             keyboardBox.Items.Add(keyboard);
                         }
-                        if (keyboardBox.SelectedIndex == -1)
-                            keyboardBox.SelectedIndex = 0;
+                        keyboardBox.SelectedIndex = -1;
+                        keyboardBox.ResetText();
                         keyboardBox.Enabled = true;
+                        loadKeymap.Enabled = false;
                         LoadKeymapList();
                     }
                 }
@@ -261,14 +268,13 @@ namespace QMK_Toolbox
             keymapBox.Items.Add("default");
             keymapBox.SelectedIndex = 0;
             // keymapBox.Enabled = true;
-            loadKeymap.Enabled = true;
         }
 
         private void loadKeymap_Click(object sender, EventArgs e)
         {
             if (keyboardBox.Items.Count > 0)
             {
-                SetFilePath($"qmk:https://qmk.fm/compiled/{keyboardBox.SelectedItem.ToString().Replace("/", "_")}_default.hex");
+                SetFilePath($"qmk:https://qmk.fm/compiled/{keyboardBox.Text.Replace("/", "_")}_default.hex");
             }
         }
 
@@ -756,6 +762,11 @@ namespace QMK_Toolbox
         private void installDriversToolStripMenuItem_Click(object sender, EventArgs e)
         {
             InstallDrivers();
+        }
+
+        private void KeyboardBox_TextChanged(object sender, EventArgs e)
+        {
+            loadKeymap.Enabled = keyboardBox.Items.Contains(keyboardBox.Text);
         }
     }
 }
