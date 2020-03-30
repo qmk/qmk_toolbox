@@ -202,7 +202,7 @@ namespace QMK_Toolbox
             if (Settings.Default.hexFileCollection != null)
                 filepathBox.Items.AddRange(Settings.Default.hexFileCollection.ToArray());
 
-            _printer.Print("QMK Toolbox (https://qmk.fm/toolbox)", MessageType.Info);
+            _printer.Print($"QMK Toolbox {Application.ProductVersion} (https://qmk.fm/toolbox)", MessageType.Info);
             _printer.PrintResponse("Supported bootloaders:\n", MessageType.Info);
             _printer.PrintResponse(" - Atmel/LUFA/QMK DFU via dfu-programmer (http://dfu-programmer.github.io/)\n", MessageType.Info);
             _printer.PrintResponse(" - Caterina (Arduino, Pro Micro) via avrdude (http://nongnu.org/avrdude/)\n", MessageType.Info);
