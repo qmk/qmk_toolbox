@@ -182,7 +182,8 @@
     [self loadKeyboards];
     [self loadRecentDocuments];
 
-    [_printer print:@"QMK Toolbox (http://qmk.fm/toolbox)" withType:MessageType_Info];
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    [_printer print:[NSString stringWithFormat:@"QMK Toolbox %@ (http://qmk.fm/toolbox)", version] withType:MessageType_Info];
     [_printer printResponse:@"Supported bootloaders:\n" withType:MessageType_Info];
     [_printer printResponse:@" - Atmel/LUFA/QMK DFU via dfu-programmer (http://dfu-programmer.github.io/)\n" withType:MessageType_Info];
     [_printer printResponse:@" - Caterina (Arduino, Pro Micro) via avrdude (http://nongnu.org/avrdude/)\n" withType:MessageType_Info];
