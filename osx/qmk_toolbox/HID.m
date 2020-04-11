@@ -41,24 +41,26 @@ static IOHIDManagerRef _hidManager;
     IOHIDManagerRegisterInputReportCallback(_hidManager, HIDReported, (__bridge void *)self);
 }
 
-static NSString * formatDevice(NSString * str, IOHIDDeviceRef device) {
+static NSString * formatDevice(bool connected, IOHIDDeviceRef device) {
     unsigned short vendorId = [(NSNumber *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey)) shortValue];
     unsigned short productId = [(NSNumber *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey)) shortValue];
-    return [NSString stringWithFormat:@"%@ - %@ %@ -- %04X:%04X",
+    unsigned short revision = [(NSNumber *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVersionNumberKey)) shortValue];
+    return [NSString stringWithFormat:@"HID console %@: %@ %@ (%04X:%04X:%04X)",
+        connected ? @"connected" : @"disconnected",
         IOHIDDeviceGetProperty(device, CFSTR(kIOHIDManufacturerKey)),
         IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey)),
-        str,
         vendorId,
-        productId
+        productId,
+        revision
     ];
 }
 
 static void HIDConnected(void *context, IOReturn result, void *sender, IOHIDDeviceRef device) {
-    [_printer print:formatDevice(@"connected", device) withType:MessageType_HID];
+    [_printer print:formatDevice(true, device) withType:MessageType_HID];
 }
 
 static void HIDDisconnected(void *context, IOReturn result, void *sender, IOHIDDeviceRef device) {
-    [_printer print:formatDevice(@"disconnected", device) withType:MessageType_HID];
+    [_printer print:formatDevice(false, device) withType:MessageType_HID];
 }
 
 static void HIDReported(void *context, IOReturn result, void *sender, IOHIDReportType type, uint32_t reportID, uint8_t *report, CFIndex reportLength) {
