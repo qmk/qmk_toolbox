@@ -222,7 +222,6 @@ namespace QMK_Toolbox
             _usb.DetectBootloaderFromCollection(collection);
 
             UpdateHidDevices(false);
-            UpdateHidList();
 
             if (_filePassedIn != string.Empty)
                 SetFilePath(_filePassedIn);
@@ -432,6 +431,7 @@ namespace QMK_Toolbox
             }
 
             _devices = devices;
+            UpdateHidList();
         }
 
         private static IEnumerable<HidDevice> GetListableDevices() =>
@@ -669,31 +669,39 @@ namespace QMK_Toolbox
 
         private void UpdateHidList()
         {
-            foreach (var device in _devices)
+            if (!InvokeRequired)
             {
-                device.CloseDevice();
-            }
-            var selected = hidList.SelectedIndex != -1 ? hidList.SelectedIndex : 0;
-            hidList.Items.Clear();
-            foreach (var device in _devices)
-            {
-                if (device != null)
+                foreach (var device in _devices)
                 {
-                    device.OpenDevice();
-                    var deviceString = $"{GetManufacturerString(device)} {GetProductString(device)} ({device.Attributes.VendorId:X4}:{device.Attributes.ProductId:X4}:{device.Attributes.Version:X4})";
-
-                    hidList.Items.Add(deviceString);
+                    device.CloseDevice();
                 }
-                else
+
+                var selected = hidList.SelectedIndex != -1 ? hidList.SelectedIndex : 0;
+                hidList.Items.Clear();
+                foreach (var device in _devices)
                 {
-                    hidList.Items.Add("Invalid Device");
-                }
-                device?.CloseDevice();
-            }
+                    if (device != null)
+                    {
+                        device.OpenDevice();
+                        var deviceString = $"{GetManufacturerString(device)} {GetProductString(device)} ({device.Attributes.VendorId:X4}:{device.Attributes.ProductId:X4}:{device.Attributes.Version:X4})";
 
-            if (hidList.Items.Count > 0)
+                        hidList.Items.Add(deviceString);
+                    }
+                    else
+                    {
+                        hidList.Items.Add("Invalid Device");
+                    }
+                    device?.CloseDevice();
+                }
+
+                if (hidList.Items.Count > 0)
+                {
+                    hidList.SelectedIndex = selected;
+                }
+            }
+            else
             {
-                hidList.SelectedIndex = selected;
+                Invoke(new Action(UpdateHidList));
             }
         }
 
