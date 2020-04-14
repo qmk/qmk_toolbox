@@ -120,7 +120,9 @@
 - (void)clearEEPROMDFU:(NSString *)mcu {
     NSString * result;
     NSString * file = [[NSBundle mainBundle] pathForResource:@"reset" ofType:@"eep"];
+    result = [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"erase", @"--force"]];
     result = [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"flash", @"--force", @"--eeprom", file]];
+    [_printer print:@"Please reflash device with firmware now" withType:MessageType_Bootloader];
 }
 
 - (void)flashCaterina:(NSString *)mcu withFile:(NSString *)file {

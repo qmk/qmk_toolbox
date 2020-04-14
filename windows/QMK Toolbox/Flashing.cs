@@ -204,7 +204,12 @@ namespace QMK_Toolbox
 
         private void ResetDfu(string mcu) => RunProcess("dfu-programmer.exe", $"{mcu} reset");
 
-        private void ClearEepromDfu(string mcu) => RunProcess("dfu-programmer.exe", $"{mcu} flash --force --eeprom \"reset.eep\"");
+        private void ClearEepromDfu(string mcu)
+        {
+            RunProcess("dfu-programmer.exe", $"{mcu} erase --force");
+            RunProcess("dfu-programmer.exe", $"{mcu} flash --force --eeprom \"reset.eep\"");
+            _printer.Print("Please reflash device with firmware now", MessageType.Bootloader);
+        }
 
         private void FlashCaterina(string mcu, string file) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U flash:w:\"{file}\":i -P {CaterinaPort}");
 
