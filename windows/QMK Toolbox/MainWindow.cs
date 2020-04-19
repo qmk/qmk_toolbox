@@ -222,7 +222,6 @@ namespace QMK_Toolbox
             _usb.DetectBootloaderFromCollection(collection);
 
             UpdateHidDevices(false);
-            UpdateHidList();
 
             if (_filePassedIn != string.Empty)
                 SetFilePath(_filePassedIn);
@@ -412,7 +411,7 @@ namespace QMK_Toolbox
 
                     device.MonitorDeviceEvents = true;
 
-                    _printer.Print($"HID device connected: {GetManufacturerString(device)} {GetProductString(device)} ({device.Attributes.VendorId:X4}:{device.Attributes.ProductId:X4}:{device.Attributes.Version:X4})", MessageType.Hid);
+                    _printer.Print($"HID console connected: {GetManufacturerString(device)} {GetProductString(device)} ({device.Attributes.VendorId:X4}:{device.Attributes.ProductId:X4}:{device.Attributes.Version:X4})", MessageType.Hid);
 
                     device.ReadReport(OnReport);
                     device.CloseDevice();
@@ -426,18 +425,20 @@ namespace QMK_Toolbox
 
                     if (!deviceExists)
                     {
-                        _printer.Print($"HID device disconnected ({existingDevice.Attributes.VendorId:X4}:{existingDevice.Attributes.ProductId:X4}:{existingDevice.Attributes.Version:X4})", MessageType.Hid);
+                        _printer.Print($"HID console disconnected ({existingDevice.Attributes.VendorId:X4}:{existingDevice.Attributes.ProductId:X4}:{existingDevice.Attributes.Version:X4})", MessageType.Hid);
                     }
                 }
             }
 
             _devices = devices;
+            UpdateHidList();
         }
 
         private static IEnumerable<HidDevice> GetListableDevices() =>
             HidDevices.Enumerate()
                 .Where(d => d.IsConnected)
-                .Where(device => (ushort)device.Capabilities.UsagePage == Flashing.UsagePage);
+                .Where(device => (ushort)device.Capabilities.UsagePage == Flashing.ConsoleUsagePage)
+                .Where(device => (ushort)device.Capabilities.Usage == Flashing.ConsoleUsage);
 
         private static string GetProductString(IHidDevice d)
         {
@@ -668,31 +669,39 @@ namespace QMK_Toolbox
 
         private void UpdateHidList()
         {
-            foreach (var device in _devices)
+            if (!InvokeRequired)
             {
-                device.CloseDevice();
-            }
-            var selected = hidList.SelectedIndex != -1 ? hidList.SelectedIndex : 0;
-            hidList.Items.Clear();
-            foreach (var device in _devices)
-            {
-                if (device != null)
+                foreach (var device in _devices)
                 {
-                    device.OpenDevice();
-                    var deviceString = $"{GetManufacturerString(device)} {GetProductString(device)} ({device.Attributes.VendorId:X4}:{device.Attributes.ProductId:X4}:{device.Attributes.Version:X4})";
-
-                    hidList.Items.Add(deviceString);
+                    device.CloseDevice();
                 }
-                else
+
+                var selected = hidList.SelectedIndex != -1 ? hidList.SelectedIndex : 0;
+                hidList.Items.Clear();
+                foreach (var device in _devices)
                 {
-                    hidList.Items.Add("Invalid Device");
-                }
-                device?.CloseDevice();
-            }
+                    if (device != null)
+                    {
+                        device.OpenDevice();
+                        var deviceString = $"{GetManufacturerString(device)} {GetProductString(device)} ({device.Attributes.VendorId:X4}:{device.Attributes.ProductId:X4}:{device.Attributes.Version:X4})";
 
-            if (hidList.Items.Count > 0)
+                        hidList.Items.Add(deviceString);
+                    }
+                    else
+                    {
+                        hidList.Items.Add("Invalid Device");
+                    }
+                    device?.CloseDevice();
+                }
+
+                if (hidList.Items.Count > 0)
+                {
+                    hidList.SelectedIndex = selected;
+                }
+            }
+            else
             {
-                hidList.SelectedIndex = selected;
+                Invoke(new Action(UpdateHidList));
             }
         }
 
@@ -703,17 +712,25 @@ namespace QMK_Toolbox
             {
                 device.CloseDevice();
             }
-            _printer.Print($"Listing compatible HID devices: (must have Usage Page 0x{Flashing.UsagePage:X4})", MessageType.Hid);
-            foreach (var device in _devices)
-            {
-                if (device != null)
-                {
-                    device.OpenDevice();
-                    var deviceIndex = _devices.IndexOf(device);
-                    _printer.PrintResponse($"{deviceIndex}: {hidList.Items[deviceIndex]}\n", MessageType.Info);
-                }
 
-                device?.CloseDevice();
+            if (_devices.Count > 0)
+            {
+                _printer.Print("Connected HID console interfaces (CONSOLE_ENABLE = yes):", MessageType.Hid);
+                foreach (var device in _devices)
+                {
+                    if (device != null)
+                    {
+                        device.OpenDevice();
+                        var deviceIndex = _devices.IndexOf(device);
+                        _printer.PrintResponse($"{deviceIndex}: {hidList.Items[deviceIndex]}\n", MessageType.Info);
+                    }
+
+                    device?.CloseDevice();
+                }
+            }
+            else
+            {
+                _printer.Print("No HID console interfaces found.", MessageType.Hid);
             }
             ((Button)sender).Enabled = true;
         }

@@ -36,8 +36,8 @@ namespace QMK_Toolbox
         private readonly Process _process;
         private readonly ProcessStartInfo _startInfo;
 
-        public const ushort UsagePage = 0xFF31;
-        public const int Usage = 0x0074;
+        public const ushort ConsoleUsagePage = 0xFF31;
+        public const int ConsoleUsage = 0x0074;
         public string CaterinaPort = "";
 
         private readonly Printing _printer;
