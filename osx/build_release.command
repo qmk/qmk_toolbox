@@ -7,5 +7,5 @@ mkdir -p $buildDir
 
 xcodebuild CONFIGURATION_BUILD_DIR=$buildDir
 ditto -ck --rsrc --sequesterRsrc -v --keepParent "$buildDir/QMK Toolbox.app" "$buildDir/QMK.Toolbox.app.zip"
-packagesbuild "QMK Toolbox.pkgproj"
+packagesbuild -v "QMK Toolbox.pkgproj"
 mv "$buildDir/QMK Toolbox.pkg" "$buildDir/QMK.Toolbox.pkg"
