@@ -1,5 +1,6 @@
 # QMK Toolbox
 
+[![Build Status](https://github.com/qmk/qmk_toolbox/workflows/CI/badge.svg?branch=master)](https://github.com/qmk/qmk_toolbox/actions?query=workflow%3ACI)
 [![Current Version](https://img.shields.io/github/tag/qmk/qmk_toolbox.svg)](https://github.com/qmk/qmk_toolbox/tags)
 [![Discord](https://img.shields.io/discord/440868230475677696.svg)](https://discord.gg/Uq7gcHh)
 [![License](https://img.shields.io/github/license/qmk/qmk_toolbox)](https://github.com/qmk/qmk_toolbox/blob/master/LICENSE.md)
