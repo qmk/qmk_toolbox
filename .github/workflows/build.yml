@@ -43,10 +43,7 @@ jobs:
     - name: install packagesbuild
       working-directory: ./osx
       run: |
-        wget http://s.sudre.free.fr/Software/files/Packages.dmg
-        sudo hdiutil attach Packages.dmg
-        sudo installer -pkg /Volumes/Packages\ 1.2.9/Install\ Packages.pkg -target /
-        sudo hdiutil detach /Volumes/Packages\ 1.2.9
+        brew cask install packages
 
     - name: build
       working-directory: ./osx
