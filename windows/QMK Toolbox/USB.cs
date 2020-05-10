@@ -64,7 +64,7 @@ namespace QMK_Toolbox
                 deviceName = "DFU";
                 _devicesAvailable[(int)Chipset.Dfu] += connected ? 1 : -1;
             }
-            else if (MatchVid(deviceId, 0x2341) || MatchVid(deviceId, 0x1B4F) || MatchVid(deviceId, 0x239A)) // Detects Arduino Vendor ID, Sparkfun Vendor ID, Adafruit Vendor ID
+            else if (MatchVid(deviceId, 0x2341) || MatchVid(deviceId, 0x1B4F) || MatchVid(deviceId, 0x239A) || MatchVid(deviceId, 0x2A03)) // Detects Arduino Vendor ID, Sparkfun Vendor ID, Adafruit Vendor ID, dog hunter VID
             {
                 deviceName = "Caterina";
                 _flasher.CaterinaPort = GetComPort(instance);

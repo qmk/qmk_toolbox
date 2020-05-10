@@ -52,6 +52,7 @@ static int devicesAvailable[NumberOfChipsets];
     CFMutableDictionaryRef  DFUMatchingDict;
     CFMutableDictionaryRef  CaterinaMatchingDict;
     CFMutableDictionaryRef  CaterinaAltMatchingDict;
+    CFMutableDictionaryRef  CaterinaDogHunterMatchingDict;
     CFMutableDictionaryRef  FeatherBLE32u4MatchingDict;
     CFMutableDictionaryRef  HalfkayMatchingDict;
     CFMutableDictionaryRef  STM32MatchingDict;
@@ -109,6 +110,7 @@ dest##DeviceRemoved(NULL, g##dest##RemovedIter)
     VID_MATCH(0x03EB, DFU);
     VID_MATCH(0x2341, Caterina);
     VID_MATCH_MAP(0x1B4F, CaterinaAlt, Caterina);
+    VID_MATCH_MAP(0x2a03, CaterinaDogHunter, Caterina);
     VID_MATCH_MAP(0x239a, FeatherBLE32u4, Caterina);
     VID_PID_MATCH(0x16C0, 0x0478, Halfkay);
     VID_PID_MATCH(0x0483, 0xDF11, STM32);
