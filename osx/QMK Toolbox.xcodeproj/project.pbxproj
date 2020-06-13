@@ -27,6 +27,7 @@
 		09D79CBC1FB8A64B0086ABF6 /* libusb-0.1.4.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		303568C11FA7DEF400803BEF /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 303568C01FA7DEF400803BEF /* Constants.m */; };
 		3A7770DA22BD3BA300398C40 /* libftdi.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3A7770D822BD3B8200398C40 /* libftdi.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		3AB4BC9D2495540A00204A3F /* bootloadHID in Resources */ = {isa = PBXBuildFile; fileRef = 3AB4BC9C2495540A00204A3F /* bootloadHID */; };
 		C93A0FF42292232E0006C88F /* reset.eep in Resources */ = {isa = PBXBuildFile; fileRef = C93A0FF32292232D0006C88F /* reset.eep */; };
 		C9A09B5722EE6826008C3CF3 /* mdloader_mac in Resources */ = {isa = PBXBuildFile; fileRef = C9A09B5622EE6826008C3CF3 /* mdloader_mac */; };
 		C9A09B5922EE6837008C3CF3 /* applet-flash-samd51j18a.bin in Resources */ = {isa = PBXBuildFile; fileRef = C9A09B5822EE6837008C3CF3 /* applet-flash-samd51j18a.bin */; };
@@ -77,8 +78,9 @@
 		303568C01FA7DEF400803BEF /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		303568C21FA7DF0900803BEF /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		3A7770D822BD3B8200398C40 /* libftdi.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libftdi.1.dylib; sourceTree = SOURCE_ROOT; };
+		3AB4BC9C2495540A00204A3F /* bootloadHID */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = bootloadHID; path = ../bootloadHID; sourceTree = "<group>"; };
 		C93A0FF32292232D0006C88F /* reset.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset.eep; path = ../../common/reset.eep; sourceTree = "<group>"; };
-		C9A09B5622EE6826008C3CF3 /* mdloader_mac */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = ../mdloader_mac; sourceTree = "<group>"; };
+		C9A09B5622EE6826008C3CF3 /* mdloader_mac */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = mdloader_mac; path = ../mdloader_mac; sourceTree = "<group>"; };
 		C9A09B5822EE6837008C3CF3 /* applet-flash-samd51j18a.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; name = "applet-flash-samd51j18a.bin"; path = "../../common/applet-flash-samd51j18a.bin"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -139,6 +141,7 @@
 		092963FE1F5C8B2C004F2D3F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				3AB4BC9C2495540A00204A3F /* bootloadHID */,
 				C9A09B5822EE6837008C3CF3 /* applet-flash-samd51j18a.bin */,
 				C9A09B5622EE6826008C3CF3 /* mdloader_mac */,
 				C93A0FF32292232D0006C88F /* reset.eep */,
@@ -214,6 +217,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3AB4BC9D2495540A00204A3F /* bootloadHID in Resources */,
 				09522BB31F61E32700AEBC5E /* mcu-list.txt in Resources */,
 				C93A0FF42292232E0006C88F /* reset.eep in Resources */,
 				0929640D1F5E403C004F2D3F /* dfu-programmer in Resources */,

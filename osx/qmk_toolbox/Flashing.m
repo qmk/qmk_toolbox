@@ -69,6 +69,8 @@
         [self flashUSBTiny:mcu withFile:file];
     if ([USB canFlash:AtmelSAMBA])
         [self flashAtmelSAMBAwithFile:file];
+    if ([USB canFlash:BootloadHID])
+        [self flashBootloadHIDwithFile:file];
 }
 
 - (void)reset:(NSString *)mcu {
@@ -183,6 +185,10 @@
 
 - (void)resetAtmelSAMBA {
     [self runProcess:@"mdloader_mac" withArgs:@[@"-p", caterinaPort, @"--restart"]];
+}
+
+- (void)flashBootloadHIDwithFile: (NSString *)file {
+    [self runProcess:@"bootloadHID" withArgs:@[@"-r", file]];
 }
 
 @end

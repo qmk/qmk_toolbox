@@ -28,6 +28,7 @@ DEFINE_ITER(Kiibohd);
 DEFINE_ITER(AVRISP);
 DEFINE_ITER(USBAsp);
 DEFINE_ITER(USBTiny);
+DEFINE_ITER(BootloadHID);
 static Printing * _printer;
 
 @interface USB () <USBDelegate>
@@ -60,6 +61,7 @@ static int devicesAvailable[NumberOfChipsets];
     CFMutableDictionaryRef  AVRISPMatchingDict;
     CFMutableDictionaryRef  USBAspMatchingDict;
     CFMutableDictionaryRef  USBTinyMatchingDict;
+    CFMutableDictionaryRef  BootloadHIDMatchingDict;
     CFRunLoopSourceRef      runLoopSource;
     kern_return_t           kr;
     SInt32                  usbVendor;
@@ -118,6 +120,7 @@ dest##DeviceRemoved(NULL, g##dest##RemovedIter)
     VID_PID_MATCH(0x16C0, 0x0483, AVRISP);
     VID_PID_MATCH(0x16C0, 0x05DC, USBAsp);
     VID_PID_MATCH(0x1781, 0x0C9F, USBTiny);
+    VID_PID_MATCH(0x16C0, 0x05DF, BootloadHID);
 
     //Finished with master port
     mach_port_deallocate(mach_task_self(), masterPort);
@@ -202,6 +205,7 @@ DEVICE_EVENTS(Kiibohd);
 DEVICE_EVENTS_PORT(AVRISP);
 DEVICE_EVENTS(USBAsp);
 DEVICE_EVENTS_PORT(USBTiny);
+DEVICE_EVENTS(BootloadHID);
 
 static kern_return_t MyFindModems(io_iterator_t *matchingServices)
 {
