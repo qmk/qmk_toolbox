@@ -80,13 +80,16 @@
         [self resetHalfkay:mcu];
     if ([USB canFlash:AtmelSAMBA])
         [self resetAtmelSAMBA];
+    if ([USB canFlash:BootloadHID])
+        [self resetBootloadHID];
 }
 
 - (BOOL)canReset {
     NSArray<NSNumber *> *resettable = @[
         @(DFU),
         @(Halfkay),
-        @(AtmelSAMBA)
+        @(AtmelSAMBA),
+        @(BootloadHID)
     ];
     for (NSNumber *chipset in resettable) {
         if ([USB canFlash:(Chipset)chipset.intValue])
@@ -189,6 +192,10 @@
 
 - (void)flashBootloadHIDwithFile: (NSString *)file {
     [self runProcess:@"bootloadHID" withArgs:@[@"-r", file]];
+}
+
+- (void)resetBootloadHID {
+    [self runProcess:@"bootloadHID" withArgs:@[@"-r"]];
 }
 
 @end
