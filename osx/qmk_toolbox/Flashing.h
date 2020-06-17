@@ -22,6 +22,7 @@ typedef enum {
     AVRISP,
     USBTiny,
     USBAsp,
+    BootloadHID,
     NumberOfChipsets
 } Chipset;
 
