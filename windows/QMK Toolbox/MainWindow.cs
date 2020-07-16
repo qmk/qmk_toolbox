@@ -437,6 +437,7 @@ namespace QMK_Toolbox
         private static IEnumerable<HidDevice> GetListableDevices() =>
             HidDevices.Enumerate()
                 .Where(d => d.IsConnected)
+                .Where(device => device.Capabilities.InputReportByteLength > 0)
                 .Where(device => (ushort)device.Capabilities.UsagePage == Flashing.ConsoleUsagePage)
                 .Where(device => (ushort)device.Capabilities.Usage == Flashing.ConsoleUsage);
 
