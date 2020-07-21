@@ -57,8 +57,8 @@
         [self flashCaterina:mcu withFile:file];
     if ([USB canFlash:Halfkay])
         [self flashHalfkay:mcu withFile:file];
-    if ([USB canFlash:STM32])
-        [self flashSTM32WithFile:file];
+    if ([USB canFlash:STM32DFU])
+        [self flashSTM32DFUWithFile:file];
     if ([USB canFlash:Kiibohd])
         [self flashKiibohdWithFile:file];
     if ([USB canFlash:AVRISP])
@@ -154,7 +154,7 @@
     [self runProcess:@"teensy_loader_cli" withArgs:@[[@"-mmcu=" stringByAppendingString:mcu], @"-bv"]];
 }
 
-- (void)flashSTM32WithFile:(NSString *)file {
+- (void)flashSTM32DFUWithFile:(NSString *)file {
     if([[[file pathExtension] lowercaseString] isEqualToString:@"bin"]) {
         [self runProcess:@"dfu-util" withArgs:@[@"-a", @"0", @"-d", @"0482:df11", @"-s", @"0x8000000:leave", @"-D", file]];
     } else {

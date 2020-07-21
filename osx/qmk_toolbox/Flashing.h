@@ -18,7 +18,7 @@ typedef enum {
     SparkfunVID,
     AdafruitVID,
     DogHunterVID,
-    STM32,
+    STM32DFU,
     Kiibohd,
     AVRISP,
     USBTiny,
