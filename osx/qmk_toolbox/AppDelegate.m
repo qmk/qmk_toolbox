@@ -88,8 +88,8 @@
     }
 }
 
-- (void)setCaterinaPort:(NSString *)port {
-    _flasher.caterinaPort = port;
+- (void)setSerialPort:(NSString *)port {
+    _flasher.serialPort = port;
 }
 
 - (void)deviceConnected:(Chipset)chipset {

@@ -38,7 +38,7 @@ namespace QMK_Toolbox
 
         public const ushort ConsoleUsagePage = 0xFF31;
         public const int ConsoleUsage = 0x0074;
-        public string CaterinaPort = "";
+        public string ComPort = "";
 
         private readonly Printing _printer;
         public Usb Usb;
@@ -211,9 +211,9 @@ namespace QMK_Toolbox
             _printer.Print("Please reflash device with firmware now", MessageType.Bootloader);
         }
 
-        private void FlashCaterina(string mcu, string file) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U flash:w:\"{file}\":i -P {CaterinaPort}");
+        private void FlashCaterina(string mcu, string file) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U flash:w:\"{file}\":i -P {ComPort}");
 
-        private void ClearEepromCaterina(string mcu) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U eeprom:w:\"reset.eep\":i -P {CaterinaPort}");
+        private void ClearEepromCaterina(string mcu) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U eeprom:w:\"reset.eep\":i -P {ComPort}");
 
         private void ClearEepromUsbAsp(string mcu) => RunProcess("avrdude.exe", $"-p {mcu} -c usbasp -U eeprom:w:\"reset.eep\":i");
 
@@ -241,7 +241,7 @@ namespace QMK_Toolbox
 
         private void FlashAvrIsp(string mcu, string file)
         {
-            RunProcess("avrdude.exe", $"-p {mcu} -c avrisp -U flash:w:\"{file}\":i -P {CaterinaPort}");
+            RunProcess("avrdude.exe", $"-p {mcu} -c avrisp -U flash:w:\"{file}\":i -P {ComPort}");
             _printer.Print("Flash complete", MessageType.Bootloader);
         }
 
@@ -253,15 +253,15 @@ namespace QMK_Toolbox
 
         private void FlashUsbTiny(string mcu, string file)
         {
-            RunProcess("avrdude.exe", $"-p {mcu} -c usbtiny -U flash:w:\"{file}\":i -P {CaterinaPort}");
+            RunProcess("avrdude.exe", $"-p {mcu} -c usbtiny -U flash:w:\"{file}\":i -P {ComPort}");
             _printer.Print("Flash complete", MessageType.Bootloader);
         }
 
         private void FlashBootloadHid(string file) => RunProcess("bootloadHID.exe", $"-r \"{file}\"");
         private void ResetBootloadHid() => RunProcess("bootloadHID.exe", $"-r");
 
-        private void FlashAtmelSamBa(string file) => RunProcess("mdloader_windows.exe", $"-p {CaterinaPort} -D \"{file}\" --restart");
+        private void FlashAtmelSamBa(string file) => RunProcess("mdloader_windows.exe", $"-p {ComPort} -D \"{file}\" --restart");
 
-        private void ResetAtmelSamBa() => RunProcess("mdloader_windows.exe", $"-p {CaterinaPort} --restart");
+        private void ResetAtmelSamBa() => RunProcess("mdloader_windows.exe", $"-p {ComPort} --restart");
     }
 }

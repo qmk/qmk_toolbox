@@ -12,11 +12,12 @@
 
 typedef enum {
     AtmelSAMBA,
-    DFU,
+    AtmelDFU,
     Halfkay,
     Caterina,
-    CaterinaAlt,
-    FeatherBLE32u4,
+    SparkfunVID,
+    AdafruitVID,
+    DogHunterVID,
     STM32,
     Kiibohd,
     AVRISP,
@@ -41,7 +42,7 @@ typedef enum {
 - (void)reset:(NSString *)mcu;
 - (BOOL)canReset;
 - (void)clearEEPROM:(NSString *)mcu;
-@property NSString * caterinaPort;
+@property NSString * serialPort;
 
 @property (nonatomic, assign) id <FlashingDelegate> delegate;
 

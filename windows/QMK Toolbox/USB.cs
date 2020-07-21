@@ -3,6 +3,7 @@
 
 using System;
 using System.IO.Ports;
+using System.Linq;
 using System.Management;
 using System.Text.RegularExpressions;
 
@@ -13,6 +14,7 @@ namespace QMK_Toolbox
         private readonly int[] _devicesAvailable = new int[(int)Chipset.NumberOfChipsets];
         private readonly Flashing _flasher;
         private readonly Printing _printer;
+        private readonly Regex DeviceIdRegex = new Regex(@"USB\\VID_([0-9A-F]+).*PID_([0-9A-F]+).*REV_([0-9A-F]+).*");
 
         public Usb(Flashing flasher, Printing printer)
         {
@@ -30,84 +32,118 @@ namespace QMK_Toolbox
             return found;
         }
 
-        private static bool MatchVid(string did, ushort vid) => Regex.Match(did, $"USB.*VID_{vid:X4}.*").Success;
+        private static bool MatchVid(string did, ushort vid) => Regex.Match(did, $"USB\\\\VID_{vid:X4}.*").Success;
 
-        private static bool MatchPid(string did, ushort pid) => Regex.Match(did, $"USB.*PID_{pid:X4}.*").Success;
+        private static bool MatchVidPid(string did, ushort vid, ushort pid) => Regex.Match(did, $"USB\\\\VID_{vid:X4}&PID_{pid:X4}.*").Success;
 
-        private static bool MatchRev(string did, ushort rev) => Regex.Match(did, $"USB.*REV_{rev:X4}.*").Success;
+        private static bool MatchRev(string did, ushort rev) => Regex.Match(did, $"USB\\\\.+REV_{rev:X4}.*").Success;
+
+        private static string[] caterinaVids =
+        {
+            "1B4F", // Spark Fun Electronics
+            "2341", // Arduino SA
+            "239A", // Adafruit Industries LLC
+            "2A03"  // dog hunter AG
+        };
+
+        private static string[] caterinaPids =
+        {
+            // Adafruit Industries LLC
+            "000C", // Feather 32U4
+            "000D", // ItsyBitsy 32U4 3V3/8MHz
+            "000E", // ItsyBitsy 32U4 5V/16MHz
+            // Arduino SA / dog hunter AG
+            "0036", // Leonardo
+            "0037", // Micro
+            // Spark Fun Electronics
+            "9203", // Pro Micro 3V3/8MHz
+            "9205"  // Pro Micro 5V/16MHz
+        };
+
+        private static string[] atmelDfuPids =
+        {
+            "2FEF", // ATmega16U2
+            "2FF0", // ATmega32U2
+            "2FF3", // ATmega16U4
+            "2FF4", // ATmega32U4
+            "2FF9", // AT90USB64
+            "2FFB"  // AT90USB128
+        };
 
         public bool DetectBootloader(ManagementBaseObject instance, bool connected = true)
         {
-            var hardwareIds = (System.String[])instance.GetPropertyValue("HardwareID");
-            if (hardwareIds == null || hardwareIds.Length == 0)
-            {
-                return false;
-            }
+            var deviceId = GetHardwareId(instance);
 
-            var deviceId = hardwareIds[0];
-
-            var deviceidRegex = new Regex(@"VID_([0-9A-F]+).*PID_([0-9A-F]+).*REV_([0-9A-F]+)");
-            var vp = deviceidRegex.Match(deviceId);
-            var vid = vp.Groups[1].ToString().PadLeft(4, '0');
-            var pid = vp.Groups[2].ToString().PadLeft(4, '0');
-            var rev = vp.Groups[3].ToString().PadLeft(4, '0');
+            var vpr = DeviceIdRegex.Match(deviceId);
+            var vid = vpr.Groups[1].ToString().PadLeft(4, '0');
+            var pid = vpr.Groups[2].ToString().PadLeft(4, '0');
+            var rev = vpr.Groups[3].ToString().PadLeft(4, '0');
 
             string deviceName;
-            if (MatchVid(deviceId, 0x03EB) && MatchPid(deviceId, 0x6124)) // Detects Atmel SAM-BA VID & PID
+            string comPort = null;
+
+            if (IsSerialDevice(instance))
             {
-                deviceName = "Atmel SAM-BA";
-                _flasher.CaterinaPort = GetComPort(instance);
-                _devicesAvailable[(int)Chipset.AtmelSamBa] += connected ? 1 : -1;
+                comPort = GetComPort(instance);
+
+                if (MatchVidPid(deviceId, 0x03EB, 0x6124)) // Atmel SAM-BA
+                {
+                    deviceName = "Atmel SAM-BA";
+                    _flasher.ComPort = comPort;
+                    _devicesAvailable[(int)Chipset.AtmelSamBa] += connected ? 1 : -1;
+                }
+                else if (caterinaVids.Contains(vid) && caterinaPids.Contains(pid)) // Caterina
+                {
+                    deviceName = "Caterina";
+                    _flasher.ComPort = comPort;
+                    _devicesAvailable[(int)Chipset.Caterina] += connected ? 1 : -1;
+                }
+                else if (MatchVidPid(deviceId, 0x16C0, 0x0483)) // ArduinoISP/AVRISP
+                {
+                    deviceName = "AVRISP";
+                    _flasher.ComPort = comPort;
+                    _devicesAvailable[(int)Chipset.AvrIsp] += connected ? 1 : -1;
+                }
+                else if (MatchVidPid(deviceId, 0x1781, 0x0C9F)) // AVR Pocket ISP
+                {
+                    deviceName = "USB Tiny";
+                    _flasher.ComPort = comPort;
+                    _devicesAvailable[(int)Chipset.UsbTiny] += connected ? 1 : -1;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else if (MatchVid(deviceId, 0x03EB)) // Detects Atmel Vendor ID for other Atmel devices
+            else if (MatchVid(deviceId, 0x03EB) && atmelDfuPids.Contains(pid)) // Atmel DFU
             {
-                deviceName = "DFU";
+                deviceName = "Atmel DFU";
                 _devicesAvailable[(int)Chipset.Dfu] += connected ? 1 : -1;
             }
-            else if (MatchVid(deviceId, 0x2341) || MatchVid(deviceId, 0x1B4F) || MatchVid(deviceId, 0x239A) || MatchVid(deviceId, 0x2A03)) // Detects Arduino Vendor ID, Sparkfun Vendor ID, Adafruit Vendor ID, dog hunter VID
-            {
-                deviceName = "Caterina";
-                _flasher.CaterinaPort = GetComPort(instance);
-                _devicesAvailable[(int)Chipset.Caterina] += connected ? 1 : -1;
-            }
-            else if (MatchVid(deviceId, 0x16C0) && MatchPid(deviceId, 0x0478)) // Detects PJRC VID & PID
+            else if (MatchVidPid(deviceId, 0x16C0, 0x0478)) // PJRC Teensy
             {
                 deviceName = "Halfkay";
                 _devicesAvailable[(int)Chipset.Halfkay] += connected ? 1 : -1;
             }
-            else if (MatchVid(deviceId, 0x0483) && MatchPid(deviceId, 0xDF11)) // Detects STM32 PID & VID
+            else if (MatchVidPid(deviceId, 0x0483, 0xDF11)) // STM32 DFU
             {
-                deviceName = "STM32";
+                deviceName = "STM32 DFU";
                 _devicesAvailable[(int)Chipset.Stm32] += connected ? 1 : -1;
             }
-            else if (MatchVid(deviceId, 0x1C11) && MatchPid(deviceId, 0xB007)) // Detects Kiibohd VID & PID
+            else if (MatchVidPid(deviceId, 0x1C11, 0xB007)) // Kiibohd
             {
                 deviceName = "Kiibohd";
                 _devicesAvailable[(int)Chipset.Kiibohd] += connected ? 1 : -1;
             }
-            else if (MatchVid(deviceId, 0x16C0) && MatchPid(deviceId, 0x0483)) // Detects Arduino ISP VID & PID
-            {
-                deviceName = "AVRISP";
-                _flasher.CaterinaPort = GetComPort(instance);
-                _devicesAvailable[(int)Chipset.AvrIsp] += connected ? 1 : -1;
-            }
-            else if (MatchVid(deviceId, 0x16C0) && MatchPid(deviceId, 0x05DC)) // Detects AVR USBAsp VID & PID
-            {
-                deviceName = "USBAsp";
-                _flasher.CaterinaPort = GetComPort(instance);
-                _devicesAvailable[(int)Chipset.UsbAsp] += connected ? 1 : -1;
-            }
-            else if (MatchVid(deviceId, 0x1781) && MatchPid(deviceId, 0x0C9F)) // Detects AVR Pocket ISP VID & PID
-            {
-                deviceName = "USB Tiny";
-
-                _flasher.CaterinaPort = GetComPort(instance);
-                _devicesAvailable[(int)Chipset.UsbTiny] += connected ? 1 : -1;
-            }
-            else if (MatchVid(deviceId, 0x16C0) && MatchPid(deviceId, 0x05DF)) // Detects Objective Development VID & PID
+            else if (MatchVidPid(deviceId, 0x16C0, 0x05DF)) // Objective Development BootloadHID
             {
                 deviceName = "BootloadHID";
                 _devicesAvailable[(int)Chipset.BootloadHid] += connected ? 1 : -1;
+            }
+            else if (MatchVidPid(deviceId, 0x16C0, 0x05DC)) // USBAsp and USBAspLoader
+            {
+                deviceName = "USBAsp";
+                _devicesAvailable[(int)Chipset.UsbAsp] += connected ? 1 : -1;
             }
             else
             {
@@ -115,13 +151,31 @@ namespace QMK_Toolbox
             }
 
             var connectedString = connected ? "connected" : "disconnected";
-            _printer.Print($"{deviceName} device {connectedString}: {instance.GetPropertyValue("Manufacturer")} {instance.GetPropertyValue("Name")} ({vid}:{pid}:{rev})", MessageType.Bootloader);
+            var comPortString = comPort != null ? $" [{comPort}]" : "";
+            _printer.Print($"{deviceName} device {connectedString}: {instance.GetPropertyValue("Manufacturer")} {instance.GetPropertyValue("Name")} ({vid}:{pid}:{rev}){comPortString}", MessageType.Bootloader);
             return true;
+        }
+
+        public string GetHardwareId(ManagementBaseObject instance)
+        {
+            var hardwareIds = (System.String[])instance.GetPropertyValue("HardwareID");
+            if (hardwareIds != null && hardwareIds.Length > 0)
+            {
+                return hardwareIds[0];
+            }
+
+            return null;
+        }
+
+        public bool IsSerialDevice(ManagementBaseObject instance)
+        {
+            var compatibleIds = (System.String[])instance.GetPropertyValue("CompatibleID");
+            return (compatibleIds != null && compatibleIds.Contains("USB\\Class_02&SubClass_02")); // CDC-ACM
         }
 
         public string GetComPort(ManagementBaseObject instance)
         {
-            using (var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_SerialPort"))
+            using (var searcher = new ManagementObjectSearcher("SELECT PNPDeviceID, DeviceID FROM Win32_SerialPort"))
             {
                 foreach (var device in searcher.Get())
                 {
@@ -132,7 +186,7 @@ namespace QMK_Toolbox
                 }
             }
 
-            return string.Empty;
+            return null;
         }
 
         public bool CanFlash(Chipset chipset) => _devicesAvailable[(int)chipset] > 0;

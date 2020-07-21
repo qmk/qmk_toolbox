@@ -20,7 +20,7 @@ static io_iterator_t            g##type##RemovedIter
 //Global variables
 static IONotificationPortRef    gNotifyPort;
 DEFINE_ITER(AtmelSAMBA);
-DEFINE_ITER(DFU);
+DEFINE_ITER(AtmelDFU);
 DEFINE_ITER(Caterina);
 DEFINE_ITER(Halfkay);
 DEFINE_ITER(STM32);
@@ -50,11 +50,11 @@ static int devicesAvailable[NumberOfChipsets];
     _printer = printer;
     mach_port_t             masterPort;
     CFMutableDictionaryRef  AtmelSAMBAMatchingDict;
-    CFMutableDictionaryRef  DFUMatchingDict;
+    CFMutableDictionaryRef  AtmelDFUMatchingDict;
     CFMutableDictionaryRef  CaterinaMatchingDict;
-    CFMutableDictionaryRef  CaterinaAltMatchingDict;
-    CFMutableDictionaryRef  CaterinaDogHunterMatchingDict;
-    CFMutableDictionaryRef  FeatherBLE32u4MatchingDict;
+    CFMutableDictionaryRef  SparkfunVIDMatchingDict;
+    CFMutableDictionaryRef  DogHunterVIDMatchingDict;
+    CFMutableDictionaryRef  AdafruitVIDMatchingDict;
     CFMutableDictionaryRef  HalfkayMatchingDict;
     CFMutableDictionaryRef  STM32MatchingDict;
     CFMutableDictionaryRef  KiibohdMatchingDict;
@@ -109,11 +109,11 @@ kr = IOServiceAddMatchingNotification(gNotifyPort, kIOTerminatedNotification, ty
 dest##DeviceRemoved(NULL, g##dest##RemovedIter)
 
     VID_PID_MATCH(0x03EB, 0x6124, AtmelSAMBA);
-    VID_MATCH(0x03EB, DFU);
+    VID_MATCH(0x03EB, AtmelDFU);
     VID_MATCH(0x2341, Caterina);
-    VID_MATCH_MAP(0x1B4F, CaterinaAlt, Caterina);
-    VID_MATCH_MAP(0x2a03, CaterinaDogHunter, Caterina);
-    VID_MATCH_MAP(0x239a, FeatherBLE32u4, Caterina);
+    VID_MATCH_MAP(0x1B4F, SparkfunVID, Caterina);
+    VID_MATCH_MAP(0x2A03, DogHunterVID, Caterina);
+    VID_MATCH_MAP(0x239A, AdafruitVID, Caterina);
     VID_PID_MATCH(0x16C0, 0x0478, Halfkay);
     VID_PID_MATCH(0x0483, 0xDF11, STM32);
     VID_PID_MATCH(0x1C11, 0xB007, Kiibohd);
@@ -173,7 +173,7 @@ static void type##DeviceAdded(void *refCon, io_iterator_t iterator) { \
                 printf("No modem port found.\n"); \
                 [_printer printResponse:@"No modem port found, try again." withType:MessageType_Bootloader]; \
             } else { \
-                [delegate setCaterinaPort:[NSString stringWithFormat:@"%s", deviceFilePath]]; \
+                [delegate setSerialPort:[NSString stringWithFormat:@"%s", deviceFilePath]]; \
                 [_printer printResponse:[NSString stringWithFormat:@"Found port: %s", deviceFilePath] withType:MessageType_Bootloader]; \
             } \
             IOObjectRelease(serialPortIterator); \
@@ -197,7 +197,7 @@ static void type##DeviceRemoved(void *refCon, io_iterator_t iterator) { \
 }
 
 DEVICE_EVENTS_PORT(AtmelSAMBA);
-DEVICE_EVENTS(DFU);
+DEVICE_EVENTS(AtmelDFU);
 DEVICE_EVENTS_PORT(Caterina);
 DEVICE_EVENTS(Halfkay);
 DEVICE_EVENTS(STM32);

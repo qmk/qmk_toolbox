@@ -16,7 +16,7 @@
 @optional
 - (void)deviceConnected:(Chipset)chipset;
 - (void)deviceDisconnected:(Chipset)chipset;
-- (void)setCaterinaPort:(NSString *)port;
+- (void)setSerialPort:(NSString *)port;
 @end
 
 @interface USB : NSObject

@@ -16,7 +16,7 @@
 @end
 
 @implementation Flashing
-@synthesize caterinaPort;
+@synthesize serialPort;
 
 - (id)initWithPrinter:(Printing *)p {
     if (self = [super init]) {
@@ -51,8 +51,8 @@
 }
 
 - (void)flash:(NSString *)mcu withFile:(NSString *)file {
-    if ([USB canFlash:DFU])
-        [self flashDFU:mcu withFile:file];
+    if ([USB canFlash:AtmelDFU])
+        [self flashAtmelDFU:mcu withFile:file];
     if ([USB canFlash:Caterina])
         [self flashCaterina:mcu withFile:file];
     if ([USB canFlash:Halfkay])
@@ -74,8 +74,8 @@
 }
 
 - (void)reset:(NSString *)mcu {
-    if ([USB canFlash:DFU])
-        [self resetDFU:mcu];
+    if ([USB canFlash:AtmelDFU])
+        [self resetAtmelDFU:mcu];
     if ([USB canFlash:Halfkay])
         [self resetHalfkay:mcu];
     if ([USB canFlash:AtmelSAMBA])
@@ -86,7 +86,7 @@
 
 - (BOOL)canReset {
     NSArray<NSNumber *> *resettable = @[
-        @(DFU),
+        @(AtmelDFU),
         @(Halfkay),
         @(AtmelSAMBA),
         @(BootloadHID)
@@ -99,15 +99,15 @@
 }
 
 - (void)clearEEPROM:(NSString *)mcu {
-    if ([USB canFlash:DFU])
-        [self clearEEPROMDFU:mcu];
+    if ([USB canFlash:AtmelDFU])
+        [self clearEEPROMAtmelDFU:mcu];
     if ([USB canFlash:Caterina])
         [self clearEEPROMCaterina:mcu];
     if ([USB canFlash:USBAsp])
         [self clearEEPROMUSBAsp:mcu];
 }
 
-- (void)flashDFU:(NSString *)mcu withFile:(NSString *)file {
+- (void)flashAtmelDFU:(NSString *)mcu withFile:(NSString *)file {
     NSString * result;
     result = [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"erase", @"--force"]];
     result = [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"flash", file]];
@@ -118,11 +118,11 @@
     }
 }
 
-- (void)resetDFU:(NSString *)mcu {
+- (void)resetAtmelDFU:(NSString *)mcu {
     [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"reset"]];
 }
 
-- (void)clearEEPROMDFU:(NSString *)mcu {
+- (void)clearEEPROMAtmelDFU:(NSString *)mcu {
     NSString * result;
     NSString * file = [[NSBundle mainBundle] pathForResource:@"reset" ofType:@"eep"];
     result = [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"erase", @"--force"]];
@@ -131,13 +131,13 @@
 }
 
 - (void)flashCaterina:(NSString *)mcu withFile:(NSString *)file {
-    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"avr109", @"-U", [NSString stringWithFormat:@"flash:w:%@:i", file], @"-P", caterinaPort, @"-C", @"avrdude.conf"]];
+    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"avr109", @"-U", [NSString stringWithFormat:@"flash:w:%@:i", file], @"-P", serialPort, @"-C", @"avrdude.conf"]];
 }
 
 - (void)clearEEPROMCaterina:(NSString *)mcu {
     NSString * result;
     NSString * file = [[NSBundle mainBundle] pathForResource:@"reset" ofType:@"eep"];
-    result = [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"avr109", @"-U", [NSString stringWithFormat:@"eeprom:w:%@:i", file], @"-P", caterinaPort, @"-C", @"avrdude.conf"]];
+    result = [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"avr109", @"-U", [NSString stringWithFormat:@"eeprom:w:%@:i", file], @"-P", serialPort, @"-C", @"avrdude.conf"]];
 }
 
 - (void)clearEEPROMUSBAsp:(NSString *)mcu {
@@ -171,11 +171,11 @@
 }
 
 - (void)flashAVRISP:(NSString *)mcu withFile:(NSString *)file {
-    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"avrisp", @"-U", [NSString stringWithFormat:@"flash:w:%@:i", file], @"-P", caterinaPort, @"-C", @"avrdude.conf"]];
+    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"avrisp", @"-U", [NSString stringWithFormat:@"flash:w:%@:i", file], @"-P", serialPort, @"-C", @"avrdude.conf"]];
 }
 
 - (void)flashUSBTiny:(NSString *)mcu withFile:(NSString *)file {
-    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"usbtiny", @"-U", [NSString stringWithFormat:@"flash:w:%@:i", file], @"-P", caterinaPort, @"-C", @"avrdude.conf"]];
+    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"usbtiny", @"-U", [NSString stringWithFormat:@"flash:w:%@:i", file], @"-P", serialPort, @"-C", @"avrdude.conf"]];
 }
 
 - (void)flashUSBAsp:(NSString *)mcu withFile:(NSString *)file {
@@ -183,11 +183,11 @@
 }
 
 - (void)flashAtmelSAMBAwithFile: (NSString *)file {
-    [self runProcess:@"mdloader_mac" withArgs:@[@"-p", caterinaPort, @"-D", file, @"--restart"]];
+    [self runProcess:@"mdloader_mac" withArgs:@[@"-p", serialPort, @"-D", file, @"--restart"]];
 }
 
 - (void)resetAtmelSAMBA {
-    [self runProcess:@"mdloader_mac" withArgs:@[@"-p", caterinaPort, @"--restart"]];
+    [self runProcess:@"mdloader_mac" withArgs:@[@"-p", serialPort, @"--restart"]];
 }
 
 - (void)flashBootloadHIDwithFile: (NSString *)file {
