@@ -20,10 +20,10 @@ static io_iterator_t            g##type##RemovedIter
 //Global variables
 static IONotificationPortRef    gNotifyPort;
 DEFINE_ITER(AtmelSAMBA);
-DEFINE_ITER(DFU);
+DEFINE_ITER(AtmelDFU);
 DEFINE_ITER(Caterina);
 DEFINE_ITER(Halfkay);
-DEFINE_ITER(STM32);
+DEFINE_ITER(STM32DFU);
 DEFINE_ITER(Kiibohd);
 DEFINE_ITER(AVRISP);
 DEFINE_ITER(USBAsp);
@@ -50,13 +50,13 @@ static int devicesAvailable[NumberOfChipsets];
     _printer = printer;
     mach_port_t             masterPort;
     CFMutableDictionaryRef  AtmelSAMBAMatchingDict;
-    CFMutableDictionaryRef  DFUMatchingDict;
+    CFMutableDictionaryRef  AtmelDFUMatchingDict;
     CFMutableDictionaryRef  CaterinaMatchingDict;
-    CFMutableDictionaryRef  CaterinaAltMatchingDict;
-    CFMutableDictionaryRef  CaterinaDogHunterMatchingDict;
-    CFMutableDictionaryRef  FeatherBLE32u4MatchingDict;
+    CFMutableDictionaryRef  SparkfunVIDMatchingDict;
+    CFMutableDictionaryRef  DogHunterVIDMatchingDict;
+    CFMutableDictionaryRef  AdafruitVIDMatchingDict;
     CFMutableDictionaryRef  HalfkayMatchingDict;
-    CFMutableDictionaryRef  STM32MatchingDict;
+    CFMutableDictionaryRef  STM32DFUMatchingDict;
     CFMutableDictionaryRef  KiibohdMatchingDict;
     CFMutableDictionaryRef  AVRISPMatchingDict;
     CFMutableDictionaryRef  USBAspMatchingDict;
@@ -109,13 +109,13 @@ kr = IOServiceAddMatchingNotification(gNotifyPort, kIOTerminatedNotification, ty
 dest##DeviceRemoved(NULL, g##dest##RemovedIter)
 
     VID_PID_MATCH(0x03EB, 0x6124, AtmelSAMBA);
-    VID_MATCH(0x03EB, DFU);
+    VID_MATCH(0x03EB, AtmelDFU);
     VID_MATCH(0x2341, Caterina);
-    VID_MATCH_MAP(0x1B4F, CaterinaAlt, Caterina);
-    VID_MATCH_MAP(0x2a03, CaterinaDogHunter, Caterina);
-    VID_MATCH_MAP(0x239a, FeatherBLE32u4, Caterina);
+    VID_MATCH_MAP(0x1B4F, SparkfunVID, Caterina);
+    VID_MATCH_MAP(0x2A03, DogHunterVID, Caterina);
+    VID_MATCH_MAP(0x239A, AdafruitVID, Caterina);
     VID_PID_MATCH(0x16C0, 0x0478, Halfkay);
-    VID_PID_MATCH(0x0483, 0xDF11, STM32);
+    VID_PID_MATCH(0x0483, 0xDF11, STM32DFU);
     VID_PID_MATCH(0x1C11, 0xB007, Kiibohd);
     VID_PID_MATCH(0x16C0, 0x0483, AVRISP);
     VID_PID_MATCH(0x16C0, 0x05DC, USBAsp);
@@ -133,11 +133,11 @@ dest##DeviceRemoved(NULL, g##dest##RemovedIter)
 #define STR2(x) #x
 #define STR(x) STR2(x)
 
-#define DEVICE_EVENTS(type) \
+#define DEVICE_EVENTS(type, name) \
 static void type##DeviceAdded(void *refCon, io_iterator_t iterator) { \
     io_service_t object; \
     while ((object = IOIteratorNext(iterator))) { \
-        [_printer print:[NSString stringWithFormat:@"%@ %@", @(STR(type)), @"device connected"] withType:MessageType_Bootloader]; \
+        [_printer print:[NSString stringWithFormat:@"%@ %@", name, @"device connected"] withType:MessageType_Bootloader]; \
         deviceConnected(type); \
     } \
 } \
@@ -156,14 +156,14 @@ static void type##DeviceRemoved(void *refCon, io_iterator_t iterator) { \
         } \
     } \
 }
-#define DEVICE_EVENTS_PORT(type) \
+#define DEVICE_EVENTS_PORT(type, name) \
 static void type##DeviceAdded(void *refCon, io_iterator_t iterator) { \
     io_service_t    object; \
     while ((object = IOIteratorNext(iterator))) { \
         double delayInSeconds = 2.; \
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC)); \
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){ \
-            [_printer print:[NSString stringWithFormat:@"%@ %@", @(STR(type)), @"device connected"] withType:MessageType_Bootloader]; \
+            [_printer print:[NSString stringWithFormat:@"%@ %@", name, @"device connected"] withType:MessageType_Bootloader]; \
             deviceConnected(type); \
             io_iterator_t serialPortIterator; \
             char deviceFilePath[FILEPATH_SIZE]; \
@@ -173,7 +173,7 @@ static void type##DeviceAdded(void *refCon, io_iterator_t iterator) { \
                 printf("No modem port found.\n"); \
                 [_printer printResponse:@"No modem port found, try again." withType:MessageType_Bootloader]; \
             } else { \
-                [delegate setCaterinaPort:[NSString stringWithFormat:@"%s", deviceFilePath]]; \
+                [delegate setSerialPort:[NSString stringWithFormat:@"%s", deviceFilePath]]; \
                 [_printer printResponse:[NSString stringWithFormat:@"Found port: %s", deviceFilePath] withType:MessageType_Bootloader]; \
             } \
             IOObjectRelease(serialPortIterator); \
@@ -196,16 +196,16 @@ static void type##DeviceRemoved(void *refCon, io_iterator_t iterator) { \
     } \
 }
 
-DEVICE_EVENTS_PORT(AtmelSAMBA);
-DEVICE_EVENTS(DFU);
-DEVICE_EVENTS_PORT(Caterina);
-DEVICE_EVENTS(Halfkay);
-DEVICE_EVENTS(STM32);
-DEVICE_EVENTS(Kiibohd);
-DEVICE_EVENTS_PORT(AVRISP);
-DEVICE_EVENTS(USBAsp);
-DEVICE_EVENTS_PORT(USBTiny);
-DEVICE_EVENTS(BootloadHID);
+DEVICE_EVENTS_PORT(AtmelSAMBA, @"Atmel SAM-BA");
+DEVICE_EVENTS(AtmelDFU, @"Atmel DFU");
+DEVICE_EVENTS_PORT(Caterina, @"Caterina");
+DEVICE_EVENTS(Halfkay, @"Halfkay");
+DEVICE_EVENTS(STM32DFU, @"STM32 DFU");
+DEVICE_EVENTS(Kiibohd, @"Kiibohd");
+DEVICE_EVENTS_PORT(AVRISP, @"AVRISP");
+DEVICE_EVENTS(USBAsp, @"USBAsp");
+DEVICE_EVENTS_PORT(USBTiny, @"USBTiny");
+DEVICE_EVENTS(BootloadHID, @"BootloadHID");
 
 static kern_return_t MyFindModems(io_iterator_t *matchingServices)
 {
