@@ -81,6 +81,7 @@ namespace QMK_Toolbox
 
             string deviceName;
             string comPort = null;
+            string driverName = GetDriverName(instance);
 
             if (IsSerialDevice(instance))
             {
@@ -152,7 +153,10 @@ namespace QMK_Toolbox
 
             var connectedString = connected ? "connected" : "disconnected";
             var comPortString = comPort != null ? $" [{comPort}]" : "";
-            _printer.Print($"{deviceName} device {connectedString}: {instance.GetPropertyValue("Manufacturer")} {instance.GetPropertyValue("Name")} ({vid}:{pid}:{rev}){comPortString}", MessageType.Bootloader);
+            var driverString = driverName != null ? driverName : "NO DRIVER";
+
+            _printer.Print($"{deviceName} device {connectedString} ({driverString}): {instance.GetPropertyValue("Manufacturer")} {instance.GetPropertyValue("Name")} ({vid}:{pid}:{rev}){comPortString}", MessageType.Bootloader);
+
             return true;
         }
 
@@ -162,6 +166,17 @@ namespace QMK_Toolbox
             if (hardwareIds != null && hardwareIds.Length > 0)
             {
                 return hardwareIds[0];
+            }
+
+            return null;
+        }
+
+        public string GetDriverName(ManagementBaseObject instance)
+        {
+            var service = (string)instance.GetPropertyValue("Service");
+            if (service != null && service.Length > 0)
+            {
+                return service;
             }
 
             return null;
