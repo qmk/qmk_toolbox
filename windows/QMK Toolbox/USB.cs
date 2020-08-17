@@ -153,7 +153,7 @@ namespace QMK_Toolbox
 
             var connectedString = connected ? "connected" : "disconnected";
             var comPortString = comPort != null ? $" [{comPort}]" : "";
-            var driverString = driverName != null ? driverName : "NO DRIVER";
+            var driverString = driverName ?? "NO DRIVER";
 
             _printer.Print($"{deviceName} device {connectedString} ({driverString}): {instance.GetPropertyValue("Manufacturer")} {instance.GetPropertyValue("Name")} ({vid}:{pid}:{rev}){comPortString}", MessageType.Bootloader);
 
