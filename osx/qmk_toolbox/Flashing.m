@@ -110,7 +110,7 @@
 - (void)flashAtmelDFU:(NSString *)mcu withFile:(NSString *)file {
     NSString * result;
     result = [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"erase", @"--force"]];
-    result = [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"flash", file]];
+    result = [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"flash", @"--force", file]];
     if ([result containsString:@"Bootloader and code overlap."]) {
         [_printer print:@"File is too large for device" withType:MessageType_Error];
     } else {

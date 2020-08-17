@@ -198,7 +198,7 @@ namespace QMK_Toolbox
         private void FlashDfu(string mcu, string file)
         {
             RunProcess("dfu-programmer.exe", $"{mcu} erase --force");
-            RunProcess("dfu-programmer.exe", $"{mcu} flash \"{file}\"");
+            RunProcess("dfu-programmer.exe", $"{mcu} flash --force \"{file}\"");
             RunProcess("dfu-programmer.exe", $"{mcu} reset");
         }
 
