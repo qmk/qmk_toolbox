@@ -16,6 +16,7 @@ typedef enum {
     Halfkay,
     Caterina,
     SparkfunVID,
+    PololuVID,
     AdafruitVID,
     DogHunterVID,
     STM32DFU,
