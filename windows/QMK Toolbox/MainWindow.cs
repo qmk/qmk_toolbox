@@ -633,7 +633,7 @@ namespace QMK_Toolbox
 
         private void StartManagementEventWatcher(string eventType)
         {
-            var watcher = new ManagementEventWatcher($"SELECT * FROM {eventType} WITHIN 2 WHERE TargetInstance ISA 'Win32_PnPEntity'");
+            var watcher = new ManagementEventWatcher($"SELECT * FROM {eventType} WITHIN 2 WHERE TargetInstance ISA 'Win32_PnPEntity' AND TargetInstance.DeviceID LIKE 'USB%'");
             watcher.EventArrived += DeviceEvent;
             watcher.Start();
         }
