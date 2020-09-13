@@ -736,11 +736,6 @@ namespace QMK_Toolbox
             ((Button)sender).Enabled = true;
         }
 
-        private void clearButton_Click(object sender, EventArgs e)
-        {
-            logTextBox.Clear();
-        }
-
         private void MainWindow_DragDrop(object sender, DragEventArgs e)
         {
             SetFilePath(((string[])e.Data.GetData(DataFormats.FileDrop, false)).First());
@@ -785,6 +780,27 @@ namespace QMK_Toolbox
         private void KeyboardBox_TextChanged(object sender, EventArgs e)
         {
             loadKeymap.Enabled = keyboardBox.Items.Contains(keyboardBox.Text);
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            logTextBox.Copy();
+        }
+
+        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            logTextBox.SelectAll();
+        }
+        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            logTextBox.Clear();
+        }
+
+        private void contextMenuStrip2_Opening(object sender, CancelEventArgs e)
+        {
+            copyToolStripMenuItem.Enabled = (logTextBox.SelectedText.Length > 0);
+            selectAllToolStripMenuItem.Enabled = (logTextBox.Text.Length > 0);
+            clearToolStripMenuItem.Enabled = (logTextBox.Text.Length > 0);
         }
     }
 }
