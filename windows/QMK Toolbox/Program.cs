@@ -39,7 +39,7 @@ namespace QMK_Toolbox
                     flasher.Usb = usb;
 
                     ManagementObjectCollection collection;
-                    using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity WHERE DeviceID LIKE ""USB%"""))
+                    using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity WHERE DeviceID LIKE 'USB%'"))
                         collection = searcher.Get();
 
                     usb.DetectBootloaderFromCollection(collection);
@@ -54,7 +54,7 @@ namespace QMK_Toolbox
                     flasher.Usb = usb;
 
                     ManagementObjectCollection collection;
-                    using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity WHERE DeviceID LIKE ""USB%"""))
+                    using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity WHERE DeviceID LIKE 'USB%'"))
                         collection = searcher.Get();
 
                     usb.DetectBootloaderFromCollection(collection);
