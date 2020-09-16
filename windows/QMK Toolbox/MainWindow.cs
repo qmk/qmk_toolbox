@@ -216,7 +216,7 @@ namespace QMK_Toolbox
             _printer.PrintResponse(" - USBasp (AVR ISP)\n", MessageType.Info);
 
             ManagementObjectCollection collection;
-            using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity WHERE DeviceID LIKE ""USB%"""))
+            using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity WHERE DeviceID LIKE 'USB%'"))
                 collection = searcher.Get();
 
             _usb.DetectBootloaderFromCollection(collection);
