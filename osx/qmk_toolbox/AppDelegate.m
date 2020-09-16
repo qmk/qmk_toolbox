@@ -14,6 +14,7 @@
 
 @property (weak) IBOutlet QMKWindow *window;
 @property IBOutlet NSTextView * textView;
+@property IBOutlet NSMenuItem * clearMenuItem;
 @property IBOutlet NSComboBox * filepathBox;
 @property IBOutlet NSButton * openButton;
 @property IBOutlet NSComboBox * mcuBox;
@@ -40,7 +41,7 @@
     [panel setAllowedFileTypes:types];
 
     [panel beginWithCompletionHandler:^(NSInteger result){
-        if (result == NSFileHandlingPanelOKButton) {
+        if (result == NSModalResponseOK) {
             [self setFilePath:[[panel URLs] objectAtIndex:0]];
         }
     }];
@@ -177,6 +178,9 @@
     _flasher = [[Flashing alloc] initWithPrinter:_printer];
     _flasher.delegate = self;
     _resetButton.enabled = NO;
+
+    [[_textView menu] addItem: [NSMenuItem separatorItem]];
+    [[_textView menu] addItem: _clearMenuItem];
 
     [self loadMicrocontrollers];
     [self loadKeyboards];

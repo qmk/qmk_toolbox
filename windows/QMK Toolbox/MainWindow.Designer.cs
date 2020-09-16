@@ -40,6 +40,7 @@ namespace QMK_Toolbox {
             this.keyboardBox = new System.Windows.Forms.ComboBox();
             this.loadKeymap = new System.Windows.Forms.Button();
             this.fileGroupBox = new System.Windows.Forms.GroupBox();
+            this.filepathBox = new QMK_Toolbox.BetterComboBox();
             this.mcuBox = new System.Windows.Forms.ComboBox();
             this.clearEepromButton = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -47,10 +48,15 @@ namespace QMK_Toolbox {
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logTextBox = new System.Windows.Forms.RichTextBox();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hidList = new System.Windows.Forms.ComboBox();
             this.flashWhenReadyCheckbox = new System.Windows.Forms.CheckBox();
-            this.filepathBox = new QMK_Toolbox.BetterComboBox();
+            this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip.SuspendLayout();
             this.qmkGroupBox.SuspendLayout();
             this.fileGroupBox.SuspendLayout();
@@ -212,7 +218,7 @@ namespace QMK_Toolbox {
             this.keyboardBox.TabIndex = 4;
             this.keyboardBox.Tag = "The target (MCU) of the flashing";
             this.keyboardBox.Text = global::QMK_Toolbox.Properties.Settings.Default.keyboard;
-            this.keyboardBox.TextChanged += new System.EventHandler(this.KeyboardBox_TextChanged); 
+            this.keyboardBox.TextChanged += new System.EventHandler(this.KeyboardBox_TextChanged);
             this.keyboardBox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
             this.keyboardBox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
             // 
@@ -244,6 +250,22 @@ namespace QMK_Toolbox {
             this.fileGroupBox.TabIndex = 25;
             this.fileGroupBox.TabStop = false;
             this.fileGroupBox.Text = "Local file";
+            // 
+            // filepathBox
+            // 
+            this.filepathBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.filepathBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "hexFileSetting", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.filepathBox.FormattingEnabled = true;
+            this.filepathBox.Location = new System.Drawing.Point(6, 20);
+            this.filepathBox.Name = "filepathBox";
+            this.filepathBox.Size = new System.Drawing.Size(464, 21);
+            this.filepathBox.TabIndex = 2;
+            this.filepathBox.Tag = "The path for your firmware file";
+            this.filepathBox.Text = global::QMK_Toolbox.Properties.Settings.Default.hexFileSetting;
+            this.filepathBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.filepathBox_KeyDown);
+            this.filepathBox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
+            this.filepathBox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
             // 
             // mcuBox
             // 
@@ -277,19 +299,20 @@ namespace QMK_Toolbox {
             this.installDriversToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(154, 48);
+            this.contextMenuStrip1.ShowImageMargin = false;
+            this.contextMenuStrip1.Size = new System.Drawing.Size(129, 48);
             // 
             // installDriversToolStripMenuItem
             // 
             this.installDriversToolStripMenuItem.Name = "installDriversToolStripMenuItem";
-            this.installDriversToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.installDriversToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.installDriversToolStripMenuItem.Text = "Install Drivers...";
             this.installDriversToolStripMenuItem.Click += new System.EventHandler(this.installDriversToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -319,16 +342,47 @@ namespace QMK_Toolbox {
             // contextMenuStrip2
             // 
             this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cutToolStripMenuItem,
+            this.copyToolStripMenuItem,
+            this.pasteToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.selectAllToolStripMenuItem,
+            this.toolStripMenuItem2,
             this.clearToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(102, 26);
+            this.contextMenuStrip2.ShowImageMargin = false;
+            this.contextMenuStrip2.Size = new System.Drawing.Size(156, 148);
+            this.contextMenuStrip2.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip2_Opening);
+            // 
+            // copyToolStripMenuItem
+            // 
+            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.copyToolStripMenuItem.Text = "&Copy";
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            // 
+            // selectAllToolStripMenuItem
+            // 
+            this.selectAllToolStripMenuItem.Enabled = false;
+            this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
+            this.selectAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.selectAllToolStripMenuItem.Text = "Select &All";
+            this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 6);
             // 
             // clearToolStripMenuItem
             // 
+            this.clearToolStripMenuItem.Enabled = false;
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(101, 22);
-            this.clearToolStripMenuItem.Text = "Clear";
-            this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearButton_Click);
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.clearToolStripMenuItem.Text = "Clea&r";
+            this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
             // hidList
             // 
@@ -353,21 +407,26 @@ namespace QMK_Toolbox {
             this.flashWhenReadyCheckbox.UseVisualStyleBackColor = true;
             this.flashWhenReadyCheckbox.CheckedChanged += new System.EventHandler(this.flashWhenReadyCheckbox_CheckedChanged);
             // 
-            // filepathBox
+            // cutToolStripMenuItem
             // 
-            this.filepathBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.filepathBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "hexFileSetting", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.filepathBox.FormattingEnabled = true;
-            this.filepathBox.Location = new System.Drawing.Point(6, 20);
-            this.filepathBox.Name = "filepathBox";
-            this.filepathBox.Size = new System.Drawing.Size(464, 21);
-            this.filepathBox.TabIndex = 2;
-            this.filepathBox.Tag = "The path for your firmware file";
-            this.filepathBox.Text = global::QMK_Toolbox.Properties.Settings.Default.hexFileSetting;
-            this.filepathBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.filepathBox_KeyDown);
-            this.filepathBox.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
-            this.filepathBox.MouseHover += new System.EventHandler(this.btn_MouseLeave);
+            this.cutToolStripMenuItem.Enabled = false;
+            this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
+            this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.cutToolStripMenuItem.Text = "Cut";
+            // 
+            // pasteToolStripMenuItem
+            // 
+            this.pasteToolStripMenuItem.Enabled = false;
+            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
+            this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.pasteToolStripMenuItem.Text = "Paste";
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 6);
             // 
             // MainWindow
             // 
@@ -437,6 +496,12 @@ namespace QMK_Toolbox {
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
         private BetterComboBox filepathBox;
         private System.Windows.Forms.ToolStripMenuItem installDriversToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
     }
 }
 
