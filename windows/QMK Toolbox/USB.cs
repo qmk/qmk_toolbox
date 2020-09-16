@@ -41,6 +41,7 @@ namespace QMK_Toolbox
         private static string[] caterinaVids =
         {
             "1B4F", // Spark Fun Electronics
+            "1FFB", // Pololu Electronics
             "2341", // Arduino SA
             "239A", // Adafruit Industries LLC
             "2A03"  // dog hunter AG
@@ -55,6 +56,8 @@ namespace QMK_Toolbox
             // Arduino SA / dog hunter AG
             "0036", // Leonardo
             "0037", // Micro
+            // Pololu Electronics
+            "0101", // A-Star 32U4
             // Spark Fun Electronics
             "9203", // Pro Micro 3V3/8MHz
             "9205"  // Pro Micro 5V/16MHz
