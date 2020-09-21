@@ -11,6 +11,7 @@ on:
 
 jobs:
   build_win:
+    name: Build (Windows)
     runs-on: windows-latest
 
     steps:
@@ -20,44 +21,68 @@ jobs:
 
     - uses: actions/checkout@v2
 
-    - name: build
+    - name: Build
       working-directory: ./windows
       run: |
         nuget restore
         msbuild "QMK Toolbox.sln" /verbosity:minimal /p:Configuration=Release
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: qmk_toolbox.exe
+        path: windows/QMK Toolbox/bin/Release/qmk_toolbox.exe
+
+    - name: Create installer
+      working-directory: ./windows
+      if: github.event.release.tag_name
+      run: |
         iscc install_compiler.iss
 
     - uses: actions/upload-artifact@v2
+      if: github.event.release.tag_name
       with:
-        path: "windows/QMK Toolbox/bin/Release/qmk_toolbox.exe"
-    - uses: actions/upload-artifact@v2
-      with:
-        path: "windows/qmk_toolbox_install.exe"
+        name: qmk_toolbox_install.exe
+        path: windows/qmk_toolbox_install.exe
   
   build_macos:
+    name: Build (macOS)
     runs-on: macOS-latest
 
     steps:
+    - uses: maxim-lobanov/setup-xcode@v1.1
+      with:
+        xcode-version: latest-stable
+
     - uses: actions/checkout@v2
 
-    - name: install packagesbuild
+    - name: Build
       working-directory: ./osx
+      run: |
+        mkdir build
+        xcodebuild CONFIGURATION_BUILD_DIR=build
+        ditto -ck --rsrc --sequesterRsrc -v --keepParent "build/QMK Toolbox.app" build/QMK.Toolbox.app.zip
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: QMK.Toolbox.app.zip
+        path: osx/build/QMK.Toolbox.app.zip
+
+    - name: Create installer
+      working-directory: ./osx
+      if: github.event.release.tag_name
       run: |
         brew cask install packages
-
-    - name: build
-      working-directory: ./osx
-      run: |
-        ./build_release.command
+        packagesbuild -v "QMK Toolbox.pkgproj"
+        mv "build/QMK Toolbox.pkg" build/QMK.Toolbox.pkg
 
     - uses: actions/upload-artifact@v2
+      if: github.event.release.tag_name
       with:
-        path: "osx/build/QMK.Toolbox.app.zip"
-    - uses: actions/upload-artifact@v2
-      with:
-        path: "osx/build/QMK.Toolbox.pkg"
+        name: QMK.Toolbox.pkg
+        path: osx/build/QMK.Toolbox.pkg
 
   publish:
+    name: Publish
     runs-on: ubuntu-latest
 
     needs: [build_win, build_macos]
@@ -65,16 +90,14 @@ jobs:
     if: github.event.release.tag_name
 
     steps:
-      - uses: actions/download-artifact@v1
-        with:
-          name: artifact
+      - uses: actions/download-artifact@v2
 
       - uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./artifact/qmk_toolbox.exe
+          asset_path: ./qmk_toolbox.exe/qmk_toolbox.exe
           asset_name: qmk_toolbox.exe
           asset_content_type: application/octet-stream
 
@@ -83,7 +106,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./artifact/qmk_toolbox_install.exe
+          asset_path: ./qmk_toolbox_install.exe/qmk_toolbox_install.exe
           asset_name: qmk_toolbox_install.exe
           asset_content_type: application/octet-stream
 
@@ -92,7 +115,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./artifact/QMK.Toolbox.app.zip
+          asset_path: ./QMK.Toolbox.app.zip/QMK.Toolbox.app.zip
           asset_name: QMK.Toolbox.app.zip
           asset_content_type: application/octet-stream
 
@@ -101,6 +124,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./artifact/QMK.Toolbox.pkg
+          asset_path: ./QMK.Toolbox.pkg/QMK.Toolbox.pkg
           asset_name: QMK.Toolbox.pkg
           asset_content_type: application/octet-stream
