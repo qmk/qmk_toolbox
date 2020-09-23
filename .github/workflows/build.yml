@@ -34,16 +34,14 @@ jobs:
 
     - name: Create installer
       working-directory: ./windows
-      if: github.event.release.tag_name
       run: |
         iscc install_compiler.iss
 
     - uses: actions/upload-artifact@v2
-      if: github.event.release.tag_name
       with:
         name: qmk_toolbox_install.exe
         path: windows/qmk_toolbox_install.exe
-  
+
   build_macos:
     name: Build (macOS)
     runs-on: macOS-latest
@@ -69,14 +67,12 @@ jobs:
 
     - name: Create installer
       working-directory: ./osx
-      if: github.event.release.tag_name
       run: |
         brew cask install packages
         packagesbuild -v "QMK Toolbox.pkgproj"
         mv "build/QMK Toolbox.pkg" build/QMK.Toolbox.pkg
 
     - uses: actions/upload-artifact@v2
-      if: github.event.release.tag_name
       with:
         name: QMK.Toolbox.pkg
         path: osx/build/QMK.Toolbox.pkg
