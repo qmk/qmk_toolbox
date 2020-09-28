@@ -109,12 +109,6 @@ namespace QMK_Toolbox
                     _flasher.ComPort = comPort;
                     _devicesAvailable[(int)Chipset.AvrIsp] += connected ? 1 : -1;
                 }
-                else if (MatchVidPid(deviceId, 0x1781, 0x0C9F)) // AVR Pocket ISP
-                {
-                    deviceName = "USB Tiny";
-                    _flasher.ComPort = comPort;
-                    _devicesAvailable[(int)Chipset.UsbTiny] += connected ? 1 : -1;
-                }
                 else
                 {
                     return false;
@@ -149,6 +143,11 @@ namespace QMK_Toolbox
             {
                 deviceName = "USBAsp";
                 _devicesAvailable[(int)Chipset.UsbAsp] += connected ? 1 : -1;
+            }
+            else if (MatchVidPid(deviceId, 0x1781, 0x0C9F)) // AVR Pocket ISP
+            {
+                deviceName = "USB Tiny";
+                _devicesAvailable[(int)Chipset.UsbTiny] += connected ? 1 : -1;
             }
             else
             {

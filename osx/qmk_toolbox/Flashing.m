@@ -175,7 +175,7 @@
 }
 
 - (void)flashUSBTiny:(NSString *)mcu withFile:(NSString *)file {
-    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"usbtiny", @"-U", [NSString stringWithFormat:@"flash:w:%@:i", file], @"-P", serialPort, @"-C", @"avrdude.conf"]];
+    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"usbtiny", @"-U", [NSString stringWithFormat:@"flash:w:%@:i", file], @"-C", @"avrdude.conf"]];
 }
 
 - (void)flashUSBAsp:(NSString *)mcu withFile:(NSString *)file {

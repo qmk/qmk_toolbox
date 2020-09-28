@@ -206,7 +206,7 @@ DEVICE_EVENTS(STM32DFU, @"STM32 DFU");
 DEVICE_EVENTS(Kiibohd, @"Kiibohd");
 DEVICE_EVENTS_PORT(AVRISP, @"AVRISP");
 DEVICE_EVENTS(USBAsp, @"USBAsp");
-DEVICE_EVENTS_PORT(USBTiny, @"USBTiny");
+DEVICE_EVENTS(USBTiny, @"USBTiny");
 DEVICE_EVENTS(BootloadHID, @"BootloadHID");
 
 static kern_return_t MyFindModems(io_iterator_t *matchingServices)
