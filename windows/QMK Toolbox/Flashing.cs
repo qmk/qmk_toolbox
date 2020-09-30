@@ -253,7 +253,7 @@ namespace QMK_Toolbox
 
         private void FlashUsbTiny(string mcu, string file)
         {
-            RunProcess("avrdude.exe", $"-p {mcu} -c usbtiny -U flash:w:\"{file}\":i -P {ComPort}");
+            RunProcess("avrdude.exe", $"-p {mcu} -c usbtiny -U flash:w:\"{file}\":i");
             _printer.Print("Flash complete", MessageType.Bootloader);
         }
 
