@@ -30,7 +30,6 @@ namespace QMK_Toolbox {
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.openFileButton = new System.Windows.Forms.Button();
             this.resetButton = new System.Windows.Forms.Button();
-            this.listHidDevicesButton = new System.Windows.Forms.Button();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.mcuLabel = new System.Windows.Forms.Label();
@@ -48,15 +47,15 @@ namespace QMK_Toolbox {
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logTextBox = new System.Windows.Forms.RichTextBox();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hidList = new System.Windows.Forms.ComboBox();
             this.flashWhenReadyCheckbox = new System.Windows.Forms.CheckBox();
-            this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip.SuspendLayout();
             this.qmkGroupBox.SuspendLayout();
             this.fileGroupBox.SuspendLayout();
@@ -124,21 +123,6 @@ namespace QMK_Toolbox {
             this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
             this.resetButton.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
             this.resetButton.MouseHover += new System.EventHandler(this.btn_MouseLeave);
-            // 
-            // listHidDevicesButton
-            // 
-            this.listHidDevicesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.listHidDevicesButton.Location = new System.Drawing.Point(688, 613);
-            this.listHidDevicesButton.Name = "listHidDevicesButton";
-            this.listHidDevicesButton.Size = new System.Drawing.Size(99, 23);
-            this.listHidDevicesButton.TabIndex = 19;
-            this.listHidDevicesButton.Tag = "List all HID devices that are compatible with HID listen (must use a certain usag" +
-    "e page)";
-            this.listHidDevicesButton.Text = "List HID Devices";
-            this.listHidDevicesButton.UseVisualStyleBackColor = true;
-            this.listHidDevicesButton.Click += new System.EventHandler(this.listHidDevicesButton_Click);
-            this.listHidDevicesButton.MouseEnter += new System.EventHandler(this.btn_MouseEnter);
-            this.listHidDevicesButton.MouseLeave += new System.EventHandler(this.btn_MouseLeave);
             // 
             // statusStrip
             // 
@@ -351,36 +335,57 @@ namespace QMK_Toolbox {
             this.clearToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
             this.contextMenuStrip2.ShowImageMargin = false;
-            this.contextMenuStrip2.Size = new System.Drawing.Size(156, 148);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(140, 126);
             this.contextMenuStrip2.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip2_Opening);
+            // 
+            // cutToolStripMenuItem
+            // 
+            this.cutToolStripMenuItem.Enabled = false;
+            this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
+            this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.cutToolStripMenuItem.Text = "Cut";
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.copyToolStripMenuItem.Text = "&Copy";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            // 
+            // pasteToolStripMenuItem
+            // 
+            this.pasteToolStripMenuItem.Enabled = false;
+            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
+            this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.pasteToolStripMenuItem.Text = "Paste";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(136, 6);
             // 
             // selectAllToolStripMenuItem
             // 
             this.selectAllToolStripMenuItem.Enabled = false;
             this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
             this.selectAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.selectAllToolStripMenuItem.Text = "Select &All";
             this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
             // 
-            // toolStripMenuItem1
+            // toolStripMenuItem2
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 6);
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(136, 6);
             // 
             // clearToolStripMenuItem
             // 
             this.clearToolStripMenuItem.Enabled = false;
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.clearToolStripMenuItem.Text = "Clea&r";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
@@ -392,7 +397,7 @@ namespace QMK_Toolbox {
             this.hidList.FormattingEnabled = true;
             this.hidList.Location = new System.Drawing.Point(128, 615);
             this.hidList.Name = "hidList";
-            this.hidList.Size = new System.Drawing.Size(554, 21);
+            this.hidList.Size = new System.Drawing.Size(658, 21);
             this.hidList.TabIndex = 29;
             // 
             // flashWhenReadyCheckbox
@@ -407,27 +412,6 @@ namespace QMK_Toolbox {
             this.flashWhenReadyCheckbox.UseVisualStyleBackColor = true;
             this.flashWhenReadyCheckbox.CheckedChanged += new System.EventHandler(this.flashWhenReadyCheckbox_CheckedChanged);
             // 
-            // cutToolStripMenuItem
-            // 
-            this.cutToolStripMenuItem.Enabled = false;
-            this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-            this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.cutToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.cutToolStripMenuItem.Text = "Cut";
-            // 
-            // pasteToolStripMenuItem
-            // 
-            this.pasteToolStripMenuItem.Enabled = false;
-            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.pasteToolStripMenuItem.Text = "Paste";
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 6);
-            // 
             // MainWindow
             // 
             this.AllowDrop = true;
@@ -440,7 +424,6 @@ namespace QMK_Toolbox {
             this.Controls.Add(this.clearEepromButton);
             this.Controls.Add(this.fileGroupBox);
             this.Controls.Add(this.qmkGroupBox);
-            this.Controls.Add(this.listHidDevicesButton);
             this.Controls.Add(this.flashButton);
             this.Controls.Add(this.autoflashCheckbox);
             this.Controls.Add(this.statusStrip);
@@ -479,7 +462,6 @@ namespace QMK_Toolbox {
         private System.Windows.Forms.Button resetButton;
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
-        private System.Windows.Forms.Button listHidDevicesButton;
         private System.Windows.Forms.Label mcuLabel;
         private System.Windows.Forms.GroupBox qmkGroupBox;
         private System.Windows.Forms.ComboBox keymapBox;
