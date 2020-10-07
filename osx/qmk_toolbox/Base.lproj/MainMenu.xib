@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097.3"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -229,17 +229,6 @@
                             <font key="font" metaFont="label" size="12"/>
                         </buttonCell>
                     </button>
-                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vo9-7s-iob">
-                        <rect key="frame" x="534" y="3" width="133" height="32"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="21" id="Ga0-aA-gv3"/>
-                            <constraint firstAttribute="width" constant="121" id="Vg3-Rm-RzM"/>
-                        </constraints>
-                        <buttonCell key="cell" type="push" title="List HID Devices" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hSt-oK-X6g">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="label" size="12"/>
-                        </buttonCell>
-                    </button>
                     <box borderType="line" title="Local file" translatesAutoresizingMaskIntoConstraints="NO" id="t67-0j-kLe">
                         <rect key="frame" x="2" y="418" width="667" height="53"/>
                         <view key="contentView" id="R6x-jp-q9X">
@@ -249,7 +238,7 @@
                                 <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fMz-rn-IEt">
                                     <rect key="frame" x="7" y="6" width="470" height="24"/>
                                     <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Click Open or drag to window to select file" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="XxC-Jz-p7t">
-                                        <font key="font" metaFont="label" size="12"/>
+                                        <font key="font" metaFont="cellTitle"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </comboBoxCell>
@@ -264,7 +253,7 @@
                                         <constraint firstAttribute="width" constant="105" id="fYy-tf-ll3"/>
                                     </constraints>
                                     <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Select MCU" drawsBackground="YES" buttonBordered="NO" completes="NO" numberOfVisibleItems="6" id="xEk-tg-smb">
-                                        <font key="font" metaFont="label" size="12"/>
+                                        <font key="font" metaFont="cellTitle"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </comboBoxCell>
@@ -309,7 +298,7 @@
                                 <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j37-hH-gaF">
                                     <rect key="frame" x="7" y="6" width="285" height="24"/>
                                     <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Select a keyboard to download" drawsBackground="YES" numberOfVisibleItems="20" id="5mG-K9-oUt">
-                                        <font key="font" metaFont="label" size="12"/>
+                                        <font key="font" metaFont="cellTitle"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         <objectValues>
@@ -325,7 +314,7 @@
                                         <constraint firstAttribute="width" constant="127" id="Rmh-Vs-2bF"/>
                                     </constraints>
                                     <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="S8q-ac-xFc">
-                                        <font key="font" metaFont="label" size="12"/>
+                                        <font key="font" metaFont="cellTitle"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         <objectValues>
@@ -407,7 +396,6 @@
                     <constraint firstAttribute="trailing" secondItem="w5R-Hk-e8X" secondAttribute="trailing" constant="10" id="1SK-rh-DGn"/>
                     <constraint firstItem="TwL-TO-5Ka" firstAttribute="leading" secondItem="OKF-oG-mRx" secondAttribute="leading" id="533-Os-hQd"/>
                     <constraint firstAttribute="trailing" secondItem="qEj-2h-OmC" secondAttribute="trailing" constant="10" id="56Q-ms-Qm2"/>
-                    <constraint firstAttribute="bottom" secondItem="Vo9-7s-iob" secondAttribute="bottom" constant="10" id="AKw-MJ-48Q"/>
                     <constraint firstItem="w5R-Hk-e8X" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="10" id="BdT-Ww-Qmp"/>
                     <constraint firstItem="TwL-TO-5Ka" firstAttribute="top" secondItem="OKF-oG-mRx" secondAttribute="bottom" constant="7" id="EZw-Oy-KNM"/>
                     <constraint firstItem="OKF-oG-mRx" firstAttribute="top" secondItem="t67-0j-kLe" secondAttribute="bottom" constant="8" id="FOU-xm-c2G"/>
@@ -416,11 +404,9 @@
                     <constraint firstItem="w5R-Hk-e8X" firstAttribute="top" secondItem="LCo-O1-xnT" secondAttribute="bottom" constant="9" id="HwZ-Rm-mbl"/>
                     <constraint firstItem="qEj-2h-OmC" firstAttribute="leading" secondItem="OKF-oG-mRx" secondAttribute="trailing" constant="4" id="M4Z-Am-PSX"/>
                     <constraint firstItem="qEj-2h-OmC" firstAttribute="leading" secondItem="OKF-oG-mRx" secondAttribute="trailing" constant="4" id="Nc3-jf-JYQ"/>
-                    <constraint firstItem="Vo9-7s-iob" firstAttribute="top" secondItem="w5R-Hk-e8X" secondAttribute="bottom" constant="10" id="TcF-cM-Pmg"/>
                     <constraint firstItem="LCo-O1-xnT" firstAttribute="top" secondItem="t67-0j-kLe" secondAttribute="bottom" constant="3" id="Ul1-S7-BR5"/>
                     <constraint firstItem="RSb-Il-mNt" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="10" id="Zwx-cY-fGS"/>
                     <constraint firstAttribute="trailing" secondItem="9ht-zl-DdM" secondAttribute="trailing" constant="25" id="aCA-8H-6W1"/>
-                    <constraint firstAttribute="trailing" secondItem="Vo9-7s-iob" secondAttribute="trailing" constant="10" id="dZW-SE-i9N"/>
                     <constraint firstAttribute="bottom" secondItem="RSb-Il-mNt" secondAttribute="bottom" constant="10" id="hMV-Bz-Rd0"/>
                     <constraint firstItem="t67-0j-kLe" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="4" id="hY7-4X-Nrm"/>
                     <constraint firstItem="w5R-Hk-e8X" firstAttribute="top" secondItem="sFy-Lg-NKo" secondAttribute="bottom" constant="42" id="mNm-zP-Ll8"/>
