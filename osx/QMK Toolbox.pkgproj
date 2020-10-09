@@ -829,8 +829,6 @@
 			</array>
 			<key>NAME</key>
 			<string>QMK Toolbox</string>
-			<key>REFERENCE_FOLDER_PATH</key>
-			<string>/Users/j/Downloads/qmk_toolbox/osx/qmk_toolbox</string>
 		</dict>
 	</dict>
 	<key>TYPE</key>
