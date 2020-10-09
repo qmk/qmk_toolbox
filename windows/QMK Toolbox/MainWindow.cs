@@ -706,36 +706,6 @@ namespace QMK_Toolbox
             }
         }
 
-        private void listHidDevicesButton_Click(object sender, EventArgs e)
-        {
-            ((Button)sender).Enabled = false;
-            foreach (var device in _devices)
-            {
-                device.CloseDevice();
-            }
-
-            if (_devices.Count > 0)
-            {
-                _printer.Print("Connected HID console interfaces (CONSOLE_ENABLE = yes):", MessageType.Hid);
-                foreach (var device in _devices)
-                {
-                    if (device != null)
-                    {
-                        device.OpenDevice();
-                        var deviceIndex = _devices.IndexOf(device);
-                        _printer.PrintResponse($"{deviceIndex}: {hidList.Items[deviceIndex]}\n", MessageType.Info);
-                    }
-
-                    device?.CloseDevice();
-                }
-            }
-            else
-            {
-                _printer.Print("No HID console interfaces found.", MessageType.Hid);
-            }
-            ((Button)sender).Enabled = true;
-        }
-
         private void MainWindow_DragDrop(object sender, DragEventArgs e)
         {
             SetFilePath(((string[])e.Data.GetData(DataFormats.FileDrop, false)).First());
