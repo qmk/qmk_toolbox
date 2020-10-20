@@ -726,6 +726,11 @@ namespace QMK_Toolbox
         {
             if (Settings.Default.firstStart)
             {
+                Settings.Default.Upgrade();
+            }
+
+            if (Settings.Default.firstStart)
+            {
                 var driverPromptResult = MessageBox.Show("Would you like to install drivers for your devices?", "Driver installation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (driverPromptResult == DialogResult.Yes)
                 {
