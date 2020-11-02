@@ -497,36 +497,37 @@ namespace QMK_Toolbox
 
         private void SetFilePath(string filepath)
         {
-            var uri = new Uri(filepath);
-            if (uri.Scheme == "qmk")
-            {
-                string url;
-                url = filepath.Replace(filepath.Contains("qmk://") ? "qmk://" : "qmk:", "");
-                filepath = Path.Combine(KnownFolders.Downloads.Path, filepath.Substring(filepath.LastIndexOf("/") + 1).Replace(".", "_" + Guid.NewGuid().ToString().Substring(0, 8) + "."));
+            if (!filepath.StartsWith("\\\\wsl$")) {
+                var uri = new Uri(filepath);
+                if (uri.Scheme == "qmk")
+                {
+                    string url;
+                    url = filepath.Replace(filepath.Contains("qmk://") ? "qmk://" : "qmk:", "");
+                    filepath = Path.Combine(KnownFolders.Downloads.Path, filepath.Substring(filepath.LastIndexOf("/") + 1).Replace(".", "_" + Guid.NewGuid().ToString().Substring(0, 8) + "."));
 
-                try
-                {
-                    _printer.Print($"Downloading the file: {url}", MessageType.Info);
-                    DownloadFirmwareFile(url, filepath);
-                }
-                catch (Exception e1)
-                {
                     try
                     {
-                        // Try .bin extension if hex 404'd
-                        url = Path.ChangeExtension(url, "bin");
-                        filepath = Path.ChangeExtension(filepath, "bin");
-                        _printer.Print($"No .hex file found, trying {url}", MessageType.Info);
+                        _printer.Print($"Downloading the file: {url}", MessageType.Info);
                         DownloadFirmwareFile(url, filepath);
                     }
-                    catch (Exception e2)
+                    catch (Exception e1)
                     {
-                        _printer.PrintResponse("Something went wrong when trying to get the default keymap file.", MessageType.Error);
-                        return;
+                        try
+                        {
+                            // Try .bin extension if hex 404'd
+                            url = Path.ChangeExtension(url, "bin");
+                            filepath = Path.ChangeExtension(filepath, "bin");
+                            _printer.Print($"No .hex file found, trying {url}", MessageType.Info);
+                            DownloadFirmwareFile(url, filepath);
+                        }
+                        catch (Exception e2)
+                        {
+                            _printer.PrintResponse("Something went wrong when trying to get the default keymap file.", MessageType.Error);
+                            return;
+                        }
                     }
+                    _printer.PrintResponse($"File saved to: {filepath}", MessageType.Info);
                 }
-                _printer.PrintResponse($"File saved to: {filepath}", MessageType.Info);
-
             }
             if (filepath.EndsWith(".qmk", true, null))
             {
