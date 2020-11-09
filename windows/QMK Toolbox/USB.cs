@@ -129,6 +129,11 @@ namespace QMK_Toolbox
                 deviceName = "STM32 DFU";
                 _devicesAvailable[(int)Chipset.Stm32Dfu] += connected ? 1 : -1;
             }
+            else if (MatchVidPid(deviceId, 0x314b, 0x0106)) // APM32 DFU
+            {
+                deviceName = "APM32 DFU";
+                _devicesAvailable[(int)Chipset.Apm32] += connected ? 1 : -1;
+            }
             else if (MatchVidPid(deviceId, 0x1C11, 0xB007)) // Kiibohd
             {
                 deviceName = "Kiibohd";

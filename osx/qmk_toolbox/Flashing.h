@@ -26,6 +26,7 @@ typedef enum {
     USBTiny,
     USBAsp,
     BootloadHID,
+    APM32DFU,
     NumberOfChipsets
 } Chipset;
 
