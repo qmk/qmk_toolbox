@@ -117,7 +117,7 @@ namespace QMK_Toolbox
             else if (MatchVid(deviceId, 0x03EB) && atmelDfuPids.Contains(pid)) // Atmel DFU
             {
                 deviceName = "Atmel DFU";
-                _devicesAvailable[(int)Chipset.Dfu] += connected ? 1 : -1;
+                _devicesAvailable[(int)Chipset.AtmelDfu] += connected ? 1 : -1;
             }
             else if (MatchVidPid(deviceId, 0x16C0, 0x0478)) // PJRC Teensy
             {

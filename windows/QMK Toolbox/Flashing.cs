@@ -18,7 +18,7 @@ namespace QMK_Toolbox
 {
     public enum Chipset
     {
-        Dfu,
+        AtmelDfu,
         Halfkay,
         Caterina,
         Stm32,
@@ -135,8 +135,8 @@ namespace QMK_Toolbox
 
         public void Flash(string mcu, string file)
         {
-            if (Usb.CanFlash(Chipset.Dfu))
-                FlashDfu(mcu, file);
+            if (Usb.CanFlash(Chipset.AtmelDfu))
+                FlashAtmelDfu(mcu, file);
             if (Usb.CanFlash(Chipset.Caterina))
                 FlashCaterina(mcu, file);
             if (Usb.CanFlash(Chipset.Halfkay))
@@ -159,8 +159,8 @@ namespace QMK_Toolbox
 
         public void Reset(string mcu)
         {
-            if (Usb.CanFlash(Chipset.Dfu))
-                ResetDfu(mcu);
+            if (Usb.CanFlash(Chipset.AtmelDfu))
+                ResetAtmelDfu(mcu);
             if (Usb.CanFlash(Chipset.Halfkay))
                 ResetHalfkay(mcu);
             if (Usb.CanFlash(Chipset.BootloadHid))
@@ -172,7 +172,7 @@ namespace QMK_Toolbox
         public bool CanReset()
         {
             var resettable = new List<Chipset> {
-                Chipset.Dfu,
+                Chipset.AtmelDfu,
                 Chipset.Halfkay,
                 Chipset.BootloadHid,
                 Chipset.AtmelSamBa
@@ -187,24 +187,24 @@ namespace QMK_Toolbox
 
         public void ClearEeprom(string mcu)
         {
-            if (Usb.CanFlash(Chipset.Dfu))
-                ClearEepromDfu(mcu);
+            if (Usb.CanFlash(Chipset.AtmelDfu))
+                ClearEepromAtmelDfu(mcu);
             if (Usb.CanFlash(Chipset.Caterina))
                 ClearEepromCaterina(mcu);
             if (Usb.CanFlash(Chipset.UsbAsp))
                 ClearEepromUsbAsp(mcu);
         }
 
-        private void FlashDfu(string mcu, string file)
+        private void FlashAtmelDfu(string mcu, string file)
         {
             RunProcess("dfu-programmer.exe", $"{mcu} erase --force");
             RunProcess("dfu-programmer.exe", $"{mcu} flash --force \"{file}\"");
             RunProcess("dfu-programmer.exe", $"{mcu} reset");
         }
 
-        private void ResetDfu(string mcu) => RunProcess("dfu-programmer.exe", $"{mcu} reset");
+        private void ResetAtmelDfu(string mcu) => RunProcess("dfu-programmer.exe", $"{mcu} reset");
 
-        private void ClearEepromDfu(string mcu)
+        private void ClearEepromAtmelDfu(string mcu)
         {
             RunProcess("dfu-programmer.exe", $"{mcu} erase --force");
             RunProcess("dfu-programmer.exe", $"{mcu} flash --force --eeprom \"reset.eep\"");
