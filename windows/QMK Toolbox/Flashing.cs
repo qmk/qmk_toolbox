@@ -21,7 +21,7 @@ namespace QMK_Toolbox
         Dfu,
         Halfkay,
         Caterina,
-        Stm32,
+        Stm32Dfu,
         Kiibohd,
         AvrIsp,
         UsbAsp,
@@ -141,8 +141,8 @@ namespace QMK_Toolbox
                 FlashCaterina(mcu, file);
             if (Usb.CanFlash(Chipset.Halfkay))
                 FlashHalfkay(mcu, file);
-            if (Usb.CanFlash(Chipset.Stm32))
-                FlashStm32(mcu, file);
+            if (Usb.CanFlash(Chipset.Stm32Dfu))
+                FlashStm32Dfu(mcu, file);
             if (Usb.CanFlash(Chipset.Kiibohd))
                 FlashKiibohd(file);
             if (Usb.CanFlash(Chipset.AvrIsp))
@@ -221,7 +221,7 @@ namespace QMK_Toolbox
 
         private void ResetHalfkay(string mcu) => RunProcess("teensy_loader_cli.exe", $"-mmcu={mcu} -bv");
 
-        private void FlashStm32(string mcu, string file)
+        private void FlashStm32Dfu(string mcu, string file)
         {
             if (Path.GetExtension(file)?.ToLower() == ".bin") {
                 RunProcess("dfu-util.exe", $"-a 0 -d 0483:df11 -s 0x08000000:leave -D \"{file}\"");
