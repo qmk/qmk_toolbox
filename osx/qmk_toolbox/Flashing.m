@@ -168,7 +168,7 @@
 
 - (void)flashAPM32DFUWithFile:(NSString *)file {
     if([[[file pathExtension] lowercaseString] isEqualToString:@"bin"]) {
-        [self runProcess:@"dfu-util" withArgs:@[@"-a", @"0", @"-d", @"314b:0106", @"-s", @"0x8000000:leave", @"-D", file]];
+        [self runProcess:@"dfu-util" withArgs:@[@"-a", @"0", @"-d", @"314B:0106", @"-s", @"0x8000000:leave", @"-D", file]];
     } else {
         [_printer print:@"Only firmware files in .bin format can be flashed with dfu-util!" withType:MessageType_Error];
     }
