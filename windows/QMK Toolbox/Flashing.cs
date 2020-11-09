@@ -224,7 +224,7 @@ namespace QMK_Toolbox
         private void FlashStm32Dfu(string mcu, string file)
         {
             if (Path.GetExtension(file)?.ToLower() == ".bin") {
-                RunProcess("dfu-util.exe", $"-a 0 -d 0483:df11 -s 0x08000000:leave -D \"{file}\"");
+                RunProcess("dfu-util.exe", $"-a 0 -d 0483:DF11 -s 0x08000000:leave -D \"{file}\"");
             } else {
                 _printer.Print("Only firmware files in .bin format can be flashed with dfu-util!", MessageType.Error);
             }
