@@ -148,7 +148,7 @@ static void type##DeviceRemoved(void *refCon, io_iterator_t iterator) { \
     io_service_t    object; \
     while ((object = IOIteratorNext(iterator))) \
     { \
-        [_printer print:[NSString stringWithFormat:@"%@ %@", @(STR(type)), @"device disconnected"] withType:MessageType_Bootloader]; \
+        [_printer print:[NSString stringWithFormat:@"%@ %@", name, @"device disconnected"] withType:MessageType_Bootloader]; \
         deviceDisconnected(type); \
         kr = IOObjectRelease(object); \
         if (kr != kIOReturnSuccess) \
@@ -187,7 +187,7 @@ static void type##DeviceRemoved(void *refCon, io_iterator_t iterator) { \
     io_service_t    object; \
     while ((object = IOIteratorNext(iterator))) \
     { \
-        [_printer print:[NSString stringWithFormat:@"%@ %@", @(STR(type)), @"device disconnected"] withType:MessageType_Bootloader]; \
+        [_printer print:[NSString stringWithFormat:@"%@ %@", name, @"device disconnected"] withType:MessageType_Bootloader]; \
         deviceDisconnected(type); \
         kr = IOObjectRelease(object); \
         if (kr != kIOReturnSuccess) \
