@@ -18,7 +18,7 @@ QMK Toolbox supports the following bootloaders:
  - Atmel/LUFA/QMK DFU via [dfu-programmer](http://dfu-programmer.github.io/)
  - Caterina (Arduino, Pro Micro) via [avrdude](http://nongnu.org/avrdude/)
  - Halfkay (Teensy, Ergodox EZ) via [Teensy Loader](https://pjrc.com/teensy/loader_cli.html)
- - ARM DFU (STM32, Kiibohd) via [dfu-util](http://dfu-util.sourceforge.net/)
+ - ARM DFU (STM32, Kiibohd, STM32duino) via [dfu-util](http://dfu-util.sourceforge.net/)
  - Atmel SAM-BA (Massdrop) via [Massdrop Loader](https://github.com/massdrop/mdloader)
  - BootloadHID (Atmel, PS2AVRGB) via [bootloadHID](https://www.obdev.at/products/vusb/bootloadhid.html)
 

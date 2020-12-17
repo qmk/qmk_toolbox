@@ -149,6 +149,11 @@ namespace QMK_Toolbox
                 deviceName = "USB Tiny";
                 _devicesAvailable[(int)Chipset.UsbTiny] += connected ? 1 : -1;
             }
+            else if (MatchVidPid(deviceId, 0x1EAF, 0x0003)) // Detects STM32duino Bootloader
+            {
+                deviceName = "STM32duino";
+                _devicesAvailable[(int)Chipset.Stm32Duino] += connected ? 1 : -1;
+            }
             else
             {
                 return false;
