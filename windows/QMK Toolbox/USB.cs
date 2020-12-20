@@ -62,6 +62,7 @@ namespace QMK_Toolbox
             "9203", // Pro Micro 3V3/8MHz
             "9205", // Pro Micro 5V/16MHz
             "9207"  // LilyPad 3V3/8MHz (and some Pro Micro clones)
+            "9208"  // LilyPad 3V3/8MHz (and some Pro Micro clones)
         };
 
         private static string[] atmelDfuPids =
