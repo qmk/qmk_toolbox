@@ -7,18 +7,15 @@
 //
 
 #import "USB.h"
-#import <IOKit/usb/IOUSBLib.h>
-#include <IOKit/IOKitLib.h>
+#include <IOKit/usb/IOUSBLib.h>
 #include <IOKit/serial/IOSerialKeys.h>
-#include <IOKit/IOBSD.h>
 
-#define FILEPATH_SIZE 64
 #define DEFINE_ITER(type) \
-static io_iterator_t            g##type##AddedIter; \
-static io_iterator_t            g##type##RemovedIter
+static io_iterator_t g##type##AddedIter; \
+static io_iterator_t g##type##RemovedIter
 
 //Global variables
-static IONotificationPortRef    gNotifyPort;
+static IONotificationPortRef gNotifyPort;
 DEFINE_ITER(AtmelSAMBA);
 DEFINE_ITER(AtmelDFU);
 DEFINE_ITER(Caterina);
@@ -50,27 +47,27 @@ static int devicesAvailable[NumberOfChipsets];
     // https://developer.apple.com/library/content/documentation/DeviceDrivers/Conceptual/USBBook/USBDeviceInterfaces/USBDevInterfaces.html#//apple_ref/doc/uid/TP40002645-TPXREF101
 
     _printer = printer;
-    mach_port_t             masterPort;
-    CFMutableDictionaryRef  AtmelSAMBAMatchingDict;
-    CFMutableDictionaryRef  AtmelDFUMatchingDict;
-    CFMutableDictionaryRef  CaterinaMatchingDict;
-    CFMutableDictionaryRef  SparkfunVIDMatchingDict;
-    CFMutableDictionaryRef  DogHunterVIDMatchingDict;
-    CFMutableDictionaryRef  PololuVIDMatchingDict;
-    CFMutableDictionaryRef  AdafruitVIDMatchingDict;
-    CFMutableDictionaryRef  HalfkayMatchingDict;
-    CFMutableDictionaryRef  STM32DFUMatchingDict;
-    CFMutableDictionaryRef  STM32DuinoMatchingDict;
-    CFMutableDictionaryRef  KiibohdMatchingDict;
-    CFMutableDictionaryRef  AVRISPMatchingDict;
-    CFMutableDictionaryRef  USBAspMatchingDict;
-    CFMutableDictionaryRef  USBTinyMatchingDict;
-    CFMutableDictionaryRef  BootloadHIDMatchingDict;
-    CFMutableDictionaryRef  APM32DFUMatchingDict;
-    CFRunLoopSourceRef      runLoopSource;
-    kern_return_t           kr;
-    SInt32                  usbVendor;
-    SInt32                  usbProduct;
+    mach_port_t            masterPort;
+    CFMutableDictionaryRef AtmelSAMBAMatchingDict;
+    CFMutableDictionaryRef AtmelDFUMatchingDict;
+    CFMutableDictionaryRef CaterinaMatchingDict;
+    CFMutableDictionaryRef SparkfunVIDMatchingDict;
+    CFMutableDictionaryRef DogHunterVIDMatchingDict;
+    CFMutableDictionaryRef PololuVIDMatchingDict;
+    CFMutableDictionaryRef AdafruitVIDMatchingDict;
+    CFMutableDictionaryRef HalfkayMatchingDict;
+    CFMutableDictionaryRef STM32DFUMatchingDict;
+    CFMutableDictionaryRef STM32DuinoMatchingDict;
+    CFMutableDictionaryRef KiibohdMatchingDict;
+    CFMutableDictionaryRef AVRISPMatchingDict;
+    CFMutableDictionaryRef USBAspMatchingDict;
+    CFMutableDictionaryRef USBTinyMatchingDict;
+    CFMutableDictionaryRef BootloadHIDMatchingDict;
+    CFMutableDictionaryRef APM32DFUMatchingDict;
+    CFRunLoopSourceRef     runLoopSource;
+    kern_return_t          kr;
+    SInt32                 usbVendor;
+    SInt32                 usbProduct;
 
     //Create a master port for communication with the I/O Kit
     kr = IOMasterPort(MACH_PORT_NULL, &masterPort);
@@ -145,20 +142,18 @@ dest##DeviceRemoved(NULL, g##dest##RemovedIter)
 static void type##DeviceAdded(void *refCon, io_iterator_t iterator) { \
     io_service_t object; \
     while ((object = IOIteratorNext(iterator))) { \
-        [_printer print:[NSString stringWithFormat:@"%@ %@", name, @"device connected"] withType:MessageType_Bootloader]; \
+        [USB eventMessageForDevice: object withName: name connected: YES]; \
         deviceConnected(type); \
     } \
 } \
 static void type##DeviceRemoved(void *refCon, io_iterator_t iterator) { \
-    kern_return_t   kr; \
-    io_service_t    object; \
-    while ((object = IOIteratorNext(iterator))) \
-    { \
-        [_printer print:[NSString stringWithFormat:@"%@ %@", name, @"device disconnected"] withType:MessageType_Bootloader]; \
+    kern_return_t kr; \
+    io_service_t object; \
+    while ((object = IOIteratorNext(iterator))) { \
+        [USB eventMessageForDevice: object withName: name connected: NO]; \
         deviceDisconnected(type); \
         kr = IOObjectRelease(object); \
-        if (kr != kIOReturnSuccess) \
-        { \
+        if (kr != kIOReturnSuccess) { \
             printf("Couldn’t release raw device object: %08x\n", kr); \
             continue; \
         } \
@@ -168,40 +163,117 @@ static void type##DeviceRemoved(void *refCon, io_iterator_t iterator) { \
 static void type##DeviceAdded(void *refCon, io_iterator_t iterator) { \
     io_service_t    object; \
     while ((object = IOIteratorNext(iterator))) { \
-        double delayInSeconds = 2.; \
+        double delayInSeconds = 1.; \
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC)); \
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){ \
-            [_printer print:[NSString stringWithFormat:@"%@ %@", name, @"device connected"] withType:MessageType_Bootloader]; \
+            NSString * devicePort = [USB calloutDeviceForDevice: object]; \
+            [USB eventMessageForDevice: object withName: name withPort: devicePort connected: YES]; \
+            [delegate setSerialPort: devicePort]; \
             deviceConnected(type); \
-            io_iterator_t serialPortIterator; \
-            char deviceFilePath[FILEPATH_SIZE]; \
-            MyFindModems(&serialPortIterator); \
-            MyGetModemPath(serialPortIterator, deviceFilePath, sizeof(deviceFilePath)); \
-            if (!deviceFilePath[0]) { \
-                printf("No modem port found.\n"); \
-                [_printer printResponse:@"No modem port found, try again." withType:MessageType_Bootloader]; \
-            } else { \
-                [delegate setSerialPort:[NSString stringWithFormat:@"%s", deviceFilePath]]; \
-                [_printer printResponse:[NSString stringWithFormat:@"Found port: %s", deviceFilePath] withType:MessageType_Bootloader]; \
-            } \
-            IOObjectRelease(serialPortIterator); \
         }); \
     } \
 } \
 static void type##DeviceRemoved(void *refCon, io_iterator_t iterator) { \
-    kern_return_t   kr; \
-    io_service_t    object; \
-    while ((object = IOIteratorNext(iterator))) \
-    { \
-        [_printer print:[NSString stringWithFormat:@"%@ %@", name, @"device disconnected"] withType:MessageType_Bootloader]; \
+    kern_return_t kr; \
+    io_service_t object; \
+    while ((object = IOIteratorNext(iterator))) { \
+        [USB eventMessageForDevice: object withName: name connected: NO]; \
         deviceDisconnected(type); \
         kr = IOObjectRelease(object); \
-        if (kr != kIOReturnSuccess) \
-        { \
+        if (kr != kIOReturnSuccess) { \
             printf("Couldn’t release raw device object: %08x\n", kr); \
             continue; \
         } \
     } \
+}
+
++ (NSString *) stringProperty: (CFStringRef) property forDevice: (io_service_t) device {
+    CFStringRef cfProperty = IORegistryEntryCreateCFProperty(device, property, kCFAllocatorDefault, kNilOptions);
+    if (cfProperty != nil) {
+        NSString * nsProperty = (__bridge NSString *)(cfProperty);
+        CFRelease(cfProperty);
+        return nsProperty;
+    }
+    return nil;
+}
+
++ (NSString *) vendorStringForDevice: (io_service_t) device {
+    return [USB stringProperty: CFSTR(kUSBVendorString) forDevice: device];
+}
+
++ (NSString *) productStringForDevice: (io_service_t) device {
+    return [USB stringProperty: CFSTR(kUSBProductString) forDevice: device];
+}
+
++ (NSString *) calloutDeviceForDevice: (io_service_t) device {
+    CFMutableDictionaryRef serialMatcher = IOServiceMatching(kIOSerialBSDServiceValue);
+    CFDictionarySetValue(serialMatcher, CFSTR(kIOSerialBSDTypeKey), CFSTR(kIOSerialBSDAllTypes));
+
+    io_iterator_t serialIterator;
+    IOServiceGetMatchingServices(kIOMasterPortDefault, serialMatcher, &serialIterator);
+
+    io_service_t port;
+    while ((port = IOIteratorNext(serialIterator))) {
+        io_service_t parent;
+        IORegistryEntryGetParentEntry(port, kIOServicePlane, &parent);
+
+        NSNumber * parentVendorID = [USB vendorIDForDevice: parent];
+        NSNumber * childVendorID = [USB vendorIDForDevice: device];
+        NSNumber * parentProductID = [USB productIDForDevice: parent];
+        NSNumber * childProductID = [USB productIDForDevice: device];
+
+        if (parentVendorID != nil) {
+            if ([parentVendorID isEqualTo: childVendorID] && [parentProductID isEqualTo: childProductID]) {
+                return [USB stringProperty: CFSTR(kIOCalloutDeviceKey) forDevice: port];
+            }
+        }
+    }
+    return nil;
+}
+
++ (NSNumber *) shortProperty: (CFStringRef) property forDevice: (io_service_t) device {
+    CFNumberRef cfProperty = IORegistryEntryCreateCFProperty(device, property, kCFAllocatorDefault, kNilOptions);
+    if (cfProperty != nil) {
+        NSNumber * nsProperty = (__bridge NSNumber *)(cfProperty);
+        CFRelease(cfProperty);
+        return nsProperty;
+    }
+    return nil;
+}
+
++ (NSNumber *) vendorIDForDevice: (io_service_t) device {
+    return [USB shortProperty: CFSTR(kUSBVendorID) forDevice: device];
+}
+
++ (NSNumber *) productIDForDevice: (io_service_t) device {
+    return [USB shortProperty: CFSTR(kUSBProductID) forDevice: device];
+}
+
++ (NSNumber *) revisionBCDForDevice: (io_service_t) device {
+    return [USB shortProperty: CFSTR(kUSBDeviceReleaseNumber) forDevice: device];
+}
+
++ (void) eventMessageForDevice: (io_service_t) device withName: (NSString *) name connected: (BOOL) connected {
+    [USB eventMessageForDevice: device withName: name withPort: nil connected: connected];
+}
+
++ (void) eventMessageForDevice: (io_service_t) device withName: (NSString *) name withPort: (NSString *) port connected: (BOOL) connected {
+    NSString * portString = @"";
+    if (port != nil) {
+        portString = [NSString stringWithFormat: @" [%@]", port];
+    }
+
+    [_printer print: [NSString stringWithFormat:
+        @"%@ device %@: %@ %@ (%04X:%04X:%04X)%@",
+        name,
+        connected ? @"connected" : @"disconnected",
+        [USB vendorStringForDevice: device],
+        [USB productStringForDevice: device],
+        [[USB vendorIDForDevice: device] unsignedShortValue],
+        [[USB productIDForDevice: device] unsignedShortValue],
+        [[USB revisionBCDForDevice: device] unsignedShortValue],
+        portString
+    ] withType: MessageType_Bootloader];
 }
 
 DEVICE_EVENTS_PORT(AtmelSAMBA, @"Atmel SAM-BA");
@@ -216,108 +288,6 @@ DEVICE_EVENTS(USBAsp, @"USBAsp");
 DEVICE_EVENTS(USBTiny, @"USBTiny");
 DEVICE_EVENTS(BootloadHID, @"BootloadHID");
 DEVICE_EVENTS(APM32DFU, @"APM32 DFU");
-
-static kern_return_t MyFindModems(io_iterator_t *matchingServices)
-{
-    kern_return_t       kernResult;
-    mach_port_t         masterPort;
-    CFMutableDictionaryRef  classesToMatch;
-
-    kernResult = IOMasterPort(MACH_PORT_NULL, &masterPort);
-    if (KERN_SUCCESS != kernResult)
-    {
-        printf("IOMasterPort returned %d\n", kernResult);
-        goto exit;
-    }
-
-    // Serial devices are instances of class IOSerialBSDClient.
-    classesToMatch = IOServiceMatching(kIOSerialBSDServiceValue);
-    if (classesToMatch == NULL)
-    {
-        printf("IOServiceMatching returned a NULL dictionary.\n");
-    }
-    else {
-        CFDictionarySetValue(classesToMatch,
-                             CFSTR(kIOSerialBSDTypeKey),
-                             CFSTR(kIOSerialBSDAllTypes));
-
-        // Each serial device object has a property with key
-        // kIOSerialBSDTypeKey and a value that is one of
-        // kIOSerialBSDAllTypes, kIOSerialBSDModemType,
-        // or kIOSerialBSDRS232Type. You can change the
-        // matching dictionary to find other types of serial
-        // devices by changing the last parameter in the above call
-        // to CFDictionarySetValue.
-    }
-
-    kernResult = IOServiceGetMatchingServices(masterPort, classesToMatch, matchingServices);
-    if (KERN_SUCCESS != kernResult)
-    {
-        printf("IOServiceGetMatchingServices returned %d\n", kernResult);
-        goto exit;
-    }
-
-exit:
-    return kernResult;
-}
-
-static kern_return_t MyGetModemPath(io_iterator_t serialPortIterator, char *deviceFilePath, CFIndex maxPathSize)
-{
-    io_object_t     modemService;
-    kern_return_t   kernResult = KERN_FAILURE;
-
-    // Initialize the returned path
-    *deviceFilePath = '\0';
-
-    // Iterate across all modems found. In this example, we exit after
-    // finding the first modem.
-
-    while ((modemService = IOIteratorNext(serialPortIterator)))
-    {
-        CFTypeRef   deviceFilePathAsCFString;
-
-        // Get the callout device's path (/dev/cu.xxxxx).
-        // The callout device should almost always be
-        // used. You would use the dialin device (/dev/tty.xxxxx) when
-        // monitoring a serial port for
-        // incoming calls, for example, a fax listener.
-
-        deviceFilePathAsCFString = IORegistryEntryCreateCFProperty(modemService,
-                                                                   CFSTR(kIOCalloutDeviceKey),
-                                                                   kCFAllocatorDefault,
-                                                                   0);
-        if (deviceFilePathAsCFString)
-        {
-            Boolean result;
-
-            // Convert the path from a CFString to a NULL-terminated C string
-            // for use with the POSIX open() call.
-            char testDeviceFilePath[FILEPATH_SIZE];
-            result = CFStringGetCString(deviceFilePathAsCFString,
-                                        testDeviceFilePath,
-                                        maxPathSize,
-                                        kCFStringEncodingASCII);
-            CFRelease(deviceFilePathAsCFString);
-
-            if (result)
-            {
-                NSString *testDevice = [NSString stringWithUTF8String:testDeviceFilePath];
-                if ([testDevice rangeOfString:@"usbmodem"].location != NSNotFound) {
-                    memcpy(deviceFilePath, testDeviceFilePath, FILEPATH_SIZE);
-                    printf("BSD path: %s\n", deviceFilePath);
-                    kernResult = KERN_SUCCESS;
-                } else {
-                    printf("BSD path (ignored): %s\n", testDeviceFilePath);
-                    continue;
-                }
-            }
-        }
-        // Release the io_service_t now that we are done with it.
-        IOObjectRelease(modemService);
-    }
-
-    return kernResult;
-}
 
 static void deviceConnected(Chipset chipset) {
     devicesAvailable[chipset]+=1;
