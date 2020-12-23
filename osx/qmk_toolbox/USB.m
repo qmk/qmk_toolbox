@@ -142,7 +142,7 @@ dest##DeviceRemoved(NULL, g##dest##RemovedIter)
 static void type##DeviceAdded(void *refCon, io_iterator_t iterator) { \
     io_service_t object; \
     while ((object = IOIteratorNext(iterator))) { \
-        [USB eventMessageForDevice: object withName: name connected: YES]; \
+        [USB eventMessageForDevice:object withName:name connected:YES]; \
         deviceConnected(type); \
     } \
 } \
@@ -150,7 +150,7 @@ static void type##DeviceRemoved(void *refCon, io_iterator_t iterator) { \
     kern_return_t kr; \
     io_service_t object; \
     while ((object = IOIteratorNext(iterator))) { \
-        [USB eventMessageForDevice: object withName: name connected: NO]; \
+        [USB eventMessageForDevice:object withName:name connected:NO]; \
         deviceDisconnected(type); \
         kr = IOObjectRelease(object); \
         if (kr != kIOReturnSuccess) { \
@@ -161,14 +161,14 @@ static void type##DeviceRemoved(void *refCon, io_iterator_t iterator) { \
 }
 #define DEVICE_EVENTS_PORT(type, name) \
 static void type##DeviceAdded(void *refCon, io_iterator_t iterator) { \
-    io_service_t    object; \
+    io_service_t object; \
     while ((object = IOIteratorNext(iterator))) { \
         double delayInSeconds = 1.; \
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC)); \
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){ \
-            NSString * devicePort = [USB calloutDeviceForDevice: object]; \
-            [USB eventMessageForDevice: object withName: name withPort: devicePort connected: YES]; \
-            [delegate setSerialPort: devicePort]; \
+            NSString *devicePort = [USB calloutDeviceForDevice:object]; \
+            [USB eventMessageForDevice:object withName:name withPort:devicePort connected:YES]; \
+            [delegate setSerialPort:devicePort]; \
             deviceConnected(type); \
         }); \
     } \
@@ -177,7 +177,7 @@ static void type##DeviceRemoved(void *refCon, io_iterator_t iterator) { \
     kern_return_t kr; \
     io_service_t object; \
     while ((object = IOIteratorNext(iterator))) { \
-        [USB eventMessageForDevice: object withName: name connected: NO]; \
+        [USB eventMessageForDevice:object withName:name connected:NO]; \
         deviceDisconnected(type); \
         kr = IOObjectRelease(object); \
         if (kr != kIOReturnSuccess) { \
@@ -187,25 +187,25 @@ static void type##DeviceRemoved(void *refCon, io_iterator_t iterator) { \
     } \
 }
 
-+ (NSString *) stringProperty: (CFStringRef) property forDevice: (io_service_t) device {
++ (NSString *)stringProperty:(CFStringRef)property forDevice:(io_service_t)device {
     CFStringRef cfProperty = IORegistryEntryCreateCFProperty(device, property, kCFAllocatorDefault, kNilOptions);
     if (cfProperty != nil) {
-        NSString * nsProperty = (__bridge NSString *)(cfProperty);
+        NSString *nsProperty = (__bridge NSString *)(cfProperty);
         CFRelease(cfProperty);
         return nsProperty;
     }
     return nil;
 }
 
-+ (NSString *) vendorStringForDevice: (io_service_t) device {
-    return [USB stringProperty: CFSTR(kUSBVendorString) forDevice: device];
++ (NSString *)vendorStringForDevice:(io_service_t)device {
+    return [USB stringProperty:CFSTR(kUSBVendorString) forDevice:device];
 }
 
-+ (NSString *) productStringForDevice: (io_service_t) device {
-    return [USB stringProperty: CFSTR(kUSBProductString) forDevice: device];
++ (NSString *)productStringForDevice:(io_service_t)device {
+    return [USB stringProperty:CFSTR(kUSBProductString) forDevice:device];
 }
 
-+ (NSString *) calloutDeviceForDevice: (io_service_t) device {
++ (NSString *)calloutDeviceForDevice:(io_service_t)device {
     CFMutableDictionaryRef serialMatcher = IOServiceMatching(kIOSerialBSDServiceValue);
     CFDictionarySetValue(serialMatcher, CFSTR(kIOSerialBSDTypeKey), CFSTR(kIOSerialBSDAllTypes));
 
@@ -217,63 +217,63 @@ static void type##DeviceRemoved(void *refCon, io_iterator_t iterator) { \
         io_service_t parent;
         IORegistryEntryGetParentEntry(port, kIOServicePlane, &parent);
 
-        NSNumber * parentVendorID = [USB vendorIDForDevice: parent];
-        NSNumber * childVendorID = [USB vendorIDForDevice: device];
-        NSNumber * parentProductID = [USB productIDForDevice: parent];
-        NSNumber * childProductID = [USB productIDForDevice: device];
+        NSNumber *parentVendorID = [USB vendorIDForDevice:parent];
+        NSNumber *childVendorID = [USB vendorIDForDevice:device];
+        NSNumber *parentProductID = [USB productIDForDevice:parent];
+        NSNumber *childProductID = [USB productIDForDevice:device];
 
         if (parentVendorID != nil) {
-            if ([parentVendorID isEqualTo: childVendorID] && [parentProductID isEqualTo: childProductID]) {
-                return [USB stringProperty: CFSTR(kIOCalloutDeviceKey) forDevice: port];
+            if ([parentVendorID isEqualTo:childVendorID] && [parentProductID isEqualTo:childProductID]) {
+                return [USB stringProperty:CFSTR(kIOCalloutDeviceKey) forDevice:port];
             }
         }
     }
     return nil;
 }
 
-+ (NSNumber *) shortProperty: (CFStringRef) property forDevice: (io_service_t) device {
++ (NSNumber *)shortProperty:(CFStringRef)property forDevice:(io_service_t)device {
     CFNumberRef cfProperty = IORegistryEntryCreateCFProperty(device, property, kCFAllocatorDefault, kNilOptions);
     if (cfProperty != nil) {
-        NSNumber * nsProperty = (__bridge NSNumber *)(cfProperty);
+        NSNumber *nsProperty = (__bridge NSNumber *)(cfProperty);
         CFRelease(cfProperty);
         return nsProperty;
     }
     return nil;
 }
 
-+ (NSNumber *) vendorIDForDevice: (io_service_t) device {
-    return [USB shortProperty: CFSTR(kUSBVendorID) forDevice: device];
++ (NSNumber *)vendorIDForDevice:(io_service_t)device {
+    return [USB shortProperty:CFSTR(kUSBVendorID) forDevice:device];
 }
 
-+ (NSNumber *) productIDForDevice: (io_service_t) device {
-    return [USB shortProperty: CFSTR(kUSBProductID) forDevice: device];
++ (NSNumber *)productIDForDevice:(io_service_t)device {
+    return [USB shortProperty:CFSTR(kUSBProductID) forDevice:device];
 }
 
-+ (NSNumber *) revisionBCDForDevice: (io_service_t) device {
-    return [USB shortProperty: CFSTR(kUSBDeviceReleaseNumber) forDevice: device];
++ (NSNumber *)revisionBCDForDevice:(io_service_t)device {
+    return [USB shortProperty:CFSTR(kUSBDeviceReleaseNumber) forDevice:device];
 }
 
-+ (void) eventMessageForDevice: (io_service_t) device withName: (NSString *) name connected: (BOOL) connected {
-    [USB eventMessageForDevice: device withName: name withPort: nil connected: connected];
++ (void)eventMessageForDevice:(io_service_t)device withName:(NSString *)name connected:(BOOL)connected {
+    [USB eventMessageForDevice:device withName:name withPort:nil connected:connected];
 }
 
-+ (void) eventMessageForDevice: (io_service_t) device withName: (NSString *) name withPort: (NSString *) port connected: (BOOL) connected {
-    NSString * portString = @"";
++ (void)eventMessageForDevice:(io_service_t)device withName:(NSString *)name withPort:(NSString *)port connected:(BOOL)connected {
+    NSString *portString = @"";
     if (port != nil) {
-        portString = [NSString stringWithFormat: @" [%@]", port];
+        portString = [NSString stringWithFormat:@" [%@]", port];
     }
 
-    [_printer print: [NSString stringWithFormat:
+    [_printer print:[NSString stringWithFormat:
         @"%@ device %@: %@ %@ (%04X:%04X:%04X)%@",
         name,
         connected ? @"connected" : @"disconnected",
-        [USB vendorStringForDevice: device],
-        [USB productStringForDevice: device],
-        [[USB vendorIDForDevice: device] unsignedShortValue],
-        [[USB productIDForDevice: device] unsignedShortValue],
-        [[USB revisionBCDForDevice: device] unsignedShortValue],
+        [USB vendorStringForDevice:device],
+        [USB productStringForDevice:device],
+        [[USB vendorIDForDevice:device] unsignedShortValue],
+        [[USB productIDForDevice:device] unsignedShortValue],
+        [[USB revisionBCDForDevice:device] unsignedShortValue],
         portString
-    ] withType: MessageType_Bootloader];
+    ] withType:MessageType_Bootloader];
 }
 
 DEVICE_EVENTS_PORT(AtmelSAMBA, @"Atmel SAM-BA");
@@ -299,7 +299,7 @@ static void deviceDisconnected(Chipset chipset) {
     [delegate deviceDisconnected:chipset];
 }
 
-+ (BOOL) areDevicesAvailable {
++ (BOOL)areDevicesAvailable {
     BOOL available = NO;
     for (int i = 0; i < NumberOfChipsets; i++) {
         available |= devicesAvailable[i];
@@ -307,7 +307,7 @@ static void deviceDisconnected(Chipset chipset) {
     return available;
 }
 
-+ (BOOL) canFlash:(Chipset) chipset {
++ (BOOL)canFlash:(Chipset)chipset {
     return (devicesAvailable[chipset] > 0);
 }
 
