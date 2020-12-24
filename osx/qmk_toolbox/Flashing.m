@@ -174,7 +174,7 @@
 
 - (void)flashSTM32DuinoWithFile:(NSString *)file {
     if([[[file pathExtension] lowercaseString] isEqualToString:@"bin"]) {
-        [self runProcess:@"dfu-util" withArgs:@[@"-a", @"2", @"-d", @"1eaf:0003", @"-R", @"-D", file]];
+        [self runProcess:@"dfu-util" withArgs:@[@"-a", @"2", @"-d", @"1EAF:0003", @"-R", @"-D", file]];
     } else {
         [_printer print:@"Only firmware files in .bin format can be flashed with dfu-util!" withType:MessageType_Error];
     }
