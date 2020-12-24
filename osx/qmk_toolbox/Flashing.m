@@ -61,6 +61,8 @@
         [self flashSTM32DFUWithFile:file];
     if ([USB canFlash:Kiibohd])
         [self flashKiibohdWithFile:file];
+    if ([USB canFlash:STM32Duino])
+        [self flashSTM32DuinoWithFile:file];
     if ([USB canFlash:AVRISP])
         [self flashAVRISP:mcu withFile:file];
     if ([USB canFlash:USBAsp])
@@ -165,6 +167,14 @@
 - (void)flashKiibohdWithFile:(NSString *)file {
     if([[[file pathExtension] lowercaseString] isEqualToString:@"bin"]) {
         [self runProcess:@"dfu-util" withArgs:@[@"-D", file]];
+    } else {
+        [_printer print:@"Only firmware files in .bin format can be flashed with dfu-util!" withType:MessageType_Error];
+    }
+}
+
+- (void)flashSTM32DuinoWithFile:(NSString *)file {
+    if([[[file pathExtension] lowercaseString] isEqualToString:@"bin"]) {
+        [self runProcess:@"dfu-util" withArgs:@[@"-a", @"2", @"-d", @"1EAF:0003", @"-R", @"-D", file]];
     } else {
         [_printer print:@"Only firmware files in .bin format can be flashed with dfu-util!" withType:MessageType_Error];
     }

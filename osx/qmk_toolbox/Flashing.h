@@ -21,6 +21,7 @@ typedef enum {
     DogHunterVID,
     STM32DFU,
     Kiibohd,
+    STM32Duino,
     AVRISP,
     USBTiny,
     USBAsp,
