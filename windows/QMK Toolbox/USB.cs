@@ -32,46 +32,40 @@ namespace QMK_Toolbox
             return found;
         }
 
-        private static bool MatchVid(string did, ushort vid) => Regex.Match(did, $"USB\\\\VID_{vid:X4}.*").Success;
-
-        private static bool MatchVidPid(string did, ushort vid, ushort pid) => Regex.Match(did, $"USB\\\\VID_{vid:X4}&PID_{pid:X4}.*").Success;
-
-        private static bool MatchRev(string did, ushort rev) => Regex.Match(did, $"USB\\\\.+REV_{rev:X4}.*").Success;
-
-        private static string[] caterinaVids =
+        private static UInt16[] caterinaVids =
         {
-            "1B4F", // Spark Fun Electronics
-            "1FFB", // Pololu Electronics
-            "2341", // Arduino SA
-            "239A", // Adafruit Industries LLC
-            "2A03"  // dog hunter AG
+            0x1B4F, // Spark Fun Electronics
+            0x1FFB, // Pololu Electronics
+            0x2341, // Arduino SA
+            0x239A, // Adafruit Industries LLC
+            0x2A03  // dog hunter AG
         };
 
-        private static string[] caterinaPids =
+        private static UInt16[] caterinaPids =
         {
             // Adafruit Industries LLC
-            "000C", // Feather 32U4
-            "000D", // ItsyBitsy 32U4 3V3/8MHz
-            "000E", // ItsyBitsy 32U4 5V/16MHz
+            0x000C, // Feather 32U4
+            0x000D, // ItsyBitsy 32U4 3V3/8MHz
+            0x000E, // ItsyBitsy 32U4 5V/16MHz
             // Arduino SA / dog hunter AG
-            "0036", // Leonardo
-            "0037", // Micro
+            0x0036, // Leonardo
+            0x0037, // Micro
             // Pololu Electronics
-            "0101", // A-Star 32U4
+            0x0101, // A-Star 32U4
             // Spark Fun Electronics
-            "9203", // Pro Micro 3V3/8MHz
-            "9205", // Pro Micro 5V/16MHz
-            "9207"  // LilyPad 3V3/8MHz (and some Pro Micro clones)
+            0x9203, // Pro Micro 3V3/8MHz
+            0x9205, // Pro Micro 5V/16MHz
+            0x9207  // LilyPad 3V3/8MHz (and some Pro Micro clones)
         };
 
-        private static string[] atmelDfuPids =
+        private static UInt16[] atmelDfuPids =
         {
-            "2FEF", // ATmega16U2
-            "2FF0", // ATmega32U2
-            "2FF3", // ATmega16U4
-            "2FF4", // ATmega32U4
-            "2FF9", // AT90USB64
-            "2FFB"  // AT90USB128
+            0x2FEF, // ATmega16U2
+            0x2FF0, // ATmega32U2
+            0x2FF3, // ATmega16U4
+            0x2FF4, // ATmega32U4
+            0x2FF9, // AT90USB64
+            0x2FFB  // AT90USB128
         };
 
         public bool DetectBootloader(ManagementBaseObject instance, bool connected = true)
@@ -79,98 +73,104 @@ namespace QMK_Toolbox
             var deviceId = GetHardwareId(instance);
 
             var vpr = DeviceIdRegex.Match(deviceId);
-            var vid = vpr.Groups[1].ToString().PadLeft(4, '0');
-            var pid = vpr.Groups[2].ToString().PadLeft(4, '0');
-            var rev = vpr.Groups[3].ToString().PadLeft(4, '0');
-
-            string deviceName;
-            string comPort = null;
-            string driverName = GetDriverName(instance);
-
-            if (IsSerialDevice(instance))
+            if (vpr.Success)
             {
-                comPort = GetComPort(instance);
+                var vendorId = Convert.ToUInt16(vpr.Groups[1].ToString(), 16);
+                var productId = Convert.ToUInt16(vpr.Groups[2].ToString(), 16);
+                var revisionBcd = Convert.ToUInt16(vpr.Groups[3].ToString(), 16);
 
-                if (MatchVidPid(deviceId, 0x03EB, 0x6124)) // Atmel SAM-BA
+                string deviceName;
+                string comPort = null;
+                string driverName = GetDriverName(instance);
+                Chipset deviceType;
+
+                if (IsSerialDevice(instance))
                 {
-                    deviceName = "Atmel SAM-BA";
+                    if (vendorId == 0x03EB && productId == 0x6124) // Atmel SAM-BA
+                    {
+                        deviceName = "Atmel SAM-BA";
+                        deviceType = Chipset.AtmelSamBa;
+                    }
+                    else if (caterinaVids.Contains(vendorId) && caterinaPids.Contains(productId)) // Caterina
+                    {
+                        deviceName = "Caterina";
+                        deviceType = Chipset.Caterina;
+                    }
+                    else if (vendorId == 0x16C0 && productId == 0x0483) // ArduinoISP/AVRISP
+                    {
+                        deviceName = "AVRISP";
+                        deviceType = Chipset.AvrIsp;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                    comPort = GetComPort(instance);
                     _flasher.ComPort = comPort;
-                    _devicesAvailable[(int)Chipset.AtmelSamBa] += connected ? 1 : -1;
                 }
-                else if (caterinaVids.Contains(vid) && caterinaPids.Contains(pid)) // Caterina
+                else if (vendorId == 0x03EB && atmelDfuPids.Contains(productId)) // Atmel DFU
                 {
-                    deviceName = "Caterina";
-                    _flasher.ComPort = comPort;
-                    _devicesAvailable[(int)Chipset.Caterina] += connected ? 1 : -1;
+                    deviceName = "Atmel DFU";
+                    deviceType = Chipset.AtmelDfu;
                 }
-                else if (MatchVidPid(deviceId, 0x16C0, 0x0483)) // ArduinoISP/AVRISP
+                else if (vendorId == 0x16C0 && productId == 0x0478) // PJRC Teensy
                 {
-                    deviceName = "AVRISP";
-                    _flasher.ComPort = comPort;
-                    _devicesAvailable[(int)Chipset.AvrIsp] += connected ? 1 : -1;
+                    deviceName = "Halfkay";
+                    deviceType = Chipset.Halfkay;
+                }
+                else if (vendorId == 0x0483 && productId == 0xDF11) // STM32 DFU
+                {
+                    deviceName = "STM32 DFU";
+                    deviceType = Chipset.Stm32Dfu;
+                }
+                else if (vendorId == 0x314B && productId == 0x0106) // APM32 DFU
+                {
+                    deviceName = "APM32 DFU";
+                    deviceType = Chipset.Apm32Dfu;
+                }
+                else if (vendorId == 0x1C11 && productId == 0xB007) // Kiibohd
+                {
+                    deviceName = "Kiibohd";
+                    deviceType = Chipset.Kiibohd;
+                }
+                else if (vendorId == 0x16C0 && productId == 0x05DF) // Objective Development BootloadHID
+                {
+                    deviceName = "BootloadHID";
+                    deviceType = Chipset.BootloadHid;
+                }
+                else if (vendorId == 0x16C0 && productId == 0x05DC) // USBasp and USBaspLoader
+                {
+                    deviceName = "USBasp";
+                    deviceType = Chipset.UsbAsp;
+                }
+                else if (vendorId == 0x1781 && productId == 0x0C9F) // AVR Pocket ISP
+                {
+                    deviceName = "USB Tiny";
+                    deviceType = Chipset.UsbTiny;
+                }
+                else if (vendorId == 0x1EAF && productId == 0x0003) // STM32Duino
+                {
+                    deviceName = "STM32Duino";
+                    deviceType = Chipset.Stm32Duino;
                 }
                 else
                 {
                     return false;
                 }
-            }
-            else if (MatchVid(deviceId, 0x03EB) && atmelDfuPids.Contains(pid)) // Atmel DFU
-            {
-                deviceName = "Atmel DFU";
-                _devicesAvailable[(int)Chipset.AtmelDfu] += connected ? 1 : -1;
-            }
-            else if (MatchVidPid(deviceId, 0x16C0, 0x0478)) // PJRC Teensy
-            {
-                deviceName = "Halfkay";
-                _devicesAvailable[(int)Chipset.Halfkay] += connected ? 1 : -1;
-            }
-            else if (MatchVidPid(deviceId, 0x0483, 0xDF11)) // STM32 DFU
-            {
-                deviceName = "STM32 DFU";
-                _devicesAvailable[(int)Chipset.Stm32Dfu] += connected ? 1 : -1;
-            }
-            else if (MatchVidPid(deviceId, 0x314B, 0x0106)) // APM32 DFU
-            {
-                deviceName = "APM32 DFU";
-                _devicesAvailable[(int)Chipset.Apm32Dfu] += connected ? 1 : -1;
-            }
-            else if (MatchVidPid(deviceId, 0x1C11, 0xB007)) // Kiibohd
-            {
-                deviceName = "Kiibohd";
-                _devicesAvailable[(int)Chipset.Kiibohd] += connected ? 1 : -1;
-            }
-            else if (MatchVidPid(deviceId, 0x16C0, 0x05DF)) // Objective Development BootloadHID
-            {
-                deviceName = "BootloadHID";
-                _devicesAvailable[(int)Chipset.BootloadHid] += connected ? 1 : -1;
-            }
-            else if (MatchVidPid(deviceId, 0x16C0, 0x05DC)) // USBAsp and USBAspLoader
-            {
-                deviceName = "USBAsp";
-                _devicesAvailable[(int)Chipset.UsbAsp] += connected ? 1 : -1;
-            }
-            else if (MatchVidPid(deviceId, 0x1781, 0x0C9F)) // AVR Pocket ISP
-            {
-                deviceName = "USB Tiny";
-                _devicesAvailable[(int)Chipset.UsbTiny] += connected ? 1 : -1;
-            }
-            else if (MatchVidPid(deviceId, 0x1EAF, 0x0003)) // Detects STM32duino Bootloader
-            {
-                deviceName = "STM32duino";
-                _devicesAvailable[(int)Chipset.Stm32Duino] += connected ? 1 : -1;
-            }
-            else
-            {
-                return false;
+
+                var connectedString = connected ? "connected" : "disconnected";
+                var comPortString = comPort != null ? $" [{comPort}]" : "";
+                var driverString = driverName ?? "NO DRIVER";
+
+                _printer.Print($"{deviceName} device {connectedString} ({driverString}): {instance.GetPropertyValue("Manufacturer")} {instance.GetPropertyValue("Name")} ({vendorId:X4}:{productId:X4}:{revisionBcd:X4}){comPortString}", MessageType.Bootloader);
+
+                _devicesAvailable[(int)deviceType] += (connected ? 1 : -1);
+
+                return true;
             }
 
-            var connectedString = connected ? "connected" : "disconnected";
-            var comPortString = comPort != null ? $" [{comPort}]" : "";
-            var driverString = driverName ?? "NO DRIVER";
-
-            _printer.Print($"{deviceName} device {connectedString} ({driverString}): {instance.GetPropertyValue("Manufacturer")} {instance.GetPropertyValue("Name")} ({vid}:{pid}:{rev}){comPortString}", MessageType.Bootloader);
-
-            return true;
+            return false;
         }
 
         public string GetHardwareId(ManagementBaseObject instance)
