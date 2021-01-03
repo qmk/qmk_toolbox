@@ -246,7 +246,6 @@ namespace QMK_Toolbox
         }
 
         private void FlashApm32Dfu(string mcu, string file)
-
         {
             if (Path.GetExtension(file)?.ToLower() == ".bin") {
                 RunProcess("dfu-util.exe", $"-a 0 -d 314B:0106 -s 0x08000000:leave -D \"{file}\"");
