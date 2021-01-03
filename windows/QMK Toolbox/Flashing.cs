@@ -143,7 +143,7 @@ namespace QMK_Toolbox
                 FlashCaterina(mcu, file);
             if (Usb.CanFlash(Chipset.Halfkay))
                 FlashHalfkay(mcu, file);
-            if (Usb.CanFlash(Chipset.Stm32))
+            if (Usb.CanFlash(Chipset.Stm32Dfu))
                 FlashStm32Dfu(mcu, file);
             if (Usb.CanFlash(Chipset.Apm32Dfu))
                 FlashApm32Dfu(mcu, file);
