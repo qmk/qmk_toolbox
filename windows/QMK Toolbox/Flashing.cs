@@ -29,6 +29,7 @@ namespace QMK_Toolbox
         BootloadHid,
         AtmelSamBa,
         Stm32Duino,
+        Apm32Dfu,
         NumberOfChipsets
     };
 
@@ -144,6 +145,8 @@ namespace QMK_Toolbox
                 FlashHalfkay(mcu, file);
             if (Usb.CanFlash(Chipset.Stm32Dfu))
                 FlashStm32Dfu(mcu, file);
+            if (Usb.CanFlash(Chipset.Apm32Dfu))
+                FlashApm32Dfu(mcu, file);
             if (Usb.CanFlash(Chipset.Kiibohd))
                 FlashKiibohd(file);
             if (Usb.CanFlash(Chipset.AvrIsp))
@@ -237,6 +240,16 @@ namespace QMK_Toolbox
         {
             if (Path.GetExtension(file)?.ToLower() == ".bin") {
                 RunProcess("dfu-util.exe", $"-a 2 -d 1EAF:0003 -R -D \"{file}\"");
+            } else {
+                _printer.Print("Only firmware files in .bin format can be flashed with dfu-util!", MessageType.Error);
+            }
+        }
+
+        private void FlashApm32Dfu(string mcu, string file)
+        {
+            if (Path.GetExtension(file)?.ToLower() == ".bin") {
+                RunProcess("dfu-util.exe", $"-a 0 -d 314B:0106 -s 0x08000000:leave -D \"{file}\"");
+
             } else {
                 _printer.Print("Only firmware files in .bin format can be flashed with dfu-util!", MessageType.Error);
             }

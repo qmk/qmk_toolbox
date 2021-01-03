@@ -207,7 +207,7 @@ namespace QMK_Toolbox
             _printer.PrintResponse(" - Atmel/LUFA/QMK DFU via dfu-programmer (http://dfu-programmer.github.io/)\n", MessageType.Info);
             _printer.PrintResponse(" - Caterina (Arduino, Pro Micro) via avrdude (http://nongnu.org/avrdude/)\n", MessageType.Info);
             _printer.PrintResponse(" - Halfkay (Teensy, Ergodox EZ) via Teensy Loader (https://pjrc.com/teensy/loader_cli.html)\n", MessageType.Info);
-            _printer.PrintResponse(" - ARM DFU (STM32, Kiibohd, STM32duino) via dfu-util (http://dfu-util.sourceforge.net/)\n", MessageType.Info);
+            _printer.PrintResponse(" - ARM DFU (STM32, APM32, Kiibohd, STM32duino) via dfu-util (http://dfu-util.sourceforge.net/)\n", MessageType.Info);
             _printer.PrintResponse(" - Atmel SAM-BA (Massdrop) via Massdrop Loader (https://github.com/massdrop/mdloader)\n", MessageType.Info);
             _printer.PrintResponse(" - BootloadHID (Atmel, PS2AVRGB) via bootloadHID (https://www.obdev.at/products/vusb/bootloadhid.html)\n", MessageType.Info);
             _printer.PrintResponse("Supported ISP flashers:\n", MessageType.Info);
