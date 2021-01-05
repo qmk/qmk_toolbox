@@ -200,11 +200,6 @@
     [_printer printResponse:@" - AVRISP (Arduino ISP)\n" withType:MessageType_Info];
     [_printer printResponse:@" - USBasp (AVR ISP)\n" withType:MessageType_Info];
 
-//    [_flasher runProcess:@"dfu-programmer" withArgs:@[@"--help"]];
-//    [_flasher runProcess:@"avrdude" withArgs:@[@"-C", [[NSBundle mainBundle] pathForResource:@"avrdude.conf" ofType:@""]]];
-//    [_flasher runProcess:@"teensy_loader_cli" withArgs:@[@"-v"]];
-//    [_flasher runProcess:@"dfu-util" withArgs:@[@""]];
-
     [HID setupWithPrinter:_printer];
     [USB setupWithPrinter:_printer andDelegate:self];
 

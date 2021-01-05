@@ -31,10 +31,6 @@ static int devicesAvailable[NumberOfChipsets];
 
 + (void)setupWithPrinter:(Printing *)printer andDelegate:(id<USBDelegate>)d {
     delegate = d;
-    [self setupWithPrinter:printer];
-}
-
-+ (void)setupWithPrinter:(Printing *)printer {
     _printer = printer;
     mach_port_t masterPort;
     CFRunLoopSourceRef runLoopSource;
