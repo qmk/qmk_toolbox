@@ -5,14 +5,12 @@ using QMK_Toolbox.Properties;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Threading;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
-using System.Security.Principal;
 using System.Windows.Forms;
 using QMK_Toolbox.Helpers;
 
@@ -95,20 +93,16 @@ namespace QMK_Toolbox
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         protected override void WndProc(ref Message m)
         {
-            if (m.Msg == WmDevicechange && m.WParam.ToInt32() == DbtDevnodesChanged)
-            {
-                //Print("*** USB change\n");
-            }
             if (m.Msg == NativeMethods.WmShowme)
             {
                 ShowMe();
-                if (File.Exists(Path.Combine(Path.GetTempPath(), "qmk_toolbox/file_passed_in.txt")))
+                if (File.Exists(Path.Combine(Path.GetTempPath(), "qmk_toolbox_file.txt")))
                 {
-                    using (var sr = new StreamReader(Path.Combine(Path.GetTempPath(), "qmk_toolbox/file_passed_in.txt")))
+                    using (var sr = new StreamReader(Path.Combine(Path.GetTempPath(), "qmk_toolbox_file.txt")))
                     {
                         SetFilePath(sr.ReadLine());
                     }
-                    File.Delete(Path.Combine(Path.GetTempPath(), "qmk_toolbox/file_passed_in.txt"));
+                    File.Delete(Path.Combine(Path.GetTempPath(), "qmk_toolbox_file.txt"));
                 }
             }
             if (m.Msg == WmSyscommand)
@@ -129,12 +123,7 @@ namespace QMK_Toolbox
             {
                 WindowState = FormWindowState.Normal;
             }
-            // get our current "TopMost" value (ours will always be false though)
-            var top = TopMost;
-            // make our form jump to the top of everything
-            TopMost = true;
-            // set it back to whatever it was
-            TopMost = top;
+            Activate();
         }
 
         private List<HidDevice> _devices = new List<HidDevice>();
