@@ -18,18 +18,18 @@ namespace QMK_Toolbox
 {
     public enum Chipset
     {
+        Apm32Dfu,
         AtmelDfu,
-        Halfkay,
-        Caterina,
-        Stm32Dfu,
-        Kiibohd,
+        AtmelSamBa,
         AvrIsp,
+        BootloadHid,
+        Caterina,
+        Halfkay,
+        Kiibohd,
+        Stm32Dfu,
+        Stm32Duino,
         UsbAsp,
         UsbTiny,
-        BootloadHid,
-        AtmelSamBa,
-        Stm32Duino,
-        Apm32Dfu,
         NumberOfChipsets
     };
 

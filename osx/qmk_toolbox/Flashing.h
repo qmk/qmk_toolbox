@@ -11,22 +11,18 @@
 #include "Printing.h"
 
 typedef enum {
-    AtmelSAMBA,
-    AtmelDFU,
-    Halfkay,
-    Caterina,
-    SparkfunVID,
-    PololuVID,
-    AdafruitVID,
-    DogHunterVID,
-    STM32DFU,
-    Kiibohd,
-    STM32Duino,
-    AVRISP,
-    USBTiny,
-    USBAsp,
-    BootloadHID,
     APM32DFU,
+    AtmelDFU,
+    AtmelSAMBA,
+    AVRISP,
+    BootloadHID,
+    Caterina,
+    Halfkay,
+    Kiibohd,
+    STM32DFU,
+    STM32Duino,
+    USBAsp,
+    USBTiny,
     NumberOfChipsets
 } Chipset;
 
