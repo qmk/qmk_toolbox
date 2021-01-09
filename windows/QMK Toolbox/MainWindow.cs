@@ -561,10 +561,6 @@ namespace QMK_Toolbox
 
         private void DownloadFirmwareFile(string url, string filepath)
         {
-            if (!Directory.Exists(Path.Combine(Application.LocalUserAppDataPath, "downloads")))
-            {
-                Directory.CreateDirectory(Path.Combine(Application.LocalUserAppDataPath, "downloads"));
-            }
             using (var wb = new WebClient())
             {
                 wb.Headers.Add("User-Agent", "QMK Toolbox");
