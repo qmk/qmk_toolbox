@@ -112,13 +112,12 @@
 }
 
 - (void)flashAtmelDFU:(NSString *)mcu withFile:(NSString *)file {
-    NSString * result;
-    result = [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"erase", @"--force"]];
-    result = [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"flash", @"--force", file]];
+    [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"erase", @"--force"]];
+    NSString *result = [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"flash", @"--force", file]];
     if ([result containsString:@"Bootloader and code overlap."]) {
         [_printer print:@"File is too large for device" withType:MessageType_Error];
     } else {
-        result = [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"reset"]];
+        [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"reset"]];
     }
 }
 
@@ -127,10 +126,9 @@
 }
 
 - (void)clearEEPROMAtmelDFU:(NSString *)mcu {
-    NSString * result;
     NSString * file = [[NSBundle mainBundle] pathForResource:@"reset" ofType:@"eep"];
-    result = [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"erase", @"--force"]];
-    result = [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"flash", @"--force", @"--eeprom", file]];
+    [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"erase", @"--force"]];
+    [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"flash", @"--force", @"--eeprom", file]];
     [_printer print:@"Please reflash device with firmware now" withType:MessageType_Bootloader];
 }
 
@@ -139,15 +137,13 @@
 }
 
 - (void)clearEEPROMCaterina:(NSString *)mcu {
-    NSString * result;
     NSString * file = [[NSBundle mainBundle] pathForResource:@"reset" ofType:@"eep"];
-    result = [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"avr109", @"-U", [NSString stringWithFormat:@"eeprom:w:%@:i", file], @"-P", serialPort, @"-C", @"avrdude.conf"]];
+    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"avr109", @"-U", [NSString stringWithFormat:@"eeprom:w:%@:i", file], @"-P", serialPort, @"-C", @"avrdude.conf"]];
 }
 
 - (void)clearEEPROMUSBAsp:(NSString *)mcu {
-    NSString * result;
     NSString * file = [[NSBundle mainBundle] pathForResource:@"reset" ofType:@"eep"];
-    result = [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"usbasp", @"-U", [NSString stringWithFormat:@"eeprom:w:%@:i", file], @"-C", @"avrdude.conf"]];
+    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"usbasp", @"-U", [NSString stringWithFormat:@"eeprom:w:%@:i", file], @"-C", @"avrdude.conf"]];
 }
 
 - (void)flashHalfkay:(NSString *)mcu withFile:(NSString *)file {

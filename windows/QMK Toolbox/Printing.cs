@@ -23,10 +23,6 @@ namespace QMK_Toolbox
         private readonly RichTextBox _richTextBox;
         private char _lastChar = '\n';
 
-        public Printing()
-        {
-        }
-
         public Printing(RichTextBox richTextBox)
         {
             _richTextBox = richTextBox;
@@ -124,7 +120,7 @@ namespace QMK_Toolbox
 
         public void Print(string str, MessageType type)
         {
-            if (_richTextBox == null || !_richTextBox.InvokeRequired)
+            if (!_richTextBox.InvokeRequired)
             {
                 if (string.IsNullOrEmpty(str.Trim('\0')))
                     return;
@@ -138,7 +134,7 @@ namespace QMK_Toolbox
 
         public void PrintResponse(string str, MessageType type)
         {
-            if (_richTextBox == null || !_richTextBox.InvokeRequired)
+            if (!_richTextBox.InvokeRequired)
             {
                 if (string.IsNullOrEmpty(str.Trim('\0')))
                     return;
@@ -154,17 +150,10 @@ namespace QMK_Toolbox
         {
             var str = items.Item1;
             var color = items.Item2;
-            if (_richTextBox != null)
-            {
-                _richTextBox.SelectionStart = _richTextBox.TextLength;
-                _richTextBox.SelectionLength = str.Length;
-                _richTextBox.SelectionColor = color;
-                _richTextBox.SelectedText = str;
-            }
-            else
-            {
-                Console.Write(str);
-            }
+            _richTextBox.SelectionStart = _richTextBox.TextLength;
+            _richTextBox.SelectionLength = str.Length;
+            _richTextBox.SelectionColor = color;
+            _richTextBox.SelectedText = str;
             _lastChar = str[str.Length - 1];
         }
     }
