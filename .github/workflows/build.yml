@@ -68,7 +68,7 @@ jobs:
     - name: Create installer
       working-directory: ./osx
       run: |
-        brew cask install packages
+        brew install packages
         packagesbuild -v "QMK Toolbox.pkgproj"
         mv "build/QMK Toolbox.pkg" build/QMK.Toolbox.pkg
 
