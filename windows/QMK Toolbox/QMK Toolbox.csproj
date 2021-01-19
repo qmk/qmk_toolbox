@@ -190,7 +190,7 @@
     </Compile>
     <EmbeddedResource Include="..\..\common\avrdude.conf" />
     <EmbeddedResource Include="..\..\common\reset.eep" />
-    <EmbeddedResource Include="..\..\common\applet-flash-samd51j18a.bin" />
+    <EmbeddedResource Include="..\..\common\applet-mdflash.bin" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">

@@ -57,7 +57,7 @@ namespace QMK_Toolbox
             "reset.eep",
             "bootloadHID.exe",
             "mdloader_windows.exe",
-            "applet-flash-samd51j18a.bin"
+            "applet-mdflash.bin"
         };
 
         public Flashing(Printing printer)
