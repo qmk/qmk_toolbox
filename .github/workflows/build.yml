@@ -53,6 +53,19 @@ jobs:
 
     - uses: actions/checkout@v2
 
+    - name: Check binary permissions
+      working-directory: ./osx
+      env:
+        QMK_BINARIES: avrdude bootloadHID dfu-programmer dfu-util mdloader_mac teensy_loader_cli
+      run: |
+        status=0
+        for b in $QMK_BINARIES; do
+          perm=$(stat -f "%Lp" $b)
+          echo "$b: $perm"
+          [[ $perm == "755" ]] || status=1
+        done
+        exit $status
+
     - name: Build
       working-directory: ./osx
       run: |
