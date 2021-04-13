@@ -175,6 +175,18 @@ namespace QMK_Toolbox
                 ResetAtmelSamBa();
         }
 
+        public void ClearEeprom(string mcu)
+        {
+            if (Usb.CanFlash(Chipset.AtmelDfu))
+                ClearEepromAtmelDfu(mcu);
+            if (Usb.CanFlash(Chipset.Caterina))
+                ClearEepromCaterina(mcu);
+            if (Usb.CanFlash(Chipset.UsbAsp))
+                ClearEepromUsbAsp(mcu);
+        }
+
+        public bool CanFlash() => Usb.AreDevicesAvailable();
+
         public bool CanReset()
         {
             var resettable = new List<Chipset> {
@@ -191,14 +203,20 @@ namespace QMK_Toolbox
             return false;
         }
 
-        public void ClearEeprom(string mcu)
+        public bool CanClearEeprom()
         {
-            if (Usb.CanFlash(Chipset.AtmelDfu))
-                ClearEepromAtmelDfu(mcu);
-            if (Usb.CanFlash(Chipset.Caterina))
-                ClearEepromCaterina(mcu);
-            if (Usb.CanFlash(Chipset.UsbAsp))
-                ClearEepromUsbAsp(mcu);
+            var clearable = new List<Chipset>
+            {
+                Chipset.AtmelDfu,
+                Chipset.Caterina,
+                Chipset.UsbAsp
+            };
+            foreach (Chipset chipset in clearable)
+            {
+                if (Usb.CanFlash(chipset))
+                    return true;
+            }
+            return false;
         }
 
         private void FlashAtmelDfu(string mcu, string file)

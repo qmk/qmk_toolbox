@@ -148,7 +148,6 @@ namespace QMK_Toolbox
             _flasher = new Flashing(_printer);
             _usb = new Usb(_flasher, _printer);
             _flasher.Usb = _usb;
-            resetButton.Enabled = false;
 
             StartListeningForDeviceEvents();
         }
@@ -209,6 +208,9 @@ namespace QMK_Toolbox
                 collection = searcher.Get();
 
             _usb.DetectBootloaderFromCollection(collection);
+            flashButton.Enabled = _flasher.CanFlash();
+            resetButton.Enabled = _flasher.CanReset();
+            clearEepromButton.Enabled = _flasher.CanClearEeprom();
 
             UpdateHidDevices(false);
 
@@ -270,8 +272,6 @@ namespace QMK_Toolbox
         {
             if (!InvokeRequired)
             {
-                flashButton.Enabled = false;
-                resetButton.Enabled = false;
                 var mcu = mcuBox.Text;
                 var filePath = filepathBox.Text;
 
@@ -293,22 +293,34 @@ namespace QMK_Toolbox
                         }
                         if (error == 0)
                         {
+                            if (!autoflashCheckbox.Checked)
+                            {
+                                this.Invoke((MethodInvoker)delegate
+                                {
+                                    flashButton.Enabled = false;
+                                    resetButton.Enabled = false;
+                                    clearEepromButton.Enabled = false;
+                                });
+                            }
+
                             _printer.Print("Attempting to flash, please don't remove device", MessageType.Bootloader);
                             _flasher.Flash(mcu, filePath);
+
+                            if (!autoflashCheckbox.Checked)
+                            {
+                                this.Invoke((MethodInvoker)delegate
+                                {
+                                    flashButton.Enabled = _flasher.CanFlash();
+                                    resetButton.Enabled = _flasher.CanReset();
+                                    clearEepromButton.Enabled = _flasher.CanClearEeprom();
+                                });
+                            }
                         }
                     }
                     else
                     {
                         _printer.Print("There are no devices available", MessageType.Error);
                     }
-
-                    // Re-enable flash/reset button after flashing
-                    this.Invoke((MethodInvoker)delegate
-                    {
-                        flashButton.Enabled = true;
-                        resetButton.Enabled = _flasher.CanReset();
-                    });
-
                 }).Start();
             }
             else
@@ -321,9 +333,6 @@ namespace QMK_Toolbox
         {
             if (!InvokeRequired)
             {
-                flashButton.Enabled = false;
-                resetButton.Enabled = false;
-
                 if (_usb.AreDevicesAvailable())
                 {
                     var error = 0;
@@ -334,16 +343,33 @@ namespace QMK_Toolbox
                     }
                     if (error == 0)
                     {
+                        if (!autoflashCheckbox.Checked)
+                        {
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                flashButton.Enabled = false;
+                                resetButton.Enabled = false;
+                                clearEepromButton.Enabled = false;
+                            });
+                        }
+
                         _flasher.Reset(mcuBox.Text);
+
+                        if (!autoflashCheckbox.Checked)
+                        {
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                flashButton.Enabled = _flasher.CanFlash();
+                                resetButton.Enabled = _flasher.CanReset();
+                                clearEepromButton.Enabled = _flasher.CanClearEeprom();
+                            });
+                        }
                     }
                 }
                 else
                 {
                     _printer.Print("There are no devices available", MessageType.Error);
                 }
-
-                flashButton.Enabled = true;
-                resetButton.Enabled = _flasher.CanReset();
             }
             else
             {
@@ -355,8 +381,6 @@ namespace QMK_Toolbox
         {
             if (!InvokeRequired)
             {
-                clearEepromButton.Enabled = false;
-
                 if (_usb.AreDevicesAvailable())
                 {
                     var error = 0;
@@ -367,15 +391,33 @@ namespace QMK_Toolbox
                     }
                     if (error == 0)
                     {
+                        if (!autoflashCheckbox.Checked)
+                        {
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                flashButton.Enabled = false;
+                                resetButton.Enabled = false;
+                                clearEepromButton.Enabled = false;
+                            });
+                        }
+
                         _flasher.ClearEeprom(mcuBox.Text);
+
+                        if (!autoflashCheckbox.Checked)
+                        {
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                flashButton.Enabled = _flasher.CanFlash();
+                                resetButton.Enabled = _flasher.CanReset();
+                                clearEepromButton.Enabled = _flasher.CanClearEeprom();
+                            });
+                        }
                     }
                 }
                 else
                 {
                     _printer.Print("There are no devices available", MessageType.Error);
                 }
-
-                clearEepromButton.Enabled = true;
             }
             else
             {
@@ -442,16 +484,6 @@ namespace QMK_Toolbox
             if (d == null) return "";
             d.ReadManufacturer(out var bs);
             return System.Text.Encoding.Default.GetString(bs.Where(b => b > 0).ToArray());
-        }
-
-        private void DeviceAttachedHandler()
-        {
-            // not sure if this will be useful
-        }
-
-        private void DeviceRemovedHandler()
-        {
-            // not sure if this will be useful
         }
 
         private void OnReport(HidReport report)
@@ -599,16 +631,20 @@ namespace QMK_Toolbox
             else if (_usb.DetectBootloader(instance) && autoflashCheckbox.Checked)
             {
                 flashButton_Click(sender, e);
-
-                if (flashWhenReadyCheckbox.Checked)
-                {
-                    Invoke(new Action(() => flashWhenReadyCheckbox.Checked = false));
-                }
             }
 
             UpdateHidDevices(deviceDisconnected);
             (sender as ManagementEventWatcher)?.Start();
-            resetButton.Enabled = _flasher.CanReset();
+
+            if (!autoflashCheckbox.Checked)
+            {
+                this.Invoke((MethodInvoker)delegate
+                {
+                    flashButton.Enabled = _flasher.CanFlash();
+                    resetButton.Enabled = _flasher.CanReset();
+                    clearEepromButton.Enabled = _flasher.CanClearEeprom();
+                });
+            }
         }
 
         private void StartListeningForDeviceEvents()
@@ -631,12 +667,14 @@ namespace QMK_Toolbox
                 _printer.Print("Auto-flash enabled", MessageType.Info);
                 flashButton.Enabled = false;
                 resetButton.Enabled = false;
+                clearEepromButton.Enabled = false;
             }
             else
             {
                 _printer.Print("Auto-flash disabled", MessageType.Info);
-                flashButton.Enabled = true;
+                flashButton.Enabled = _flasher.CanFlash();
                 resetButton.Enabled = _flasher.CanReset();
+                clearEepromButton.Enabled = _flasher.CanClearEeprom();
             }
         }
 
@@ -700,12 +738,6 @@ namespace QMK_Toolbox
         private void MainWindow_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
-        }
-
-        private void flashWhenReadyCheckbox_CheckedChanged(object sender, EventArgs e)
-        {
-            flashButton.Enabled = !flashWhenReadyCheckbox.Checked;
-            autoflashCheckbox.Enabled = !flashWhenReadyCheckbox.Checked;
         }
 
         private void MainWindow_Shown(object sender, EventArgs e)
