@@ -257,11 +257,11 @@ static void deviceDisconnectedEvent(void *refCon, io_iterator_t iterator) {
     ] withType:MessageType_Bootloader];
 
     if (connected) {
-        [delegate deviceConnected:deviceType];
         devicesAvailable[deviceType]++;
+        [delegate deviceConnected:deviceType];
     } else {
-        [delegate deviceDisconnected:deviceType];
         devicesAvailable[deviceType]--;
+        [delegate deviceDisconnected:deviceType];
     }
 }
 

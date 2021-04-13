@@ -88,6 +88,19 @@
         [self resetBootloadHID];
 }
 
+- (void)clearEEPROM:(NSString *)mcu {
+    if ([USB canFlash:AtmelDFU])
+        [self clearEEPROMAtmelDFU:mcu];
+    if ([USB canFlash:Caterina])
+        [self clearEEPROMCaterina:mcu];
+    if ([USB canFlash:USBAsp])
+        [self clearEEPROMUSBAsp:mcu];
+}
+
+- (BOOL)canFlash {
+    return [USB areDevicesAvailable];
+}
+
 - (BOOL)canReset {
     NSArray<NSNumber *> *resettable = @[
         @(AtmelDFU),
@@ -102,13 +115,17 @@
     return NO;
 }
 
-- (void)clearEEPROM:(NSString *)mcu {
-    if ([USB canFlash:AtmelDFU])
-        [self clearEEPROMAtmelDFU:mcu];
-    if ([USB canFlash:Caterina])
-        [self clearEEPROMCaterina:mcu];
-    if ([USB canFlash:USBAsp])
-        [self clearEEPROMUSBAsp:mcu];
+- (BOOL)canClearEEPROM {
+    NSArray<NSNumber *> *clearable = @[
+        @(AtmelDFU),
+        @(Caterina),
+        @(USBAsp)
+    ];
+    for (NSNumber *chipset in clearable) {
+        if ([USB canFlash:(Chipset)chipset.intValue])
+            return YES;
+    }
+    return NO;
 }
 
 - (void)flashAtmelDFU:(NSString *)mcu withFile:(NSString *)file {
