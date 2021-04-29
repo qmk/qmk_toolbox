@@ -59,14 +59,21 @@
             error++;
         }
         if (error == 0) {
-            [_printer print:@"Attempting to flash, please don't remove device" withType:MessageType_Bootloader];
+            if (self.autoFlashButton.state != NSOnState) {
+                [self disableUI];
+            }
 
+            [_printer print:@"Attempting to flash, please don't remove device" withType:MessageType_Bootloader];
             // this is dumb, but the delay is required to let the previous print command show up
             double delayInSeconds = .01;
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
             dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
                 [self->_flasher performSelector:@selector(flash:withFile:) withObject:[self->_mcuBox objectValue] withObject:[self->_filepathBox objectValue]];
             });
+
+            if (self.autoFlashButton.state != NSOnState) {
+                [self enableUI];
+            }
         }
     } else {
         [_printer print:@"There are no devices available" withType:MessageType_Error];
@@ -77,7 +84,15 @@
     if ([[_mcuBox objectValue] isEqualToString:@""]) {
         [_printer print:@"Please select a microcontroller" withType:MessageType_Error];
     } else {
+        if (self.autoFlashButton.state != NSOnState) {
+            [self disableUI];
+        }
+
         [_flasher reset:(NSString *)[_mcuBox objectValue]];
+
+        if (self.autoFlashButton.state != NSOnState) {
+            [self enableUI];
+        }
     }
 }
 
@@ -85,7 +100,15 @@
     if ([[_mcuBox objectValue] isEqualToString:@""]) {
         [_printer print:@"Please select a microcontroller" withType:MessageType_Error];
     } else {
+        if (self.autoFlashButton.state != NSOnState) {
+            [self disableUI];
+        }
+
         [_flasher clearEEPROM:(NSString *)[_mcuBox objectValue]];
+
+        if (self.autoFlashButton.state != NSOnState) {
+            [self enableUI];
+        }
     }
 }
 
@@ -93,15 +116,37 @@
     _flasher.serialPort = port;
 }
 
+- (IBAction) autoFlashButtonClick:(id)sender {
+    if ([_autoFlashButton state] == NSOnState) {
+        [_printer print:@"Auto-flash enabled" withType:MessageType_Info];
+        [self disableUI];
+    } else {
+        [_printer print:@"Auto-flash disabled" withType:MessageType_Info];
+        [self enableUI];
+    }
+}
+
 - (void)deviceConnected:(Chipset)chipset {
     if ([_autoFlashButton state] == NSOnState) {
         [self flashButtonClick:NULL];
     }
-    self.resetButton.enabled = [self.flasher canReset];
+    [self enableUI];
 }
 
 - (void)deviceDisconnected:(Chipset)chipset {
-    self.resetButton.enabled = [self.flasher canReset];
+    [self enableUI];
+}
+
+- (void)disableUI {
+    self.flashButton.enabled = NO;
+    self.resetButton.enabled = NO;
+    self.clearEEPROMButton.enabled = NO;
+}
+
+- (void)enableUI {
+    self.flashButton.enabled = [_flasher canFlash];
+    self.resetButton.enabled = [_flasher canReset];
+    self.clearEEPROMButton.enabled = [_flasher canClearEEPROM];
 }
 
 - (BOOL)application:(NSApplication *)sender openFile:(NSString *)filename {
@@ -177,7 +222,6 @@
     _printer = [[Printing alloc] initWithTextView:_textView];
     _flasher = [[Flashing alloc] initWithPrinter:_printer];
     _flasher.delegate = self;
-    _resetButton.enabled = NO;
 
     [[_textView menu] addItem: [NSMenuItem separatorItem]];
     [[_textView menu] addItem: _clearMenuItem];

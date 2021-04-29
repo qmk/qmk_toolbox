@@ -55,7 +55,6 @@ namespace QMK_Toolbox {
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hidList = new System.Windows.Forms.ComboBox();
-            this.flashWhenReadyCheckbox = new System.Windows.Forms.CheckBox();
             this.statusStrip.SuspendLayout();
             this.qmkGroupBox.SuspendLayout();
             this.fileGroupBox.SuspendLayout();
@@ -66,6 +65,7 @@ namespace QMK_Toolbox {
             // flashButton
             // 
             this.flashButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.flashButton.Enabled = false;
             this.flashButton.Location = new System.Drawing.Point(657, 59);
             this.flashButton.Name = "flashButton";
             this.flashButton.Size = new System.Drawing.Size(57, 23);
@@ -81,7 +81,7 @@ namespace QMK_Toolbox {
             this.autoflashCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.autoflashCheckbox.AutoSize = true;
             this.autoflashCheckbox.BackColor = System.Drawing.Color.Transparent;
-            this.autoflashCheckbox.Location = new System.Drawing.Point(710, 86);
+            this.autoflashCheckbox.Location = new System.Drawing.Point(657, 86);
             this.autoflashCheckbox.Name = "autoflashCheckbox";
             this.autoflashCheckbox.Size = new System.Drawing.Size(76, 17);
             this.autoflashCheckbox.TabIndex = 5;
@@ -100,7 +100,7 @@ namespace QMK_Toolbox {
             // openFileButton
             // 
             this.openFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.openFileButton.Location = new System.Drawing.Point(476, 19);
+            this.openFileButton.Location = new System.Drawing.Point(581, 19);
             this.openFileButton.Name = "openFileButton";
             this.openFileButton.Size = new System.Drawing.Size(64, 23);
             this.openFileButton.TabIndex = 3;
@@ -114,6 +114,7 @@ namespace QMK_Toolbox {
             // resetButton
             // 
             this.resetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.resetButton.Enabled = false;
             this.resetButton.Location = new System.Drawing.Point(720, 59);
             this.resetButton.Name = "resetButton";
             this.resetButton.Size = new System.Drawing.Size(67, 23);
@@ -143,7 +144,7 @@ namespace QMK_Toolbox {
             // 
             this.mcuLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.mcuLabel.AutoSize = true;
-            this.mcuLabel.Location = new System.Drawing.Point(546, 0);
+            this.mcuLabel.Location = new System.Drawing.Point(648, 0);
             this.mcuLabel.Name = "mcuLabel";
             this.mcuLabel.Size = new System.Drawing.Size(84, 13);
             this.mcuLabel.TabIndex = 22;
@@ -151,21 +152,24 @@ namespace QMK_Toolbox {
             // 
             // qmkGroupBox
             // 
+            this.qmkGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.qmkGroupBox.Controls.Add(this.keymapLabel);
             this.qmkGroupBox.Controls.Add(this.keymapBox);
             this.qmkGroupBox.Controls.Add(this.keyboardBox);
             this.qmkGroupBox.Controls.Add(this.loadKeymap);
             this.qmkGroupBox.Location = new System.Drawing.Point(6, 59);
             this.qmkGroupBox.Name = "qmkGroupBox";
-            this.qmkGroupBox.Size = new System.Drawing.Size(581, 48);
+            this.qmkGroupBox.Size = new System.Drawing.Size(645, 48);
             this.qmkGroupBox.TabIndex = 23;
             this.qmkGroupBox.TabStop = false;
             this.qmkGroupBox.Text = "Keyboard from qmk.fm";
             // 
             // keymapLabel
             // 
+            this.keymapLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.keymapLabel.AutoSize = true;
-            this.keymapLabel.Location = new System.Drawing.Point(355, 0);
+            this.keymapLabel.Location = new System.Drawing.Point(457, 0);
             this.keymapLabel.Name = "keymapLabel";
             this.keymapLabel.Size = new System.Drawing.Size(45, 13);
             this.keymapLabel.TabIndex = 24;
@@ -173,14 +177,15 @@ namespace QMK_Toolbox {
             // 
             // keymapBox
             // 
+            this.keymapBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.keymapBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "keymap", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.keymapBox.Enabled = false;
             this.keymapBox.FormattingEnabled = true;
             this.keymapBox.Items.AddRange(new object[] {
             "later version!"});
-            this.keymapBox.Location = new System.Drawing.Point(353, 20);
+            this.keymapBox.Location = new System.Drawing.Point(457, 20);
             this.keymapBox.Name = "keymapBox";
-            this.keymapBox.Size = new System.Drawing.Size(152, 21);
+            this.keymapBox.Size = new System.Drawing.Size(112, 21);
             this.keymapBox.TabIndex = 4;
             this.keymapBox.Tag = "The target (MCU) of the flashing";
             this.keymapBox.Text = global::QMK_Toolbox.Properties.Settings.Default.keymap;
@@ -189,6 +194,8 @@ namespace QMK_Toolbox {
             // 
             // keyboardBox
             // 
+            this.keyboardBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.keyboardBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.keyboardBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.keyboardBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "keyboard", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
@@ -198,7 +205,7 @@ namespace QMK_Toolbox {
             "this feature coming in"});
             this.keyboardBox.Location = new System.Drawing.Point(6, 20);
             this.keyboardBox.Name = "keyboardBox";
-            this.keyboardBox.Size = new System.Drawing.Size(341, 21);
+            this.keyboardBox.Size = new System.Drawing.Size(445, 21);
             this.keyboardBox.TabIndex = 4;
             this.keyboardBox.Tag = "The target (MCU) of the flashing";
             this.keyboardBox.Text = global::QMK_Toolbox.Properties.Settings.Default.keyboard;
@@ -208,8 +215,9 @@ namespace QMK_Toolbox {
             // 
             // loadKeymap
             // 
+            this.loadKeymap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.loadKeymap.Enabled = false;
-            this.loadKeymap.Location = new System.Drawing.Point(511, 19);
+            this.loadKeymap.Location = new System.Drawing.Point(575, 19);
             this.loadKeymap.Name = "loadKeymap";
             this.loadKeymap.Size = new System.Drawing.Size(64, 23);
             this.loadKeymap.TabIndex = 3;
@@ -243,7 +251,7 @@ namespace QMK_Toolbox {
             this.filepathBox.FormattingEnabled = true;
             this.filepathBox.Location = new System.Drawing.Point(6, 20);
             this.filepathBox.Name = "filepathBox";
-            this.filepathBox.Size = new System.Drawing.Size(464, 21);
+            this.filepathBox.Size = new System.Drawing.Size(569, 21);
             this.filepathBox.TabIndex = 2;
             this.filepathBox.Tag = "The path for your firmware file";
             this.filepathBox.Text = global::QMK_Toolbox.Properties.Settings.Default.hexFileSetting;
@@ -257,9 +265,9 @@ namespace QMK_Toolbox {
             this.mcuBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "targetSetting", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.mcuBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.mcuBox.FormattingEnabled = true;
-            this.mcuBox.Location = new System.Drawing.Point(546, 20);
+            this.mcuBox.Location = new System.Drawing.Point(651, 20);
             this.mcuBox.Name = "mcuBox";
-            this.mcuBox.Size = new System.Drawing.Size(214, 21);
+            this.mcuBox.Size = new System.Drawing.Size(129, 21);
             this.mcuBox.TabIndex = 4;
             this.mcuBox.Tag = "The target (MCU) of the flashing";
             this.mcuBox.Text = global::QMK_Toolbox.Properties.Settings.Default.targetSetting;
@@ -269,6 +277,7 @@ namespace QMK_Toolbox {
             // clearEepromButton
             // 
             this.clearEepromButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.clearEepromButton.Enabled = false;
             this.clearEepromButton.Location = new System.Drawing.Point(12, 613);
             this.clearEepromButton.Name = "clearEepromButton";
             this.clearEepromButton.Size = new System.Drawing.Size(110, 23);
@@ -400,18 +409,6 @@ namespace QMK_Toolbox {
             this.hidList.Size = new System.Drawing.Size(658, 21);
             this.hidList.TabIndex = 29;
             // 
-            // flashWhenReadyCheckbox
-            // 
-            this.flashWhenReadyCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.flashWhenReadyCheckbox.AutoSize = true;
-            this.flashWhenReadyCheckbox.Location = new System.Drawing.Point(593, 86);
-            this.flashWhenReadyCheckbox.Name = "flashWhenReadyCheckbox";
-            this.flashWhenReadyCheckbox.Size = new System.Drawing.Size(109, 17);
-            this.flashWhenReadyCheckbox.TabIndex = 30;
-            this.flashWhenReadyCheckbox.Text = "Flash when ready";
-            this.flashWhenReadyCheckbox.UseVisualStyleBackColor = true;
-            this.flashWhenReadyCheckbox.CheckedChanged += new System.EventHandler(this.flashWhenReadyCheckbox_CheckedChanged);
-            // 
             // MainWindow
             // 
             this.AllowDrop = true;
@@ -419,7 +416,6 @@ namespace QMK_Toolbox {
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(799, 661);
             this.ContextMenuStrip = this.contextMenuStrip1;
-            this.Controls.Add(this.flashWhenReadyCheckbox);
             this.Controls.Add(this.hidList);
             this.Controls.Add(this.clearEepromButton);
             this.Controls.Add(this.fileGroupBox);
@@ -473,7 +469,6 @@ namespace QMK_Toolbox {
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ComboBox hidList;
-        private System.Windows.Forms.CheckBox flashWhenReadyCheckbox;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
         private BetterComboBox filepathBox;

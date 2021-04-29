@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -196,7 +196,7 @@
                             <constraint firstAttribute="height" constant="21" id="0c7-uS-SRH"/>
                             <constraint firstAttribute="width" constant="75" id="mbB-cQ-ug3"/>
                         </constraints>
-                        <buttonCell key="cell" type="push" title="Exit DFU" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="euK-aj-UAI">
+                        <buttonCell key="cell" type="push" title="Exit DFU" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="euK-aj-UAI">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="label" size="12"/>
                         </buttonCell>
@@ -210,7 +210,7 @@
                             <constraint firstAttribute="height" constant="21" id="igB-eN-Klh"/>
                             <constraint firstAttribute="width" constant="68" id="sS6-6I-Jy2"/>
                         </constraints>
-                        <buttonCell key="cell" type="push" title="Flash" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="WBr-hK-w8Y">
+                        <buttonCell key="cell" type="push" title="Flash" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="WBr-hK-w8Y">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="label" size="12"/>
                         </buttonCell>
@@ -228,6 +228,9 @@
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="label" size="12"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="autoFlashButtonClick:" target="Voe-Tx-rLC" id="5Rn-zn-8HN"/>
+                        </connections>
                     </button>
                     <box borderType="line" title="Local file" translatesAutoresizingMaskIntoConstraints="NO" id="t67-0j-kLe">
                         <rect key="frame" x="2" y="418" width="667" height="53"/>
@@ -383,7 +386,7 @@
                             <constraint firstAttribute="width" constant="113" id="OrW-P7-Fri"/>
                             <constraint firstAttribute="height" constant="21" id="ZJj-0M-KZ7"/>
                         </constraints>
-                        <buttonCell key="cell" type="push" title="Clear EEPROM" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aot-j7-w9r">
+                        <buttonCell key="cell" type="push" title="Clear EEPROM" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aot-j7-w9r">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="label" size="12"/>
                         </buttonCell>
