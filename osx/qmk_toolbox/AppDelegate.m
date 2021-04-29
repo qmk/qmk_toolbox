@@ -60,9 +60,7 @@
         }
         if (error == 0) {
             if (self.autoFlashButton.state != NSOnState) {
-                self.flashButton.enabled = NO;
-                self.resetButton.enabled = NO;
-                self.clearEEPROMButton.enabled = NO;
+                [self disableUI];
             }
 
             [_printer print:@"Attempting to flash, please don't remove device" withType:MessageType_Bootloader];
@@ -74,9 +72,7 @@
             });
 
             if (self.autoFlashButton.state != NSOnState) {
-                self.flashButton.enabled = [_flasher canFlash];
-                self.resetButton.enabled = [_flasher canReset];
-                self.clearEEPROMButton.enabled = [_flasher canClearEEPROM];
+                [self enableUI];
             }
         }
     } else {
@@ -89,17 +85,13 @@
         [_printer print:@"Please select a microcontroller" withType:MessageType_Error];
     } else {
         if (self.autoFlashButton.state != NSOnState) {
-            self.flashButton.enabled = NO;
-            self.resetButton.enabled = NO;
-            self.clearEEPROMButton.enabled = NO;
+            [self disableUI];
         }
 
         [_flasher reset:(NSString *)[_mcuBox objectValue]];
 
         if (self.autoFlashButton.state != NSOnState) {
-            self.flashButton.enabled = [_flasher canFlash];
-            self.resetButton.enabled = [_flasher canReset];
-            self.clearEEPROMButton.enabled = [_flasher canClearEEPROM];
+            [self enableUI];
         }
     }
 }
@@ -109,17 +101,13 @@
         [_printer print:@"Please select a microcontroller" withType:MessageType_Error];
     } else {
         if (self.autoFlashButton.state != NSOnState) {
-            self.flashButton.enabled = NO;
-            self.resetButton.enabled = NO;
-            self.clearEEPROMButton.enabled = NO;
+            [self disableUI];
         }
 
         [_flasher clearEEPROM:(NSString *)[_mcuBox objectValue]];
 
         if (self.autoFlashButton.state != NSOnState) {
-            self.flashButton.enabled = [_flasher canFlash];
-            self.resetButton.enabled = [_flasher canReset];
-            self.clearEEPROMButton.enabled = [_flasher canClearEEPROM];
+            [self enableUI];
         }
     }
 }
@@ -131,14 +119,10 @@
 - (IBAction) autoFlashButtonClick:(id)sender {
     if ([_autoFlashButton state] == NSOnState) {
         [_printer print:@"Auto-flash enabled" withType:MessageType_Info];
-        self.flashButton.enabled = NO;
-        self.resetButton.enabled = NO;
-        self.clearEEPROMButton.enabled = NO;
+        [self disableUI];
     } else {
         [_printer print:@"Auto-flash disabled" withType:MessageType_Info];
-        self.flashButton.enabled = [_flasher canFlash];
-        self.resetButton.enabled = [_flasher canReset];
-        self.clearEEPROMButton.enabled = [_flasher canClearEEPROM];
+        [self enableUI];
     }
 }
 
@@ -146,12 +130,20 @@
     if ([_autoFlashButton state] == NSOnState) {
         [self flashButtonClick:NULL];
     }
-    self.flashButton.enabled = [_flasher canFlash];
-    self.resetButton.enabled = [_flasher canReset];
-    self.clearEEPROMButton.enabled = [_flasher canClearEEPROM];
+    [self enableUI];
 }
 
 - (void)deviceDisconnected:(Chipset)chipset {
+    [self enableUI];
+}
+
+- (void)disableUI {
+    self.flashButton.enabled = NO;
+    self.resetButton.enabled = NO;
+    self.clearEEPROMButton.enabled = NO;
+}
+
+- (void)enableUI {
     self.flashButton.enabled = [_flasher canFlash];
     self.resetButton.enabled = [_flasher canReset];
     self.clearEEPROMButton.enabled = [_flasher canClearEEPROM];

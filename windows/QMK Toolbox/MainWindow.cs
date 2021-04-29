@@ -208,9 +208,7 @@ namespace QMK_Toolbox
                 collection = searcher.Get();
 
             _usb.DetectBootloaderFromCollection(collection);
-            flashButton.Enabled = _flasher.CanFlash();
-            resetButton.Enabled = _flasher.CanReset();
-            clearEepromButton.Enabled = _flasher.CanClearEeprom();
+            EnableUI();
 
             UpdateHidDevices(false);
 
@@ -295,12 +293,7 @@ namespace QMK_Toolbox
                         {
                             if (!autoflashCheckbox.Checked)
                             {
-                                this.Invoke((MethodInvoker)delegate
-                                {
-                                    flashButton.Enabled = false;
-                                    resetButton.Enabled = false;
-                                    clearEepromButton.Enabled = false;
-                                });
+                                this.Invoke(new Action(DisableUI));
                             }
 
                             _printer.Print("Attempting to flash, please don't remove device", MessageType.Bootloader);
@@ -308,12 +301,7 @@ namespace QMK_Toolbox
 
                             if (!autoflashCheckbox.Checked)
                             {
-                                this.Invoke((MethodInvoker)delegate
-                                {
-                                    flashButton.Enabled = _flasher.CanFlash();
-                                    resetButton.Enabled = _flasher.CanReset();
-                                    clearEepromButton.Enabled = _flasher.CanClearEeprom();
-                                });
+                                this.Invoke(new Action(EnableUI));
                             }
                         }
                     }
@@ -345,24 +333,14 @@ namespace QMK_Toolbox
                     {
                         if (!autoflashCheckbox.Checked)
                         {
-                            this.Invoke((MethodInvoker)delegate
-                            {
-                                flashButton.Enabled = false;
-                                resetButton.Enabled = false;
-                                clearEepromButton.Enabled = false;
-                            });
+                            this.Invoke(new Action(DisableUI));
                         }
 
                         _flasher.Reset(mcuBox.Text);
 
                         if (!autoflashCheckbox.Checked)
                         {
-                            this.Invoke((MethodInvoker)delegate
-                            {
-                                flashButton.Enabled = _flasher.CanFlash();
-                                resetButton.Enabled = _flasher.CanReset();
-                                clearEepromButton.Enabled = _flasher.CanClearEeprom();
-                            });
+                            this.Invoke(new Action(EnableUI));
                         }
                     }
                 }
@@ -393,24 +371,14 @@ namespace QMK_Toolbox
                     {
                         if (!autoflashCheckbox.Checked)
                         {
-                            this.Invoke((MethodInvoker)delegate
-                            {
-                                flashButton.Enabled = false;
-                                resetButton.Enabled = false;
-                                clearEepromButton.Enabled = false;
-                            });
+                            this.Invoke(new Action(DisableUI));
                         }
 
                         _flasher.ClearEeprom(mcuBox.Text);
 
                         if (!autoflashCheckbox.Checked)
                         {
-                            this.Invoke((MethodInvoker)delegate
-                            {
-                                flashButton.Enabled = _flasher.CanFlash();
-                                resetButton.Enabled = _flasher.CanReset();
-                                clearEepromButton.Enabled = _flasher.CanClearEeprom();
-                            });
+                            this.Invoke(new Action(EnableUI));
                         }
                     }
                 }
@@ -638,12 +606,7 @@ namespace QMK_Toolbox
 
             if (!autoflashCheckbox.Checked)
             {
-                this.Invoke((MethodInvoker)delegate
-                {
-                    flashButton.Enabled = _flasher.CanFlash();
-                    resetButton.Enabled = _flasher.CanReset();
-                    clearEepromButton.Enabled = _flasher.CanClearEeprom();
-                });
+                this.Invoke(new Action(EnableUI));
             }
         }
 
@@ -665,17 +628,25 @@ namespace QMK_Toolbox
             if (autoflashCheckbox.Checked)
             {
                 _printer.Print("Auto-flash enabled", MessageType.Info);
-                flashButton.Enabled = false;
-                resetButton.Enabled = false;
-                clearEepromButton.Enabled = false;
+                DisableUI();
             }
             else
             {
                 _printer.Print("Auto-flash disabled", MessageType.Info);
-                flashButton.Enabled = _flasher.CanFlash();
-                resetButton.Enabled = _flasher.CanReset();
-                clearEepromButton.Enabled = _flasher.CanClearEeprom();
+                EnableUI();
             }
+        }
+
+        private void DisableUI() {
+            flashButton.Enabled = false;
+            resetButton.Enabled = false;
+            clearEepromButton.Enabled = false;
+        }
+
+        private void EnableUI() {
+            flashButton.Enabled = _flasher.CanFlash();
+            resetButton.Enabled = _flasher.CanReset();
+            clearEepromButton.Enabled = _flasher.CanClearEeprom();
         }
 
         // Set the button's status tip.
