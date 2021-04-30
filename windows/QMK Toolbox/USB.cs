@@ -106,13 +106,8 @@ namespace QMK_Toolbox
                         return false;
                     }
 
-                    if (connected) {
-                        while (comPort == null)
-                        {
-                            comPort = GetComPort(instance);
-                        }
-                        _flasher.ComPort = comPort;
-                    }
+                    comPort = GetComPort(instance);
+                    _flasher.ComPort = comPort;
                 }
                 else if (vendorId == 0x03EB && atmelDfuPids.Contains(productId)) // Atmel DFU
                 {
