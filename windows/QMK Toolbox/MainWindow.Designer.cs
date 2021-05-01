@@ -264,7 +264,7 @@ namespace QMK_Toolbox {
             this.logTextBox.Location = new System.Drawing.Point(12, 120);
             this.logTextBox.Name = "logTextBox";
             this.logTextBox.ReadOnly = true;
-            this.logTextBox.Size = new System.Drawing.Size(775, 482);
+            this.logTextBox.Size = new System.Drawing.Size(775, 481);
             this.logTextBox.TabIndex = 1;
             this.logTextBox.Text = "";
             this.logTextBox.WordWrap = false;
@@ -343,9 +343,9 @@ namespace QMK_Toolbox {
             | System.Windows.Forms.AnchorStyles.Right)));
             this.hidList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.hidList.FormattingEnabled = true;
-            this.hidList.Location = new System.Drawing.Point(129, 608);
+            this.hidList.Location = new System.Drawing.Point(128, 608);
             this.hidList.Name = "hidList";
-            this.hidList.Size = new System.Drawing.Size(658, 21);
+            this.hidList.Size = new System.Drawing.Size(659, 21);
             this.hidList.TabIndex = 29;
             // 
             // mainMenu
