@@ -36,21 +36,10 @@ namespace QMK_Toolbox
         private readonly Flashing _flasher;
         private readonly Usb _usb;
 
-        public const int MfSeparator = 0x800;
-        public const int WmSyscommand = 0x112;
-        public const int MfByposition = 0x400;
-        public const int About = 1000;
-
         private const int CB_SETCUEBANNER = 0x1703;
 
         [System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto)]
         private static extern int SendMessage(IntPtr hWnd, int msg, int wParam, [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.LPWStr)]string lParam);
-
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
-
-        [DllImport("user32.dll")]
-        private static extern bool InsertMenu(IntPtr hMenu, int wPosition, int wFlags, int wIdNewItem, string lpNewItem);
 
         public MainWindow()
         {
@@ -103,14 +92,6 @@ namespace QMK_Toolbox
                         SetFilePath(sr.ReadLine());
                     }
                     File.Delete(Path.Combine(Path.GetTempPath(), "qmk_toolbox_file.txt"));
-                }
-            }
-            if (m.Msg == WmSyscommand)
-            {
-                if (m.WParam.ToInt32() == About)
-                {
-                    (new AboutBox()).ShowDialog();
-                    return;
                 }
             }
 
@@ -175,12 +156,6 @@ namespace QMK_Toolbox
                 SecurityProtocolType.Tls |
                 SecurityProtocolType.Tls11 |
                 SecurityProtocolType.Tls12;
-
-            var menuHandle = GetSystemMenu(Handle, false);
-            InsertMenu(menuHandle, 0, MfByposition | MfSeparator, 0, string.Empty); // <-- Add a menu seperator
-            InsertMenu(menuHandle, 0, MfByposition, About, "About");
-
-            //_backgroundWorker.RunWorkerAsync();
 
             foreach (var mcu in _flasher.GetMcuList())
             {
@@ -649,20 +624,6 @@ namespace QMK_Toolbox
             clearEepromButton.Enabled = _flasher.CanClearEeprom();
         }
 
-        // Set the button's status tip.
-        private void btn_MouseEnter(object sender, EventArgs e)
-        {
-            if (sender is Control obj) toolStripStatusLabel.Text = obj.Tag.ToString();
-        }
-
-        // Remove the button's status tip.
-        private void btn_MouseLeave(object sender, EventArgs e)
-        {
-            //if (toolStripStatusLabel.Text.Equals((sender as Control).Tag)) {
-            //    toolStripStatusLabel.Text = "";
-            //}
-        }
-
         private void UpdateHidList()
         {
             if (!InvokeRequired)
@@ -731,17 +692,7 @@ namespace QMK_Toolbox
             }
         }
 
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            (new AboutBox()).ShowDialog();
-        }
-
-        private void installDriversToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            InstallDrivers();
-        }
-
-        private void KeyboardBox_TextChanged(object sender, EventArgs e)
+        private void keyboardBox_TextChanged(object sender, EventArgs e)
         {
             loadKeymap.Enabled = keyboardBox.Items.Contains(keyboardBox.Text);
         }
@@ -765,6 +716,21 @@ namespace QMK_Toolbox
             copyToolStripMenuItem.Enabled = (logTextBox.SelectedText.Length > 0);
             selectAllToolStripMenuItem.Enabled = (logTextBox.Text.Length > 0);
             clearToolStripMenuItem.Enabled = (logTextBox.Text.Length > 0);
+        }
+
+        private void aboutMenuItem_Click(object sender, EventArgs e)
+        {
+            (new AboutBox()).ShowDialog();
+        }
+
+        private void exitMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void installDriversMenuItem_Click(object sender, EventArgs e)
+        {
+            InstallDrivers();
         }
     }
 }
