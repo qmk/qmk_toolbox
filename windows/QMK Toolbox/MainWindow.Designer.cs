@@ -61,6 +61,8 @@ namespace QMK_Toolbox {
             this.optionsMenuItem = new System.Windows.Forms.MenuItem();
             this.HelpMenuItem = new System.Windows.Forms.MenuItem();
             this.aboutMenuItem = new System.Windows.Forms.MenuItem();
+            this.checkForUpdatesMenuItem = new System.Windows.Forms.MenuItem();
+            this.helpMenuSep = new System.Windows.Forms.MenuItem();
             this.qmkfmGroupBox.SuspendLayout();
             this.fileGroupBox.SuspendLayout();
             this.logContextMenu.SuspendLayout();
@@ -415,14 +417,27 @@ namespace QMK_Toolbox {
             // 
             this.HelpMenuItem.Index = 2;
             this.HelpMenuItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.checkForUpdatesMenuItem,
+            this.helpMenuSep,
             this.aboutMenuItem});
             this.HelpMenuItem.Text = "&Help";
             // 
             // aboutMenuItem
             // 
-            this.aboutMenuItem.Index = 0;
+            this.aboutMenuItem.Index = 2;
             this.aboutMenuItem.Text = "&About";
             this.aboutMenuItem.Click += new System.EventHandler(this.aboutMenuItem_Click);
+            // 
+            // checkForUpdatesMenuItem
+            // 
+            this.checkForUpdatesMenuItem.Enabled = false;
+            this.checkForUpdatesMenuItem.Index = 0;
+            this.checkForUpdatesMenuItem.Text = "Check for Updates...";
+            // 
+            // helpMenuSep
+            // 
+            this.helpMenuSep.Index = 1;
+            this.helpMenuSep.Text = "-";
             // 
             // MainWindow
             // 
@@ -496,6 +511,8 @@ namespace QMK_Toolbox {
         private System.Windows.Forms.MenuItem aboutMenuItem;
         private System.Windows.Forms.MenuItem toolsMenuSep;
         private System.Windows.Forms.MenuItem optionsMenuItem;
+        private System.Windows.Forms.MenuItem checkForUpdatesMenuItem;
+        private System.Windows.Forms.MenuItem helpMenuSep;
     }
 }
 
