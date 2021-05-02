@@ -72,7 +72,7 @@ namespace QMK_Toolbox {
             // 
             this.flashButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.flashButton.Enabled = false;
-            this.flashButton.Location = new System.Drawing.Point(652, 66);
+            this.flashButton.Location = new System.Drawing.Point(653, 66);
             this.flashButton.Name = "flashButton";
             this.flashButton.Size = new System.Drawing.Size(62, 23);
             this.flashButton.TabIndex = 6;
@@ -84,7 +84,7 @@ namespace QMK_Toolbox {
             this.autoflashCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.autoflashCheckbox.AutoSize = true;
             this.autoflashCheckbox.BackColor = System.Drawing.Color.Transparent;
-            this.autoflashCheckbox.Location = new System.Drawing.Point(652, 95);
+            this.autoflashCheckbox.Location = new System.Drawing.Point(653, 95);
             this.autoflashCheckbox.Name = "autoflashCheckbox";
             this.autoflashCheckbox.Size = new System.Drawing.Size(76, 17);
             this.autoflashCheckbox.TabIndex = 5;
@@ -100,7 +100,7 @@ namespace QMK_Toolbox {
             // openFileButton
             // 
             this.openFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.openFileButton.Location = new System.Drawing.Point(570, 18);
+            this.openFileButton.Location = new System.Drawing.Point(571, 18);
             this.openFileButton.Name = "openFileButton";
             this.openFileButton.Size = new System.Drawing.Size(64, 23);
             this.openFileButton.TabIndex = 3;
@@ -112,7 +112,7 @@ namespace QMK_Toolbox {
             // 
             this.resetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.resetButton.Enabled = false;
-            this.resetButton.Location = new System.Drawing.Point(720, 66);
+            this.resetButton.Location = new System.Drawing.Point(721, 66);
             this.resetButton.Name = "resetButton";
             this.resetButton.Size = new System.Drawing.Size(67, 23);
             this.resetButton.TabIndex = 7;
@@ -123,7 +123,7 @@ namespace QMK_Toolbox {
             // 
             this.mcuLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.mcuLabel.AutoSize = true;
-            this.mcuLabel.Location = new System.Drawing.Point(637, 0);
+            this.mcuLabel.Location = new System.Drawing.Point(638, 0);
             this.mcuLabel.Name = "mcuLabel";
             this.mcuLabel.Size = new System.Drawing.Size(84, 13);
             this.mcuLabel.TabIndex = 22;
@@ -139,7 +139,7 @@ namespace QMK_Toolbox {
             this.qmkfmGroupBox.Controls.Add(this.loadKeymap);
             this.qmkfmGroupBox.Location = new System.Drawing.Point(12, 66);
             this.qmkfmGroupBox.Name = "qmkfmGroupBox";
-            this.qmkfmGroupBox.Size = new System.Drawing.Size(634, 48);
+            this.qmkfmGroupBox.Size = new System.Drawing.Size(635, 48);
             this.qmkfmGroupBox.TabIndex = 23;
             this.qmkfmGroupBox.TabStop = false;
             this.qmkfmGroupBox.Text = "Keyboard from qmk.fm";
@@ -148,7 +148,7 @@ namespace QMK_Toolbox {
             // 
             this.keymapLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.keymapLabel.AutoSize = true;
-            this.keymapLabel.Location = new System.Drawing.Point(446, 0);
+            this.keymapLabel.Location = new System.Drawing.Point(447, 0);
             this.keymapLabel.Name = "keymapLabel";
             this.keymapLabel.Size = new System.Drawing.Size(45, 13);
             this.keymapLabel.TabIndex = 24;
@@ -162,7 +162,7 @@ namespace QMK_Toolbox {
             this.keymapBox.FormattingEnabled = true;
             this.keymapBox.Items.AddRange(new object[] {
             "later version!"});
-            this.keymapBox.Location = new System.Drawing.Point(449, 19);
+            this.keymapBox.Location = new System.Drawing.Point(450, 19);
             this.keymapBox.Name = "keymapBox";
             this.keymapBox.Size = new System.Drawing.Size(109, 21);
             this.keymapBox.TabIndex = 4;
@@ -181,7 +181,7 @@ namespace QMK_Toolbox {
             "this feature coming in"});
             this.keyboardBox.Location = new System.Drawing.Point(6, 19);
             this.keyboardBox.Name = "keyboardBox";
-            this.keyboardBox.Size = new System.Drawing.Size(437, 21);
+            this.keyboardBox.Size = new System.Drawing.Size(438, 21);
             this.keyboardBox.TabIndex = 4;
             this.keyboardBox.Text = global::QMK_Toolbox.Properties.Settings.Default.keyboard;
             this.keyboardBox.TextChanged += new System.EventHandler(this.keyboardBox_TextChanged);
@@ -190,7 +190,7 @@ namespace QMK_Toolbox {
             // 
             this.loadKeymap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.loadKeymap.Enabled = false;
-            this.loadKeymap.Location = new System.Drawing.Point(564, 18);
+            this.loadKeymap.Location = new System.Drawing.Point(565, 18);
             this.loadKeymap.Name = "loadKeymap";
             this.loadKeymap.Size = new System.Drawing.Size(64, 23);
             this.loadKeymap.TabIndex = 3;
@@ -208,7 +208,7 @@ namespace QMK_Toolbox {
             this.fileGroupBox.Controls.Add(this.mcuBox);
             this.fileGroupBox.Location = new System.Drawing.Point(12, 12);
             this.fileGroupBox.Name = "fileGroupBox";
-            this.fileGroupBox.Size = new System.Drawing.Size(775, 48);
+            this.fileGroupBox.Size = new System.Drawing.Size(776, 48);
             this.fileGroupBox.TabIndex = 25;
             this.fileGroupBox.TabStop = false;
             this.fileGroupBox.Text = "Local file";
@@ -221,7 +221,7 @@ namespace QMK_Toolbox {
             this.filepathBox.FormattingEnabled = true;
             this.filepathBox.Location = new System.Drawing.Point(6, 19);
             this.filepathBox.Name = "filepathBox";
-            this.filepathBox.Size = new System.Drawing.Size(557, 21);
+            this.filepathBox.Size = new System.Drawing.Size(558, 21);
             this.filepathBox.TabIndex = 2;
             this.filepathBox.Text = global::QMK_Toolbox.Properties.Settings.Default.hexFileSetting;
             this.filepathBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.filepathBox_KeyDown);
@@ -232,7 +232,7 @@ namespace QMK_Toolbox {
             this.mcuBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "targetSetting", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.mcuBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.mcuBox.FormattingEnabled = true;
-            this.mcuBox.Location = new System.Drawing.Point(640, 19);
+            this.mcuBox.Location = new System.Drawing.Point(641, 19);
             this.mcuBox.Name = "mcuBox";
             this.mcuBox.Size = new System.Drawing.Size(129, 21);
             this.mcuBox.TabIndex = 4;
@@ -242,7 +242,7 @@ namespace QMK_Toolbox {
             // 
             this.clearEepromButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.clearEepromButton.Enabled = false;
-            this.clearEepromButton.Location = new System.Drawing.Point(12, 607);
+            this.clearEepromButton.Location = new System.Drawing.Point(12, 606);
             this.clearEepromButton.Name = "clearEepromButton";
             this.clearEepromButton.Size = new System.Drawing.Size(110, 23);
             this.clearEepromButton.TabIndex = 27;
@@ -266,7 +266,7 @@ namespace QMK_Toolbox {
             this.logTextBox.Location = new System.Drawing.Point(12, 120);
             this.logTextBox.Name = "logTextBox";
             this.logTextBox.ReadOnly = true;
-            this.logTextBox.Size = new System.Drawing.Size(775, 481);
+            this.logTextBox.Size = new System.Drawing.Size(776, 480);
             this.logTextBox.TabIndex = 1;
             this.logTextBox.Text = "";
             this.logTextBox.WordWrap = false;
@@ -345,9 +345,9 @@ namespace QMK_Toolbox {
             | System.Windows.Forms.AnchorStyles.Right)));
             this.hidList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.hidList.FormattingEnabled = true;
-            this.hidList.Location = new System.Drawing.Point(128, 608);
+            this.hidList.Location = new System.Drawing.Point(128, 607);
             this.hidList.Name = "hidList";
-            this.hidList.Size = new System.Drawing.Size(659, 21);
+            this.hidList.Size = new System.Drawing.Size(660, 21);
             this.hidList.TabIndex = 29;
             // 
             // mainMenu
@@ -444,7 +444,7 @@ namespace QMK_Toolbox {
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(799, 641);
+            this.ClientSize = new System.Drawing.Size(800, 640);
             this.Controls.Add(this.hidList);
             this.Controls.Add(this.clearEepromButton);
             this.Controls.Add(this.fileGroupBox);
@@ -455,7 +455,7 @@ namespace QMK_Toolbox {
             this.Controls.Add(this.resetButton);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Menu = this.mainMenu;
-            this.MinimumSize = new System.Drawing.Size(815, 700);
+            this.MinimumSize = new System.Drawing.Size(816, 699);
             this.Name = "MainWindow";
             this.Text = "QMK Toolbox";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
