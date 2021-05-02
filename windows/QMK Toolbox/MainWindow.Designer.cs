@@ -60,9 +60,9 @@ namespace QMK_Toolbox {
             this.toolsMenuSep = new System.Windows.Forms.MenuItem();
             this.optionsMenuItem = new System.Windows.Forms.MenuItem();
             this.HelpMenuItem = new System.Windows.Forms.MenuItem();
-            this.aboutMenuItem = new System.Windows.Forms.MenuItem();
             this.checkForUpdatesMenuItem = new System.Windows.Forms.MenuItem();
             this.helpMenuSep = new System.Windows.Forms.MenuItem();
+            this.aboutMenuItem = new System.Windows.Forms.MenuItem();
             this.qmkfmGroupBox.SuspendLayout();
             this.fileGroupBox.SuspendLayout();
             this.logContextMenu.SuspendLayout();
@@ -422,12 +422,6 @@ namespace QMK_Toolbox {
             this.aboutMenuItem});
             this.HelpMenuItem.Text = "&Help";
             // 
-            // aboutMenuItem
-            // 
-            this.aboutMenuItem.Index = 2;
-            this.aboutMenuItem.Text = "&About";
-            this.aboutMenuItem.Click += new System.EventHandler(this.aboutMenuItem_Click);
-            // 
             // checkForUpdatesMenuItem
             // 
             this.checkForUpdatesMenuItem.Enabled = false;
@@ -438,6 +432,12 @@ namespace QMK_Toolbox {
             // 
             this.helpMenuSep.Index = 1;
             this.helpMenuSep.Text = "-";
+            // 
+            // aboutMenuItem
+            // 
+            this.aboutMenuItem.Index = 2;
+            this.aboutMenuItem.Text = "&About";
+            this.aboutMenuItem.Click += new System.EventHandler(this.aboutMenuItem_Click);
             // 
             // MainWindow
             // 
