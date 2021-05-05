@@ -206,9 +206,12 @@ static void deviceDisconnectedEvent(void *refCon, io_iterator_t iterator) {
             return;
         }
 
-        [NSThread sleepForTimeInterval:0.5];
-        calloutDevice = [USB calloutDeviceForDevice:device];
-        [delegate setSerialPort:calloutDevice];
+        if (connected) {
+            while (calloutDevice == nil) {
+                calloutDevice = [USB calloutDeviceForDevice:device];
+            }
+            [delegate setSerialPort:calloutDevice];
+        }
     } else if (vendorID == 0x03EB && [atmelDfuPids containsObject:[NSNumber numberWithUnsignedShort:productID]]) { // Atmel DFU
         deviceName = @"Atmel DFU";
         deviceType = AtmelDFU;
