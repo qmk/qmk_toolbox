@@ -133,15 +133,6 @@ namespace QMK_Toolbox
             StartListeningForDeviceEvents();
         }
 
-        private void logTextBox_TextChanged(object sender, EventArgs e)
-        {
-            // This shouldn't be needed anymore
-            // set the current caret position to the end
-            // logTextBox.SelectionStart = logTextBox.Text.Length;
-            // scroll it automatically
-            // logTextBox.ScrollToCaret();
-        }
-
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             var arraylist = new ArrayList(filepathBox.Items);

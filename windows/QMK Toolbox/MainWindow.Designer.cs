@@ -271,7 +271,6 @@ namespace QMK_Toolbox {
             this.logTextBox.Text = "";
             this.logTextBox.WordWrap = false;
             this.logTextBox.ZoomFactor = global::QMK_Toolbox.Properties.Settings.Default.outputZoom;
-            this.logTextBox.TextChanged += new System.EventHandler(this.logTextBox_TextChanged);
             // 
             // logContextMenu
             // 
