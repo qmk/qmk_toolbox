@@ -37,7 +37,6 @@ namespace QMK_Toolbox {
             this.keyboardBox = new System.Windows.Forms.ComboBox();
             this.loadKeymapButton = new System.Windows.Forms.Button();
             this.fileGroupBox = new System.Windows.Forms.GroupBox();
-            this.filepathBox = new QMK_Toolbox.BetterComboBox();
             this.mcuBox = new System.Windows.Forms.ComboBox();
             this.clearEepromButton = new System.Windows.Forms.Button();
             this.logTextBox = new System.Windows.Forms.RichTextBox();
@@ -50,29 +49,31 @@ namespace QMK_Toolbox {
             this.logContextMenuSep2 = new System.Windows.Forms.ToolStripSeparator();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hidList = new System.Windows.Forms.ComboBox();
-            this.mainMenu = new System.Windows.Forms.MainMenu(this.components);
-            this.fileMenuItem = new System.Windows.Forms.MenuItem();
-            this.openMenuItem = new System.Windows.Forms.MenuItem();
-            this.fileMenuSep = new System.Windows.Forms.MenuItem();
-            this.exitMenuItem = new System.Windows.Forms.MenuItem();
-            this.toolsMenuItem = new System.Windows.Forms.MenuItem();
-            this.installDriversMenuItem = new System.Windows.Forms.MenuItem();
-            this.toolsMenuSep = new System.Windows.Forms.MenuItem();
-            this.optionsMenuItem = new System.Windows.Forms.MenuItem();
-            this.helpMenuItem = new System.Windows.Forms.MenuItem();
-            this.checkForUpdatesMenuItem = new System.Windows.Forms.MenuItem();
-            this.helpMenuSep = new System.Windows.Forms.MenuItem();
-            this.aboutMenuItem = new System.Windows.Forms.MenuItem();
+            this.mainMenu = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fileToolStripMenuSep = new System.Windows.Forms.ToolStripSeparator();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.installDriversToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuSep = new System.Windows.Forms.ToolStripSeparator();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuSep = new System.Windows.Forms.ToolStripSeparator();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.filepathBox = new QMK_Toolbox.BetterComboBox();
             this.qmkfmGroupBox.SuspendLayout();
             this.fileGroupBox.SuspendLayout();
             this.logContextMenu.SuspendLayout();
+            this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // flashButton
             // 
             this.flashButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.flashButton.Enabled = false;
-            this.flashButton.Location = new System.Drawing.Point(653, 66);
+            this.flashButton.Location = new System.Drawing.Point(653, 86);
             this.flashButton.Name = "flashButton";
             this.flashButton.Size = new System.Drawing.Size(62, 23);
             this.flashButton.TabIndex = 6;
@@ -84,7 +85,7 @@ namespace QMK_Toolbox {
             this.autoflashCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.autoflashCheckbox.AutoSize = true;
             this.autoflashCheckbox.BackColor = System.Drawing.Color.Transparent;
-            this.autoflashCheckbox.Location = new System.Drawing.Point(653, 95);
+            this.autoflashCheckbox.Location = new System.Drawing.Point(653, 115);
             this.autoflashCheckbox.Name = "autoflashCheckbox";
             this.autoflashCheckbox.Size = new System.Drawing.Size(76, 17);
             this.autoflashCheckbox.TabIndex = 5;
@@ -112,7 +113,7 @@ namespace QMK_Toolbox {
             // 
             this.resetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.resetButton.Enabled = false;
-            this.resetButton.Location = new System.Drawing.Point(721, 66);
+            this.resetButton.Location = new System.Drawing.Point(721, 86);
             this.resetButton.Name = "resetButton";
             this.resetButton.Size = new System.Drawing.Size(67, 23);
             this.resetButton.TabIndex = 7;
@@ -137,7 +138,7 @@ namespace QMK_Toolbox {
             this.qmkfmGroupBox.Controls.Add(this.keymapBox);
             this.qmkfmGroupBox.Controls.Add(this.keyboardBox);
             this.qmkfmGroupBox.Controls.Add(this.loadKeymapButton);
-            this.qmkfmGroupBox.Location = new System.Drawing.Point(12, 66);
+            this.qmkfmGroupBox.Location = new System.Drawing.Point(12, 86);
             this.qmkfmGroupBox.Name = "qmkfmGroupBox";
             this.qmkfmGroupBox.Size = new System.Drawing.Size(635, 48);
             this.qmkfmGroupBox.TabIndex = 23;
@@ -206,25 +207,12 @@ namespace QMK_Toolbox {
             this.fileGroupBox.Controls.Add(this.filepathBox);
             this.fileGroupBox.Controls.Add(this.mcuLabel);
             this.fileGroupBox.Controls.Add(this.mcuBox);
-            this.fileGroupBox.Location = new System.Drawing.Point(12, 12);
+            this.fileGroupBox.Location = new System.Drawing.Point(12, 32);
             this.fileGroupBox.Name = "fileGroupBox";
             this.fileGroupBox.Size = new System.Drawing.Size(776, 48);
             this.fileGroupBox.TabIndex = 25;
             this.fileGroupBox.TabStop = false;
             this.fileGroupBox.Text = "Local file";
-            // 
-            // filepathBox
-            // 
-            this.filepathBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.filepathBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "hexFileSetting", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.filepathBox.FormattingEnabled = true;
-            this.filepathBox.Location = new System.Drawing.Point(6, 19);
-            this.filepathBox.Name = "filepathBox";
-            this.filepathBox.Size = new System.Drawing.Size(558, 21);
-            this.filepathBox.TabIndex = 2;
-            this.filepathBox.Text = global::QMK_Toolbox.Properties.Settings.Default.hexFileSetting;
-            this.filepathBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.filepathBox_KeyDown);
             // 
             // mcuBox
             // 
@@ -242,7 +230,7 @@ namespace QMK_Toolbox {
             // 
             this.clearEepromButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.clearEepromButton.Enabled = false;
-            this.clearEepromButton.Location = new System.Drawing.Point(12, 606);
+            this.clearEepromButton.Location = new System.Drawing.Point(12, 630);
             this.clearEepromButton.Name = "clearEepromButton";
             this.clearEepromButton.Size = new System.Drawing.Size(110, 23);
             this.clearEepromButton.TabIndex = 27;
@@ -263,10 +251,10 @@ namespace QMK_Toolbox {
             this.logTextBox.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.logTextBox.ForeColor = System.Drawing.Color.White;
             this.logTextBox.HideSelection = false;
-            this.logTextBox.Location = new System.Drawing.Point(12, 120);
+            this.logTextBox.Location = new System.Drawing.Point(12, 140);
             this.logTextBox.Name = "logTextBox";
             this.logTextBox.ReadOnly = true;
-            this.logTextBox.Size = new System.Drawing.Size(776, 480);
+            this.logTextBox.Size = new System.Drawing.Size(776, 484);
             this.logTextBox.TabIndex = 1;
             this.logTextBox.Text = "";
             this.logTextBox.WordWrap = false;
@@ -344,106 +332,135 @@ namespace QMK_Toolbox {
             | System.Windows.Forms.AnchorStyles.Right)));
             this.hidList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.hidList.FormattingEnabled = true;
-            this.hidList.Location = new System.Drawing.Point(128, 607);
+            this.hidList.Location = new System.Drawing.Point(128, 631);
             this.hidList.Name = "hidList";
             this.hidList.Size = new System.Drawing.Size(660, 21);
             this.hidList.TabIndex = 29;
             // 
             // mainMenu
             // 
-            this.mainMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.fileMenuItem,
-            this.toolsMenuItem,
-            this.helpMenuItem});
+            this.mainMenu.BackColor = System.Drawing.Color.Transparent;
+            this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.toolsToolStripMenuItem,
+            this.helpToolStripMenuItem});
+            this.mainMenu.Location = new System.Drawing.Point(0, 0);
+            this.mainMenu.Name = "mainMenu";
+            this.mainMenu.Size = new System.Drawing.Size(800, 24);
+            this.mainMenu.TabIndex = 30;
+            this.mainMenu.Text = "mainMenu";
             // 
-            // fileMenuItem
+            // fileToolStripMenuItem
             // 
-            this.fileMenuItem.Index = 0;
-            this.fileMenuItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.openMenuItem,
-            this.fileMenuSep,
-            this.exitMenuItem});
-            this.fileMenuItem.Text = "&File";
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem,
+            this.fileToolStripMenuSep,
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "&File";
             // 
-            // openMenuItem
+            // openToolStripMenuItem
             // 
-            this.openMenuItem.Index = 0;
-            this.openMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlO;
-            this.openMenuItem.Text = "&Open...";
-            this.openMenuItem.Click += new System.EventHandler(this.openFileButton_Click);
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Text = "&Open...";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openFileButton_Click);
             // 
-            // fileMenuSep
+            // fileToolStripMenuSep
             // 
-            this.fileMenuSep.Index = 1;
-            this.fileMenuSep.Text = "-";
+            this.fileToolStripMenuSep.Name = "fileToolStripMenuSep";
+            this.fileToolStripMenuSep.Size = new System.Drawing.Size(177, 6);
             // 
-            // exitMenuItem
+            // exitToolStripMenuItem
             // 
-            this.exitMenuItem.Index = 2;
-            this.exitMenuItem.Shortcut = System.Windows.Forms.Shortcut.AltF4;
-            this.exitMenuItem.Text = "E&xit";
-            this.exitMenuItem.Click += new System.EventHandler(this.exitMenuItem_Click);
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Text = "E&xit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitMenuItem_Click);
             // 
-            // toolsMenuItem
+            // toolsToolStripMenuItem
             // 
-            this.toolsMenuItem.Index = 1;
-            this.toolsMenuItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.installDriversMenuItem,
-            this.toolsMenuSep,
-            this.optionsMenuItem});
-            this.toolsMenuItem.Text = "&Tools";
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.installDriversToolStripMenuItem,
+            this.toolsToolStripMenuSep,
+            this.optionsToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
+            this.toolsToolStripMenuItem.Text = "&Tools";
             // 
-            // installDriversMenuItem
+            // installDriversToolStripMenuItem
             // 
-            this.installDriversMenuItem.Index = 0;
-            this.installDriversMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlN;
-            this.installDriversMenuItem.Text = "I&nstall Drivers...";
-            this.installDriversMenuItem.Click += new System.EventHandler(this.installDriversMenuItem_Click);
+            this.installDriversToolStripMenuItem.Name = "installDriversToolStripMenuItem";
+            this.installDriversToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.installDriversToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.installDriversToolStripMenuItem.Text = "I&nstall Drivers...";
+            this.installDriversToolStripMenuItem.Click += new System.EventHandler(this.installDriversMenuItem_Click);
             // 
-            // toolsMenuSep
+            // toolsToolStripMenuSep
             // 
-            this.toolsMenuSep.Index = 1;
-            this.toolsMenuSep.Text = "-";
+            this.toolsToolStripMenuSep.Name = "toolsToolStripMenuSep";
+            this.toolsToolStripMenuSep.Size = new System.Drawing.Size(193, 6);
             // 
-            // optionsMenuItem
+            // optionsToolStripMenuItem
             // 
-            this.optionsMenuItem.Enabled = false;
-            this.optionsMenuItem.Index = 2;
-            this.optionsMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlP;
-            this.optionsMenuItem.Text = "O&ptions...";
+            this.optionsToolStripMenuItem.Enabled = false;
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.optionsToolStripMenuItem.Text = "O&ptions...";
             // 
-            // helpMenuItem
+            // helpToolStripMenuItem
             // 
-            this.helpMenuItem.Index = 2;
-            this.helpMenuItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.checkForUpdatesMenuItem,
-            this.helpMenuSep,
-            this.aboutMenuItem});
-            this.helpMenuItem.Text = "&Help";
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.checkForUpdatesToolStripMenuItem,
+            this.helpToolStripMenuSep,
+            this.aboutToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "&Help";
             // 
-            // checkForUpdatesMenuItem
+            // checkForUpdatesToolStripMenuItem
             // 
-            this.checkForUpdatesMenuItem.Enabled = false;
-            this.checkForUpdatesMenuItem.Index = 0;
-            this.checkForUpdatesMenuItem.Text = "Check for Updates...";
+            this.checkForUpdatesToolStripMenuItem.Enabled = false;
+            this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
+            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.checkForUpdatesToolStripMenuItem.Text = "Check for Updates...";
             // 
-            // helpMenuSep
+            // helpToolStripMenuSep
             // 
-            this.helpMenuSep.Index = 1;
-            this.helpMenuSep.Text = "-";
+            this.helpToolStripMenuSep.Name = "helpToolStripMenuSep";
+            this.helpToolStripMenuSep.Size = new System.Drawing.Size(177, 6);
             // 
-            // aboutMenuItem
+            // aboutToolStripMenuItem
             // 
-            this.aboutMenuItem.Index = 2;
-            this.aboutMenuItem.Text = "&About";
-            this.aboutMenuItem.Click += new System.EventHandler(this.aboutMenuItem_Click);
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Text = "&About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutMenuItem_Click);
+            // 
+            // filepathBox
+            // 
+            this.filepathBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.filepathBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "hexFileSetting", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.filepathBox.FormattingEnabled = true;
+            this.filepathBox.Location = new System.Drawing.Point(6, 19);
+            this.filepathBox.Name = "filepathBox";
+            this.filepathBox.Size = new System.Drawing.Size(558, 21);
+            this.filepathBox.TabIndex = 2;
+            this.filepathBox.Text = global::QMK_Toolbox.Properties.Settings.Default.hexFileSetting;
+            this.filepathBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.filepathBox_KeyDown);
             // 
             // MainWindow
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 640);
+            this.ClientSize = new System.Drawing.Size(800, 664);
+            this.Controls.Add(this.mainMenu);
             this.Controls.Add(this.hidList);
             this.Controls.Add(this.clearEepromButton);
             this.Controls.Add(this.fileGroupBox);
@@ -453,8 +470,8 @@ namespace QMK_Toolbox {
             this.Controls.Add(this.logTextBox);
             this.Controls.Add(this.resetButton);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Menu = this.mainMenu;
-            this.MinimumSize = new System.Drawing.Size(816, 699);
+            this.MainMenuStrip = this.mainMenu;
+            this.MinimumSize = new System.Drawing.Size(816, 703);
             this.Name = "MainWindow";
             this.Text = "QMK Toolbox";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
@@ -468,6 +485,8 @@ namespace QMK_Toolbox {
             this.fileGroupBox.ResumeLayout(false);
             this.fileGroupBox.PerformLayout();
             this.logContextMenu.ResumeLayout(false);
+            this.mainMenu.ResumeLayout(false);
+            this.mainMenu.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -499,19 +518,19 @@ namespace QMK_Toolbox {
         private System.Windows.Forms.ToolStripMenuItem cutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator logContextMenuSep2;
-        private System.Windows.Forms.MainMenu mainMenu;
-        private System.Windows.Forms.MenuItem fileMenuItem;
-        private System.Windows.Forms.MenuItem openMenuItem;
-        private System.Windows.Forms.MenuItem fileMenuSep;
-        private System.Windows.Forms.MenuItem exitMenuItem;
-        private System.Windows.Forms.MenuItem toolsMenuItem;
-        private System.Windows.Forms.MenuItem installDriversMenuItem;
-        private System.Windows.Forms.MenuItem helpMenuItem;
-        private System.Windows.Forms.MenuItem aboutMenuItem;
-        private System.Windows.Forms.MenuItem toolsMenuSep;
-        private System.Windows.Forms.MenuItem optionsMenuItem;
-        private System.Windows.Forms.MenuItem checkForUpdatesMenuItem;
-        private System.Windows.Forms.MenuItem helpMenuSep;
+        private System.Windows.Forms.MenuStrip mainMenu;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator fileToolStripMenuSep;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem installDriversToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolsToolStripMenuSep;
+        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator helpToolStripMenuSep;
     }
 }
 
