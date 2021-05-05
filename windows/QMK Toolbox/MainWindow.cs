@@ -211,7 +211,7 @@ namespace QMK_Toolbox
                         keyboardBox.SelectedIndex = -1;
                         keyboardBox.ResetText();
                         keyboardBox.Enabled = true;
-                        loadKeymap.Enabled = false;
+                        loadKeymapButton.Enabled = false;
                         LoadKeymapList();
                     }
                 }
@@ -221,7 +221,7 @@ namespace QMK_Toolbox
                 _printer.PrintResponse("Something went wrong when trying to get the keyboard list from QMK.FM, you might not have a internet connection or the servers are down.", MessageType.Error);
                 keymapBox.Enabled = false;
                 keyboardBox.Enabled = false;
-                loadKeymap.Enabled = false;
+                loadKeymapButton.Enabled = false;
             }
         }
 
@@ -233,7 +233,7 @@ namespace QMK_Toolbox
             // keymapBox.Enabled = true;
         }
 
-        private void loadKeymap_Click(object sender, EventArgs e)
+        private void loadKeymapButton_Click(object sender, EventArgs e)
         {
             if (keyboardBox.Items.Count > 0)
             {
@@ -694,7 +694,7 @@ namespace QMK_Toolbox
 
         private void keyboardBox_TextChanged(object sender, EventArgs e)
         {
-            loadKeymap.Enabled = keyboardBox.Items.Contains(keyboardBox.Text);
+            loadKeymapButton.Enabled = keyboardBox.Items.Contains(keyboardBox.Text);
         }
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -711,7 +711,7 @@ namespace QMK_Toolbox
             logTextBox.Clear();
         }
 
-        private void contextMenuStrip2_Opening(object sender, CancelEventArgs e)
+        private void logContextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
             copyToolStripMenuItem.Enabled = (logTextBox.SelectedText.Length > 0);
             selectAllToolStripMenuItem.Enabled = (logTextBox.Text.Length > 0);

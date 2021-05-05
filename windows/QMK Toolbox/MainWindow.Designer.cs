@@ -35,7 +35,7 @@ namespace QMK_Toolbox {
             this.keymapLabel = new System.Windows.Forms.Label();
             this.keymapBox = new System.Windows.Forms.ComboBox();
             this.keyboardBox = new System.Windows.Forms.ComboBox();
-            this.loadKeymap = new System.Windows.Forms.Button();
+            this.loadKeymapButton = new System.Windows.Forms.Button();
             this.fileGroupBox = new System.Windows.Forms.GroupBox();
             this.filepathBox = new QMK_Toolbox.BetterComboBox();
             this.mcuBox = new System.Windows.Forms.ComboBox();
@@ -136,7 +136,7 @@ namespace QMK_Toolbox {
             this.qmkfmGroupBox.Controls.Add(this.keymapLabel);
             this.qmkfmGroupBox.Controls.Add(this.keymapBox);
             this.qmkfmGroupBox.Controls.Add(this.keyboardBox);
-            this.qmkfmGroupBox.Controls.Add(this.loadKeymap);
+            this.qmkfmGroupBox.Controls.Add(this.loadKeymapButton);
             this.qmkfmGroupBox.Location = new System.Drawing.Point(12, 66);
             this.qmkfmGroupBox.Name = "qmkfmGroupBox";
             this.qmkfmGroupBox.Size = new System.Drawing.Size(635, 48);
@@ -186,17 +186,17 @@ namespace QMK_Toolbox {
             this.keyboardBox.Text = global::QMK_Toolbox.Properties.Settings.Default.keyboard;
             this.keyboardBox.TextChanged += new System.EventHandler(this.keyboardBox_TextChanged);
             // 
-            // loadKeymap
+            // loadKeymapButton
             // 
-            this.loadKeymap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.loadKeymap.Enabled = false;
-            this.loadKeymap.Location = new System.Drawing.Point(565, 18);
-            this.loadKeymap.Name = "loadKeymap";
-            this.loadKeymap.Size = new System.Drawing.Size(64, 23);
-            this.loadKeymap.TabIndex = 3;
-            this.loadKeymap.Text = "Load";
-            this.loadKeymap.UseVisualStyleBackColor = true;
-            this.loadKeymap.Click += new System.EventHandler(this.loadKeymap_Click);
+            this.loadKeymapButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.loadKeymapButton.Enabled = false;
+            this.loadKeymapButton.Location = new System.Drawing.Point(565, 18);
+            this.loadKeymapButton.Name = "loadKeymapButton";
+            this.loadKeymapButton.Size = new System.Drawing.Size(64, 23);
+            this.loadKeymapButton.TabIndex = 3;
+            this.loadKeymapButton.Text = "Load";
+            this.loadKeymapButton.UseVisualStyleBackColor = true;
+            this.loadKeymapButton.Click += new System.EventHandler(this.loadKeymapButton_Click);
             // 
             // fileGroupBox
             // 
@@ -286,7 +286,7 @@ namespace QMK_Toolbox {
             this.logContextMenu.Name = "contextMenuStrip2";
             this.logContextMenu.ShowImageMargin = false;
             this.logContextMenu.Size = new System.Drawing.Size(140, 126);
-            this.logContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip2_Opening);
+            this.logContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.logContextMenuStrip_Opening);
             // 
             // cutToolStripMenuItem
             // 
@@ -486,7 +486,7 @@ namespace QMK_Toolbox {
         private System.Windows.Forms.GroupBox qmkfmGroupBox;
         private System.Windows.Forms.ComboBox keymapBox;
         private System.Windows.Forms.ComboBox keyboardBox;
-        private System.Windows.Forms.Button loadKeymap;
+        private System.Windows.Forms.Button loadKeymapButton;
         private System.Windows.Forms.Label keymapLabel;
         private System.Windows.Forms.GroupBox fileGroupBox;
         private System.Windows.Forms.Button clearEepromButton;
