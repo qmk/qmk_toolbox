@@ -45,9 +45,9 @@ namespace QMK_Toolbox {
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.logContextMenuSep1 = new System.Windows.Forms.ToolStripSeparator();
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.logContextMenuSep2 = new System.Windows.Forms.ToolStripSeparator();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hidList = new System.Windows.Forms.ComboBox();
             this.mainMenu = new System.Windows.Forms.MainMenu(this.components);
@@ -279,9 +279,9 @@ namespace QMK_Toolbox {
             this.cutToolStripMenuItem,
             this.copyToolStripMenuItem,
             this.pasteToolStripMenuItem,
-            this.toolStripMenuItem1,
+            this.logContextMenuSep1,
             this.selectAllToolStripMenuItem,
-            this.toolStripMenuItem2,
+            this.logContextMenuSep2,
             this.clearToolStripMenuItem});
             this.logContextMenu.Name = "contextMenuStrip2";
             this.logContextMenu.ShowImageMargin = false;
@@ -312,10 +312,10 @@ namespace QMK_Toolbox {
             this.pasteToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.pasteToolStripMenuItem.Text = "Paste";
             // 
-            // toolStripMenuItem1
+            // logContextMenuSep1
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(136, 6);
+            this.logContextMenuSep1.Name = "logContextMenuSep1";
+            this.logContextMenuSep1.Size = new System.Drawing.Size(136, 6);
             // 
             // selectAllToolStripMenuItem
             // 
@@ -326,10 +326,10 @@ namespace QMK_Toolbox {
             this.selectAllToolStripMenuItem.Text = "Select &All";
             this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
             // 
-            // toolStripMenuItem2
+            // logContextMenuSep2
             // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(136, 6);
+            this.logContextMenuSep2.Name = "logContextMenuSep2";
+            this.logContextMenuSep2.Size = new System.Drawing.Size(136, 6);
             // 
             // clearToolStripMenuItem
             // 
@@ -494,12 +494,12 @@ namespace QMK_Toolbox {
         private System.Windows.Forms.ContextMenuStrip logContextMenu;
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
         private BetterComboBox filepathBox;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripSeparator logContextMenuSep1;
         private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripSeparator logContextMenuSep2;
         private System.Windows.Forms.MainMenu mainMenu;
         private System.Windows.Forms.MenuItem fileMenuItem;
         private System.Windows.Forms.MenuItem openMenuItem;
