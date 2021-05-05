@@ -63,6 +63,7 @@ static int devicesAvailable[NumberOfChipsets];
         @0x2FF3, // ATmega16U4
         @0x2FF4, // ATmega32U4
         @0x2FF9, // AT90USB64
+        @0x2FFA, // AT90USB162
         @0x2FFB  // AT90USB128
     ];
 
