@@ -59,7 +59,7 @@ namespace QMK_Toolbox {
             this.installDriversMenuItem = new System.Windows.Forms.MenuItem();
             this.toolsMenuSep = new System.Windows.Forms.MenuItem();
             this.optionsMenuItem = new System.Windows.Forms.MenuItem();
-            this.HelpMenuItem = new System.Windows.Forms.MenuItem();
+            this.helpMenuItem = new System.Windows.Forms.MenuItem();
             this.checkForUpdatesMenuItem = new System.Windows.Forms.MenuItem();
             this.helpMenuSep = new System.Windows.Forms.MenuItem();
             this.aboutMenuItem = new System.Windows.Forms.MenuItem();
@@ -355,7 +355,7 @@ namespace QMK_Toolbox {
             this.mainMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.fileMenuItem,
             this.toolsMenuItem,
-            this.HelpMenuItem});
+            this.helpMenuItem});
             // 
             // fileMenuItem
             // 
@@ -413,14 +413,14 @@ namespace QMK_Toolbox {
             this.optionsMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlP;
             this.optionsMenuItem.Text = "O&ptions...";
             // 
-            // HelpMenuItem
+            // helpMenuItem
             // 
-            this.HelpMenuItem.Index = 2;
-            this.HelpMenuItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.helpMenuItem.Index = 2;
+            this.helpMenuItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.checkForUpdatesMenuItem,
             this.helpMenuSep,
             this.aboutMenuItem});
-            this.HelpMenuItem.Text = "&Help";
+            this.helpMenuItem.Text = "&Help";
             // 
             // checkForUpdatesMenuItem
             // 
@@ -507,7 +507,7 @@ namespace QMK_Toolbox {
         private System.Windows.Forms.MenuItem exitMenuItem;
         private System.Windows.Forms.MenuItem toolsMenuItem;
         private System.Windows.Forms.MenuItem installDriversMenuItem;
-        private System.Windows.Forms.MenuItem HelpMenuItem;
+        private System.Windows.Forms.MenuItem helpMenuItem;
         private System.Windows.Forms.MenuItem aboutMenuItem;
         private System.Windows.Forms.MenuItem toolsMenuSep;
         private System.Windows.Forms.MenuItem optionsMenuItem;
