@@ -46,18 +46,19 @@ namespace QMK_Toolbox
         public Usb Usb;
 
         private readonly string[] _resources = {
-            "dfu-programmer.exe",
-            "avrdude.exe",
+            "applet-mdflash.bin",
             "avrdude.conf",
-            "teensy_loader_cli.exe",
-            "dfu-util.exe",
-            "libusb-1.0.dll",
-            "libusb0.dll",
             "mcu-list.txt",
             "reset.eep",
+            "avrdude.exe",
             "bootloadHID.exe",
+            "dfu-programmer.exe",
+            "dfu-util.exe",
             "mdloader.exe",
-            "applet-mdflash.bin"
+            "teensy_loader_cli.exe",
+            "libusb0.dll",
+            "libusb-0-1-4.dll",
+            "libusb-1.0.dll"
         };
 
         public Flashing(Printing printer)
