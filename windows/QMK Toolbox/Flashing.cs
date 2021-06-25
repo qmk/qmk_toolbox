@@ -56,7 +56,7 @@ namespace QMK_Toolbox
             "mcu-list.txt",
             "reset.eep",
             "bootloadHID.exe",
-            "mdloader_windows.exe",
+            "mdloader.exe",
             "applet-mdflash.bin"
         };
 
@@ -303,8 +303,8 @@ namespace QMK_Toolbox
         private void FlashBootloadHid(string file) => RunProcess("bootloadHID.exe", $"-r \"{file}\"");
         private void ResetBootloadHid() => RunProcess("bootloadHID.exe", $"-r");
 
-        private void FlashAtmelSamBa(string file) => RunProcess("mdloader_windows.exe", $"-p {ComPort} -D \"{file}\" --restart");
+        private void FlashAtmelSamBa(string file) => RunProcess("mdloader.exe", $"-p {ComPort} -D \"{file}\" --restart");
 
-        private void ResetAtmelSamBa() => RunProcess("mdloader_windows.exe", $"-p {ComPort} --restart");
+        private void ResetAtmelSamBa() => RunProcess("mdloader.exe", $"-p {ComPort} --restart");
     }
 }
