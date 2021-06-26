@@ -188,9 +188,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="..\..\common\avrdude.conf" />
-    <EmbeddedResource Include="..\..\common\reset.eep" />
-    <EmbeddedResource Include="..\..\common\applet-mdflash.bin" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
@@ -208,20 +205,24 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="output.ico" />
+    <EmbeddedResource Include="..\..\common\applet-mdflash.bin" />
+    <EmbeddedResource Include="..\..\common\avrdude.conf" />
+    <EmbeddedResource Include="..\..\common\mcu-list.txt" />
+    <EmbeddedResource Include="..\..\common\reset.eep" />
+    <EmbeddedResource Include="avrdude.exe" />
+    <EmbeddedResource Include="bootloadHID.exe" />
     <EmbeddedResource Include="dfu-programmer.exe" />
+    <EmbeddedResource Include="dfu-util.exe" />
+    <EmbeddedResource Include="mdloader.exe" />
+    <EmbeddedResource Include="qmk_driver_installer.exe" />
+    <EmbeddedResource Include="teensy_loader_cli.exe" />
+    <EmbeddedResource Include="libusb0.dll" />
+    <EmbeddedResource Include="libusb-0-1-4.dll" />
+    <EmbeddedResource Include="libusb-1.0.dll" />
+    <EmbeddedResource Include="drivers.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="qmk_driver_installer.exe" />
-    <EmbeddedResource Include="..\..\common\mcu-list.txt" />
-    <EmbeddedResource Include="libusb0.dll" />
-    <EmbeddedResource Include="drivers.txt" />
-    <EmbeddedResource Include="bootloadHID.exe" />
-    <EmbeddedResource Include="mdloader_windows.exe" />
-    <Content Include="output.ico" />
-    <EmbeddedResource Include="libusb-1.0.dll" />
-    <EmbeddedResource Include="teensy_loader_cli.exe" />
-    <EmbeddedResource Include="avrdude.exe" />
-    <EmbeddedResource Include="dfu-util.exe" />
     <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>

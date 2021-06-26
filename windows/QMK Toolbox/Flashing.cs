@@ -46,18 +46,19 @@ namespace QMK_Toolbox
         public Usb Usb;
 
         private readonly string[] _resources = {
-            "dfu-programmer.exe",
-            "avrdude.exe",
+            "applet-mdflash.bin",
             "avrdude.conf",
-            "teensy_loader_cli.exe",
-            "dfu-util.exe",
-            "libusb-1.0.dll",
-            "libusb0.dll",
             "mcu-list.txt",
             "reset.eep",
+            "avrdude.exe",
             "bootloadHID.exe",
-            "mdloader_windows.exe",
-            "applet-mdflash.bin"
+            "dfu-programmer.exe",
+            "dfu-util.exe",
+            "mdloader.exe",
+            "teensy_loader_cli.exe",
+            "libusb0.dll",
+            "libusb-0-1-4.dll",
+            "libusb-1.0.dll"
         };
 
         public Flashing(Printing printer)
@@ -303,8 +304,8 @@ namespace QMK_Toolbox
         private void FlashBootloadHid(string file) => RunProcess("bootloadHID.exe", $"-r \"{file}\"");
         private void ResetBootloadHid() => RunProcess("bootloadHID.exe", $"-r");
 
-        private void FlashAtmelSamBa(string file) => RunProcess("mdloader_windows.exe", $"-p {ComPort} -D \"{file}\" --restart");
+        private void FlashAtmelSamBa(string file) => RunProcess("mdloader.exe", $"-p {ComPort} -D \"{file}\" --restart");
 
-        private void ResetAtmelSamBa() => RunProcess("mdloader_windows.exe", $"-p {ComPort} --restart");
+        private void ResetAtmelSamBa() => RunProcess("mdloader.exe", $"-p {ComPort} --restart");
     }
 }
