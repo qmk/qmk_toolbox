@@ -76,7 +76,7 @@ namespace QMK_Toolbox {
             this.flashButton.Location = new System.Drawing.Point(653, 86);
             this.flashButton.Name = "flashButton";
             this.flashButton.Size = new System.Drawing.Size(62, 23);
-            this.flashButton.TabIndex = 6;
+            this.flashButton.TabIndex = 3;
             this.flashButton.Text = "Flash";
             this.flashButton.Click += new System.EventHandler(this.flashButton_Click);
             // 
@@ -104,7 +104,7 @@ namespace QMK_Toolbox {
             this.openFileButton.Location = new System.Drawing.Point(571, 18);
             this.openFileButton.Name = "openFileButton";
             this.openFileButton.Size = new System.Drawing.Size(64, 23);
-            this.openFileButton.TabIndex = 3;
+            this.openFileButton.TabIndex = 1;
             this.openFileButton.Text = "Open";
             this.openFileButton.UseVisualStyleBackColor = true;
             this.openFileButton.Click += new System.EventHandler(this.openFileButton_Click);
@@ -116,7 +116,7 @@ namespace QMK_Toolbox {
             this.resetButton.Location = new System.Drawing.Point(721, 86);
             this.resetButton.Name = "resetButton";
             this.resetButton.Size = new System.Drawing.Size(67, 23);
-            this.resetButton.TabIndex = 7;
+            this.resetButton.TabIndex = 4;
             this.resetButton.Text = "Exit DFU";
             this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
             // 
@@ -127,7 +127,7 @@ namespace QMK_Toolbox {
             this.mcuLabel.Location = new System.Drawing.Point(638, 0);
             this.mcuLabel.Name = "mcuLabel";
             this.mcuLabel.Size = new System.Drawing.Size(84, 13);
-            this.mcuLabel.TabIndex = 22;
+            this.mcuLabel.TabIndex = 2;
             this.mcuLabel.Text = "MCU (AVR only)";
             // 
             // qmkfmGroupBox
@@ -141,7 +141,7 @@ namespace QMK_Toolbox {
             this.qmkfmGroupBox.Location = new System.Drawing.Point(12, 86);
             this.qmkfmGroupBox.Name = "qmkfmGroupBox";
             this.qmkfmGroupBox.Size = new System.Drawing.Size(635, 48);
-            this.qmkfmGroupBox.TabIndex = 23;
+            this.qmkfmGroupBox.TabIndex = 2;
             this.qmkfmGroupBox.TabStop = false;
             this.qmkfmGroupBox.Text = "Keyboard from qmk.fm";
             // 
@@ -152,7 +152,7 @@ namespace QMK_Toolbox {
             this.keymapLabel.Location = new System.Drawing.Point(447, 0);
             this.keymapLabel.Name = "keymapLabel";
             this.keymapLabel.Size = new System.Drawing.Size(45, 13);
-            this.keymapLabel.TabIndex = 24;
+            this.keymapLabel.TabIndex = 1;
             this.keymapLabel.Text = "Keymap";
             // 
             // keymapBox
@@ -166,7 +166,7 @@ namespace QMK_Toolbox {
             this.keymapBox.Location = new System.Drawing.Point(450, 19);
             this.keymapBox.Name = "keymapBox";
             this.keymapBox.Size = new System.Drawing.Size(109, 21);
-            this.keymapBox.TabIndex = 4;
+            this.keymapBox.TabIndex = 2;
             this.keymapBox.Text = global::QMK_Toolbox.Properties.Settings.Default.keymap;
             // 
             // keyboardBox
@@ -183,7 +183,7 @@ namespace QMK_Toolbox {
             this.keyboardBox.Location = new System.Drawing.Point(6, 19);
             this.keyboardBox.Name = "keyboardBox";
             this.keyboardBox.Size = new System.Drawing.Size(438, 21);
-            this.keyboardBox.TabIndex = 4;
+            this.keyboardBox.TabIndex = 0;
             this.keyboardBox.Text = global::QMK_Toolbox.Properties.Settings.Default.keyboard;
             this.keyboardBox.TextChanged += new System.EventHandler(this.keyboardBox_TextChanged);
             // 
@@ -210,7 +210,7 @@ namespace QMK_Toolbox {
             this.fileGroupBox.Location = new System.Drawing.Point(12, 32);
             this.fileGroupBox.Name = "fileGroupBox";
             this.fileGroupBox.Size = new System.Drawing.Size(776, 48);
-            this.fileGroupBox.TabIndex = 25;
+            this.fileGroupBox.TabIndex = 1;
             this.fileGroupBox.TabStop = false;
             this.fileGroupBox.Text = "Local file";
             // 
@@ -223,7 +223,7 @@ namespace QMK_Toolbox {
             this.mcuBox.Location = new System.Drawing.Point(641, 19);
             this.mcuBox.Name = "mcuBox";
             this.mcuBox.Size = new System.Drawing.Size(129, 21);
-            this.mcuBox.TabIndex = 4;
+            this.mcuBox.TabIndex = 3;
             this.mcuBox.Text = global::QMK_Toolbox.Properties.Settings.Default.targetSetting;
             // 
             // clearEepromButton
@@ -233,7 +233,7 @@ namespace QMK_Toolbox {
             this.clearEepromButton.Location = new System.Drawing.Point(12, 630);
             this.clearEepromButton.Name = "clearEepromButton";
             this.clearEepromButton.Size = new System.Drawing.Size(110, 23);
-            this.clearEepromButton.TabIndex = 27;
+            this.clearEepromButton.TabIndex = 7;
             this.clearEepromButton.Text = "Clear EEPROM";
             this.clearEepromButton.UseVisualStyleBackColor = true;
             this.clearEepromButton.Click += new System.EventHandler(this.clearEepromButton_Click);
@@ -255,7 +255,7 @@ namespace QMK_Toolbox {
             this.logTextBox.Name = "logTextBox";
             this.logTextBox.ReadOnly = true;
             this.logTextBox.Size = new System.Drawing.Size(776, 484);
-            this.logTextBox.TabIndex = 1;
+            this.logTextBox.TabIndex = 6;
             this.logTextBox.Text = "";
             this.logTextBox.WordWrap = false;
             this.logTextBox.ZoomFactor = global::QMK_Toolbox.Properties.Settings.Default.outputZoom;
@@ -335,7 +335,7 @@ namespace QMK_Toolbox {
             this.hidList.Location = new System.Drawing.Point(128, 631);
             this.hidList.Name = "hidList";
             this.hidList.Size = new System.Drawing.Size(660, 21);
-            this.hidList.TabIndex = 29;
+            this.hidList.TabIndex = 8;
             // 
             // mainMenu
             // 
@@ -347,7 +347,7 @@ namespace QMK_Toolbox {
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
             this.mainMenu.Size = new System.Drawing.Size(800, 24);
-            this.mainMenu.TabIndex = 30;
+            this.mainMenu.TabIndex = 0;
             this.mainMenu.Text = "mainMenu";
             // 
             // fileToolStripMenuItem
@@ -450,7 +450,7 @@ namespace QMK_Toolbox {
             this.filepathBox.Location = new System.Drawing.Point(6, 19);
             this.filepathBox.Name = "filepathBox";
             this.filepathBox.Size = new System.Drawing.Size(558, 21);
-            this.filepathBox.TabIndex = 2;
+            this.filepathBox.TabIndex = 0;
             this.filepathBox.Text = global::QMK_Toolbox.Properties.Settings.Default.hexFileSetting;
             this.filepathBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.filepathBox_KeyDown);
             // 
