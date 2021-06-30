@@ -52,7 +52,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>output.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\output.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>07603AD77617C425E84BA2FC0DD2DB546C3DD0DD</ManifestCertificateThumbprint>
@@ -205,22 +205,30 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="output.ico" />
-    <EmbeddedResource Include="..\..\common\applet-mdflash.bin" />
-    <EmbeddedResource Include="..\..\common\avrdude.conf" />
-    <EmbeddedResource Include="..\..\common\mcu-list.txt" />
-    <EmbeddedResource Include="..\..\common\reset.eep" />
-    <EmbeddedResource Include="avrdude.exe" />
-    <EmbeddedResource Include="bootloadHID.exe" />
-    <EmbeddedResource Include="dfu-programmer.exe" />
-    <EmbeddedResource Include="dfu-util.exe" />
-    <EmbeddedResource Include="mdloader.exe" />
-    <EmbeddedResource Include="qmk_driver_installer.exe" />
-    <EmbeddedResource Include="teensy_loader_cli.exe" />
-    <EmbeddedResource Include="libusb0.dll" />
-    <EmbeddedResource Include="libusb-0-1-4.dll" />
-    <EmbeddedResource Include="libusb-1.0.dll" />
-    <EmbeddedResource Include="drivers.txt" />
+    <Content Include="Resources\output.ico" />
+    <EmbeddedResource Include="..\..\common\applet-mdflash.bin">
+      <Link>Resources\applet-mdflash.bin</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\common\avrdude.conf">
+      <Link>Resources\avrdude.conf</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\common\mcu-list.txt">
+      <Link>Resources\mcu-list.txt</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\common\reset.eep">
+      <Link>Resources\reset.eep</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\avrdude.exe" />
+    <EmbeddedResource Include="Resources\bootloadHID.exe" />
+    <EmbeddedResource Include="Resources\dfu-programmer.exe" />
+    <EmbeddedResource Include="Resources\dfu-util.exe" />
+    <EmbeddedResource Include="Resources\mdloader.exe" />
+    <EmbeddedResource Include="Resources\qmk_driver_installer.exe" />
+    <EmbeddedResource Include="Resources\teensy_loader_cli.exe" />
+    <EmbeddedResource Include="Resources\libusb0.dll" />
+    <EmbeddedResource Include="Resources\libusb-0-1-4.dll" />
+    <EmbeddedResource Include="Resources\libusb-1.0.dll" />
+    <EmbeddedResource Include="Resources\drivers.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FodyWeavers.xml" />
