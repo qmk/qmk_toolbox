@@ -250,7 +250,7 @@
       <Visible>False</Visible>
       <Description>QMK Firmware File</Description>
       <Progid>qmk_toolbox</Progid>
-      <DefaultIcon>output.ico</DefaultIcon>
+      <DefaultIcon>Resources\output.ico</DefaultIcon>
     </FileAssociation>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
