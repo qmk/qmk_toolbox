@@ -54,7 +54,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Check binary permissions
-      working-directory: ./osx
+      working-directory: ./osx/qmk_toolbox/Resources
       env:
         QMK_BINARIES: avrdude bootloadHID dfu-programmer dfu-util mdloader_mac teensy_loader_cli
       run: |

@@ -56,12 +56,12 @@
 		092964011F5C8B2C004F2D3F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		092964041F5C8B2C004F2D3F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		092964061F5C8B2C004F2D3F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0929640C1F5E403C004F2D3F /* dfu-programmer */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = "dfu-programmer"; path = "../dfu-programmer"; sourceTree = "<group>"; };
-		0929640E1F5E4068004F2D3F /* teensy_loader_cli */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = teensy_loader_cli; path = ../teensy_loader_cli; sourceTree = "<group>"; };
-		092964101F5E4186004F2D3F /* avrdude */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = avrdude; path = ../avrdude; sourceTree = "<group>"; };
-		09522BB21F61E32700AEBC5E /* mcu-list.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "mcu-list.txt"; path = "../../common/mcu-list.txt"; sourceTree = "<group>"; };
-		09522BBA1F6216BA00AEBC5E /* avrdude.conf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = avrdude.conf; path = ../../common/avrdude.conf; sourceTree = "<group>"; };
-		098AEDFA1F5E45C300CA054D /* dfu-util */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = "dfu-util"; path = "../dfu-util"; sourceTree = "<group>"; };
+		0929640C1F5E403C004F2D3F /* dfu-programmer */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "dfu-programmer"; sourceTree = "<group>"; };
+		0929640E1F5E4068004F2D3F /* teensy_loader_cli */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = teensy_loader_cli; sourceTree = "<group>"; };
+		092964101F5E4186004F2D3F /* avrdude */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = avrdude; sourceTree = "<group>"; };
+		09522BB21F61E32700AEBC5E /* mcu-list.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "mcu-list.txt"; path = "../../../common/mcu-list.txt"; sourceTree = "<group>"; };
+		09522BBA1F6216BA00AEBC5E /* avrdude.conf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = avrdude.conf; path = ../../../common/avrdude.conf; sourceTree = "<group>"; };
+		098AEDFA1F5E45C300CA054D /* dfu-util */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "dfu-util"; sourceTree = "<group>"; };
 		098AEDFC1F5F220500CA054D /* Printing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Printing.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		098AEDFD1F5F220500CA054D /* Printing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Printing.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		098AEE011F5F296000CA054D /* Flashing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Flashing.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -73,15 +73,15 @@
 		098AEE0A1F5F97A000CA054D /* USB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USB.h; sourceTree = "<group>"; };
 		098AEE0E1F60C6F600CA054D /* QMKWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = QMKWindow.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		098AEE0F1F60C6F600CA054D /* QMKWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = QMKWindow.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libusb-1.0.0.dylib"; sourceTree = SOURCE_ROOT; };
-		09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libusb-0.1.4.dylib"; sourceTree = SOURCE_ROOT; };
+		09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libusb-1.0.0.dylib"; sourceTree = "<group>"; };
+		09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libusb-0.1.4.dylib"; sourceTree = "<group>"; };
 		303568C01FA7DEF400803BEF /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		303568C21FA7DF0900803BEF /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		3A7770D822BD3B8200398C40 /* libftdi.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libftdi.1.dylib; sourceTree = SOURCE_ROOT; };
-		3AB4BC9C2495540A00204A3F /* bootloadHID */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = bootloadHID; path = ../bootloadHID; sourceTree = "<group>"; };
-		C93A0FF32292232D0006C88F /* reset.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset.eep; path = ../../common/reset.eep; sourceTree = "<group>"; };
-		C9A09B5622EE6826008C3CF3 /* mdloader_mac */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = mdloader_mac; path = ../mdloader_mac; sourceTree = "<group>"; };
-		C9A09B5822EE6837008C3CF3 /* applet-mdflash.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; name = "applet-mdflash.bin"; path = "../../common/applet-mdflash.bin"; sourceTree = "<group>"; };
+		3A7770D822BD3B8200398C40 /* libftdi.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libftdi.1.dylib; sourceTree = "<group>"; };
+		3AB4BC9C2495540A00204A3F /* bootloadHID */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = bootloadHID; sourceTree = "<group>"; };
+		C93A0FF32292232D0006C88F /* reset.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset.eep; path = ../../../common/reset.eep; sourceTree = "<group>"; };
+		C9A09B5622EE6826008C3CF3 /* mdloader_mac */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = mdloader_mac; sourceTree = "<group>"; };
+		C9A09B5822EE6837008C3CF3 /* applet-mdflash.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; name = "applet-mdflash.bin"; path = "../../../common/applet-mdflash.bin"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,24 +116,24 @@
 		092963FA1F5C8B2C004F2D3F /* qmk_toolbox */ = {
 			isa = PBXGroup;
 			children = (
+				092964011F5C8B2C004F2D3F /* Assets.xcassets */,
+				092964061F5C8B2C004F2D3F /* Info.plist */,
+				092964031F5C8B2C004F2D3F /* MainMenu.xib */,
+				092963FB1F5C8B2C004F2D3F /* AppDelegate.h */,
+				092963FC1F5C8B2C004F2D3F /* AppDelegate.m */,
 				303568C21FA7DF0900803BEF /* Constants.h */,
 				303568C01FA7DEF400803BEF /* Constants.m */,
-				098AEE0A1F5F97A000CA054D /* USB.h */,
-				098AEE091F5F97A000CA054D /* USB.m */,
 				098AEE031F5F296B00CA054D /* Flashing.h */,
 				098AEE011F5F296000CA054D /* Flashing.m */,
 				098AEE061F5F359500CA054D /* HID.h */,
 				098AEE041F5F356000CA054D /* HID.m */,
 				098AEDFC1F5F220500CA054D /* Printing.h */,
 				098AEDFD1F5F220500CA054D /* Printing.m */,
-				092963FB1F5C8B2C004F2D3F /* AppDelegate.h */,
-				092963FC1F5C8B2C004F2D3F /* AppDelegate.m */,
-				092964011F5C8B2C004F2D3F /* Assets.xcassets */,
-				092964031F5C8B2C004F2D3F /* MainMenu.xib */,
-				092964061F5C8B2C004F2D3F /* Info.plist */,
-				092963FE1F5C8B2C004F2D3F /* Supporting Files */,
 				098AEE0E1F60C6F600CA054D /* QMKWindow.h */,
 				098AEE0F1F60C6F600CA054D /* QMKWindow.m */,
+				098AEE0A1F5F97A000CA054D /* USB.h */,
+				098AEE091F5F97A000CA054D /* USB.m */,
+				092963FE1F5C8B2C004F2D3F /* Supporting Files */,
 			);
 			path = qmk_toolbox;
 			sourceTree = "<group>";
@@ -141,22 +141,30 @@
 		092963FE1F5C8B2C004F2D3F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				3AB4BC9C2495540A00204A3F /* bootloadHID */,
-				C9A09B5822EE6837008C3CF3 /* applet-mdflash.bin */,
-				C9A09B5622EE6826008C3CF3 /* mdloader_mac */,
-				C93A0FF32292232D0006C88F /* reset.eep */,
-				3A7770D822BD3B8200398C40 /* libftdi.1.dylib */,
-				09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */,
-				09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */,
-				09522BBA1F6216BA00AEBC5E /* avrdude.conf */,
-				09522BB21F61E32700AEBC5E /* mcu-list.txt */,
-				098AEDFA1F5E45C300CA054D /* dfu-util */,
-				092964101F5E4186004F2D3F /* avrdude */,
-				0929640E1F5E4068004F2D3F /* teensy_loader_cli */,
-				0929640C1F5E403C004F2D3F /* dfu-programmer */,
+				3A53FB5B268A33F10020BAB0 /* Resources */,
 				092963FF1F5C8B2C004F2D3F /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3A53FB5B268A33F10020BAB0 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C9A09B5822EE6837008C3CF3 /* applet-mdflash.bin */,
+				09522BBA1F6216BA00AEBC5E /* avrdude.conf */,
+				09522BB21F61E32700AEBC5E /* mcu-list.txt */,
+				C93A0FF32292232D0006C88F /* reset.eep */,
+				092964101F5E4186004F2D3F /* avrdude */,
+				3AB4BC9C2495540A00204A3F /* bootloadHID */,
+				0929640C1F5E403C004F2D3F /* dfu-programmer */,
+				098AEDFA1F5E45C300CA054D /* dfu-util */,
+				C9A09B5622EE6826008C3CF3 /* mdloader_mac */,
+				0929640E1F5E4068004F2D3F /* teensy_loader_cli */,
+				3A7770D822BD3B8200398C40 /* libftdi.1.dylib */,
+				09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */,
+				09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
