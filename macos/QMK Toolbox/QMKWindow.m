@@ -12,23 +12,19 @@
 
 - (void)setup {
     [self registerForDraggedTypes:[NSArray arrayWithObject:NSFilenamesPboardType]];
-//    [self registerForDraggedTypes:[NSArray arrayWithObjects:
-//        NSCreateFileContentsPboardType(@"qmk"),
-//        NSCreateFileContentsPboardType(@"hex"),
-//        NSCreateFileContentsPboardType(@"bin"),
-//    nil]];
 };
 
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
-    NSPasteboard *pboard;
-    NSDragOperation sourceDragMask;
+    NSPasteboard *pboard = [sender draggingPasteboard];
 
-    sourceDragMask = [sender draggingSourceOperationMask];
-    pboard = [sender draggingPasteboard];
+    if ([[pboard types] containsObject:NSFilenamesPboardType]) {
+        if ([[pboard pasteboardItems] count] == 1) {
+            NSString *file = [pboard propertyListForType:NSFilenamesPboardType][0];
+            NSString * fileExtension = [[file pathExtension] lowercaseString];
 
-    if ( [[pboard types] containsObject:NSFilenamesPboardType] ) {
-        if (sourceDragMask & NSDragOperationLink) {
-            return NSDragOperationLink;
+            if ([fileExtension isEqualToString:@"qmk"] || [fileExtension isEqualToString:@"hex"] || [fileExtension isEqualToString:@"bin"]) {
+                return NSDragOperationCopy;
+            }
         }
     }
 
@@ -36,26 +32,9 @@
 }
 
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
-    NSPasteboard *pboard;
-    NSDragOperation sourceDragMask;
-
-    sourceDragMask = [sender draggingSourceOperationMask];
-    pboard = [sender draggingPasteboard];
-
-    NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
-    for (NSString * file in files) {
-        if ([[[file pathExtension] lowercaseString] isEqualToString:@"qmk"] ||
-            [[[file pathExtension] lowercaseString] isEqualToString:@"hex"] ||
-            [[[file pathExtension] lowercaseString] isEqualToString:@"bin"]) {
-            [(AppDelegate *)[[NSApplication sharedApplication] delegate] setFilePath:[NSURL URLWithString:file]];
-        } else {
-            NSAlert *alert = [[NSAlert alloc] init];
-
-            [alert setMessageText:@"This file format isn't supported"];
-            [alert addButtonWithTitle:@"Sorry"];
-            [alert runModal];
-        }
-    }
+    NSPasteboard *pboard = [sender draggingPasteboard];
+    NSString *file = [pboard propertyListForType:NSFilenamesPboardType][0];
+    [(AppDelegate *)[[NSApplication sharedApplication] delegate] setFilePath:[NSURL fileURLWithPath:file]];
     return YES;
 }
 
