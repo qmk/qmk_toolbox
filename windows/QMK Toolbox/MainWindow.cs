@@ -113,9 +113,8 @@ namespace QMK_Toolbox
         {
             if (path != string.Empty)
             {
-                if (Path.GetExtension(path)?.ToLower() == ".qmk" ||
-                    Path.GetExtension(path)?.ToLower() == ".hex" ||
-                    Path.GetExtension(path)?.ToLower() == ".bin")
+                var extension = Path.GetExtension(path)?.ToLower();
+                if (extension == ".qmk" || extension == ".hex" || extension == ".bin")
                 {
                     _filePassedIn = path;
                 }
@@ -660,7 +659,18 @@ namespace QMK_Toolbox
 
         private void MainWindow_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                if (files.Length == 1)
+                {
+                    var extension = Path.GetExtension(files.First())?.ToLower();
+                    if (extension == ".qmk" || extension == ".hex" || extension == ".bin")
+                    {
+                        e.Effect = DragDropEffects.Copy;
+                    }
+                }
+            }
         }
 
         private void MainWindow_Shown(object sender, EventArgs e)

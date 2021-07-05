@@ -9,7 +9,7 @@ namespace QMK_Toolbox.Helpers
     {
         public static void ExtractResource(string file)
         {
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"QMK_Toolbox.{file}"))
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"QMK_Toolbox.Resources.{file}"))
             using (var filestream = new FileStream(Path.Combine(Application.LocalUserAppDataPath, file), FileMode.Create))
             {
                 stream?.CopyTo(filestream);
