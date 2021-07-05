@@ -48,6 +48,14 @@ When using the QMK Toolbox on Windows, it will prompt at first run to install th
 
 If you run into any issues with "Device not found" when flashing, then you may need to use [Zadig](https://docs.qmk.fm/#/driver_installation_zadig) to fix the issue.
 
+#### Linux
+
+For Linux, you need to install gtk librairy before, on debian-like distribution, you can run:
+```
+ sudo apt-get install build-essential libgtk-3-dev
+```
+
+
 ### Download
 
 Windows and macOS versions are available, and you can get [the latest release here](https://github.com/qmk/qmk_toolbox/releases).
