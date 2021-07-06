@@ -386,7 +386,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/QMK Toolbox",
+					"\"$(PROJECT_DIR)/QMK Toolbox\"",
 					"$(PROJECT_DIR)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = fm.qmk.toolbox;
@@ -407,7 +407,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/QMK Toolbox",
+					"\"$(PROJECT_DIR)/QMK Toolbox\"",
 					"$(PROJECT_DIR)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = fm.qmk.toolbox;
