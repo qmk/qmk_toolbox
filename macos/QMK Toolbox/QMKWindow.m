@@ -11,20 +11,17 @@
 @implementation QMKWindow
 
 - (void)setup {
-    [self registerForDraggedTypes:[NSArray arrayWithObject:NSFilenamesPboardType]];
+    [self registerForDraggedTypes:[NSArray arrayWithObject:NSPasteboardTypeFileURL]];
 };
 
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
 
-    if ([[pboard types] containsObject:NSFilenamesPboardType]) {
-        if ([[pboard pasteboardItems] count] == 1) {
-            NSString *file = [pboard propertyListForType:NSFilenamesPboardType][0];
-            NSString * fileExtension = [[file pathExtension] lowercaseString];
+    if ([[pboard pasteboardItems] count] == 1) {
+        NSString *fileExtension = [[NSURL URLFromPasteboard:pboard] pathExtension];
 
-            if ([fileExtension isEqualToString:@"qmk"] || [fileExtension isEqualToString:@"hex"] || [fileExtension isEqualToString:@"bin"]) {
-                return NSDragOperationCopy;
-            }
+        if ([fileExtension isEqualToString:@"qmk"] || [fileExtension isEqualToString:@"hex"] || [fileExtension isEqualToString:@"bin"]) {
+            return NSDragOperationCopy;
         }
     }
 
@@ -33,7 +30,7 @@
 
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
-    NSString *file = [pboard propertyListForType:NSFilenamesPboardType][0];
+    NSString *file = [[NSURL URLFromPasteboard:pboard] path];
     [(AppDelegate *)[[NSApplication sharedApplication] delegate] setFilePath:[NSURL fileURLWithPath:file]];
     return YES;
 }
