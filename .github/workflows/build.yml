@@ -90,8 +90,8 @@ jobs:
         name: QMK.Toolbox.pkg
         path: macos/build/QMK.Toolbox.pkg
 
-  publish:
-    name: Publish
+  publish_release:
+    name: Publish (Release)
     runs-on: ubuntu-latest
 
     needs: [build_win, build_macos]
@@ -101,38 +101,36 @@ jobs:
     steps:
       - uses: actions/download-artifact@v2
 
-      - uses: actions/upload-release-asset@v1
+      - uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./qmk_toolbox.exe/qmk_toolbox.exe
-          asset_name: qmk_toolbox.exe
-          asset_content_type: application/octet-stream
+          name: ${{ github.event.release.name }}
+          files: |
+            ./qmk_toolbox.exe/qmk_toolbox.exe
+            ./qmk_toolbox_install.exe/qmk_toolbox_install.exe
+            ./QMK.Toolbox.app.zip/QMK.Toolbox.app.zip
+            ./QMK.Toolbox.pkg/QMK.Toolbox.pkg
 
-      - uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./qmk_toolbox_install.exe/qmk_toolbox_install.exe
-          asset_name: qmk_toolbox_install.exe
-          asset_content_type: application/octet-stream
+  publish_beta:
+    name: Publish (Beta)
+    runs-on: ubuntu-latest
 
-      - uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./QMK.Toolbox.app.zip/QMK.Toolbox.app.zip
-          asset_name: QMK.Toolbox.app.zip
-          asset_content_type: application/octet-stream
+    needs: [build_win, build_macos]
 
-      - uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+
+    steps:
+      - uses: actions/download-artifact@v2
+
+      - uses: marvinpinto/action-automatic-releases@latest
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./QMK.Toolbox.pkg/QMK.Toolbox.pkg
-          asset_name: QMK.Toolbox.pkg
-          asset_content_type: application/octet-stream
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "beta"
+          prerelease: true
+          title: "Latest Beta"
+          files: |
+            ./qmk_toolbox.exe/qmk_toolbox.exe
+            ./qmk_toolbox_install.exe/qmk_toolbox_install.exe
+            ./QMK.Toolbox.app.zip/QMK.Toolbox.app.zip
+            ./QMK.Toolbox.pkg/QMK.Toolbox.pkg
