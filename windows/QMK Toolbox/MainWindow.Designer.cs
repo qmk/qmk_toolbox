@@ -34,7 +34,7 @@ namespace QMK_Toolbox {
             this.qmkfmGroupBox = new System.Windows.Forms.GroupBox();
             this.keymapLabel = new System.Windows.Forms.Label();
             this.keymapBox = new System.Windows.Forms.ComboBox();
-            this.keyboardBox = new System.Windows.Forms.ComboBox();
+            this.keyboardBox = new QMK_Toolbox.ComboBoxPlaceholder();
             this.loadKeymapButton = new System.Windows.Forms.Button();
             this.fileGroupBox = new System.Windows.Forms.GroupBox();
             this.mcuBox = new System.Windows.Forms.ComboBox();
@@ -168,24 +168,6 @@ namespace QMK_Toolbox {
             this.keymapBox.Size = new System.Drawing.Size(109, 21);
             this.keymapBox.TabIndex = 2;
             this.keymapBox.Text = global::QMK_Toolbox.Properties.Settings.Default.keymap;
-            // 
-            // keyboardBox
-            // 
-            this.keyboardBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.keyboardBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.keyboardBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.keyboardBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "keyboard", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.keyboardBox.Enabled = false;
-            this.keyboardBox.FormattingEnabled = true;
-            this.keyboardBox.Items.AddRange(new object[] {
-            "this feature coming in"});
-            this.keyboardBox.Location = new System.Drawing.Point(6, 19);
-            this.keyboardBox.Name = "keyboardBox";
-            this.keyboardBox.Size = new System.Drawing.Size(438, 21);
-            this.keyboardBox.TabIndex = 0;
-            this.keyboardBox.Text = global::QMK_Toolbox.Properties.Settings.Default.keyboard;
-            this.keyboardBox.TextChanged += new System.EventHandler(this.keyboardBox_TextChanged);
             // 
             // loadKeymapButton
             // 
@@ -449,10 +431,30 @@ namespace QMK_Toolbox {
             this.filepathBox.FormattingEnabled = true;
             this.filepathBox.Location = new System.Drawing.Point(6, 19);
             this.filepathBox.Name = "filepathBox";
+            this.filepathBox.PlaceholderText = "Click Open or drag to window to select file";
             this.filepathBox.Size = new System.Drawing.Size(558, 21);
             this.filepathBox.TabIndex = 0;
             this.filepathBox.Text = global::QMK_Toolbox.Properties.Settings.Default.hexFileSetting;
             this.filepathBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.filepathBox_KeyDown);
+            // 
+            // keyboardBox
+            // 
+            this.keyboardBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.keyboardBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.keyboardBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.keyboardBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "keyboard", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.keyboardBox.Enabled = false;
+            this.keyboardBox.FormattingEnabled = true;
+            this.keyboardBox.Items.AddRange(new object[] {
+            "this feature coming in"});
+            this.keyboardBox.Location = new System.Drawing.Point(6, 19);
+            this.keyboardBox.Name = "keyboardBox";
+            this.keyboardBox.PlaceholderText = "Select a keyboard to download";
+            this.keyboardBox.Size = new System.Drawing.Size(438, 21);
+            this.keyboardBox.TabIndex = 0;
+            this.keyboardBox.Text = global::QMK_Toolbox.Properties.Settings.Default.keyboard;
+            this.keyboardBox.TextChanged += new System.EventHandler(this.keyboardBox_TextChanged);
             // 
             // MainWindow
             // 
@@ -503,7 +505,7 @@ namespace QMK_Toolbox {
         private System.Windows.Forms.Label mcuLabel;
         private System.Windows.Forms.GroupBox qmkfmGroupBox;
         private System.Windows.Forms.ComboBox keymapBox;
-        private System.Windows.Forms.ComboBox keyboardBox;
+        private ComboBoxPlaceholder keyboardBox;
         private System.Windows.Forms.Button loadKeymapButton;
         private System.Windows.Forms.Label keymapLabel;
         private System.Windows.Forms.GroupBox fileGroupBox;

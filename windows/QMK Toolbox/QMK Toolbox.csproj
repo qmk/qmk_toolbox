@@ -172,6 +172,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="USB.cs" />
+    <Compile Include="ComboBoxPlaceholder.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>

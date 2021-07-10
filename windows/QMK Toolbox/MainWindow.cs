@@ -27,19 +27,10 @@ namespace QMK_Toolbox
 
     public partial class MainWindow : Form
     {
-        private const int WmDevicechange = 0x0219;
-        private const int DbtDevnodesChanged = 0x0007; //device changed
-        private const int DeviceIdOffset = 55;
-
         private readonly string _filePassedIn = string.Empty;
         private readonly Printing _printer;
         private readonly Flashing _flasher;
         private readonly Usb _usb;
-
-        private const int CB_SETCUEBANNER = 0x1703;
-
-        [System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto)]
-        private static extern int SendMessage(IntPtr hWnd, int msg, int wParam, [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.LPWStr)]string lParam);
 
         public MainWindow()
         {
@@ -193,7 +184,6 @@ namespace QMK_Toolbox
                     if (json != null) {
                         var keyboards = JsonConvert.DeserializeObject<List<string>>(json);
                         keyboardBox.Items.Clear();
-                        SendMessage(keyboardBox.Handle, CB_SETCUEBANNER, 0, "Select a keyboard to download");
                         foreach (var keyboard in keyboards)
                         {
                             keyboardBox.Items.Add(keyboard);
