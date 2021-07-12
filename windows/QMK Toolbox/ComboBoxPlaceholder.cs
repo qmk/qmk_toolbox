@@ -13,7 +13,7 @@ namespace QMK_Toolbox
 {
     public class ComboBoxPlaceholder : ComboBox
     {
-        private const int CB_SETCUEBANNER = 0x1703;
+        private const uint CB_SETCUEBANNER = 0x1703;
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = false)]
         private static extern IntPtr SendMessage(HandleRef hWnd, uint msg, IntPtr wParam, String lParam);
