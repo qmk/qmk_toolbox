@@ -173,6 +173,53 @@
                         </items>
                     </menu>
                 </menuItem>
+                <menuItem title="Tools" id="1O2-Ti-WSi">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Tools" id="MX7-uG-vxO">
+                        <items>
+                            <menuItem title="Flash" keyEquivalent="F" id="7bv-PT-Bxa">
+                                <connections>
+                                    <action selector="flashButtonClick:" target="Voe-Tx-rLC" id="vCR-Vp-aZz"/>
+                                    <binding destination="Voe-Tx-rLC" name="enabled" keyPath="canFlash" id="fWt-AG-eQj"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="EEPROM" id="BUo-tZ-r8e">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="EEPROM" id="fJw-eE-Nwx">
+                                    <items>
+                                        <menuItem title="Clear" keyEquivalent="" id="F9P-Gn-mZB">
+                                            <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="clearEEPROMButtonClick:" target="Voe-Tx-rLC" id="EtH-aa-Mug"/>
+                                                <binding destination="Voe-Tx-rLC" name="enabled" keyPath="canClearEEPROM" id="4FV-cZ-RIF"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="DHD-Te-eKC"/>
+                                        <menuItem title="Set Left Hand" id="i5E-En-4la">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
+                                        <menuItem title="Set Right Hand" id="Srd-qs-7xC">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Exit DFU" keyEquivalent="X" id="N5j-gr-8MX">
+                                <connections>
+                                    <action selector="resetButtonClick:" target="Voe-Tx-rLC" id="fGa-z9-VAz"/>
+                                    <binding destination="Voe-Tx-rLC" name="enabled" keyPath="canReset" id="bsn-wM-Qx3"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="brh-nD-8CU"/>
+                            <menuItem title="Auto-Flash" id="163-QW-wpc">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <binding destination="Voe-Tx-rLC" name="value" keyPath="autoFlashEnabled" id="mem-Y3-YTB"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
                 <menuItem title="Window" id="dkA-VH-G6l">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Window" systemMenu="window" id="xzU-PQ-zCe">
@@ -266,6 +313,7 @@
                         </buttonCell>
                         <connections>
                             <action selector="resetButtonClick:" target="Voe-Tx-rLC" id="OeF-Gz-mpL"/>
+                            <binding destination="Voe-Tx-rLC" name="enabled" keyPath="canReset" id="bTa-Zn-nnd"/>
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OKF-oG-mRx">
@@ -280,6 +328,7 @@
                         </buttonCell>
                         <connections>
                             <action selector="flashButtonClick:" target="Voe-Tx-rLC" id="qed-bj-dbt"/>
+                            <binding destination="Voe-Tx-rLC" name="enabled" keyPath="canFlash" id="B7O-2B-f3E"/>
                         </connections>
                     </button>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="TwL-TO-5Ka">
@@ -293,7 +342,7 @@
                             <font key="font" metaFont="label" size="12"/>
                         </buttonCell>
                         <connections>
-                            <action selector="autoFlashButtonClick:" target="Voe-Tx-rLC" id="5Rn-zn-8HN"/>
+                            <binding destination="Voe-Tx-rLC" name="value" keyPath="autoFlashEnabled" id="H8W-yV-uz1"/>
                         </connections>
                     </button>
                     <box borderType="line" title="Local file" translatesAutoresizingMaskIntoConstraints="NO" id="t67-0j-kLe">
@@ -456,6 +505,7 @@
                         </buttonCell>
                         <connections>
                             <action selector="clearEEPROMButtonClick:" target="Voe-Tx-rLC" id="xaR-XN-Tf6"/>
+                            <binding destination="Voe-Tx-rLC" name="enabled" keyPath="canClearEEPROM" id="onc-Z0-w85"/>
                         </connections>
                     </button>
                 </subviews>
