@@ -20,7 +20,6 @@
 @property IBOutlet NSComboBox * mcuBox;
 @property IBOutlet NSButton * flashButton;
 @property IBOutlet NSButton * resetButton;
-@property IBOutlet NSButton * autoFlashButton;
 @property IBOutlet NSButton * clearEEPROMButton;
 @property IBOutlet NSComboBox * keyboardBox;
 @property IBOutlet NSComboBox * keymapBox;
