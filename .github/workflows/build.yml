@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: microsoft/setup-msbuild@v1.0.2
 
-    - uses: nuget/setup-nuget@v1
+    - uses: nuget/setup-nuget@v1.0.5
 
     - uses: actions/checkout@v2
 
@@ -47,7 +47,7 @@ jobs:
     runs-on: macOS-latest
 
     steps:
-    - uses: maxim-lobanov/setup-xcode@v1.1
+    - uses: maxim-lobanov/setup-xcode@v1
       with:
         xcode-version: latest-stable
 
@@ -101,38 +101,13 @@ jobs:
     steps:
       - uses: actions/download-artifact@v2
 
-      - uses: actions/upload-release-asset@v1
+      - uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./qmk_toolbox.exe/qmk_toolbox.exe
-          asset_name: qmk_toolbox.exe
-          asset_content_type: application/octet-stream
-
-      - uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./qmk_toolbox_install.exe/qmk_toolbox_install.exe
-          asset_name: qmk_toolbox_install.exe
-          asset_content_type: application/octet-stream
-
-      - uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./QMK.Toolbox.app.zip/QMK.Toolbox.app.zip
-          asset_name: QMK.Toolbox.app.zip
-          asset_content_type: application/octet-stream
-
-      - uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./QMK.Toolbox.pkg/QMK.Toolbox.pkg
-          asset_name: QMK.Toolbox.pkg
-          asset_content_type: application/octet-stream
+          name: ${{ github.event.release.name }}
+          files: |
+            ./qmk_toolbox.exe/qmk_toolbox.exe
+            ./qmk_toolbox_install.exe/qmk_toolbox_install.exe
+            ./QMK.Toolbox.app.zip/QMK.Toolbox.app.zip
+            ./QMK.Toolbox.pkg/QMK.Toolbox.pkg
