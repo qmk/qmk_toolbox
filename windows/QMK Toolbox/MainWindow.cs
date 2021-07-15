@@ -32,6 +32,26 @@ namespace QMK_Toolbox
         private readonly Flashing _flasher;
         private readonly Usb _usb;
 
+        private WindowState windowState = new WindowState();
+
+        private void AutoFlashEnabledChanged(object sender, EventArgs e)
+        {
+            PropertyChangedEventArgs args = (PropertyChangedEventArgs)e;
+            if (args.PropertyName == "AutoFlashEnabled")
+            {
+                if (windowState.AutoFlashEnabled)
+                {
+                    _printer.Print("Auto-flash enabled", MessageType.Info);
+                    DisableUI();
+                }
+                else
+                {
+                    _printer.Print("Auto-flash disabled", MessageType.Info);
+                    EnableUI();
+                }
+            }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -139,6 +159,9 @@ namespace QMK_Toolbox
                 SecurityProtocolType.Tls |
                 SecurityProtocolType.Tls11 |
                 SecurityProtocolType.Tls12;
+
+            windowStateBindingSource.DataSource = windowState;
+            windowState.PropertyChanged += AutoFlashEnabledChanged;
 
             foreach (var mcu in _flasher.GetMcuList())
             {
@@ -248,7 +271,7 @@ namespace QMK_Toolbox
                         }
                         if (error == 0)
                         {
-                            if (!autoflashCheckbox.Checked)
+                            if (!windowState.AutoFlashEnabled)
                             {
                                 this.Invoke(new Action(DisableUI));
                             }
@@ -256,7 +279,7 @@ namespace QMK_Toolbox
                             _printer.Print("Attempting to flash, please don't remove device", MessageType.Bootloader);
                             _flasher.Flash(mcu, filePath);
 
-                            if (!autoflashCheckbox.Checked)
+                            if (!windowState.AutoFlashEnabled)
                             {
                                 this.Invoke(new Action(EnableUI));
                             }
@@ -288,14 +311,14 @@ namespace QMK_Toolbox
                     }
                     if (error == 0)
                     {
-                        if (!autoflashCheckbox.Checked)
+                        if (!windowState.AutoFlashEnabled)
                         {
                             this.Invoke(new Action(DisableUI));
                         }
 
                         _flasher.Reset(mcuBox.Text);
 
-                        if (!autoflashCheckbox.Checked)
+                        if (!windowState.AutoFlashEnabled)
                         {
                             this.Invoke(new Action(EnableUI));
                         }
@@ -326,14 +349,14 @@ namespace QMK_Toolbox
                     }
                     if (error == 0)
                     {
-                        if (!autoflashCheckbox.Checked)
+                        if (!windowState.AutoFlashEnabled)
                         {
                             this.Invoke(new Action(DisableUI));
                         }
 
                         _flasher.ClearEeprom(mcuBox.Text);
 
-                        if (!autoflashCheckbox.Checked)
+                        if (!windowState.AutoFlashEnabled)
                         {
                             this.Invoke(new Action(EnableUI));
                         }
@@ -553,7 +576,7 @@ namespace QMK_Toolbox
             {
                 _usb.DetectBootloader(instance, false);
             }
-            else if (_usb.DetectBootloader(instance) && autoflashCheckbox.Checked)
+            else if (_usb.DetectBootloader(instance) && windowState.AutoFlashEnabled)
             {
                 flashButton_Click(sender, e);
             }
@@ -561,36 +584,22 @@ namespace QMK_Toolbox
             UpdateHidDevices(deviceDisconnected);
             (sender as ManagementEventWatcher)?.Start();
 
-            if (!autoflashCheckbox.Checked)
+            if (!windowState.AutoFlashEnabled)
             {
                 this.Invoke(new Action(EnableUI));
             }
         }
 
-        private void autoflashCheckbox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (autoflashCheckbox.Checked)
-            {
-                _printer.Print("Auto-flash enabled", MessageType.Info);
-                DisableUI();
-            }
-            else
-            {
-                _printer.Print("Auto-flash disabled", MessageType.Info);
-                EnableUI();
-            }
-        }
-
         private void DisableUI() {
-            flashButton.Enabled = false;
-            resetButton.Enabled = false;
-            clearEepromButton.Enabled = false;
+            windowState.CanFlash = false;
+            windowState.CanReset = false;
+            windowState.CanClearEeprom = false;
         }
 
         private void EnableUI() {
-            flashButton.Enabled = _flasher.CanFlash();
-            resetButton.Enabled = _flasher.CanReset();
-            clearEepromButton.Enabled = _flasher.CanClearEeprom();
+            windowState.CanFlash = _flasher.CanFlash();
+            windowState.CanReset = _flasher.CanReset();
+            windowState.CanClearEeprom = _flasher.CanClearEeprom();
         }
 
         private void UpdateHidList()
