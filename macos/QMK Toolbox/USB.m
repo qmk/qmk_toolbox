@@ -9,6 +9,7 @@
 #import "USB.h"
 #include <IOKit/usb/IOUSBLib.h>
 #include <IOKit/serial/IOSerialKeys.h>
+#include <IOKit/storage/IOMedia.h>
 
 static io_iterator_t usbConnectedIter;
 static io_iterator_t usbDisconnectedIter;
@@ -110,18 +111,16 @@ static int devicesAvailable[NumberOfChipsets];
     CFMutableDictionaryRef serialMatcher = IOServiceMatching(kIOSerialBSDServiceValue);
     CFDictionarySetValue(serialMatcher, CFSTR(kIOSerialBSDTypeKey), CFSTR(kIOSerialBSDAllTypes));
 
+    NSNumber *childVendorID = [USB vendorIDForDevice:device];
+    NSNumber *childProductID = [USB productIDForDevice:device];
+
     io_iterator_t serialIterator;
     IOServiceGetMatchingServices(kIOMasterPortDefault, serialMatcher, &serialIterator);
 
     io_service_t port;
     while ((port = IOIteratorNext(serialIterator))) {
-        io_service_t parent;
-        IORegistryEntryGetParentEntry(port, kIOServicePlane, &parent);
-
-        NSNumber *parentVendorID = [USB vendorIDForDevice:parent];
-        NSNumber *childVendorID = [USB vendorIDForDevice:device];
-        NSNumber *parentProductID = [USB productIDForDevice:parent];
-        NSNumber *childProductID = [USB productIDForDevice:device];
+        NSNumber *parentVendorID = [USB vendorIDForDevice:port];
+        NSNumber *parentProductID = [USB productIDForDevice:port];
 
         if (parentVendorID != nil) {
             if ([parentVendorID isEqualTo:childVendorID] && [parentProductID isEqualTo:childProductID]) {
@@ -132,8 +131,44 @@ static int devicesAvailable[NumberOfChipsets];
     return nil;
 }
 
++ (NSString *)mountPointForDevice:(io_service_t)device {
+    CFMutableDictionaryRef massStorageMatcher = IOServiceMatching(kIOMediaClass);
+    CFDictionarySetValue(massStorageMatcher, CFSTR(kIOMediaRemovableKey), kCFBooleanTrue);
+
+    NSNumber *childVendorID = [USB vendorIDForDevice:device];
+    NSNumber *childProductID = [USB productIDForDevice:device];
+
+    io_iterator_t massStorageIterator;
+    IOServiceGetMatchingServices(kIOMasterPortDefault, massStorageMatcher, &massStorageIterator);
+
+    io_service_t media;
+    while ((media = IOIteratorNext(massStorageIterator))) {
+        NSNumber *parentVendorID = [USB vendorIDForDevice:media];
+        NSNumber *parentProductID = [USB productIDForDevice:media];
+
+        if (parentVendorID != nil) {
+            if ([parentVendorID isEqualTo:childVendorID] && [parentProductID isEqualTo:childProductID]) {
+                DASessionRef sessionRef = DASessionCreate(kCFAllocatorDefault);
+                if (sessionRef) {
+                    DADiskRef diskRef = DADiskCreateFromIOMedia(kCFAllocatorDefault, sessionRef, media);
+                    if (diskRef) {
+                        CFDictionaryRef diskProperties = DADiskCopyDescription(diskRef);
+                        if (diskProperties) {
+                            NSURL *mountPointUrl = [(__bridge NSDictionary*)diskProperties objectForKey:(NSString *)kDADiskDescriptionVolumePathKey];
+                            return [mountPointUrl path];
+                        }
+                    }
+                }
+            }
+        }
+    }
+    IOObjectRelease(media);
+
+    return nil;
+}
+
 + (NSNumber *)numberProperty:(CFStringRef)property forDevice:(io_service_t)device {
-    CFNumberRef cfProperty = IORegistryEntryCreateCFProperty(device, property, kCFAllocatorDefault, kNilOptions);
+    CFNumberRef cfProperty = IORegistryEntrySearchCFProperty(device, kIOServicePlane, property, kCFAllocatorDefault, kIORegistryIterateParents | kIORegistryIterateRecursively);
     if (cfProperty != nil) {
         NSNumber *nsProperty = (__bridge NSNumber *)(cfProperty);
         CFRelease(cfProperty);
@@ -190,6 +225,7 @@ static void deviceDisconnectedEvent(void *refCon, io_iterator_t iterator) {
 
     NSString *deviceName;
     NSString *calloutDevice;
+    NSString *mountPoint;
     Chipset deviceType;
 
     if ([USB isSerialDevice:device]) {
@@ -212,9 +248,23 @@ static void deviceDisconnectedEvent(void *refCon, io_iterator_t iterator) {
             }
             [delegate setSerialPort:calloutDevice];
         }
-    } else if (vendorID == 0x03EB && [atmelDfuPids containsObject:[NSNumber numberWithUnsignedShort:productID]]) { // Atmel DFU
-        deviceName = @"Atmel DFU";
-        deviceType = AtmelDFU;
+    } else if (vendorID == 0x03EB) {
+        if ([atmelDfuPids containsObject:[NSNumber numberWithUnsignedShort:productID]]) { // Atmel DFU
+            deviceName = @"Atmel DFU";
+            deviceType = AtmelDFU;
+        } else if (productID == 0x2045) { // LUFA MS
+            deviceName = @"LUFA Mass Storage";
+            deviceType = LUFAMS;
+
+            if (connected) {
+                while (mountPoint == nil) {
+                    mountPoint = [USB mountPointForDevice:device];
+                }
+                [delegate setMountPoint:mountPoint];
+            }
+        } else {
+            return;
+        }
     } else if (vendorID == 0x16C0 && productID == 0x0478) { // PJRC Teensy
         deviceName = @"Halfkay";
         deviceType = Halfkay;
@@ -244,12 +294,16 @@ static void deviceDisconnectedEvent(void *refCon, io_iterator_t iterator) {
     }
 
     NSString *calloutDeviceString = @"";
+    NSString *mountPointString = @"";
     if (calloutDevice != nil) {
         calloutDeviceString = [NSString stringWithFormat:@" [%@]", calloutDevice];
     }
+    if (mountPoint != nil) {
+        mountPointString = [NSString stringWithFormat:@" [%@]", mountPoint];
+    }
 
     [_printer print:[NSString stringWithFormat:
-        @"%@ device %@: %@ %@ (%04X:%04X:%04X)%@",
+        @"%@ device %@: %@ %@ (%04X:%04X:%04X)%@%@",
         deviceName,
         connected ? @"connected" : @"disconnected",
         vendorString,
@@ -257,7 +311,8 @@ static void deviceDisconnectedEvent(void *refCon, io_iterator_t iterator) {
         vendorID,
         productID,
         revisionBCD,
-        calloutDeviceString
+        calloutDeviceString,
+        mountPointString
     ] withType:MessageType_Bootloader];
 
     if (connected) {

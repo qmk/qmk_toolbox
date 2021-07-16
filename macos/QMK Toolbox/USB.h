@@ -17,6 +17,7 @@
 - (void)deviceConnected:(Chipset)chipset;
 - (void)deviceDisconnected:(Chipset)chipset;
 - (void)setSerialPort:(NSString *)port;
+- (void)setMountPoint:(NSString *)mountPoint;
 @end
 
 @interface USB : NSObject

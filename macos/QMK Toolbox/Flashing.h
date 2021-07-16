@@ -19,6 +19,7 @@ typedef enum {
     Caterina,
     Halfkay,
     Kiibohd,
+    LUFAMS,
     STM32DFU,
     STM32Duino,
     USBAsp,
@@ -46,6 +47,7 @@ typedef enum {
 - (BOOL)canClearEEPROM;
 
 @property NSString * serialPort;
+@property NSString * mountPoint;
 
 @property (nonatomic, assign) id <FlashingDelegate> delegate;
 

@@ -17,6 +17,7 @@
 
 @implementation Flashing
 @synthesize serialPort;
+@synthesize mountPoint;
 
 - (id)initWithPrinter:(Printing *)p {
     if (self = [super init]) {
@@ -75,6 +76,8 @@
         [self flashAtmelSAMBAwithFile:file];
     if ([USB canFlash:BootloadHID])
         [self flashBootloadHIDwithFile:file];
+    if ([USB canFlash:LUFAMS])
+        [self flashLUFAMSwithFile:file];
 }
 
 - (void)reset:(NSString *)mcu {
@@ -229,6 +232,31 @@
 
 - (void)resetBootloadHID {
     [self runProcess:@"bootloadHID" withArgs:@[@"-r"]];
+}
+
+- (void)flashLUFAMSwithFile: (NSString *)file {
+    if (mountPoint != nil) {
+        if ([[[file pathExtension] lowercaseString] isEqualToString:@"bin"]) {
+            NSString *destFile = [NSString stringWithFormat:@"%@/FLASH.BIN", mountPoint];
+            NSError *error;
+
+            [_printer print:[NSString stringWithFormat:@"Deleting %@...", destFile] withType:MessageType_Command];
+            if (![[NSFileManager defaultManager] removeItemAtPath:destFile error:&error]) {
+                [_printer print:[NSString stringWithFormat:@"IO ERROR: %@", [error localizedDescription]] withType:MessageType_Error];
+            }
+
+            [_printer print:[NSString stringWithFormat:@"Copying %@ to %@...", file, destFile] withType:MessageType_Command];
+            if (![[NSFileManager defaultManager] copyItemAtPath:file toPath:destFile error:&error]) {
+                [_printer print:[NSString stringWithFormat:@"IO ERROR: %@", [error localizedDescription]] withType:MessageType_Error];
+            }
+
+            [_printer print:@"Done, please eject drive now." withType:MessageType_Info];
+        } else {
+            [_printer print:@"Only firmware files in .bin format can be flashed with this bootloader!" withType:MessageType_Error];
+        }
+    } else {
+        [_printer print:@"Could not find mount path for device!" withType:MessageType_Error];
+    }
 }
 
 @end
