@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: microsoft/setup-msbuild@v1.0.2
 
-    - uses: nuget/setup-nuget@v1
+    - uses: nuget/setup-nuget@v1.0.5
 
     - uses: actions/checkout@v2
 
@@ -47,14 +47,14 @@ jobs:
     runs-on: macOS-latest
 
     steps:
-    - uses: maxim-lobanov/setup-xcode@v1.1
+    - uses: maxim-lobanov/setup-xcode@v1
       with:
         xcode-version: latest-stable
 
     - uses: actions/checkout@v2
 
     - name: Check binary permissions
-      working-directory: ./osx
+      working-directory: ./macos/QMK Toolbox/Resources
       env:
         QMK_BINARIES: avrdude bootloadHID dfu-programmer dfu-util mdloader_mac teensy_loader_cli
       run: |
@@ -67,7 +67,7 @@ jobs:
         exit $status
 
     - name: Build
-      working-directory: ./osx
+      working-directory: ./macos
       run: |
         mkdir build
         xcodebuild CONFIGURATION_BUILD_DIR=build
@@ -76,10 +76,10 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: QMK.Toolbox.app.zip
-        path: osx/build/QMK.Toolbox.app.zip
+        path: macos/build/QMK.Toolbox.app.zip
 
     - name: Create installer
-      working-directory: ./osx
+      working-directory: ./macos
       run: |
         brew install packages
         packagesbuild -v "QMK Toolbox.pkgproj"
@@ -88,7 +88,7 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: QMK.Toolbox.pkg
-        path: osx/build/QMK.Toolbox.pkg
+        path: macos/build/QMK.Toolbox.pkg
 
   publish_release:
     name: Publish (Release)

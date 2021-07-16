@@ -24,7 +24,7 @@ DefaultDirName={commonpf}\{#MyAppName}
 DisableProgramGroupPage=yes
 OutputDir=.
 OutputBaseFilename=qmk_toolbox_install
-SetupIconFile=QMK Toolbox\output.ico
+SetupIconFile=QMK Toolbox\Resources\output.ico
 Compression=lzma
 SolidCompression=yes
 ChangesAssociations=yes
@@ -50,16 +50,13 @@ Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChang
 
 [Registry]
 ; .qmk file format handler
-Root: HKCR; Subkey: ".qmk";                             ValueData: "{#MyAppName}";          Flags: uninsdeletevalue; ValueType: string;  ValueName: ""
-Root: HKCR; Subkey: "{#MyAppName}";                     ValueData: "{#MyAppName}";  Flags: uninsdeletekey;   ValueType: string;  ValueName: ""
-Root: HKCR; Subkey: "{#MyAppName}\DefaultIcon";         ValueData: "{app}\{#MyAppExeName}";               ValueType: string;  ValueName: ""
-Root: HKCR; Subkey: "{#MyAppName}\shell\open\command";  ValueData: """{app}\{#MyAppExeName}"" ""%1""";  ValueType: string;  ValueName: ""
+Root: HKCR; Subkey: ".qmk";                            ValueData: "{#MyAppName}";                     ValueType: string; ValueName: ""; Flags: uninsdeletevalue
+Root: HKCR; Subkey: "{#MyAppName}";                    ValueData: "{#MyAppName}";                     ValueType: string; ValueName: ""; Flags: uninsdeletekey
+Root: HKCR; Subkey: "{#MyAppName}\DefaultIcon";        ValueData: "{app}\{#MyAppExeName}";            ValueType: string; ValueName: ""
+Root: HKCR; Subkey: "{#MyAppName}\shell\open\command"; ValueData: """{app}\{#MyAppExeName}"" ""%1"""; ValueType: string; ValueName: ""
 
 ; qmk:// protocol handler
-Root: HKCR; Subkey: "{#MyAppHandle}"; Flags: uninsdeletekey
-Root: HKCR; Subkey: "{#MyAppHandle}"; ValueType: string; ValueName: ""; ValueData: "URL:{#MyAppName}"; Flags: uninsdeletekey
-Root: HKCR; Subkey: "{#MyAppHandle}"; ValueType: string; ValueName: "URL Protocol"; ValueData: ""; Flags: uninsdeletekey
-Root: HKCR; Subkey: "{#MyAppHandle}\DefaultIcon"; Flags: uninsdeletekey
-Root: HKCR; Subkey: "{#MyAppHandle}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyAppExeName}"; Flags: uninsdeletekey
-Root: HKCR; Subkey: "{#MyAppHandle}\shell\open\command"; Flags: uninsdeletekey
-Root: HKCR; Subkey: "{#MyAppHandle}\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""; Flags: uninsdeletekey
+Root: HKCR; Subkey: "{#MyAppHandle}";                    ValueData: "URL:{#MyAppName}";                 ValueType: string; ValueName: "";             Flags: uninsdeletevalue
+Root: HKCR; Subkey: "{#MyAppHandle}";                    ValueData: "";                                 ValueType: string; ValueName: "URL Protocol"; Flags: uninsdeletekey
+Root: HKCR; Subkey: "{#MyAppHandle}\DefaultIcon";        ValueData: "{app}\{#MyAppExeName}";            ValueType: string; ValueName: "";
+Root: HKCR; Subkey: "{#MyAppHandle}\shell\open\command"; ValueData: """{app}\{#MyAppExeName}"" ""%1"""; ValueType: string; ValueName: "";

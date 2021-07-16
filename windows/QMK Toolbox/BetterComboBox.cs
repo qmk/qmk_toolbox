@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace QMK_Toolbox
 {
-    public class BetterComboBox : ComboBox
+    public class BetterComboBox : ComboBoxPlaceholder
     {
         public override string Text
         {

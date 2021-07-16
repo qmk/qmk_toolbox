@@ -27,30 +27,10 @@ namespace QMK_Toolbox
 
     public partial class MainWindow : Form
     {
-        private const int WmDevicechange = 0x0219;
-        private const int DbtDevnodesChanged = 0x0007; //device changed
-        private const int DeviceIdOffset = 55;
-
         private readonly string _filePassedIn = string.Empty;
         private readonly Printing _printer;
         private readonly Flashing _flasher;
         private readonly Usb _usb;
-
-        public const int MfSeparator = 0x800;
-        public const int WmSyscommand = 0x112;
-        public const int MfByposition = 0x400;
-        public const int About = 1000;
-
-        private const int CB_SETCUEBANNER = 0x1703;
-
-        [System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto)]
-        private static extern int SendMessage(IntPtr hWnd, int msg, int wParam, [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.LPWStr)]string lParam);
-
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
-
-        [DllImport("user32.dll")]
-        private static extern bool InsertMenu(IntPtr hMenu, int wPosition, int wFlags, int wIdNewItem, string lpNewItem);
 
         public MainWindow()
         {
@@ -105,14 +85,6 @@ namespace QMK_Toolbox
                     File.Delete(Path.Combine(Path.GetTempPath(), "qmk_toolbox_file.txt"));
                 }
             }
-            if (m.Msg == WmSyscommand)
-            {
-                if (m.WParam.ToInt32() == About)
-                {
-                    (new AboutBox()).ShowDialog();
-                    return;
-                }
-            }
 
             base.WndProc(ref m);
         }
@@ -132,9 +104,8 @@ namespace QMK_Toolbox
         {
             if (path != string.Empty)
             {
-                if (Path.GetExtension(path)?.ToLower() == ".qmk" ||
-                    Path.GetExtension(path)?.ToLower() == ".hex" ||
-                    Path.GetExtension(path)?.ToLower() == ".bin")
+                var extension = Path.GetExtension(path)?.ToLower();
+                if (extension == ".qmk" || extension == ".hex" || extension == ".bin")
                 {
                     _filePassedIn = path;
                 }
@@ -152,15 +123,6 @@ namespace QMK_Toolbox
             StartListeningForDeviceEvents();
         }
 
-        private void logTextBox_TextChanged(object sender, EventArgs e)
-        {
-            // This shouldn't be needed anymore
-            // set the current caret position to the end
-            // logTextBox.SelectionStart = logTextBox.Text.Length;
-            // scroll it automatically
-            // logTextBox.ScrollToCaret();
-        }
-
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             var arraylist = new ArrayList(filepathBox.Items);
@@ -175,12 +137,6 @@ namespace QMK_Toolbox
                 SecurityProtocolType.Tls |
                 SecurityProtocolType.Tls11 |
                 SecurityProtocolType.Tls12;
-
-            var menuHandle = GetSystemMenu(Handle, false);
-            InsertMenu(menuHandle, 0, MfByposition | MfSeparator, 0, string.Empty); // <-- Add a menu seperator
-            InsertMenu(menuHandle, 0, MfByposition, About, "About");
-
-            //_backgroundWorker.RunWorkerAsync();
 
             foreach (var mcu in _flasher.GetMcuList())
             {
@@ -228,7 +184,6 @@ namespace QMK_Toolbox
                     if (json != null) {
                         var keyboards = JsonConvert.DeserializeObject<List<string>>(json);
                         keyboardBox.Items.Clear();
-                        SendMessage(keyboardBox.Handle, CB_SETCUEBANNER, 0, "Select a keyboard to download");
                         foreach (var keyboard in keyboards)
                         {
                             keyboardBox.Items.Add(keyboard);
@@ -236,7 +191,7 @@ namespace QMK_Toolbox
                         keyboardBox.SelectedIndex = -1;
                         keyboardBox.ResetText();
                         keyboardBox.Enabled = true;
-                        loadKeymap.Enabled = false;
+                        loadKeymapButton.Enabled = false;
                         LoadKeymapList();
                     }
                 }
@@ -246,7 +201,7 @@ namespace QMK_Toolbox
                 _printer.PrintResponse("Something went wrong when trying to get the keyboard list from QMK.FM, you might not have a internet connection or the servers are down.", MessageType.Error);
                 keymapBox.Enabled = false;
                 keyboardBox.Enabled = false;
-                loadKeymap.Enabled = false;
+                loadKeymapButton.Enabled = false;
             }
         }
 
@@ -258,7 +213,7 @@ namespace QMK_Toolbox
             // keymapBox.Enabled = true;
         }
 
-        private void loadKeymap_Click(object sender, EventArgs e)
+        private void loadKeymapButton_Click(object sender, EventArgs e)
         {
             if (keyboardBox.Items.Count > 0)
             {
@@ -649,20 +604,6 @@ namespace QMK_Toolbox
             clearEepromButton.Enabled = _flasher.CanClearEeprom();
         }
 
-        // Set the button's status tip.
-        private void btn_MouseEnter(object sender, EventArgs e)
-        {
-            if (sender is Control obj) toolStripStatusLabel.Text = obj.Tag.ToString();
-        }
-
-        // Remove the button's status tip.
-        private void btn_MouseLeave(object sender, EventArgs e)
-        {
-            //if (toolStripStatusLabel.Text.Equals((sender as Control).Tag)) {
-            //    toolStripStatusLabel.Text = "";
-            //}
-        }
-
         private void UpdateHidList()
         {
             if (!InvokeRequired)
@@ -708,7 +649,18 @@ namespace QMK_Toolbox
 
         private void MainWindow_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                if (files.Length == 1)
+                {
+                    var extension = Path.GetExtension(files.First())?.ToLower();
+                    if (extension == ".qmk" || extension == ".hex" || extension == ".bin")
+                    {
+                        e.Effect = DragDropEffects.Copy;
+                    }
+                }
+            }
         }
 
         private void MainWindow_Shown(object sender, EventArgs e)
@@ -731,19 +683,9 @@ namespace QMK_Toolbox
             }
         }
 
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        private void keyboardBox_TextChanged(object sender, EventArgs e)
         {
-            (new AboutBox()).ShowDialog();
-        }
-
-        private void installDriversToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            InstallDrivers();
-        }
-
-        private void KeyboardBox_TextChanged(object sender, EventArgs e)
-        {
-            loadKeymap.Enabled = keyboardBox.Items.Contains(keyboardBox.Text);
+            loadKeymapButton.Enabled = keyboardBox.Items.Contains(keyboardBox.Text);
         }
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -760,11 +702,26 @@ namespace QMK_Toolbox
             logTextBox.Clear();
         }
 
-        private void contextMenuStrip2_Opening(object sender, CancelEventArgs e)
+        private void logContextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
             copyToolStripMenuItem.Enabled = (logTextBox.SelectedText.Length > 0);
             selectAllToolStripMenuItem.Enabled = (logTextBox.Text.Length > 0);
             clearToolStripMenuItem.Enabled = (logTextBox.Text.Length > 0);
+        }
+
+        private void aboutMenuItem_Click(object sender, EventArgs e)
+        {
+            (new AboutBox()).ShowDialog();
+        }
+
+        private void exitMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void installDriversMenuItem_Click(object sender, EventArgs e)
+        {
+            InstallDrivers();
         }
     }
 }
