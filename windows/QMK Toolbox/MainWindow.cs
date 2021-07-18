@@ -120,7 +120,7 @@ namespace QMK_Toolbox
             _usb = new Usb(_flasher, _printer);
             _flasher.Usb = _usb;
 
-            StartListeningForDeviceEvents();
+            _usb.StartListeningForDeviceEvents(DeviceEvent);
         }
 
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
@@ -129,6 +129,8 @@ namespace QMK_Toolbox
             Settings.Default.hexFileCollection = arraylist;
             Settings.Default.targetSetting = mcuBox.GetItemText(mcuBox.SelectedItem);
             Settings.Default.Save();
+
+            _usb.StopListeningForDeviceEvents();
         }
 
         private void MainWindow_Load(object sender, EventArgs e)
@@ -563,19 +565,6 @@ namespace QMK_Toolbox
             {
                 this.Invoke(new Action(EnableUI));
             }
-        }
-
-        private void StartListeningForDeviceEvents()
-        {
-            StartManagementEventWatcher("__InstanceCreationEvent");
-            StartManagementEventWatcher("__InstanceDeletionEvent");
-        }
-
-        private void StartManagementEventWatcher(string eventType)
-        {
-            var watcher = new ManagementEventWatcher($"SELECT * FROM {eventType} WITHIN 2 WHERE TargetInstance ISA 'Win32_PnPEntity' AND TargetInstance.DeviceID LIKE 'USB%'");
-            watcher.EventArrived += DeviceEvent;
-            watcher.Start();
         }
 
         private void autoflashCheckbox_CheckedChanged(object sender, EventArgs e)
