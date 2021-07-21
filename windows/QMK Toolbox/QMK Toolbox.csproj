@@ -159,6 +159,9 @@
     <Compile Include="BetterComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="BindableToolStripMenuItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Flashing.cs" />
     <Compile Include="Helpers\EmbeddedResourceHelper.cs" />
     <Compile Include="Info.cs" />
@@ -175,6 +178,7 @@
     <Compile Include="ComboBoxPlaceholder.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="WindowState.cs" />
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -193,6 +197,7 @@
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
+    <None Include="Properties\DataSources\WindowState.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
