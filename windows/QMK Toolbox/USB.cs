@@ -16,10 +16,47 @@ namespace QMK_Toolbox
         private readonly Printing _printer;
         private readonly Regex DeviceIdRegex = new Regex(@"USB\\VID_([0-9A-F]+).*PID_([0-9A-F]+).*REV_([0-9A-F]+).*");
 
+        private ManagementEventWatcher deviceConnectedWatcher;
+        private ManagementEventWatcher deviceDisconnectedWatcher;
+
         public Usb(Flashing flasher, Printing printer)
         {
             _flasher = flasher;
             _printer = printer;
+        }
+
+        public  void StartListeningForDeviceEvents(EventArrivedEventHandler handler)
+        {
+            if (deviceConnectedWatcher == null)
+            {
+                deviceConnectedWatcher = StartManagementEventWatcher("__InstanceCreationEvent", handler);
+            }
+
+            if (deviceDisconnectedWatcher == null)
+            {
+                deviceDisconnectedWatcher = StartManagementEventWatcher("__InstanceDeletionEvent", handler);
+            }
+        }
+
+        public void StopListeningForDeviceEvents()
+        {
+            if (deviceConnectedWatcher != null)
+            {
+                deviceConnectedWatcher.Stop();
+            }
+
+            if (deviceDisconnectedWatcher != null)
+            {
+                deviceDisconnectedWatcher.Stop();
+            }
+        }
+
+        private ManagementEventWatcher StartManagementEventWatcher(string eventType, EventArrivedEventHandler handler)
+        {
+            var watcher = new ManagementEventWatcher($"SELECT * FROM {eventType} WITHIN 2 WHERE TargetInstance ISA 'Win32_PnPEntity' AND TargetInstance.DeviceID LIKE 'USB%'");
+            watcher.EventArrived += handler;
+            watcher.Start();
+            return watcher;
         }
 
         public bool DetectBootloaderFromCollection(ManagementObjectCollection collection, bool connected = true)
