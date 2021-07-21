@@ -60,7 +60,8 @@ namespace QMK_Toolbox
             "teensy_loader_cli.exe",
             "libusb0.dll",
             "libusb-0-1-4.dll",
-            "libusb-1.0.dll"
+            "libusb-1.0.dll",
+            "libwinpthread-1.dll"
         };
 
         public Flashing(Printing printer)
@@ -196,9 +197,9 @@ namespace QMK_Toolbox
         {
             var resettable = new List<Chipset> {
                 Chipset.AtmelDfu,
-                Chipset.Halfkay,
+                Chipset.AtmelSamBa,
                 Chipset.BootloadHid,
-                Chipset.AtmelSamBa
+                Chipset.Halfkay
             };
             foreach (Chipset chipset in resettable)
             {
