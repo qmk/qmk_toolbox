@@ -26,6 +26,7 @@ namespace QMK_Toolbox
         Caterina,
         Halfkay,
         Kiibohd,
+        LufaMs,
         Stm32Dfu,
         Stm32Duino,
         UsbAsp,
@@ -41,6 +42,7 @@ namespace QMK_Toolbox
         public const ushort ConsoleUsagePage = 0xFF31;
         public const int ConsoleUsage = 0x0074;
         public string ComPort = "";
+        public string MountPoint = "";
 
         private readonly Printing _printer;
         public Usb Usb;
@@ -150,6 +152,8 @@ namespace QMK_Toolbox
                 FlashApm32Dfu(mcu, file);
             if (Usb.CanFlash(Chipset.Kiibohd))
                 FlashKiibohd(file);
+            if (Usb.CanFlash(Chipset.LufaMs))
+                FlashLufaMs(file);
             if (Usb.CanFlash(Chipset.AvrIsp))
                 FlashAvrIsp(mcu, file);
             if (Usb.CanFlash(Chipset.UsbAsp))
@@ -307,5 +311,39 @@ namespace QMK_Toolbox
         private void FlashAtmelSamBa(string file) => RunProcess("mdloader.exe", $"-p {ComPort} -D \"{file}\" --restart");
 
         private void ResetAtmelSamBa() => RunProcess("mdloader.exe", $"-p {ComPort} --restart");
+
+        private void FlashLufaMs(string file)
+        {
+            if (MountPoint != null)
+            {
+                if (Path.GetExtension(file)?.ToLower() == ".bin")
+                {
+                    var destFile = $"{MountPoint}\\FLASH.BIN";
+
+                    try
+                    {
+                        _printer.Print($"Deleting {destFile}...", MessageType.Command);
+                        File.Delete(destFile);
+
+                        _printer.Print($"Copying {file} to {destFile}...", MessageType.Command);
+                        File.Copy(file, destFile);
+
+                        _printer.Print("Done, please eject drive now.", MessageType.Info);
+                    }
+                    catch (IOException e)
+                    {
+                        _printer.Print($"IO ERROR: {e.Message}", MessageType.Error);
+                    }
+                }
+                else
+                {
+                    _printer.Print("Only firmware files in .bin format can be flashed with this bootloader!", MessageType.Error);
+                }
+            }
+            else
+            {
+                _printer.Print("Could not find drive letter for device!", MessageType.Error);
+            }
+        }
     }
 }

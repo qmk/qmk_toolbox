@@ -116,6 +116,10 @@
     _flasher.serialPort = port;
 }
 
+- (void)setMountPoint:(NSString *)mountPoint {
+    _flasher.mountPoint = mountPoint;
+}
+
 - (IBAction) autoFlashButtonClick:(id)sender {
     if ([_autoFlashButton state] == NSOnState) {
         [_printer print:@"Auto-flash enabled" withType:MessageType_Info];

@@ -119,6 +119,7 @@ namespace QMK_Toolbox
 
                 string deviceName;
                 string comPort = null;
+                string mountPoint = null;
                 string driverName = GetDriverName(instance);
                 Chipset deviceType;
 
@@ -147,10 +148,24 @@ namespace QMK_Toolbox
                     comPort = GetComPort(instance);
                     _flasher.ComPort = comPort;
                 }
-                else if (vendorId == 0x03EB && atmelDfuPids.Contains(productId)) // Atmel DFU
+                else if (vendorId == 0x03EB)
                 {
-                    deviceName = "Atmel DFU";
-                    deviceType = Chipset.AtmelDfu;
+                    if (atmelDfuPids.Contains(productId)) // Atmel DFU
+                    {
+                        deviceName = "Atmel DFU";
+                        deviceType = Chipset.AtmelDfu;
+                    }
+                    else if (productId == 0x2045)
+                    {
+                        deviceName = "LUFA Mass Storage";
+                        deviceType = Chipset.LufaMs;
+                        mountPoint = GetMountPoint(instance);
+                        _flasher.MountPoint = mountPoint;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else if (vendorId == 0x16C0 && productId == 0x0478) // PJRC Teensy
                 {
@@ -199,9 +214,10 @@ namespace QMK_Toolbox
 
                 var connectedString = connected ? "connected" : "disconnected";
                 var comPortString = comPort != null ? $" [{comPort}]" : "";
+                var mountPointString = mountPoint != null ? $" [{mountPoint}]" : "";
                 var driverString = driverName ?? "NO DRIVER";
 
-                _printer.Print($"{deviceName} device {connectedString} ({driverString}): {instance.GetPropertyValue("Manufacturer")} {instance.GetPropertyValue("Name")} ({vendorId:X4}:{productId:X4}:{revisionBcd:X4}){comPortString}", MessageType.Bootloader);
+                _printer.Print($"{deviceName} device {connectedString} ({driverString}): {instance.GetPropertyValue("Manufacturer")} {instance.GetPropertyValue("Name")} ({vendorId:X4}:{productId:X4}:{revisionBcd:X4}){comPortString}{mountPointString}", MessageType.Bootloader);
 
                 _devicesAvailable[(int)deviceType] += (connected ? 1 : -1);
 
@@ -248,6 +264,40 @@ namespace QMK_Toolbox
                     if (device.GetPropertyValue("PNPDeviceID").ToString().Equals(instance.GetPropertyValue("PNPDeviceID").ToString()))
                     {
                         return device.GetPropertyValue("DeviceID").ToString();
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public string GetMountPoint(ManagementBaseObject instance)
+        {
+            foreach (ManagementObject usbHub in new ManagementObjectSearcher("SELECT * FROM Win32_USBHub").Get())
+            {
+                if (usbHub.GetPropertyValue("PNPDeviceID").ToString().Equals(instance.GetPropertyValue("PNPDeviceID").ToString()))
+                {
+                    foreach (ManagementObject usbController in usbHub.GetRelated("Win32_USBController"))
+                    {
+                        foreach (ManagementObject assoc in new ManagementObjectSearcher("ASSOCIATORS OF {Win32_USBController.DeviceID='" + usbController["PNPDeviceID"].ToString() + "'}").Get())
+                        {
+                            if (assoc.GetPropertyValue("CreationClassName").Equals("Win32_PnPEntity") && assoc.GetPropertyValue("DeviceID").ToString().Contains("USBSTOR"))
+                            {
+                                foreach (ManagementObject diskDrive in new ManagementObjectSearcher("SELECT * FROM Win32_DiskDrive").Get())
+                                {
+                                    if (diskDrive.GetPropertyValue("PNPDeviceID").ToString().Equals(assoc.GetPropertyValue("PNPDeviceID").ToString()))
+                                    {
+                                        foreach (ManagementObject partition in diskDrive.GetRelated("Win32_DiskPartition"))
+                                        {
+                                            foreach (ManagementObject logicalDisk in partition.GetRelated("Win32_LogicalDisk"))
+                                            {
+                                                return logicalDisk.GetPropertyValue("Name").ToString();
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
