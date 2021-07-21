@@ -16,8 +16,11 @@ namespace QMK_Toolbox
             get => this._autoFlashEnabled;
             set
             {
-                this._autoFlashEnabled = value;
-                OnPropertyChanged();
+                if (this._autoFlashEnabled != value)
+                {
+                    this._autoFlashEnabled = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -27,8 +30,11 @@ namespace QMK_Toolbox
             get => this._canFlash;
             set
             {
-                this._canFlash = value;
-                OnPropertyChanged();
+                if (this._canFlash != value)
+                {
+                    this._canFlash = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -38,8 +44,11 @@ namespace QMK_Toolbox
             get => this._canReset;
             set
             {
-                this._canReset = value;
-                OnPropertyChanged();
+                if (this._canReset != value)
+                {
+                    this._canReset = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -49,8 +58,11 @@ namespace QMK_Toolbox
             get => this._canClearEeprom;
             set
             {
-                this._canClearEeprom = value;
-                OnPropertyChanged();
+                if (this._canClearEeprom != value)
+                {
+                    this._canClearEeprom = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
