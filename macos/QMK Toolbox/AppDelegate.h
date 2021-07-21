@@ -12,9 +12,17 @@
 #import "HID.h"
 #import "USB.h"
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
+@interface AppDelegate : NSObject <NSApplicationDelegate> {
 
-@property Printing * printer;
+@private
+    BOOL _autoFlashEnabled;
+}
+
+@property BOOL canFlash;
+@property BOOL canReset;
+@property BOOL canClearEEPROM;
+
+@property(nonatomic)  Printing * printer;
 
 - (void)setFilePath:(NSURL *)url;
 
