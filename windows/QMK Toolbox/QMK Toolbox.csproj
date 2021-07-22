@@ -225,6 +225,12 @@
     <EmbeddedResource Include="..\..\common\reset.eep">
       <Link>Resources\reset.eep</Link>
     </EmbeddedResource>
+    <EmbeddedResource Include="..\..\common\reset_left.eep">
+      <Link>Resources\reset_left.eep</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\common\reset_right.eep">
+      <Link>Resources\reset_right.eep</Link>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\avrdude.exe" />
     <EmbeddedResource Include="Resources\bootloadHID.exe" />
     <EmbeddedResource Include="Resources\dfu-programmer.exe" />
