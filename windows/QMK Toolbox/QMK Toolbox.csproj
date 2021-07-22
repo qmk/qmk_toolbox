@@ -235,6 +235,7 @@
     <EmbeddedResource Include="Resources\libusb0.dll" />
     <EmbeddedResource Include="Resources\libusb-0-1-4.dll" />
     <EmbeddedResource Include="Resources\libusb-1.0.dll" />
+    <EmbeddedResource Include="Resources\libwinpthread-1.dll" />
     <EmbeddedResource Include="Resources\drivers.txt" />
   </ItemGroup>
   <ItemGroup>
