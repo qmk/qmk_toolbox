@@ -42,9 +42,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				09D79CBA1FB8A6360086ABF6 /* libusb-1.0.0.dylib in CopyFiles */,
-				09D79CBC1FB8A64B0086ABF6 /* libusb-0.1.4.dylib in CopyFiles */,
 				3A7770DA22BD3BA300398C40 /* libftdi.1.dylib in CopyFiles */,
+				09D79CBC1FB8A64B0086ABF6 /* libusb-0.1.4.dylib in CopyFiles */,
+				09D79CBA1FB8A6360086ABF6 /* libusb-1.0.0.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
