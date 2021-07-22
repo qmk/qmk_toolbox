@@ -42,6 +42,7 @@ typedef enum {
 - (void)flash:(NSString *)mcu withFile:(NSString *)file;
 - (void)reset:(NSString *)mcu;
 - (void)clearEEPROM:(NSString *)mcu;
+- (void)setHandedness:(NSString *)mcu rightHand:(BOOL)rightHand;
 
 - (BOOL)canFlash;
 - (BOOL)canReset;

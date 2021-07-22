@@ -100,6 +100,15 @@
         [self clearEEPROMUSBAsp:mcu];
 }
 
+- (void)setHandedness:(NSString *)mcu rightHand:(BOOL)rightHand {
+    if ([USB canFlash:AtmelDFU] || [USB canFlash:QMKDFU])
+        [self setHandednessAtmelDFU:mcu rightHand:rightHand eraseFirst:![USB canFlash:QMKDFU]];
+    if ([USB canFlash:Caterina])
+        [self setHandednessCaterina:mcu rightHand:rightHand];
+    if ([USB canFlash:USBAsp])
+        [self setHandednessUSBAsp:mcu rightHand:rightHand];
+}
+
 - (BOOL)canFlash {
     return [USB areDevicesAvailable];
 }
@@ -158,6 +167,18 @@
     }
 }
 
+-(void)setHandednessAtmelDFU:(NSString *)mcu rightHand:(BOOL)rightHand eraseFirst:(BOOL)erase {
+    NSString * hand = (rightHand ? @"right" : @"left");
+    NSString * file = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"reset_%@", hand] ofType:@"eep"];
+    if (erase) {
+        [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"erase", @"--force"]];
+    }
+    [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"flash", @"--force", @"--suppress-validation", @"--eeprom", file]];
+    if (erase) {
+        [_printer print:@"Please reflash device with firmware now" withType:MessageType_Bootloader];
+    }
+}
+
 - (void)flashCaterina:(NSString *)mcu withFile:(NSString *)file {
     [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"avr109", @"-U", [NSString stringWithFormat:@"flash:w:%@:i", file], @"-P", serialPort, @"-C", @"avrdude.conf"]];
 }
@@ -167,8 +188,20 @@
     [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"avr109", @"-U", [NSString stringWithFormat:@"eeprom:w:%@:i", file], @"-P", serialPort, @"-C", @"avrdude.conf"]];
 }
 
+- (void)setHandednessCaterina:(NSString *)mcu rightHand:(BOOL)rightHand {
+    NSString * hand = (rightHand ? @"right" : @"left");
+    NSString * file = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"reset_%@", hand] ofType:@"eep"];
+    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"avr109", @"-U", [NSString stringWithFormat:@"eeprom:w:%@:i", file], @"-P", serialPort, @"-C", @"avrdude.conf"]];
+}
+
 - (void)clearEEPROMUSBAsp:(NSString *)mcu {
     NSString * file = [[NSBundle mainBundle] pathForResource:@"reset" ofType:@"eep"];
+    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"usbasp", @"-U", [NSString stringWithFormat:@"eeprom:w:%@:i", file], @"-C", @"avrdude.conf"]];
+}
+
+- (void)setHandednessUSBAsp:(NSString *)mcu rightHand:(BOOL)rightHand {
+    NSString * hand = (rightHand ? @"right" : @"left");
+    NSString * file = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"reset_%@", hand] ofType:@"eep"];
     [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"usbasp", @"-U", [NSString stringWithFormat:@"eeprom:w:%@:i", file], @"-C", @"avrdude.conf"]];
 }
 

@@ -196,9 +196,15 @@
                                         <menuItem isSeparatorItem="YES" id="DHD-Te-eKC"/>
                                         <menuItem title="Set Left Hand" id="i5E-En-4la">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="setHandednessButtonClick:" target="Voe-Tx-rLC" id="HGY-yK-wlb"/>
+                                            </connections>
                                         </menuItem>
-                                        <menuItem title="Set Right Hand" id="Srd-qs-7xC">
+                                        <menuItem title="Set Right Hand" tag="1" id="Srd-qs-7xC">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="setHandednessButtonClick:" target="Voe-Tx-rLC" id="deN-mD-LWe"/>
+                                            </connections>
                                         </menuItem>
                                     </items>
                                 </menu>

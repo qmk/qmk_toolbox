@@ -130,6 +130,22 @@
     }
 }
 
+- (IBAction) setHandednessButtonClick:(id) sender {
+    if ([[_mcuBox objectValue] isEqualToString:@""]) {
+        [_printer print:@"Please select a microcontroller" withType:MessageType_Error];
+    } else {
+        if (!self.autoFlashEnabled) {
+            [self disableUI];
+        }
+
+        [_flasher setHandedness:(NSString *)[_mcuBox objectValue] rightHand:[sender tag] == 1];
+
+        if (!self.autoFlashEnabled) {
+            [self enableUI];
+        }
+    }
+}
+
 - (void)setSerialPort:(NSString *)port {
     _flasher.serialPort = port;
 }
