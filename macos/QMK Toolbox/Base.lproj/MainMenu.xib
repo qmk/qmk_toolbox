@@ -186,8 +186,7 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="EEPROM" id="fJw-eE-Nwx">
                                     <items>
-                                        <menuItem title="Clear" keyEquivalent="" id="F9P-Gn-mZB">
-                                            <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                        <menuItem title="Clear" keyEquivalent="E" id="F9P-Gn-mZB">
                                             <connections>
                                                 <action selector="clearEEPROMButtonClick:" target="Voe-Tx-rLC" id="EtH-aa-Mug"/>
                                                 <binding destination="Voe-Tx-rLC" name="enabled" keyPath="canClearEEPROM" id="4FV-cZ-RIF"/>
