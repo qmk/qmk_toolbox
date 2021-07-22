@@ -157,19 +157,17 @@
 }
 
 - (void)clearEEPROMAtmelDFU:(NSString *)mcu eraseFirst:(BOOL)erase {
-    NSString * file = [[NSBundle mainBundle] pathForResource:@"reset" ofType:@"eep"];
     if (erase) {
         [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"erase", @"--force"]];
     }
-    [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"flash", @"--force", @"--suppress-validation", @"--eeprom", file]];
+    [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"flash", @"--force", @"--suppress-validation", @"--eeprom", @"reset.eep"]];
     if (erase) {
         [_printer print:@"Please reflash device with firmware now" withType:MessageType_Bootloader];
     }
 }
 
 -(void)setHandednessAtmelDFU:(NSString *)mcu rightHand:(BOOL)rightHand eraseFirst:(BOOL)erase {
-    NSString * hand = (rightHand ? @"right" : @"left");
-    NSString * file = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"reset_%@", hand] ofType:@"eep"];
+    NSString * file = [NSString stringWithFormat: @"reset_%@.eep", (rightHand ? @"right" : @"left")];
     if (erase) {
         [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"erase", @"--force"]];
     }
@@ -184,24 +182,20 @@
 }
 
 - (void)clearEEPROMCaterina:(NSString *)mcu {
-    NSString * file = [[NSBundle mainBundle] pathForResource:@"reset" ofType:@"eep"];
-    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"avr109", @"-U", [NSString stringWithFormat:@"eeprom:w:%@:i", file], @"-P", serialPort, @"-C", @"avrdude.conf"]];
+    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"avr109", @"-U", @"eeprom:w:reset.eep:i", @"-P", serialPort, @"-C", @"avrdude.conf"]];
 }
 
 - (void)setHandednessCaterina:(NSString *)mcu rightHand:(BOOL)rightHand {
-    NSString * hand = (rightHand ? @"right" : @"left");
-    NSString * file = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"reset_%@", hand] ofType:@"eep"];
+    NSString * file = [NSString stringWithFormat: @"reset_%@.eep", (rightHand ? @"right" : @"left")];
     [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"avr109", @"-U", [NSString stringWithFormat:@"eeprom:w:%@:i", file], @"-P", serialPort, @"-C", @"avrdude.conf"]];
 }
 
 - (void)clearEEPROMUSBAsp:(NSString *)mcu {
-    NSString * file = [[NSBundle mainBundle] pathForResource:@"reset" ofType:@"eep"];
-    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"usbasp", @"-U", [NSString stringWithFormat:@"eeprom:w:%@:i", file], @"-C", @"avrdude.conf"]];
+    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"usbasp", @"-U", @"eeprom:w:reset.eep:i", @"-C", @"avrdude.conf"]];
 }
 
 - (void)setHandednessUSBAsp:(NSString *)mcu rightHand:(BOOL)rightHand {
-    NSString * hand = (rightHand ? @"right" : @"left");
-    NSString * file = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"reset_%@", hand] ofType:@"eep"];
+    NSString * file = [NSString stringWithFormat: @"reset_%@.eep", (rightHand ? @"right" : @"left")];
     [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"usbasp", @"-U", [NSString stringWithFormat:@"eeprom:w:%@:i", file], @"-C", @"avrdude.conf"]];
 }
 
