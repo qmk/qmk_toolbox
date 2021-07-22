@@ -249,9 +249,14 @@ static void deviceDisconnectedEvent(void *refCon, io_iterator_t iterator) {
             [delegate setSerialPort:calloutDevice];
         }
     } else if (vendorID == 0x03EB) {
-        if ([atmelDfuPids containsObject:[NSNumber numberWithUnsignedShort:productID]]) { // Atmel DFU
-            deviceName = @"Atmel DFU";
-            deviceType = AtmelDFU;
+        if ([atmelDfuPids containsObject:[NSNumber numberWithUnsignedShort:productID]]) {
+            if (revisionBCD == 0x0936) { // QMK DFU
+                deviceName = @"QMK DFU";
+                deviceType = QMKDFU;
+            } else { // Atmel DFU
+                deviceName = @"Atmel DFU";
+                deviceType = AtmelDFU;
+            }
         } else if (productID == 0x2045) { // LUFA MS
             deviceName = @"LUFA Mass Storage";
             deviceType = LUFAMS;

@@ -150,12 +150,20 @@ namespace QMK_Toolbox
                 }
                 else if (vendorId == 0x03EB)
                 {
-                    if (atmelDfuPids.Contains(productId)) // Atmel DFU
+                    if (atmelDfuPids.Contains(productId))
                     {
-                        deviceName = "Atmel DFU";
-                        deviceType = Chipset.AtmelDfu;
+                        if (revisionBcd == 0x0936) // QMK-DFU
+                        {
+                            deviceName = "QMK DFU";
+                            deviceType = Chipset.QmkDfu;
+                        }
+                        else // Atmel DFU
+                        {
+                            deviceName = "Atmel DFU";
+                            deviceType = Chipset.AtmelDfu;
+                        }
                     }
-                    else if (productId == 0x2045)
+                    else if (productId == 0x2045) // LUFA MS
                     {
                         deviceName = "LUFA Mass Storage";
                         deviceType = Chipset.LufaMs;

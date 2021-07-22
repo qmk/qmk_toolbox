@@ -52,7 +52,7 @@
 }
 
 - (void)flash:(NSString *)mcu withFile:(NSString *)file {
-    if ([USB canFlash:AtmelDFU])
+    if ([USB canFlash:AtmelDFU] || [USB canFlash:QMKDFU])
         [self flashAtmelDFU:mcu withFile:file];
     if ([USB canFlash:Caterina])
         [self flashCaterina:mcu withFile:file];
@@ -81,7 +81,7 @@
 }
 
 - (void)reset:(NSString *)mcu {
-    if ([USB canFlash:AtmelDFU])
+    if ([USB canFlash:AtmelDFU] || [USB canFlash:QMKDFU])
         [self resetAtmelDFU:mcu];
     if ([USB canFlash:Halfkay])
         [self resetHalfkay:mcu];
@@ -92,8 +92,8 @@
 }
 
 - (void)clearEEPROM:(NSString *)mcu {
-    if ([USB canFlash:AtmelDFU])
-        [self clearEEPROMAtmelDFU:mcu];
+    if ([USB canFlash:AtmelDFU] || [USB canFlash:QMKDFU])
+        [self clearEEPROMAtmelDFU:mcu eraseFirst:![USB canFlash:QMKDFU]];
     if ([USB canFlash:Caterina])
         [self clearEEPROMCaterina:mcu];
     if ([USB canFlash:USBAsp])
@@ -107,9 +107,10 @@
 - (BOOL)canReset {
     NSArray<NSNumber *> *resettable = @[
         @(AtmelDFU),
-        @(Halfkay),
         @(AtmelSAMBA),
-        @(BootloadHID)
+        @(BootloadHID),
+        @(Halfkay),
+        @(QMKDFU)
     ];
     for (NSNumber *chipset in resettable) {
         if ([USB canFlash:(Chipset)chipset.intValue])
@@ -122,6 +123,7 @@
     NSArray<NSNumber *> *clearable = @[
         @(AtmelDFU),
         @(Caterina),
+        @(QMKDFU),
         @(USBAsp)
     ];
     for (NSNumber *chipset in clearable) {
@@ -145,11 +147,15 @@
     [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"reset"]];
 }
 
-- (void)clearEEPROMAtmelDFU:(NSString *)mcu {
+- (void)clearEEPROMAtmelDFU:(NSString *)mcu eraseFirst:(BOOL)erase {
     NSString * file = [[NSBundle mainBundle] pathForResource:@"reset" ofType:@"eep"];
-    [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"erase", @"--force"]];
-    [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"flash", @"--force", @"--eeprom", file]];
-    [_printer print:@"Please reflash device with firmware now" withType:MessageType_Bootloader];
+    if (erase) {
+        [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"erase", @"--force"]];
+    }
+    [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"flash", @"--force", @"--suppress-validation", @"--eeprom", file]];
+    if (erase) {
+        [_printer print:@"Please reflash device with firmware now" withType:MessageType_Bootloader];
+    }
 }
 
 - (void)flashCaterina:(NSString *)mcu withFile:(NSString *)file {

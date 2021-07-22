@@ -27,6 +27,7 @@ namespace QMK_Toolbox
         Halfkay,
         Kiibohd,
         LufaMs,
+        QmkDfu,
         Stm32Dfu,
         Stm32Duino,
         UsbAsp,
@@ -141,7 +142,7 @@ namespace QMK_Toolbox
 
         public void Flash(string mcu, string file)
         {
-            if (Usb.CanFlash(Chipset.AtmelDfu))
+            if (Usb.CanFlash(Chipset.AtmelDfu) || Usb.CanFlash(Chipset.QmkDfu))
                 FlashAtmelDfu(mcu, file);
             if (Usb.CanFlash(Chipset.Caterina))
                 FlashCaterina(mcu, file);
@@ -171,7 +172,7 @@ namespace QMK_Toolbox
 
         public void Reset(string mcu)
         {
-            if (Usb.CanFlash(Chipset.AtmelDfu))
+            if (Usb.CanFlash(Chipset.AtmelDfu) || Usb.CanFlash(Chipset.QmkDfu))
                 ResetAtmelDfu(mcu);
             if (Usb.CanFlash(Chipset.Halfkay))
                 ResetHalfkay(mcu);
@@ -183,8 +184,8 @@ namespace QMK_Toolbox
 
         public void ClearEeprom(string mcu)
         {
-            if (Usb.CanFlash(Chipset.AtmelDfu))
-                ClearEepromAtmelDfu(mcu);
+            if (Usb.CanFlash(Chipset.AtmelDfu) || Usb.CanFlash(Chipset.QmkDfu))
+                ClearEepromAtmelDfu(mcu, !Usb.CanFlash(Chipset.QmkDfu));
             if (Usb.CanFlash(Chipset.Caterina))
                 ClearEepromCaterina(mcu);
             if (Usb.CanFlash(Chipset.UsbAsp))
@@ -199,7 +200,8 @@ namespace QMK_Toolbox
                 Chipset.AtmelDfu,
                 Chipset.AtmelSamBa,
                 Chipset.BootloadHid,
-                Chipset.Halfkay
+                Chipset.Halfkay,
+                Chipset.QmkDfu
             };
             foreach (Chipset chipset in resettable)
             {
@@ -215,6 +217,7 @@ namespace QMK_Toolbox
             {
                 Chipset.AtmelDfu,
                 Chipset.Caterina,
+                Chipset.QmkDfu,
                 Chipset.UsbAsp
             };
             foreach (Chipset chipset in clearable)
@@ -234,11 +237,15 @@ namespace QMK_Toolbox
 
         private void ResetAtmelDfu(string mcu) => RunProcess("dfu-programmer.exe", $"{mcu} reset");
 
-        private void ClearEepromAtmelDfu(string mcu)
+        private void ClearEepromAtmelDfu(string mcu, bool erase)
         {
-            RunProcess("dfu-programmer.exe", $"{mcu} erase --force");
-            RunProcess("dfu-programmer.exe", $"{mcu} flash --force --eeprom \"reset.eep\"");
-            _printer.Print("Please reflash device with firmware now", MessageType.Bootloader);
+            if (erase) {
+                RunProcess("dfu-programmer.exe", $"{mcu} erase --force");
+            }
+            RunProcess("dfu-programmer.exe", $"{mcu} flash --force --suppress-validation --eeprom \"reset.eep\"");
+            if (erase) {
+                _printer.Print("Please reflash device with firmware now", MessageType.Bootloader);
+            }
         }
 
         private void FlashCaterina(string mcu, string file) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U flash:w:\"{file}\":i -P {ComPort}");

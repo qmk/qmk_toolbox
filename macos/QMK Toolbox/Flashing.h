@@ -20,6 +20,7 @@ typedef enum {
     Halfkay,
     Kiibohd,
     LUFAMS,
+    QMKDFU,
     STM32DFU,
     STM32Duino,
     USBAsp,
