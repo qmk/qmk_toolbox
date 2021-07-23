@@ -26,6 +26,8 @@
 		09D79CBA1FB8A6360086ABF6 /* libusb-1.0.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		09D79CBC1FB8A64B0086ABF6 /* libusb-0.1.4.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		303568C11FA7DEF400803BEF /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 303568C01FA7DEF400803BEF /* Constants.m */; };
+		3A62C86526A96AED001C655A /* reset_right.eep in Resources */ = {isa = PBXBuildFile; fileRef = 3A62C86326A96AED001C655A /* reset_right.eep */; };
+		3A62C86626A96AED001C655A /* reset_left.eep in Resources */ = {isa = PBXBuildFile; fileRef = 3A62C86426A96AED001C655A /* reset_left.eep */; };
 		3A7770DA22BD3BA300398C40 /* libftdi.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3A7770D822BD3B8200398C40 /* libftdi.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		3AB4BC9D2495540A00204A3F /* bootloadHID in Resources */ = {isa = PBXBuildFile; fileRef = 3AB4BC9C2495540A00204A3F /* bootloadHID */; };
 		C93A0FF42292232E0006C88F /* reset.eep in Resources */ = {isa = PBXBuildFile; fileRef = C93A0FF32292232D0006C88F /* reset.eep */; };
@@ -40,9 +42,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				09D79CBA1FB8A6360086ABF6 /* libusb-1.0.0.dylib in CopyFiles */,
-				09D79CBC1FB8A64B0086ABF6 /* libusb-0.1.4.dylib in CopyFiles */,
 				3A7770DA22BD3BA300398C40 /* libftdi.1.dylib in CopyFiles */,
+				09D79CBC1FB8A64B0086ABF6 /* libusb-0.1.4.dylib in CopyFiles */,
+				09D79CBA1FB8A6360086ABF6 /* libusb-1.0.0.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +79,8 @@
 		09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libusb-0.1.4.dylib"; sourceTree = "<group>"; };
 		303568C01FA7DEF400803BEF /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		303568C21FA7DF0900803BEF /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		3A62C86326A96AED001C655A /* reset_right.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset_right.eep; path = ../../../common/reset_right.eep; sourceTree = "<group>"; };
+		3A62C86426A96AED001C655A /* reset_left.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset_left.eep; path = ../../../common/reset_left.eep; sourceTree = "<group>"; };
 		3A7770D822BD3B8200398C40 /* libftdi.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libftdi.1.dylib; sourceTree = "<group>"; };
 		3AB4BC9C2495540A00204A3F /* bootloadHID */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = bootloadHID; sourceTree = "<group>"; };
 		C93A0FF32292232D0006C88F /* reset.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset.eep; path = ../../../common/reset.eep; sourceTree = "<group>"; };
@@ -154,6 +158,8 @@
 				09522BBA1F6216BA00AEBC5E /* avrdude.conf */,
 				09522BB21F61E32700AEBC5E /* mcu-list.txt */,
 				C93A0FF32292232D0006C88F /* reset.eep */,
+				3A62C86426A96AED001C655A /* reset_left.eep */,
+				3A62C86326A96AED001C655A /* reset_right.eep */,
 				092964101F5E4186004F2D3F /* avrdude */,
 				3AB4BC9C2495540A00204A3F /* bootloadHID */,
 				0929640C1F5E403C004F2D3F /* dfu-programmer */,
@@ -225,18 +231,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3AB4BC9D2495540A00204A3F /* bootloadHID in Resources */,
+				092964021F5C8B2C004F2D3F /* Assets.xcassets in Resources */,
+				092964051F5C8B2C004F2D3F /* MainMenu.xib in Resources */,
+				C9A09B5922EE6837008C3CF3 /* applet-mdflash.bin in Resources */,
+				09522BBB1F6216BA00AEBC5E /* avrdude.conf in Resources */,
 				09522BB31F61E32700AEBC5E /* mcu-list.txt in Resources */,
 				C93A0FF42292232E0006C88F /* reset.eep in Resources */,
+				3A62C86626A96AED001C655A /* reset_left.eep in Resources */,
+				3A62C86526A96AED001C655A /* reset_right.eep in Resources */,
+				092964111F5E4186004F2D3F /* avrdude in Resources */,
+				3AB4BC9D2495540A00204A3F /* bootloadHID in Resources */,
 				0929640D1F5E403C004F2D3F /* dfu-programmer in Resources */,
-				092964021F5C8B2C004F2D3F /* Assets.xcassets in Resources */,
-				09522BBB1F6216BA00AEBC5E /* avrdude.conf in Resources */,
 				098AEDFB1F5E45C300CA054D /* dfu-util in Resources */,
 				C9A09B5722EE6826008C3CF3 /* mdloader_mac in Resources */,
 				0929640F1F5E4068004F2D3F /* teensy_loader_cli in Resources */,
-				092964111F5E4186004F2D3F /* avrdude in Resources */,
-				092964051F5C8B2C004F2D3F /* MainMenu.xib in Resources */,
-				C9A09B5922EE6837008C3CF3 /* applet-mdflash.bin in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,14 +255,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				098AEE101F60C6F600CA054D /* QMKWindow.m in Sources */,
-				098AEE0B1F5F97A000CA054D /* USB.m in Sources */,
 				092964001F5C8B2C004F2D3F /* main.m in Sources */,
+				092963FD1F5C8B2C004F2D3F /* AppDelegate.m in Sources */,
 				303568C11FA7DEF400803BEF /* Constants.m in Sources */,
 				098AEE021F5F296000CA054D /* Flashing.m in Sources */,
 				098AEE051F5F356000CA054D /* HID.m in Sources */,
-				092963FD1F5C8B2C004F2D3F /* AppDelegate.m in Sources */,
 				098AEDFE1F5F220500CA054D /* Printing.m in Sources */,
+				098AEE101F60C6F600CA054D /* QMKWindow.m in Sources */,
+				098AEE0B1F5F97A000CA054D /* USB.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

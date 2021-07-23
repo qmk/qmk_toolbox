@@ -373,6 +373,45 @@ namespace QMK_Toolbox
             }
         }
 
+        private void setHandednessButton_Click(object sender, EventArgs e)
+        {
+
+            if (!InvokeRequired)
+            {
+                if (_usb.AreDevicesAvailable())
+                {
+                    var error = 0;
+                    if (mcuBox.Text == "")
+                    {
+                        _printer.Print("Please select a microcontroller", MessageType.Error);
+                        error++;
+                    }
+                    if (error == 0)
+                    {
+                        if (!windowState.AutoFlashEnabled)
+                        {
+                            this.Invoke(new Action(DisableUI));
+                        }
+
+                        _flasher.SetHandedness(mcuBox.Text, (sender as ToolStripMenuItem).Tag == "right");
+
+                        if (!windowState.AutoFlashEnabled)
+                        {
+                            this.Invoke(new Action(EnableUI));
+                        }
+                    }
+                }
+                else
+                {
+                    _printer.Print("There are no devices available", MessageType.Error);
+                }
+            }
+            else
+            {
+                Invoke(new Action<object, EventArgs>(setHandednessButton_Click), sender, e);
+            }
+        }
+
         private void UpdateHidDevices(bool disconnected)
         {
             var devices = GetListableDevices().ToList();

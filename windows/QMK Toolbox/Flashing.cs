@@ -53,6 +53,8 @@ namespace QMK_Toolbox
             "avrdude.conf",
             "mcu-list.txt",
             "reset.eep",
+            "reset_left.eep",
+            "reset_right.eep",
             "avrdude.exe",
             "bootloadHID.exe",
             "dfu-programmer.exe",
@@ -192,6 +194,16 @@ namespace QMK_Toolbox
                 ClearEepromUsbAsp(mcu);
         }
 
+        public void SetHandedness(string mcu, bool rightHand)
+        {
+            if (Usb.CanFlash(Chipset.AtmelDfu) || Usb.CanFlash(Chipset.QmkDfu))
+                SetHandednessAtmelDfu(mcu, rightHand, !Usb.CanFlash(Chipset.QmkDfu));
+            if (Usb.CanFlash(Chipset.Caterina))
+                SetHandednessCaterina(mcu, rightHand);
+            if (Usb.CanFlash(Chipset.UsbAsp))
+                SetHandednessUsbAsp(mcu, rightHand);
+        }
+
         public bool CanFlash() => Usb.AreDevicesAvailable();
 
         public bool CanReset()
@@ -242,7 +254,19 @@ namespace QMK_Toolbox
             if (erase) {
                 RunProcess("dfu-programmer.exe", $"{mcu} erase --force");
             }
-            RunProcess("dfu-programmer.exe", $"{mcu} flash --force --suppress-validation --eeprom \"reset.eep\"");
+            RunProcess("dfu-programmer.exe", $"{mcu} flash --force --suppress-validation --eeprom reset.eep");
+            if (erase) {
+                _printer.Print("Please reflash device with firmware now", MessageType.Bootloader);
+            }
+        }
+
+        private void SetHandednessAtmelDfu(string mcu, bool rightHand, bool erase)
+        {
+            if (erase)
+            {
+                RunProcess("dfu-programmer.exe", $"{mcu} erase --force");
+            }
+            RunProcess("dfu-programmer.exe", $"{mcu} flash --force --suppress-validation --eeprom reset_{(rightHand ? "right" : "left")}.eep");
             if (erase) {
                 _printer.Print("Please reflash device with firmware now", MessageType.Bootloader);
             }
@@ -250,9 +274,13 @@ namespace QMK_Toolbox
 
         private void FlashCaterina(string mcu, string file) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U flash:w:\"{file}\":i -P {ComPort}");
 
-        private void ClearEepromCaterina(string mcu) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U eeprom:w:\"reset.eep\":i -P {ComPort}");
+        private void ClearEepromCaterina(string mcu) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U eeprom:w:reset.eep:i -P {ComPort}");
 
-        private void ClearEepromUsbAsp(string mcu) => RunProcess("avrdude.exe", $"-p {mcu} -c usbasp -U eeprom:w:\"reset.eep\":i");
+        private void SetHandednessCaterina(string mcu, bool rightHand) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U eeprom:w:reset_{(rightHand ? "right" : "left")}.eep:i -P {ComPort}");
+
+        private void ClearEepromUsbAsp(string mcu) => RunProcess("avrdude.exe", $"-p {mcu} -c usbasp -U eeprom:w:reset.eep:i");
+
+        private void SetHandednessUsbAsp(string mcu, bool rightHand) => RunProcess("avrdude.exe", $"-p {mcu} -c usbasp -U eeprom:w:reset_{(rightHand ? "right" : "left")}.eep:i");
 
         private void FlashHalfkay(string mcu, string file) => RunProcess("teensy_loader_cli.exe", $"-mmcu={mcu} \"{file}\" -v");
 

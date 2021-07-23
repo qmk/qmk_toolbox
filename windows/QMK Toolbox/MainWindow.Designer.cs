@@ -26,7 +26,6 @@ namespace QMK_Toolbox {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.flashButton = new System.Windows.Forms.Button();
-            this.windowStateBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.autoflashCheckbox = new System.Windows.Forms.CheckBox();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.openFileButton = new System.Windows.Forms.Button();
@@ -35,10 +34,8 @@ namespace QMK_Toolbox {
             this.qmkfmGroupBox = new System.Windows.Forms.GroupBox();
             this.keymapLabel = new System.Windows.Forms.Label();
             this.keymapBox = new System.Windows.Forms.ComboBox();
-            this.keyboardBox = new QMK_Toolbox.ComboBoxPlaceholder();
             this.loadKeymapButton = new System.Windows.Forms.Button();
             this.fileGroupBox = new System.Windows.Forms.GroupBox();
-            this.filepathBox = new QMK_Toolbox.BetterComboBox();
             this.mcuBox = new System.Windows.Forms.ComboBox();
             this.clearEepromButton = new System.Windows.Forms.Button();
             this.logTextBox = new System.Windows.Forms.RichTextBox();
@@ -57,14 +54,8 @@ namespace QMK_Toolbox {
             this.fileToolStripMenuSep = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.flashToolStripMenuItem = new QMK_Toolbox.BindableToolStripMenuItem();
             this.eepromToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.eepromClearToolStripMenuItem = new QMK_Toolbox.BindableToolStripMenuItem();
-            this.eepromLeftToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.eepromRightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitDFUToolStripMenuItem = new QMK_Toolbox.BindableToolStripMenuItem();
             this.toolsToolStripMenuSep1 = new System.Windows.Forms.ToolStripSeparator();
-            this.autoFlashToolStripMenuItem = new QMK_Toolbox.BindableToolStripMenuItem();
             this.toolsToolStripMenuSep2 = new System.Windows.Forms.ToolStripSeparator();
             this.installDriversToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,11 +63,21 @@ namespace QMK_Toolbox {
             this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuSep = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            ((System.ComponentModel.ISupportInitialize)(this.windowStateBindingSource)).BeginInit();
+            this.flashToolStripMenuItem = new QMK_Toolbox.BindableToolStripMenuItem();
+            this.windowStateBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.eepromClearToolStripMenuItem = new QMK_Toolbox.BindableToolStripMenuItem();
+            this.eepromLeftToolStripMenuItem = new QMK_Toolbox.BindableToolStripMenuItem();
+            this.eepromRightToolStripMenuItem = new QMK_Toolbox.BindableToolStripMenuItem();
+            this.exitDFUToolStripMenuItem = new QMK_Toolbox.BindableToolStripMenuItem();
+            this.autoFlashToolStripMenuItem = new QMK_Toolbox.BindableToolStripMenuItem();
+            this.filepathBox = new QMK_Toolbox.BetterComboBox();
+            this.keyboardBox = new QMK_Toolbox.ComboBoxPlaceholder();
+            this.eepromToolStripMenuSep = new System.Windows.Forms.ToolStripSeparator();
             this.qmkfmGroupBox.SuspendLayout();
             this.fileGroupBox.SuspendLayout();
             this.logContextMenu.SuspendLayout();
             this.mainMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.windowStateBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // flashButton
@@ -90,10 +91,6 @@ namespace QMK_Toolbox {
             this.flashButton.TabIndex = 3;
             this.flashButton.Text = "Flash";
             this.flashButton.Click += new System.EventHandler(this.flashButton_Click);
-            // 
-            // windowStateBindingSource
-            // 
-            this.windowStateBindingSource.DataSource = typeof(QMK_Toolbox.WindowState);
             // 
             // autoflashCheckbox
             // 
@@ -185,25 +182,6 @@ namespace QMK_Toolbox {
             this.keymapBox.TabIndex = 2;
             this.keymapBox.Text = global::QMK_Toolbox.Properties.Settings.Default.keymap;
             // 
-            // keyboardBox
-            // 
-            this.keyboardBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.keyboardBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.keyboardBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.keyboardBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "keyboard", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.keyboardBox.Enabled = false;
-            this.keyboardBox.FormattingEnabled = true;
-            this.keyboardBox.Items.AddRange(new object[] {
-            "this feature coming in"});
-            this.keyboardBox.Location = new System.Drawing.Point(6, 19);
-            this.keyboardBox.Name = "keyboardBox";
-            this.keyboardBox.PlaceholderText = "Select a keyboard to download";
-            this.keyboardBox.Size = new System.Drawing.Size(438, 21);
-            this.keyboardBox.TabIndex = 0;
-            this.keyboardBox.Text = global::QMK_Toolbox.Properties.Settings.Default.keyboard;
-            this.keyboardBox.TextChanged += new System.EventHandler(this.keyboardBox_TextChanged);
-            // 
             // loadKeymapButton
             // 
             this.loadKeymapButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -230,20 +208,6 @@ namespace QMK_Toolbox {
             this.fileGroupBox.TabIndex = 1;
             this.fileGroupBox.TabStop = false;
             this.fileGroupBox.Text = "Local file";
-            // 
-            // filepathBox
-            // 
-            this.filepathBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.filepathBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "hexFileSetting", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.filepathBox.FormattingEnabled = true;
-            this.filepathBox.Location = new System.Drawing.Point(6, 19);
-            this.filepathBox.Name = "filepathBox";
-            this.filepathBox.PlaceholderText = "Click Open or drag to window to select file";
-            this.filepathBox.Size = new System.Drawing.Size(558, 21);
-            this.filepathBox.TabIndex = 0;
-            this.filepathBox.Text = global::QMK_Toolbox.Properties.Settings.Default.hexFileSetting;
-            this.filepathBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.filepathBox_KeyDown);
             // 
             // mcuBox
             // 
@@ -428,74 +392,21 @@ namespace QMK_Toolbox {
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.toolsToolStripMenuItem.Text = "&Tools";
             // 
-            // flashToolStripMenuItem
-            // 
-            this.flashToolStripMenuItem.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.windowStateBindingSource, "CanFlash", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.flashToolStripMenuItem.Name = "flashToolStripMenuItem";
-            this.flashToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.F)));
-            this.flashToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.flashToolStripMenuItem.Text = "Flash";
-            this.flashToolStripMenuItem.Click += new System.EventHandler(this.flashButton_Click);
-            // 
             // eepromToolStripMenuItem
             // 
             this.eepromToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.eepromClearToolStripMenuItem,
+            this.eepromToolStripMenuSep,
             this.eepromLeftToolStripMenuItem,
             this.eepromRightToolStripMenuItem});
             this.eepromToolStripMenuItem.Name = "eepromToolStripMenuItem";
             this.eepromToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.eepromToolStripMenuItem.Text = "EEPROM";
             // 
-            // eepromClearToolStripMenuItem
-            // 
-            this.eepromClearToolStripMenuItem.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.windowStateBindingSource, "CanClearEeprom", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.eepromClearToolStripMenuItem.Name = "eepromClearToolStripMenuItem";
-            this.eepromClearToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.E)));
-            this.eepromClearToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
-            this.eepromClearToolStripMenuItem.Text = "Clear";
-            this.eepromClearToolStripMenuItem.Click += new System.EventHandler(this.clearEepromButton_Click);
-            // 
-            // eepromLeftToolStripMenuItem
-            // 
-            this.eepromLeftToolStripMenuItem.Name = "eepromLeftToolStripMenuItem";
-            this.eepromLeftToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.Left)));
-            this.eepromLeftToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
-            this.eepromLeftToolStripMenuItem.Text = "Set Left Hand";
-            // 
-            // eepromRightToolStripMenuItem
-            // 
-            this.eepromRightToolStripMenuItem.Name = "eepromRightToolStripMenuItem";
-            this.eepromRightToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.Right)));
-            this.eepromRightToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
-            this.eepromRightToolStripMenuItem.Text = "Set Right Hand";
-            // 
-            // exitDFUToolStripMenuItem
-            // 
-            this.exitDFUToolStripMenuItem.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.windowStateBindingSource, "CanReset", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.exitDFUToolStripMenuItem.Name = "exitDFUToolStripMenuItem";
-            this.exitDFUToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.X)));
-            this.exitDFUToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.exitDFUToolStripMenuItem.Text = "Exit DFU";
-            this.exitDFUToolStripMenuItem.Click += new System.EventHandler(this.resetButton_Click);
-            // 
             // toolsToolStripMenuSep1
             // 
             this.toolsToolStripMenuSep1.Name = "toolsToolStripMenuSep1";
             this.toolsToolStripMenuSep1.Size = new System.Drawing.Size(193, 6);
-            // 
-            // autoFlashToolStripMenuItem
-            // 
-            this.autoFlashToolStripMenuItem.CheckOnClick = true;
-            this.autoFlashToolStripMenuItem.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.windowStateBindingSource, "AutoFlashEnabled", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.autoFlashToolStripMenuItem.Name = "autoFlashToolStripMenuItem";
-            this.autoFlashToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.autoFlashToolStripMenuItem.Text = "Auto-Flash";
             // 
             // toolsToolStripMenuSep2
             // 
@@ -547,6 +458,108 @@ namespace QMK_Toolbox {
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutMenuItem_Click);
             // 
+            // flashToolStripMenuItem
+            // 
+            this.flashToolStripMenuItem.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.windowStateBindingSource, "CanFlash", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.flashToolStripMenuItem.Name = "flashToolStripMenuItem";
+            this.flashToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.F)));
+            this.flashToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.flashToolStripMenuItem.Text = "Flash";
+            this.flashToolStripMenuItem.Click += new System.EventHandler(this.flashButton_Click);
+            // 
+            // windowStateBindingSource
+            // 
+            this.windowStateBindingSource.DataSource = typeof(QMK_Toolbox.WindowState);
+            // 
+            // eepromClearToolStripMenuItem
+            // 
+            this.eepromClearToolStripMenuItem.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.windowStateBindingSource, "CanClearEeprom", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.eepromClearToolStripMenuItem.Name = "eepromClearToolStripMenuItem";
+            this.eepromClearToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.E)));
+            this.eepromClearToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
+            this.eepromClearToolStripMenuItem.Text = "Clear";
+            this.eepromClearToolStripMenuItem.Click += new System.EventHandler(this.clearEepromButton_Click);
+            // 
+            // eepromLeftToolStripMenuItem
+            // 
+            this.eepromLeftToolStripMenuItem.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.windowStateBindingSource, "CanClearEeprom", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.eepromLeftToolStripMenuItem.Name = "eepromLeftToolStripMenuItem";
+            this.eepromLeftToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.Left)));
+            this.eepromLeftToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
+            this.eepromLeftToolStripMenuItem.Tag = "left";
+            this.eepromLeftToolStripMenuItem.Text = "Set Left Hand";
+            this.eepromLeftToolStripMenuItem.Click += new System.EventHandler(this.setHandednessButton_Click);
+            // 
+            // eepromRightToolStripMenuItem
+            // 
+            this.eepromRightToolStripMenuItem.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.windowStateBindingSource, "CanClearEeprom", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.eepromRightToolStripMenuItem.Name = "eepromRightToolStripMenuItem";
+            this.eepromRightToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.Right)));
+            this.eepromRightToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
+            this.eepromRightToolStripMenuItem.Tag = "right";
+            this.eepromRightToolStripMenuItem.Text = "Set Right Hand";
+            this.eepromRightToolStripMenuItem.Click += new System.EventHandler(this.setHandednessButton_Click);
+            // 
+            // exitDFUToolStripMenuItem
+            // 
+            this.exitDFUToolStripMenuItem.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.windowStateBindingSource, "CanReset", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.exitDFUToolStripMenuItem.Name = "exitDFUToolStripMenuItem";
+            this.exitDFUToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.X)));
+            this.exitDFUToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.exitDFUToolStripMenuItem.Text = "Exit DFU";
+            this.exitDFUToolStripMenuItem.Click += new System.EventHandler(this.resetButton_Click);
+            // 
+            // autoFlashToolStripMenuItem
+            // 
+            this.autoFlashToolStripMenuItem.CheckOnClick = true;
+            this.autoFlashToolStripMenuItem.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.windowStateBindingSource, "AutoFlashEnabled", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.autoFlashToolStripMenuItem.Name = "autoFlashToolStripMenuItem";
+            this.autoFlashToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.autoFlashToolStripMenuItem.Text = "Auto-Flash";
+            // 
+            // filepathBox
+            // 
+            this.filepathBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.filepathBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "hexFileSetting", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.filepathBox.FormattingEnabled = true;
+            this.filepathBox.Location = new System.Drawing.Point(6, 19);
+            this.filepathBox.Name = "filepathBox";
+            this.filepathBox.PlaceholderText = "Click Open or drag to window to select file";
+            this.filepathBox.Size = new System.Drawing.Size(558, 21);
+            this.filepathBox.TabIndex = 0;
+            this.filepathBox.Text = global::QMK_Toolbox.Properties.Settings.Default.hexFileSetting;
+            this.filepathBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.filepathBox_KeyDown);
+            // 
+            // keyboardBox
+            // 
+            this.keyboardBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.keyboardBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.keyboardBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.keyboardBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "keyboard", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.keyboardBox.Enabled = false;
+            this.keyboardBox.FormattingEnabled = true;
+            this.keyboardBox.Items.AddRange(new object[] {
+            "this feature coming in"});
+            this.keyboardBox.Location = new System.Drawing.Point(6, 19);
+            this.keyboardBox.Name = "keyboardBox";
+            this.keyboardBox.PlaceholderText = "Select a keyboard to download";
+            this.keyboardBox.Size = new System.Drawing.Size(438, 21);
+            this.keyboardBox.TabIndex = 0;
+            this.keyboardBox.Text = global::QMK_Toolbox.Properties.Settings.Default.keyboard;
+            this.keyboardBox.TextChanged += new System.EventHandler(this.keyboardBox_TextChanged);
+            // 
+            // eepromToolStripMenuSep
+            // 
+            this.eepromToolStripMenuSep.Name = "eepromToolStripMenuSep";
+            this.eepromToolStripMenuSep.Size = new System.Drawing.Size(244, 6);
+            // 
             // MainWindow
             // 
             this.AllowDrop = true;
@@ -573,7 +586,6 @@ namespace QMK_Toolbox {
             this.Shown += new System.EventHandler(this.MainWindow_Shown);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainWindow_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainWindow_DragEnter);
-            ((System.ComponentModel.ISupportInitialize)(this.windowStateBindingSource)).EndInit();
             this.qmkfmGroupBox.ResumeLayout(false);
             this.qmkfmGroupBox.PerformLayout();
             this.fileGroupBox.ResumeLayout(false);
@@ -581,6 +593,7 @@ namespace QMK_Toolbox {
             this.logContextMenu.ResumeLayout(false);
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.windowStateBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -628,12 +641,13 @@ namespace QMK_Toolbox {
         private QMK_Toolbox.BindableToolStripMenuItem flashToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem eepromToolStripMenuItem;
         private QMK_Toolbox.BindableToolStripMenuItem eepromClearToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem eepromLeftToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem eepromRightToolStripMenuItem;
+        private QMK_Toolbox.BindableToolStripMenuItem eepromLeftToolStripMenuItem;
+        private QMK_Toolbox.BindableToolStripMenuItem eepromRightToolStripMenuItem;
         private QMK_Toolbox.BindableToolStripMenuItem exitDFUToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolsToolStripMenuSep2;
         private QMK_Toolbox.BindableToolStripMenuItem autoFlashToolStripMenuItem;
         private System.Windows.Forms.BindingSource windowStateBindingSource;
+        private System.Windows.Forms.ToolStripSeparator eepromToolStripMenuSep;
     }
 }
 
