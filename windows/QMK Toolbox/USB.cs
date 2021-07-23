@@ -68,7 +68,7 @@ namespace QMK_Toolbox
             return found;
         }
 
-        private static UInt16[] caterinaVids =
+        private static readonly ushort[] caterinaVids =
         {
             0x1B4F, // Spark Fun Electronics
             0x1FFB, // Pololu Electronics
@@ -77,7 +77,7 @@ namespace QMK_Toolbox
             0x2A03  // dog hunter AG
         };
 
-        private static UInt16[] caterinaPids =
+        private static readonly ushort[] caterinaPids =
         {
             // Adafruit Industries LLC
             0x000C, // Feather 32U4
@@ -94,7 +94,7 @@ namespace QMK_Toolbox
             0x9207  // LilyPad 3V3/8MHz (and some Pro Micro clones)
         };
 
-        private static UInt16[] atmelDfuPids =
+        private static readonly ushort[] atmelDfuPids =
         {
             0x2FEF, // ATmega16U2
             0x2FF0, // ATmega32U2
@@ -236,7 +236,7 @@ namespace QMK_Toolbox
 
         public string GetHardwareId(ManagementBaseObject instance)
         {
-            var hardwareIds = (System.String[])instance.GetPropertyValue("HardwareID");
+            var hardwareIds = (string[])instance.GetPropertyValue("HardwareID");
             if (hardwareIds != null && hardwareIds.Length > 0)
             {
                 return hardwareIds[0];
@@ -258,7 +258,7 @@ namespace QMK_Toolbox
 
         public bool IsSerialDevice(ManagementBaseObject instance)
         {
-            var compatibleIds = (System.String[])instance.GetPropertyValue("CompatibleID");
+            var compatibleIds = (string[])instance.GetPropertyValue("CompatibleID");
             return (compatibleIds != null && compatibleIds.Contains("USB\\Class_02&SubClass_02")); // CDC-ACM
         }
 

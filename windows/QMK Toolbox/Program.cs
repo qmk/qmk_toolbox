@@ -54,7 +54,7 @@ namespace QMK_Toolbox
     // this class just wraps some Win32 stuff that we're going to use
     internal class NativeMethods
     {
-        public const int HwndBroadcast = 0xffff;
+        public const int HwndBroadcast = 0xFFFF;
         public static readonly int WmShowme = RegisterWindowMessage("WM_SHOWME");
 
         [DllImport("user32")]

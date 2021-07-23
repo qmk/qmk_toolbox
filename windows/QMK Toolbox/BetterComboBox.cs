@@ -29,7 +29,6 @@ namespace QMK_Toolbox
                     return;
                 }
 
-                int selectionIndex = Items.IndexOf(Text);
                 int hoverIndex = SelectedIndex;
 
                 Items.RemoveAt(hoverIndex);

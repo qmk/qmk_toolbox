@@ -91,10 +91,10 @@ namespace QMK_Toolbox
             _printer.PrintResponse(e.Data, MessageType.Info);
         }
 
-        private void ProcessOutput(Object streamReader)
+        private void ProcessOutput(object streamReader)
         {
             StreamReader _stream = (StreamReader)streamReader;
-            var output = "";
+            string output;
 
             while (!_stream.EndOfStream)
             {
@@ -147,9 +147,9 @@ namespace QMK_Toolbox
             if (Usb.CanFlash(Chipset.Halfkay))
                 FlashHalfkay(mcu, file);
             if (Usb.CanFlash(Chipset.Stm32Dfu))
-                FlashStm32Dfu(mcu, file);
+                FlashStm32Dfu(file);
             if (Usb.CanFlash(Chipset.Apm32Dfu))
-                FlashApm32Dfu(mcu, file);
+                FlashApm32Dfu(file);
             if (Usb.CanFlash(Chipset.Kiibohd))
                 FlashKiibohd(file);
             if (Usb.CanFlash(Chipset.LufaMs))
@@ -282,7 +282,7 @@ namespace QMK_Toolbox
 
         private void ResetHalfkay(string mcu) => RunProcess("teensy_loader_cli.exe", $"-mmcu={mcu} -bv");
 
-        private void FlashStm32Dfu(string mcu, string file)
+        private void FlashStm32Dfu(string file)
         {
             if (Path.GetExtension(file)?.ToLower() == ".bin") {
                 RunProcess("dfu-util.exe", $"-a 0 -d 0483:DF11 -s 0x08000000:leave -D \"{file}\"");
@@ -300,7 +300,7 @@ namespace QMK_Toolbox
             }
         }
 
-        private void FlashApm32Dfu(string mcu, string file)
+        private void FlashApm32Dfu(string file)
         {
             if (Path.GetExtension(file)?.ToLower() == ".bin") {
                 RunProcess("dfu-util.exe", $"-a 0 -d 314B:0106 -s 0x08000000:leave -D \"{file}\"");

@@ -10,9 +10,9 @@ namespace QMK_Toolbox
         private const uint CB_SETCUEBANNER = 0x1703;
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = false)]
-        private static extern IntPtr SendMessage(HandleRef hWnd, uint msg, IntPtr wParam, String lParam);
+        private static extern IntPtr SendMessage(HandleRef hWnd, uint msg, IntPtr wParam, string lParam);
 
-        private string _placeholderText = String.Empty;
+        private string _placeholderText = string.Empty;
 
         /// <summary>
         /// Gets or sets the text the <see cref="ComboBox"/> will display as a cue to the user.
@@ -28,7 +28,7 @@ namespace QMK_Toolbox
             {
                 if (value == null)
                 {
-                    value = String.Empty;
+                    value = string.Empty;
                 }
 
                 if (!_placeholderText.Equals(value, StringComparison.CurrentCulture))
@@ -48,11 +48,7 @@ namespace QMK_Toolbox
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         protected virtual void OnPlaceholderTextChanged(EventArgs e)
         {
-            EventHandler handler = PlaceholderTextChanged;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            PlaceholderTextChanged?.Invoke(this, e);
         }
 
         protected override void OnHandleCreated(EventArgs e)
@@ -63,9 +59,9 @@ namespace QMK_Toolbox
 
         private void UpdatePlaceholderText()
         {
-            if (this.IsHandleCreated)
+            if (IsHandleCreated)
             {
-                SendMessage(new HandleRef(this, this.Handle), CB_SETCUEBANNER, IntPtr.Zero, _placeholderText);
+                SendMessage(new HandleRef(this, Handle), CB_SETCUEBANNER, IntPtr.Zero, _placeholderText);
             }
         }
     }
