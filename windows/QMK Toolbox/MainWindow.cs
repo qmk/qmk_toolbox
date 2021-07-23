@@ -9,7 +9,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Threading;
-using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using System.Windows.Forms;
 using QMK_Toolbox.Helpers;
@@ -23,7 +22,6 @@ namespace QMK_Toolbox
     using System.Collections.Generic;
     using System.Management;
     using System.Net;
-    using System.Text.RegularExpressions;
 
     public partial class MainWindow : Form
     {
