@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace QMK_Toolbox
 {
@@ -34,7 +29,6 @@ namespace QMK_Toolbox
                     return;
                 }
 
-                int selectionIndex = Items.IndexOf(Text);
                 int hoverIndex = SelectedIndex;
 
                 Items.RemoveAt(hoverIndex);

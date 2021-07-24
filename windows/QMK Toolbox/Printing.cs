@@ -79,7 +79,7 @@ namespace QMK_Toolbox
             }
             str = str.Replace("\n", "\n    ");
             if (addBackNewline)
-                str = str + "\n";
+                str += "\n";
 
             var color = Color.White;
             switch (type)

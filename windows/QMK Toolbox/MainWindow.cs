@@ -9,7 +9,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Threading;
-using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using System.Windows.Forms;
 using QMK_Toolbox.Helpers;
@@ -23,7 +22,6 @@ namespace QMK_Toolbox
     using System.Collections.Generic;
     using System.Management;
     using System.Net;
-    using System.Text.RegularExpressions;
 
     public partial class MainWindow : Form
     {
@@ -32,7 +30,7 @@ namespace QMK_Toolbox
         private readonly Flashing _flasher;
         private readonly Usb _usb;
 
-        private WindowState windowState = new WindowState();
+        private readonly WindowState windowState = new WindowState();
 
         private void AutoFlashEnabledChanged(object sender, EventArgs e)
         {
@@ -221,7 +219,7 @@ namespace QMK_Toolbox
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 _printer.PrintResponse("Something went wrong when trying to get the keyboard list from QMK.FM, you might not have a internet connection or the servers are down.", MessageType.Error);
                 keymapBox.Enabled = false;
@@ -393,7 +391,8 @@ namespace QMK_Toolbox
                             this.Invoke(new Action(DisableUI));
                         }
 
-                        _flasher.SetHandedness(mcuBox.Text, (sender as ToolStripMenuItem).Tag == "right");
+                        ToolStripMenuItem item = sender as ToolStripMenuItem;
+                        _flasher.SetHandedness(mcuBox.Text, (string)item.Tag == "right");
 
                         if (!windowState.AutoFlashEnabled)
                         {
@@ -518,7 +517,7 @@ namespace QMK_Toolbox
                         _printer.Print($"Downloading the file: {url}", MessageType.Info);
                         DownloadFirmwareFile(url, filepath);
                     }
-                    catch (Exception e1)
+                    catch (Exception)
                     {
                         try
                         {
@@ -528,7 +527,7 @@ namespace QMK_Toolbox
                             _printer.Print($"No .hex file found, trying {url}", MessageType.Info);
                             DownloadFirmwareFile(url, filepath);
                         }
-                        catch (Exception e2)
+                        catch (Exception)
                         {
                             _printer.PrintResponse("Something went wrong when trying to get the default keymap file.", MessageType.Error);
                             return;

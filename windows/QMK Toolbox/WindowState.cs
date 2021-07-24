@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace QMK_Toolbox
 {
@@ -13,12 +8,12 @@ namespace QMK_Toolbox
         private bool _autoFlashEnabled = false;
         public bool AutoFlashEnabled
         {
-            get => this._autoFlashEnabled;
+            get => _autoFlashEnabled;
             set
             {
-                if (this._autoFlashEnabled != value)
+                if (_autoFlashEnabled != value)
                 {
-                    this._autoFlashEnabled = value;
+                    _autoFlashEnabled = value;
                     OnPropertyChanged();
                 }
             }
@@ -27,12 +22,12 @@ namespace QMK_Toolbox
         private bool _canFlash = false;
         public bool CanFlash
         {
-            get => this._canFlash;
+            get => _canFlash;
             set
             {
-                if (this._canFlash != value)
+                if (_canFlash != value)
                 {
-                    this._canFlash = value;
+                    _canFlash = value;
                     OnPropertyChanged();
                 }
             }
@@ -41,12 +36,12 @@ namespace QMK_Toolbox
         private bool _canReset = false;
         public bool CanReset
         {
-            get => this._canReset;
+            get => _canReset;
             set
             {
-                if (this._canReset != value)
+                if (_canReset != value)
                 {
-                    this._canReset = value;
+                    _canReset = value;
                     OnPropertyChanged();
                 }
             }
@@ -55,12 +50,12 @@ namespace QMK_Toolbox
         private bool _canClearEeprom = false;
         public bool CanClearEeprom
         {
-            get => this._canClearEeprom;
+            get => _canClearEeprom;
             set
             {
-                if (this._canClearEeprom != value)
+                if (_canClearEeprom != value)
                 {
-                    this._canClearEeprom = value;
+                    _canClearEeprom = value;
                     OnPropertyChanged();
                 }
             }
@@ -68,12 +63,7 @@ namespace QMK_Toolbox
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
