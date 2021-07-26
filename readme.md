@@ -15,18 +15,19 @@ This is a collection of flashing tools packaged into one app. It supports auto-d
 
 QMK Toolbox supports the following bootloaders:
 
+ - ARM DFU (APM32, Kiibohd, STM32, STM32duino) via [dfu-util](http://dfu-util.sourceforge.net/)
  - Atmel/LUFA/QMK DFU via [dfu-programmer](http://dfu-programmer.github.io/)
- - Caterina (Arduino, Pro Micro) via [avrdude](http://nongnu.org/avrdude/)
- - Halfkay (Teensy, Ergodox EZ) via [Teensy Loader](https://pjrc.com/teensy/loader_cli.html)
- - ARM DFU (STM32, APM32, Kiibohd, STM32duino) via [dfu-util](http://dfu-util.sourceforge.net/)
  - Atmel SAM-BA (Massdrop) via [Massdrop Loader](https://github.com/massdrop/mdloader)
  - BootloadHID (Atmel, PS2AVRGB) via [bootloadHID](https://www.obdev.at/products/vusb/bootloadhid.html)
+ - Caterina (Arduino, Pro Micro) via [avrdude](http://nongnu.org/avrdude/)
+ - HalfKay (Teensy, Ergodox EZ) via [Teensy Loader](https://pjrc.com/teensy/loader_cli.html)
+ - LUFA Mass Storage
 
 And the following ISP flashers:
 
- - USBTiny (AVR Pocket)
  - AVRISP (Arduino ISP)
  - USBasp (AVR ISP)
+ - USBTiny (AVR Pocket)
 
 If there's an interest in any others, they can be added if their commands are known.
 
