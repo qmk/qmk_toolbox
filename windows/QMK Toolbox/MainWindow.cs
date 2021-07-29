@@ -1,6 +1,7 @@
 //  Created by Jack Humbert on 9/1/17.
 //  Copyright © 2017 Jack Humbert. This code is licensed under MIT license (see LICENSE.md for details).
 
+using QMK_Toolbox.Helpers;
 using QMK_Toolbox.Properties;
 using System;
 using System.ComponentModel;
@@ -8,10 +9,9 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Threading;
 using System.Security.Permissions;
+using System.Threading;
 using System.Windows.Forms;
-using QMK_Toolbox.Helpers;
 
 namespace QMK_Toolbox
 {
@@ -271,7 +271,7 @@ namespace QMK_Toolbox
                         {
                             if (!windowState.AutoFlashEnabled)
                             {
-                                this.Invoke(new Action(DisableUI));
+                                Invoke(new Action(DisableUI));
                             }
 
                             _printer.Print("Attempting to flash, please don't remove device", MessageType.Bootloader);
@@ -279,7 +279,7 @@ namespace QMK_Toolbox
 
                             if (!windowState.AutoFlashEnabled)
                             {
-                                this.Invoke(new Action(EnableUI));
+                                Invoke(new Action(EnableUI));
                             }
                         }
                     }
@@ -311,14 +311,14 @@ namespace QMK_Toolbox
                     {
                         if (!windowState.AutoFlashEnabled)
                         {
-                            this.Invoke(new Action(DisableUI));
+                            Invoke(new Action(DisableUI));
                         }
 
                         _flasher.Reset(mcuBox.Text);
 
                         if (!windowState.AutoFlashEnabled)
                         {
-                            this.Invoke(new Action(EnableUI));
+                            Invoke(new Action(EnableUI));
                         }
                     }
                 }
@@ -349,14 +349,14 @@ namespace QMK_Toolbox
                     {
                         if (!windowState.AutoFlashEnabled)
                         {
-                            this.Invoke(new Action(DisableUI));
+                            Invoke(new Action(DisableUI));
                         }
 
                         _flasher.ClearEeprom(mcuBox.Text);
 
                         if (!windowState.AutoFlashEnabled)
                         {
-                            this.Invoke(new Action(EnableUI));
+                            Invoke(new Action(EnableUI));
                         }
                     }
                 }
@@ -388,7 +388,7 @@ namespace QMK_Toolbox
                     {
                         if (!windowState.AutoFlashEnabled)
                         {
-                            this.Invoke(new Action(DisableUI));
+                            Invoke(new Action(DisableUI));
                         }
 
                         ToolStripMenuItem item = sender as ToolStripMenuItem;
@@ -396,7 +396,7 @@ namespace QMK_Toolbox
 
                         if (!windowState.AutoFlashEnabled)
                         {
-                            this.Invoke(new Action(EnableUI));
+                            Invoke(new Action(EnableUI));
                         }
                     }
                 }
@@ -624,7 +624,7 @@ namespace QMK_Toolbox
 
             if (!windowState.AutoFlashEnabled)
             {
-                this.Invoke(new Action(EnableUI));
+                Invoke(new Action(EnableUI));
             }
         }
 

@@ -1,14 +1,14 @@
 ﻿//  Created by Jack Humbert on 9/1/17.
 //  Copyright © 2017 Jack Humbert. This code is licensed under MIT license (see LICENSE.md for details).
 
+using QMK_Toolbox.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using System.Threading;
-using QMK_Toolbox.Helpers;
+using System.Windows.Forms;
 
 namespace QMK_Toolbox
 {
