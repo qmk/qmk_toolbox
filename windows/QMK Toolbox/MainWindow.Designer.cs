@@ -90,7 +90,7 @@ namespace QMK_Toolbox {
             this.flashButton.Size = new System.Drawing.Size(62, 23);
             this.flashButton.TabIndex = 3;
             this.flashButton.Text = "Flash";
-            this.flashButton.Click += new System.EventHandler(this.flashButton_Click);
+            this.flashButton.Click += new System.EventHandler(this.FlashButton_Click);
             // 
             // windowStateBindingSource
             // 
@@ -123,7 +123,7 @@ namespace QMK_Toolbox {
             this.openFileButton.TabIndex = 1;
             this.openFileButton.Text = "Open";
             this.openFileButton.UseVisualStyleBackColor = true;
-            this.openFileButton.Click += new System.EventHandler(this.openFileButton_Click);
+            this.openFileButton.Click += new System.EventHandler(this.OpenFileButton_Click);
             // 
             // resetButton
             // 
@@ -135,7 +135,7 @@ namespace QMK_Toolbox {
             this.resetButton.Size = new System.Drawing.Size(67, 23);
             this.resetButton.TabIndex = 4;
             this.resetButton.Text = "Exit DFU";
-            this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
+            this.resetButton.Click += new System.EventHandler(this.ResetButton_Click);
             // 
             // mcuLabel
             // 
@@ -203,7 +203,7 @@ namespace QMK_Toolbox {
             this.keyboardBox.Size = new System.Drawing.Size(438, 21);
             this.keyboardBox.TabIndex = 0;
             this.keyboardBox.Text = global::QMK_Toolbox.Properties.Settings.Default.keyboard;
-            this.keyboardBox.TextChanged += new System.EventHandler(this.keyboardBox_TextChanged);
+            this.keyboardBox.TextChanged += new System.EventHandler(this.KeyboardBox_TextChanged);
             // 
             // loadKeymapButton
             // 
@@ -215,7 +215,7 @@ namespace QMK_Toolbox {
             this.loadKeymapButton.TabIndex = 3;
             this.loadKeymapButton.Text = "Load";
             this.loadKeymapButton.UseVisualStyleBackColor = true;
-            this.loadKeymapButton.Click += new System.EventHandler(this.loadKeymapButton_Click);
+            this.loadKeymapButton.Click += new System.EventHandler(this.LoadKeymapButton_Click);
             // 
             // fileGroupBox
             // 
@@ -244,7 +244,7 @@ namespace QMK_Toolbox {
             this.filepathBox.Size = new System.Drawing.Size(558, 21);
             this.filepathBox.TabIndex = 0;
             this.filepathBox.Text = global::QMK_Toolbox.Properties.Settings.Default.hexFileSetting;
-            this.filepathBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.filepathBox_KeyDown);
+            this.filepathBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FilepathBox_KeyDown);
             // 
             // mcuBox
             // 
@@ -269,7 +269,7 @@ namespace QMK_Toolbox {
             this.clearEepromButton.TabIndex = 7;
             this.clearEepromButton.Text = "Clear EEPROM";
             this.clearEepromButton.UseVisualStyleBackColor = true;
-            this.clearEepromButton.Click += new System.EventHandler(this.clearEepromButton_Click);
+            this.clearEepromButton.Click += new System.EventHandler(this.ClearEepromButton_Click);
             // 
             // logTextBox
             // 
@@ -306,7 +306,7 @@ namespace QMK_Toolbox {
             this.logContextMenu.Name = "contextMenuStrip2";
             this.logContextMenu.ShowImageMargin = false;
             this.logContextMenu.Size = new System.Drawing.Size(140, 126);
-            this.logContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.logContextMenuStrip_Opening);
+            this.logContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.LogContextMenuStrip_Opening);
             // 
             // cutToolStripMenuItem
             // 
@@ -322,7 +322,7 @@ namespace QMK_Toolbox {
             this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
             this.copyToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.copyToolStripMenuItem.Text = "&Copy";
-            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.CopyToolStripMenuItem_Click);
             // 
             // pasteToolStripMenuItem
             // 
@@ -344,7 +344,7 @@ namespace QMK_Toolbox {
             this.selectAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
             this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.selectAllToolStripMenuItem.Text = "Select &All";
-            this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
+            this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.SelectAllToolStripMenuItem_Click);
             // 
             // logContextMenuSep2
             // 
@@ -357,7 +357,7 @@ namespace QMK_Toolbox {
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
             this.clearToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.clearToolStripMenuItem.Text = "Clea&r";
-            this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
+            this.clearToolStripMenuItem.Click += new System.EventHandler(this.ClearToolStripMenuItem_Click);
             // 
             // hidList
             // 
@@ -399,7 +399,7 @@ namespace QMK_Toolbox {
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.openToolStripMenuItem.Text = "&Open...";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openFileButton_Click);
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenFileButton_Click);
             // 
             // fileToolStripMenuSep
             // 
@@ -412,7 +412,7 @@ namespace QMK_Toolbox {
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitMenuItem_Click);
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
             // 
             // toolsToolStripMenuItem
             // 
@@ -437,7 +437,7 @@ namespace QMK_Toolbox {
             | System.Windows.Forms.Keys.F)));
             this.flashToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.flashToolStripMenuItem.Text = "Flash";
-            this.flashToolStripMenuItem.Click += new System.EventHandler(this.flashButton_Click);
+            this.flashToolStripMenuItem.Click += new System.EventHandler(this.FlashButton_Click);
             // 
             // eepromToolStripMenuItem
             // 
@@ -458,7 +458,7 @@ namespace QMK_Toolbox {
             | System.Windows.Forms.Keys.E)));
             this.eepromClearToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
             this.eepromClearToolStripMenuItem.Text = "Clear";
-            this.eepromClearToolStripMenuItem.Click += new System.EventHandler(this.clearEepromButton_Click);
+            this.eepromClearToolStripMenuItem.Click += new System.EventHandler(this.ClearEepromButton_Click);
             // 
             // eepromToolStripMenuSep
             // 
@@ -474,7 +474,7 @@ namespace QMK_Toolbox {
             this.eepromLeftToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
             this.eepromLeftToolStripMenuItem.Tag = "left";
             this.eepromLeftToolStripMenuItem.Text = "Set Left Hand";
-            this.eepromLeftToolStripMenuItem.Click += new System.EventHandler(this.setHandednessButton_Click);
+            this.eepromLeftToolStripMenuItem.Click += new System.EventHandler(this.SetHandednessButton_Click);
             // 
             // eepromRightToolStripMenuItem
             // 
@@ -485,7 +485,7 @@ namespace QMK_Toolbox {
             this.eepromRightToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
             this.eepromRightToolStripMenuItem.Tag = "right";
             this.eepromRightToolStripMenuItem.Text = "Set Right Hand";
-            this.eepromRightToolStripMenuItem.Click += new System.EventHandler(this.setHandednessButton_Click);
+            this.eepromRightToolStripMenuItem.Click += new System.EventHandler(this.SetHandednessButton_Click);
             // 
             // exitDFUToolStripMenuItem
             // 
@@ -495,7 +495,7 @@ namespace QMK_Toolbox {
             | System.Windows.Forms.Keys.X)));
             this.exitDFUToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.exitDFUToolStripMenuItem.Text = "Exit DFU";
-            this.exitDFUToolStripMenuItem.Click += new System.EventHandler(this.resetButton_Click);
+            this.exitDFUToolStripMenuItem.Click += new System.EventHandler(this.ResetButton_Click);
             // 
             // toolsToolStripMenuSep1
             // 
@@ -521,7 +521,7 @@ namespace QMK_Toolbox {
             this.installDriversToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
             this.installDriversToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.installDriversToolStripMenuItem.Text = "I&nstall Drivers...";
-            this.installDriversToolStripMenuItem.Click += new System.EventHandler(this.installDriversMenuItem_Click);
+            this.installDriversToolStripMenuItem.Click += new System.EventHandler(this.InstallDriversMenuItem_Click);
             // 
             // optionsToolStripMenuItem
             // 
@@ -558,7 +558,7 @@ namespace QMK_Toolbox {
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem.Text = "&About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutMenuItem_Click);
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutMenuItem_Click);
             // 
             // MainWindow
             // 
