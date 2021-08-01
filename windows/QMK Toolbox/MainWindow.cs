@@ -1,6 +1,7 @@
 //  Created by Jack Humbert on 9/1/17.
 //  Copyright © 2017 Jack Humbert. This code is licensed under MIT license (see LICENSE.md for details).
 
+using QMK_Toolbox.Helpers;
 using QMK_Toolbox.Properties;
 using System;
 using System.ComponentModel;
@@ -8,10 +9,9 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Threading;
 using System.Security.Permissions;
+using System.Threading;
 using System.Windows.Forms;
-using QMK_Toolbox.Helpers;
 
 namespace QMK_Toolbox
 {
@@ -236,7 +236,7 @@ namespace QMK_Toolbox
             // keymapBox.Enabled = true;
         }
 
-        private void loadKeymapButton_Click(object sender, EventArgs e)
+        private void LoadKeymapButton_Click(object sender, EventArgs e)
         {
             if (keyboardBox.Items.Count > 0)
             {
@@ -244,7 +244,7 @@ namespace QMK_Toolbox
             }
         }
 
-        private void flashButton_Click(object sender, EventArgs e)
+        private void FlashButton_Click(object sender, EventArgs e)
         {
             if (!InvokeRequired)
             {
@@ -271,7 +271,7 @@ namespace QMK_Toolbox
                         {
                             if (!windowState.AutoFlashEnabled)
                             {
-                                this.Invoke(new Action(DisableUI));
+                                Invoke(new Action(DisableUI));
                             }
 
                             _printer.Print("Attempting to flash, please don't remove device", MessageType.Bootloader);
@@ -279,7 +279,7 @@ namespace QMK_Toolbox
 
                             if (!windowState.AutoFlashEnabled)
                             {
-                                this.Invoke(new Action(EnableUI));
+                                Invoke(new Action(EnableUI));
                             }
                         }
                     }
@@ -291,11 +291,11 @@ namespace QMK_Toolbox
             }
             else
             {
-                Invoke(new Action<object, EventArgs>(flashButton_Click), sender, e);
+                Invoke(new Action<object, EventArgs>(FlashButton_Click), sender, e);
             }
         }
 
-        private void resetButton_Click(object sender, EventArgs e)
+        private void ResetButton_Click(object sender, EventArgs e)
         {
             if (!InvokeRequired)
             {
@@ -311,14 +311,14 @@ namespace QMK_Toolbox
                     {
                         if (!windowState.AutoFlashEnabled)
                         {
-                            this.Invoke(new Action(DisableUI));
+                            Invoke(new Action(DisableUI));
                         }
 
                         _flasher.Reset(mcuBox.Text);
 
                         if (!windowState.AutoFlashEnabled)
                         {
-                            this.Invoke(new Action(EnableUI));
+                            Invoke(new Action(EnableUI));
                         }
                     }
                 }
@@ -329,11 +329,11 @@ namespace QMK_Toolbox
             }
             else
             {
-                Invoke(new Action<object, EventArgs>(resetButton_Click), sender, e);
+                Invoke(new Action<object, EventArgs>(ResetButton_Click), sender, e);
             }
         }
 
-        private void clearEepromButton_Click(object sender, EventArgs e)
+        private void ClearEepromButton_Click(object sender, EventArgs e)
         {
             if (!InvokeRequired)
             {
@@ -349,14 +349,14 @@ namespace QMK_Toolbox
                     {
                         if (!windowState.AutoFlashEnabled)
                         {
-                            this.Invoke(new Action(DisableUI));
+                            Invoke(new Action(DisableUI));
                         }
 
                         _flasher.ClearEeprom(mcuBox.Text);
 
                         if (!windowState.AutoFlashEnabled)
                         {
-                            this.Invoke(new Action(EnableUI));
+                            Invoke(new Action(EnableUI));
                         }
                     }
                 }
@@ -367,11 +367,11 @@ namespace QMK_Toolbox
             }
             else
             {
-                Invoke(new Action<object, EventArgs>(clearEepromButton_Click), sender, e);
+                Invoke(new Action<object, EventArgs>(ClearEepromButton_Click), sender, e);
             }
         }
 
-        private void setHandednessButton_Click(object sender, EventArgs e)
+        private void SetHandednessButton_Click(object sender, EventArgs e)
         {
 
             if (!InvokeRequired)
@@ -388,7 +388,7 @@ namespace QMK_Toolbox
                     {
                         if (!windowState.AutoFlashEnabled)
                         {
-                            this.Invoke(new Action(DisableUI));
+                            Invoke(new Action(DisableUI));
                         }
 
                         ToolStripMenuItem item = sender as ToolStripMenuItem;
@@ -396,7 +396,7 @@ namespace QMK_Toolbox
 
                         if (!windowState.AutoFlashEnabled)
                         {
-                            this.Invoke(new Action(EnableUI));
+                            Invoke(new Action(EnableUI));
                         }
                     }
                 }
@@ -407,7 +407,7 @@ namespace QMK_Toolbox
             }
             else
             {
-                Invoke(new Action<object, EventArgs>(setHandednessButton_Click), sender, e);
+                Invoke(new Action<object, EventArgs>(SetHandednessButton_Click), sender, e);
             }
         }
 
@@ -493,7 +493,7 @@ namespace QMK_Toolbox
             }
         }
 
-        private void filepathBox_KeyDown(object sender, KeyEventArgs e)
+        private void FilepathBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
@@ -586,7 +586,7 @@ namespace QMK_Toolbox
             }
         }
 
-        private void openFileButton_Click(object sender, EventArgs e)
+        private void OpenFileButton_Click(object sender, EventArgs e)
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -616,7 +616,7 @@ namespace QMK_Toolbox
             }
             else if (_usb.DetectBootloader(instance) && windowState.AutoFlashEnabled)
             {
-                flashButton_Click(sender, e);
+                FlashButton_Click(sender, e);
             }
 
             UpdateHidDevices(deviceDisconnected);
@@ -624,7 +624,7 @@ namespace QMK_Toolbox
 
             if (!windowState.AutoFlashEnabled)
             {
-                this.Invoke(new Action(EnableUI));
+                Invoke(new Action(EnableUI));
             }
         }
 
@@ -719,43 +719,43 @@ namespace QMK_Toolbox
             }
         }
 
-        private void keyboardBox_TextChanged(object sender, EventArgs e)
+        private void KeyboardBox_TextChanged(object sender, EventArgs e)
         {
             loadKeymapButton.Enabled = keyboardBox.Items.Contains(keyboardBox.Text);
         }
 
-        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CopyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             logTextBox.Copy();
         }
 
-        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SelectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             logTextBox.SelectAll();
         }
-        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ClearToolStripMenuItem_Click(object sender, EventArgs e)
         {
             logTextBox.Clear();
         }
 
-        private void logContextMenuStrip_Opening(object sender, CancelEventArgs e)
+        private void LogContextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
             copyToolStripMenuItem.Enabled = (logTextBox.SelectedText.Length > 0);
             selectAllToolStripMenuItem.Enabled = (logTextBox.Text.Length > 0);
             clearToolStripMenuItem.Enabled = (logTextBox.Text.Length > 0);
         }
 
-        private void aboutMenuItem_Click(object sender, EventArgs e)
+        private void AboutMenuItem_Click(object sender, EventArgs e)
         {
             (new AboutBox()).ShowDialog();
         }
 
-        private void exitMenuItem_Click(object sender, EventArgs e)
+        private void ExitMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        private void installDriversMenuItem_Click(object sender, EventArgs e)
+        private void InstallDriversMenuItem_Click(object sender, EventArgs e)
         {
             InstallDrivers();
         }
