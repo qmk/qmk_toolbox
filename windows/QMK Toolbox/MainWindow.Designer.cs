@@ -58,7 +58,7 @@ namespace QMK_Toolbox {
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flashToolStripMenuItem = new QMK_Toolbox.BindableToolStripMenuItem();
-            this.eepromToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.eepromToolStripMenuItem = new QMK_Toolbox.BindableToolStripMenuItem();
             this.eepromClearToolStripMenuItem = new QMK_Toolbox.BindableToolStripMenuItem();
             this.eepromToolStripMenuSep = new System.Windows.Forms.ToolStripSeparator();
             this.eepromLeftToolStripMenuItem = new QMK_Toolbox.BindableToolStripMenuItem();
@@ -441,6 +441,7 @@ namespace QMK_Toolbox {
             // 
             // eepromToolStripMenuItem
             // 
+            this.eepromToolStripMenuItem.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.windowStateBindingSource, "CanClearEeprom", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.eepromToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.eepromClearToolStripMenuItem,
             this.eepromToolStripMenuSep,
@@ -639,7 +640,7 @@ namespace QMK_Toolbox {
         private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator helpToolStripMenuSep;
         private QMK_Toolbox.BindableToolStripMenuItem flashToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem eepromToolStripMenuItem;
+        private QMK_Toolbox.BindableToolStripMenuItem eepromToolStripMenuItem;
         private QMK_Toolbox.BindableToolStripMenuItem eepromClearToolStripMenuItem;
         private QMK_Toolbox.BindableToolStripMenuItem eepromLeftToolStripMenuItem;
         private QMK_Toolbox.BindableToolStripMenuItem eepromRightToolStripMenuItem;

@@ -197,16 +197,21 @@
                                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
                                             <connections>
                                                 <action selector="setHandednessButtonClick:" target="Voe-Tx-rLC" id="HGY-yK-wlb"/>
+                                                <binding destination="Voe-Tx-rLC" name="enabled" keyPath="canClearEEPROM" id="Fsm-d7-Woy"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Set Right Hand" tag="1" keyEquivalent="" id="Srd-qs-7xC">
                                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
                                             <connections>
                                                 <action selector="setHandednessButtonClick:" target="Voe-Tx-rLC" id="deN-mD-LWe"/>
+                                                <binding destination="Voe-Tx-rLC" name="enabled" keyPath="canClearEEPROM" id="oYH-KT-4we"/>
                                             </connections>
                                         </menuItem>
                                     </items>
                                 </menu>
+                                <connections>
+                                    <binding destination="Voe-Tx-rLC" name="enabled" keyPath="canClearEEPROM" id="Zfv-M0-NF7"/>
+                                </connections>
                             </menuItem>
                             <menuItem title="Exit DFU" keyEquivalent="X" id="N5j-gr-8MX">
                                 <connections>
