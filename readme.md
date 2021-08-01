@@ -9,24 +9,27 @@
 
 This is a collection of flashing tools packaged into one app. It supports auto-detection and auto-flashing of firmware to keyboards.
 
-![](https://i.imgur.com/cfRVWY7.png)
+|Windows|macOS|
+|-------|-----|
+|[![Windows](https://i.imgur.com/NjOaPrE.png)](https://i.imgur.com/NjOaPrE.png)|[![macOS](https://i.imgur.com/A6mfa5h.png)](https://i.imgur.com/A6mfa5h.png)|
 
 ## Flashing
 
 QMK Toolbox supports the following bootloaders:
 
+ - ARM DFU (APM32, Kiibohd, STM32, STM32duino) via [dfu-util](http://dfu-util.sourceforge.net/)
  - Atmel/LUFA/QMK DFU via [dfu-programmer](http://dfu-programmer.github.io/)
- - Caterina (Arduino, Pro Micro) via [avrdude](http://nongnu.org/avrdude/)
- - Halfkay (Teensy, Ergodox EZ) via [Teensy Loader](https://pjrc.com/teensy/loader_cli.html)
- - ARM DFU (STM32, APM32, Kiibohd, STM32duino) via [dfu-util](http://dfu-util.sourceforge.net/)
  - Atmel SAM-BA (Massdrop) via [Massdrop Loader](https://github.com/massdrop/mdloader)
  - BootloadHID (Atmel, PS2AVRGB) via [bootloadHID](https://www.obdev.at/products/vusb/bootloadhid.html)
+ - Caterina (Arduino, Pro Micro) via [avrdude](http://nongnu.org/avrdude/)
+ - HalfKay (Teensy, Ergodox EZ) via [Teensy Loader](https://pjrc.com/teensy/loader_cli.html)
+ - LUFA Mass Storage
 
 And the following ISP flashers:
 
- - USBTiny (AVR Pocket)
  - AVRISP (Arduino ISP)
  - USBasp (AVR ISP)
+ - USBTiny (AVR Pocket)
 
 If there's an interest in any others, they can be added if their commands are known.
 
@@ -36,7 +39,7 @@ The Toolbox also listens to HID messages on usage page `0xFF31` and usage `0x007
 
 If you have `CONSOLE_ENABLE = yes` in your keyboard's `rules.mk`, you can print messages with `xprintf()`, useful for debugging:
 
-![](https://i.imgur.com/SWCFLCz.png)
+![Hello world from Console](https://i.imgur.com/iYTa5PB.png)
 
 See the [QMK Docs](https://docs.qmk.fm/#/newbs_testing_debugging?id=debugging) for more information.
 
