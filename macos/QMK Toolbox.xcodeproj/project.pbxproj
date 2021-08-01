@@ -31,7 +31,7 @@
 		3A7770DA22BD3BA300398C40 /* libftdi.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3A7770D822BD3B8200398C40 /* libftdi.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		3AB4BC9D2495540A00204A3F /* bootloadHID in Resources */ = {isa = PBXBuildFile; fileRef = 3AB4BC9C2495540A00204A3F /* bootloadHID */; };
 		C93A0FF42292232E0006C88F /* reset.eep in Resources */ = {isa = PBXBuildFile; fileRef = C93A0FF32292232D0006C88F /* reset.eep */; };
-		C9A09B5722EE6826008C3CF3 /* mdloader_mac in Resources */ = {isa = PBXBuildFile; fileRef = C9A09B5622EE6826008C3CF3 /* mdloader_mac */; };
+		C9A09B5722EE6826008C3CF3 /* mdloader in Resources */ = {isa = PBXBuildFile; fileRef = C9A09B5622EE6826008C3CF3 /* mdloader */; };
 		C9A09B5922EE6837008C3CF3 /* applet-mdflash.bin in Resources */ = {isa = PBXBuildFile; fileRef = C9A09B5822EE6837008C3CF3 /* applet-mdflash.bin */; };
 /* End PBXBuildFile section */
 
@@ -84,7 +84,7 @@
 		3A7770D822BD3B8200398C40 /* libftdi.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libftdi.1.dylib; sourceTree = "<group>"; };
 		3AB4BC9C2495540A00204A3F /* bootloadHID */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = bootloadHID; sourceTree = "<group>"; };
 		C93A0FF32292232D0006C88F /* reset.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset.eep; path = ../../../common/reset.eep; sourceTree = "<group>"; };
-		C9A09B5622EE6826008C3CF3 /* mdloader_mac */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = mdloader_mac; sourceTree = "<group>"; };
+		C9A09B5622EE6826008C3CF3 /* mdloader */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = mdloader; sourceTree = "<group>"; };
 		C9A09B5822EE6837008C3CF3 /* applet-mdflash.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; name = "applet-mdflash.bin"; path = "../../../common/applet-mdflash.bin"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -164,7 +164,7 @@
 				3AB4BC9C2495540A00204A3F /* bootloadHID */,
 				0929640C1F5E403C004F2D3F /* dfu-programmer */,
 				098AEDFA1F5E45C300CA054D /* dfu-util */,
-				C9A09B5622EE6826008C3CF3 /* mdloader_mac */,
+				C9A09B5622EE6826008C3CF3 /* mdloader */,
 				0929640E1F5E4068004F2D3F /* teensy_loader_cli */,
 				3A7770D822BD3B8200398C40 /* libftdi.1.dylib */,
 				09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */,
@@ -243,7 +243,7 @@
 				3AB4BC9D2495540A00204A3F /* bootloadHID in Resources */,
 				0929640D1F5E403C004F2D3F /* dfu-programmer in Resources */,
 				098AEDFB1F5E45C300CA054D /* dfu-util in Resources */,
-				C9A09B5722EE6826008C3CF3 /* mdloader_mac in Resources */,
+				C9A09B5722EE6826008C3CF3 /* mdloader in Resources */,
 				0929640F1F5E4068004F2D3F /* teensy_loader_cli in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

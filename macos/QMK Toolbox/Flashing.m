@@ -252,11 +252,11 @@
 }
 
 - (void)flashAtmelSAMBAwithFile: (NSString *)file {
-    [self runProcess:@"mdloader_mac" withArgs:@[@"-p", serialPort, @"-D", file, @"--restart"]];
+    [self runProcess:@"mdloader" withArgs:@[@"-p", serialPort, @"-D", file, @"--restart"]];
 }
 
 - (void)resetAtmelSAMBA {
-    [self runProcess:@"mdloader_mac" withArgs:@[@"-p", serialPort, @"--restart"]];
+    [self runProcess:@"mdloader" withArgs:@[@"-p", serialPort, @"--restart"]];
 }
 
 - (void)flashBootloadHIDwithFile: (NSString *)file {
