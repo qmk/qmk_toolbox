@@ -19,7 +19,6 @@
 		098AEDFB1F5E45C300CA054D /* dfu-util in Resources */ = {isa = PBXBuildFile; fileRef = 098AEDFA1F5E45C300CA054D /* dfu-util */; };
 		098AEDFE1F5F220500CA054D /* Printing.m in Sources */ = {isa = PBXBuildFile; fileRef = 098AEDFD1F5F220500CA054D /* Printing.m */; };
 		098AEE021F5F296000CA054D /* Flashing.m in Sources */ = {isa = PBXBuildFile; fileRef = 098AEE011F5F296000CA054D /* Flashing.m */; };
-		098AEE051F5F356000CA054D /* HID.m in Sources */ = {isa = PBXBuildFile; fileRef = 098AEE041F5F356000CA054D /* HID.m */; };
 		098AEE081F5F370900CA054D /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098AEE071F5F370900CA054D /* IOKit.framework */; };
 		098AEE0B1F5F97A000CA054D /* USB.m in Sources */ = {isa = PBXBuildFile; fileRef = 098AEE091F5F97A000CA054D /* USB.m */; };
 		098AEE101F60C6F600CA054D /* QMKWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 098AEE0F1F60C6F600CA054D /* QMKWindow.m */; };
@@ -29,6 +28,8 @@
 		3A62C86526A96AED001C655A /* reset_right.eep in Resources */ = {isa = PBXBuildFile; fileRef = 3A62C86326A96AED001C655A /* reset_right.eep */; };
 		3A62C86626A96AED001C655A /* reset_left.eep in Resources */ = {isa = PBXBuildFile; fileRef = 3A62C86426A96AED001C655A /* reset_left.eep */; };
 		3A7770DA22BD3BA300398C40 /* libftdi.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3A7770D822BD3B8200398C40 /* libftdi.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		3A93852826AB5A790026F3C4 /* HIDConsoleListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A93852726AB5A790026F3C4 /* HIDConsoleListener.m */; };
+		3A93852B26AB83840026F3C4 /* HIDConsoleDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A93852A26AB83840026F3C4 /* HIDConsoleDevice.m */; };
 		3AB4BC9D2495540A00204A3F /* bootloadHID in Resources */ = {isa = PBXBuildFile; fileRef = 3AB4BC9C2495540A00204A3F /* bootloadHID */; };
 		C93A0FF42292232E0006C88F /* reset.eep in Resources */ = {isa = PBXBuildFile; fileRef = C93A0FF32292232D0006C88F /* reset.eep */; };
 		C9A09B5722EE6826008C3CF3 /* mdloader in Resources */ = {isa = PBXBuildFile; fileRef = C9A09B5622EE6826008C3CF3 /* mdloader */; };
@@ -68,8 +69,6 @@
 		098AEDFD1F5F220500CA054D /* Printing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Printing.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		098AEE011F5F296000CA054D /* Flashing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Flashing.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		098AEE031F5F296B00CA054D /* Flashing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Flashing.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		098AEE041F5F356000CA054D /* HID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HID.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		098AEE061F5F359500CA054D /* HID.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HID.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		098AEE071F5F370900CA054D /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		098AEE091F5F97A000CA054D /* USB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = USB.m; sourceTree = "<group>"; };
 		098AEE0A1F5F97A000CA054D /* USB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USB.h; sourceTree = "<group>"; };
@@ -82,6 +81,10 @@
 		3A62C86326A96AED001C655A /* reset_right.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset_right.eep; path = ../../../common/reset_right.eep; sourceTree = "<group>"; };
 		3A62C86426A96AED001C655A /* reset_left.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset_left.eep; path = ../../../common/reset_left.eep; sourceTree = "<group>"; };
 		3A7770D822BD3B8200398C40 /* libftdi.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libftdi.1.dylib; sourceTree = "<group>"; };
+		3A93852626AB5A790026F3C4 /* HIDConsoleListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HIDConsoleListener.h; sourceTree = "<group>"; };
+		3A93852726AB5A790026F3C4 /* HIDConsoleListener.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HIDConsoleListener.m; sourceTree = "<group>"; };
+		3A93852926AB83840026F3C4 /* HIDConsoleDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HIDConsoleDevice.h; sourceTree = "<group>"; };
+		3A93852A26AB83840026F3C4 /* HIDConsoleDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HIDConsoleDevice.m; sourceTree = "<group>"; };
 		3AB4BC9C2495540A00204A3F /* bootloadHID */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = bootloadHID; sourceTree = "<group>"; };
 		C93A0FF32292232D0006C88F /* reset.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset.eep; path = ../../../common/reset.eep; sourceTree = "<group>"; };
 		C9A09B5622EE6826008C3CF3 /* mdloader */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = mdloader; sourceTree = "<group>"; };
@@ -122,6 +125,7 @@
 			children = (
 				092964011F5C8B2C004F2D3F /* Assets.xcassets */,
 				092964061F5C8B2C004F2D3F /* Info.plist */,
+				3A3DDC4C26AE27F600A04A99 /* HIDConsole */,
 				092964031F5C8B2C004F2D3F /* MainMenu.xib */,
 				092963FB1F5C8B2C004F2D3F /* AppDelegate.h */,
 				092963FC1F5C8B2C004F2D3F /* AppDelegate.m */,
@@ -129,8 +133,6 @@
 				303568C01FA7DEF400803BEF /* Constants.m */,
 				098AEE031F5F296B00CA054D /* Flashing.h */,
 				098AEE011F5F296000CA054D /* Flashing.m */,
-				098AEE061F5F359500CA054D /* HID.h */,
-				098AEE041F5F356000CA054D /* HID.m */,
 				098AEDFC1F5F220500CA054D /* Printing.h */,
 				098AEDFD1F5F220500CA054D /* Printing.m */,
 				098AEE0E1F60C6F600CA054D /* QMKWindow.h */,
@@ -149,6 +151,17 @@
 				092963FF1F5C8B2C004F2D3F /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3A3DDC4C26AE27F600A04A99 /* HIDConsole */ = {
+			isa = PBXGroup;
+			children = (
+				3A93852926AB83840026F3C4 /* HIDConsoleDevice.h */,
+				3A93852A26AB83840026F3C4 /* HIDConsoleDevice.m */,
+				3A93852626AB5A790026F3C4 /* HIDConsoleListener.h */,
+				3A93852726AB5A790026F3C4 /* HIDConsoleListener.m */,
+			);
+			path = HIDConsole;
 			sourceTree = "<group>";
 		};
 		3A53FB5B268A33F10020BAB0 /* Resources */ = {
@@ -259,7 +272,8 @@
 				092963FD1F5C8B2C004F2D3F /* AppDelegate.m in Sources */,
 				303568C11FA7DEF400803BEF /* Constants.m in Sources */,
 				098AEE021F5F296000CA054D /* Flashing.m in Sources */,
-				098AEE051F5F356000CA054D /* HID.m in Sources */,
+				3A93852B26AB83840026F3C4 /* HIDConsoleDevice.m in Sources */,
+				3A93852826AB5A790026F3C4 /* HIDConsoleListener.m in Sources */,
 				098AEDFE1F5F220500CA054D /* Printing.m in Sources */,
 				098AEE101F60C6F600CA054D /* QMKWindow.m in Sources */,
 				098AEE0B1F5F97A000CA054D /* USB.m in Sources */,
