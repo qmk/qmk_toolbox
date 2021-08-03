@@ -101,6 +101,8 @@
     </Compile>
     <Compile Include="Flashing.cs" />
     <Compile Include="Helpers\EmbeddedResourceHelper.cs" />
+    <Compile Include="HidConsole\HidConsoleDevice.cs" />
+    <Compile Include="HidConsole\HidConsoleListener.cs" />
     <Compile Include="Info.cs" />
     <Compile Include="Printing.cs" />
     <Compile Include="MainWindow.cs">
