@@ -158,12 +158,23 @@ namespace QMK_Toolbox
 
         private void ConsoleReportReceived(HidConsoleDevice device, string report)
         {
-            if (lastReportedDevice != device)
+            if (!InvokeRequired)
             {
-                _printer.Print($"{device.ManufacturerString} {device.ProductString}:", MessageType.Hid);
-                lastReportedDevice = device;
+                int selectedDevice = consoleList.SelectedIndex;
+                if (selectedDevice == 0 || consoleListener.Devices[selectedDevice - 1] == device)
+                {
+                    if (lastReportedDevice != device)
+                    {
+                        _printer.Print($"{device.ManufacturerString} {device.ProductString}:", MessageType.Hid);
+                        lastReportedDevice = device;
+                    }
+                    _printer.PrintResponse(report, MessageType.Hid);
+                }
             }
-            _printer.PrintResponse(report, MessageType.Hid);
+            else
+            {
+                Invoke(new Action<HidConsoleDevice, string>(ConsoleReportReceived), device, report);
+            }
         }
 
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
@@ -600,7 +611,8 @@ namespace QMK_Toolbox
 
                 if (consoleList.Items.Count > 0)
                 {
-                    consoleList.SelectedIndex = selected;
+                    consoleList.Items.Insert(0, "(All connected devices)");
+                    consoleList.SelectedIndex = consoleList.Items.Count > selected ? selected : 0;
                 }
             }
             else
