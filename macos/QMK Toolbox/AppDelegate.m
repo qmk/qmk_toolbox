@@ -302,24 +302,29 @@
 }
 
 - (void)consoleDevice:(HIDConsoleDevice *)device didReceiveReport:(NSString *)report {
-    if (self.lastReportedDevice != device) {
-        [_printer print:[NSString stringWithFormat:@"%@ %@:", device.manufacturerString, device.productString] withType:MessageType_HID];
-        self.lastReportedDevice = device;
+    NSInteger selectedDevice = [self.consoleListBox indexOfSelectedItem];
+    if (selectedDevice == 0 || self.consoleListener.devices[selectedDevice - 1] == device) {
+        if (self.lastReportedDevice != device) {
+             [_printer print:[NSString stringWithFormat:@"%@ %@:", device.manufacturerString, device.productString] withType:MessageType_HID];
+            self.lastReportedDevice = device;
+        }
+        [_printer printResponse:report withType:MessageType_HID];
     }
-    [_printer printResponse:report withType:MessageType_HID];
 }
 
 -(void)updateConsoleList {
     NSInteger selected = [self.consoleListBox indexOfSelectedItem] != -1 ? [self.consoleListBox indexOfSelectedItem] : 0;
     [self.consoleListBox deselectItemAtIndex:selected];
     [self.consoleListBox removeAllItems];
+
     for (HIDConsoleDevice * device in self.consoleListener.devices) {
-        NSString * deviceString = [NSString stringWithFormat: @"%@ %@ (%04X:%04X:%04X)", device.manufacturerString, device.productString, device.vendorID, device.productID, device.revisionBCD];
+        NSString * deviceString = [NSString stringWithFormat:@"%@ %@ (%04X:%04X:%04X)", device.manufacturerString, device.productString, device.vendorID, device.productID, device.revisionBCD];
         [self.consoleListBox addItemWithObjectValue:deviceString];
     }
 
     if ([self.consoleListBox numberOfItems] > 0) {
-        [self.consoleListBox selectItemAtIndex:selected];
+        [self.consoleListBox insertItemWithObjectValue:@"(All connected devices)" atIndex:0];
+        [self.consoleListBox selectItemAtIndex:([self.consoleListBox numberOfItems] > selected) ? selected : 0];
     }
 }
 
