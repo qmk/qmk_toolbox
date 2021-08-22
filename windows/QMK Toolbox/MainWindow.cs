@@ -153,11 +153,6 @@ namespace QMK_Toolbox
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
-            ServicePointManager.SecurityProtocol =
-                SecurityProtocolType.Tls |
-                SecurityProtocolType.Tls11 |
-                SecurityProtocolType.Tls12;
-
             windowStateBindingSource.DataSource = windowState;
             windowState.PropertyChanged += AutoFlashEnabledChanged;
 
