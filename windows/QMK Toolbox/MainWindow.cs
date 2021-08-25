@@ -5,7 +5,6 @@ using QMK_Toolbox.Helpers;
 using QMK_Toolbox.Properties;
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -53,39 +52,6 @@ namespace QMK_Toolbox
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private static bool InstallDrivers()
-        {
-            const string drivers = "drivers.txt";
-            const string installer = "qmk_driver_installer.exe";
-
-            var driversPath = Path.Combine(Application.LocalUserAppDataPath, drivers);
-            var installerPath = Path.Combine(Application.LocalUserAppDataPath, installer);
-
-            if (!File.Exists(driversPath)) EmbeddedResourceHelper.ExtractResources(drivers);
-            if (!File.Exists(installerPath)) EmbeddedResourceHelper.ExtractResources(installer);
-
-            var process = new Process
-            {
-                StartInfo = new ProcessStartInfo(installerPath, $"--all --force \"{driversPath}\"")
-                {
-                    Verb = "runas"
-                }
-            };
-
-            try
-            {
-                process.Start();
-                Settings.Default.driversInstalled = true;
-                Settings.Default.Save();
-                return true;
-            }
-            catch (Win32Exception)
-            {
-                var tryAgain = MessageBox.Show("This action requires administrator rights, do you want to try again?", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) == DialogResult.Retry;
-                return tryAgain && InstallDrivers();
-            }
         }
 
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
@@ -704,12 +670,7 @@ namespace QMK_Toolbox
 
             if (Settings.Default.firstStart)
             {
-                var driverPromptResult = MessageBox.Show("Would you like to install drivers for your devices?", "Driver installation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (driverPromptResult == DialogResult.Yes)
-                {
-                    InstallDrivers();
-                }
-
+                DriverInstaller.DisplayPrompt();
                 Settings.Default.firstStart = false;
                 Settings.Default.Save();
             }
@@ -753,7 +714,7 @@ namespace QMK_Toolbox
 
         private void InstallDriversMenuItem_Click(object sender, EventArgs e)
         {
-            InstallDrivers();
+            DriverInstaller.DisplayPrompt();
         }
     }
 }
