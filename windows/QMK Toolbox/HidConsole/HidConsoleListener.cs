@@ -100,15 +100,15 @@ namespace QMK_Toolbox.HidConsole
             if (deviceConnectedWatcher == null)
             {
                 deviceConnectedWatcher = CreateManagementEventWatcher("__InstanceCreationEvent");
-                deviceConnectedWatcher.EventArrived += HidDeviceWmiEvent;
             }
+            deviceConnectedWatcher.EventArrived += HidDeviceWmiEvent;
             deviceConnectedWatcher.Start();
 
             if (deviceDisconnectedWatcher == null)
             {
                 deviceDisconnectedWatcher = CreateManagementEventWatcher("__InstanceDeletionEvent");
-                deviceDisconnectedWatcher.EventArrived += HidDeviceWmiEvent;
             }
+            deviceDisconnectedWatcher.EventArrived += HidDeviceWmiEvent;
             deviceDisconnectedWatcher.Start();
         }
 
