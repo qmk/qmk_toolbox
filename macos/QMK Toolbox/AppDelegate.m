@@ -290,14 +290,14 @@
 - (void)consoleDeviceDidConnect:(HIDConsoleDevice *)device {
     self.lastReportedDevice = device;
     [self updateConsoleList];
-    NSString * deviceConnectedString = [NSString stringWithFormat:@"HID console connected: %@ %@ (%04X:%04X:%04X)", device.manufacturerString, device.productString, device.vendorID, device.productID, device.revisionBCD];
+    NSString * deviceConnectedString = [NSString stringWithFormat:@"HID console connected: %@", device];
     [_printer print:deviceConnectedString withType:MessageType_HID];
 }
 
 - (void)consoleDeviceDidDisconnect:(HIDConsoleDevice *)device {
     self.lastReportedDevice = nil;
     [self updateConsoleList];
-    NSString * deviceDisconnectedString = [NSString stringWithFormat:@"HID console disconnected: %@ %@ (%04X:%04X:%04X)", device.manufacturerString, device.productString, device.vendorID, device.productID, device.revisionBCD];
+    NSString * deviceDisconnectedString = [NSString stringWithFormat:@"HID console disconnected: %@", device];
     [_printer print:deviceDisconnectedString withType:MessageType_HID];
 }
 
@@ -318,8 +318,7 @@
     [self.consoleListBox removeAllItems];
 
     for (HIDConsoleDevice * device in self.consoleListener.devices) {
-        NSString * deviceString = [NSString stringWithFormat:@"%@ %@ (%04X:%04X:%04X)", device.manufacturerString, device.productString, device.vendorID, device.productID, device.revisionBCD];
-        [self.consoleListBox addItemWithObjectValue:deviceString];
+        [self.consoleListBox addItemWithObjectValue:[device description]];
     }
 
     if ([self.consoleListBox numberOfItems] > 0) {

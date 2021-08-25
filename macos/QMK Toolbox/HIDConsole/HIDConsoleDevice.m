@@ -18,6 +18,10 @@ static uint8_t hidReportBuffer[64];
     return self;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"%@ %@ (%04X:%04X:%04X)", self.manufacturerString, self.productString, self.vendorID, self.productID, self.revisionBCD];
+}
+
 static void reportReceived(void *context, IOReturn result, void *sender, IOHIDReportType type, uint32_t reportID, uint8_t *report, CFIndex reportLength) {
     HIDConsoleDevice *const device = (__bridge HIDConsoleDevice *const)context;
     [device.delegate consoleDevice:device didReceiveReport:[NSString stringWithFormat:@"%s", (char *)report]];

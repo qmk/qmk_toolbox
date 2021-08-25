@@ -38,6 +38,11 @@ namespace QMK_Toolbox.HidConsole
             HidDevice.CloseDevice();
         }
 
+        public override string ToString()
+        {
+            return $"{ManufacturerString} {ProductString} ({VendorId:X4}:{ProductId:X4}:{RevisionBcd:X4})";
+        }
+
         private void HidDeviceReportEvent(HidReport report)
         {
             if (HidDevice.IsConnected)

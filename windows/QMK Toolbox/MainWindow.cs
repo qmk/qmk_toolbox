@@ -145,14 +145,14 @@ namespace QMK_Toolbox
         {
             lastReportedDevice = device;
             UpdateConsoleList();
-            _printer.Print($"HID console connected: {device.ManufacturerString} {device.ProductString} ({device.VendorId:X4}:{device.ProductId:X4}:{device.RevisionBcd:X4})", MessageType.Hid);
+            _printer.Print($"HID console connected: {device}", MessageType.Hid);
         }
 
         private void ConsoleDeviceDisconnected(HidConsoleDevice device)
         {
             lastReportedDevice = null;
             UpdateConsoleList();
-            _printer.Print($"HID console disconnected {device.ManufacturerString} {device.ProductString} ({device.VendorId:X4}:{device.ProductId:X4}:{device.RevisionBcd:X4})", MessageType.Hid);
+            _printer.Print($"HID console disconnected: {device}", MessageType.Hid);
         }
 
         private void ConsoleReportReceived(HidConsoleDevice device, string report)
@@ -604,7 +604,7 @@ namespace QMK_Toolbox
                 {
                     if (device != null)
                     {
-                        consoleList.Items.Add($"{device.ManufacturerString} {device.ProductString} ({device.VendorId:X4}:{device.ProductId:X4}:{device.RevisionBcd:X4})");
+                        consoleList.Items.Add(device.ToString());
                     }
                 }
 
