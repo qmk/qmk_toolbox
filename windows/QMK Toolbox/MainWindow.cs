@@ -33,10 +33,9 @@ namespace QMK_Toolbox
 
         private readonly WindowState windowState = new WindowState();
 
-        private void AutoFlashEnabledChanged(object sender, EventArgs e)
+        private void AutoFlashEnabledChanged(object sender, PropertyChangedEventArgs e)
         {
-            PropertyChangedEventArgs args = (PropertyChangedEventArgs)e;
-            if (args.PropertyName == "AutoFlashEnabled")
+            if (e.PropertyName == "AutoFlashEnabled")
             {
                 if (windowState.AutoFlashEnabled)
                 {
