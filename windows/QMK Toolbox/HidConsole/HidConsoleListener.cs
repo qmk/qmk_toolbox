@@ -1,11 +1,12 @@
 ﻿using HidLibrary;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management;
 
 namespace QMK_Toolbox.HidConsole
 {
-    public class HidConsoleListener
+    public class HidConsoleListener : IDisposable
     {
         private const ushort ConsoleUsagePage = 0xFF31;
         private const ushort ConsoleUsage = 0x0074;
@@ -129,6 +130,7 @@ namespace QMK_Toolbox.HidConsole
 
         public void Dispose()
         {
+            Stop();
             deviceConnectedWatcher?.Dispose();
             deviceDisconnectedWatcher?.Dispose();
         }

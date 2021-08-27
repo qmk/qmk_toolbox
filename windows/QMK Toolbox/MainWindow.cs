@@ -184,7 +184,6 @@ namespace QMK_Toolbox
             Settings.Default.Save();
 
             _usb.StopListeningForDeviceEvents();
-            consoleListener.Stop();
             consoleListener.Dispose();
         }
 
