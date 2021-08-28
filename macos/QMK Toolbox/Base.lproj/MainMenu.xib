@@ -17,6 +17,7 @@
             <connections>
                 <outlet property="clearEEPROMButton" destination="RSb-Il-mNt" id="uEb-yN-jO6"/>
                 <outlet property="clearMenuItem" destination="82o-TW-Mbd" id="aCu-qp-Nqf"/>
+                <outlet property="consoleListBox" destination="FPO-qP-5FM" id="wDE-1D-dvL"/>
                 <outlet property="filepathBox" destination="fMz-rn-IEt" id="eSr-wv-y0f"/>
                 <outlet property="flashButton" destination="OKF-oG-mRx" id="3MC-L3-Hfy"/>
                 <outlet property="keyboardBox" destination="j37-hH-gaF" id="Vhv-Th-t9k"/>
@@ -341,10 +342,10 @@
                         </connections>
                     </button>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="TwL-TO-5Ka">
-                        <rect key="frame" x="641" y="535.5" width="94" height="17"/>
+                        <rect key="frame" x="641" y="534.5" width="94" height="18"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="92" id="VS7-uL-i4O"/>
-                            <constraint firstAttribute="height" constant="14" id="ssc-vc-JLH"/>
+                            <constraint firstAttribute="height" constant="15" id="ssc-vc-JLH"/>
                         </constraints>
                         <buttonCell key="cell" type="check" title="Auto-Flash" bezelStyle="regularSquare" imagePosition="left" inset="2" id="X8j-zC-WSC">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -517,9 +518,18 @@
                             <binding destination="Voe-Tx-rLC" name="enabled" keyPath="canClearEEPROM" id="onc-Z0-w85"/>
                         </connections>
                     </button>
+                    <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FPO-qP-5FM">
+                        <rect key="frame" x="131" y="6" width="662" height="26"/>
+                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="No HID console devices connected" drawsBackground="YES" buttonBordered="NO" completes="NO" numberOfVisibleItems="5" id="7kS-Qf-UrK">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </comboBoxCell>
+                    </comboBox>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="w5R-Hk-e8X" secondAttribute="trailing" constant="10" id="1SK-rh-DGn"/>
+                    <constraint firstItem="FPO-qP-5FM" firstAttribute="top" secondItem="w5R-Hk-e8X" secondAttribute="bottom" constant="11" id="2jc-v5-h0x"/>
                     <constraint firstItem="TwL-TO-5Ka" firstAttribute="leading" secondItem="OKF-oG-mRx" secondAttribute="leading" id="533-Os-hQd"/>
                     <constraint firstAttribute="trailing" secondItem="qEj-2h-OmC" secondAttribute="trailing" constant="10" id="56Q-ms-Qm2"/>
                     <constraint firstItem="w5R-Hk-e8X" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="10" id="BdT-Ww-Qmp"/>
@@ -533,18 +543,21 @@
                     <constraint firstItem="LCo-O1-xnT" firstAttribute="top" secondItem="t67-0j-kLe" secondAttribute="bottom" constant="3" id="Ul1-S7-BR5"/>
                     <constraint firstItem="RSb-Il-mNt" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="10" id="Zwx-cY-fGS"/>
                     <constraint firstAttribute="trailing" secondItem="9ht-zl-DdM" secondAttribute="trailing" constant="25" id="aCA-8H-6W1"/>
+                    <constraint firstAttribute="bottom" secondItem="FPO-qP-5FM" secondAttribute="bottom" constant="10" id="fUh-wY-4b9"/>
                     <constraint firstAttribute="bottom" secondItem="RSb-Il-mNt" secondAttribute="bottom" constant="10" id="hMV-Bz-Rd0"/>
                     <constraint firstItem="t67-0j-kLe" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="4" id="hY7-4X-Nrm"/>
+                    <constraint firstItem="FPO-qP-5FM" firstAttribute="leading" secondItem="RSb-Il-mNt" secondAttribute="trailing" constant="8" symbolic="YES" id="lMI-UC-Xaw"/>
                     <constraint firstItem="w5R-Hk-e8X" firstAttribute="top" secondItem="sFy-Lg-NKo" secondAttribute="bottom" constant="42" id="mNm-zP-Ll8"/>
                     <constraint firstItem="9ht-zl-DdM" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="4" id="me3-Ss-MQt"/>
                     <constraint firstItem="RSb-Il-mNt" firstAttribute="top" secondItem="w5R-Hk-e8X" secondAttribute="bottom" constant="10" id="nVm-oo-6dO"/>
                     <constraint firstItem="LCo-O1-xnT" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="5" id="pIB-Hs-nnI"/>
                     <constraint firstItem="OKF-oG-mRx" firstAttribute="leading" secondItem="LCo-O1-xnT" secondAttribute="trailing" constant="8" id="reN-8u-DkO"/>
                     <constraint firstItem="t67-0j-kLe" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="5" id="tnv-lz-t10"/>
+                    <constraint firstAttribute="trailing" secondItem="FPO-qP-5FM" secondAttribute="trailing" constant="10" id="utN-AQ-ZVa"/>
                     <constraint firstItem="kHS-JF-7Py" firstAttribute="leading" secondItem="sFy-Lg-NKo" secondAttribute="leading" constant="-4" id="z5W-JH-tlg"/>
                 </constraints>
             </view>
-            <point key="canvasLocation" x="349.5" y="454.5"/>
+            <point key="canvasLocation" x="349" y="454"/>
         </window>
     </objects>
 </document>

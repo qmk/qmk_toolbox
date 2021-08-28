@@ -9,8 +9,9 @@
 #import "AppDelegate.h"
 #import "Constants.h"
 #import "QMKWindow.h"
+#import "HIDConsoleListener.h"
 
-@interface AppDelegate () <NSTextViewDelegate, NSComboBoxDelegate, FlashingDelegate, USBDelegate>
+@interface AppDelegate () <NSTextViewDelegate, NSComboBoxDelegate, HIDConsoleListenerDelegate, FlashingDelegate, USBDelegate>
 
 @property (weak) IBOutlet QMKWindow *window;
 @property IBOutlet NSTextView * textView;
@@ -24,9 +25,13 @@
 @property IBOutlet NSComboBox * keyboardBox;
 @property IBOutlet NSComboBox * keymapBox;
 @property IBOutlet NSButton * loadButton;
+@property IBOutlet NSComboBox * consoleListBox;
 
 @property Flashing * flasher;
 
+@property HIDConsoleListener * consoleListener;
+
+@property HIDConsoleDevice * lastReportedDevice;
 @end
 
 @implementation AppDelegate
@@ -86,7 +91,7 @@
             double delayInSeconds = .01;
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
             dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                [self->_flasher performSelector:@selector(flash:withFile:) withObject:[self->_mcuBox objectValue] withObject:[self->_filepathBox objectValue]];
+                [self.flasher performSelector:@selector(flash:withFile:) withObject:[self.mcuBox objectValue] withObject:[self.filepathBox objectValue]];
             });
 
             if (!self.autoFlashEnabled) {
@@ -273,10 +278,53 @@
     [_printer printResponse:@" - USBasp (AVR ISP)\n" withType:MessageType_Info];
     [_printer printResponse:@" - USBTiny (AVR Pocket)\n" withType:MessageType_Info];
 
-    [HID setupWithPrinter:_printer];
+    self.consoleListener = [[HIDConsoleListener alloc] init];
+    self.consoleListener.delegate = self;
+    [self.consoleListener start];
+
     [USB setupWithPrinter:_printer andDelegate:self];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mcuSelectionChanged) name:NSComboBoxSelectionDidChangeNotification object:_mcuBox];
+}
+
+- (void)consoleDeviceDidConnect:(HIDConsoleDevice *)device {
+    self.lastReportedDevice = device;
+    [self updateConsoleList];
+    NSString * deviceConnectedString = [NSString stringWithFormat:@"HID console connected: %@", device];
+    [_printer print:deviceConnectedString withType:MessageType_HID];
+}
+
+- (void)consoleDeviceDidDisconnect:(HIDConsoleDevice *)device {
+    self.lastReportedDevice = nil;
+    [self updateConsoleList];
+    NSString * deviceDisconnectedString = [NSString stringWithFormat:@"HID console disconnected: %@", device];
+    [_printer print:deviceDisconnectedString withType:MessageType_HID];
+}
+
+- (void)consoleDevice:(HIDConsoleDevice *)device didReceiveReport:(NSString *)report {
+    NSInteger selectedDevice = [self.consoleListBox indexOfSelectedItem];
+    if (selectedDevice == 0 || self.consoleListener.devices[selectedDevice - 1] == device) {
+        if (self.lastReportedDevice != device) {
+             [_printer print:[NSString stringWithFormat:@"%@ %@:", device.manufacturerString, device.productString] withType:MessageType_HID];
+            self.lastReportedDevice = device;
+        }
+        [_printer printResponse:report withType:MessageType_HID];
+    }
+}
+
+-(void)updateConsoleList {
+    NSInteger selected = [self.consoleListBox indexOfSelectedItem] != -1 ? [self.consoleListBox indexOfSelectedItem] : 0;
+    [self.consoleListBox deselectItemAtIndex:selected];
+    [self.consoleListBox removeAllItems];
+
+    for (HIDConsoleDevice * device in self.consoleListener.devices) {
+        [self.consoleListBox addItemWithObjectValue:[device description]];
+    }
+
+    if ([self.consoleListBox numberOfItems] > 0) {
+        [self.consoleListBox insertItemWithObjectValue:@"(All connected devices)" atIndex:0];
+        [self.consoleListBox selectItemAtIndex:([self.consoleListBox numberOfItems] > selected) ? selected : 0];
+    }
 }
 
 - (void)mcuSelectionChanged {
@@ -362,7 +410,6 @@
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-    // Insert code here to tear down your application
+    [self.consoleListener stop];
 }
-
 @end

@@ -50,7 +50,7 @@ namespace QMK_Toolbox {
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logContextMenuSep2 = new System.Windows.Forms.ToolStripSeparator();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hidList = new System.Windows.Forms.ComboBox();
+            this.consoleList = new QMK_Toolbox.ComboBoxPlaceholder();
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -359,16 +359,17 @@ namespace QMK_Toolbox {
             this.clearToolStripMenuItem.Text = "Clea&r";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.ClearToolStripMenuItem_Click);
             // 
-            // hidList
+            // consoleList
             // 
-            this.hidList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.consoleList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.hidList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.hidList.FormattingEnabled = true;
-            this.hidList.Location = new System.Drawing.Point(128, 631);
-            this.hidList.Name = "hidList";
-            this.hidList.Size = new System.Drawing.Size(660, 21);
-            this.hidList.TabIndex = 8;
+            this.consoleList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.consoleList.FormattingEnabled = true;
+            this.consoleList.Location = new System.Drawing.Point(128, 631);
+            this.consoleList.Name = "consoleList";
+            this.consoleList.PlaceholderText = "No HID console devices connected";
+            this.consoleList.Size = new System.Drawing.Size(660, 21);
+            this.consoleList.TabIndex = 8;
             // 
             // mainMenu
             // 
@@ -568,7 +569,7 @@ namespace QMK_Toolbox {
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 664);
             this.Controls.Add(this.mainMenu);
-            this.Controls.Add(this.hidList);
+            this.Controls.Add(this.consoleList);
             this.Controls.Add(this.clearEepromButton);
             this.Controls.Add(this.fileGroupBox);
             this.Controls.Add(this.qmkfmGroupBox);
@@ -616,7 +617,7 @@ namespace QMK_Toolbox {
         private System.Windows.Forms.Label keymapLabel;
         private System.Windows.Forms.GroupBox fileGroupBox;
         private System.Windows.Forms.Button clearEepromButton;
-        private System.Windows.Forms.ComboBox hidList;
+        private ComboBoxPlaceholder consoleList;
         private System.Windows.Forms.ContextMenuStrip logContextMenu;
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
         private BetterComboBox filepathBox;

@@ -9,7 +9,6 @@
 #import <Cocoa/Cocoa.h>
 #import "Printing.h"
 #import "Flashing.h"
-#import "HID.h"
 #import "USB.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate> {

@@ -2,6 +2,7 @@
 //  Copyright © 2017 Jack Humbert. This code is licensed under MIT license (see LICENSE.md for details).
 
 using QMK_Toolbox.Helpers;
+using QMK_Toolbox.HidConsole;
 using QMK_Toolbox.Properties;
 using System;
 using System.ComponentModel;
@@ -14,7 +15,6 @@ using System.Windows.Forms;
 
 namespace QMK_Toolbox
 {
-    using HidLibrary;
     using Newtonsoft.Json;
     using Syroot.Windows.IO;
     using System.Collections;
@@ -28,13 +28,13 @@ namespace QMK_Toolbox
         private readonly Printing _printer;
         private readonly Flashing _flasher;
         private readonly Usb _usb;
+        private readonly HidConsoleListener consoleListener = new HidConsoleListener();
 
         private readonly WindowState windowState = new WindowState();
 
-        private void AutoFlashEnabledChanged(object sender, EventArgs e)
+        private void AutoFlashEnabledChanged(object sender, PropertyChangedEventArgs e)
         {
-            PropertyChangedEventArgs args = (PropertyChangedEventArgs)e;
-            if (args.PropertyName == "AutoFlashEnabled")
+            if (e.PropertyName == "AutoFlashEnabled")
             {
                 if (windowState.AutoFlashEnabled)
                 {
@@ -82,8 +82,6 @@ namespace QMK_Toolbox
             Activate();
         }
 
-        private List<HidDevice> _devices = new List<HidDevice>();
-
         public MainWindow(string path) : this()
         {
             if (path != string.Empty)
@@ -107,6 +105,43 @@ namespace QMK_Toolbox
             _usb.StartListeningForDeviceEvents(DeviceEvent);
         }
 
+        private HidConsoleDevice lastReportedDevice;
+
+        private void ConsoleDeviceConnected(HidConsoleDevice device)
+        {
+            lastReportedDevice = device;
+            UpdateConsoleList();
+            _printer.Print($"HID console connected: {device}", MessageType.Hid);
+        }
+
+        private void ConsoleDeviceDisconnected(HidConsoleDevice device)
+        {
+            lastReportedDevice = null;
+            UpdateConsoleList();
+            _printer.Print($"HID console disconnected: {device}", MessageType.Hid);
+        }
+
+        private void ConsoleReportReceived(HidConsoleDevice device, string report)
+        {
+            if (!InvokeRequired)
+            {
+                int selectedDevice = consoleList.SelectedIndex;
+                if (selectedDevice == 0 || consoleListener.Devices[selectedDevice - 1] == device)
+                {
+                    if (lastReportedDevice != device)
+                    {
+                        _printer.Print($"{device.ManufacturerString} {device.ProductString}:", MessageType.Hid);
+                        lastReportedDevice = device;
+                    }
+                    _printer.PrintResponse(report, MessageType.Hid);
+                }
+            }
+            else
+            {
+                Invoke(new Action<HidConsoleDevice, string>(ConsoleReportReceived), device, report);
+            }
+        }
+
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             var arraylist = new ArrayList(filepathBox.Items);
@@ -115,6 +150,7 @@ namespace QMK_Toolbox
             Settings.Default.Save();
 
             _usb.StopListeningForDeviceEvents();
+            consoleListener.Dispose();
         }
 
         private void MainWindow_Load(object sender, EventArgs e)
@@ -151,7 +187,10 @@ namespace QMK_Toolbox
             _usb.DetectBootloaderFromCollection(collection);
             EnableUI();
 
-            UpdateHidDevices(false);
+            consoleListener.consoleDeviceConnected += ConsoleDeviceConnected;
+            consoleListener.consoleDeviceDisconnected += ConsoleDeviceDisconnected;
+            consoleListener.consoleReportReceived += ConsoleReportReceived;
+            consoleListener.Start();
 
             if (_filePassedIn != string.Empty)
                 SetFilePath(_filePassedIn);
@@ -373,88 +412,6 @@ namespace QMK_Toolbox
             }
         }
 
-        private void UpdateHidDevices(bool disconnected)
-        {
-            var devices = GetListableDevices().ToList();
-
-            if (!disconnected)
-            {
-                foreach (var device in devices)
-                {
-                    var deviceExists = _devices.Aggregate(false, (current, dev) => current | dev.DevicePath.Equals(device.DevicePath));
-
-                    if (device == null || deviceExists) continue;
-
-                    _devices.Add(device);
-                    device.OpenDevice();
-
-                    device.MonitorDeviceEvents = true;
-
-                    _printer.Print($"HID console connected: {GetManufacturerString(device)} {GetProductString(device)} ({device.Attributes.VendorId:X4}:{device.Attributes.ProductId:X4}:{device.Attributes.Version:X4})", MessageType.Hid);
-
-                    device.ReadReport(OnReport);
-                    device.CloseDevice();
-                }
-            }
-            else
-            {
-                foreach (var existingDevice in _devices)
-                {
-                    var deviceExists = devices.Aggregate(false, (current, device) => current | existingDevice.DevicePath.Equals(device.DevicePath));
-
-                    if (!deviceExists)
-                    {
-                        _printer.Print($"HID console disconnected ({existingDevice.Attributes.VendorId:X4}:{existingDevice.Attributes.ProductId:X4}:{existingDevice.Attributes.Version:X4})", MessageType.Hid);
-                    }
-                }
-            }
-
-            _devices = devices;
-            UpdateHidList();
-        }
-
-        private static IEnumerable<HidDevice> GetListableDevices() =>
-            HidDevices.Enumerate()
-                .Where(d => d.IsConnected)
-                .Where(device => device.Capabilities.InputReportByteLength > 0)
-                .Where(device => (ushort)device.Capabilities.UsagePage == Flashing.ConsoleUsagePage)
-                .Where(device => (ushort)device.Capabilities.Usage == Flashing.ConsoleUsage);
-
-        private static string GetProductString(IHidDevice d)
-        {
-            if (d == null) return "";
-            d.ReadProduct(out var bs);
-            return System.Text.Encoding.Default.GetString(bs.Where(b => b > 0).ToArray());
-        }
-
-        private static string GetManufacturerString(IHidDevice d)
-        {
-            if (d == null) return "";
-            d.ReadManufacturer(out var bs);
-            return System.Text.Encoding.Default.GetString(bs.Where(b => b > 0).ToArray());
-        }
-
-        private void OnReport(HidReport report)
-        {
-            var data = report.Data;
-            //Print(string.Format("* recv {0} bytes:", data.Length));
-
-            var outputString = string.Empty;
-            for (var i = 0; i < data.Length; i++)
-            {
-                outputString += (char)data[i];
-                if (i % 16 != 15 || i >= data.Length) continue;
-
-                _printer.PrintResponse(outputString, MessageType.Hid);
-                outputString = string.Empty;
-            }
-
-            foreach (var device in _devices)
-            {
-                device.ReadReport(OnReport);
-            }
-        }
-
         private void FilepathBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -581,7 +538,6 @@ namespace QMK_Toolbox
                 FlashButton_Click(sender, e);
             }
 
-            UpdateHidDevices(deviceDisconnected);
             (sender as ManagementEventWatcher)?.Start();
 
             if (!windowState.AutoFlashEnabled)
@@ -602,41 +558,30 @@ namespace QMK_Toolbox
             windowState.CanClearEeprom = _flasher.CanClearEeprom();
         }
 
-        private void UpdateHidList()
+        private void UpdateConsoleList()
         {
             if (!InvokeRequired)
             {
-                foreach (var device in _devices)
-                {
-                    device.CloseDevice();
-                }
+                var selected = consoleList.SelectedIndex != -1 ? consoleList.SelectedIndex : 0;
+                consoleList.Items.Clear();
 
-                var selected = hidList.SelectedIndex != -1 ? hidList.SelectedIndex : 0;
-                hidList.Items.Clear();
-                foreach (var device in _devices)
+                foreach (var device in consoleListener.Devices)
                 {
                     if (device != null)
                     {
-                        device.OpenDevice();
-                        var deviceString = $"{GetManufacturerString(device)} {GetProductString(device)} ({device.Attributes.VendorId:X4}:{device.Attributes.ProductId:X4}:{device.Attributes.Version:X4})";
-
-                        hidList.Items.Add(deviceString);
+                        consoleList.Items.Add(device.ToString());
                     }
-                    else
-                    {
-                        hidList.Items.Add("Invalid Device");
-                    }
-                    device?.CloseDevice();
                 }
 
-                if (hidList.Items.Count > 0)
+                if (consoleList.Items.Count > 0)
                 {
-                    hidList.SelectedIndex = selected;
+                    consoleList.Items.Insert(0, "(All connected devices)");
+                    consoleList.SelectedIndex = consoleList.Items.Count > selected ? selected : 0;
                 }
             }
             else
             {
-                Invoke(new Action(UpdateHidList));
+                Invoke(new Action(UpdateConsoleList));
             }
         }
 
