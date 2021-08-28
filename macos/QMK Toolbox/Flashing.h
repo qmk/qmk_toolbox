@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#include <AppKit/AppKit.h>
-#include "Printing.h"
+
+#import "Printing.h"
 
 typedef enum {
     APM32DFU,

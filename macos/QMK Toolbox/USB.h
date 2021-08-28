@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <AppKit/AppKit.h>
+
 #import "Printing.h"
 #import "Flashing.h"
 

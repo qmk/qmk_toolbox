@@ -1,6 +1,6 @@
 #import <IOKit/hid/IOHIDManager.h>
 
-#include "HIDConsoleDevice.h"
+#import "HIDConsoleDevice.h"
 
 @protocol HIDConsoleListenerDelegate <NSObject>
 - (void)consoleDeviceDidConnect:(HIDConsoleDevice *)device;
