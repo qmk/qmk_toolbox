@@ -285,76 +285,6 @@
                 <rect key="frame" x="0.0" y="0.0" width="800" height="640"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <scrollView autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" scrollerKnobStyle="dark" translatesAutoresizingMaskIntoConstraints="NO" id="w5R-Hk-e8X">
-                        <rect key="frame" x="10" y="41" width="780" height="485"/>
-                        <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="oaz-yh-Zob">
-                            <rect key="frame" x="1" y="1" width="778" height="483"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <subviews>
-                                <textView editable="NO" importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" allowsNonContiguousLayout="YES" id="tMQ-2J-GgU">
-                                    <rect key="frame" x="0.0" y="0.0" width="778" height="483"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="backgroundColor" white="0.092534722220000004" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="778" height="483"/>
-                                    <size key="maxSize" width="793" height="10000000"/>
-                                    <color key="insertionPointColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </textView>
-                            </subviews>
-                        </clipView>
-                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="IBW-oz-f3p">
-                            <rect key="frame" x="1" y="528" width="693" height="16"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </scroller>
-                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="guZ-nH-ZjT">
-                            <rect key="frame" x="678" y="1" width="16" height="443"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </scroller>
-                    </scrollView>
-                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qEj-2h-OmC">
-                        <rect key="frame" x="708" y="551" width="89" height="33"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="21" id="0c7-uS-SRH"/>
-                            <constraint firstAttribute="width" constant="75" id="mbB-cQ-ug3"/>
-                        </constraints>
-                        <buttonCell key="cell" type="push" title="Exit DFU" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="euK-aj-UAI">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="label" size="12"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="resetButtonClick:" target="Voe-Tx-rLC" id="OeF-Gz-mpL"/>
-                            <binding destination="Voe-Tx-rLC" name="enabled" keyPath="canReset" id="bTa-Zn-nnd"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OKF-oG-mRx">
-                        <rect key="frame" x="636" y="551" width="82" height="33"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="21" id="igB-eN-Klh"/>
-                            <constraint firstAttribute="width" constant="68" id="sS6-6I-Jy2"/>
-                        </constraints>
-                        <buttonCell key="cell" type="push" title="Flash" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="WBr-hK-w8Y">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="label" size="12"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="flashButtonClick:" target="Voe-Tx-rLC" id="qed-bj-dbt"/>
-                            <binding destination="Voe-Tx-rLC" name="enabled" keyPath="canFlash" id="B7O-2B-f3E"/>
-                        </connections>
-                    </button>
-                    <button translatesAutoresizingMaskIntoConstraints="NO" id="TwL-TO-5Ka">
-                        <rect key="frame" x="641" y="534.5" width="94" height="18"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="92" id="VS7-uL-i4O"/>
-                            <constraint firstAttribute="height" constant="15" id="ssc-vc-JLH"/>
-                        </constraints>
-                        <buttonCell key="cell" type="check" title="Auto-Flash" bezelStyle="regularSquare" imagePosition="left" inset="2" id="X8j-zC-WSC">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="label" size="12"/>
-                        </buttonCell>
-                        <connections>
-                            <binding destination="Voe-Tx-rLC" name="value" keyPath="autoFlashEnabled" id="H8W-yV-uz1"/>
-                        </connections>
-                    </button>
                     <box borderType="line" title="Local file" translatesAutoresizingMaskIntoConstraints="NO" id="t67-0j-kLe">
                         <rect key="frame" x="2" y="583" width="796" height="53"/>
                         <view key="contentView" id="R6x-jp-q9X">
@@ -415,6 +345,18 @@
                             <constraint firstAttribute="height" constant="49" id="tXt-Mt-ocN"/>
                         </constraints>
                     </box>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9ht-zl-DdM">
+                        <rect key="frame" x="685" y="620" width="92" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="16" id="7hf-ak-jNR"/>
+                            <constraint firstAttribute="width" constant="88" id="YDa-UX-xkr"/>
+                        </constraints>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="MCU (AVR only)" id="ndf-Uu-8bq">
+                            <font key="font" metaFont="message" size="11"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                     <box boxType="secondary" borderType="line" title="Keyboard from qmk.fm" translatesAutoresizingMaskIntoConstraints="NO" id="LCo-O1-xnT">
                         <rect key="frame" x="2" y="531" width="636" height="53"/>
                         <view key="contentView" id="cS7-E3-hab">
@@ -491,18 +433,76 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9ht-zl-DdM">
-                        <rect key="frame" x="685" y="620" width="92" height="16"/>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OKF-oG-mRx">
+                        <rect key="frame" x="636" y="551" width="82" height="33"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="16" id="7hf-ak-jNR"/>
-                            <constraint firstAttribute="width" constant="88" id="YDa-UX-xkr"/>
+                            <constraint firstAttribute="height" constant="21" id="igB-eN-Klh"/>
+                            <constraint firstAttribute="width" constant="68" id="sS6-6I-Jy2"/>
                         </constraints>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="MCU (AVR only)" id="ndf-Uu-8bq">
-                            <font key="font" metaFont="message" size="11"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
+                        <buttonCell key="cell" type="push" title="Flash" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="WBr-hK-w8Y">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="label" size="12"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="flashButtonClick:" target="Voe-Tx-rLC" id="qed-bj-dbt"/>
+                            <binding destination="Voe-Tx-rLC" name="enabled" keyPath="canFlash" id="B7O-2B-f3E"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qEj-2h-OmC">
+                        <rect key="frame" x="708" y="551" width="89" height="33"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="0c7-uS-SRH"/>
+                            <constraint firstAttribute="width" constant="75" id="mbB-cQ-ug3"/>
+                        </constraints>
+                        <buttonCell key="cell" type="push" title="Exit DFU" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="euK-aj-UAI">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="label" size="12"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="resetButtonClick:" target="Voe-Tx-rLC" id="OeF-Gz-mpL"/>
+                            <binding destination="Voe-Tx-rLC" name="enabled" keyPath="canReset" id="bTa-Zn-nnd"/>
+                        </connections>
+                    </button>
+                    <button translatesAutoresizingMaskIntoConstraints="NO" id="TwL-TO-5Ka">
+                        <rect key="frame" x="641" y="534.5" width="94" height="18"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="92" id="VS7-uL-i4O"/>
+                            <constraint firstAttribute="height" constant="15" id="ssc-vc-JLH"/>
+                        </constraints>
+                        <buttonCell key="cell" type="check" title="Auto-Flash" bezelStyle="regularSquare" imagePosition="left" inset="2" id="X8j-zC-WSC">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="label" size="12"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="Voe-Tx-rLC" name="value" keyPath="autoFlashEnabled" id="H8W-yV-uz1"/>
+                        </connections>
+                    </button>
+                    <scrollView autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" scrollerKnobStyle="dark" translatesAutoresizingMaskIntoConstraints="NO" id="w5R-Hk-e8X">
+                        <rect key="frame" x="10" y="41" width="780" height="485"/>
+                        <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="oaz-yh-Zob">
+                            <rect key="frame" x="1" y="1" width="778" height="483"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <textView editable="NO" importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" allowsNonContiguousLayout="YES" id="tMQ-2J-GgU">
+                                    <rect key="frame" x="0.0" y="0.0" width="778" height="483"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="backgroundColor" white="0.092534722220000004" alpha="1" colorSpace="calibratedWhite"/>
+                                    <size key="minSize" width="778" height="483"/>
+                                    <size key="maxSize" width="793" height="10000000"/>
+                                    <color key="insertionPointColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </textView>
+                            </subviews>
+                        </clipView>
+                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="IBW-oz-f3p">
+                            <rect key="frame" x="1" y="528" width="693" height="16"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="guZ-nH-ZjT">
+                            <rect key="frame" x="678" y="1" width="16" height="443"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                    </scrollView>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RSb-Il-mNt">
                         <rect key="frame" x="3" y="3" width="127" height="33"/>
                         <constraints>
