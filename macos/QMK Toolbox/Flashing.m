@@ -7,6 +7,7 @@
 //
 
 #import "Flashing.h"
+
 #import "USB.h"
 
 @interface Flashing ()

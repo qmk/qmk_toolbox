@@ -8,6 +8,8 @@
 
 #import "QMKWindow.h"
 
+#import "AppDelegate.h"
+
 @implementation QMKWindow
 
 - (void)setup {

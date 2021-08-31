@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+
 #import <IOKit/hid/IOHIDDevice.h>
 
 @class HIDConsoleDevice;

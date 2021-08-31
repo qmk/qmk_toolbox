@@ -6,10 +6,11 @@
 //  Copyright © 2017 Jack Humbert. This code is licensed under MIT license (see LICENSE.md for details).
 //
 
+#import <IOKit/usb/IOUSBLib.h>
+#import <IOKit/serial/IOSerialKeys.h>
+#import <IOKit/storage/IOMedia.h>
+
 #import "USB.h"
-#include <IOKit/usb/IOUSBLib.h>
-#include <IOKit/serial/IOSerialKeys.h>
-#include <IOKit/storage/IOMedia.h>
 
 static io_iterator_t usbConnectedIter;
 static io_iterator_t usbDisconnectedIter;

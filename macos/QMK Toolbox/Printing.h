@@ -6,8 +6,7 @@
 //  Copyright © 2017 Jack Humbert. This code is licensed under MIT license (see LICENSE.md for details).
 //
 
-#import <Foundation/Foundation.h>
-#include <AppKit/AppKit.h>
+#import <Cocoa/Cocoa.h>
 
 @interface Printing : NSObject
 

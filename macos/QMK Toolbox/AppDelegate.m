@@ -7,9 +7,12 @@
 //
 
 #import "AppDelegate.h"
+
 #import "Constants.h"
-#import "QMKWindow.h"
+#import "Flashing.h"
 #import "HIDConsoleListener.h"
+#import "QMKWindow.h"
+#import "USB.h"
 
 @interface AppDelegate () <NSTextViewDelegate, NSComboBoxDelegate, HIDConsoleListenerDelegate, FlashingDelegate, USBDelegate>
 
