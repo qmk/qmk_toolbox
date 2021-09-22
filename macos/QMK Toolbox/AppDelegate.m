@@ -408,6 +408,11 @@
     [[self textView] setString: @""];
 }
 
+- (IBAction)keyTesterButtonClick:(id)sender {
+    NSWindowController * keyTesterWindowController = [[NSWindowController alloc] initWithWindowNibName:@"KeyTesterWindow"];
+    [keyTesterWindowController showWindow:self];
+}
+
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
     return YES;
 }
