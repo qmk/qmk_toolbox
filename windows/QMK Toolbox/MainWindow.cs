@@ -3,6 +3,7 @@
 
 using QMK_Toolbox.Helpers;
 using QMK_Toolbox.HidConsole;
+using QMK_Toolbox.KeyTester;
 using QMK_Toolbox.Properties;
 using System;
 using System.ComponentModel;
@@ -29,6 +30,7 @@ namespace QMK_Toolbox
         private readonly Flashing _flasher;
         private readonly Usb _usb;
         private readonly HidConsoleListener consoleListener = new HidConsoleListener();
+        private KeyTesterWindow keyTesterWindow;
 
         private readonly WindowState windowState = new WindowState();
 
@@ -660,6 +662,17 @@ namespace QMK_Toolbox
         private void InstallDriversMenuItem_Click(object sender, EventArgs e)
         {
             DriverInstaller.DisplayPrompt();
+        }
+
+        private void KeyTesterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (keyTesterWindow is null)
+            {
+                keyTesterWindow = new KeyTesterWindow();
+                keyTesterWindow.Show();
+            }
+
+            keyTesterWindow.Focus();
         }
     }
 }
