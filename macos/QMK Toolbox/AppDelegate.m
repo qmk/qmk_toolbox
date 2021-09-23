@@ -30,6 +30,8 @@
 @property IBOutlet NSButton * loadButton;
 @property IBOutlet NSComboBox * consoleListBox;
 
+@property NSWindowController * keyTesterWindowController;
+
 @property Flashing * flasher;
 
 @property HIDConsoleListener * consoleListener;
@@ -409,8 +411,10 @@
 }
 
 - (IBAction)keyTesterButtonClick:(id)sender {
-    NSWindowController * keyTesterWindowController = [[NSWindowController alloc] initWithWindowNibName:@"KeyTesterWindow"];
-    [keyTesterWindowController showWindow:self];
+    if (!self.keyTesterWindowController) {
+        self.keyTesterWindowController = [[NSWindowController alloc] initWithWindowNibName:@"KeyTesterWindow"];
+    }
+    [self.keyTesterWindowController showWindow:self];
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
