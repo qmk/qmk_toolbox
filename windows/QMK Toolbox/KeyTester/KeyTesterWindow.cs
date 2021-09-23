@@ -141,9 +141,22 @@ namespace QMK_Toolbox.KeyTester
         private const int SC_RIGHT_GUI     = 0x15C;
         private const int SC_MENU          = 0x15D;
 
+        private static KeyTesterWindow instance = null;
+
         public KeyTesterWindow()
         {
             InitializeComponent();
+        }
+
+        public static KeyTesterWindow GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new KeyTesterWindow();
+                instance.FormClosed += delegate { instance = null; };
+            }
+
+            return instance;
         }
 
         protected override bool ProcessKeyMessage(ref Message m)

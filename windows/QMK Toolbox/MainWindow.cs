@@ -30,7 +30,6 @@ namespace QMK_Toolbox
         private readonly Flashing _flasher;
         private readonly Usb _usb;
         private readonly HidConsoleListener consoleListener = new HidConsoleListener();
-        private KeyTesterWindow keyTesterWindow;
 
         private readonly WindowState windowState = new WindowState();
 
@@ -666,13 +665,8 @@ namespace QMK_Toolbox
 
         private void KeyTesterToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (keyTesterWindow is null)
-            {
-                keyTesterWindow = new KeyTesterWindow();
-                keyTesterWindow.Show();
-            }
-
-            keyTesterWindow.Focus();
+            KeyTesterWindow.GetInstance().Show();
+            KeyTesterWindow.GetInstance().Focus();
         }
     }
 }
