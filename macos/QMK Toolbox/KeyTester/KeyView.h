@@ -2,7 +2,7 @@
 
 IB_DESIGNABLE
 @interface KeyView : NSView
-@property IBInspectable BOOL pressed;
-@property IBInspectable BOOL tested;
-@property IBInspectable NSString *legend;
+@property IBInspectable (nonatomic) BOOL pressed;
+@property IBInspectable (nonatomic) BOOL tested;
+@property IBInspectable (nonatomic) NSString *legend;
 @end

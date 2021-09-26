@@ -25,12 +25,30 @@
     return self;
 }
 
+- (void)setPressed:(BOOL)pressed {
+    _pressed = pressed;
+    [self setNeedsDisplay:YES];
+}
+
+- (void)setTested:(BOOL)tested {
+    _tested = tested;
+    [self setNeedsDisplay:YES];
+}
+
+- (NSString *)legend {
+    return self.legendView.stringValue;
+}
+
+- (void)setLegend:(NSString *)legend {
+    self.legendView.stringValue = legend;
+    [self setNeedsDisplay:YES];
+}
+
 - (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
 
     self.boxView.fillColor = self.pressed ? [NSColor systemYellowColor] : self.tested ? [NSColor systemGreenColor] : nil;
     self.legendView.textColor = (self.pressed || self.tested) ? [NSColor blackColor] : [NSColor secondaryLabelColor];
-    self.legendView.stringValue = self.legend != nil ? self.legend : @"";
 }
 
 - (void)customInit {

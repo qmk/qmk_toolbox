@@ -26,8 +26,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lY3-9a-CmI">
-                                <rect key="frame" x="5" y="12" width="28" height="14"/>
-                                <textFieldCell key="cell" lineBreakMode="truncatingTail" alignment="center" title="abc" id="qhb-H4-rwl">
+                                <rect key="frame" x="15" y="12" width="8" height="14"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" alignment="center" id="qhb-H4-rwl">
                                     <font key="font" metaFont="smallSystem"/>
                                     <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>

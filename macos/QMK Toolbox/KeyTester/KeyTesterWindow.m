@@ -191,7 +191,6 @@
     if (keyView != nil) {
         keyView.pressed = keyDown;
         keyView.tested = YES;
-        [keyView display];
     }
 }
 
