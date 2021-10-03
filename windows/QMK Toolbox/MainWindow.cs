@@ -147,7 +147,7 @@ namespace QMK_Toolbox
         {
             var arraylist = new ArrayList(filepathBox.Items);
             Settings.Default.hexFileCollection = arraylist;
-            Settings.Default.targetSetting = mcuBox.GetItemText(mcuBox.SelectedItem);
+            Settings.Default.targetSetting = (string)mcuBox.SelectedValue;
             Settings.Default.Save();
 
             _usb.StopListeningForDeviceEvents();
@@ -159,13 +159,10 @@ namespace QMK_Toolbox
             windowStateBindingSource.DataSource = windowState;
             windowState.PropertyChanged += AutoFlashEnabledChanged;
 
-            foreach (var mcu in _flasher.GetMcuList())
-            {
-                mcuBox.Items.Add(mcu);
-            }
-
             if (Settings.Default.hexFileCollection != null)
                 filepathBox.Items.AddRange(Settings.Default.hexFileCollection.ToArray());
+
+            mcuBox.SelectedValue = Settings.Default.targetSetting;
 
             _printer.Print($"QMK Toolbox {Application.ProductVersion} (https://qmk.fm/toolbox)", MessageType.Info);
             _printer.PrintResponse("Supported bootloaders:\n", MessageType.Info);
@@ -250,7 +247,7 @@ namespace QMK_Toolbox
         {
             if (!InvokeRequired)
             {
-                var mcu = mcuBox.Text;
+                var mcu = (string)mcuBox.SelectedValue;
                 var filePath = filepathBox.Text;
 
                 // Keep the form responsive during firmware flashing
@@ -258,31 +255,31 @@ namespace QMK_Toolbox
                 {
                     if (_usb.AreDevicesAvailable())
                     {
-                        var error = 0;
-                        if (mcu == "")
+                        if (mcu.Length > 0)
+                        {
+                            if (filePath.Length > 0)
+                            {
+                                if (!windowState.AutoFlashEnabled)
+                                {
+                                    Invoke(new Action(DisableUI));
+                                }
+
+                                _printer.Print("Attempting to flash, please don't remove device", MessageType.Bootloader);
+                                _flasher.Flash(mcu, filePath);
+
+                                if (!windowState.AutoFlashEnabled)
+                                {
+                                    Invoke(new Action(EnableUI));
+                                }
+                            }
+                            else
+                            {
+                                _printer.Print("Please select a file", MessageType.Error);
+                            }
+                        }
+                        else
                         {
                             _printer.Print("Please select a microcontroller", MessageType.Error);
-                            error++;
-                        }
-                        if (filePath == "")
-                        {
-                            _printer.Print("Please select a file", MessageType.Error);
-                            error++;
-                        }
-                        if (error == 0)
-                        {
-                            if (!windowState.AutoFlashEnabled)
-                            {
-                                Invoke(new Action(DisableUI));
-                            }
-
-                            _printer.Print("Attempting to flash, please don't remove device", MessageType.Bootloader);
-                            _flasher.Flash(mcu, filePath);
-
-                            if (!windowState.AutoFlashEnabled)
-                            {
-                                Invoke(new Action(EnableUI));
-                            }
                         }
                     }
                     else
@@ -303,25 +300,23 @@ namespace QMK_Toolbox
             {
                 if (_usb.AreDevicesAvailable())
                 {
-                    var error = 0;
-                    if (mcuBox.Text == "")
-                    {
-                        _printer.Print("Please select a microcontroller", MessageType.Error);
-                        error++;
-                    }
-                    if (error == 0)
+                    if (mcuBox.SelectedIndex >= 0)
                     {
                         if (!windowState.AutoFlashEnabled)
                         {
                             Invoke(new Action(DisableUI));
                         }
 
-                        _flasher.Reset(mcuBox.Text);
+                        _flasher.Reset((string)mcuBox.SelectedValue);
 
                         if (!windowState.AutoFlashEnabled)
                         {
                             Invoke(new Action(EnableUI));
                         }
+                    }
+                    else
+                    {
+                        _printer.Print("Please select a microcontroller", MessageType.Error);
                     }
                 }
                 else
@@ -341,25 +336,23 @@ namespace QMK_Toolbox
             {
                 if (_usb.AreDevicesAvailable())
                 {
-                    var error = 0;
-                    if (mcuBox.Text == "")
-                    {
-                        _printer.Print("Please select a microcontroller", MessageType.Error);
-                        error++;
-                    }
-                    if (error == 0)
+                    if (mcuBox.SelectedIndex >= 0)
                     {
                         if (!windowState.AutoFlashEnabled)
                         {
                             Invoke(new Action(DisableUI));
                         }
 
-                        _flasher.ClearEeprom(mcuBox.Text);
+                        _flasher.ClearEeprom((string)mcuBox.SelectedValue);
 
                         if (!windowState.AutoFlashEnabled)
                         {
                             Invoke(new Action(EnableUI));
                         }
+                    }
+                    else
+                    {
+                        _printer.Print("Please select a microcontroller", MessageType.Error);
                     }
                 }
                 else
@@ -380,13 +373,7 @@ namespace QMK_Toolbox
             {
                 if (_usb.AreDevicesAvailable())
                 {
-                    var error = 0;
-                    if (mcuBox.Text == "")
-                    {
-                        _printer.Print("Please select a microcontroller", MessageType.Error);
-                        error++;
-                    }
-                    if (error == 0)
+                    if (mcuBox.SelectedIndex >= 0)
                     {
                         if (!windowState.AutoFlashEnabled)
                         {
@@ -394,12 +381,16 @@ namespace QMK_Toolbox
                         }
 
                         ToolStripMenuItem item = sender as ToolStripMenuItem;
-                        _flasher.SetHandedness(mcuBox.Text, (string)item.Tag == "right");
+                        _flasher.SetHandedness((string)mcuBox.SelectedValue, (string)item.Tag == "right");
 
                         if (!windowState.AutoFlashEnabled)
                         {
                             Invoke(new Action(EnableUI));
                         }
+                    }
+                    else
+                    {
+                        _printer.Print("Please select a microcontroller", MessageType.Error);
                     }
                 }
                 else
