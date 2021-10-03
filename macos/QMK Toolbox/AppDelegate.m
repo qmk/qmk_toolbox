@@ -8,9 +8,9 @@
 
 #import "AppDelegate.h"
 
-#import "Constants.h"
 #import "Flashing.h"
 #import "HIDConsoleListener.h"
+#import "MicrocontrollerSelector.h"
 #import "QMKWindow.h"
 #import "USB.h"
 
@@ -21,7 +21,7 @@
 @property IBOutlet NSMenuItem * clearMenuItem;
 @property IBOutlet NSComboBox * filepathBox;
 @property IBOutlet NSButton * openButton;
-@property IBOutlet NSComboBox * mcuBox;
+@property IBOutlet MicrocontrollerSelector * mcuBox;
 @property IBOutlet NSButton * flashButton;
 @property IBOutlet NSButton * resetButton;
 @property IBOutlet NSButton * clearEEPROMButton;
@@ -75,84 +75,81 @@
     }];
 }
 
-- (IBAction) flashButtonClick:(id) sender {
+- (IBAction)flashButtonClick:(id)sender {
     if ([USB areDevicesAvailable]) {
-        int error = 0;
-        if ([[_mcuBox objectValue] isEqualToString:@""]) {
-            [_printer print:@"Please select a microcontroller" withType:MessageType_Error];
-            error++;
-        }
-        if ([[_filepathBox objectValue] isEqualToString:@""]) {
-            [_printer print:@"Please select a file" withType:MessageType_Error];
-            error++;
-        }
-        if (error == 0) {
-            if (!self.autoFlashEnabled) {
-                [self disableUI];
+        if ([self.mcuBox indexOfSelectedItem] >= 0) {
+            if ([[self.filepathBox stringValue] length] > 0) {
+                if (!self.autoFlashEnabled) {
+                    [self disableUI];
+                }
+
+                [self.printer print:@"Attempting to flash, please don't remove device" withType:MessageType_Bootloader];
+                // this is dumb, but the delay is required to let the previous print command show up
+                double delayInSeconds = .01;
+                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+                dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                    [self.flasher performSelector:@selector(flash:withFile:) withObject:[self.mcuBox keyForSelectedItem] withObject:[self.filepathBox stringValue]];
+                });
+
+                if (!self.autoFlashEnabled) {
+                    [self enableUI];
+                }
+            } else {
+                [self.printer print:@"Please select a file" withType:MessageType_Error];
             }
-
-            [_printer print:@"Attempting to flash, please don't remove device" withType:MessageType_Bootloader];
-            // this is dumb, but the delay is required to let the previous print command show up
-            double delayInSeconds = .01;
-            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                [self.flasher performSelector:@selector(flash:withFile:) withObject:[self.mcuBox objectValue] withObject:[self.filepathBox objectValue]];
-            });
-
-            if (!self.autoFlashEnabled) {
-                [self enableUI];
-            }
+        } else {
+            [self.printer print:@"Please select a microcontroller" withType:MessageType_Error];
         }
     } else {
-        [_printer print:@"There are no devices available" withType:MessageType_Error];
+        [self.printer print:@"There are no devices available" withType:MessageType_Error];
     }
 }
 
-- (IBAction) resetButtonClick:(id) sender {
-    if ([[_mcuBox objectValue] isEqualToString:@""]) {
-        [_printer print:@"Please select a microcontroller" withType:MessageType_Error];
-    } else {
+- (IBAction)resetButtonClick:(id)sender {
+    if ([self.mcuBox indexOfSelectedItem] >= 0) {
         if (!self.autoFlashEnabled) {
             [self disableUI];
         }
 
-        [_flasher reset:(NSString *)[_mcuBox objectValue]];
+        [self.flasher reset:[self.mcuBox keyForSelectedItem]];
 
         if (!self.autoFlashEnabled) {
             [self enableUI];
         }
+    } else {
+        [self.printer print:@"Please select a microcontroller" withType:MessageType_Error];
     }
 }
 
-- (IBAction) clearEEPROMButtonClick:(id) sender {
-    if ([[_mcuBox objectValue] isEqualToString:@""]) {
-        [_printer print:@"Please select a microcontroller" withType:MessageType_Error];
-    } else {
+- (IBAction)clearEEPROMButtonClick:(id)sender {
+    if ([self.mcuBox indexOfSelectedItem] >= 0) {
         if (!self.autoFlashEnabled) {
             [self disableUI];
         }
 
-        [_flasher clearEEPROM:(NSString *)[_mcuBox objectValue]];
+        [self.flasher clearEEPROM:[self.mcuBox keyForSelectedItem]];
 
         if (!self.autoFlashEnabled) {
             [self enableUI];
         }
+    } else {
+        [self.printer print:@"Please select a microcontroller" withType:MessageType_Error];
     }
 }
 
-- (IBAction) setHandednessButtonClick:(id) sender {
-    if ([[_mcuBox objectValue] isEqualToString:@""]) {
-        [_printer print:@"Please select a microcontroller" withType:MessageType_Error];
-    } else {
+- (IBAction)setHandednessButtonClick:(id)sender {
+    if ([self.mcuBox indexOfSelectedItem] >= 0) {
         if (!self.autoFlashEnabled) {
             [self disableUI];
         }
 
-        [_flasher setHandedness:(NSString *)[_mcuBox objectValue] rightHand:[sender tag] == 1];
+        [self.flasher setHandedness:[self.mcuBox keyForSelectedItem] rightHand:[sender tag] == 1];
 
         if (!self.autoFlashEnabled) {
             [self enableUI];
         }
+    } else {
+        [self.printer print:@"Please select a microcontroller" withType:MessageType_Error];
     }
 }
 
@@ -264,7 +261,6 @@
     [[_textView menu] addItem: [NSMenuItem separatorItem]];
     [[_textView menu] addItem: _clearMenuItem];
 
-    [self loadMicrocontrollers];
     [self loadKeyboards];
     [self loadRecentDocuments];
 
@@ -288,8 +284,6 @@
     [self.consoleListener start];
 
     [USB setupWithPrinter:_printer andDelegate:self];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mcuSelectionChanged) name:NSComboBoxSelectionDidChangeNotification object:_mcuBox];
 }
 
 - (void)consoleDeviceDidConnect:(HIDConsoleDevice *)device {
@@ -329,32 +323,6 @@
     if ([self.consoleListBox numberOfItems] > 0) {
         [self.consoleListBox insertItemWithObjectValue:@"(All connected devices)" atIndex:0];
         [self.consoleListBox selectItemAtIndex:([self.consoleListBox numberOfItems] > selected) ? selected : 0];
-    }
-}
-
-- (void)mcuSelectionChanged {
-    [[NSUserDefaults standardUserDefaults] setValue:self.mcuBox.objectValueOfSelectedItem forKey:QMKMicrocontrollerKey];
-}
-
-- (void)loadMicrocontrollers {
-    NSString * fileRoot = [[NSBundle mainBundle] pathForResource:@"mcu-list" ofType:@"txt"];
-    NSString * fileContents = [NSString stringWithContentsOfFile:fileRoot encoding:NSUTF8StringEncoding error:nil];
-
-    // first, separate by new line
-    NSArray * allLinedStrings = [fileContents componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-
-    // choose whatever input identity you have decided. in this case ;
-    for (NSString * str in allLinedStrings) {
-        if ([str length] > 0) {
-            [self.mcuBox addItemWithObjectValue:str];
-        }
-    }
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *lastUsedMCU = [defaults stringForKey:QMKMicrocontrollerKey];
-    if (lastUsedMCU) {
-        [self.mcuBox selectItemWithObjectValue:lastUsedMCU];
-    } else {
-        [self.mcuBox selectItemWithObjectValue:@"atmega32u4"];
     }
 }
 

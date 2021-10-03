@@ -24,8 +24,8 @@
 		098AEE101F60C6F600CA054D /* QMKWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 098AEE0F1F60C6F600CA054D /* QMKWindow.m */; };
 		09D79CBA1FB8A6360086ABF6 /* libusb-1.0.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		09D79CBC1FB8A64B0086ABF6 /* libusb-0.1.4.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		303568C11FA7DEF400803BEF /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 303568C01FA7DEF400803BEF /* Constants.m */; };
 		3A1AF21126FA31D700AC977B /* KeyTesterWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A1AF21026FA31D700AC977B /* KeyTesterWindow.m */; };
+		3A245407270817DF001F4AE0 /* MicrocontrollerSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A245406270817DF001F4AE0 /* MicrocontrollerSelector.m */; };
 		3A5166BC26E07F0000EBE3DC /* KeyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A5166BB26E07F0000EBE3DC /* KeyView.m */; };
 		3A62C86526A96AED001C655A /* reset_right.eep in Resources */ = {isa = PBXBuildFile; fileRef = 3A62C86326A96AED001C655A /* reset_right.eep */; };
 		3A62C86626A96AED001C655A /* reset_left.eep in Resources */ = {isa = PBXBuildFile; fileRef = 3A62C86426A96AED001C655A /* reset_left.eep */; };
@@ -80,10 +80,10 @@
 		098AEE0F1F60C6F600CA054D /* QMKWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = QMKWindow.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libusb-1.0.0.dylib"; sourceTree = "<group>"; };
 		09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libusb-0.1.4.dylib"; sourceTree = "<group>"; };
-		303568C01FA7DEF400803BEF /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
-		303568C21FA7DF0900803BEF /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		3A1AF20F26FA31D700AC977B /* KeyTesterWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyTesterWindow.h; sourceTree = "<group>"; };
 		3A1AF21026FA31D700AC977B /* KeyTesterWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyTesterWindow.m; sourceTree = "<group>"; };
+		3A245405270817DF001F4AE0 /* MicrocontrollerSelector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MicrocontrollerSelector.h; sourceTree = "<group>"; };
+		3A245406270817DF001F4AE0 /* MicrocontrollerSelector.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MicrocontrollerSelector.m; sourceTree = "<group>"; };
 		3A5166BA26E07F0000EBE3DC /* KeyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyView.h; sourceTree = "<group>"; };
 		3A5166BB26E07F0000EBE3DC /* KeyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyView.m; sourceTree = "<group>"; };
 		3A62C86326A96AED001C655A /* reset_right.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset_right.eep; path = ../../../common/reset_right.eep; sourceTree = "<group>"; };
@@ -140,10 +140,10 @@
 				092964031F5C8B2C004F2D3F /* MainMenu.xib */,
 				092963FB1F5C8B2C004F2D3F /* AppDelegate.h */,
 				092963FC1F5C8B2C004F2D3F /* AppDelegate.m */,
-				303568C21FA7DF0900803BEF /* Constants.h */,
-				303568C01FA7DEF400803BEF /* Constants.m */,
 				098AEE031F5F296B00CA054D /* Flashing.h */,
 				098AEE011F5F296000CA054D /* Flashing.m */,
+				3A245405270817DF001F4AE0 /* MicrocontrollerSelector.h */,
+				3A245406270817DF001F4AE0 /* MicrocontrollerSelector.m */,
 				098AEDFC1F5F220500CA054D /* Printing.h */,
 				098AEDFD1F5F220500CA054D /* Printing.m */,
 				098AEE0E1F60C6F600CA054D /* QMKWindow.h */,
@@ -296,7 +296,7 @@
 			files = (
 				092964001F5C8B2C004F2D3F /* main.m in Sources */,
 				092963FD1F5C8B2C004F2D3F /* AppDelegate.m in Sources */,
-				303568C11FA7DEF400803BEF /* Constants.m in Sources */,
+				3A245407270817DF001F4AE0 /* MicrocontrollerSelector.m in Sources */,
 				098AEE021F5F296000CA054D /* Flashing.m in Sources */,
 				3A93852B26AB83840026F3C4 /* HIDConsoleDevice.m in Sources */,
 				3A93852826AB5A790026F3C4 /* HIDConsoleListener.m in Sources */,

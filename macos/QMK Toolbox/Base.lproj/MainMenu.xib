@@ -320,19 +320,16 @@
                                         <action selector="openButtonClick:" target="Voe-Tx-rLC" id="3wi-np-wbs"/>
                                     </connections>
                                 </button>
-                                <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="A13-Sl-S0x">
+                                <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="A13-Sl-S0x" customClass="MicrocontrollerSelector">
                                     <rect key="frame" x="652" y="4" width="123" height="26"/>
                                     <constraints>
                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="ngg-OW-E96"/>
                                     </constraints>
-                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Select MCU" drawsBackground="YES" buttonBordered="NO" completes="NO" numberOfVisibleItems="6" id="xEk-tg-smb">
+                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Select MCU" drawsBackground="YES" buttonBordered="NO" completes="NO" usesDataSource="YES" numberOfVisibleItems="6" id="xEk-tg-smb">
                                         <font key="font" metaFont="cellTitle"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </comboBoxCell>
-                                    <connections>
-                                        <outlet property="delegate" destination="Voe-Tx-rLC" id="nzF-ij-VIK"/>
-                                    </connections>
                                 </comboBox>
                             </subviews>
                             <constraints>
