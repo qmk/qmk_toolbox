@@ -3,6 +3,7 @@
 
 using QMK_Toolbox.Helpers;
 using QMK_Toolbox.HidConsole;
+using QMK_Toolbox.KeyTester;
 using QMK_Toolbox.Properties;
 using System;
 using System.ComponentModel;
@@ -660,6 +661,12 @@ namespace QMK_Toolbox
         private void InstallDriversMenuItem_Click(object sender, EventArgs e)
         {
             DriverInstaller.DisplayPrompt();
+        }
+
+        private void KeyTesterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            KeyTesterWindow.GetInstance().Show();
+            KeyTesterWindow.GetInstance().Focus();
         }
     }
 }

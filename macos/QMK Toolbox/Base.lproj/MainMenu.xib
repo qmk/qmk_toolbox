@@ -227,6 +227,13 @@
                                     <binding destination="Voe-Tx-rLC" name="value" keyPath="autoFlashEnabled" id="mem-Y3-YTB"/>
                                 </connections>
                             </menuItem>
+                            <menuItem isSeparatorItem="YES" id="RYV-55-W3w"/>
+                            <menuItem title="Key Tester" id="xri-um-2mM">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="keyTesterButtonClick:" target="Voe-Tx-rLC" id="7ly-FW-DLq"/>
+                                </connections>
+                            </menuItem>
                         </items>
                     </menu>
                 </menuItem>

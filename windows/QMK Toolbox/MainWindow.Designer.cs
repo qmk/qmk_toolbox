@@ -69,10 +69,12 @@ namespace QMK_Toolbox {
             this.toolsToolStripMenuSep2 = new System.Windows.Forms.ToolStripSeparator();
             this.installDriversToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.keyTesterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuSep = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuSep3 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.windowStateBindingSource)).BeginInit();
             this.qmkfmGroupBox.SuspendLayout();
             this.fileGroupBox.SuspendLayout();
@@ -424,7 +426,9 @@ namespace QMK_Toolbox {
             this.toolsToolStripMenuSep1,
             this.autoFlashToolStripMenuItem,
             this.toolsToolStripMenuSep2,
+            this.keyTesterToolStripMenuItem,
             this.installDriversToolStripMenuItem,
+            this.toolsToolStripMenuSep3,
             this.optionsToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
@@ -533,6 +537,13 @@ namespace QMK_Toolbox {
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.optionsToolStripMenuItem.Text = "O&ptions...";
             // 
+            // keyTesterToolStripMenuItem
+            // 
+            this.keyTesterToolStripMenuItem.Name = "keyTesterToolStripMenuItem";
+            this.keyTesterToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.keyTesterToolStripMenuItem.Text = "Key Tester";
+            this.keyTesterToolStripMenuItem.Click += new System.EventHandler(this.KeyTesterToolStripMenuItem_Click);
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -561,6 +572,11 @@ namespace QMK_Toolbox {
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutMenuItem_Click);
+            // 
+            // toolsToolStripMenuSep3
+            // 
+            this.toolsToolStripMenuSep3.Name = "toolsToolStripMenuSep3";
+            this.toolsToolStripMenuSep3.Size = new System.Drawing.Size(193, 6);
             // 
             // MainWindow
             // 
@@ -650,6 +666,7 @@ namespace QMK_Toolbox {
         private QMK_Toolbox.BindableToolStripMenuItem autoFlashToolStripMenuItem;
         private System.Windows.Forms.BindingSource windowStateBindingSource;
         private System.Windows.Forms.ToolStripSeparator eepromToolStripMenuSep;
+        private System.Windows.Forms.ToolStripMenuItem keyTesterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolsToolStripMenuSep3;
     }
 }
-
