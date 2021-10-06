@@ -118,6 +118,9 @@
     <Compile Include="KeyTester\KeyTesterWindow.Designer.cs">
       <DependentUpon>KeyTesterWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="MicrocontrollerSelector.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Printing.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>

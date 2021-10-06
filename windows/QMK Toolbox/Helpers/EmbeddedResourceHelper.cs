@@ -24,5 +24,16 @@ namespace QMK_Toolbox.Helpers
                 ExtractResource(s);
             }
         }
+
+        public static string GetResourceContent(string file)
+        {
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"QMK_Toolbox.Resources.{file}"))
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
+        }
     }
 }

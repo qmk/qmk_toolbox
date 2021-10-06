@@ -39,7 +39,7 @@ namespace QMK_Toolbox {
             this.loadKeymapButton = new System.Windows.Forms.Button();
             this.fileGroupBox = new System.Windows.Forms.GroupBox();
             this.filepathBox = new QMK_Toolbox.BetterComboBox();
-            this.mcuBox = new System.Windows.Forms.ComboBox();
+            this.mcuBox = new QMK_Toolbox.MicrocontrollerSelector();
             this.clearEepromButton = new System.Windows.Forms.Button();
             this.logTextBox = new System.Windows.Forms.RichTextBox();
             this.logContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -251,14 +251,14 @@ namespace QMK_Toolbox {
             // mcuBox
             // 
             this.mcuBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.mcuBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "targetSetting", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.mcuBox.DisplayMember = "Value";
             this.mcuBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.mcuBox.FormattingEnabled = true;
             this.mcuBox.Location = new System.Drawing.Point(641, 19);
             this.mcuBox.Name = "mcuBox";
             this.mcuBox.Size = new System.Drawing.Size(129, 21);
             this.mcuBox.TabIndex = 3;
-            this.mcuBox.Text = global::QMK_Toolbox.Properties.Settings.Default.targetSetting;
+            this.mcuBox.ValueMember = "Key";
             // 
             // clearEepromButton
             // 
@@ -618,7 +618,7 @@ namespace QMK_Toolbox {
         }
 
         #endregion
-        private System.Windows.Forms.ComboBox mcuBox;
+        private QMK_Toolbox.MicrocontrollerSelector mcuBox;
         private System.Windows.Forms.Button flashButton;
         private System.Windows.Forms.CheckBox autoflashCheckbox;
         private System.Windows.Forms.OpenFileDialog openFileDialog;

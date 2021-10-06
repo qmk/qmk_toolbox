@@ -45,7 +45,6 @@ namespace QMK_Toolbox
         private readonly string[] _resources = {
             "applet-mdflash.bin",
             "avrdude.conf",
-            "mcu-list.txt",
             "reset.eep",
             "reset_left.eep",
             "reset_right.eep",
@@ -130,11 +129,6 @@ namespace QMK_Toolbox
             _ThreadProcessOutput.Start(_process.StandardError);
 
             _process.WaitForExit();
-        }
-
-        public string[] GetMcuList()
-        {
-            return File.ReadLines(Path.Combine(Application.LocalUserAppDataPath, "mcu-list.txt")).ToArray();
         }
 
         public void Flash(string mcu, string file)
