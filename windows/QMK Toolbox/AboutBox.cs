@@ -8,7 +8,7 @@ namespace QMK_Toolbox
         public AboutBox()
         {
             InitializeComponent();
-            labelVersion.Text = $"Version {AssemblyVersion}";
+            versionLabel.Text = $"Version {AssemblyVersion}";
         }
 
         #region Assembly Attribute Accessors
@@ -86,9 +86,9 @@ namespace QMK_Toolbox
 
         #endregion Assembly Attribute Accessors
 
-        private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void GithubLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start(linkLabel1.Text);
+            System.Diagnostics.Process.Start(githubLink.Text);
         }
     }
 }
