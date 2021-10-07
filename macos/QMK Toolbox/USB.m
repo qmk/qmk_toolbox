@@ -1,11 +1,3 @@
-//
-//  USB.m
-//  qmk_toolbox
-//
-//  Created by Jack Humbert on 9/5/17.
-//  Copyright © 2017 Jack Humbert. This code is licensed under MIT license (see LICENSE.md for details).
-//
-
 #import <IOKit/usb/IOUSBLib.h>
 #import <IOKit/serial/IOSerialKeys.h>
 #import <IOKit/storage/IOMedia.h>

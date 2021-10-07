@@ -1,6 +1,3 @@
-//  Created by Jack Humbert on 9/1/17.
-//  Copyright © 2017 Jack Humbert. This code is licensed under MIT license (see LICENSE.md for details).
-
 using QMK_Toolbox.Helpers;
 using QMK_Toolbox.HidConsole;
 using QMK_Toolbox.KeyTester;

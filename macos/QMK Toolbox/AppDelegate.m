@@ -1,11 +1,3 @@
-//
-//  AppDelegate.m
-//  qmk_toolbox
-//
-//  Created by Jack Humbert on 9/3/17.
-//  Copyright © 2017 Jack Humbert. This code is licensed under MIT license (see LICENSE.md for details).
-//
-
 #import "AppDelegate.h"
 
 #import "Flashing.h"

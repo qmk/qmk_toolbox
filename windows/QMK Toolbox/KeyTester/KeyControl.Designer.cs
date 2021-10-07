@@ -1,5 +1,4 @@
-﻿
-namespace QMK_Toolbox.KeyTester
+﻿namespace QMK_Toolbox.KeyTester
 {
     partial class KeyControl
     {
