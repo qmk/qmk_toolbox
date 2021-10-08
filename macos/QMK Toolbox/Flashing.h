@@ -40,8 +40,8 @@ typedef enum {
 - (BOOL)canReset;
 - (BOOL)canClearEEPROM;
 
-@property NSString * serialPort;
-@property NSString * mountPoint;
+@property NSString *serialPort;
+@property NSString *mountPoint;
 
 @property (nonatomic, assign) id <FlashingDelegate> delegate;
 

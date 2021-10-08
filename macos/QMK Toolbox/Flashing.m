@@ -20,8 +20,7 @@
 }
 
 - (NSString *)runProcess:(NSString *)command withArgs:(NSArray<NSString *> *)args {
-
-    [_printer print:[NSString stringWithFormat:@"%@ %@", command, [args componentsJoinedByString:@" "]] withType:MessageType_Command];
+    [self.printer print:[NSString stringWithFormat:@"%@ %@", command, [args componentsJoinedByString:@" "]] withType:MessageType_Command];
     //int pid = [[NSProcessInfo processInfo] processIdentifier];
     NSPipe *pipe = [NSPipe pipe];
     NSFileHandle *file = pipe.fileHandleForReading;
@@ -38,9 +37,9 @@
     NSData *data = [file readDataToEndOfFile];
     [file closeFile];
 
-    NSString *grepOutput = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
+    NSString *grepOutput = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     // NSLog (@"grep returned:\n%@", grepOutput);
-    [_printer printResponse:grepOutput withType:MessageType_Command];
+    [self.printer printResponse:grepOutput withType:MessageType_Command];
     return grepOutput;
 }
 
@@ -135,11 +134,19 @@
     return NO;
 }
 
+- (void)flashAPM32DFUWithFile:(NSString *)file {
+    if([[[file pathExtension] lowercaseString] isEqualToString:@"bin"]) {
+        [self runProcess:@"dfu-util" withArgs:@[@"-a", @"0", @"-d", @"314B:0106", @"-s", @"0x8000000:leave", @"-D", file]];
+    } else {
+        [self.printer print:@"Only firmware files in .bin format can be flashed with dfu-util!" withType:MessageType_Error];
+    }
+}
+
 - (void)flashAtmelDFU:(NSString *)mcu withFile:(NSString *)file {
     [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"erase", @"--force"]];
     NSString *result = [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"flash", @"--force", file]];
     if ([result containsString:@"Bootloader and code overlap."]) {
-        [_printer print:@"File is too large for device" withType:MessageType_Error];
+        [self.printer print:@"File is too large for device" withType:MessageType_Error];
     } else {
         [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"reset"]];
     }
@@ -155,19 +162,39 @@
     }
     [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"flash", @"--force", @"--suppress-validation", @"--eeprom", @"reset.eep"]];
     if (erase) {
-        [_printer print:@"Please reflash device with firmware now" withType:MessageType_Bootloader];
+        [self.printer print:@"Please reflash device with firmware now" withType:MessageType_Bootloader];
     }
 }
 
 -(void)setHandednessAtmelDFU:(NSString *)mcu rightHand:(BOOL)rightHand eraseFirst:(BOOL)erase {
-    NSString * file = [NSString stringWithFormat: @"reset_%@.eep", (rightHand ? @"right" : @"left")];
+    NSString *file = [NSString stringWithFormat: @"reset_%@.eep", (rightHand ? @"right" : @"left")];
     if (erase) {
         [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"erase", @"--force"]];
     }
     [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"flash", @"--force", @"--suppress-validation", @"--eeprom", file]];
     if (erase) {
-        [_printer print:@"Please reflash device with firmware now" withType:MessageType_Bootloader];
+        [self.printer print:@"Please reflash device with firmware now" withType:MessageType_Bootloader];
     }
+}
+
+- (void)flashAtmelSAMBAwithFile:(NSString *)file {
+    [self runProcess:@"mdloader" withArgs:@[@"-p", serialPort, @"-D", file, @"--restart"]];
+}
+
+- (void)resetAtmelSAMBA {
+    [self runProcess:@"mdloader" withArgs:@[@"-p", serialPort, @"--restart"]];
+}
+
+- (void)flashAVRISP:(NSString *)mcu withFile:(NSString *)file {
+    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"avrisp", @"-U", [NSString stringWithFormat:@"flash:w:%@:i", file], @"-P", serialPort, @"-C", @"avrdude.conf"]];
+}
+
+- (void)flashBootloadHIDwithFile:(NSString *)file {
+    [self runProcess:@"bootloadHID" withArgs:@[@"-r", file]];
+}
+
+- (void)resetBootloadHID {
+    [self runProcess:@"bootloadHID" withArgs:@[@"-r"]];
 }
 
 - (void)flashCaterina:(NSString *)mcu withFile:(NSString *)file {
@@ -179,17 +206,8 @@
 }
 
 - (void)setHandednessCaterina:(NSString *)mcu rightHand:(BOOL)rightHand {
-    NSString * file = [NSString stringWithFormat: @"reset_%@.eep", (rightHand ? @"right" : @"left")];
+    NSString *file = [NSString stringWithFormat: @"reset_%@.eep", (rightHand ? @"right" : @"left")];
     [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"avr109", @"-U", [NSString stringWithFormat:@"eeprom:w:%@:i", file], @"-P", serialPort, @"-C", @"avrdude.conf"]];
-}
-
-- (void)clearEEPROMUSBAsp:(NSString *)mcu {
-    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"usbasp", @"-U", @"eeprom:w:reset.eep:i", @"-C", @"avrdude.conf"]];
-}
-
-- (void)setHandednessUSBAsp:(NSString *)mcu rightHand:(BOOL)rightHand {
-    NSString * file = [NSString stringWithFormat: @"reset_%@.eep", (rightHand ? @"right" : @"left")];
-    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"usbasp", @"-U", [NSString stringWithFormat:@"eeprom:w:%@:i", file], @"-C", @"avrdude.conf"]];
 }
 
 - (void)flashHalfkay:(NSString *)mcu withFile:(NSString *)file {
@@ -200,27 +218,44 @@
     [self runProcess:@"teensy_loader_cli" withArgs:@[[@"-mmcu=" stringByAppendingString:mcu], @"-bv"]];
 }
 
-- (void)flashSTM32DFUWithFile:(NSString *)file {
-    if([[[file pathExtension] lowercaseString] isEqualToString:@"bin"]) {
-        [self runProcess:@"dfu-util" withArgs:@[@"-a", @"0", @"-d", @"0483:DF11", @"-s", @"0x8000000:leave", @"-D", file]];
-    } else {
-        [_printer print:@"Only firmware files in .bin format can be flashed with dfu-util!" withType:MessageType_Error];
-    }
-}
-
-- (void)flashAPM32DFUWithFile:(NSString *)file {
-    if([[[file pathExtension] lowercaseString] isEqualToString:@"bin"]) {
-        [self runProcess:@"dfu-util" withArgs:@[@"-a", @"0", @"-d", @"314B:0106", @"-s", @"0x8000000:leave", @"-D", file]];
-    } else {
-        [_printer print:@"Only firmware files in .bin format can be flashed with dfu-util!" withType:MessageType_Error];
-    }
-}
-
 - (void)flashKiibohdWithFile:(NSString *)file {
     if([[[file pathExtension] lowercaseString] isEqualToString:@"bin"]) {
         [self runProcess:@"dfu-util" withArgs:@[@"-D", file]];
     } else {
-        [_printer print:@"Only firmware files in .bin format can be flashed with dfu-util!" withType:MessageType_Error];
+        [self.printer print:@"Only firmware files in .bin format can be flashed with dfu-util!" withType:MessageType_Error];
+    }
+}
+
+- (void)flashLUFAMSwithFile:(NSString *)file {
+    if (mountPoint != nil) {
+        if ([[[file pathExtension] lowercaseString] isEqualToString:@"bin"]) {
+            NSString *destFile = [NSString stringWithFormat:@"%@/FLASH.BIN", mountPoint];
+            NSError *error;
+
+            [self.printer print:[NSString stringWithFormat:@"Deleting %@...", destFile] withType:MessageType_Command];
+            if (![[NSFileManager defaultManager] removeItemAtPath:destFile error:&error]) {
+                [self.printer print:[NSString stringWithFormat:@"IO ERROR: %@", [error localizedDescription]] withType:MessageType_Error];
+            }
+
+            [self.printer print:[NSString stringWithFormat:@"Copying %@ to %@...", file, destFile] withType:MessageType_Command];
+            if (![[NSFileManager defaultManager] copyItemAtPath:file toPath:destFile error:&error]) {
+                [self.printer print:[NSString stringWithFormat:@"IO ERROR: %@", [error localizedDescription]] withType:MessageType_Error];
+            }
+
+            [self.printer print:@"Done, please eject drive now." withType:MessageType_Info];
+        } else {
+            [self.printer print:@"Only firmware files in .bin format can be flashed with this bootloader!" withType:MessageType_Error];
+        }
+    } else {
+        [self.printer print:@"Could not find mount path for device!" withType:MessageType_Error];
+    }
+}
+
+- (void)flashSTM32DFUWithFile:(NSString *)file {
+    if([[[file pathExtension] lowercaseString] isEqualToString:@"bin"]) {
+        [self runProcess:@"dfu-util" withArgs:@[@"-a", @"0", @"-d", @"0483:DF11", @"-s", @"0x8000000:leave", @"-D", file]];
+    } else {
+        [self.printer print:@"Only firmware files in .bin format can be flashed with dfu-util!" withType:MessageType_Error];
     }
 }
 
@@ -228,61 +263,25 @@
     if([[[file pathExtension] lowercaseString] isEqualToString:@"bin"]) {
         [self runProcess:@"dfu-util" withArgs:@[@"-a", @"2", @"-d", @"1EAF:0003", @"-R", @"-D", file]];
     } else {
-        [_printer print:@"Only firmware files in .bin format can be flashed with dfu-util!" withType:MessageType_Error];
+        [self.printer print:@"Only firmware files in .bin format can be flashed with dfu-util!" withType:MessageType_Error];
     }
-}
-
-- (void)flashAVRISP:(NSString *)mcu withFile:(NSString *)file {
-    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"avrisp", @"-U", [NSString stringWithFormat:@"flash:w:%@:i", file], @"-P", serialPort, @"-C", @"avrdude.conf"]];
-}
-
-- (void)flashUSBTiny:(NSString *)mcu withFile:(NSString *)file {
-    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"usbtiny", @"-U", [NSString stringWithFormat:@"flash:w:%@:i", file], @"-C", @"avrdude.conf"]];
 }
 
 - (void)flashUSBAsp:(NSString *)mcu withFile:(NSString *)file {
     [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"usbasp", @"-U", [NSString stringWithFormat:@"flash:w:%@:i", file], @"-C", @"avrdude.conf"]];
 }
 
-- (void)flashAtmelSAMBAwithFile: (NSString *)file {
-    [self runProcess:@"mdloader" withArgs:@[@"-p", serialPort, @"-D", file, @"--restart"]];
+- (void)clearEEPROMUSBAsp:(NSString *)mcu {
+    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"usbasp", @"-U", @"eeprom:w:reset.eep:i", @"-C", @"avrdude.conf"]];
 }
 
-- (void)resetAtmelSAMBA {
-    [self runProcess:@"mdloader" withArgs:@[@"-p", serialPort, @"--restart"]];
+- (void)setHandednessUSBAsp:(NSString *)mcu rightHand:(BOOL)rightHand {
+    NSString *file = [NSString stringWithFormat: @"reset_%@.eep", (rightHand ? @"right" : @"left")];
+    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"usbasp", @"-U", [NSString stringWithFormat:@"eeprom:w:%@:i", file], @"-C", @"avrdude.conf"]];
 }
 
-- (void)flashBootloadHIDwithFile: (NSString *)file {
-    [self runProcess:@"bootloadHID" withArgs:@[@"-r", file]];
-}
-
-- (void)resetBootloadHID {
-    [self runProcess:@"bootloadHID" withArgs:@[@"-r"]];
-}
-
-- (void)flashLUFAMSwithFile: (NSString *)file {
-    if (mountPoint != nil) {
-        if ([[[file pathExtension] lowercaseString] isEqualToString:@"bin"]) {
-            NSString *destFile = [NSString stringWithFormat:@"%@/FLASH.BIN", mountPoint];
-            NSError *error;
-
-            [_printer print:[NSString stringWithFormat:@"Deleting %@...", destFile] withType:MessageType_Command];
-            if (![[NSFileManager defaultManager] removeItemAtPath:destFile error:&error]) {
-                [_printer print:[NSString stringWithFormat:@"IO ERROR: %@", [error localizedDescription]] withType:MessageType_Error];
-            }
-
-            [_printer print:[NSString stringWithFormat:@"Copying %@ to %@...", file, destFile] withType:MessageType_Command];
-            if (![[NSFileManager defaultManager] copyItemAtPath:file toPath:destFile error:&error]) {
-                [_printer print:[NSString stringWithFormat:@"IO ERROR: %@", [error localizedDescription]] withType:MessageType_Error];
-            }
-
-            [_printer print:@"Done, please eject drive now." withType:MessageType_Info];
-        } else {
-            [_printer print:@"Only firmware files in .bin format can be flashed with this bootloader!" withType:MessageType_Error];
-        }
-    } else {
-        [_printer print:@"Could not find mount path for device!" withType:MessageType_Error];
-    }
+- (void)flashUSBTiny:(NSString *)mcu withFile:(NSString *)file {
+    [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"usbtiny", @"-U", [NSString stringWithFormat:@"flash:w:%@:i", file], @"-C", @"avrdude.conf"]];
 }
 
 @end
