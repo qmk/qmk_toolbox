@@ -7,7 +7,6 @@
 #import "USB.h"
 
 @interface AppDelegate () <HIDConsoleListenerDelegate, FlashingDelegate, USBDelegate>
-
 @property (weak) IBOutlet QMKWindow *window;
 @property IBOutlet NSTextView *textView;
 @property IBOutlet NSMenuItem *clearMenuItem;
@@ -306,8 +305,9 @@
         }
     }
     if (![filename isEqualToString:@""]) {
-        if ([self.filepathBox indexOfItemWithObjectValue:filename] == NSNotFound)
+        if ([self.filepathBox indexOfItemWithObjectValue:filename] == NSNotFound) {
             [self.filepathBox addItemWithObjectValue:filename];
+        }
         [self.filepathBox selectItemWithObjectValue:filename];
         [[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:[[NSURL alloc] initFileURLWithPath:filename]];
     }

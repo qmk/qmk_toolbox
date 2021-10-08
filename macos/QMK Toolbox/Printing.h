@@ -10,7 +10,7 @@ typedef enum {
     MessageType_Command
 } MessageType;
 
-- (id)initWithTextView:(NSTextView *)tV;
+- (id)initWithTextView:(NSTextView *)view;
 
 - (void)print:(NSString *)str withType:(MessageType)type;
 - (void)printResponse:(NSString *)str withType:(MessageType)type;

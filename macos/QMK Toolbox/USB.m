@@ -16,11 +16,9 @@ NSArray *caterinaPids;
 NSArray *atmelDfuPids;
 
 @interface USB () <USBDelegate>
-
 @end
 
 @implementation USB
-
 static int devicesAvailable[NumberOfChipsets];
 
 + (void)setupWithPrinter:(Printing *)printer andDelegate:(id<USBDelegate>)d {
@@ -333,5 +331,4 @@ static void deviceDisconnectedEvent(void *refCon, io_iterator_t iterator) {
 + (BOOL)canFlash:(Chipset)chipset {
     return (devicesAvailable[chipset] > 0);
 }
-
 @end

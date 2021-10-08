@@ -43,6 +43,6 @@ typedef enum {
 @property NSString *serialPort;
 @property NSString *mountPoint;
 
-@property (nonatomic, assign) id <FlashingDelegate> delegate;
+@property (nonatomic, assign) id<FlashingDelegate> delegate;
 
 @end

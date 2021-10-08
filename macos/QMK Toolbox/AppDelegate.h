@@ -8,8 +8,7 @@
 @property BOOL canReset;
 @property BOOL canClearEEPROM;
 
-@property(nonatomic)  Printing *printer;
+@property(nonatomic) Printing *printer;
 
 - (void)setFilePath:(NSURL *)url;
-
 @end

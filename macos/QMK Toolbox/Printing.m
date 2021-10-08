@@ -2,13 +2,13 @@
 
 @implementation Printing
 
-NSTextView * textView;
+NSTextView *textView;
 MessageType lastMessage;
 char lastChar = '\n';
 
-- (id)initWithTextView:(NSTextView *)tV {
+- (id)initWithTextView:(NSTextView *)view {
     if (self = [super init]) {
-        textView = tV;
+        textView = view;
 
         NSSize layoutSize = [textView maxSize];
         layoutSize.width = layoutSize.height;
@@ -17,36 +17,37 @@ char lastChar = '\n';
         [[textView textContainer] setContainerSize:layoutSize];
 
         [textView setSelectedTextAttributes:@{
-            NSBackgroundColorAttributeName : [NSColor colorWithHue:0 saturation:0 brightness:.3 alpha:1]
+            NSBackgroundColorAttributeName: [NSColor colorWithHue:0 saturation:0 brightness:.3 alpha:1]
         }];
     }
     return self;
 }
 
 - (NSString *)prepend:(NSString *)str withIndent:(NSString *)indent newline:(bool)newline {
-    NSString * out;
-    if (newline)
-        out = [NSString stringWithFormat: @"%@%@%@", indent, str, @"\n"];
-    else
-        out = [NSString stringWithFormat: @"%@%@", indent, str];
+    NSString *out;
+    if (newline) {
+        out = [NSString stringWithFormat:@"%@%@%@", indent, str, @"\n"];
+    } else {
+        out = [NSString stringWithFormat:@"%@%@", indent, str];
+    }
     return out;
 }
 
 - (NSDictionary *)formatCommon:(NSColor *)color {
     NSFont *font = [NSFont userFixedPitchFontOfSize:10];
     NSDictionary *attrs = @{
-        NSForegroundColorAttributeName : color,
+        NSForegroundColorAttributeName: color,
         NSFontAttributeName: font
     };
     return attrs;
 }
 
-- (NSMutableAttributedString *)format:(NSString *) str forType:(MessageType)type {
+- (NSMutableAttributedString *)format:(NSString *)str forType:(MessageType)type {
     NSMutableAttributedString *attrStr;
 
-    if([str length] > 0) {
-        NSColor * color = [NSColor whiteColor];
-        switch(type) {
+    if ([str length] > 0) {
+        NSColor *color = [NSColor whiteColor];
+        switch (type) {
             case MessageType_Info:
                 color = [NSColor whiteColor];
                 str = [self prepend:str withIndent:@"*** " newline:true];
@@ -66,11 +67,11 @@ char lastChar = '\n';
             case MessageType_HID:
                 color = [NSColor colorWithHue:200.0/360 saturation:.9 brightness:1. alpha:1.];
                 str = [self prepend:str withIndent:@"*** " newline:true];
-                    break;
+                break;
         }
 
         if (lastChar != '\n') {
-            str = [NSString stringWithFormat:@"\n%@", str ];
+            str = [NSString stringWithFormat:@"\n%@", str];
         }
         lastChar = [str characterAtIndex:[str length] - 1];
         lastMessage = type;
@@ -82,21 +83,22 @@ char lastChar = '\n';
     return attrStr;
 }
 
-- (NSMutableAttributedString *)formatResponse:(NSString *) str forType:(MessageType)type {
+- (NSMutableAttributedString *)formatResponse:(NSString *)str forType:(MessageType)type {
     NSMutableAttributedString *attrStr;
 
-    if([str length] > 0) {
+    if ([str length] > 0) {
         bool addBackNewLine = false;
         if ([str characterAtIndex:[str length] - 1] == '\n') {
             str = [str substringToIndex:(str.length - 1)];
             addBackNewLine = true;
         }
         str = [str stringByReplacingOccurrencesOfString:@"\n" withString:@"\n    "];
-        if (addBackNewLine)
+        if (addBackNewLine) {
             str = [NSString stringWithFormat:@"%@\n", str];
+        }
 
-        NSColor * color = [NSColor whiteColor];
-        switch(type) {
+        NSColor *color = [NSColor whiteColor];
+        switch (type) {
             case MessageType_Info:
                 color = [NSColor lightGrayColor];
                 str = [self prepend:str withIndent:@"    " newline:false];
@@ -115,13 +117,14 @@ char lastChar = '\n';
                 break;
             case MessageType_HID:
                 color = [NSColor colorWithHue:200.0/360 saturation:.5 brightness:.9 alpha:1.];
-                if ([[textView.textStorage string] characterAtIndex:[textView.textStorage length]-1] == '\n')
+                if ([[textView.textStorage string] characterAtIndex:[textView.textStorage length]-1] == '\n') {
                     str = [self prepend:str withIndent:@"  > " newline:false];
+                }
                 break;
         }
 
         if (lastMessage != type && lastChar != '\n') {
-            str = [NSString stringWithFormat:@"\n%@", str ];
+            str = [NSString stringWithFormat:@"\n%@", str];
         }
 
         lastChar = [str characterAtIndex:[str length] - 1];
@@ -136,12 +139,12 @@ char lastChar = '\n';
 
 - (void)print:(NSString *)str withType:(MessageType)type {
     [textView.textStorage appendAttributedString:[self format:str forType:type]];
-    [textView scrollRangeToVisible: NSMakeRange(textView.string.length, 0)];
+    [textView scrollRangeToVisible:NSMakeRange(textView.string.length, 0)];
 }
 
 - (void)printResponse:(NSString *)str withType:(MessageType)type {
     [textView.textStorage appendAttributedString:[self formatResponse:str forType:type]];
-    [textView scrollRangeToVisible: NSMakeRange(textView.string.length, 0)];
+    [textView scrollRangeToVisible:NSMakeRange(textView.string.length, 0)];
 }
 
 @end

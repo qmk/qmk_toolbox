@@ -3,9 +3,7 @@
 #import "USB.h"
 
 @interface Flashing ()
-
-@property Printing * printer;
-
+@property Printing *printer;
 @end
 
 @implementation Flashing
@@ -283,5 +281,4 @@
 - (void)flashUSBTiny:(NSString *)mcu withFile:(NSString *)file {
     [self runProcess:@"avrdude" withArgs:@[@"-p", mcu, @"-c", @"usbtiny", @"-U", [NSString stringWithFormat:@"flash:w:%@:i", file], @"-C", @"avrdude.conf"]];
 }
-
 @end
