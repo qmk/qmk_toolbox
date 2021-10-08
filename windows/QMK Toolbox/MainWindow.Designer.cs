@@ -67,14 +67,14 @@ namespace QMK_Toolbox {
             this.toolsToolStripMenuSep1 = new System.Windows.Forms.ToolStripSeparator();
             this.autoFlashToolStripMenuItem = new QMK_Toolbox.BindableToolStripMenuItem();
             this.toolsToolStripMenuSep2 = new System.Windows.Forms.ToolStripSeparator();
-            this.installDriversToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.keyTesterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.installDriversToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuSep3 = new System.Windows.Forms.ToolStripSeparator();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuSep = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolsToolStripMenuSep3 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.windowStateBindingSource)).BeginInit();
             this.qmkfmGroupBox.SuspendLayout();
             this.fileGroupBox.SuspendLayout();
@@ -521,6 +521,13 @@ namespace QMK_Toolbox {
             this.toolsToolStripMenuSep2.Name = "toolsToolStripMenuSep2";
             this.toolsToolStripMenuSep2.Size = new System.Drawing.Size(193, 6);
             // 
+            // keyTesterToolStripMenuItem
+            // 
+            this.keyTesterToolStripMenuItem.Name = "keyTesterToolStripMenuItem";
+            this.keyTesterToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.keyTesterToolStripMenuItem.Text = "Key Tester";
+            this.keyTesterToolStripMenuItem.Click += new System.EventHandler(this.KeyTesterToolStripMenuItem_Click);
+            // 
             // installDriversToolStripMenuItem
             // 
             this.installDriversToolStripMenuItem.Name = "installDriversToolStripMenuItem";
@@ -529,6 +536,11 @@ namespace QMK_Toolbox {
             this.installDriversToolStripMenuItem.Text = "I&nstall Drivers...";
             this.installDriversToolStripMenuItem.Click += new System.EventHandler(this.InstallDriversMenuItem_Click);
             // 
+            // toolsToolStripMenuSep3
+            // 
+            this.toolsToolStripMenuSep3.Name = "toolsToolStripMenuSep3";
+            this.toolsToolStripMenuSep3.Size = new System.Drawing.Size(193, 6);
+            // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Enabled = false;
@@ -536,13 +548,6 @@ namespace QMK_Toolbox {
             this.optionsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.optionsToolStripMenuItem.Text = "O&ptions...";
-            // 
-            // keyTesterToolStripMenuItem
-            // 
-            this.keyTesterToolStripMenuItem.Name = "keyTesterToolStripMenuItem";
-            this.keyTesterToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.keyTesterToolStripMenuItem.Text = "Key Tester";
-            this.keyTesterToolStripMenuItem.Click += new System.EventHandler(this.KeyTesterToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -572,11 +577,6 @@ namespace QMK_Toolbox {
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutMenuItem_Click);
-            // 
-            // toolsToolStripMenuSep3
-            // 
-            this.toolsToolStripMenuSep3.Name = "toolsToolStripMenuSep3";
-            this.toolsToolStripMenuSep3.Size = new System.Drawing.Size(193, 6);
             // 
             // MainWindow
             // 
