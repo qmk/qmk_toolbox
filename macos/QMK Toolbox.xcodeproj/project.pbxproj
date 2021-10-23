@@ -37,7 +37,6 @@
 		3AB4BC9D2495540A00204A3F /* bootloadHID in Resources */ = {isa = PBXBuildFile; fileRef = 3AB4BC9C2495540A00204A3F /* bootloadHID */; };
 		C93A0FF42292232E0006C88F /* reset.eep in Resources */ = {isa = PBXBuildFile; fileRef = C93A0FF32292232D0006C88F /* reset.eep */; };
 		C9A09B5722EE6826008C3CF3 /* mdloader in Resources */ = {isa = PBXBuildFile; fileRef = C9A09B5622EE6826008C3CF3 /* mdloader */; };
-		C9A09B5922EE6837008C3CF3 /* applet-mdflash.bin in Resources */ = {isa = PBXBuildFile; fileRef = C9A09B5822EE6837008C3CF3 /* applet-mdflash.bin */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -98,7 +97,6 @@
 		3AB4BC9C2495540A00204A3F /* bootloadHID */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = bootloadHID; sourceTree = "<group>"; };
 		C93A0FF32292232D0006C88F /* reset.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset.eep; path = ../../../common/reset.eep; sourceTree = "<group>"; };
 		C9A09B5622EE6826008C3CF3 /* mdloader */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = mdloader; sourceTree = "<group>"; };
-		C9A09B5822EE6837008C3CF3 /* applet-mdflash.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; name = "applet-mdflash.bin"; path = "../../../common/applet-mdflash.bin"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,7 +176,6 @@
 		3A53FB5B268A33F10020BAB0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				C9A09B5822EE6837008C3CF3 /* applet-mdflash.bin */,
 				09522BBA1F6216BA00AEBC5E /* avrdude.conf */,
 				09522BB21F61E32700AEBC5E /* mcu-list.txt */,
 				C93A0FF32292232D0006C88F /* reset.eep */,
@@ -272,7 +269,6 @@
 				3A8F9EFF26E75012007480A7 /* KeyTesterWindow.xib in Resources */,
 				3A8F9F0226E7501E007480A7 /* KeyView.xib in Resources */,
 				092964051F5C8B2C004F2D3F /* MainMenu.xib in Resources */,
-				C9A09B5922EE6837008C3CF3 /* applet-mdflash.bin in Resources */,
 				09522BBB1F6216BA00AEBC5E /* avrdude.conf in Resources */,
 				09522BB31F61E32700AEBC5E /* mcu-list.txt in Resources */,
 				C93A0FF42292232E0006C88F /* reset.eep in Resources */,

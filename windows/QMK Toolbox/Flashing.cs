@@ -39,7 +39,6 @@ namespace QMK_Toolbox
         public Usb Usb;
 
         private readonly string[] _resources = {
-            "applet-mdflash.bin",
             "avrdude.conf",
             "reset.eep",
             "reset_left.eep",
