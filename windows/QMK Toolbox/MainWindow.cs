@@ -1,6 +1,3 @@
-//  Created by Jack Humbert on 9/1/17.
-//  Copyright © 2017 Jack Humbert. This code is licensed under MIT license (see LICENSE.md for details).
-
 using QMK_Toolbox.Helpers;
 using QMK_Toolbox.HidConsole;
 using QMK_Toolbox.KeyTester;
@@ -25,34 +22,125 @@ namespace QMK_Toolbox
 
     public partial class MainWindow : Form
     {
-        private readonly string _filePassedIn = string.Empty;
-        private readonly Printing _printer;
-        private readonly Flashing _flasher;
-        private readonly Usb _usb;
-        private readonly HidConsoleListener consoleListener = new HidConsoleListener();
-
         private readonly WindowState windowState = new WindowState();
 
-        private void AutoFlashEnabledChanged(object sender, PropertyChangedEventArgs e)
+        private readonly Printing _printer;
+
+        private readonly Flashing _flasher;
+
+        private readonly string _filePassedIn = string.Empty;
+
+        #region Window Events
+        public MainWindow()
         {
-            if (e.PropertyName == "AutoFlashEnabled")
+            InitializeComponent();
+        }
+
+        public MainWindow(string path) : this()
+        {
+            if (path != string.Empty)
             {
-                if (windowState.AutoFlashEnabled)
+                var extension = Path.GetExtension(path)?.ToLower();
+                if (extension == ".qmk" || extension == ".hex" || extension == ".bin")
                 {
-                    _printer.Print("Auto-flash enabled", MessageType.Info);
-                    DisableUI();
+                    _filePassedIn = path;
                 }
                 else
                 {
-                    _printer.Print("Auto-flash disabled", MessageType.Info);
-                    EnableUI();
+                    MessageBox.Show("QMK Toolbox doesn't support this kind of file", "File Type Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
+
+            _printer = new Printing(logTextBox);
+            _flasher = new Flashing(_printer);
+            _usb = new Usb(_flasher, _printer);
+            _flasher.Usb = _usb;
+
+            _usb.StartListeningForDeviceEvents(DeviceEvent);
+        }
+
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+            windowStateBindingSource.DataSource = windowState;
+            windowState.PropertyChanged += AutoFlashEnabledChanged;
+
+            if (Settings.Default.hexFileCollection != null)
+            {
+                filepathBox.Items.AddRange(Settings.Default.hexFileCollection.ToArray());
+            }
+
+            mcuBox.SelectedValue = Settings.Default.targetSetting;
+
+            _printer.Print($"QMK Toolbox {Application.ProductVersion} (https://qmk.fm/toolbox)", MessageType.Info);
+            _printer.PrintResponse("Supported bootloaders:\n", MessageType.Info);
+            _printer.PrintResponse(" - ARM DFU (APM32, Kiibohd, STM32, STM32duino) via dfu-util (http://dfu-util.sourceforge.net/)\n", MessageType.Info);
+            _printer.PrintResponse(" - Atmel/LUFA/QMK DFU via dfu-programmer (http://dfu-programmer.github.io/)\n", MessageType.Info);
+            _printer.PrintResponse(" - Atmel SAM-BA (Massdrop) via Massdrop Loader (https://github.com/massdrop/mdloader)\n", MessageType.Info);
+            _printer.PrintResponse(" - BootloadHID (Atmel, PS2AVRGB) via bootloadHID (https://www.obdev.at/products/vusb/bootloadhid.html)\n", MessageType.Info);
+            _printer.PrintResponse(" - Caterina (Arduino, Pro Micro) via avrdude (http://nongnu.org/avrdude/)\n", MessageType.Info);
+            _printer.PrintResponse(" - HalfKay (Teensy, Ergodox EZ) via Teensy Loader (https://pjrc.com/teensy/loader_cli.html)\n", MessageType.Info);
+            _printer.PrintResponse(" - LUFA Mass Storage\n", MessageType.Info);
+            _printer.PrintResponse("Supported ISP flashers:\n", MessageType.Info);
+            _printer.PrintResponse(" - AVRISP (Arduino ISP)\n", MessageType.Info);
+            _printer.PrintResponse(" - USBasp (AVR ISP)\n", MessageType.Info);
+            _printer.PrintResponse(" - USBTiny (AVR Pocket)\n", MessageType.Info);
+
+            ManagementObjectCollection collection;
+            using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity WHERE DeviceID LIKE 'USB%'"))
+            {
+                collection = searcher.Get();
+            }
+
+            _usb.DetectBootloaderFromCollection(collection);
+            EnableUI();
+
+            consoleListener.consoleDeviceConnected += ConsoleDeviceConnected;
+            consoleListener.consoleDeviceDisconnected += ConsoleDeviceDisconnected;
+            consoleListener.consoleReportReceived += ConsoleReportReceived;
+            consoleListener.Start();
+
+            if (_filePassedIn != string.Empty)
+            {
+                SetFilePath(_filePassedIn);
+            }
+
+            LoadKeyboardList();
+        }
+
+        private void MainWindow_Shown(object sender, EventArgs e)
+        {
+            if (Settings.Default.firstStart)
+            {
+                Settings.Default.Upgrade();
+            }
+
+            if (Settings.Default.firstStart)
+            {
+                DriverInstaller.DisplayPrompt();
+                Settings.Default.firstStart = false;
+                Settings.Default.Save();
+            }
+        }
+
+        private void MainWindow_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                if (files.Length == 1)
+                {
+                    var extension = Path.GetExtension(files.First())?.ToLower();
+                    if (extension == ".qmk" || extension == ".hex" || extension == ".bin")
+                    {
+                        e.Effect = DragDropEffects.Copy;
+                    }
                 }
             }
         }
 
-        public MainWindow()
+        private void MainWindow_DragDrop(object sender, DragEventArgs e)
         {
-            InitializeComponent();
+            SetFilePath(((string[])e.Data.GetData(DataFormats.FileDrop, false)).First());
         }
 
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
@@ -83,28 +171,25 @@ namespace QMK_Toolbox
             Activate();
         }
 
-        public MainWindow(string path) : this()
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (path != string.Empty)
-            {
-                var extension = Path.GetExtension(path)?.ToLower();
-                if (extension == ".qmk" || extension == ".hex" || extension == ".bin")
-                {
-                    _filePassedIn = path;
-                }
-                else
-                {
-                    MessageBox.Show("QMK Toolbox doesn't support this kind of file", "File Type Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
-            }
+            var arraylist = new ArrayList(filepathBox.Items);
+            Settings.Default.hexFileCollection = arraylist;
+            Settings.Default.targetSetting = (string)mcuBox.SelectedValue;
+            Settings.Default.Save();
 
-            _printer = new Printing(logTextBox);
-            _flasher = new Flashing(_printer);
-            _usb = new Usb(_flasher, _printer);
-            _flasher.Usb = _usb;
-
-            _usb.StartListeningForDeviceEvents(DeviceEvent);
+            _usb.StopListeningForDeviceEvents();
+            consoleListener.Dispose();
         }
+
+        private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Settings.Default.Save();
+        }
+        #endregion Window Events
+
+        #region HID Console
+        private readonly HidConsoleListener consoleListener = new HidConsoleListener();
 
         private HidConsoleDevice lastReportedDevice;
 
@@ -143,103 +228,81 @@ namespace QMK_Toolbox
             }
         }
 
-        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        private void UpdateConsoleList()
         {
-            var arraylist = new ArrayList(filepathBox.Items);
-            Settings.Default.hexFileCollection = arraylist;
-            Settings.Default.targetSetting = (string)mcuBox.SelectedValue;
-            Settings.Default.Save();
-
-            _usb.StopListeningForDeviceEvents();
-            consoleListener.Dispose();
-        }
-
-        private void MainWindow_Load(object sender, EventArgs e)
-        {
-            windowStateBindingSource.DataSource = windowState;
-            windowState.PropertyChanged += AutoFlashEnabledChanged;
-
-            if (Settings.Default.hexFileCollection != null)
-                filepathBox.Items.AddRange(Settings.Default.hexFileCollection.ToArray());
-
-            mcuBox.SelectedValue = Settings.Default.targetSetting;
-
-            _printer.Print($"QMK Toolbox {Application.ProductVersion} (https://qmk.fm/toolbox)", MessageType.Info);
-            _printer.PrintResponse("Supported bootloaders:\n", MessageType.Info);
-            _printer.PrintResponse(" - ARM DFU (APM32, Kiibohd, STM32, STM32duino) via dfu-util (http://dfu-util.sourceforge.net/)\n", MessageType.Info);
-            _printer.PrintResponse(" - Atmel/LUFA/QMK DFU via dfu-programmer (http://dfu-programmer.github.io/)\n", MessageType.Info);
-            _printer.PrintResponse(" - Atmel SAM-BA (Massdrop) via Massdrop Loader (https://github.com/massdrop/mdloader)\n", MessageType.Info);
-            _printer.PrintResponse(" - BootloadHID (Atmel, PS2AVRGB) via bootloadHID (https://www.obdev.at/products/vusb/bootloadhid.html)\n", MessageType.Info);
-            _printer.PrintResponse(" - Caterina (Arduino, Pro Micro) via avrdude (http://nongnu.org/avrdude/)\n", MessageType.Info);
-            _printer.PrintResponse(" - HalfKay (Teensy, Ergodox EZ) via Teensy Loader (https://pjrc.com/teensy/loader_cli.html)\n", MessageType.Info);
-            _printer.PrintResponse(" - LUFA Mass Storage\n", MessageType.Info);
-            _printer.PrintResponse("Supported ISP flashers:\n", MessageType.Info);
-            _printer.PrintResponse(" - AVRISP (Arduino ISP)\n", MessageType.Info);
-            _printer.PrintResponse(" - USBasp (AVR ISP)\n", MessageType.Info);
-            _printer.PrintResponse(" - USBTiny (AVR Pocket)\n", MessageType.Info);
-
-            ManagementObjectCollection collection;
-            using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity WHERE DeviceID LIKE 'USB%'"))
-                collection = searcher.Get();
-
-            _usb.DetectBootloaderFromCollection(collection);
-            EnableUI();
-
-            consoleListener.consoleDeviceConnected += ConsoleDeviceConnected;
-            consoleListener.consoleDeviceDisconnected += ConsoleDeviceDisconnected;
-            consoleListener.consoleReportReceived += ConsoleReportReceived;
-            consoleListener.Start();
-
-            if (_filePassedIn != string.Empty)
-                SetFilePath(_filePassedIn);
-
-            LoadKeyboardList();
-        }
-
-        private void LoadKeyboardList()
-        {
-            try
+            if (!InvokeRequired)
             {
-                using (var wc = new WebClient())
+                var selected = consoleList.SelectedIndex != -1 ? consoleList.SelectedIndex : 0;
+                consoleList.Items.Clear();
+
+                foreach (var device in consoleListener.Devices)
                 {
-                    var json = wc.DownloadString("http://api.qmk.fm/v1/keyboards");
-                    if (json != null) {
-                        var keyboards = JsonConvert.DeserializeObject<List<string>>(json);
-                        keyboardBox.Items.Clear();
-                        foreach (var keyboard in keyboards)
-                        {
-                            keyboardBox.Items.Add(keyboard);
-                        }
-                        keyboardBox.SelectedIndex = -1;
-                        keyboardBox.ResetText();
-                        keyboardBox.Enabled = true;
-                        loadKeymapButton.Enabled = false;
-                        LoadKeymapList();
+                    if (device != null)
+                    {
+                        consoleList.Items.Add(device.ToString());
                     }
                 }
+
+                if (consoleList.Items.Count > 0)
+                {
+                    consoleList.Items.Insert(0, "(All connected devices)");
+                    consoleList.SelectedIndex = consoleList.Items.Count > selected ? selected : 0;
+                }
             }
-            catch (Exception)
+            else
             {
-                _printer.PrintResponse("Something went wrong when trying to get the keyboard list from QMK.FM, you might not have a internet connection or the servers are down.", MessageType.Error);
-                keymapBox.Enabled = false;
-                keyboardBox.Enabled = false;
-                loadKeymapButton.Enabled = false;
+                Invoke(new Action(UpdateConsoleList));
             }
         }
+        #endregion HID Console
 
-        private void LoadKeymapList()
-        {
-            keymapBox.Items.Clear();
-            keymapBox.Items.Add("default");
-            keymapBox.SelectedIndex = 0;
-            // keymapBox.Enabled = true;
-        }
+        #region USB Devices & Bootloaders
+        private readonly Usb _usb;
 
-        private void LoadKeymapButton_Click(object sender, EventArgs e)
+        private void DeviceEvent(object sender, EventArrivedEventArgs e)
         {
-            if (keyboardBox.Items.Count > 0)
+            (sender as ManagementEventWatcher)?.Stop();
+
+            if (!(e.NewEvent["TargetInstance"] is ManagementBaseObject instance))
             {
-                SetFilePath($"qmk:https://qmk.fm/compiled/{keyboardBox.Text.Replace("/", "_")}_default.hex");
+                return;
+            }
+
+            var deviceDisconnected = e.NewEvent.ClassPath.ClassName.Equals("__InstanceDeletionEvent");
+
+            if (deviceDisconnected)
+            {
+                _usb.DetectBootloader(instance, false);
+            }
+            else if (_usb.DetectBootloader(instance) && windowState.AutoFlashEnabled)
+            {
+                FlashButton_Click(sender, e);
+            }
+
+            (sender as ManagementEventWatcher)?.Start();
+
+            if (!windowState.AutoFlashEnabled)
+            {
+                Invoke(new Action(EnableUI));
+            }
+        }
+        #endregion
+
+        #region UI Interaction
+        private void AutoFlashEnabledChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "AutoFlashEnabled")
+            {
+                if (windowState.AutoFlashEnabled)
+                {
+                    _printer.Print("Auto-flash enabled", MessageType.Info);
+                    DisableUI();
+                }
+                else
+                {
+                    _printer.Print("Auto-flash disabled", MessageType.Info);
+                    EnableUI();
+                }
             }
         }
 
@@ -404,6 +467,14 @@ namespace QMK_Toolbox
             }
         }
 
+        private void OpenFileButton_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                SetFilePath(openFileDialog.FileName);
+            }
+        }
+
         private void FilepathBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -415,7 +486,8 @@ namespace QMK_Toolbox
 
         private void SetFilePath(string filepath)
         {
-            if (!filepath.StartsWith("\\\\wsl$")) {
+            if (!filepath.StartsWith("\\\\wsl$"))
+            {
                 var uri = new Uri(filepath);
                 if (uri.Scheme == "qmk")
                 {
@@ -453,7 +525,9 @@ namespace QMK_Toolbox
                 var qmkFilepath = $"{Path.GetTempPath()}qmk_toolbox{filepath.Substring(filepath.LastIndexOf("\\"))}\\";
                 _printer.PrintResponse($"Extracting to {qmkFilepath}\n", MessageType.Info);
                 if (Directory.Exists(qmkFilepath))
+                {
                     Directory.Delete(qmkFilepath, true);
+                }
                 ZipFile.ExtractToDirectory(filepath, qmkFilepath);
                 var files = Directory.GetFiles(qmkFilepath);
                 var readme = "";
@@ -463,28 +537,42 @@ namespace QMK_Toolbox
                     _printer.PrintResponse($" - {file.Substring(file.LastIndexOf("\\") + 1)}\n", MessageType.Info);
                     if (file.Substring(file.LastIndexOf("\\") + 1).Equals("firmware.hex", StringComparison.OrdinalIgnoreCase) ||
                         file.Substring(file.LastIndexOf("\\") + 1).Equals("firmware.bin", StringComparison.OrdinalIgnoreCase))
+                    {
                         SetFilePath(file);
+                    }
                     if (file.Substring(file.LastIndexOf("\\") + 1).Equals("readme.md", StringComparison.OrdinalIgnoreCase))
+                    {
                         readme = File.ReadAllText(file);
+                    }
                     if (file.Substring(file.LastIndexOf("\\") + 1).Equals("info.json", StringComparison.OrdinalIgnoreCase))
+                    {
                         info = JsonConvert.DeserializeObject<Info>(File.ReadAllText(file));
+                    }
                 }
                 if (!string.IsNullOrEmpty(info.Keyboard))
                 {
                     _printer.Print($"Keymap for keyboard \"{info.Keyboard}\" - {info.VendorId}:{info.ProductId}", MessageType.Info);
                 }
 
-                if (string.IsNullOrEmpty(readme)) return;
+                if (string.IsNullOrEmpty(readme))
+                {
+                    return;
+                }
 
                 _printer.Print("Notes for this keymap:", MessageType.Info);
                 _printer.PrintResponse(readme, MessageType.Info);
             }
             else
             {
-                if (string.IsNullOrEmpty(filepath)) return;
+                if (string.IsNullOrEmpty(filepath))
+                {
+                    return;
+                }
                 filepathBox.Text = filepath;
                 if (!filepathBox.Items.Contains(filepath))
+                {
                     filepathBox.Items.Add(filepath);
+                }
             }
         }
 
@@ -497,125 +585,48 @@ namespace QMK_Toolbox
             }
         }
 
-        private void OpenFileButton_Click(object sender, EventArgs e)
+        private void DisableUI()
         {
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                SetFilePath(openFileDialog.FileName);
-            }
-        }
-
-        private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Settings.Default.Save();
-        }
-
-        private void DeviceEvent(object sender, EventArrivedEventArgs e)
-        {
-            (sender as ManagementEventWatcher)?.Stop();
-
-            if (!(e.NewEvent["TargetInstance"] is ManagementBaseObject instance))
-            {
-                return;
-            }
-
-            var deviceDisconnected = e.NewEvent.ClassPath.ClassName.Equals("__InstanceDeletionEvent");
-
-            if (deviceDisconnected)
-            {
-                _usb.DetectBootloader(instance, false);
-            }
-            else if (_usb.DetectBootloader(instance) && windowState.AutoFlashEnabled)
-            {
-                FlashButton_Click(sender, e);
-            }
-
-            (sender as ManagementEventWatcher)?.Start();
-
-            if (!windowState.AutoFlashEnabled)
-            {
-                Invoke(new Action(EnableUI));
-            }
-        }
-
-        private void DisableUI() {
             windowState.CanFlash = false;
             windowState.CanReset = false;
             windowState.CanClearEeprom = false;
         }
 
-        private void EnableUI() {
+        private void EnableUI()
+        {
             windowState.CanFlash = _flasher.CanFlash();
             windowState.CanReset = _flasher.CanReset();
             windowState.CanClearEeprom = _flasher.CanClearEeprom();
         }
 
-        private void UpdateConsoleList()
+        private void ExitMenuItem_Click(object sender, EventArgs e)
         {
-            if (!InvokeRequired)
-            {
-                var selected = consoleList.SelectedIndex != -1 ? consoleList.SelectedIndex : 0;
-                consoleList.Items.Clear();
-
-                foreach (var device in consoleListener.Devices)
-                {
-                    if (device != null)
-                    {
-                        consoleList.Items.Add(device.ToString());
-                    }
-                }
-
-                if (consoleList.Items.Count > 0)
-                {
-                    consoleList.Items.Insert(0, "(All connected devices)");
-                    consoleList.SelectedIndex = consoleList.Items.Count > selected ? selected : 0;
-                }
-            }
-            else
-            {
-                Invoke(new Action(UpdateConsoleList));
-            }
+            Application.Exit();
         }
 
-        private void MainWindow_DragDrop(object sender, DragEventArgs e)
+        private void AboutMenuItem_Click(object sender, EventArgs e)
         {
-            SetFilePath(((string[])e.Data.GetData(DataFormats.FileDrop, false)).First());
+            new AboutBox().ShowDialog();
         }
 
-        private void MainWindow_DragEnter(object sender, DragEventArgs e)
+        private void InstallDriversMenuItem_Click(object sender, EventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-                if (files.Length == 1)
-                {
-                    var extension = Path.GetExtension(files.First())?.ToLower();
-                    if (extension == ".qmk" || extension == ".hex" || extension == ".bin")
-                    {
-                        e.Effect = DragDropEffects.Copy;
-                    }
-                }
-            }
+            DriverInstaller.DisplayPrompt();
         }
 
-        private void MainWindow_Shown(object sender, EventArgs e)
+        private void KeyTesterToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Settings.Default.firstStart)
-            {
-                Settings.Default.Upgrade();
-            }
-
-            if (Settings.Default.firstStart)
-            {
-                DriverInstaller.DisplayPrompt();
-                Settings.Default.firstStart = false;
-                Settings.Default.Save();
-            }
+            KeyTesterWindow.GetInstance().Show();
+            KeyTesterWindow.GetInstance().Focus();
         }
+        #endregion
 
-        private void KeyboardBox_TextChanged(object sender, EventArgs e)
+        #region Log Box
+        private void LogContextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
-            loadKeymapButton.Enabled = keyboardBox.Items.Contains(keyboardBox.Text);
+            copyToolStripMenuItem.Enabled = (logTextBox.SelectedText.Length > 0);
+            selectAllToolStripMenuItem.Enabled = (logTextBox.Text.Length > 0);
+            clearToolStripMenuItem.Enabled = (logTextBox.Text.Length > 0);
         }
 
         private void CopyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -631,33 +642,59 @@ namespace QMK_Toolbox
         {
             logTextBox.Clear();
         }
+        #endregion
 
-        private void LogContextMenuStrip_Opening(object sender, CancelEventArgs e)
+        private void LoadKeyboardList()
         {
-            copyToolStripMenuItem.Enabled = (logTextBox.SelectedText.Length > 0);
-            selectAllToolStripMenuItem.Enabled = (logTextBox.Text.Length > 0);
-            clearToolStripMenuItem.Enabled = (logTextBox.Text.Length > 0);
+            try
+            {
+                using (var wc = new WebClient())
+                {
+                    var json = wc.DownloadString("http://api.qmk.fm/v1/keyboards");
+                    if (json != null)
+                    {
+                        var keyboards = JsonConvert.DeserializeObject<List<string>>(json);
+                        keyboardBox.Items.Clear();
+                        foreach (var keyboard in keyboards)
+                        {
+                            keyboardBox.Items.Add(keyboard);
+                        }
+                        keyboardBox.SelectedIndex = -1;
+                        keyboardBox.ResetText();
+                        keyboardBox.Enabled = true;
+                        loadKeymapButton.Enabled = false;
+                        LoadKeymapList();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                _printer.PrintResponse("Something went wrong when trying to get the keyboard list from QMK.FM, you might not have a internet connection or the servers are down.", MessageType.Error);
+                keymapBox.Enabled = false;
+                keyboardBox.Enabled = false;
+                loadKeymapButton.Enabled = false;
+            }
         }
 
-        private void AboutMenuItem_Click(object sender, EventArgs e)
+        private void LoadKeymapList()
         {
-            (new AboutBox()).ShowDialog();
+            keymapBox.Items.Clear();
+            keymapBox.Items.Add("default");
+            keymapBox.SelectedIndex = 0;
+            // keymapBox.Enabled = true;
         }
 
-        private void ExitMenuItem_Click(object sender, EventArgs e)
+        private void LoadKeymapButton_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            if (keyboardBox.Items.Count > 0)
+            {
+                SetFilePath($"qmk:https://qmk.fm/compiled/{keyboardBox.Text.Replace("/", "_")}_default.hex");
+            }
         }
 
-        private void InstallDriversMenuItem_Click(object sender, EventArgs e)
+        private void KeyboardBox_TextChanged(object sender, EventArgs e)
         {
-            DriverInstaller.DisplayPrompt();
-        }
-
-        private void KeyTesterToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            KeyTesterWindow.GetInstance().Show();
-            KeyTesterWindow.GetInstance().Focus();
+            loadKeymapButton.Enabled = keyboardBox.Items.Contains(keyboardBox.Text);
         }
     }
 }

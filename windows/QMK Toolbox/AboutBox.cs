@@ -1,7 +1,4 @@
-﻿//  Created by Jack Humbert on 9/1/17.
-//  Copyright © 2017 Jack Humbert. This code is licensed under MIT license (see LICENSE.md for details).
-
-using System.Reflection;
+﻿using System.Reflection;
 using System.Windows.Forms;
 
 namespace QMK_Toolbox
@@ -11,7 +8,7 @@ namespace QMK_Toolbox
         public AboutBox()
         {
             InitializeComponent();
-            labelVersion.Text = $"Version {AssemblyVersion}";
+            versionLabel.Text = $"Version {AssemblyVersion}";
         }
 
         #region Assembly Attribute Accessors
@@ -89,9 +86,9 @@ namespace QMK_Toolbox
 
         #endregion Assembly Attribute Accessors
 
-        private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void GithubLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start(linkLabel1.Text);
+            System.Diagnostics.Process.Start(githubLink.Text);
         }
     }
 }

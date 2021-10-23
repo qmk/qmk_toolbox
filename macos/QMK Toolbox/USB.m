@@ -1,11 +1,3 @@
-//
-//  USB.m
-//  qmk_toolbox
-//
-//  Created by Jack Humbert on 9/5/17.
-//  Copyright © 2017 Jack Humbert. This code is licensed under MIT license (see LICENSE.md for details).
-//
-
 #import <IOKit/usb/IOUSBLib.h>
 #import <IOKit/serial/IOSerialKeys.h>
 #import <IOKit/storage/IOMedia.h>
@@ -24,11 +16,9 @@ NSArray *caterinaPids;
 NSArray *atmelDfuPids;
 
 @interface USB () <USBDelegate>
-
 @end
 
 @implementation USB
-
 static int devicesAvailable[NumberOfChipsets];
 
 + (void)setupWithPrinter:(Printing *)printer andDelegate:(id<USBDelegate>)d {
@@ -341,5 +331,4 @@ static void deviceDisconnectedEvent(void *refCon, io_iterator_t iterator) {
 + (BOOL)canFlash:(Chipset)chipset {
     return (devicesAvailable[chipset] > 0);
 }
-
 @end

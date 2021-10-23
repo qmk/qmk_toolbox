@@ -1,7 +1,8 @@
 #import "HIDConsoleDevice.h"
 
-@implementation HIDConsoleDevice
-static uint8_t hidReportBuffer[64];
+@implementation HIDConsoleDevice {
+    uint8_t hidReportBuffer[64];
+}
 
 - (id)initWithDeviceRef:(IOHIDDeviceRef)deviceRef {
     if (self = [super init]) {

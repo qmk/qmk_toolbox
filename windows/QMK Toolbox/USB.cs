@@ -1,7 +1,4 @@
-﻿//  Created by Jack Humbert on 11/2/17.
-//  Copyright © 2017 Jack Humbert. This code is licensed under MIT license (see LICENSE.md for details).
-
-using System;
+﻿using System;
 using System.Linq;
 using System.Management;
 using System.Text.RegularExpressions;

@@ -1,11 +1,3 @@
-//
-//  Printing.h
-//  qmk_toolbox
-//
-//  Created by Jack Humbert on 9/5/17.
-//  Copyright © 2017 Jack Humbert. This code is licensed under MIT license (see LICENSE.md for details).
-//
-
 #import <Cocoa/Cocoa.h>
 
 @interface Printing : NSObject
@@ -18,7 +10,7 @@ typedef enum {
     MessageType_Command
 } MessageType;
 
-- (id)initWithTextView:(NSTextView *)tV;
+- (id)initWithTextView:(NSTextView *)view;
 
 - (void)print:(NSString *)str withType:(MessageType)type;
 - (void)printResponse:(NSString *)str withType:(MessageType)type;

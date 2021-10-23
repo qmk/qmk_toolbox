@@ -1,11 +1,3 @@
-//
-//  AppDelegate.m
-//  qmk_toolbox
-//
-//  Created by Jack Humbert on 9/3/17.
-//  Copyright © 2017 Jack Humbert. This code is licensed under MIT license (see LICENSE.md for details).
-//
-
 #import "AppDelegate.h"
 
 #import "Flashing.h"
@@ -14,65 +6,174 @@
 #import "QMKWindow.h"
 #import "USB.h"
 
-@interface AppDelegate () <NSTextViewDelegate, NSComboBoxDelegate, HIDConsoleListenerDelegate, FlashingDelegate, USBDelegate>
-
+@interface AppDelegate () <HIDConsoleListenerDelegate, FlashingDelegate, USBDelegate>
 @property (weak) IBOutlet QMKWindow *window;
-@property IBOutlet NSTextView * textView;
-@property IBOutlet NSMenuItem * clearMenuItem;
-@property IBOutlet NSComboBox * filepathBox;
-@property IBOutlet NSButton * openButton;
-@property IBOutlet MicrocontrollerSelector * mcuBox;
-@property IBOutlet NSButton * flashButton;
-@property IBOutlet NSButton * resetButton;
-@property IBOutlet NSButton * clearEEPROMButton;
-@property IBOutlet NSComboBox * keyboardBox;
-@property IBOutlet NSComboBox * keymapBox;
-@property IBOutlet NSButton * loadButton;
-@property IBOutlet NSComboBox * consoleListBox;
+@property IBOutlet NSTextView *textView;
+@property IBOutlet NSMenuItem *clearMenuItem;
+@property IBOutlet NSComboBox *filepathBox;
+@property IBOutlet NSButton *openButton;
+@property IBOutlet MicrocontrollerSelector *mcuBox;
+@property IBOutlet NSButton *flashButton;
+@property IBOutlet NSButton *resetButton;
+@property IBOutlet NSButton *clearEEPROMButton;
+@property IBOutlet NSComboBox *keyboardBox;
+@property IBOutlet NSComboBox *keymapBox;
+@property IBOutlet NSButton *loadButton;
+@property IBOutlet NSComboBox *consoleListBox;
 
-@property NSWindowController * keyTesterWindowController;
+@property NSWindowController *keyTesterWindowController;
 
-@property Flashing * flasher;
+@property Flashing *flasher;
 
-@property HIDConsoleListener * consoleListener;
+@property HIDConsoleListener *consoleListener;
 
-@property HIDConsoleDevice * lastReportedDevice;
+@property HIDConsoleDevice *lastReportedDevice;
 @end
 
 @implementation AppDelegate
+#pragma mark App Delegate
+- (BOOL)application:(NSApplication *)sender openFile:(NSString *)filename {
+    if ([[[filename pathExtension] lowercaseString] isEqualToString:@"qmk"] ||
+    [[[filename pathExtension] lowercaseString] isEqualToString:@"hex"] ||
+    [[[filename pathExtension] lowercaseString] isEqualToString:@"bin"]) {
+        [self setFilePath:[NSURL fileURLWithPath:filename]];
+        return true;
+    } else {
+        return false;
+    }
+}
 
-@synthesize canFlash;
-@synthesize canReset;
-@synthesize canClearEEPROM;
+- (void)applicationWillFinishLaunching:(NSNotification *)notification {
+    NSAppleEventManager *appleEventManager = [NSAppleEventManager sharedAppleEventManager];
+    [appleEventManager setEventHandler:self andSelector:@selector(handleGetURLEvent:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
+}
 
-- (BOOL) autoFlashEnabled {
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    [self.window setup];
+
+    self.printer = [[Printing alloc] initWithTextView:self.textView];
+    self.flasher = [[Flashing alloc] initWithPrinter:self.printer];
+    self.flasher.delegate = self;
+
+    [[self.textView menu] addItem:[NSMenuItem separatorItem]];
+    [[self.textView menu] addItem:self.clearMenuItem];
+
+    [self loadKeyboards];
+    [self loadRecentDocuments];
+
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    [self.printer print:[NSString stringWithFormat:@"QMK Toolbox %@ (http://qmk.fm/toolbox)", version] withType:MessageType_Info];
+    [self.printer printResponse:@"Supported bootloaders:\n" withType:MessageType_Info];
+    [self.printer printResponse:@" - ARM DFU (APM32, Kiibohd, STM32, STM32duino) via dfu-util (http://dfu-util.sourceforge.net/)\n" withType:MessageType_Info];
+    [self.printer printResponse:@" - Atmel/LUFA/QMK DFU via dfu-programmer (http://dfu-programmer.github.io/)\n" withType:MessageType_Info];
+    [self.printer printResponse:@" - Atmel SAM-BA (Massdrop) via Massdrop Loader (https://github.com/massdrop/mdloader)\n" withType:MessageType_Info];
+    [self.printer printResponse:@" - BootloadHID (Atmel, PS2AVRGB) via bootloadHID (https://www.obdev.at/products/vusb/bootloadhid.html)\n" withType:MessageType_Info];
+    [self.printer printResponse:@" - Caterina (Arduino, Pro Micro) via avrdude (http://nongnu.org/avrdude/)\n" withType:MessageType_Info];
+    [self.printer printResponse:@" - HalfKay (Teensy, Ergodox EZ) via Teensy Loader (https://pjrc.com/teensy/loader_cli.html)\n" withType:MessageType_Info];
+    [self.printer printResponse:@" - LUFA Mass Storage\n" withType:MessageType_Info];
+    [self.printer printResponse:@"Supported ISP flashers:\n" withType:MessageType_Info];
+    [self.printer printResponse:@" - AVRISP (Arduino ISP)\n" withType:MessageType_Info];
+    [self.printer printResponse:@" - USBasp (AVR ISP)\n" withType:MessageType_Info];
+    [self.printer printResponse:@" - USBTiny (AVR Pocket)\n" withType:MessageType_Info];
+
+    self.consoleListener = [[HIDConsoleListener alloc] init];
+    self.consoleListener.delegate = self;
+    [self.consoleListener start];
+
+    [USB setupWithPrinter:self.printer andDelegate:self];
+}
+
+- (void)handleGetURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)reply {
+    [self setFilePath:[NSURL URLWithString:[[event paramDescriptorForKeyword:keyDirectObject] stringValue]]];
+}
+
+- (void)loadRecentDocuments {
+    NSArray<NSURL *> *recentDocuments = [[NSDocumentController sharedDocumentController] recentDocumentURLs];
+    for (NSURL *document in recentDocuments) {
+        [self.filepathBox addItemWithObjectValue:document.path];
+    }
+    if (self.filepathBox.numberOfItems > 0) {
+        [self.filepathBox selectItemAtIndex:0];
+    }
+}
+
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
+    return YES;
+}
+
+- (void)applicationWillTerminate:(NSNotification *)aNotification {
+    [self.consoleListener stop];
+}
+
+#pragma mark HID Console
+- (void)consoleDeviceDidConnect:(HIDConsoleDevice *)device {
+    self.lastReportedDevice = device;
+    [self updateConsoleList];
+    NSString *deviceConnectedString = [NSString stringWithFormat:@"HID console connected: %@", device];
+    [self.printer print:deviceConnectedString withType:MessageType_HID];
+}
+
+- (void)consoleDeviceDidDisconnect:(HIDConsoleDevice *)device {
+    self.lastReportedDevice = nil;
+    [self updateConsoleList];
+    NSString *deviceDisconnectedString = [NSString stringWithFormat:@"HID console disconnected: %@", device];
+    [self.printer print:deviceDisconnectedString withType:MessageType_HID];
+}
+
+- (void)consoleDevice:(HIDConsoleDevice *)device didReceiveReport:(NSString *)report {
+    NSInteger selectedDevice = [self.consoleListBox indexOfSelectedItem];
+    if (selectedDevice == 0 || self.consoleListener.devices[selectedDevice - 1] == device) {
+        if (self.lastReportedDevice != device) {
+             [self.printer print:[NSString stringWithFormat:@"%@ %@:", device.manufacturerString, device.productString] withType:MessageType_HID];
+            self.lastReportedDevice = device;
+        }
+        [self.printer printResponse:report withType:MessageType_HID];
+    }
+}
+
+- (void)updateConsoleList {
+    NSInteger selected = [self.consoleListBox indexOfSelectedItem] != -1 ? [self.consoleListBox indexOfSelectedItem] : 0;
+    [self.consoleListBox deselectItemAtIndex:selected];
+    [self.consoleListBox removeAllItems];
+
+    for (HIDConsoleDevice *device in self.consoleListener.devices) {
+        [self.consoleListBox addItemWithObjectValue:[device description]];
+    }
+
+    if ([self.consoleListBox numberOfItems] > 0) {
+        [self.consoleListBox insertItemWithObjectValue:@"(All connected devices)" atIndex:0];
+        [self.consoleListBox selectItemAtIndex:([self.consoleListBox numberOfItems] > selected) ? selected : 0];
+    }
+}
+
+#pragma mark USB Devices & Bootloaders
+- (void)deviceConnected:(Chipset)chipset {
+    if (self.autoFlashEnabled) {
+        [self flashButtonClick:NULL];
+    }
+    [self enableUI];
+}
+
+- (void)deviceDisconnected:(Chipset)chipset {
+    [self enableUI];
+}
+
+#pragma mark UI Interaction
+@synthesize autoFlashEnabled = _autoFlashEnabled;
+
+- (BOOL)autoFlashEnabled {
     return _autoFlashEnabled;
 }
 
 - (void)setAutoFlashEnabled:(BOOL)autoFlashEnabled {
     _autoFlashEnabled = autoFlashEnabled;
     if (autoFlashEnabled) {
-        [_printer print:@"Auto-flash enabled" withType:MessageType_Info];
+        [self.printer print:@"Auto-flash enabled" withType:MessageType_Info];
         [self disableUI];
     } else {
-        [_printer print:@"Auto-flash disabled" withType:MessageType_Info];
+        [self.printer print:@"Auto-flash disabled" withType:MessageType_Info];
         [self enableUI];
     }
-}
-
-- (IBAction) openButtonClick:(id) sender {
-    NSOpenPanel* panel = [NSOpenPanel openPanel];
-    [panel setCanChooseDirectories:NO];
-    [panel setAllowsMultipleSelection:NO];
-    [panel setMessage:@"Select firmware to load"];
-    NSArray* types = @[@"qmk", @"bin", @"hex"];
-    [panel setAllowedFileTypes:types];
-
-    [panel beginWithCompletionHandler:^(NSInteger result){
-        if (result == NSModalResponseOK) {
-            [self setFilePath:[[panel URLs] objectAtIndex:0]];
-        }
-    }];
 }
 
 - (IBAction)flashButtonClick:(id)sender {
@@ -153,229 +254,75 @@
     }
 }
 
-- (void)setSerialPort:(NSString *)port {
-    _flasher.serialPort = port;
+- (IBAction)openButtonClick:(id)sender {
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    [panel setCanChooseDirectories:NO];
+    [panel setAllowsMultipleSelection:NO];
+    [panel setMessage:@"Select firmware to load"];
+    NSArray *types = @[@"qmk", @"bin", @"hex"];
+    [panel setAllowedFileTypes:types];
+
+    [panel beginWithCompletionHandler:^(NSInteger result){
+        if (result == NSModalResponseOK) {
+            [self setFilePath:[[panel URLs] objectAtIndex:0]];
+        }
+    }];
 }
 
-- (void)setMountPoint:(NSString *)mountPoint {
-    _flasher.mountPoint = mountPoint;
+- (IBAction)updateFilePath:(id)sender {
+    if (![[self.filepathBox objectValue] isEqualToString:@""])
+        [self setFilePath:[NSURL URLWithString:[self.filepathBox objectValue]]];
 }
 
-- (void)deviceConnected:(Chipset)chipset {
-    if (self.autoFlashEnabled) {
-        [self flashButtonClick:NULL];
+- (void)setFilePath:(NSURL *)path {
+    NSString *filename = @"";
+    if ([path.scheme isEqualToString:@"file"]) {
+        filename = [[path.absoluteString stringByRemovingPercentEncoding] stringByReplacingOccurrencesOfString:@"file://" withString:@""];
     }
-    [self enableUI];
+    if ([path.scheme isEqualToString:@"qmk"]) {
+        NSURL *url;
+        if ([path.absoluteString containsString:@"qmk://"]) {
+            url = [NSURL URLWithString:[path.absoluteString stringByReplacingOccurrencesOfString:@"qmk://" withString:@""]];
+        } else {
+            url = [NSURL URLWithString:[path.absoluteString stringByReplacingOccurrencesOfString:@"qmk:" withString:@""]];
+        }
+
+        [self.printer print:[NSString stringWithFormat:@"Downloading the file: %@", url.absoluteString] withType:MessageType_Info];
+        NSData *data = [NSData dataWithContentsOfURL:url];
+        if (!data) {
+            // Try .bin extension if .hex 404'd
+            url = [[url URLByDeletingPathExtension] URLByAppendingPathExtension:@"bin"];
+            [self.printer print:[NSString stringWithFormat:@"No .hex file found, trying %@", url.absoluteString] withType:MessageType_Info];
+            data = [NSData dataWithContentsOfURL:url];
+        }
+        if (data) {
+            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDownloadsDirectory, NSUserDomainMask, YES);
+            NSString *downloadsDirectory = [paths objectAtIndex:0];
+            NSString *name = [url.lastPathComponent stringByReplacingOccurrencesOfString:@"." withString:[NSString stringWithFormat:@"_%@.", [[[NSProcessInfo processInfo] globallyUniqueString] substringToIndex:8]]];
+            filename = [NSString stringWithFormat:@"%@/%@", downloadsDirectory, name];
+            [data writeToFile:filename atomically:YES];
+            [self.printer printResponse:[NSString stringWithFormat:@"File saved to: %@", filename] withType:MessageType_Info];
+        }
+    }
+    if (![filename isEqualToString:@""]) {
+        if ([self.filepathBox indexOfItemWithObjectValue:filename] == NSNotFound) {
+            [self.filepathBox addItemWithObjectValue:filename];
+        }
+        [self.filepathBox selectItemWithObjectValue:filename];
+        [[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:[[NSURL alloc] initFileURLWithPath:filename]];
+    }
 }
 
-- (void)deviceDisconnected:(Chipset)chipset {
-    [self enableUI];
+- (void)enableUI {
+    self.canFlash = [self.flasher canFlash];
+    self.canReset = [self.flasher canReset];
+    self.canClearEEPROM = [self.flasher canClearEEPROM];
 }
 
 - (void)disableUI {
     self.canFlash = NO;
     self.canReset = NO;
     self.canClearEEPROM = NO;
-}
-
-- (void)enableUI {
-    self.canFlash = [_flasher canFlash];
-    self.canReset = [_flasher canReset];
-    self.canClearEEPROM = [_flasher canClearEEPROM];
-}
-
-- (BOOL)application:(NSApplication *)sender openFile:(NSString *)filename {
-    if ([[[filename pathExtension] lowercaseString] isEqualToString:@"qmk"] ||
-    [[[filename pathExtension] lowercaseString] isEqualToString:@"hex"] ||
-    [[[filename pathExtension] lowercaseString] isEqualToString:@"bin"]) {
-        [self setFilePath:[NSURL fileURLWithPath:filename]];
-        return true;
-    } else {
-        return false;
-    }
-}
-
-- (IBAction)updateFilePath:(id)sender {
-    if (![[_filepathBox objectValue] isEqualToString:@""])
-        [self setFilePath:[NSURL URLWithString:[_filepathBox objectValue]]];
-}
-
-- (void)setFilePath:(NSURL *)path {
-    NSString * filename = @"";
-    if ([path.scheme isEqualToString:@"file"])
-        filename = [[path.absoluteString stringByRemovingPercentEncoding] stringByReplacingOccurrencesOfString:@"file://" withString:@""];
-    if ([path.scheme isEqualToString:@"qmk"]) {
-        NSURL * url;
-        if ([path.absoluteString containsString:@"qmk://"])
-            url = [NSURL URLWithString:[path.absoluteString stringByReplacingOccurrencesOfString:@"qmk://" withString:@""]];
-        else
-            url = [NSURL URLWithString:[path.absoluteString stringByReplacingOccurrencesOfString:@"qmk:" withString:@""]];
-
-        [_printer print:[NSString stringWithFormat:@"Downloading the file: %@", url.absoluteString] withType:MessageType_Info];
-        NSData * data = [NSData dataWithContentsOfURL:url];
-        if (!data) {
-            // Try .bin extension if .hex 404'd
-            url = [[url URLByDeletingPathExtension] URLByAppendingPathExtension:@"bin"];
-            [_printer print:[NSString stringWithFormat:@"No .hex file found, trying %@", url.absoluteString] withType:MessageType_Info];
-            data = [NSData dataWithContentsOfURL:url];
-        }
-        if (data) {
-            NSArray * paths = NSSearchPathForDirectoriesInDomains(NSDownloadsDirectory, NSUserDomainMask, YES);
-            NSString * downloadsDirectory = [paths objectAtIndex:0];
-            NSString * name = [url.lastPathComponent stringByReplacingOccurrencesOfString:@"." withString:[NSString stringWithFormat:@"_%@.", [[[NSProcessInfo processInfo] globallyUniqueString] substringToIndex:8]]];
-            filename = [NSString stringWithFormat:@"%@/%@", downloadsDirectory, name];
-            [data writeToFile:filename atomically:YES];
-            [_printer printResponse:[NSString stringWithFormat:@"File saved to: %@", filename] withType:MessageType_Info];
-        }
-    }
-    if (![filename isEqualToString:@""]) {
-        if ([_filepathBox indexOfItemWithObjectValue:filename] == NSNotFound)
-            [_filepathBox addItemWithObjectValue:filename];
-        [_filepathBox selectItemWithObjectValue:filename];
-        [[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:[[NSURL alloc] initFileURLWithPath:filename]];
-    }
-}
-
-- (BOOL)readFromURL:(NSURL *)inAbsoluteURL ofType:(NSString *)inTypeName error:(NSError **)outError {
-    [self setFilePath:inAbsoluteURL];
-    return YES;
-}
-
-- (void)applicationWillFinishLaunching:(NSNotification *)notification {
-    NSAppleEventManager *appleEventManager = [NSAppleEventManager sharedAppleEventManager];
-    [appleEventManager setEventHandler:self andSelector:@selector(handleGetURLEvent:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
-}
-
-- (void)handleGetURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)reply
-{
-    [self setFilePath:[NSURL URLWithString:[[event paramDescriptorForKeyword:keyDirectObject] stringValue]]];
-}
-
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    [_window setup];
-
-    _printer = [[Printing alloc] initWithTextView:_textView];
-    _flasher = [[Flashing alloc] initWithPrinter:_printer];
-    _flasher.delegate = self;
-
-    [[_textView menu] addItem: [NSMenuItem separatorItem]];
-    [[_textView menu] addItem: _clearMenuItem];
-
-    [self loadKeyboards];
-    [self loadRecentDocuments];
-
-    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    [_printer print:[NSString stringWithFormat:@"QMK Toolbox %@ (http://qmk.fm/toolbox)", version] withType:MessageType_Info];
-    [_printer printResponse:@"Supported bootloaders:\n" withType:MessageType_Info];
-    [_printer printResponse:@" - ARM DFU (APM32, Kiibohd, STM32, STM32duino) via dfu-util (http://dfu-util.sourceforge.net/)\n" withType:MessageType_Info];
-    [_printer printResponse:@" - Atmel/LUFA/QMK DFU via dfu-programmer (http://dfu-programmer.github.io/)\n" withType:MessageType_Info];
-    [_printer printResponse:@" - Atmel SAM-BA (Massdrop) via Massdrop Loader (https://github.com/massdrop/mdloader)\n" withType:MessageType_Info];
-    [_printer printResponse:@" - BootloadHID (Atmel, PS2AVRGB) via bootloadHID (https://www.obdev.at/products/vusb/bootloadhid.html)\n" withType:MessageType_Info];
-    [_printer printResponse:@" - Caterina (Arduino, Pro Micro) via avrdude (http://nongnu.org/avrdude/)\n" withType:MessageType_Info];
-    [_printer printResponse:@" - HalfKay (Teensy, Ergodox EZ) via Teensy Loader (https://pjrc.com/teensy/loader_cli.html)\n" withType:MessageType_Info];
-    [_printer printResponse:@" - LUFA Mass Storage\n" withType:MessageType_Info];
-    [_printer printResponse:@"Supported ISP flashers:\n" withType:MessageType_Info];
-    [_printer printResponse:@" - AVRISP (Arduino ISP)\n" withType:MessageType_Info];
-    [_printer printResponse:@" - USBasp (AVR ISP)\n" withType:MessageType_Info];
-    [_printer printResponse:@" - USBTiny (AVR Pocket)\n" withType:MessageType_Info];
-
-    self.consoleListener = [[HIDConsoleListener alloc] init];
-    self.consoleListener.delegate = self;
-    [self.consoleListener start];
-
-    [USB setupWithPrinter:_printer andDelegate:self];
-}
-
-- (void)consoleDeviceDidConnect:(HIDConsoleDevice *)device {
-    self.lastReportedDevice = device;
-    [self updateConsoleList];
-    NSString * deviceConnectedString = [NSString stringWithFormat:@"HID console connected: %@", device];
-    [_printer print:deviceConnectedString withType:MessageType_HID];
-}
-
-- (void)consoleDeviceDidDisconnect:(HIDConsoleDevice *)device {
-    self.lastReportedDevice = nil;
-    [self updateConsoleList];
-    NSString * deviceDisconnectedString = [NSString stringWithFormat:@"HID console disconnected: %@", device];
-    [_printer print:deviceDisconnectedString withType:MessageType_HID];
-}
-
-- (void)consoleDevice:(HIDConsoleDevice *)device didReceiveReport:(NSString *)report {
-    NSInteger selectedDevice = [self.consoleListBox indexOfSelectedItem];
-    if (selectedDevice == 0 || self.consoleListener.devices[selectedDevice - 1] == device) {
-        if (self.lastReportedDevice != device) {
-             [_printer print:[NSString stringWithFormat:@"%@ %@:", device.manufacturerString, device.productString] withType:MessageType_HID];
-            self.lastReportedDevice = device;
-        }
-        [_printer printResponse:report withType:MessageType_HID];
-    }
-}
-
--(void)updateConsoleList {
-    NSInteger selected = [self.consoleListBox indexOfSelectedItem] != -1 ? [self.consoleListBox indexOfSelectedItem] : 0;
-    [self.consoleListBox deselectItemAtIndex:selected];
-    [self.consoleListBox removeAllItems];
-
-    for (HIDConsoleDevice * device in self.consoleListener.devices) {
-        [self.consoleListBox addItemWithObjectValue:[device description]];
-    }
-
-    if ([self.consoleListBox numberOfItems] > 0) {
-        [self.consoleListBox insertItemWithObjectValue:@"(All connected devices)" atIndex:0];
-        [self.consoleListBox selectItemAtIndex:([self.consoleListBox numberOfItems] > selected) ? selected : 0];
-    }
-}
-
-- (void)loadKeyboards {
-    NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://api.qmk.fm/v1/keyboards"]];
-    NSError * error = nil;
-    if (data != nil) {
-        NSArray * keyboards = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-        [_keyboardBox removeAllItems];
-        [_keyboardBox addItemsWithObjectValues:keyboards];
-        _keyboardBox.enabled = YES;
-        _keyboardBox.target = self;
-        _keyboardBox.action = @selector(keyboardBoxChanged);
-        [self loadKeymaps];
-    }
-}
-
-- (void)keyboardBoxChanged {
-    self.loadButton.enabled = self.keyboardBox.indexOfSelectedItem != -1;
-}
-
-- (void)loadKeymaps {
-//    NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://api.qmk.fm/v1/keyboards"]];
-//    NSError * error = nil;
-//    NSArray * keyboards = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-    [_keymapBox removeAllItems];
-    [_keymapBox addItemWithObjectValue:@"default"];
-    [_keymapBox selectItemAtIndex:0];
-//    for (NSString * keyboard in keyboards) {
-//        [_keyboardBox addItemsWithObjectValues:keyboards];
-//    }
-//    _keymapBox.enabled = YES;
-    _loadButton.enabled = NO;
-}
-
-- (void)loadRecentDocuments {
-    NSArray<NSURL *> *recentDocuments = [[NSDocumentController sharedDocumentController] recentDocumentURLs];
-    for (NSURL *document in recentDocuments) {
-        [self.filepathBox addItemWithObjectValue:document.path];
-    }
-    if (self.filepathBox.numberOfItems > 0)
-        [self.filepathBox selectItemAtIndex:0];
-}
-
-- (IBAction)loadKeymapClick:(id)sender {
-    if ([_keyboardBox numberOfItems] > 0) {
-        NSString * keyboard = [[_keyboardBox objectValue] stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
-        [self setFilePath:[NSURL URLWithString:[NSString stringWithFormat:@"qmk:http://qmk.fm/compiled/%@_default.hex", keyboard]]];
-    }
-}
-
-- (IBAction)clearButtonClick:(id)sender {
-    [[self textView] setString: @""];
 }
 
 - (IBAction)keyTesterButtonClick:(id)sender {
@@ -385,11 +332,48 @@
     [self.keyTesterWindowController showWindow:self];
 }
 
-- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
-    return YES;
+#pragma mark Uncategorized
+- (void)setSerialPort:(NSString *)port {
+    self.flasher.serialPort = port;
 }
 
-- (void)applicationWillTerminate:(NSNotification *)aNotification {
-    [self.consoleListener stop];
+- (void)setMountPoint:(NSString *)mountPoint {
+    self.flasher.mountPoint = mountPoint;
+}
+
+- (IBAction)clearButtonClick:(id)sender {
+    [[self textView] setString:@""];
+}
+
+- (void)loadKeyboards {
+    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://api.qmk.fm/v1/keyboards"]];
+    NSError *error = nil;
+    if (data != nil) {
+        NSArray *keyboards = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        [self.keyboardBox removeAllItems];
+        [self.keyboardBox addItemsWithObjectValues:keyboards];
+        self.keyboardBox.enabled = YES;
+        self.keyboardBox.target = self;
+        self.keyboardBox.action = @selector(keyboardBoxChanged);
+        [self loadKeymaps];
+    }
+}
+
+- (void)keyboardBoxChanged {
+    self.loadButton.enabled = self.keyboardBox.indexOfSelectedItem != -1;
+}
+
+- (void)loadKeymaps {
+    [self.keymapBox removeAllItems];
+    [self.keymapBox addItemWithObjectValue:@"default"];
+    [self.keymapBox selectItemAtIndex:0];
+    self.loadButton.enabled = NO;
+}
+
+- (IBAction)loadKeymapClick:(id)sender {
+    if ([self.keyboardBox numberOfItems] > 0) {
+        NSString *keyboard = [[self.keyboardBox objectValue] stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+        [self setFilePath:[NSURL URLWithString:[NSString stringWithFormat:@"qmk:http://qmk.fm/compiled/%@_default.hex", keyboard]]];
+    }
 }
 @end

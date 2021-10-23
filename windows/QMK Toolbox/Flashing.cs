@@ -1,12 +1,8 @@
-﻿//  Created by Jack Humbert on 9/1/17.
-//  Copyright © 2017 Jack Humbert. This code is licensed under MIT license (see LICENSE.md for details).
-
-using QMK_Toolbox.Helpers;
+﻿using QMK_Toolbox.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -229,6 +225,18 @@ namespace QMK_Toolbox
             return false;
         }
 
+        private void FlashApm32Dfu(string file)
+        {
+            if (Path.GetExtension(file)?.ToLower() == ".bin")
+            {
+                RunProcess("dfu-util.exe", $"-a 0 -d 314B:0106 -s 0x08000000:leave -D \"{file}\"");
+            }
+            else
+            {
+                _printer.Print("Only firmware files in .bin format can be flashed with dfu-util!", MessageType.Error);
+            }
+        }
+
         private void FlashAtmelDfu(string mcu, string file)
         {
             RunProcess("dfu-programmer.exe", $"{mcu} erase --force");
@@ -240,11 +248,13 @@ namespace QMK_Toolbox
 
         private void ClearEepromAtmelDfu(string mcu, bool erase)
         {
-            if (erase) {
+            if (erase)
+            {
                 RunProcess("dfu-programmer.exe", $"{mcu} erase --force");
             }
             RunProcess("dfu-programmer.exe", $"{mcu} flash --force --suppress-validation --eeprom reset.eep");
-            if (erase) {
+            if (erase)
+            {
                 _printer.Print("Please reflash device with firmware now", MessageType.Bootloader);
             }
         }
@@ -256,61 +266,15 @@ namespace QMK_Toolbox
                 RunProcess("dfu-programmer.exe", $"{mcu} erase --force");
             }
             RunProcess("dfu-programmer.exe", $"{mcu} flash --force --suppress-validation --eeprom reset_{(rightHand ? "right" : "left")}.eep");
-            if (erase) {
+            if (erase)
+            {
                 _printer.Print("Please reflash device with firmware now", MessageType.Bootloader);
             }
         }
 
-        private void FlashCaterina(string mcu, string file) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U flash:w:\"{file}\":i -P {ComPort}");
+        private void FlashAtmelSamBa(string file) => RunProcess("mdloader.exe", $"-p {ComPort} -D \"{file}\" --restart");
 
-        private void ClearEepromCaterina(string mcu) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U eeprom:w:reset.eep:i -P {ComPort}");
-
-        private void SetHandednessCaterina(string mcu, bool rightHand) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U eeprom:w:reset_{(rightHand ? "right" : "left")}.eep:i -P {ComPort}");
-
-        private void ClearEepromUsbAsp(string mcu) => RunProcess("avrdude.exe", $"-p {mcu} -c usbasp -U eeprom:w:reset.eep:i");
-
-        private void SetHandednessUsbAsp(string mcu, bool rightHand) => RunProcess("avrdude.exe", $"-p {mcu} -c usbasp -U eeprom:w:reset_{(rightHand ? "right" : "left")}.eep:i");
-
-        private void FlashHalfkay(string mcu, string file) => RunProcess("teensy_loader_cli.exe", $"-mmcu={mcu} \"{file}\" -v");
-
-        private void ResetHalfkay(string mcu) => RunProcess("teensy_loader_cli.exe", $"-mmcu={mcu} -bv");
-
-        private void FlashStm32Dfu(string file)
-        {
-            if (Path.GetExtension(file)?.ToLower() == ".bin") {
-                RunProcess("dfu-util.exe", $"-a 0 -d 0483:DF11 -s 0x08000000:leave -D \"{file}\"");
-            } else {
-                _printer.Print("Only firmware files in .bin format can be flashed with dfu-util!", MessageType.Error);
-            }
-        }
-
-        private void FlashStm32Duino(string file)
-        {
-            if (Path.GetExtension(file)?.ToLower() == ".bin") {
-                RunProcess("dfu-util.exe", $"-a 2 -d 1EAF:0003 -R -D \"{file}\"");
-            } else {
-                _printer.Print("Only firmware files in .bin format can be flashed with dfu-util!", MessageType.Error);
-            }
-        }
-
-        private void FlashApm32Dfu(string file)
-        {
-            if (Path.GetExtension(file)?.ToLower() == ".bin") {
-                RunProcess("dfu-util.exe", $"-a 0 -d 314B:0106 -s 0x08000000:leave -D \"{file}\"");
-
-            } else {
-                _printer.Print("Only firmware files in .bin format can be flashed with dfu-util!", MessageType.Error);
-            }
-        }
-
-        private void FlashKiibohd(string file)
-        {
-            if (Path.GetExtension(file)?.ToLower() == ".bin") {
-                RunProcess("dfu-util.exe", $"-D \"{file}\"");
-            } else {
-                _printer.Print("Only firmware files in .bin format can be flashed with dfu-util!", MessageType.Error);
-            }
-        }
+        private void ResetAtmelSamBa() => RunProcess("mdloader.exe", $"-p {ComPort} --restart");
 
         private void FlashAvrIsp(string mcu, string file)
         {
@@ -318,24 +282,31 @@ namespace QMK_Toolbox
             _printer.Print("Flash complete", MessageType.Bootloader);
         }
 
-        private void FlashUsbAsp(string mcu, string file)
-        {
-            RunProcess("avrdude.exe", $"-p {mcu} -c usbasp -U flash:w:\"{file}\":i");
-            _printer.Print("Flash complete", MessageType.Bootloader);
-        }
-
-        private void FlashUsbTiny(string mcu, string file)
-        {
-            RunProcess("avrdude.exe", $"-p {mcu} -c usbtiny -U flash:w:\"{file}\":i");
-            _printer.Print("Flash complete", MessageType.Bootloader);
-        }
-
         private void FlashBootloadHid(string file) => RunProcess("bootloadHID.exe", $"-r \"{file}\"");
+
         private void ResetBootloadHid() => RunProcess("bootloadHID.exe", $"-r");
 
-        private void FlashAtmelSamBa(string file) => RunProcess("mdloader.exe", $"-p {ComPort} -D \"{file}\" --restart");
+        private void FlashCaterina(string mcu, string file) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U flash:w:\"{file}\":i -P {ComPort}");
 
-        private void ResetAtmelSamBa() => RunProcess("mdloader.exe", $"-p {ComPort} --restart");
+        private void ClearEepromCaterina(string mcu) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U eeprom:w:reset.eep:i -P {ComPort}");
+
+        private void SetHandednessCaterina(string mcu, bool rightHand) => RunProcess("avrdude.exe", $"-p {mcu} -c avr109 -U eeprom:w:reset_{(rightHand ? "right" : "left")}.eep:i -P {ComPort}");
+
+        private void FlashHalfkay(string mcu, string file) => RunProcess("teensy_loader_cli.exe", $"-mmcu={mcu} \"{file}\" -v");
+
+        private void ResetHalfkay(string mcu) => RunProcess("teensy_loader_cli.exe", $"-mmcu={mcu} -bv");
+
+        private void FlashKiibohd(string file)
+        {
+            if (Path.GetExtension(file)?.ToLower() == ".bin")
+            {
+                RunProcess("dfu-util.exe", $"-D \"{file}\"");
+            }
+            else
+            {
+                _printer.Print("Only firmware files in .bin format can be flashed with dfu-util!", MessageType.Error);
+            }
+        }
 
         private void FlashLufaMs(string file)
         {
@@ -369,6 +340,46 @@ namespace QMK_Toolbox
             {
                 _printer.Print("Could not find drive letter for device!", MessageType.Error);
             }
+        }
+
+        private void FlashStm32Dfu(string file)
+        {
+            if (Path.GetExtension(file)?.ToLower() == ".bin")
+            {
+                RunProcess("dfu-util.exe", $"-a 0 -d 0483:DF11 -s 0x08000000:leave -D \"{file}\"");
+            }
+            else
+            {
+                _printer.Print("Only firmware files in .bin format can be flashed with dfu-util!", MessageType.Error);
+            }
+        }
+
+        private void FlashStm32Duino(string file)
+        {
+            if (Path.GetExtension(file)?.ToLower() == ".bin")
+            {
+                RunProcess("dfu-util.exe", $"-a 2 -d 1EAF:0003 -R -D \"{file}\"");
+            }
+            else
+            {
+                _printer.Print("Only firmware files in .bin format can be flashed with dfu-util!", MessageType.Error);
+            }
+        }
+
+        private void FlashUsbAsp(string mcu, string file)
+        {
+            RunProcess("avrdude.exe", $"-p {mcu} -c usbasp -U flash:w:\"{file}\":i");
+            _printer.Print("Flash complete", MessageType.Bootloader);
+        }
+
+        private void ClearEepromUsbAsp(string mcu) => RunProcess("avrdude.exe", $"-p {mcu} -c usbasp -U eeprom:w:reset.eep:i");
+
+        private void SetHandednessUsbAsp(string mcu, bool rightHand) => RunProcess("avrdude.exe", $"-p {mcu} -c usbasp -U eeprom:w:reset_{(rightHand ? "right" : "left")}.eep:i");
+
+        private void FlashUsbTiny(string mcu, string file)
+        {
+            RunProcess("avrdude.exe", $"-p {mcu} -c usbtiny -U flash:w:\"{file}\":i");
+            _printer.Print("Flash complete", MessageType.Bootloader);
         }
     }
 }
