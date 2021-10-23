@@ -54,7 +54,7 @@
             this.githubLink.TabStop = true;
             this.githubLink.Text = "https://github.com/qmk/qmk_toolbox";
             this.githubLink.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.githubLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.GithubLabel_LinkClicked);
+            this.githubLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.GithubLink_LinkClicked);
             // 
             // qmkLogo
             // 

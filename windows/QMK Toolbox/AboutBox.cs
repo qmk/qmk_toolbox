@@ -86,7 +86,7 @@ namespace QMK_Toolbox
 
         #endregion Assembly Attribute Accessors
 
-        private void GithubLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void GithubLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start(githubLink.Text);
         }
