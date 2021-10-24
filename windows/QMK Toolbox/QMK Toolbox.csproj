@@ -147,9 +147,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\output.ico" />
-    <EmbeddedResource Include="..\..\common\applet-mdflash.bin">
-      <Link>Resources\applet-mdflash.bin</Link>
-    </EmbeddedResource>
     <EmbeddedResource Include="..\..\common\avrdude.conf">
       <Link>Resources\avrdude.conf</Link>
     </EmbeddedResource>
@@ -211,4 +208,5 @@
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>
