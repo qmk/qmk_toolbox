@@ -16,9 +16,6 @@
 @property IBOutlet NSButton *flashButton;
 @property IBOutlet NSButton *resetButton;
 @property IBOutlet NSButton *clearEEPROMButton;
-@property IBOutlet NSComboBox *keyboardBox;
-@property IBOutlet NSComboBox *keymapBox;
-@property IBOutlet NSButton *loadButton;
 @property IBOutlet NSComboBox *consoleListBox;
 
 @property NSWindowController *keyTesterWindowController;
@@ -58,7 +55,6 @@
     [[self.textView menu] addItem:[NSMenuItem separatorItem]];
     [[self.textView menu] addItem:self.clearMenuItem];
 
-    [self loadKeyboards];
     [self loadRecentDocuments];
 
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
@@ -343,37 +339,5 @@
 
 - (IBAction)clearButtonClick:(id)sender {
     [[self textView] setString:@""];
-}
-
-- (void)loadKeyboards {
-    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://api.qmk.fm/v1/keyboards"]];
-    NSError *error = nil;
-    if (data != nil) {
-        NSArray *keyboards = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-        [self.keyboardBox removeAllItems];
-        [self.keyboardBox addItemsWithObjectValues:keyboards];
-        self.keyboardBox.enabled = YES;
-        self.keyboardBox.target = self;
-        self.keyboardBox.action = @selector(keyboardBoxChanged);
-        [self loadKeymaps];
-    }
-}
-
-- (void)keyboardBoxChanged {
-    self.loadButton.enabled = self.keyboardBox.indexOfSelectedItem != -1;
-}
-
-- (void)loadKeymaps {
-    [self.keymapBox removeAllItems];
-    [self.keymapBox addItemWithObjectValue:@"default"];
-    [self.keymapBox selectItemAtIndex:0];
-    self.loadButton.enabled = NO;
-}
-
-- (IBAction)loadKeymapClick:(id)sender {
-    if ([self.keyboardBox numberOfItems] > 0) {
-        NSString *keyboard = [[self.keyboardBox objectValue] stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
-        [self setFilePath:[NSURL URLWithString:[NSString stringWithFormat:@"qmk:http://qmk.fm/compiled/%@_default.hex", keyboard]]];
-    }
 }
 @end

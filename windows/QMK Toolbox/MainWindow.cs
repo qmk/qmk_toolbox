@@ -16,7 +16,6 @@ namespace QMK_Toolbox
     using Newtonsoft.Json;
     using Syroot.Windows.IO;
     using System.Collections;
-    using System.Collections.Generic;
     using System.Management;
     using System.Net;
 
@@ -103,8 +102,6 @@ namespace QMK_Toolbox
             {
                 SetFilePath(_filePassedIn);
             }
-
-            LoadKeyboardList();
         }
 
         private void MainWindow_Shown(object sender, EventArgs e)
@@ -643,58 +640,5 @@ namespace QMK_Toolbox
             logTextBox.Clear();
         }
         #endregion
-
-        private void LoadKeyboardList()
-        {
-            try
-            {
-                using (var wc = new WebClient())
-                {
-                    var json = wc.DownloadString("http://api.qmk.fm/v1/keyboards");
-                    if (json != null)
-                    {
-                        var keyboards = JsonConvert.DeserializeObject<List<string>>(json);
-                        keyboardBox.Items.Clear();
-                        foreach (var keyboard in keyboards)
-                        {
-                            keyboardBox.Items.Add(keyboard);
-                        }
-                        keyboardBox.SelectedIndex = -1;
-                        keyboardBox.ResetText();
-                        keyboardBox.Enabled = true;
-                        loadKeymapButton.Enabled = false;
-                        LoadKeymapList();
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                _printer.PrintResponse("Something went wrong when trying to get the keyboard list from QMK.FM, you might not have a internet connection or the servers are down.", MessageType.Error);
-                keymapBox.Enabled = false;
-                keyboardBox.Enabled = false;
-                loadKeymapButton.Enabled = false;
-            }
-        }
-
-        private void LoadKeymapList()
-        {
-            keymapBox.Items.Clear();
-            keymapBox.Items.Add("default");
-            keymapBox.SelectedIndex = 0;
-            // keymapBox.Enabled = true;
-        }
-
-        private void LoadKeymapButton_Click(object sender, EventArgs e)
-        {
-            if (keyboardBox.Items.Count > 0)
-            {
-                SetFilePath($"qmk:https://qmk.fm/compiled/{keyboardBox.Text.Replace("/", "_")}_default.hex");
-            }
-        }
-
-        private void KeyboardBox_TextChanged(object sender, EventArgs e)
-        {
-            loadKeymapButton.Enabled = keyboardBox.Items.Contains(keyboardBox.Text);
-        }
     }
 }

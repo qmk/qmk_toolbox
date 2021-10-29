@@ -20,9 +20,6 @@
                 <outlet property="consoleListBox" destination="FPO-qP-5FM" id="wDE-1D-dvL"/>
                 <outlet property="filepathBox" destination="fMz-rn-IEt" id="eSr-wv-y0f"/>
                 <outlet property="flashButton" destination="OKF-oG-mRx" id="3MC-L3-Hfy"/>
-                <outlet property="keyboardBox" destination="j37-hH-gaF" id="Vhv-Th-t9k"/>
-                <outlet property="keymapBox" destination="kHS-JF-7Py" id="suN-oq-4uk"/>
-                <outlet property="loadButton" destination="NAG-fy-neW" id="K0O-ve-BFP"/>
                 <outlet property="mcuBox" destination="A13-Sl-S0x" id="VCZ-JH-C9H"/>
                 <outlet property="openButton" destination="oJO-GM-iRa" id="1vj-RC-Mm9"/>
                 <outlet property="resetButton" destination="qEj-2h-OmC" id="mmT-oh-51z"/>
@@ -357,77 +354,6 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <box boxType="secondary" borderType="line" title="Keyboard from qmk.fm" translatesAutoresizingMaskIntoConstraints="NO" id="LCo-O1-xnT">
-                        <rect key="frame" x="7" y="518" width="651" height="54"/>
-                        <view key="contentView" id="cS7-E3-hab">
-                            <rect key="frame" x="3" y="3" width="645" height="36"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <subviews>
-                                <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j37-hH-gaF">
-                                    <rect key="frame" x="8" y="4" width="440" height="26"/>
-                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Select a keyboard to download" drawsBackground="YES" numberOfVisibleItems="20" id="5mG-K9-oUt">
-                                        <font key="font" metaFont="cellTitle"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        <objectValues>
-                                            <string>Item 1</string>
-                                            <string>Item 2</string>
-                                            <string>Item 3</string>
-                                        </objectValues>
-                                    </comboBoxCell>
-                                </comboBox>
-                                <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kHS-JF-7Py">
-                                    <rect key="frame" x="453" y="4" width="131" height="26"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="128" id="Rmh-Vs-2bF"/>
-                                    </constraints>
-                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="S8q-ac-xFc">
-                                        <font key="font" metaFont="cellTitle"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        <objectValues>
-                                            <string>Item 1</string>
-                                            <string>Item 2</string>
-                                            <string>Item 3</string>
-                                        </objectValues>
-                                    </comboBoxCell>
-                                </comboBox>
-                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NAG-fy-neW">
-                                    <rect key="frame" x="582" y="1" width="62" height="32"/>
-                                    <buttonCell key="cell" type="push" title="Load" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="GU7-Aq-YSe">
-                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="label" size="12"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <action selector="loadKeymapClick:" target="Voe-Tx-rLC" id="FGB-FY-YUE"/>
-                                    </connections>
-                                </button>
-                            </subviews>
-                            <constraints>
-                                <constraint firstItem="j37-hH-gaF" firstAttribute="leading" secondItem="cS7-E3-hab" secondAttribute="leading" constant="8" id="9l7-JK-igl"/>
-                                <constraint firstItem="j37-hH-gaF" firstAttribute="top" secondItem="cS7-E3-hab" secondAttribute="top" constant="8" id="EHH-W1-fRe"/>
-                                <constraint firstAttribute="trailing" secondItem="NAG-fy-neW" secondAttribute="trailing" constant="8" id="FMn-4k-zDM"/>
-                                <constraint firstAttribute="bottom" secondItem="kHS-JF-7Py" secondAttribute="bottom" constant="8" id="QW1-Ya-Dh0"/>
-                                <constraint firstItem="NAG-fy-neW" firstAttribute="top" secondItem="cS7-E3-hab" secondAttribute="top" constant="8" id="UK7-G7-uOK"/>
-                                <constraint firstItem="kHS-JF-7Py" firstAttribute="top" secondItem="cS7-E3-hab" secondAttribute="top" constant="8" id="fyK-pO-4UY"/>
-                                <constraint firstAttribute="bottom" secondItem="NAG-fy-neW" secondAttribute="bottom" constant="8" id="i4C-rj-f3c"/>
-                                <constraint firstItem="NAG-fy-neW" firstAttribute="leading" secondItem="kHS-JF-7Py" secondAttribute="trailing" constant="8" symbolic="YES" id="k6V-Xf-uIb"/>
-                                <constraint firstItem="kHS-JF-7Py" firstAttribute="leading" secondItem="j37-hH-gaF" secondAttribute="trailing" constant="8" symbolic="YES" id="pUG-Y3-pdF"/>
-                                <constraint firstAttribute="bottom" secondItem="j37-hH-gaF" secondAttribute="bottom" constant="8" id="vJB-Nf-E6s"/>
-                            </constraints>
-                        </view>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="50" id="xKd-xI-5cI"/>
-                        </constraints>
-                    </box>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sFy-Lg-NKo">
-                        <rect key="frame" x="464" y="558" width="193" height="14"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Keymap" id="bla-E3-TAS">
-                            <font key="font" metaFont="message" size="11"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OKF-oG-mRx">
                         <rect key="frame" x="656" y="538" width="64" height="32"/>
                         <buttonCell key="cell" type="push" title="Flash" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="WBr-hK-w8Y">
@@ -515,28 +441,22 @@
                     <constraint firstItem="w5R-Hk-e8X" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="10" id="BdT-Ww-Qmp"/>
                     <constraint firstItem="w5R-Hk-e8X" firstAttribute="top" secondItem="TwL-TO-5Ka" secondAttribute="bottom" constant="8" symbolic="YES" id="C58-dN-Nz8"/>
                     <constraint firstAttribute="trailing" secondItem="t67-0j-kLe" secondAttribute="trailing" constant="10" id="G6N-Tg-bGd"/>
-                    <constraint firstItem="w5R-Hk-e8X" firstAttribute="top" secondItem="LCo-O1-xnT" secondAttribute="bottom" constant="8" symbolic="YES" id="HwZ-Rm-mbl"/>
                     <constraint firstItem="FPO-qP-5FM" firstAttribute="top" secondItem="w5R-Hk-e8X" secondAttribute="bottom" constant="9" id="J0O-yY-UE3"/>
                     <constraint firstItem="qEj-2h-OmC" firstAttribute="leading" secondItem="OKF-oG-mRx" secondAttribute="trailing" constant="8" id="Nc3-jf-JYQ"/>
-                    <constraint firstItem="sFy-Lg-NKo" firstAttribute="trailing" secondItem="LCo-O1-xnT" secondAttribute="trailing" id="OpI-Nf-t6z"/>
                     <constraint firstItem="9ht-zl-DdM" firstAttribute="trailing" secondItem="t67-0j-kLe" secondAttribute="trailing" id="Psu-ML-lmF"/>
                     <constraint firstItem="qEj-2h-OmC" firstAttribute="trailing" secondItem="TwL-TO-5Ka" secondAttribute="trailing" id="RnE-Zh-3N5"/>
-                    <constraint firstItem="LCo-O1-xnT" firstAttribute="top" secondItem="t67-0j-kLe" secondAttribute="bottom" constant="8" symbolic="YES" id="Ul1-S7-BR5"/>
                     <constraint firstItem="TwL-TO-5Ka" firstAttribute="top" secondItem="OKF-oG-mRx" secondAttribute="bottom" constant="8" id="Zf8-0i-vof"/>
                     <constraint firstItem="RSb-Il-mNt" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="10" id="Zwx-cY-fGS"/>
+                    <constraint firstItem="OKF-oG-mRx" firstAttribute="top" secondItem="t67-0j-kLe" secondAttribute="bottom" constant="15" id="b0B-xw-uMI"/>
                     <constraint firstAttribute="bottom" secondItem="FPO-qP-5FM" secondAttribute="bottom" constant="10" id="fUh-wY-4b9"/>
                     <constraint firstAttribute="bottom" secondItem="RSb-Il-mNt" secondAttribute="bottom" constant="10" id="hMV-Bz-Rd0"/>
                     <constraint firstItem="t67-0j-kLe" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="10" id="hY7-4X-Nrm"/>
                     <constraint firstItem="9ht-zl-DdM" firstAttribute="leading" secondItem="A13-Sl-S0x" secondAttribute="leading" constant="3" id="jhU-5m-HNH"/>
-                    <constraint firstItem="sFy-Lg-NKo" firstAttribute="bottom" secondItem="LCo-O1-xnT" secondAttribute="top" constant="14" id="mNm-zP-Ll8"/>
                     <constraint firstItem="9ht-zl-DdM" firstAttribute="bottom" secondItem="t67-0j-kLe" secondAttribute="top" constant="14" id="me3-Ss-MQt"/>
                     <constraint firstItem="FPO-qP-5FM" firstAttribute="leading" secondItem="RSb-Il-mNt" secondAttribute="trailing" constant="8" symbolic="YES" id="mzX-zO-3Sz"/>
-                    <constraint firstItem="LCo-O1-xnT" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="10" id="pIB-Hs-nnI"/>
-                    <constraint firstItem="OKF-oG-mRx" firstAttribute="leading" secondItem="LCo-O1-xnT" secondAttribute="trailing" constant="8" symbolic="YES" id="reN-8u-DkO"/>
                     <constraint firstItem="t67-0j-kLe" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="10" id="tnv-lz-t10"/>
                     <constraint firstAttribute="trailing" secondItem="FPO-qP-5FM" secondAttribute="trailing" constant="10" id="utN-AQ-ZVa"/>
                     <constraint firstItem="RSb-Il-mNt" firstAttribute="top" secondItem="w5R-Hk-e8X" secondAttribute="bottom" constant="8" id="xU6-gQ-pgQ"/>
-                    <constraint firstItem="sFy-Lg-NKo" firstAttribute="leading" secondItem="kHS-JF-7Py" secondAttribute="leading" constant="3" id="z5W-JH-tlg"/>
                 </constraints>
             </view>
             <point key="canvasLocation" x="349" y="454"/>

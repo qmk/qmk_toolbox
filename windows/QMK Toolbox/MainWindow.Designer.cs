@@ -32,11 +32,6 @@ namespace QMK_Toolbox {
             this.openFileButton = new System.Windows.Forms.Button();
             this.resetButton = new System.Windows.Forms.Button();
             this.mcuLabel = new System.Windows.Forms.Label();
-            this.qmkfmGroupBox = new System.Windows.Forms.GroupBox();
-            this.keymapLabel = new System.Windows.Forms.Label();
-            this.keymapBox = new System.Windows.Forms.ComboBox();
-            this.keyboardBox = new QMK_Toolbox.ComboBoxPlaceholder();
-            this.loadKeymapButton = new System.Windows.Forms.Button();
             this.fileGroupBox = new System.Windows.Forms.GroupBox();
             this.filepathBox = new QMK_Toolbox.BetterComboBox();
             this.mcuBox = new QMK_Toolbox.MicrocontrollerSelector();
@@ -76,7 +71,6 @@ namespace QMK_Toolbox {
             this.helpToolStripMenuSep = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.windowStateBindingSource)).BeginInit();
-            this.qmkfmGroupBox.SuspendLayout();
             this.fileGroupBox.SuspendLayout();
             this.logContextMenu.SuspendLayout();
             this.mainMenu.SuspendLayout();
@@ -148,76 +142,6 @@ namespace QMK_Toolbox {
             this.mcuLabel.Size = new System.Drawing.Size(84, 13);
             this.mcuLabel.TabIndex = 2;
             this.mcuLabel.Text = "MCU (AVR only)";
-            // 
-            // qmkfmGroupBox
-            // 
-            this.qmkfmGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.qmkfmGroupBox.Controls.Add(this.keymapLabel);
-            this.qmkfmGroupBox.Controls.Add(this.keymapBox);
-            this.qmkfmGroupBox.Controls.Add(this.keyboardBox);
-            this.qmkfmGroupBox.Controls.Add(this.loadKeymapButton);
-            this.qmkfmGroupBox.Location = new System.Drawing.Point(12, 86);
-            this.qmkfmGroupBox.Name = "qmkfmGroupBox";
-            this.qmkfmGroupBox.Size = new System.Drawing.Size(635, 48);
-            this.qmkfmGroupBox.TabIndex = 2;
-            this.qmkfmGroupBox.TabStop = false;
-            this.qmkfmGroupBox.Text = "Keyboard from qmk.fm";
-            // 
-            // keymapLabel
-            // 
-            this.keymapLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.keymapLabel.AutoSize = true;
-            this.keymapLabel.Location = new System.Drawing.Point(447, 0);
-            this.keymapLabel.Name = "keymapLabel";
-            this.keymapLabel.Size = new System.Drawing.Size(45, 13);
-            this.keymapLabel.TabIndex = 1;
-            this.keymapLabel.Text = "Keymap";
-            // 
-            // keymapBox
-            // 
-            this.keymapBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.keymapBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "keymap", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.keymapBox.Enabled = false;
-            this.keymapBox.FormattingEnabled = true;
-            this.keymapBox.Items.AddRange(new object[] {
-            "later version!"});
-            this.keymapBox.Location = new System.Drawing.Point(450, 19);
-            this.keymapBox.Name = "keymapBox";
-            this.keymapBox.Size = new System.Drawing.Size(109, 21);
-            this.keymapBox.TabIndex = 2;
-            this.keymapBox.Text = global::QMK_Toolbox.Properties.Settings.Default.keymap;
-            // 
-            // keyboardBox
-            // 
-            this.keyboardBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.keyboardBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.keyboardBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.keyboardBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::QMK_Toolbox.Properties.Settings.Default, "keyboard", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.keyboardBox.Enabled = false;
-            this.keyboardBox.FormattingEnabled = true;
-            this.keyboardBox.Items.AddRange(new object[] {
-            "this feature coming in"});
-            this.keyboardBox.Location = new System.Drawing.Point(6, 19);
-            this.keyboardBox.Name = "keyboardBox";
-            this.keyboardBox.PlaceholderText = "Select a keyboard to download";
-            this.keyboardBox.Size = new System.Drawing.Size(438, 21);
-            this.keyboardBox.TabIndex = 0;
-            this.keyboardBox.Text = global::QMK_Toolbox.Properties.Settings.Default.keyboard;
-            this.keyboardBox.TextChanged += new System.EventHandler(this.KeyboardBox_TextChanged);
-            // 
-            // loadKeymapButton
-            // 
-            this.loadKeymapButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.loadKeymapButton.Enabled = false;
-            this.loadKeymapButton.Location = new System.Drawing.Point(565, 18);
-            this.loadKeymapButton.Name = "loadKeymapButton";
-            this.loadKeymapButton.Size = new System.Drawing.Size(64, 23);
-            this.loadKeymapButton.TabIndex = 3;
-            this.loadKeymapButton.Text = "Load";
-            this.loadKeymapButton.UseVisualStyleBackColor = true;
-            this.loadKeymapButton.Click += new System.EventHandler(this.LoadKeymapButton_Click);
             // 
             // fileGroupBox
             // 
@@ -588,7 +512,6 @@ namespace QMK_Toolbox {
             this.Controls.Add(this.consoleList);
             this.Controls.Add(this.clearEepromButton);
             this.Controls.Add(this.fileGroupBox);
-            this.Controls.Add(this.qmkfmGroupBox);
             this.Controls.Add(this.flashButton);
             this.Controls.Add(this.autoflashCheckbox);
             this.Controls.Add(this.logTextBox);
@@ -605,8 +528,6 @@ namespace QMK_Toolbox {
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainWindow_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainWindow_DragEnter);
             ((System.ComponentModel.ISupportInitialize)(this.windowStateBindingSource)).EndInit();
-            this.qmkfmGroupBox.ResumeLayout(false);
-            this.qmkfmGroupBox.PerformLayout();
             this.fileGroupBox.ResumeLayout(false);
             this.fileGroupBox.PerformLayout();
             this.logContextMenu.ResumeLayout(false);
@@ -626,11 +547,6 @@ namespace QMK_Toolbox {
         private System.Windows.Forms.Button openFileButton;
         private System.Windows.Forms.Button resetButton;
         private System.Windows.Forms.Label mcuLabel;
-        private System.Windows.Forms.GroupBox qmkfmGroupBox;
-        private System.Windows.Forms.ComboBox keymapBox;
-        private ComboBoxPlaceholder keyboardBox;
-        private System.Windows.Forms.Button loadKeymapButton;
-        private System.Windows.Forms.Label keymapLabel;
         private System.Windows.Forms.GroupBox fileGroupBox;
         private System.Windows.Forms.Button clearEepromButton;
         private ComboBoxPlaceholder consoleList;
