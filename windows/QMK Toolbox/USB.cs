@@ -67,6 +67,7 @@ namespace QMK_Toolbox
 
         private static readonly ushort[] caterinaVids =
         {
+            0x1209, // pid.codes shared PID
             0x1B4F, // Spark Fun Electronics
             0x1FFB, // Pololu Electronics
             0x2341, // Arduino SA
@@ -85,6 +86,8 @@ namespace QMK_Toolbox
             0x0037, // Micro
             // Pololu Electronics
             0x0101, // A-Star 32U4
+            // Keyboardio (uses the pid.codes shared PID)
+            0x2302, // Atreus 2 Bootloader
             // Spark Fun Electronics
             0x9203, // Pro Micro 3V3/8MHz
             0x9205, // Pro Micro 5V/16MHz
