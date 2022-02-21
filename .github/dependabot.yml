@@ -1,0 +1,11 @@
+# Please see the documentation for all configuration options:
+# https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  - package-ecosystem: "github-actions" # See documentation for possible values
+    directory: "/"
+    schedule:
+      interval: "daily"
+    reviewers:
+      - "qmk/collaborators"
