@@ -15,9 +15,9 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: microsoft/setup-msbuild@v1.0.2
+    - uses: microsoft/setup-msbuild@v1.1
 
-    - uses: nuget/setup-nuget@v1.0.5
+    - uses: nuget/setup-nuget@v1
 
     - uses: actions/checkout@v2
 
