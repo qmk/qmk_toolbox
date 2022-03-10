@@ -115,4 +115,23 @@
     [self.delegate bootloaderDevice:self didReceiveCommandOutput:message messageType:type];
 }
 
+- (NSString *)findSerialPort {
+    CFMutableDictionaryRef serialMatcher = IOServiceMatching(kIOSerialBSDServiceValue);
+    CFDictionarySetValue(serialMatcher, CFSTR(kIOSerialBSDTypeKey), CFSTR(kIOSerialBSDAllTypes));
+
+    io_iterator_t serialIterator;
+    IOServiceGetMatchingServices(kIOMasterPortDefault, serialMatcher, &serialIterator);
+
+    io_service_t port;
+    while ((port = IOIteratorNext(serialIterator))) {
+        ushort parentVendorID = [self.usbDevice vendorIDForService:port];
+        ushort parentProductID = [self.usbDevice productIDForService:port];
+
+        if (parentVendorID == self.vendorID && parentProductID == self.productID) {
+            return [self.usbDevice stringProperty:CFSTR(kIOCalloutDeviceKey) forService:port];
+        }
+    }
+    return nil;
+}
+
 @end

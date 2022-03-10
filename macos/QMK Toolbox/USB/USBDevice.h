@@ -24,6 +24,6 @@
 
 - (ushort)productIDForService:(io_service_t)service;
 
--(NSString *)findSerialPort;
+- (NSString *)stringProperty:(CFStringRef)property forService:(io_service_t)service;
 
 @end

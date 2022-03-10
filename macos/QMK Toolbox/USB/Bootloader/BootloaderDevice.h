@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import <IOKit/serial/IOSerialKeys.h>
 
 #import "BootloaderType.h"
 #import "USBDevice.h"
@@ -34,5 +35,7 @@
 - (void)runProcess:(NSString *)command withArgs:(NSArray<NSString *> *)args;
 
 - (void)printMessage:(NSString *)message withType:(MessageType)type;
+
+- (NSString *)findSerialPort;
 
 @end

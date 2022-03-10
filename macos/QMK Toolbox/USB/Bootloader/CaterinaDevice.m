@@ -8,7 +8,7 @@
         self.type = BootloaderTypeCaterina;
         self.eepromFlashable = YES;
         while (self.serialPort == nil) {
-            self.serialPort = [self.usbDevice findSerialPort];
+            self.serialPort = [self findSerialPort];
         }
     }
     return self;

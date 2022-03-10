@@ -8,7 +8,7 @@
         self.type = BootloaderTypeAtmelSAMBA;
         self.resettable = YES;
         while (self.serialPort == nil) {
-            self.serialPort = [self.usbDevice findSerialPort];
+            self.serialPort = [self findSerialPort];
         }
     }
     return self;

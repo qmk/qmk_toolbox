@@ -1,5 +1,4 @@
 #import <IOKit/usb/IOUSBLib.h>
-#import <IOKit/serial/IOSerialKeys.h>
 
 #import "USBDevice.h"
 
@@ -60,25 +59,6 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"%@ %@ (%04X:%04X:%04X)", self.manufacturerString, self.productString, self.vendorID, self.productID, self.revisionBCD];
-}
-
-- (NSString *)findSerialPort {
-    CFMutableDictionaryRef serialMatcher = IOServiceMatching(kIOSerialBSDServiceValue);
-    CFDictionarySetValue(serialMatcher, CFSTR(kIOSerialBSDTypeKey), CFSTR(kIOSerialBSDAllTypes));
-
-    io_iterator_t serialIterator;
-    IOServiceGetMatchingServices(kIOMasterPortDefault, serialMatcher, &serialIterator);
-
-    io_service_t port;
-    while ((port = IOIteratorNext(serialIterator))) {
-        ushort parentVendorID = [self vendorIDForService:port];
-        ushort parentProductID = [self productIDForService:port];
-
-        if (parentVendorID == self.vendorID && parentProductID == self.productID) {
-            return [self stringProperty:CFSTR(kIOCalloutDeviceKey) forService:port];
-        }
-    }
-    return nil;
 }
 
 @end

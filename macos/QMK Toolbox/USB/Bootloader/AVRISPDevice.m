@@ -7,7 +7,7 @@
         self.name = @"AVR ISP";
         self.type = BootloaderTypeAVRISP;
         while (self.serialPort == nil) {
-            self.serialPort = [self.usbDevice findSerialPort];
+            self.serialPort = [self findSerialPort];
         }
     }
     return self;
