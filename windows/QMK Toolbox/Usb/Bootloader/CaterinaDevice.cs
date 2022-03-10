@@ -13,7 +13,7 @@ namespace QMK_Toolbox.Usb.Bootloader
             PreferredDriver = "usbser";
             IsEepromFlashable = true;
 
-            ComPort = UsbDevice.FindComPort();
+            ComPort = FindComPort();
         }
 
         public async override Task Flash(string mcu, string file)

@@ -12,7 +12,7 @@ namespace QMK_Toolbox.Usb.Bootloader
             Name = "AVR ISP";
             PreferredDriver = "usbser";
 
-            ComPort = UsbDevice.FindComPort();
+            ComPort = FindComPort();
         }
 
         public async override Task Flash(string mcu, string file)

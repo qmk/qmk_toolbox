@@ -63,21 +63,5 @@ namespace QMK_Toolbox.Usb
 
             return "NO DRIVER";
         }
-
-        protected string FindComPort()
-        {
-            using (var searcher = new ManagementObjectSearcher("SELECT PNPDeviceID, DeviceID FROM Win32_SerialPort"))
-            {
-                foreach (var device in searcher.Get())
-                {
-                    if (device.GetPropertyValue("PNPDeviceID").ToString().Equals(WmiDevice.GetPropertyValue("PNPDeviceID").ToString()))
-                    {
-                        return device.GetPropertyValue("DeviceID").ToString();
-                    }
-                }
-            }
-
-            return null;
-        }
     }
 }

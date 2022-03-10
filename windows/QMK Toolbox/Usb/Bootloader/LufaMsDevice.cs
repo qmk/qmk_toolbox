@@ -54,7 +54,7 @@ namespace QMK_Toolbox.Usb.Bootloader
 
         public override string ToString() => $"{base.ToString()} [{MountPoint}]";
 
-        private static string FindMountPoint()
+        private string FindMountPoint()
         {
             foreach (ManagementObject usbHub in new ManagementObjectSearcher("SELECT * FROM Win32_USBHub").Get())
             {
