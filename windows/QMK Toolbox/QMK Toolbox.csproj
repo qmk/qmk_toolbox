@@ -73,7 +73,6 @@
     <Compile Include="BindableToolStripMenuItem.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Flashing.cs" />
     <Compile Include="Helpers\DriverInstaller.cs" />
     <Compile Include="Helpers\EmbeddedResourceHelper.cs" />
     <Compile Include="HidConsole\HidConsoleDevice.cs" />
@@ -103,10 +102,27 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="USB.cs" />
     <Compile Include="ComboBoxPlaceholder.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Usb\Bootloader\Apm32DfuDevice.cs" />
+    <Compile Include="Usb\Bootloader\AtmelDfuDevice.cs" />
+    <Compile Include="Usb\Bootloader\AtmelSamBaDevice.cs" />
+    <Compile Include="Usb\Bootloader\AvrIspDevice.cs" />
+    <Compile Include="Usb\Bootloader\BootloaderDevice.cs" />
+    <Compile Include="Usb\Bootloader\BootloaderType.cs" />
+    <Compile Include="Usb\Bootloader\BootloadHidDevice.cs" />
+    <Compile Include="Usb\Bootloader\CaterinaDevice.cs" />
+    <Compile Include="Usb\Bootloader\HalfKayDevice.cs" />
+    <Compile Include="Usb\Bootloader\KiibohdDfuDevice.cs" />
+    <Compile Include="Usb\Bootloader\LufaMsDevice.cs" />
+    <Compile Include="Usb\Bootloader\Stm32DfuDevice.cs" />
+    <Compile Include="Usb\Bootloader\Stm32DuinoDevice.cs" />
+    <Compile Include="Usb\Bootloader\UsbAspDevice.cs" />
+    <Compile Include="Usb\Bootloader\UsbTinyIspDevice.cs" />
+    <Compile Include="Usb\IUsbDevice.cs" />
+    <Compile Include="Usb\UsbDevice.cs" />
+    <Compile Include="Usb\UsbListener.cs" />
     <Compile Include="WindowState.cs" />
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
