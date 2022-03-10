@@ -1,12 +1,11 @@
 #import "AppDelegate.h"
 
-#import "Flashing.h"
 #import "HIDConsoleListener.h"
 #import "MicrocontrollerSelector.h"
 #import "QMKWindow.h"
-#import "USB.h"
+#import "USBListener.h"
 
-@interface AppDelegate () <HIDConsoleListenerDelegate, FlashingDelegate, USBDelegate>
+@interface AppDelegate () <HIDConsoleListenerDelegate, USBListenerDelegate>
 @property (weak) IBOutlet QMKWindow *window;
 @property IBOutlet NSTextView *textView;
 @property IBOutlet NSMenuItem *clearMenuItem;
@@ -20,11 +19,11 @@
 
 @property NSWindowController *keyTesterWindowController;
 
-@property Flashing *flasher;
-
 @property HIDConsoleListener *consoleListener;
 
 @property HIDConsoleDevice *lastReportedDevice;
+
+@property USBListener *usbListener;
 @end
 
 @implementation AppDelegate
@@ -49,8 +48,6 @@
     [self.window setup];
 
     self.printer = [[Printing alloc] initWithTextView:self.textView];
-    self.flasher = [[Flashing alloc] initWithPrinter:self.printer];
-    self.flasher.delegate = self;
 
     [[self.textView menu] addItem:[NSMenuItem separatorItem]];
     [[self.textView menu] addItem:self.clearMenuItem];
@@ -72,11 +69,13 @@
     [self.printer printResponse:@" - USBasp (AVR ISP)\n" withType:MessageType_Info];
     [self.printer printResponse:@" - USBTiny (AVR Pocket)\n" withType:MessageType_Info];
 
+    self.usbListener = [[USBListener alloc] init];
+    self.usbListener.delegate = self;
+    [self.usbListener start];
+
     self.consoleListener = [[HIDConsoleListener alloc] init];
     self.consoleListener.delegate = self;
     [self.consoleListener start];
-
-    [USB setupWithPrinter:self.printer andDelegate:self];
 }
 
 - (void)handleGetURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)reply {
@@ -98,6 +97,7 @@
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
+    [self.usbListener stop];
     [self.consoleListener stop];
 }
 
@@ -143,15 +143,28 @@
 }
 
 #pragma mark USB Devices & Bootloaders
-- (void)deviceConnected:(Chipset)chipset {
-    if (self.autoFlashEnabled) {
-        [self flashButtonClick:NULL];
-    }
+- (void)bootloaderDeviceDidConnect:(BootloaderDevice *)device {
+    [self.printer print:[NSString stringWithFormat:@"%@ device connected: %@", device.name, device] withType:MessageType_Bootloader];
     [self enableUI];
 }
 
-- (void)deviceDisconnected:(Chipset)chipset {
+- (void)bootloaderDeviceDidDisconnect:(BootloaderDevice *)device {
+    [self.printer print:[NSString stringWithFormat:@"%@ device disconnnected: %@", device.name, device] withType:MessageType_Bootloader];
     [self enableUI];
+}
+
+-(void)bootloaderDevice:(BootloaderDevice *)device didReceiveCommandOutput:(NSString *)data messageType:(MessageType)type {
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        [self.printer printResponse:data withType:type];
+    });
+}
+
+- (void)usbDeviceDidConnect:(USBDevice *)device {
+    [self.printer print:[NSString stringWithFormat:@"USB device connected: %@", device] withType:MessageType_Info];
+}
+
+- (void)usbDeviceDidDisconnect:(USBDevice *)device {
+    [self.printer print:[NSString stringWithFormat:@"USB device disconnected: %@", device] withType:MessageType_Info];
 }
 
 #pragma mark UI Interaction
@@ -173,46 +186,64 @@
 }
 
 - (IBAction)flashButtonClick:(id)sender {
-    if ([USB areDevicesAvailable]) {
-        if ([self.mcuBox indexOfSelectedItem] >= 0) {
-            if ([[self.filepathBox stringValue] length] > 0) {
-                if (!self.autoFlashEnabled) {
-                    [self disableUI];
-                }
+    NSString *file = [self.filepathBox stringValue];
 
-                [self.printer print:@"Attempting to flash, please don't remove device" withType:MessageType_Bootloader];
-                // this is dumb, but the delay is required to let the previous print command show up
-                double delayInSeconds = .01;
-                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-                dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                    [self.flasher performSelector:@selector(flash:withFile:) withObject:[self.mcuBox keyForSelectedItem] withObject:[self.filepathBox stringValue]];
+    if ([file length] > 0) {
+        if ([self.mcuBox indexOfSelectedItem] >= 0) {
+            NSString *mcu = [self.mcuBox keyForSelectedItem];
+
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    if (!self.autoFlashEnabled) {
+                        [self disableUI];
+                    }
+
+                    [self.printer print:@"Attempting to flash, please don't remove device" withType:MessageType_Bootloader];
                 });
 
-                if (!self.autoFlashEnabled) {
-                    [self enableUI];
+                for (BootloaderDevice *b in [self findBootloaders]) {
+                    [b flashWithMCU:mcu file:file];
                 }
-            } else {
-                [self.printer print:@"Please select a file" withType:MessageType_Error];
-            }
+
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    [self.printer print:@"Flash complete" withType:MessageType_Bootloader];
+
+                    if (!self.autoFlashEnabled) {
+                        [self enableUI];
+                    }
+                });
+            });
         } else {
             [self.printer print:@"Please select a microcontroller" withType:MessageType_Error];
         }
     } else {
-        [self.printer print:@"There are no devices available" withType:MessageType_Error];
+        [self.printer print:@"Please select a file" withType:MessageType_Error];
     }
 }
 
 - (IBAction)resetButtonClick:(id)sender {
     if ([self.mcuBox indexOfSelectedItem] >= 0) {
-        if (!self.autoFlashEnabled) {
-            [self disableUI];
-        }
+        NSString *mcu = [self.mcuBox keyForSelectedItem];
 
-        [self.flasher reset:[self.mcuBox keyForSelectedItem]];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                if (!self.autoFlashEnabled) {
+                    [self disableUI];
+                }
+            });
 
-        if (!self.autoFlashEnabled) {
-            [self enableUI];
-        }
+            for (BootloaderDevice *b in [self findBootloaders]) {
+                if ([b resettable]) {
+                    [b resetWithMCU:mcu];
+                }
+            }
+
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                if (!self.autoFlashEnabled) {
+                    [self enableUI];
+                }
+            });
+        });
     } else {
         [self.printer print:@"Please select a microcontroller" withType:MessageType_Error];
     }
@@ -220,15 +251,31 @@
 
 - (IBAction)clearEEPROMButtonClick:(id)sender {
     if ([self.mcuBox indexOfSelectedItem] >= 0) {
-        if (!self.autoFlashEnabled) {
-            [self disableUI];
-        }
+        NSString *mcu = [self.mcuBox keyForSelectedItem];
 
-        [self.flasher clearEEPROM:[self.mcuBox keyForSelectedItem]];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                if (!self.autoFlashEnabled) {
+                    [self disableUI];
+                }
 
-        if (!self.autoFlashEnabled) {
-            [self enableUI];
-        }
+                [self.printer print:@"Attempting to clear EEPROM, please don't remove device" withType:MessageType_Bootloader];
+            });
+
+            for (BootloaderDevice *b in [self findBootloaders]) {
+                if ([b eepromFlashable]) {
+                    [b flashEEPROMWithMCU:mcu file:@"reset.eep"];
+                }
+            }
+
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [self.printer print:@"EEPROM clear complete" withType:MessageType_Bootloader];
+
+                if (!self.autoFlashEnabled) {
+                    [self enableUI];
+                }
+            });
+        });
     } else {
         [self.printer print:@"Please select a microcontroller" withType:MessageType_Error];
     }
@@ -236,18 +283,47 @@
 
 - (IBAction)setHandednessButtonClick:(id)sender {
     if ([self.mcuBox indexOfSelectedItem] >= 0) {
-        if (!self.autoFlashEnabled) {
-            [self disableUI];
-        }
+        NSString *mcu = [self.mcuBox keyForSelectedItem];
+        NSString *file = [sender tag] == 0 ? @"left.eep" : @"right.eep";
 
-        [self.flasher setHandedness:[self.mcuBox keyForSelectedItem] rightHand:[sender tag] == 1];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                if (!self.autoFlashEnabled) {
+                    [self disableUI];
+                }
 
-        if (!self.autoFlashEnabled) {
-            [self enableUI];
-        }
+                [self.printer print:@"Attempting to set handedness, please don't remove device" withType:MessageType_Bootloader];
+            });
+
+            for (BootloaderDevice *b in [self findBootloaders]) {
+                if ([b eepromFlashable]) {
+                    [b flashEEPROMWithMCU:mcu file:file];
+                }
+            }
+
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [self.printer print:@"EEPROM write complete" withType:MessageType_Bootloader];
+
+                if (!self.autoFlashEnabled) {
+                    [self enableUI];
+                }
+            });
+        });
     } else {
         [self.printer print:@"Please select a microcontroller" withType:MessageType_Error];
     }
+}
+
+-(NSMutableArray<BootloaderDevice *> *)findBootloaders {
+    NSMutableArray<BootloaderDevice *> *bootloaders = [[NSMutableArray alloc] init];
+
+    for (USBDevice *d in self.usbListener.devices) {
+        if ([d isKindOfClass:[BootloaderDevice class]]) {
+            [bootloaders addObject:(BootloaderDevice *)d];
+        }
+    }
+
+    return bootloaders;
 }
 
 - (IBAction)openButtonClick:(id)sender {
@@ -310,9 +386,22 @@
 }
 
 - (void)enableUI {
-    self.canFlash = [self.flasher canFlash];
-    self.canReset = [self.flasher canReset];
-    self.canClearEEPROM = [self.flasher canClearEEPROM];
+    NSArray<BootloaderDevice *> *bootloaders = [self findBootloaders];
+    self.canFlash = [bootloaders count] > 0;
+    self.canReset = NO;
+    self.canClearEEPROM = NO;
+    for (BootloaderDevice *b in bootloaders) {
+        if (b.resettable) {
+            self.canReset = YES;
+            break;
+        }
+    }
+    for (BootloaderDevice *b in bootloaders) {
+        if (b.eepromFlashable) {
+            self.canClearEEPROM = YES;
+            break;
+        }
+    }
 }
 
 - (void)disableUI {
@@ -329,14 +418,6 @@
 }
 
 #pragma mark Uncategorized
-- (void)setSerialPort:(NSString *)port {
-    self.flasher.serialPort = port;
-}
-
-- (void)setMountPoint:(NSString *)mountPoint {
-    self.flasher.mountPoint = mountPoint;
-}
-
 - (IBAction)clearButtonClick:(id)sender {
     [[self textView] setString:@""];
 }

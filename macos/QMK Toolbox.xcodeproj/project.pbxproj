@@ -18,15 +18,14 @@
 		09522BBB1F6216BA00AEBC5E /* avrdude.conf in Resources */ = {isa = PBXBuildFile; fileRef = 09522BBA1F6216BA00AEBC5E /* avrdude.conf */; };
 		098AEDFB1F5E45C300CA054D /* dfu-util in Resources */ = {isa = PBXBuildFile; fileRef = 098AEDFA1F5E45C300CA054D /* dfu-util */; };
 		098AEDFE1F5F220500CA054D /* Printing.m in Sources */ = {isa = PBXBuildFile; fileRef = 098AEDFD1F5F220500CA054D /* Printing.m */; };
-		098AEE021F5F296000CA054D /* Flashing.m in Sources */ = {isa = PBXBuildFile; fileRef = 098AEE011F5F296000CA054D /* Flashing.m */; };
 		098AEE081F5F370900CA054D /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098AEE071F5F370900CA054D /* IOKit.framework */; };
-		098AEE0B1F5F97A000CA054D /* USB.m in Sources */ = {isa = PBXBuildFile; fileRef = 098AEE091F5F97A000CA054D /* USB.m */; };
 		098AEE101F60C6F600CA054D /* QMKWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 098AEE0F1F60C6F600CA054D /* QMKWindow.m */; };
 		09D79CBA1FB8A6360086ABF6 /* libusb-1.0.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		09D79CBC1FB8A64B0086ABF6 /* libusb-0.1.4.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		3A1AF21126FA31D700AC977B /* KeyTesterWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A1AF21026FA31D700AC977B /* KeyTesterWindow.m */; };
 		3A245407270817DF001F4AE0 /* MicrocontrollerSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A245406270817DF001F4AE0 /* MicrocontrollerSelector.m */; };
 		3A5166BC26E07F0000EBE3DC /* KeyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A5166BB26E07F0000EBE3DC /* KeyView.m */; };
+		3A5863112725A99D00354E07 /* APM32DFUDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A5863102725A99D00354E07 /* APM32DFUDevice.m */; };
 		3A62C86526A96AED001C655A /* reset_right.eep in Resources */ = {isa = PBXBuildFile; fileRef = 3A62C86326A96AED001C655A /* reset_right.eep */; };
 		3A62C86626A96AED001C655A /* reset_left.eep in Resources */ = {isa = PBXBuildFile; fileRef = 3A62C86426A96AED001C655A /* reset_left.eep */; };
 		3A7770DA22BD3BA300398C40 /* libftdi.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3A7770D822BD3B8200398C40 /* libftdi.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -35,6 +34,21 @@
 		3A93852826AB5A790026F3C4 /* HIDConsoleListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A93852726AB5A790026F3C4 /* HIDConsoleListener.m */; };
 		3A93852B26AB83840026F3C4 /* HIDConsoleDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A93852A26AB83840026F3C4 /* HIDConsoleDevice.m */; };
 		3AB4BC9D2495540A00204A3F /* bootloadHID in Resources */ = {isa = PBXBuildFile; fileRef = 3AB4BC9C2495540A00204A3F /* bootloadHID */; };
+		3ABD0A0227257A070076C1ED /* BootloaderDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ABD0A0127257A070076C1ED /* BootloaderDevice.m */; };
+		3AC7BE4E2725504E00FED7DB /* USBListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AC7BE4D2725504E00FED7DB /* USBListener.m */; };
+		3AC7BE532725684200FED7DB /* USBDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AC7BE522725684200FED7DB /* USBDevice.m */; };
+		3AE6D9E22726C75500CECA21 /* AtmelDFUDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6D9E12726C75500CECA21 /* AtmelDFUDevice.m */; };
+		3AE6D9E52726C80D00CECA21 /* AtmelSAMBADevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6D9E42726C80D00CECA21 /* AtmelSAMBADevice.m */; };
+		3AE6D9E82726C83700CECA21 /* AVRISPDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6D9E72726C83700CECA21 /* AVRISPDevice.m */; };
+		3AE6D9EB2726C8E200CECA21 /* BootloadHIDDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6D9EA2726C8E200CECA21 /* BootloadHIDDevice.m */; };
+		3AE6D9EE2726C95C00CECA21 /* CaterinaDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6D9ED2726C95C00CECA21 /* CaterinaDevice.m */; };
+		3AE6D9F12726C9B500CECA21 /* HalfKayDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6D9F02726C9B500CECA21 /* HalfKayDevice.m */; };
+		3AE6D9F42726C9EC00CECA21 /* KiibohdDFUDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6D9F32726C9EC00CECA21 /* KiibohdDFUDevice.m */; };
+		3AE6D9F72726CA1C00CECA21 /* LUFAMSDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6D9F62726CA1C00CECA21 /* LUFAMSDevice.m */; };
+		3AE6D9FD2726CAF900CECA21 /* STM32DFUDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6D9FC2726CAF900CECA21 /* STM32DFUDevice.m */; };
+		3AE6DA002726CB2600CECA21 /* STM32DuinoDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6D9FF2726CB2600CECA21 /* STM32DuinoDevice.m */; };
+		3AE6DA032726CB7A00CECA21 /* USBAspDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6DA022726CB7A00CECA21 /* USBAspDevice.m */; };
+		3AE6DA062726CBB200CECA21 /* USBTinyISPDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6DA052726CBB200CECA21 /* USBTinyISPDevice.m */; };
 		C93A0FF42292232E0006C88F /* reset.eep in Resources */ = {isa = PBXBuildFile; fileRef = C93A0FF32292232D0006C88F /* reset.eep */; };
 		C9A09B5722EE6826008C3CF3 /* mdloader in Resources */ = {isa = PBXBuildFile; fileRef = C9A09B5622EE6826008C3CF3 /* mdloader */; };
 /* End PBXBuildFile section */
@@ -70,11 +84,7 @@
 		098AEDFA1F5E45C300CA054D /* dfu-util */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "dfu-util"; sourceTree = "<group>"; };
 		098AEDFC1F5F220500CA054D /* Printing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Printing.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		098AEDFD1F5F220500CA054D /* Printing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Printing.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		098AEE011F5F296000CA054D /* Flashing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Flashing.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		098AEE031F5F296B00CA054D /* Flashing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Flashing.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		098AEE071F5F370900CA054D /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
-		098AEE091F5F97A000CA054D /* USB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = USB.m; sourceTree = "<group>"; };
-		098AEE0A1F5F97A000CA054D /* USB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USB.h; sourceTree = "<group>"; };
 		098AEE0E1F60C6F600CA054D /* QMKWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = QMKWindow.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		098AEE0F1F60C6F600CA054D /* QMKWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = QMKWindow.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libusb-1.0.0.dylib"; sourceTree = "<group>"; };
@@ -85,6 +95,8 @@
 		3A245406270817DF001F4AE0 /* MicrocontrollerSelector.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MicrocontrollerSelector.m; sourceTree = "<group>"; };
 		3A5166BA26E07F0000EBE3DC /* KeyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyView.h; sourceTree = "<group>"; };
 		3A5166BB26E07F0000EBE3DC /* KeyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyView.m; sourceTree = "<group>"; };
+		3A58630F2725A99D00354E07 /* APM32DFUDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APM32DFUDevice.h; sourceTree = "<group>"; };
+		3A5863102725A99D00354E07 /* APM32DFUDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APM32DFUDevice.m; sourceTree = "<group>"; };
 		3A62C86326A96AED001C655A /* reset_right.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset_right.eep; path = ../../../common/reset_right.eep; sourceTree = "<group>"; };
 		3A62C86426A96AED001C655A /* reset_left.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset_left.eep; path = ../../../common/reset_left.eep; sourceTree = "<group>"; };
 		3A7770D822BD3B8200398C40 /* libftdi.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libftdi.1.dylib; sourceTree = "<group>"; };
@@ -95,6 +107,37 @@
 		3A93852926AB83840026F3C4 /* HIDConsoleDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HIDConsoleDevice.h; sourceTree = "<group>"; };
 		3A93852A26AB83840026F3C4 /* HIDConsoleDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HIDConsoleDevice.m; sourceTree = "<group>"; };
 		3AB4BC9C2495540A00204A3F /* bootloadHID */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = bootloadHID; sourceTree = "<group>"; };
+		3ABD0A0027257A070076C1ED /* BootloaderDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BootloaderDevice.h; sourceTree = "<group>"; };
+		3ABD0A0127257A070076C1ED /* BootloaderDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BootloaderDevice.m; sourceTree = "<group>"; };
+		3AC7BE4C2725504E00FED7DB /* USBListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = USBListener.h; sourceTree = "<group>"; };
+		3AC7BE4D2725504E00FED7DB /* USBListener.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = USBListener.m; sourceTree = "<group>"; };
+		3AC7BE4F27255D8000FED7DB /* BootloaderType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BootloaderType.h; sourceTree = "<group>"; };
+		3AC7BE512725684200FED7DB /* USBDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = USBDevice.h; sourceTree = "<group>"; };
+		3AC7BE522725684200FED7DB /* USBDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = USBDevice.m; sourceTree = "<group>"; };
+		3AE6D9E02726C75500CECA21 /* AtmelDFUDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AtmelDFUDevice.h; sourceTree = "<group>"; };
+		3AE6D9E12726C75500CECA21 /* AtmelDFUDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AtmelDFUDevice.m; sourceTree = "<group>"; };
+		3AE6D9E32726C80D00CECA21 /* AtmelSAMBADevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AtmelSAMBADevice.h; sourceTree = "<group>"; };
+		3AE6D9E42726C80D00CECA21 /* AtmelSAMBADevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AtmelSAMBADevice.m; sourceTree = "<group>"; };
+		3AE6D9E62726C83700CECA21 /* AVRISPDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AVRISPDevice.h; sourceTree = "<group>"; };
+		3AE6D9E72726C83700CECA21 /* AVRISPDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AVRISPDevice.m; sourceTree = "<group>"; };
+		3AE6D9E92726C8E200CECA21 /* BootloadHIDDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BootloadHIDDevice.h; sourceTree = "<group>"; };
+		3AE6D9EA2726C8E200CECA21 /* BootloadHIDDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BootloadHIDDevice.m; sourceTree = "<group>"; };
+		3AE6D9EC2726C95C00CECA21 /* CaterinaDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CaterinaDevice.h; sourceTree = "<group>"; };
+		3AE6D9ED2726C95C00CECA21 /* CaterinaDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CaterinaDevice.m; sourceTree = "<group>"; };
+		3AE6D9EF2726C9B500CECA21 /* HalfKayDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HalfKayDevice.h; sourceTree = "<group>"; };
+		3AE6D9F02726C9B500CECA21 /* HalfKayDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HalfKayDevice.m; sourceTree = "<group>"; };
+		3AE6D9F22726C9EC00CECA21 /* KiibohdDFUDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KiibohdDFUDevice.h; sourceTree = "<group>"; };
+		3AE6D9F32726C9EC00CECA21 /* KiibohdDFUDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KiibohdDFUDevice.m; sourceTree = "<group>"; };
+		3AE6D9F52726CA1C00CECA21 /* LUFAMSDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LUFAMSDevice.h; sourceTree = "<group>"; };
+		3AE6D9F62726CA1C00CECA21 /* LUFAMSDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LUFAMSDevice.m; sourceTree = "<group>"; };
+		3AE6D9FB2726CAF900CECA21 /* STM32DFUDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STM32DFUDevice.h; sourceTree = "<group>"; };
+		3AE6D9FC2726CAF900CECA21 /* STM32DFUDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = STM32DFUDevice.m; sourceTree = "<group>"; };
+		3AE6D9FE2726CB2600CECA21 /* STM32DuinoDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STM32DuinoDevice.h; sourceTree = "<group>"; };
+		3AE6D9FF2726CB2600CECA21 /* STM32DuinoDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = STM32DuinoDevice.m; sourceTree = "<group>"; };
+		3AE6DA012726CB7A00CECA21 /* USBAspDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = USBAspDevice.h; sourceTree = "<group>"; };
+		3AE6DA022726CB7A00CECA21 /* USBAspDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = USBAspDevice.m; sourceTree = "<group>"; };
+		3AE6DA042726CBB200CECA21 /* USBTinyISPDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = USBTinyISPDevice.h; sourceTree = "<group>"; };
+		3AE6DA052726CBB200CECA21 /* USBTinyISPDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = USBTinyISPDevice.m; sourceTree = "<group>"; };
 		C93A0FF32292232D0006C88F /* reset.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset.eep; path = ../../../common/reset.eep; sourceTree = "<group>"; };
 		C9A09B5622EE6826008C3CF3 /* mdloader */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = mdloader; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -135,19 +178,16 @@
 				092964061F5C8B2C004F2D3F /* Info.plist */,
 				3A3DDC4C26AE27F600A04A99 /* HIDConsole */,
 				3AC739EB26E23A9800D8B258 /* KeyTester */,
+				3AC7BE4B27254FB800FED7DB /* USB */,
 				092964031F5C8B2C004F2D3F /* MainMenu.xib */,
 				092963FB1F5C8B2C004F2D3F /* AppDelegate.h */,
 				092963FC1F5C8B2C004F2D3F /* AppDelegate.m */,
-				098AEE031F5F296B00CA054D /* Flashing.h */,
-				098AEE011F5F296000CA054D /* Flashing.m */,
 				3A245405270817DF001F4AE0 /* MicrocontrollerSelector.h */,
 				3A245406270817DF001F4AE0 /* MicrocontrollerSelector.m */,
 				098AEDFC1F5F220500CA054D /* Printing.h */,
 				098AEDFD1F5F220500CA054D /* Printing.m */,
 				098AEE0E1F60C6F600CA054D /* QMKWindow.h */,
 				098AEE0F1F60C6F600CA054D /* QMKWindow.m */,
-				098AEE0A1F5F97A000CA054D /* USB.h */,
-				098AEE091F5F97A000CA054D /* USB.m */,
 				092963FE1F5C8B2C004F2D3F /* Supporting Files */,
 			);
 			path = "QMK Toolbox";
@@ -205,6 +245,54 @@
 				3A8F9F0426E7501E007480A7 /* KeyView.xib */,
 			);
 			path = KeyTester;
+			sourceTree = "<group>";
+		};
+		3AC7BE4B27254FB800FED7DB /* USB */ = {
+			isa = PBXGroup;
+			children = (
+				3AC7BE50272565B600FED7DB /* Bootloader */,
+				3AC7BE512725684200FED7DB /* USBDevice.h */,
+				3AC7BE522725684200FED7DB /* USBDevice.m */,
+				3AC7BE4C2725504E00FED7DB /* USBListener.h */,
+				3AC7BE4D2725504E00FED7DB /* USBListener.m */,
+			);
+			path = USB;
+			sourceTree = "<group>";
+		};
+		3AC7BE50272565B600FED7DB /* Bootloader */ = {
+			isa = PBXGroup;
+			children = (
+				3A58630F2725A99D00354E07 /* APM32DFUDevice.h */,
+				3A5863102725A99D00354E07 /* APM32DFUDevice.m */,
+				3AE6D9E02726C75500CECA21 /* AtmelDFUDevice.h */,
+				3AE6D9E12726C75500CECA21 /* AtmelDFUDevice.m */,
+				3AE6D9E32726C80D00CECA21 /* AtmelSAMBADevice.h */,
+				3AE6D9E42726C80D00CECA21 /* AtmelSAMBADevice.m */,
+				3AE6D9E62726C83700CECA21 /* AVRISPDevice.h */,
+				3AE6D9E72726C83700CECA21 /* AVRISPDevice.m */,
+				3ABD0A0027257A070076C1ED /* BootloaderDevice.h */,
+				3ABD0A0127257A070076C1ED /* BootloaderDevice.m */,
+				3AE6D9E92726C8E200CECA21 /* BootloadHIDDevice.h */,
+				3AE6D9EA2726C8E200CECA21 /* BootloadHIDDevice.m */,
+				3AC7BE4F27255D8000FED7DB /* BootloaderType.h */,
+				3AE6D9EC2726C95C00CECA21 /* CaterinaDevice.h */,
+				3AE6D9ED2726C95C00CECA21 /* CaterinaDevice.m */,
+				3AE6D9EF2726C9B500CECA21 /* HalfKayDevice.h */,
+				3AE6D9F02726C9B500CECA21 /* HalfKayDevice.m */,
+				3AE6D9F22726C9EC00CECA21 /* KiibohdDFUDevice.h */,
+				3AE6D9F32726C9EC00CECA21 /* KiibohdDFUDevice.m */,
+				3AE6D9F52726CA1C00CECA21 /* LUFAMSDevice.h */,
+				3AE6D9F62726CA1C00CECA21 /* LUFAMSDevice.m */,
+				3AE6D9FB2726CAF900CECA21 /* STM32DFUDevice.h */,
+				3AE6D9FC2726CAF900CECA21 /* STM32DFUDevice.m */,
+				3AE6D9FE2726CB2600CECA21 /* STM32DuinoDevice.h */,
+				3AE6D9FF2726CB2600CECA21 /* STM32DuinoDevice.m */,
+				3AE6DA012726CB7A00CECA21 /* USBAspDevice.h */,
+				3AE6DA022726CB7A00CECA21 /* USBAspDevice.m */,
+				3AE6DA042726CBB200CECA21 /* USBTinyISPDevice.h */,
+				3AE6DA052726CBB200CECA21 /* USBTinyISPDevice.m */,
+			);
+			path = Bootloader;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -290,17 +378,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3AC7BE4E2725504E00FED7DB /* USBListener.m in Sources */,
 				092964001F5C8B2C004F2D3F /* main.m in Sources */,
+				3AE6D9E52726C80D00CECA21 /* AtmelSAMBADevice.m in Sources */,
+				3AE6D9F72726CA1C00CECA21 /* LUFAMSDevice.m in Sources */,
+				3A5863112725A99D00354E07 /* APM32DFUDevice.m in Sources */,
+				3ABD0A0227257A070076C1ED /* BootloaderDevice.m in Sources */,
 				092963FD1F5C8B2C004F2D3F /* AppDelegate.m in Sources */,
+				3AE6D9F42726C9EC00CECA21 /* KiibohdDFUDevice.m in Sources */,
+				3AE6D9E82726C83700CECA21 /* AVRISPDevice.m in Sources */,
 				3A245407270817DF001F4AE0 /* MicrocontrollerSelector.m in Sources */,
-				098AEE021F5F296000CA054D /* Flashing.m in Sources */,
 				3A93852B26AB83840026F3C4 /* HIDConsoleDevice.m in Sources */,
+				3AC7BE532725684200FED7DB /* USBDevice.m in Sources */,
+				3AE6D9F12726C9B500CECA21 /* HalfKayDevice.m in Sources */,
 				3A93852826AB5A790026F3C4 /* HIDConsoleListener.m in Sources */,
+				3AE6D9EB2726C8E200CECA21 /* BootloadHIDDevice.m in Sources */,
+				3AE6DA002726CB2600CECA21 /* STM32DuinoDevice.m in Sources */,
 				3A1AF21126FA31D700AC977B /* KeyTesterWindow.m in Sources */,
+				3AE6DA062726CBB200CECA21 /* USBTinyISPDevice.m in Sources */,
+				3AE6D9FD2726CAF900CECA21 /* STM32DFUDevice.m in Sources */,
 				3A5166BC26E07F0000EBE3DC /* KeyView.m in Sources */,
 				098AEDFE1F5F220500CA054D /* Printing.m in Sources */,
+				3AE6D9E22726C75500CECA21 /* AtmelDFUDevice.m in Sources */,
 				098AEE101F60C6F600CA054D /* QMKWindow.m in Sources */,
-				098AEE0B1F5F97A000CA054D /* USB.m in Sources */,
+				3AE6DA032726CB7A00CECA21 /* USBAspDevice.m in Sources */,
+				3AE6D9EE2726C95C00CECA21 /* CaterinaDevice.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
