@@ -90,6 +90,7 @@
     <Compile Include="KeyTester\KeyTesterWindow.Designer.cs">
       <DependentUpon>KeyTesterWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="MessageType.cs" />
     <Compile Include="MicrocontrollerSelector.cs">
       <SubType>Component</SubType>
     </Compile>

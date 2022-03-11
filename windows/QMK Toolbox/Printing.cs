@@ -5,15 +5,6 @@ using System.Windows.Forms;
 
 namespace QMK_Toolbox
 {
-    public enum MessageType
-    {
-        Bootloader,
-        Hid,
-        Command,
-        Info,
-        Error
-    }
-
     public class Printing
     {
         private MessageType _lastMessage;
