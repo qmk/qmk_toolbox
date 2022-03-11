@@ -89,6 +89,7 @@
 		098AEE0F1F60C6F600CA054D /* QMKWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = QMKWindow.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libusb-1.0.0.dylib"; sourceTree = "<group>"; };
 		09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libusb-0.1.4.dylib"; sourceTree = "<group>"; };
+		3A09B47F27DB61DE00F839C5 /* MessageType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageType.h; sourceTree = "<group>"; };
 		3A1AF20F26FA31D700AC977B /* KeyTesterWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyTesterWindow.h; sourceTree = "<group>"; };
 		3A1AF21026FA31D700AC977B /* KeyTesterWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyTesterWindow.m; sourceTree = "<group>"; };
 		3A245405270817DF001F4AE0 /* MicrocontrollerSelector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MicrocontrollerSelector.h; sourceTree = "<group>"; };
@@ -182,6 +183,7 @@
 				092964031F5C8B2C004F2D3F /* MainMenu.xib */,
 				092963FB1F5C8B2C004F2D3F /* AppDelegate.h */,
 				092963FC1F5C8B2C004F2D3F /* AppDelegate.m */,
+				3A09B47F27DB61DE00F839C5 /* MessageType.h */,
 				3A245405270817DF001F4AE0 /* MicrocontrollerSelector.h */,
 				3A245406270817DF001F4AE0 /* MicrocontrollerSelector.m */,
 				098AEDFC1F5F220500CA054D /* Printing.h */,

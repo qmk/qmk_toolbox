@@ -3,7 +3,7 @@
 
 #import "BootloaderType.h"
 #import "USBDevice.h"
-#import "Printing.h"
+#import "MessageType.h"
 
 @class BootloaderDevice;
 

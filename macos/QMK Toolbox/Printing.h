@@ -1,14 +1,7 @@
 #import <Cocoa/Cocoa.h>
+#import "MessageType.h"
 
 @interface Printing : NSObject
-
-typedef enum {
-    MessageType_Info,
-    MessageType_Error,
-    MessageType_HID,
-    MessageType_Bootloader,
-    MessageType_Command
-} MessageType;
 
 - (id)initWithTextView:(NSTextView *)view;
 
