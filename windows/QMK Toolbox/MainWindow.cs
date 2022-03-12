@@ -56,6 +56,8 @@ namespace QMK_Toolbox
         {
             windowStateBindingSource.DataSource = windowState;
             windowState.PropertyChanged += AutoFlashEnabledChanged;
+            windowState.PropertyChanged += ShowAllDevicesEnabledChanged;
+            windowState.ShowAllDevices = Settings.Default.showAllDevices;
 
             if (Settings.Default.hexFileCollection != null)
             {
@@ -78,8 +80,8 @@ namespace QMK_Toolbox
             _printer.PrintResponse(" - USBasp (AVR ISP)\n", MessageType.Info);
             _printer.PrintResponse(" - USBTiny (AVR Pocket)\n", MessageType.Info);
 
-            //usbListener.usbDeviceConnected += UsbDeviceConnected;
-            //usbListener.usbDeviceDisconnected += UsbDeviceDisconnected;
+            usbListener.usbDeviceConnected += UsbDeviceConnected;
+            usbListener.usbDeviceDisconnected += UsbDeviceDisconnected;
             usbListener.bootloaderDeviceConnected += BootloaderDeviceConnected;
             usbListener.bootloaderDeviceDisconnected += BootloaderDeviceDisconnected;
             usbListener.outputReceived += BootloaderCommandOutputReceived;
@@ -269,15 +271,21 @@ namespace QMK_Toolbox
             _printer.PrintResponse($"{data}\n", type);
         }
 
-        //private void UsbDeviceConnected(UsbDevice device)
-        //{
-        //    _printer.Print($"USB device connected ({device.Driver}): {device}", MessageType.Info);
-        //}
+        private void UsbDeviceConnected(UsbDevice device)
+        {
+            if (windowState.ShowAllDevices)
+            {
+                _printer.Print($"USB device connected ({device.Driver}): {device}", MessageType.Info);
+            }
+        }
 
-        //private void UsbDeviceDisconnected(UsbDevice device)
-        //{
-        //    _printer.Print($"USB device disconnected ({device.Driver}): {device}", MessageType.Info);
-        //}
+        private void UsbDeviceDisconnected(UsbDevice device)
+        {
+            if (windowState.ShowAllDevices)
+            {
+                _printer.Print($"USB device disconnected ({device.Driver}): {device}", MessageType.Info);
+            }
+        }
         #endregion
 
         #region UI Interaction
@@ -295,6 +303,14 @@ namespace QMK_Toolbox
                     _printer.Print("Auto-flash disabled", MessageType.Info);
                     EnableUI();
                 }
+            }
+        }
+
+        private void ShowAllDevicesEnabledChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "ShowAllDevices")
+            {
+                Settings.Default.showAllDevices = windowState.ShowAllDevices;
             }
         }
 

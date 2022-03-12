@@ -129,5 +129,17 @@ namespace QMK_Toolbox.Properties {
                 this["driversInstalled"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool showAllDevices {
+            get {
+                return ((bool)(this["showAllDevices"]));
+            }
+            set {
+                this["showAllDevices"] = value;
+            }
+        }
     }
 }
