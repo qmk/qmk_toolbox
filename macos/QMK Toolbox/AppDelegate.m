@@ -53,6 +53,7 @@
     [[self.textView menu] addItem:self.clearMenuItem];
 
     [self loadRecentDocuments];
+    self.showAllDevices = [[NSUserDefaults standardUserDefaults] boolForKey:kShowAllDevices];
 
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     [self.printer print:[NSString stringWithFormat:@"QMK Toolbox %@ (http://qmk.fm/toolbox)", version] withType:MessageType_Info];
@@ -160,11 +161,15 @@
 }
 
 - (void)usbDeviceDidConnect:(USBDevice *)device {
-    [self.printer print:[NSString stringWithFormat:@"USB device connected: %@", device] withType:MessageType_Info];
+    if (self.showAllDevices) {
+        [self.printer print:[NSString stringWithFormat:@"USB device connected: %@", device] withType:MessageType_Info];
+    }
 }
 
 - (void)usbDeviceDidDisconnect:(USBDevice *)device {
-    [self.printer print:[NSString stringWithFormat:@"USB device disconnected: %@", device] withType:MessageType_Info];
+    if (self.showAllDevices) {
+        [self.printer print:[NSString stringWithFormat:@"USB device disconnected: %@", device] withType:MessageType_Info];
+    }
 }
 
 #pragma mark UI Interaction
@@ -183,6 +188,17 @@
         [self.printer print:@"Auto-flash disabled" withType:MessageType_Info];
         [self enableUI];
     }
+}
+
+@synthesize showAllDevices = _showAllDevices;
+
+- (BOOL)showAllDevices {
+    return _showAllDevices;
+}
+
+- (void)setShowAllDevices:(BOOL)showAllDevices {
+    _showAllDevices = showAllDevices;
+    [[NSUserDefaults standardUserDefaults] setBool:showAllDevices forKey:kShowAllDevices];
 }
 
 - (IBAction)flashButtonClick:(id)sender {
