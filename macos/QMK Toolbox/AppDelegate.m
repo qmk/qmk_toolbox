@@ -222,8 +222,6 @@
                 }
 
                 dispatch_sync(dispatch_get_main_queue(), ^{
-                    [self.printer print:@"Flash complete" withType:MessageType_Bootloader];
-
                     if (!self.autoFlashEnabled) {
                         [self enableUI];
                     }
@@ -285,8 +283,6 @@
             }
 
             dispatch_sync(dispatch_get_main_queue(), ^{
-                [self.printer print:@"EEPROM clear complete" withType:MessageType_Bootloader];
-
                 if (!self.autoFlashEnabled) {
                     [self enableUI];
                 }
@@ -318,8 +314,6 @@
             }
 
             dispatch_sync(dispatch_get_main_queue(), ^{
-                [self.printer print:@"EEPROM write complete" withType:MessageType_Bootloader];
-
                 if (!self.autoFlashEnabled) {
                     [self enableUI];
                 }
