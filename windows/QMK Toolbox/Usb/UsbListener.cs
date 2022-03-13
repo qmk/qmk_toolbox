@@ -8,7 +8,7 @@ namespace QMK_Toolbox.Usb
 {
     public class UsbListener
     {
-        private static readonly Regex UsbIdRegex = new Regex(@"USB\\VID_([0-9A-F]{4})&PID_([0-9A-F]{4}).*");
+        private static readonly Regex UsbIdRegex = new Regex(@"USB\\VID_([0-9A-F]{4})&PID_([0-9A-F]{4})&REV_([0-9A-F]{4})");
 
         public List<IUsbDevice> Devices { get; private set; }
 
@@ -28,7 +28,7 @@ namespace QMK_Toolbox.Usb
         {
             var enumeratedDevices = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity WHERE DeviceID LIKE 'USB%'").Get()
                 .Cast<ManagementBaseObject>().ToList()
-                .Where(d => UsbIdRegex.Match((string)d.GetPropertyValue("DeviceID")).Success);
+                .Where(d => ((string[])d.GetPropertyValue("HardwareID")).Any(s => UsbIdRegex.Match(s).Success));
 
             if (connected)
             {
