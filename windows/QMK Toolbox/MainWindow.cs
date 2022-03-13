@@ -334,6 +334,7 @@ namespace QMK_Toolbox
             {
                 _printer.Print("Attempting to flash, please don't remove device", MessageType.Bootloader);
                 await b.Flash(selectedMcu, filePath);
+                _printer.Print("Flash complete", MessageType.Bootloader);
             }
 
             if (!windowState.AutoFlashEnabled)
@@ -380,6 +381,7 @@ namespace QMK_Toolbox
                 {
                     _printer.Print("Attempting to clear EEPROM, please don't remove device", MessageType.Bootloader);
                     await b.FlashEeprom(selectedMcu, "reset.eep");
+                    _printer.Print("EEPROM clear complete", MessageType.Bootloader);
                 }
             }
 
@@ -405,6 +407,7 @@ namespace QMK_Toolbox
                 {
                     _printer.Print("Attempting to set handedness, please don't remove device", MessageType.Bootloader);
                     await b.FlashEeprom(selectedMcu, file);
+                    _printer.Print("EEPROM write complete", MessageType.Bootloader);
                 }
             }
 

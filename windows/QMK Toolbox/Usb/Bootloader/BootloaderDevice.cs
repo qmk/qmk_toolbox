@@ -92,37 +92,34 @@ namespace QMK_Toolbox.Usb.Bootloader
                 tcs.SetResult(process.ExitCode);
             };
 
+            process.OutputDataReceived += ProcessOutput;
+            process.ErrorDataReceived += ProcessErrorOutput;
+
             bool started = process.Start();
             if (!started)
             {
                 PrintMessage($"Could not start process: {process}", MessageType.Error);
             }
 
-            Thread processOutputThread = new Thread(ProcessOutput);
-            processOutputThread.Start(process.StandardOutput);
-            Thread processErrorOutputThread = new Thread(ProcessErrorOutput);
-            processErrorOutputThread.Start(process.StandardError);
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
 
             return tcs.Task;
         }
 
-        private void ProcessOutput(object o)
+        private void ProcessOutput(object sender, DataReceivedEventArgs e)
         {
-            StreamReader reader = (StreamReader)o;
-
-            while (!reader.EndOfStream)
+            if (e.Data != null)
             {
-                PrintMessage($"{reader.ReadLine()}", MessageType.Info);
+                PrintMessage($"{e.Data}", MessageType.Info);
             }
         }
 
-        private void ProcessErrorOutput(object o)
+        private void ProcessErrorOutput(object sender, DataReceivedEventArgs e)
         {
-            StreamReader reader = (StreamReader)o;
-
-            while (!reader.EndOfStream)
+            if (e.Data != null)
             {
-                PrintMessage($"{reader.ReadLine()}", MessageType.Info);
+                PrintMessage($"{e.Data}", MessageType.Info);
             }
         }
 
