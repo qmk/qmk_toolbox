@@ -66,6 +66,8 @@ namespace QMK_Toolbox
 
             mcuBox.SelectedValue = Settings.Default.targetSetting;
 
+            EmbeddedResourceHelper.ExtractResources(EmbeddedResourceHelper.Resources);
+
             _printer.Print($"QMK Toolbox {Application.ProductVersion} (https://qmk.fm/toolbox)", MessageType.Info);
             _printer.PrintResponse("Supported bootloaders:\n", MessageType.Info);
             _printer.PrintResponse(" - ARM DFU (APM32, Kiibohd, STM32, STM32duino) via dfu-util (http://dfu-util.sourceforge.net/)\n", MessageType.Info);
