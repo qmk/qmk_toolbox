@@ -4,9 +4,9 @@
 
 @implementation QMKWindow
 
-- (void)setup {
+- (void)awakeFromNib {
     [self registerForDraggedTypes:[NSArray arrayWithObject:NSPasteboardTypeFileURL]];
-};
+}
 
 - (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
