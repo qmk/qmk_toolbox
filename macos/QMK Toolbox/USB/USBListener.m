@@ -162,7 +162,7 @@ static void deviceDisconnected(void *context, io_iterator_t iterator) {
 
 - (BootloaderType)deviceTypeForVendorID:(ushort)vendorID productID:(ushort)productID revisionBCD:(ushort)revisionBCD {
     switch (vendorID) {
-        case 0x03EB:
+        case 0x03EB: // Atmel Corporation
             switch (productID) {
                 case 0x2045:
                     return BootloaderTypeLUFAMS;
@@ -182,12 +182,17 @@ static void deviceDisconnected(void *context, io_iterator_t iterator) {
                     return BootloaderTypeAtmelSAMBA;
             }
             break;
-        case 0x0483:
+        case 0x0483: // STMicroelectronics
             if (productID == 0xDF11) {
                 return BootloaderTypeSTM32DFU;
             }
             break;
-        case 0x16C0:
+        case 0x1209: // pid.codes
+            if (productID == 0x2302) { // Keyboardio Atreus 2 Bootloader
+                return BootloaderTypeCaterina;
+            }
+            break;
+        case 0x16C0: // Van Ooijen Technische Informatica
             switch (productID) {
                 case 0x0478:
                     return BootloaderTypeHalfKay;
@@ -199,7 +204,7 @@ static void deviceDisconnected(void *context, io_iterator_t iterator) {
                     return BootloaderTypeBootloadHID;
             }
             break;
-        case 0x1781:
+        case 0x1781: // MECANIQUE
             if (productID == 0x0C9F) {
                 return BootloaderTypeUSBTinyISP;
             }
@@ -212,16 +217,17 @@ static void deviceDisconnected(void *context, io_iterator_t iterator) {
                     return BootloaderTypeCaterina;
             }
             break;
-        case 0x1C11:
+        case 0x1C11: // Input Club Inc.
             if (productID == 0xB007) {
                 return BootloaderTypeKiibohdDFU;
             }
             break;
-        case 0x1EAF:
+        case 0x1EAF: // Leaflabs
             if (productID == 0x0003) {
                 return BootloaderTypeSTM32Duino;
             }
-        case 0x1FFB: // Pololu Electronics
+            break;
+        case 0x1FFB: // Pololu Corporation
             if (productID == 0x0101) { // A-Star 32U4
                 return BootloaderTypeCaterina;
             }
@@ -233,7 +239,8 @@ static void deviceDisconnected(void *context, io_iterator_t iterator) {
                 case 0x0037: // Micro
                     return BootloaderTypeCaterina;
             }
-        case 0x239A: // Adafruit Industries LLC
+            break;
+        case 0x239A: // Adafruit
             switch (productID) {
                 case 0x000C: // Feather 32U4
                 case 0x000D: // ItsyBitsy 32U4 3V3/8MHz
@@ -241,7 +248,7 @@ static void deviceDisconnected(void *context, io_iterator_t iterator) {
                     return BootloaderTypeCaterina;
             }
             break;
-        case 0x314B:
+        case 0x314B: // Geehy Semiconductor Co. Ltd.
             if (productID == 0x0106) {
                 return BootloaderTypeAPM32DFU;
             }
