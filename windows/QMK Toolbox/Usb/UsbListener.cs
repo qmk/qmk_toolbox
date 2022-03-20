@@ -189,7 +189,7 @@ namespace QMK_Toolbox.Usb
         {
             switch (vendorId)
             {
-                case 0x03EB:
+                case 0x03EB: // Atmel Corporation
                     switch (productId)
                     {
                         case 0x2045:
@@ -211,7 +211,7 @@ namespace QMK_Toolbox.Usb
                             return BootloaderType.AtmelSamBa;
                     }
                     break;
-                case 0x0483:
+                case 0x0483: // STMicroelectronics
                     if (productId == 0xDF11)
                     {
                         return BootloaderType.Stm32Dfu;
@@ -223,7 +223,7 @@ namespace QMK_Toolbox.Usb
                         return BootloaderType.Caterina;
                     }
                     break;
-                case 0x16C0:
+                case 0x16C0: // Van Ooijen Technische Informatica
                     switch (productId)
                     {
                         case 0x0478:
@@ -236,7 +236,7 @@ namespace QMK_Toolbox.Usb
                             return BootloaderType.BootloadHid;
                     }
                     break;
-                case 0x1781:
+                case 0x1781: // MECANIQUE
                     if (productId == 0x0C9F)
                     {
                         return BootloaderType.UsbTinyIsp;
@@ -251,19 +251,19 @@ namespace QMK_Toolbox.Usb
                             return BootloaderType.Caterina;
                     }
                     break;
-                case 0x1C11:
+                case 0x1C11: // Input Club Inc.
                     if (productId == 0xB007)
                     {
                         return BootloaderType.KiibohdDfu;
                     }
                     break;
-                case 0x1EAF:
+                case 0x1EAF: // Leaflabs
                     if (productId == 0x0003)
                     {
                         return BootloaderType.Stm32Duino;
                     }
                     break;
-                case 0x1FFB: // Pololu Electronics
+                case 0x1FFB: // Pololu Corporation
                     if (productId == 0x0101) // A-Star 32U4
                     {
                         return BootloaderType.Caterina;
@@ -278,7 +278,7 @@ namespace QMK_Toolbox.Usb
                             return BootloaderType.Caterina;
                     }
                     break;
-                case 0x239A: // Adafruit Industries LLC
+                case 0x239A: // Adafruit
                     switch (productId)
                     {
                         case 0x000C: // Feather 32U4
@@ -287,7 +287,7 @@ namespace QMK_Toolbox.Usb
                             return BootloaderType.Caterina;
                     }
                     break;
-                case 0x314B:
+                case 0x314B: // Geehy Semiconductor Co. Ltd.
                     if (productId == 0x0106)
                     {
                         return BootloaderType.Apm32Dfu;
