@@ -19,6 +19,20 @@ namespace QMK_Toolbox
             }
         }
 
+        private bool _showAllDevices = false;
+        public bool ShowAllDevices
+        {
+            get => _showAllDevices;
+            set
+            {
+                if (_showAllDevices != value)
+                {
+                    _showAllDevices = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         private bool _canFlash = false;
         public bool CanFlash
         {

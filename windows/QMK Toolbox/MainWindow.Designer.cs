@@ -61,6 +61,7 @@ namespace QMK_Toolbox {
             this.exitDFUToolStripMenuItem = new QMK_Toolbox.BindableToolStripMenuItem();
             this.toolsToolStripMenuSep1 = new System.Windows.Forms.ToolStripSeparator();
             this.autoFlashToolStripMenuItem = new QMK_Toolbox.BindableToolStripMenuItem();
+            this.showAllDevicesToolStripMenuItem = new QMK_Toolbox.BindableToolStripMenuItem();
             this.toolsToolStripMenuSep2 = new System.Windows.Forms.ToolStripSeparator();
             this.keyTesterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.installDriversToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -349,6 +350,7 @@ namespace QMK_Toolbox {
             this.exitDFUToolStripMenuItem,
             this.toolsToolStripMenuSep1,
             this.autoFlashToolStripMenuItem,
+            this.showAllDevicesToolStripMenuItem,
             this.toolsToolStripMenuSep2,
             this.keyTesterToolStripMenuItem,
             this.installDriversToolStripMenuItem,
@@ -439,6 +441,14 @@ namespace QMK_Toolbox {
             this.autoFlashToolStripMenuItem.Name = "autoFlashToolStripMenuItem";
             this.autoFlashToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.autoFlashToolStripMenuItem.Text = "Auto-Flash";
+            // 
+            // showAllDevicesToolStripMenuItem
+            // 
+            this.showAllDevicesToolStripMenuItem.CheckOnClick = true;
+            this.showAllDevicesToolStripMenuItem.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.windowStateBindingSource, "ShowAllDevices", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.showAllDevicesToolStripMenuItem.Name = "showAllDevicesToolStripMenuItem";
+            this.showAllDevicesToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.showAllDevicesToolStripMenuItem.Text = "Show All Devices";
             // 
             // toolsToolStripMenuSep2
             // 
@@ -584,5 +594,6 @@ namespace QMK_Toolbox {
         private System.Windows.Forms.ToolStripSeparator eepromToolStripMenuSep;
         private System.Windows.Forms.ToolStripMenuItem keyTesterToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolsToolStripMenuSep3;
+        private QMK_Toolbox.BindableToolStripMenuItem showAllDevicesToolStripMenuItem;
     }
 }

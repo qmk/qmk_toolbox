@@ -2,13 +2,14 @@ using QMK_Toolbox.Helpers;
 using QMK_Toolbox.HidConsole;
 using QMK_Toolbox.KeyTester;
 using QMK_Toolbox.Properties;
+using QMK_Toolbox.Usb;
+using QMK_Toolbox.Usb.Bootloader;
 using System;
 using System.ComponentModel;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Security.Permissions;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace QMK_Toolbox
@@ -16,7 +17,7 @@ namespace QMK_Toolbox
     using Newtonsoft.Json;
     using Syroot.Windows.IO;
     using System.Collections;
-    using System.Management;
+    using System.Collections.Generic;
     using System.Net;
 
     public partial class MainWindow : Form
@@ -24,8 +25,6 @@ namespace QMK_Toolbox
         private readonly WindowState windowState = new WindowState();
 
         private readonly Printing _printer;
-
-        private readonly Flashing _flasher;
 
         private readonly string _filePassedIn = string.Empty;
 
@@ -51,17 +50,14 @@ namespace QMK_Toolbox
             }
 
             _printer = new Printing(logTextBox);
-            _flasher = new Flashing(_printer);
-            _usb = new Usb(_flasher, _printer);
-            _flasher.Usb = _usb;
-
-            _usb.StartListeningForDeviceEvents(DeviceEvent);
         }
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
             windowStateBindingSource.DataSource = windowState;
             windowState.PropertyChanged += AutoFlashEnabledChanged;
+            windowState.PropertyChanged += ShowAllDevicesEnabledChanged;
+            windowState.ShowAllDevices = Settings.Default.showAllDevices;
 
             if (Settings.Default.hexFileCollection != null)
             {
@@ -69,6 +65,8 @@ namespace QMK_Toolbox
             }
 
             mcuBox.SelectedValue = Settings.Default.targetSetting;
+
+            EmbeddedResourceHelper.ExtractResources(EmbeddedResourceHelper.Resources);
 
             _printer.Print($"QMK Toolbox {Application.ProductVersion} (https://qmk.fm/toolbox)", MessageType.Info);
             _printer.PrintResponse("Supported bootloaders:\n", MessageType.Info);
@@ -84,14 +82,12 @@ namespace QMK_Toolbox
             _printer.PrintResponse(" - USBasp (AVR ISP)\n", MessageType.Info);
             _printer.PrintResponse(" - USBTiny (AVR Pocket)\n", MessageType.Info);
 
-            ManagementObjectCollection collection;
-            using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity WHERE DeviceID LIKE 'USB%'"))
-            {
-                collection = searcher.Get();
-            }
-
-            _usb.DetectBootloaderFromCollection(collection);
-            EnableUI();
+            usbListener.usbDeviceConnected += UsbDeviceConnected;
+            usbListener.usbDeviceDisconnected += UsbDeviceDisconnected;
+            usbListener.bootloaderDeviceConnected += BootloaderDeviceConnected;
+            usbListener.bootloaderDeviceDisconnected += BootloaderDeviceDisconnected;
+            usbListener.outputReceived += BootloaderCommandOutputReceived;
+            usbListener.Start();
 
             consoleListener.consoleDeviceConnected += ConsoleDeviceConnected;
             consoleListener.consoleDeviceDisconnected += ConsoleDeviceDisconnected;
@@ -102,6 +98,8 @@ namespace QMK_Toolbox
             {
                 SetFilePath(_filePassedIn);
             }
+
+            EnableUI();
         }
 
         private void MainWindow_Shown(object sender, EventArgs e)
@@ -175,7 +173,7 @@ namespace QMK_Toolbox
             Settings.Default.targetSetting = (string)mcuBox.SelectedValue;
             Settings.Default.Save();
 
-            _usb.StopListeningForDeviceEvents();
+            usbListener.Dispose();
             consoleListener.Dispose();
         }
 
@@ -254,33 +252,40 @@ namespace QMK_Toolbox
         #endregion HID Console
 
         #region USB Devices & Bootloaders
-        private readonly Usb _usb;
+        private readonly UsbListener usbListener = new UsbListener();
 
-        private void DeviceEvent(object sender, EventArrivedEventArgs e)
+        private void BootloaderDeviceConnected(BootloaderDevice device)
         {
-            (sender as ManagementEventWatcher)?.Stop();
+            _printer.Print($"{device.Name} device connected ({device.Driver}): {device}", MessageType.Bootloader);
 
-            if (!(e.NewEvent["TargetInstance"] is ManagementBaseObject instance))
+            Invoke(new Action(EnableUI));
+        }
+
+        private void BootloaderDeviceDisconnected(BootloaderDevice device)
+        {
+            _printer.Print($"{device.Name} device disconnected ({device.Driver}): {device}", MessageType.Bootloader);
+
+            Invoke(new Action(EnableUI));
+        }
+
+        private void BootloaderCommandOutputReceived(BootloaderDevice device, string data, MessageType type)
+        {
+            _printer.PrintResponse($"{data}\n", type);
+        }
+
+        private void UsbDeviceConnected(UsbDevice device)
+        {
+            if (windowState.ShowAllDevices)
             {
-                return;
+                _printer.Print($"USB device connected ({device.Driver}): {device}", MessageType.Info);
             }
+        }
 
-            var deviceDisconnected = e.NewEvent.ClassPath.ClassName.Equals("__InstanceDeletionEvent");
-
-            if (deviceDisconnected)
+        private void UsbDeviceDisconnected(UsbDevice device)
+        {
+            if (windowState.ShowAllDevices)
             {
-                _usb.DetectBootloader(instance, false);
-            }
-            else if (_usb.DetectBootloader(instance) && windowState.AutoFlashEnabled)
-            {
-                FlashButton_Click(sender, e);
-            }
-
-            (sender as ManagementEventWatcher)?.Start();
-
-            if (!windowState.AutoFlashEnabled)
-            {
-                Invoke(new Action(EnableUI));
+                _printer.Print($"USB device disconnected ({device.Driver}): {device}", MessageType.Info);
             }
         }
         #endregion
@@ -303,165 +308,120 @@ namespace QMK_Toolbox
             }
         }
 
-        private void FlashButton_Click(object sender, EventArgs e)
+        private void ShowAllDevicesEnabledChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (!InvokeRequired)
+            if (e.PropertyName == "ShowAllDevices")
             {
-                var mcu = (string)mcuBox.SelectedValue;
-                var filePath = filepathBox.Text;
-
-                // Keep the form responsive during firmware flashing
-                new Thread(() =>
-                {
-                    if (_usb.AreDevicesAvailable())
-                    {
-                        if (mcu.Length > 0)
-                        {
-                            if (filePath.Length > 0)
-                            {
-                                if (!windowState.AutoFlashEnabled)
-                                {
-                                    Invoke(new Action(DisableUI));
-                                }
-
-                                _printer.Print("Attempting to flash, please don't remove device", MessageType.Bootloader);
-                                _flasher.Flash(mcu, filePath);
-
-                                if (!windowState.AutoFlashEnabled)
-                                {
-                                    Invoke(new Action(EnableUI));
-                                }
-                            }
-                            else
-                            {
-                                _printer.Print("Please select a file", MessageType.Error);
-                            }
-                        }
-                        else
-                        {
-                            _printer.Print("Please select a microcontroller", MessageType.Error);
-                        }
-                    }
-                    else
-                    {
-                        _printer.Print("There are no devices available", MessageType.Error);
-                    }
-                }).Start();
-            }
-            else
-            {
-                Invoke(new Action<object, EventArgs>(FlashButton_Click), sender, e);
+                Settings.Default.showAllDevices = windowState.ShowAllDevices;
             }
         }
 
-        private void ResetButton_Click(object sender, EventArgs e)
+        private async void FlashButton_Click(object sender, EventArgs e)
         {
-            if (!InvokeRequired)
+            string selectedMcu = (string)mcuBox.SelectedValue;
+            string filePath = filepathBox.Text;
+
+            if (filePath.Length == 0)
             {
-                if (_usb.AreDevicesAvailable())
-                {
-                    if (mcuBox.SelectedIndex >= 0)
-                    {
-                        if (!windowState.AutoFlashEnabled)
-                        {
-                            Invoke(new Action(DisableUI));
-                        }
-
-                        _flasher.Reset((string)mcuBox.SelectedValue);
-
-                        if (!windowState.AutoFlashEnabled)
-                        {
-                            Invoke(new Action(EnableUI));
-                        }
-                    }
-                    else
-                    {
-                        _printer.Print("Please select a microcontroller", MessageType.Error);
-                    }
-                }
-                else
-                {
-                    _printer.Print("There are no devices available", MessageType.Error);
-                }
+                _printer.Print("Please select a file", MessageType.Error);
+                return;
             }
-            else
+
+            if (!windowState.AutoFlashEnabled)
             {
-                Invoke(new Action<object, EventArgs>(ResetButton_Click), sender, e);
+                Invoke(new Action(DisableUI));
+            }
+
+            foreach (BootloaderDevice b in FindBootloaders())
+            {
+                _printer.Print("Attempting to flash, please don't remove device", MessageType.Bootloader);
+                await b.Flash(selectedMcu, filePath);
+                _printer.Print("Flash complete", MessageType.Bootloader);
+            }
+
+            if (!windowState.AutoFlashEnabled)
+            {
+                Invoke(new Action(EnableUI));
             }
         }
 
-        private void ClearEepromButton_Click(object sender, EventArgs e)
+        private async void ResetButton_Click(object sender, EventArgs e)
         {
-            if (!InvokeRequired)
+            string selectedMcu = (string)mcuBox.SelectedValue;
+
+            if (!windowState.AutoFlashEnabled)
             {
-                if (_usb.AreDevicesAvailable())
-                {
-                    if (mcuBox.SelectedIndex >= 0)
-                    {
-                        if (!windowState.AutoFlashEnabled)
-                        {
-                            Invoke(new Action(DisableUI));
-                        }
+                Invoke(new Action(DisableUI));
+            }
 
-                        _flasher.ClearEeprom((string)mcuBox.SelectedValue);
-
-                        if (!windowState.AutoFlashEnabled)
-                        {
-                            Invoke(new Action(EnableUI));
-                        }
-                    }
-                    else
-                    {
-                        _printer.Print("Please select a microcontroller", MessageType.Error);
-                    }
-                }
-                else
+            foreach (BootloaderDevice b in FindBootloaders())
+            {
+                if (b.IsResettable)
                 {
-                    _printer.Print("There are no devices available", MessageType.Error);
+                    await b.Reset(selectedMcu);
                 }
             }
-            else
+
+            if (!windowState.AutoFlashEnabled)
             {
-                Invoke(new Action<object, EventArgs>(ClearEepromButton_Click), sender, e);
+                Invoke(new Action(EnableUI));
             }
         }
 
-        private void SetHandednessButton_Click(object sender, EventArgs e)
+        private async void ClearEepromButton_Click(object sender, EventArgs e)
         {
+            string selectedMcu = (string)mcuBox.SelectedValue;
 
-            if (!InvokeRequired)
+            if (!windowState.AutoFlashEnabled)
             {
-                if (_usb.AreDevicesAvailable())
-                {
-                    if (mcuBox.SelectedIndex >= 0)
-                    {
-                        if (!windowState.AutoFlashEnabled)
-                        {
-                            Invoke(new Action(DisableUI));
-                        }
+                Invoke(new Action(DisableUI));
+            }
 
-                        ToolStripMenuItem item = sender as ToolStripMenuItem;
-                        _flasher.SetHandedness((string)mcuBox.SelectedValue, (string)item.Tag == "right");
-
-                        if (!windowState.AutoFlashEnabled)
-                        {
-                            Invoke(new Action(EnableUI));
-                        }
-                    }
-                    else
-                    {
-                        _printer.Print("Please select a microcontroller", MessageType.Error);
-                    }
-                }
-                else
+            foreach (BootloaderDevice b in FindBootloaders())
+            {
+                if (b.IsEepromFlashable)
                 {
-                    _printer.Print("There are no devices available", MessageType.Error);
+                    _printer.Print("Attempting to clear EEPROM, please don't remove device", MessageType.Bootloader);
+                    await b.FlashEeprom(selectedMcu, "reset.eep");
+                    _printer.Print("EEPROM clear complete", MessageType.Bootloader);
                 }
             }
-            else
+
+            if (!windowState.AutoFlashEnabled)
             {
-                Invoke(new Action<object, EventArgs>(SetHandednessButton_Click), sender, e);
+                Invoke(new Action(EnableUI));
             }
+        }
+
+        private async void SetHandednessButton_Click(object sender, EventArgs e)
+        {
+            string selectedMcu = (string)mcuBox.SelectedValue;
+            string file = sender == eepromLeftToolStripMenuItem ? "left.eep" : "right.eep";
+
+            if (!windowState.AutoFlashEnabled)
+            {
+                Invoke(new Action(DisableUI));
+            }
+
+            foreach (BootloaderDevice b in FindBootloaders())
+            {
+                if (b.IsEepromFlashable)
+                {
+                    _printer.Print("Attempting to set handedness, please don't remove device", MessageType.Bootloader);
+                    await b.FlashEeprom(selectedMcu, file);
+                    _printer.Print("EEPROM write complete", MessageType.Bootloader);
+                }
+            }
+
+            if (!windowState.AutoFlashEnabled)
+            {
+                Invoke(new Action(EnableUI));
+            }
+        }
+
+        private List<BootloaderDevice> FindBootloaders()
+        {
+            return usbListener.Devices.Where(d => d is BootloaderDevice).Select(b => b as BootloaderDevice).ToList();
         }
 
         private void OpenFileButton_Click(object sender, EventArgs e)
@@ -591,9 +551,10 @@ namespace QMK_Toolbox
 
         private void EnableUI()
         {
-            windowState.CanFlash = _flasher.CanFlash();
-            windowState.CanReset = _flasher.CanReset();
-            windowState.CanClearEeprom = _flasher.CanClearEeprom();
+            List<BootloaderDevice> bootloaders = FindBootloaders();
+            windowState.CanFlash = bootloaders.Any();
+            windowState.CanReset = bootloaders.Any(b => b.IsResettable);
+            windowState.CanClearEeprom = bootloaders.Any(b => b.IsEepromFlashable);
         }
 
         private void ExitMenuItem_Click(object sender, EventArgs e)
