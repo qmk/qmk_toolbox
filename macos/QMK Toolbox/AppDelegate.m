@@ -46,8 +46,6 @@
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    [self.window setup];
-
     self.printer = [[Printing alloc] initWithTextView:self.textView];
     self.flasher = [[Flashing alloc] initWithPrinter:self.printer];
     self.flasher.delegate = self;
