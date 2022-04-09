@@ -27,7 +27,7 @@ jobs:
         nuget restore
         msbuild "QMK Toolbox.sln" /verbosity:minimal /p:Configuration=Release
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       with:
         name: qmk_toolbox.exe
         path: windows/QMK Toolbox/bin/Release/qmk_toolbox.exe
@@ -37,7 +37,7 @@ jobs:
       run: |
         iscc install_compiler.iss
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       with:
         name: qmk_toolbox_install.exe
         path: windows/qmk_toolbox_install.exe
@@ -73,7 +73,7 @@ jobs:
         xcodebuild CONFIGURATION_BUILD_DIR=build
         ditto -ck --rsrc --sequesterRsrc -v --keepParent "build/QMK Toolbox.app" build/QMK.Toolbox.app.zip
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       with:
         name: QMK.Toolbox.app.zip
         path: macos/build/QMK.Toolbox.app.zip
@@ -85,7 +85,7 @@ jobs:
         packagesbuild -v "QMK Toolbox.pkgproj"
         mv "build/QMK Toolbox.pkg" build/QMK.Toolbox.pkg
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       with:
         name: QMK.Toolbox.pkg
         path: macos/build/QMK.Toolbox.pkg
