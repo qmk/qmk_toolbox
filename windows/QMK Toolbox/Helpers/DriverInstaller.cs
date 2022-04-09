@@ -14,18 +14,14 @@ namespace QMK_Toolbox.Helpers
         public static bool DisplayPrompt()
         {
             var driverPromptResult = MessageBox.Show("Would you like to install drivers for your devices?", "Driver installation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (driverPromptResult == DialogResult.Yes)
+            if (driverPromptResult == DialogResult.No || !InstallDrivers())
             {
-                if (InstallDrivers())
-                {
-                    Settings.Default.driversInstalled = true;
-                    Settings.Default.Save();
-
-                    return true;
-                }
+                return false;
             }
-
-            return false;
+            
+            Settings.Default.driversInstalled = true;
+            Settings.Default.Save();
+            return true;
         }
 
         private static bool InstallDrivers()
