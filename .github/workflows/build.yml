@@ -99,7 +99,7 @@ jobs:
     if: github.event.release.tag_name
 
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
 
       - uses: softprops/action-gh-release@v1
         env:
@@ -121,7 +121,7 @@ jobs:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
 
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:
