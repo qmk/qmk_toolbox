@@ -8,6 +8,8 @@
 
 - (void)logCommand:(NSString *)message;
 
+- (void)logCommandError:(NSString *)message;
+
 - (void)logCommandOutput:(NSString *)message;
 
 - (void)logError:(NSString *)message;
