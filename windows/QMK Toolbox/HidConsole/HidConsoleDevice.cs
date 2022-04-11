@@ -1,5 +1,6 @@
 ﻿using HidLibrary;
 using System.Linq;
+using System.Text;
 
 namespace QMK_Toolbox.HidConsole
 {
@@ -54,13 +55,8 @@ namespace QMK_Toolbox.HidConsole
                 if (lineEnd == -1)
                 {
                     // Partial line or nothing - append incoming report to current line
-                    var reportString = string.Empty;
-                    for (var i = 0; i < report.Data.Length; i++)
-                    {
-                        reportString += (char)report.Data[i];
-                        if (i % 16 != 15 || i >= report.Data.Length) continue;
-                    }
-                    currentLine += reportString.Trim('\0');
+                    string reportString = Encoding.UTF8.GetString(report.Data).Trim('\0');
+                    currentLine += reportString;
                 }
 
                 // Check again for a completed line
