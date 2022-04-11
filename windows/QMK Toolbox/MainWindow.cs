@@ -24,8 +24,6 @@ namespace QMK_Toolbox
     {
         private readonly WindowState windowState = new WindowState();
 
-        private readonly Printing _printer;
-
         private readonly string _filePassedIn = string.Empty;
 
         #region Window Events
@@ -48,8 +46,6 @@ namespace QMK_Toolbox
                     MessageBox.Show("QMK Toolbox doesn't support this kind of file", "File Type Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
-
-            _printer = new Printing(logTextBox);
         }
 
         private void MainWindow_Load(object sender, EventArgs e)
@@ -68,19 +64,19 @@ namespace QMK_Toolbox
 
             EmbeddedResourceHelper.ExtractResources(EmbeddedResourceHelper.Resources);
 
-            _printer.Print($"QMK Toolbox {Application.ProductVersion} (https://qmk.fm/toolbox)", MessageType.Info);
-            _printer.PrintResponse("Supported bootloaders:\n", MessageType.Info);
-            _printer.PrintResponse(" - ARM DFU (APM32, Kiibohd, STM32, STM32duino) via dfu-util (http://dfu-util.sourceforge.net/)\n", MessageType.Info);
-            _printer.PrintResponse(" - Atmel/LUFA/QMK DFU via dfu-programmer (http://dfu-programmer.github.io/)\n", MessageType.Info);
-            _printer.PrintResponse(" - Atmel SAM-BA (Massdrop) via Massdrop Loader (https://github.com/massdrop/mdloader)\n", MessageType.Info);
-            _printer.PrintResponse(" - BootloadHID (Atmel, PS2AVRGB) via bootloadHID (https://www.obdev.at/products/vusb/bootloadhid.html)\n", MessageType.Info);
-            _printer.PrintResponse(" - Caterina (Arduino, Pro Micro) via avrdude (http://nongnu.org/avrdude/)\n", MessageType.Info);
-            _printer.PrintResponse(" - HalfKay (Teensy, Ergodox EZ) via Teensy Loader (https://pjrc.com/teensy/loader_cli.html)\n", MessageType.Info);
-            _printer.PrintResponse(" - LUFA Mass Storage\n", MessageType.Info);
-            _printer.PrintResponse("Supported ISP flashers:\n", MessageType.Info);
-            _printer.PrintResponse(" - AVRISP (Arduino ISP)\n", MessageType.Info);
-            _printer.PrintResponse(" - USBasp (AVR ISP)\n", MessageType.Info);
-            _printer.PrintResponse(" - USBTiny (AVR Pocket)\n", MessageType.Info);
+            logTextBox.LogInfo($"QMK Toolbox {Application.ProductVersion} (https://qmk.fm/toolbox)");
+            logTextBox.LogInfo("Supported bootloaders:");
+            logTextBox.LogInfo(" - ARM DFU (APM32, Kiibohd, STM32, STM32duino) via dfu-util (http://dfu-util.sourceforge.net/)");
+            logTextBox.LogInfo(" - Atmel/LUFA/QMK DFU via dfu-programmer (http://dfu-programmer.github.io/)");
+            logTextBox.LogInfo(" - Atmel SAM-BA (Massdrop) via Massdrop Loader (https://github.com/massdrop/mdloader)");
+            logTextBox.LogInfo(" - BootloadHID (Atmel, PS2AVRGB) via bootloadHID (https://www.obdev.at/products/vusb/bootloadhid.html)");
+            logTextBox.LogInfo(" - Caterina (Arduino, Pro Micro) via avrdude (http://nongnu.org/avrdude/)");
+            logTextBox.LogInfo(" - HalfKay (Teensy, Ergodox EZ) via Teensy Loader (https://pjrc.com/teensy/loader_cli.html)");
+            logTextBox.LogInfo(" - LUFA Mass Storage");
+            logTextBox.LogInfo("Supported ISP flashers:");
+            logTextBox.LogInfo(" - AVRISP (Arduino ISP)");
+            logTextBox.LogInfo(" - USBasp (AVR ISP)");
+            logTextBox.LogInfo(" - USBTiny (AVR Pocket)");
 
             usbListener.usbDeviceConnected += UsbDeviceConnected;
             usbListener.usbDeviceDisconnected += UsbDeviceDisconnected;
@@ -190,63 +186,58 @@ namespace QMK_Toolbox
 
         private void ConsoleDeviceConnected(HidConsoleDevice device)
         {
-            lastReportedDevice = device;
-            UpdateConsoleList();
-            _printer.Print($"HID console connected: {device}", MessageType.Hid);
+            Invoke(new Action(() =>
+            {
+                lastReportedDevice = device;
+                UpdateConsoleList();
+                logTextBox.LogHid($"HID console connected: {device}");
+            }));
         }
 
         private void ConsoleDeviceDisconnected(HidConsoleDevice device)
         {
-            lastReportedDevice = null;
-            UpdateConsoleList();
-            _printer.Print($"HID console disconnected: {device}", MessageType.Hid);
+            Invoke(new Action(() =>
+            {
+                lastReportedDevice = null;
+                UpdateConsoleList();
+                logTextBox.LogHid($"HID console disconnected: {device}");
+            }));
         }
 
         private void ConsoleReportReceived(HidConsoleDevice device, string report)
         {
-            if (!InvokeRequired)
+            Invoke(new Action(() =>
             {
                 int selectedDevice = consoleList.SelectedIndex;
                 if (selectedDevice == 0 || consoleListener.Devices[selectedDevice - 1] == device)
                 {
                     if (lastReportedDevice != device)
                     {
-                        _printer.Print($"{device.ManufacturerString} {device.ProductString}:", MessageType.Hid);
+                        logTextBox.LogHid($"{device.ManufacturerString} {device.ProductString}:");
                         lastReportedDevice = device;
                     }
-                    _printer.PrintResponse(report, MessageType.Hid);
+                    logTextBox.LogHidOutput(report);
                 }
-            }
-            else
-            {
-                Invoke(new Action<HidConsoleDevice, string>(ConsoleReportReceived), device, report);
-            }
+            }));
         }
 
         private void UpdateConsoleList()
         {
-            if (!InvokeRequired)
+            var selected = consoleList.SelectedIndex != -1 ? consoleList.SelectedIndex : 0;
+            consoleList.Items.Clear();
+
+            foreach (var device in consoleListener.Devices)
             {
-                var selected = consoleList.SelectedIndex != -1 ? consoleList.SelectedIndex : 0;
-                consoleList.Items.Clear();
-
-                foreach (var device in consoleListener.Devices)
+                if (device != null)
                 {
-                    if (device != null)
-                    {
-                        consoleList.Items.Add(device.ToString());
-                    }
-                }
-
-                if (consoleList.Items.Count > 0)
-                {
-                    consoleList.Items.Insert(0, "(All connected devices)");
-                    consoleList.SelectedIndex = consoleList.Items.Count > selected ? selected : 0;
+                    consoleList.Items.Add(device.ToString());
                 }
             }
-            else
+
+            if (consoleList.Items.Count > 0)
             {
-                Invoke(new Action(UpdateConsoleList));
+                consoleList.Items.Insert(0, "(All connected devices)");
+                consoleList.SelectedIndex = consoleList.Items.Count > selected ? selected : 0;
             }
         }
         #endregion HID Console
@@ -256,37 +247,50 @@ namespace QMK_Toolbox
 
         private void BootloaderDeviceConnected(BootloaderDevice device)
         {
-            _printer.Print($"{device.Name} device connected ({device.Driver}): {device}", MessageType.Bootloader);
-
-            Invoke(new Action(EnableUI));
+            Invoke(new Action(() =>
+            {
+                logTextBox.LogBootloader($"{device.Name} device connected ({device.Driver}): {device}");
+                EnableUI();
+            }));
         }
 
         private void BootloaderDeviceDisconnected(BootloaderDevice device)
         {
-            _printer.Print($"{device.Name} device disconnected ({device.Driver}): {device}", MessageType.Bootloader);
-
-            Invoke(new Action(EnableUI));
+            Invoke(new Action(() =>
+            {
+                logTextBox.LogBootloader($"{device.Name} device disconnected ({device.Driver}): {device}");
+                EnableUI();
+            }));
         }
 
         private void BootloaderCommandOutputReceived(BootloaderDevice device, string data, MessageType type)
         {
-            _printer.PrintResponse($"{data}\n", type);
+            Invoke(new Action(() =>
+            {
+                logTextBox.Log(data, type);
+            }));
         }
 
         private void UsbDeviceConnected(UsbDevice device)
         {
-            if (windowState.ShowAllDevices)
+            Invoke(new Action(() =>
             {
-                _printer.Print($"USB device connected ({device.Driver}): {device}", MessageType.Info);
-            }
+                if (windowState.ShowAllDevices)
+                {
+                    logTextBox.LogUsb($"USB device connected ({device.Driver}): {device}");
+                }
+            }));
         }
 
         private void UsbDeviceDisconnected(UsbDevice device)
         {
-            if (windowState.ShowAllDevices)
+            Invoke(new Action(() =>
             {
-                _printer.Print($"USB device disconnected ({device.Driver}): {device}", MessageType.Info);
-            }
+                if (windowState.ShowAllDevices)
+                {
+                    logTextBox.LogUsb($"USB device disconnected ({device.Driver}): {device}");
+                }
+            }));
         }
         #endregion
 
@@ -297,12 +301,12 @@ namespace QMK_Toolbox
             {
                 if (windowState.AutoFlashEnabled)
                 {
-                    _printer.Print("Auto-flash enabled", MessageType.Info);
+                    logTextBox.LogInfo("Auto-flash enabled");
                     DisableUI();
                 }
                 else
                 {
-                    _printer.Print("Auto-flash disabled", MessageType.Info);
+                    logTextBox.LogInfo("Auto-flash disabled");
                     EnableUI();
                 }
             }
@@ -323,7 +327,7 @@ namespace QMK_Toolbox
 
             if (filePath.Length == 0)
             {
-                _printer.Print("Please select a file", MessageType.Error);
+                logTextBox.LogError("Please select a file");
                 return;
             }
 
@@ -334,9 +338,9 @@ namespace QMK_Toolbox
 
             foreach (BootloaderDevice b in FindBootloaders())
             {
-                _printer.Print("Attempting to flash, please don't remove device", MessageType.Bootloader);
+                logTextBox.LogBootloader("Attempting to flash, please don't remove device");
                 await b.Flash(selectedMcu, filePath);
-                _printer.Print("Flash complete", MessageType.Bootloader);
+                logTextBox.LogBootloader("Flash complete");
             }
 
             if (!windowState.AutoFlashEnabled)
@@ -381,9 +385,9 @@ namespace QMK_Toolbox
             {
                 if (b.IsEepromFlashable)
                 {
-                    _printer.Print("Attempting to clear EEPROM, please don't remove device", MessageType.Bootloader);
+                    logTextBox.LogBootloader("Attempting to clear EEPROM, please don't remove device");
                     await b.FlashEeprom(selectedMcu, "reset.eep");
-                    _printer.Print("EEPROM clear complete", MessageType.Bootloader);
+                    logTextBox.LogBootloader("EEPROM clear complete");
                 }
             }
 
@@ -407,9 +411,9 @@ namespace QMK_Toolbox
             {
                 if (b.IsEepromFlashable)
                 {
-                    _printer.Print("Attempting to set handedness, please don't remove device", MessageType.Bootloader);
+                    logTextBox.LogBootloader("Attempting to set handedness, please don't remove device");
                     await b.FlashEeprom(selectedMcu, file);
-                    _printer.Print("EEPROM write complete", MessageType.Bootloader);
+                    logTextBox.LogBootloader("EEPROM write complete");
                 }
             }
 
@@ -454,7 +458,7 @@ namespace QMK_Toolbox
 
                     try
                     {
-                        _printer.Print($"Downloading the file: {url}", MessageType.Info);
+                        logTextBox.LogInfo($"Downloading the file: {url}");
                         DownloadFirmwareFile(url, filepath);
                     }
                     catch (Exception)
@@ -464,23 +468,23 @@ namespace QMK_Toolbox
                             // Try .bin extension if hex 404'd
                             url = Path.ChangeExtension(url, "bin");
                             filepath = Path.ChangeExtension(filepath, "bin");
-                            _printer.Print($"No .hex file found, trying {url}", MessageType.Info);
+                            logTextBox.LogInfo($"No .hex file found, trying {url}");
                             DownloadFirmwareFile(url, filepath);
                         }
                         catch (Exception)
                         {
-                            _printer.PrintResponse("Something went wrong when trying to get the default keymap file.", MessageType.Error);
+                            logTextBox.LogError("Something went wrong when trying to get the default keymap file.");
                             return;
                         }
                     }
-                    _printer.PrintResponse($"File saved to: {filepath}", MessageType.Info);
+                    logTextBox.LogInfo($"File saved to: {filepath}");
                 }
             }
             if (filepath.EndsWith(".qmk", true, null))
             {
-                _printer.Print("Found .qmk file", MessageType.Info);
+                logTextBox.LogInfo("Found .qmk file");
                 var qmkFilepath = $"{Path.GetTempPath()}qmk_toolbox{filepath.Substring(filepath.LastIndexOf("\\"))}\\";
-                _printer.PrintResponse($"Extracting to {qmkFilepath}\n", MessageType.Info);
+                logTextBox.LogInfo($"Extracting to {qmkFilepath}");
                 if (Directory.Exists(qmkFilepath))
                 {
                     Directory.Delete(qmkFilepath, true);
@@ -491,7 +495,7 @@ namespace QMK_Toolbox
                 var info = new Info();
                 foreach (var file in files)
                 {
-                    _printer.PrintResponse($" - {file.Substring(file.LastIndexOf("\\") + 1)}\n", MessageType.Info);
+                    logTextBox.LogInfo($" - {file.Substring(file.LastIndexOf("\\") + 1)}");
                     if (file.Substring(file.LastIndexOf("\\") + 1).Equals("firmware.hex", StringComparison.OrdinalIgnoreCase) ||
                         file.Substring(file.LastIndexOf("\\") + 1).Equals("firmware.bin", StringComparison.OrdinalIgnoreCase))
                     {
@@ -508,7 +512,7 @@ namespace QMK_Toolbox
                 }
                 if (!string.IsNullOrEmpty(info.Keyboard))
                 {
-                    _printer.Print($"Keymap for keyboard \"{info.Keyboard}\" - {info.VendorId}:{info.ProductId}", MessageType.Info);
+                    logTextBox.LogInfo($"Keymap for keyboard \"{info.Keyboard}\" - {info.VendorId}:{info.ProductId}");
                 }
 
                 if (string.IsNullOrEmpty(readme))
@@ -516,8 +520,8 @@ namespace QMK_Toolbox
                     return;
                 }
 
-                _printer.Print("Notes for this keymap:", MessageType.Info);
-                _printer.PrintResponse(readme, MessageType.Info);
+                logTextBox.LogInfo("Notes for this keymap:");
+                logTextBox.LogInfo(readme);
             }
             else
             {
