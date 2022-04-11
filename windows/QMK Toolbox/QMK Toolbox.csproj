@@ -97,7 +97,6 @@
     <Compile Include="MicrocontrollerSelector.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Printing.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
