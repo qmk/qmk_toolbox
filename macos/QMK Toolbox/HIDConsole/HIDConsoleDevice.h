@@ -24,4 +24,6 @@
 @property ushort revisionBCD;
 
 -(id)initWithDeviceRef:(IOHIDDeviceRef)device;
+
+@property NSString *currentLine;
 @end
