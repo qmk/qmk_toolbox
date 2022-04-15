@@ -4,8 +4,12 @@
     {
         Bootloader,
         Command,
+        CommandError,
+        CommandOutput,
         Error,
         Hid,
-        Info
+        HidOutput,
+        Info,
+        Usb
     }
 }

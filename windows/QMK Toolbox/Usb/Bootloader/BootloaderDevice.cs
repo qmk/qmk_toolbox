@@ -111,7 +111,7 @@ namespace QMK_Toolbox.Usb.Bootloader
         {
             if (e.Data != null)
             {
-                PrintMessage($"{e.Data}", MessageType.Info);
+                PrintMessage(e.Data, MessageType.CommandOutput);
             }
         }
 
@@ -119,7 +119,7 @@ namespace QMK_Toolbox.Usb.Bootloader
         {
             if (e.Data != null)
             {
-                PrintMessage($"{e.Data}", MessageType.Info);
+                PrintMessage(e.Data, MessageType.CommandError);
             }
         }
 

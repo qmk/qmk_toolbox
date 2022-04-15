@@ -34,7 +34,7 @@ namespace QMK_Toolbox.Usb
             {
                 foreach (var device in enumeratedDevices)
                 {
-                    var listed = Devices.Aggregate(false, (curr, d) => curr | d.WmiDevice.Equals(device));
+                    var listed = Devices.ToList().Aggregate(false, (curr, d) => curr | d.WmiDevice.Equals(device));
 
                     if (device != null && !listed)
                     {

@@ -36,7 +36,7 @@ namespace QMK_Toolbox {
             this.filepathBox = new QMK_Toolbox.BetterComboBox();
             this.mcuBox = new QMK_Toolbox.MicrocontrollerSelector();
             this.clearEepromButton = new System.Windows.Forms.Button();
-            this.logTextBox = new System.Windows.Forms.RichTextBox();
+            this.logTextBox = new QMK_Toolbox.LogTextBox();
             this.logContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -553,7 +553,7 @@ namespace QMK_Toolbox {
         private System.Windows.Forms.Button flashButton;
         private System.Windows.Forms.CheckBox autoflashCheckbox;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
-        private System.Windows.Forms.RichTextBox logTextBox;
+        private QMK_Toolbox.LogTextBox logTextBox;
         private System.Windows.Forms.Button openFileButton;
         private System.Windows.Forms.Button resetButton;
         private System.Windows.Forms.Label mcuLabel;

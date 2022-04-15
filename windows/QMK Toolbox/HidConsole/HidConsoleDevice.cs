@@ -1,5 +1,6 @@
 ﻿using HidLibrary;
 using System.Linq;
+using System.Text;
 
 namespace QMK_Toolbox.HidConsole
 {
@@ -43,19 +44,33 @@ namespace QMK_Toolbox.HidConsole
             return $"{ManufacturerString} {ProductString} ({VendorId:X4}:{ProductId:X4}:{RevisionBcd:X4})";
         }
 
+        private string currentLine = "";
+
         private void HidDeviceReportEvent(HidReport report)
         {
             if (HidDevice.IsConnected)
             {
-                var outputString = string.Empty;
-                for (var i = 0; i < report.Data.Length; i++)
+                // Check if we have a completed line queued
+                int lineEnd = currentLine.IndexOf('\n');
+                if (lineEnd == -1)
                 {
-                    outputString += (char)report.Data[i];
-                    if (i % 16 != 15 || i >= report.Data.Length) continue;
+                    // Partial line or nothing - append incoming report to current line
+                    string reportString = Encoding.UTF8.GetString(report.Data).Trim('\0');
+                    currentLine += reportString;
                 }
-                consoleReportReceived?.Invoke(this, outputString);
-                outputString = string.Empty;
 
+                // Check again for a completed line
+                lineEnd = currentLine.IndexOf('\n');
+                while (lineEnd >= 0)
+                {
+                    // Fire delegate with completed lines until we have none left
+                    string completedLine = currentLine.Substring(0, lineEnd);
+                    currentLine = currentLine.Substring(lineEnd + 1);
+                    lineEnd = currentLine.IndexOf('\n');
+                    consoleReportReceived?.Invoke(this, completedLine);
+                }
+
+                // Reregister this callback
                 HidDevice.ReadReport(HidDeviceReportEvent);
             }
         }
