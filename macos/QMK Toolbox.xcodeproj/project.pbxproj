@@ -17,7 +17,6 @@
 		09522BB31F61E32700AEBC5E /* mcu-list.txt in Resources */ = {isa = PBXBuildFile; fileRef = 09522BB21F61E32700AEBC5E /* mcu-list.txt */; };
 		09522BBB1F6216BA00AEBC5E /* avrdude.conf in Resources */ = {isa = PBXBuildFile; fileRef = 09522BBA1F6216BA00AEBC5E /* avrdude.conf */; };
 		098AEDFB1F5E45C300CA054D /* dfu-util in Resources */ = {isa = PBXBuildFile; fileRef = 098AEDFA1F5E45C300CA054D /* dfu-util */; };
-		098AEDFE1F5F220500CA054D /* Printing.m in Sources */ = {isa = PBXBuildFile; fileRef = 098AEDFD1F5F220500CA054D /* Printing.m */; };
 		098AEE081F5F370900CA054D /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098AEE071F5F370900CA054D /* IOKit.framework */; };
 		098AEE101F60C6F600CA054D /* QMKWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 098AEE0F1F60C6F600CA054D /* QMKWindow.m */; };
 		09D79CBA1FB8A6360086ABF6 /* libusb-1.0.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -33,8 +32,10 @@
 		3A8F9F0226E7501E007480A7 /* KeyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A8F9F0426E7501E007480A7 /* KeyView.xib */; };
 		3A93852826AB5A790026F3C4 /* HIDConsoleListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A93852726AB5A790026F3C4 /* HIDConsoleListener.m */; };
 		3A93852B26AB83840026F3C4 /* HIDConsoleDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A93852A26AB83840026F3C4 /* HIDConsoleDevice.m */; };
+		3AA5D3472803FCE1008121E4 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AA5D3462803FCE1008121E4 /* Colors.xcassets */; };
 		3AB4BC9D2495540A00204A3F /* bootloadHID in Resources */ = {isa = PBXBuildFile; fileRef = 3AB4BC9C2495540A00204A3F /* bootloadHID */; };
 		3ABD0A0227257A070076C1ED /* BootloaderDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ABD0A0127257A070076C1ED /* BootloaderDevice.m */; };
+		3AC087EE28020C87003D78D3 /* LogTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AC087ED28020C87003D78D3 /* LogTextView.m */; };
 		3AC7BE4E2725504E00FED7DB /* USBListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AC7BE4D2725504E00FED7DB /* USBListener.m */; };
 		3AC7BE532725684200FED7DB /* USBDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AC7BE522725684200FED7DB /* USBDevice.m */; };
 		3AE6D9E22726C75500CECA21 /* AtmelDFUDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6D9E12726C75500CECA21 /* AtmelDFUDevice.m */; };
@@ -70,9 +71,9 @@
 
 /* Begin PBXFileReference section */
 		092963F81F5C8B2C004F2D3F /* QMK Toolbox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "QMK Toolbox.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		092963FB1F5C8B2C004F2D3F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = AppDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		092963FC1F5C8B2C004F2D3F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		092963FF1F5C8B2C004F2D3F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = main.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		092963FB1F5C8B2C004F2D3F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		092963FC1F5C8B2C004F2D3F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		092963FF1F5C8B2C004F2D3F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		092964011F5C8B2C004F2D3F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		092964041F5C8B2C004F2D3F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		092964061F5C8B2C004F2D3F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -82,11 +83,9 @@
 		09522BB21F61E32700AEBC5E /* mcu-list.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "mcu-list.txt"; path = "../../../common/mcu-list.txt"; sourceTree = "<group>"; };
 		09522BBA1F6216BA00AEBC5E /* avrdude.conf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = avrdude.conf; path = ../../../common/avrdude.conf; sourceTree = "<group>"; };
 		098AEDFA1F5E45C300CA054D /* dfu-util */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "dfu-util"; sourceTree = "<group>"; };
-		098AEDFC1F5F220500CA054D /* Printing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Printing.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		098AEDFD1F5F220500CA054D /* Printing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Printing.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		098AEE071F5F370900CA054D /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
-		098AEE0E1F60C6F600CA054D /* QMKWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = QMKWindow.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		098AEE0F1F60C6F600CA054D /* QMKWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = QMKWindow.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		098AEE0E1F60C6F600CA054D /* QMKWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QMKWindow.h; sourceTree = "<group>"; };
+		098AEE0F1F60C6F600CA054D /* QMKWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QMKWindow.m; sourceTree = "<group>"; };
 		09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libusb-1.0.0.dylib"; sourceTree = "<group>"; };
 		09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libusb-0.1.4.dylib"; sourceTree = "<group>"; };
 		3A09B47F27DB61DE00F839C5 /* MessageType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageType.h; sourceTree = "<group>"; };
@@ -107,9 +106,12 @@
 		3A93852726AB5A790026F3C4 /* HIDConsoleListener.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HIDConsoleListener.m; sourceTree = "<group>"; };
 		3A93852926AB83840026F3C4 /* HIDConsoleDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HIDConsoleDevice.h; sourceTree = "<group>"; };
 		3A93852A26AB83840026F3C4 /* HIDConsoleDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HIDConsoleDevice.m; sourceTree = "<group>"; };
+		3AA5D3462803FCE1008121E4 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		3AB4BC9C2495540A00204A3F /* bootloadHID */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = bootloadHID; sourceTree = "<group>"; };
 		3ABD0A0027257A070076C1ED /* BootloaderDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BootloaderDevice.h; sourceTree = "<group>"; };
 		3ABD0A0127257A070076C1ED /* BootloaderDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BootloaderDevice.m; sourceTree = "<group>"; };
+		3AC087EC28020C87003D78D3 /* LogTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LogTextView.h; sourceTree = "<group>"; };
+		3AC087ED28020C87003D78D3 /* LogTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LogTextView.m; sourceTree = "<group>"; };
 		3AC7BE4C2725504E00FED7DB /* USBListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = USBListener.h; sourceTree = "<group>"; };
 		3AC7BE4D2725504E00FED7DB /* USBListener.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = USBListener.m; sourceTree = "<group>"; };
 		3AC7BE4F27255D8000FED7DB /* BootloaderType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BootloaderType.h; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				092964011F5C8B2C004F2D3F /* Assets.xcassets */,
+				3AA5D3462803FCE1008121E4 /* Colors.xcassets */,
 				092964061F5C8B2C004F2D3F /* Info.plist */,
 				3A3DDC4C26AE27F600A04A99 /* HIDConsole */,
 				3AC739EB26E23A9800D8B258 /* KeyTester */,
@@ -183,11 +186,11 @@
 				092964031F5C8B2C004F2D3F /* MainMenu.xib */,
 				092963FB1F5C8B2C004F2D3F /* AppDelegate.h */,
 				092963FC1F5C8B2C004F2D3F /* AppDelegate.m */,
+				3AC087EC28020C87003D78D3 /* LogTextView.h */,
+				3AC087ED28020C87003D78D3 /* LogTextView.m */,
 				3A09B47F27DB61DE00F839C5 /* MessageType.h */,
 				3A245405270817DF001F4AE0 /* MicrocontrollerSelector.h */,
 				3A245406270817DF001F4AE0 /* MicrocontrollerSelector.m */,
-				098AEDFC1F5F220500CA054D /* Printing.h */,
-				098AEDFD1F5F220500CA054D /* Printing.m */,
 				098AEE0E1F60C6F600CA054D /* QMKWindow.h */,
 				098AEE0F1F60C6F600CA054D /* QMKWindow.m */,
 				092963FE1F5C8B2C004F2D3F /* Supporting Files */,
@@ -356,6 +359,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				092964021F5C8B2C004F2D3F /* Assets.xcassets in Resources */,
+				3AA5D3472803FCE1008121E4 /* Colors.xcassets in Resources */,
 				3A8F9EFF26E75012007480A7 /* KeyTesterWindow.xib in Resources */,
 				3A8F9F0226E7501E007480A7 /* KeyView.xib in Resources */,
 				092964051F5C8B2C004F2D3F /* MainMenu.xib in Resources */,
@@ -382,8 +386,8 @@
 			files = (
 				092964001F5C8B2C004F2D3F /* main.m in Sources */,
 				092963FD1F5C8B2C004F2D3F /* AppDelegate.m in Sources */,
+				3AC087EE28020C87003D78D3 /* LogTextView.m in Sources */,
 				3A245407270817DF001F4AE0 /* MicrocontrollerSelector.m in Sources */,
-				098AEDFE1F5F220500CA054D /* Printing.m in Sources */,
 				098AEE101F60C6F600CA054D /* QMKWindow.m in Sources */,
 				3A93852B26AB83840026F3C4 /* HIDConsoleDevice.m in Sources */,
 				3A93852826AB5A790026F3C4 /* HIDConsoleListener.m in Sources */,

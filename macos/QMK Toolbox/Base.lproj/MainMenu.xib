@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,10 +21,10 @@
                 <outlet property="consoleListBox" destination="FPO-qP-5FM" id="wDE-1D-dvL"/>
                 <outlet property="filepathBox" destination="fMz-rn-IEt" id="eSr-wv-y0f"/>
                 <outlet property="flashButton" destination="OKF-oG-mRx" id="3MC-L3-Hfy"/>
+                <outlet property="logTextView" destination="tMQ-2J-GgU" id="HlS-Hf-0po"/>
                 <outlet property="mcuBox" destination="A13-Sl-S0x" id="VCZ-JH-C9H"/>
                 <outlet property="openButton" destination="oJO-GM-iRa" id="1vj-RC-Mm9"/>
                 <outlet property="resetButton" destination="qEj-2h-OmC" id="mmT-oh-51z"/>
-                <outlet property="textView" destination="tMQ-2J-GgU" id="hiw-St-3iy"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -396,13 +397,13 @@
                         <rect key="frame" x="10" y="38" width="780" height="476"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="oaz-yh-Zob">
                             <rect key="frame" x="1" y="1" width="778" height="474"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <textView editable="NO" importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" allowsNonContiguousLayout="YES" id="tMQ-2J-GgU">
+                                <textView editable="NO" importsGraphics="NO" verticallyResizable="YES" allowsNonContiguousLayout="YES" id="tMQ-2J-GgU" customClass="LogTextView">
                                     <rect key="frame" x="0.0" y="0.0" width="778" height="474"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="backgroundColor" white="0.092534722220000004" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="textColor" name="LogMessageDefault"/>
+                                    <color key="backgroundColor" name="LogBoxBackground"/>
                                     <size key="minSize" width="778" height="474"/>
                                     <size key="maxSize" width="793" height="10000000"/>
                                     <color key="insertionPointColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -468,4 +469,12 @@
             <point key="canvasLocation" x="349" y="454"/>
         </window>
     </objects>
+    <resources>
+        <namedColor name="LogBoxBackground">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="LogMessageDefault">
+            <color red="0.11764705882352941" green="0.11764705882352941" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
 </document>

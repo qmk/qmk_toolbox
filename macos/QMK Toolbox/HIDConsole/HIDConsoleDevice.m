@@ -13,6 +13,7 @@
         self.vendorID = [self ushortProperty:CFSTR(kIOHIDVendorIDKey)];
         self.productID = [self ushortProperty:CFSTR(kIOHIDProductIDKey)];
         self.revisionBCD = [self ushortProperty:CFSTR(kIOHIDVersionNumberKey)];
+        self.currentLine = @"";
 
         IOHIDDeviceRegisterInputReportCallback(self.deviceRef, hidReportBuffer, sizeof(hidReportBuffer), reportReceived, (__bridge void *)self);
     }
@@ -25,7 +26,24 @@
 
 static void reportReceived(void *context, IOReturn result, void *sender, IOHIDReportType type, uint32_t reportID, uint8_t *report, CFIndex reportLength) {
     HIDConsoleDevice *const device = (__bridge HIDConsoleDevice *const)context;
-    [device.delegate consoleDevice:device didReceiveReport:[NSString stringWithFormat:@"%s", (char *)report]];
+
+    // Check if we have a completed line queued
+    NSUInteger lineEnd = [device.currentLine rangeOfString:@"\n"].location;
+    if (lineEnd == NSNotFound) {
+        // Partial line or nothing - append incoming report to current line
+        NSString *reportString = [NSString stringWithCString:(char *)report encoding:NSUTF8StringEncoding];
+        device.currentLine = [device.currentLine stringByAppendingString:reportString];
+    }
+
+    // Check again for a completed line
+    lineEnd = [device.currentLine rangeOfString:@"\n"].location;
+    while (lineEnd != NSNotFound) {
+        // Fire delegate with completed lines until we have none left
+        NSString *completedLine = [device.currentLine substringToIndex:lineEnd];
+        device.currentLine = [device.currentLine substringFromIndex:lineEnd + 1];
+        lineEnd = [device.currentLine rangeOfString:@"\n"].location;
+        [device.delegate consoleDevice:device didReceiveReport:completedLine];
+    }
 }
 
 - (NSString *)stringProperty:(CFStringRef)property {

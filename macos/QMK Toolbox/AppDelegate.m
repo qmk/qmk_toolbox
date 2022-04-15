@@ -1,13 +1,14 @@
 #import "AppDelegate.h"
 
 #import "HIDConsoleListener.h"
+#import "LogTextView.h"
 #import "MicrocontrollerSelector.h"
 #import "QMKWindow.h"
 #import "USBListener.h"
 
 @interface AppDelegate () <HIDConsoleListenerDelegate, USBListenerDelegate>
 @property (weak) IBOutlet QMKWindow *window;
-@property IBOutlet NSTextView *textView;
+@property IBOutlet LogTextView *logTextView;
 @property IBOutlet NSMenuItem *clearMenuItem;
 @property IBOutlet NSComboBox *filepathBox;
 @property IBOutlet NSButton *openButton;
@@ -45,28 +46,26 @@
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    self.printer = [[Printing alloc] initWithTextView:self.textView];
-
-    [[self.textView menu] addItem:[NSMenuItem separatorItem]];
-    [[self.textView menu] addItem:self.clearMenuItem];
+    [[self.logTextView menu] addItem:[NSMenuItem separatorItem]];
+    [[self.logTextView menu] addItem:self.clearMenuItem];
 
     [self loadRecentDocuments];
     self.showAllDevices = [[NSUserDefaults standardUserDefaults] boolForKey:kShowAllDevices];
 
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    [self.printer print:[NSString stringWithFormat:@"QMK Toolbox %@ (http://qmk.fm/toolbox)", version] withType:MessageType_Info];
-    [self.printer printResponse:@"Supported bootloaders:\n" withType:MessageType_Info];
-    [self.printer printResponse:@" - ARM DFU (APM32, Kiibohd, STM32, STM32duino) via dfu-util (http://dfu-util.sourceforge.net/)\n" withType:MessageType_Info];
-    [self.printer printResponse:@" - Atmel/LUFA/QMK DFU via dfu-programmer (http://dfu-programmer.github.io/)\n" withType:MessageType_Info];
-    [self.printer printResponse:@" - Atmel SAM-BA (Massdrop) via Massdrop Loader (https://github.com/massdrop/mdloader)\n" withType:MessageType_Info];
-    [self.printer printResponse:@" - BootloadHID (Atmel, PS2AVRGB) via bootloadHID (https://www.obdev.at/products/vusb/bootloadhid.html)\n" withType:MessageType_Info];
-    [self.printer printResponse:@" - Caterina (Arduino, Pro Micro) via avrdude (http://nongnu.org/avrdude/)\n" withType:MessageType_Info];
-    [self.printer printResponse:@" - HalfKay (Teensy, Ergodox EZ) via Teensy Loader (https://pjrc.com/teensy/loader_cli.html)\n" withType:MessageType_Info];
-    [self.printer printResponse:@" - LUFA Mass Storage\n" withType:MessageType_Info];
-    [self.printer printResponse:@"Supported ISP flashers:\n" withType:MessageType_Info];
-    [self.printer printResponse:@" - AVRISP (Arduino ISP)\n" withType:MessageType_Info];
-    [self.printer printResponse:@" - USBasp (AVR ISP)\n" withType:MessageType_Info];
-    [self.printer printResponse:@" - USBTiny (AVR Pocket)\n" withType:MessageType_Info];
+    [self.logTextView logInfo:[NSString stringWithFormat:@"QMK Toolbox %@ (https://qmk.fm/toolbox)", version]];
+    [self.logTextView logInfo:@"Supported bootloaders:"];
+    [self.logTextView logInfo:@" - ARM DFU (APM32, Kiibohd, STM32, STM32duino) via dfu-util (http://dfu-util.sourceforge.net/)"];
+    [self.logTextView logInfo:@" - Atmel/LUFA/QMK DFU via dfu-programmer (http://dfu-programmer.github.io/)"];
+    [self.logTextView logInfo:@" - Atmel SAM-BA (Massdrop) via Massdrop Loader (https://github.com/massdrop/mdloader)"];
+    [self.logTextView logInfo:@" - BootloadHID (Atmel, PS2AVRGB) via bootloadHID (https://www.obdev.at/products/vusb/bootloadhid.html)"];
+    [self.logTextView logInfo:@" - Caterina (Arduino, Pro Micro) via avrdude (http://nongnu.org/avrdude/)"];
+    [self.logTextView logInfo:@" - HalfKay (Teensy, Ergodox EZ) via Teensy Loader (https://pjrc.com/teensy/loader_cli.html)"];
+    [self.logTextView logInfo:@" - LUFA Mass Storage"];
+    [self.logTextView logInfo:@"Supported ISP flashers:"];
+    [self.logTextView logInfo:@" - AVRISP (Arduino ISP)"];
+    [self.logTextView logInfo:@" - USBasp (AVR ISP)"];
+    [self.logTextView logInfo:@" - USBTiny (AVR Pocket)"];
 
     self.usbListener = [[USBListener alloc] init];
     self.usbListener.delegate = self;
@@ -104,25 +103,23 @@
 - (void)consoleDeviceDidConnect:(HIDConsoleDevice *)device {
     self.lastReportedDevice = device;
     [self updateConsoleList];
-    NSString *deviceConnectedString = [NSString stringWithFormat:@"HID console connected: %@", device];
-    [self.printer print:deviceConnectedString withType:MessageType_HID];
+    [self.logTextView logHID:[NSString stringWithFormat:@"HID console connected: %@", device]];
 }
 
 - (void)consoleDeviceDidDisconnect:(HIDConsoleDevice *)device {
     self.lastReportedDevice = nil;
     [self updateConsoleList];
-    NSString *deviceDisconnectedString = [NSString stringWithFormat:@"HID console disconnected: %@", device];
-    [self.printer print:deviceDisconnectedString withType:MessageType_HID];
+    [self.logTextView logHID:[NSString stringWithFormat:@"HID console disconnected: %@", device]];
 }
 
 - (void)consoleDevice:(HIDConsoleDevice *)device didReceiveReport:(NSString *)report {
     NSInteger selectedDevice = [self.consoleListBox indexOfSelectedItem];
     if (selectedDevice == 0 || self.consoleListener.devices[selectedDevice - 1] == device) {
         if (self.lastReportedDevice != device) {
-             [self.printer print:[NSString stringWithFormat:@"%@ %@:", device.manufacturerString, device.productString] withType:MessageType_HID];
+            [self.logTextView logHID:[NSString stringWithFormat:@"%@ %@:", device.manufacturerString, device.productString]];
             self.lastReportedDevice = device;
         }
-        [self.printer printResponse:report withType:MessageType_HID];
+        [self.logTextView logHIDOutput:report];
     }
 }
 
@@ -143,30 +140,30 @@
 
 #pragma mark USB Devices & Bootloaders
 - (void)bootloaderDeviceDidConnect:(BootloaderDevice *)device {
-    [self.printer print:[NSString stringWithFormat:@"%@ device connected: %@", device.name, device] withType:MessageType_Bootloader];
+    [self.logTextView logBootloader:[NSString stringWithFormat:@"%@ device connected: %@", device.name, device]];
     [self enableUI];
 }
 
 - (void)bootloaderDeviceDidDisconnect:(BootloaderDevice *)device {
-    [self.printer print:[NSString stringWithFormat:@"%@ device disconnnected: %@", device.name, device] withType:MessageType_Bootloader];
+    [self.logTextView logBootloader:[NSString stringWithFormat:@"%@ device disconnnected: %@", device.name, device]];
     [self enableUI];
 }
 
 -(void)bootloaderDevice:(BootloaderDevice *)device didReceiveCommandOutput:(NSString *)data messageType:(MessageType)type {
     dispatch_sync(dispatch_get_main_queue(), ^{
-        [self.printer printResponse:data withType:type];
+        [self.logTextView log:data withType:type];
     });
 }
 
 - (void)usbDeviceDidConnect:(USBDevice *)device {
     if (self.showAllDevices) {
-        [self.printer print:[NSString stringWithFormat:@"USB device connected: %@", device] withType:MessageType_Info];
+        [self.logTextView logUSB:[NSString stringWithFormat:@"USB device connected: %@", device]];
     }
 }
 
 - (void)usbDeviceDidDisconnect:(USBDevice *)device {
     if (self.showAllDevices) {
-        [self.printer print:[NSString stringWithFormat:@"USB device disconnected: %@", device] withType:MessageType_Info];
+        [self.logTextView logUSB:[NSString stringWithFormat:@"USB device disconnected: %@", device]];
     }
 }
 
@@ -180,10 +177,10 @@
 - (void)setAutoFlashEnabled:(BOOL)autoFlashEnabled {
     _autoFlashEnabled = autoFlashEnabled;
     if (autoFlashEnabled) {
-        [self.printer print:@"Auto-flash enabled" withType:MessageType_Info];
+        [self.logTextView logInfo:@"Auto-flash enabled"];
         [self disableUI];
     } else {
-        [self.printer print:@"Auto-flash disabled" withType:MessageType_Info];
+        [self.logTextView logInfo:@"Auto-flash disabled"];
         [self enableUI];
     }
 }
@@ -212,7 +209,7 @@
                         [self disableUI];
                     }
 
-                    [self.printer print:@"Attempting to flash, please don't remove device" withType:MessageType_Bootloader];
+                    [self.logTextView logBootloader:@"Attempting to flash, please don't remove device"];
                 });
 
                 for (BootloaderDevice *b in [self findBootloaders]) {
@@ -220,7 +217,7 @@
                 }
 
                 dispatch_sync(dispatch_get_main_queue(), ^{
-                    [self.printer print:@"Flash complete" withType:MessageType_Bootloader];
+                    [self.logTextView logBootloader:@"Flash complete"];
 
                     if (!self.autoFlashEnabled) {
                         [self enableUI];
@@ -228,10 +225,10 @@
                 });
             });
         } else {
-            [self.printer print:@"Please select a microcontroller" withType:MessageType_Error];
+            [self.logTextView logError:@"Please select a microcontroller"];
         }
     } else {
-        [self.printer print:@"Please select a file" withType:MessageType_Error];
+        [self.logTextView logError:@"Please select a file"];
     }
 }
 
@@ -259,7 +256,7 @@
             });
         });
     } else {
-        [self.printer print:@"Please select a microcontroller" withType:MessageType_Error];
+        [self.logTextView logError:@"Please select a microcontroller"];
     }
 }
 
@@ -273,7 +270,7 @@
                     [self disableUI];
                 }
 
-                [self.printer print:@"Attempting to clear EEPROM, please don't remove device" withType:MessageType_Bootloader];
+                [self.logTextView logBootloader:@"Attempting to clear EEPROM, please don't remove device"];
             });
 
             for (BootloaderDevice *b in [self findBootloaders]) {
@@ -283,7 +280,7 @@
             }
 
             dispatch_sync(dispatch_get_main_queue(), ^{
-                [self.printer print:@"EEPROM clear complete" withType:MessageType_Bootloader];
+                [self.logTextView logBootloader:@"EEPROM clear complete"];
 
                 if (!self.autoFlashEnabled) {
                     [self enableUI];
@@ -291,7 +288,7 @@
             });
         });
     } else {
-        [self.printer print:@"Please select a microcontroller" withType:MessageType_Error];
+        [self.logTextView logError:@"Please select a microcontroller"];
     }
 }
 
@@ -306,7 +303,7 @@
                     [self disableUI];
                 }
 
-                [self.printer print:@"Attempting to set handedness, please don't remove device" withType:MessageType_Bootloader];
+                [self.logTextView logBootloader:@"Attempting to set handedness, please don't remove device"];
             });
 
             for (BootloaderDevice *b in [self findBootloaders]) {
@@ -316,7 +313,7 @@
             }
 
             dispatch_sync(dispatch_get_main_queue(), ^{
-                [self.printer print:@"EEPROM write complete" withType:MessageType_Bootloader];
+                [self.logTextView logBootloader:@"EEPROM write complete"];
 
                 if (!self.autoFlashEnabled) {
                     [self enableUI];
@@ -324,7 +321,7 @@
             });
         });
     } else {
-        [self.printer print:@"Please select a microcontroller" withType:MessageType_Error];
+        [self.logTextView logError:@"Please select a microcontroller"];
     }
 }
 
@@ -373,12 +370,12 @@
             url = [NSURL URLWithString:[path.absoluteString stringByReplacingOccurrencesOfString:@"qmk:" withString:@""]];
         }
 
-        [self.printer print:[NSString stringWithFormat:@"Downloading the file: %@", url.absoluteString] withType:MessageType_Info];
+        [self.logTextView logInfo:[NSString stringWithFormat:@"Downloading the file: %@", url.absoluteString]];
         NSData *data = [NSData dataWithContentsOfURL:url];
         if (!data) {
             // Try .bin extension if .hex 404'd
             url = [[url URLByDeletingPathExtension] URLByAppendingPathExtension:@"bin"];
-            [self.printer print:[NSString stringWithFormat:@"No .hex file found, trying %@", url.absoluteString] withType:MessageType_Info];
+            [self.logTextView logInfo:[NSString stringWithFormat:@"No .hex file found, trying %@", url.absoluteString]];
             data = [NSData dataWithContentsOfURL:url];
         }
         if (data) {
@@ -387,7 +384,7 @@
             NSString *name = [url.lastPathComponent stringByReplacingOccurrencesOfString:@"." withString:[NSString stringWithFormat:@"_%@.", [[[NSProcessInfo processInfo] globallyUniqueString] substringToIndex:8]]];
             filename = [NSString stringWithFormat:@"%@/%@", downloadsDirectory, name];
             [data writeToFile:filename atomically:YES];
-            [self.printer printResponse:[NSString stringWithFormat:@"File saved to: %@", filename] withType:MessageType_Info];
+            [self.logTextView logInfo:[NSString stringWithFormat:@"File saved to: %@", filename]];
         }
     }
     if (![filename isEqualToString:@""]) {
@@ -433,6 +430,6 @@
 
 #pragma mark Uncategorized
 - (IBAction)clearButtonClick:(id)sender {
-    [[self textView] setString:@""];
+    [self.logTextView setString:@""];
 }
 @end

@@ -104,11 +104,11 @@
 }
 
 - (void)printOutput:(NSString *)output {
-    [self printMessage:output withType:MessageType_Info];
+    [self printMessage:output withType:MessageType_CommandOutput];
 }
 
 - (void)printErrorOutput:(NSString *)output {
-    [self printMessage:output withType:MessageType_Info];
+    [self printMessage:output withType:MessageType_CommandError];
 }
 
 - (void)printMessage:(NSString *)message withType:(MessageType)type {
