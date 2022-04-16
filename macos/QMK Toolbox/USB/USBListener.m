@@ -14,6 +14,7 @@
 #import "LUFAMSDevice.h"
 #import "STM32DFUDevice.h"
 #import "STM32DuinoDevice.h"
+#import "WB32DFUDevice.h"
 #import "USBAspDevice.h"
 #import "USBTinyISPDevice.h"
 
@@ -150,6 +151,8 @@ static void deviceDisconnected(void *context, io_iterator_t iterator) {
             return [[STM32DFUDevice alloc] initWithUSBDevice:usbDevice];
         case BootloaderTypeSTM32Duino:
             return [[STM32DuinoDevice alloc] initWithUSBDevice:usbDevice];
+        case BootloaderTypeWB32DFU:
+            return [[WB32DFUDevice alloc] initWithUSBDevice:usbDevice];
         case BootloaderTypeUSBAsp:
             return [[USBAspDevice alloc] initWithUSBDevice:usbDevice];
         case BootloaderTypeUSBTinyISP:
@@ -185,6 +188,11 @@ static void deviceDisconnected(void *context, io_iterator_t iterator) {
         case 0x0483: // STMicroelectronics
             if (productID == 0xDF11) {
                 return BootloaderTypeSTM32DFU;
+            }
+            break;
+        case 0x342D: // WestBerryTech
+            if (productID == 0xDFA0) {
+                return BootloaderTypeWB32DFU;
             }
             break;
         case 0x1209: // pid.codes

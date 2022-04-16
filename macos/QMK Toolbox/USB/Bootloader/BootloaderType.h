@@ -11,6 +11,7 @@ typedef enum BootloaderType : NSUInteger {
     BootloaderTypeQMKDFU,
     BootloaderTypeSTM32DFU,
     BootloaderTypeSTM32Duino,
+    BootloaderTypeWB32DFU,
     BootloaderTypeUSBAsp,
     BootloaderTypeUSBTinyISP,
     BootloaderTypeNone

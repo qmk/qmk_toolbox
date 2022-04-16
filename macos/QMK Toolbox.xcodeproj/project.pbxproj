@@ -48,6 +48,7 @@
 		3AE6D9F72726CA1C00CECA21 /* LUFAMSDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6D9F62726CA1C00CECA21 /* LUFAMSDevice.m */; };
 		3AE6D9FD2726CAF900CECA21 /* STM32DFUDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6D9FC2726CAF900CECA21 /* STM32DFUDevice.m */; };
 		3AE6DA002726CB2600CECA21 /* STM32DuinoDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6D9FF2726CB2600CECA21 /* STM32DuinoDevice.m */; };
+		9BE10718275F4CFE00C708D5 /* wb32-dfu-updater_cli in Resources */ = {isa = PBXBuildFile; fileRef = 9BE10717275F4CFE00C708D5 /* wb32-dfu-updater_cli */; };
 		3AE6DA032726CB7A00CECA21 /* USBAspDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6DA022726CB7A00CECA21 /* USBAspDevice.m */; };
 		3AE6DA062726CBB200CECA21 /* USBTinyISPDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6DA052726CBB200CECA21 /* USBTinyISPDevice.m */; };
 		C93A0FF42292232E0006C88F /* reset.eep in Resources */ = {isa = PBXBuildFile; fileRef = C93A0FF32292232D0006C88F /* reset.eep */; };
@@ -137,6 +138,7 @@
 		3AE6D9FC2726CAF900CECA21 /* STM32DFUDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = STM32DFUDevice.m; sourceTree = "<group>"; };
 		3AE6D9FE2726CB2600CECA21 /* STM32DuinoDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STM32DuinoDevice.h; sourceTree = "<group>"; };
 		3AE6D9FF2726CB2600CECA21 /* STM32DuinoDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = STM32DuinoDevice.m; sourceTree = "<group>"; };
+		9BE10717275F4CFE00C708D5 /* wb32-dfu-updater_cli */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "wb32-dfu-updater_cli"; sourceTree = "<group>"; };
 		3AE6DA012726CB7A00CECA21 /* USBAspDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = USBAspDevice.h; sourceTree = "<group>"; };
 		3AE6DA022726CB7A00CECA21 /* USBAspDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = USBAspDevice.m; sourceTree = "<group>"; };
 		3AE6DA042726CBB200CECA21 /* USBTinyISPDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = USBTinyISPDevice.h; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 		3A53FB5B268A33F10020BAB0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9BE10717275F4CFE00C708D5 /* wb32-dfu-updater_cli */,
 				09522BBA1F6216BA00AEBC5E /* avrdude.conf */,
 				09522BB21F61E32700AEBC5E /* mcu-list.txt */,
 				C93A0FF32292232D0006C88F /* reset.eep */,
@@ -366,6 +369,7 @@
 				09522BBB1F6216BA00AEBC5E /* avrdude.conf in Resources */,
 				09522BB31F61E32700AEBC5E /* mcu-list.txt in Resources */,
 				C93A0FF42292232E0006C88F /* reset.eep in Resources */,
+				9BE10718275F4CFE00C708D5 /* wb32-dfu-updater_cli in Resources */,
 				3A62C86626A96AED001C655A /* reset_left.eep in Resources */,
 				3A62C86526A96AED001C655A /* reset_right.eep in Resources */,
 				092964111F5E4186004F2D3F /* avrdude in Resources */,
