@@ -19,6 +19,7 @@ namespace QMK_Toolbox.Helpers
             "dfu-util.exe",
             "mdloader.exe",
             "teensy_loader_cli.exe",
+            "wb32-dfu-updater_cli.exe",
             "libftdi1.dll",
             "libusb0.dll",
             "libusb-0-1-4.dll",

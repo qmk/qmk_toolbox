@@ -23,6 +23,7 @@ QMK Toolbox supports the following bootloaders:
  - BootloadHID (Atmel, PS2AVRGB) via [bootloadHID](https://www.obdev.at/products/vusb/bootloadhid.html)
  - Caterina (Arduino, Pro Micro) via [avrdude](http://nongnu.org/avrdude/)
  - HalfKay (Teensy, Ergodox EZ) via [Teensy Loader](https://pjrc.com/teensy/loader_cli.html)
+ - WB32 DFU (WB32) via [wb32-dfu-updater_cli](https://github.com/WestberryTech/wb32-dfu-updater)
  - LUFA Mass Storage
 
 And the following ISP flashers:

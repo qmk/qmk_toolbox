@@ -123,6 +123,7 @@
     <Compile Include="Usb\Bootloader\Stm32DuinoDevice.cs" />
     <Compile Include="Usb\Bootloader\UsbAspDevice.cs" />
     <Compile Include="Usb\Bootloader\UsbTinyIspDevice.cs" />
+    <Compile Include="Usb\Bootloader\Wb32DfuDevice.cs" />
     <Compile Include="Usb\IUsbDevice.cs" />
     <Compile Include="Usb\UsbDevice.cs" />
     <Compile Include="Usb\UsbListener.cs" />
@@ -187,6 +188,7 @@
     <EmbeddedResource Include="Resources\dfu-util.exe" />
     <EmbeddedResource Include="Resources\mdloader.exe" />
     <EmbeddedResource Include="Resources\qmk_driver_installer.exe" />
+    <EmbeddedResource Include="Resources\wb32-dfu-updater_cli.exe" />
     <EmbeddedResource Include="Resources\teensy_loader_cli.exe" />
     <EmbeddedResource Include="Resources\libftdi1.dll" />
     <EmbeddedResource Include="Resources\libusb0.dll" />

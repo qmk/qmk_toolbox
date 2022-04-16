@@ -14,6 +14,7 @@
         QmkDfu,
         Stm32Dfu,
         Stm32Duino,
+        Wb32Dfu,
         UsbAsp,
         UsbTinyIsp,
         None

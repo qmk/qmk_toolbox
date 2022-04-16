@@ -180,6 +180,8 @@ namespace QMK_Toolbox.Usb
                     return new UsbAspDevice(usbDevice);
                 case BootloaderType.UsbTinyIsp:
                     return new UsbTinyIspDevice(usbDevice);
+                case BootloaderType.Wb32Dfu:
+                    return new Wb32DfuDevice(usbDevice);
             }
 
             return usbDevice;
@@ -215,6 +217,12 @@ namespace QMK_Toolbox.Usb
                     if (productId == 0xDF11)
                     {
                         return BootloaderType.Stm32Dfu;
+                    }
+                    break;
+                case 0x342D: // WestBerryTech
+                    if (productId == 0xDFA0)
+                    {
+                        return BootloaderType.Wb32Dfu;
                     }
                     break;
                 case 0x1209: // pid.codes
