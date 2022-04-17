@@ -219,12 +219,6 @@ namespace QMK_Toolbox.Usb
                         return BootloaderType.Stm32Dfu;
                     }
                     break;
-                case 0x342D: // WestBerryTech
-                    if (productId == 0xDFA0)
-                    {
-                        return BootloaderType.Wb32Dfu;
-                    }
-                    break;
                 case 0x1209: // pid.codes
                     if (productId == 0x2302) // Keyboardio Atreus 2 Bootloader
                     {
@@ -299,6 +293,12 @@ namespace QMK_Toolbox.Usb
                     if (productId == 0x0106)
                     {
                         return BootloaderType.Apm32Dfu;
+                    }
+                    break;
+                case 0x342D: // WestBerryTech
+                    if (productId == 0xDFA0)
+                    {
+                        return BootloaderType.Wb32Dfu;
                     }
                     break;
             }
