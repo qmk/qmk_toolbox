@@ -14,9 +14,9 @@
 #import "LUFAMSDevice.h"
 #import "STM32DFUDevice.h"
 #import "STM32DuinoDevice.h"
-#import "WB32DFUDevice.h"
 #import "USBAspDevice.h"
 #import "USBTinyISPDevice.h"
+#import "WB32DFUDevice.h"
 
 @implementation USBListener {
     mach_port_t masterPort;
