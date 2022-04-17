@@ -25,7 +25,7 @@ namespace QMK_Toolbox.Usb.Bootloader
             }
             else
             {
-                PrintMessage("This file format is not the type supported by wB32-dFU-updater_cli!", MessageType.Error);
+                PrintMessage("Only firmware files in .bin or .hex format can be flashed with wb32-dfu-updater_cli!", MessageType.Error);
             }
         }
 
