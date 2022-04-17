@@ -226,7 +226,6 @@
 		3A53FB5B268A33F10020BAB0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				9BE10717275F4CFE00C708D5 /* wb32-dfu-updater_cli */,
 				09522BBA1F6216BA00AEBC5E /* avrdude.conf */,
 				09522BB21F61E32700AEBC5E /* mcu-list.txt */,
 				C93A0FF32292232D0006C88F /* reset.eep */,
@@ -238,6 +237,7 @@
 				098AEDFA1F5E45C300CA054D /* dfu-util */,
 				C9A09B5622EE6826008C3CF3 /* mdloader */,
 				0929640E1F5E4068004F2D3F /* teensy_loader_cli */,
+				9BE10717275F4CFE00C708D5 /* wb32-dfu-updater_cli */,
 				3A7770D822BD3B8200398C40 /* libftdi.1.dylib */,
 				09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */,
 				09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */,
@@ -273,8 +273,6 @@
 		3AC7BE50272565B600FED7DB /* Bootloader */ = {
 			isa = PBXGroup;
 			children = (
-				9B7999EE280AA1D0007469DA /* WB32DFUDevice.m */,
-				9B7999ED280AA1C8007469DA /* WB32DFUDevice.h */,
 				3A58630F2725A99D00354E07 /* APM32DFUDevice.h */,
 				3A5863102725A99D00354E07 /* APM32DFUDevice.m */,
 				3AE6D9E02726C75500CECA21 /* AtmelDFUDevice.h */,
@@ -304,6 +302,8 @@
 				3AE6DA022726CB7A00CECA21 /* USBAspDevice.m */,
 				3AE6DA042726CBB200CECA21 /* USBTinyISPDevice.h */,
 				3AE6DA052726CBB200CECA21 /* USBTinyISPDevice.m */,
+				9B7999ED280AA1C8007469DA /* WB32DFUDevice.h */,
+				9B7999EE280AA1D0007469DA /* WB32DFUDevice.m */,
 			);
 			path = Bootloader;
 			sourceTree = "<group>";
@@ -374,7 +374,6 @@
 				09522BBB1F6216BA00AEBC5E /* avrdude.conf in Resources */,
 				09522BB31F61E32700AEBC5E /* mcu-list.txt in Resources */,
 				C93A0FF42292232E0006C88F /* reset.eep in Resources */,
-				9BE10718275F4CFE00C708D5 /* wb32-dfu-updater_cli in Resources */,
 				3A62C86626A96AED001C655A /* reset_left.eep in Resources */,
 				3A62C86526A96AED001C655A /* reset_right.eep in Resources */,
 				092964111F5E4186004F2D3F /* avrdude in Resources */,
@@ -383,6 +382,7 @@
 				098AEDFB1F5E45C300CA054D /* dfu-util in Resources */,
 				C9A09B5722EE6826008C3CF3 /* mdloader in Resources */,
 				0929640F1F5E4068004F2D3F /* teensy_loader_cli in Resources */,
+				9BE10718275F4CFE00C708D5 /* wb32-dfu-updater_cli in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
