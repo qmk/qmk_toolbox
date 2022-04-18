@@ -82,10 +82,10 @@ namespace QMK_Toolbox {
             this.flashButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.flashButton.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.windowStateBindingSource, "CanFlash", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.flashButton.Enabled = false;
-            this.flashButton.Location = new System.Drawing.Point(653, 86);
+            this.flashButton.Location = new System.Drawing.Point(537, 86);
             this.flashButton.Name = "flashButton";
             this.flashButton.Size = new System.Drawing.Size(62, 23);
-            this.flashButton.TabIndex = 3;
+            this.flashButton.TabIndex = 6;
             this.flashButton.Text = "Flash";
             this.flashButton.Click += new System.EventHandler(this.FlashButton_Click);
             // 
@@ -99,8 +99,9 @@ namespace QMK_Toolbox {
             this.autoflashCheckbox.AutoSize = true;
             this.autoflashCheckbox.BackColor = System.Drawing.Color.Transparent;
             this.autoflashCheckbox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.windowStateBindingSource, "AutoFlashEnabled", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.autoflashCheckbox.Location = new System.Drawing.Point(653, 115);
+            this.autoflashCheckbox.Location = new System.Drawing.Point(455, 90);
             this.autoflashCheckbox.Name = "autoflashCheckbox";
+            this.autoflashCheckbox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.autoflashCheckbox.Size = new System.Drawing.Size(76, 17);
             this.autoflashCheckbox.TabIndex = 5;
             this.autoflashCheckbox.Text = "Auto-Flash";
@@ -117,7 +118,7 @@ namespace QMK_Toolbox {
             this.openFileButton.Location = new System.Drawing.Point(571, 18);
             this.openFileButton.Name = "openFileButton";
             this.openFileButton.Size = new System.Drawing.Size(64, 23);
-            this.openFileButton.TabIndex = 1;
+            this.openFileButton.TabIndex = 2;
             this.openFileButton.Text = "Open";
             this.openFileButton.UseVisualStyleBackColor = true;
             this.openFileButton.Click += new System.EventHandler(this.OpenFileButton_Click);
@@ -130,7 +131,7 @@ namespace QMK_Toolbox {
             this.resetButton.Location = new System.Drawing.Point(721, 86);
             this.resetButton.Name = "resetButton";
             this.resetButton.Size = new System.Drawing.Size(67, 23);
-            this.resetButton.TabIndex = 4;
+            this.resetButton.TabIndex = 8;
             this.resetButton.Text = "Exit DFU";
             this.resetButton.Click += new System.EventHandler(this.ResetButton_Click);
             // 
@@ -141,7 +142,7 @@ namespace QMK_Toolbox {
             this.mcuLabel.Location = new System.Drawing.Point(638, 0);
             this.mcuLabel.Name = "mcuLabel";
             this.mcuLabel.Size = new System.Drawing.Size(84, 13);
-            this.mcuLabel.TabIndex = 2;
+            this.mcuLabel.TabIndex = 3;
             this.mcuLabel.Text = "MCU (AVR only)";
             // 
             // fileGroupBox
@@ -155,7 +156,7 @@ namespace QMK_Toolbox {
             this.fileGroupBox.Location = new System.Drawing.Point(12, 32);
             this.fileGroupBox.Name = "fileGroupBox";
             this.fileGroupBox.Size = new System.Drawing.Size(776, 48);
-            this.fileGroupBox.TabIndex = 1;
+            this.fileGroupBox.TabIndex = 0;
             this.fileGroupBox.TabStop = false;
             this.fileGroupBox.Text = "Local file";
             // 
@@ -169,7 +170,7 @@ namespace QMK_Toolbox {
             this.filepathBox.Name = "filepathBox";
             this.filepathBox.PlaceholderText = "Click Open or drag to window to select file";
             this.filepathBox.Size = new System.Drawing.Size(558, 21);
-            this.filepathBox.TabIndex = 0;
+            this.filepathBox.TabIndex = 1;
             this.filepathBox.Text = global::QMK_Toolbox.Properties.Settings.Default.hexFileSetting;
             this.filepathBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FilepathBox_KeyDown);
             // 
@@ -182,15 +183,15 @@ namespace QMK_Toolbox {
             this.mcuBox.Location = new System.Drawing.Point(641, 19);
             this.mcuBox.Name = "mcuBox";
             this.mcuBox.Size = new System.Drawing.Size(129, 21);
-            this.mcuBox.TabIndex = 3;
+            this.mcuBox.TabIndex = 4;
             this.mcuBox.ValueMember = "Key";
             // 
             // clearEepromButton
             // 
-            this.clearEepromButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.clearEepromButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.clearEepromButton.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.windowStateBindingSource, "CanClearEeprom", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.clearEepromButton.Enabled = false;
-            this.clearEepromButton.Location = new System.Drawing.Point(12, 630);
+            this.clearEepromButton.Location = new System.Drawing.Point(605, 86);
             this.clearEepromButton.Name = "clearEepromButton";
             this.clearEepromButton.Size = new System.Drawing.Size(110, 23);
             this.clearEepromButton.TabIndex = 7;
@@ -211,11 +212,11 @@ namespace QMK_Toolbox {
             this.logTextBox.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.logTextBox.ForeColor = System.Drawing.Color.White;
             this.logTextBox.HideSelection = false;
-            this.logTextBox.Location = new System.Drawing.Point(12, 140);
+            this.logTextBox.Location = new System.Drawing.Point(12, 115);
             this.logTextBox.Name = "logTextBox";
             this.logTextBox.ReadOnly = true;
-            this.logTextBox.Size = new System.Drawing.Size(776, 484);
-            this.logTextBox.TabIndex = 6;
+            this.logTextBox.Size = new System.Drawing.Size(776, 509);
+            this.logTextBox.TabIndex = 9;
             this.logTextBox.Text = "";
             this.logTextBox.WordWrap = false;
             this.logTextBox.ZoomFactor = global::QMK_Toolbox.Properties.Settings.Default.outputZoom;
@@ -292,11 +293,11 @@ namespace QMK_Toolbox {
             | System.Windows.Forms.AnchorStyles.Right)));
             this.consoleList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.consoleList.FormattingEnabled = true;
-            this.consoleList.Location = new System.Drawing.Point(128, 631);
+            this.consoleList.Location = new System.Drawing.Point(12, 631);
             this.consoleList.Name = "consoleList";
             this.consoleList.PlaceholderText = "No HID console devices connected";
-            this.consoleList.Size = new System.Drawing.Size(660, 21);
-            this.consoleList.TabIndex = 8;
+            this.consoleList.Size = new System.Drawing.Size(776, 21);
+            this.consoleList.TabIndex = 10;
             // 
             // mainMenu
             // 
