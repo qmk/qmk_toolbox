@@ -45,6 +45,11 @@ See the [QMK Docs](https://docs.qmk.fm/#/newbs_testing_debugging?id=debugging) f
 
 ## Installation
 
+### System Requirements
+
+* macOS 10.15 (Catalina) or higher
+* Windows 10 May 2019 Update or higher (earlier with [.NET Framework 4.8](https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/versions-and-dependencies#net-framework-48))
+
 ### Dependencies
 
 When using the QMK Toolbox on Windows, it will prompt at first run to install the necessary drivers.
@@ -53,7 +58,7 @@ If you run into any issues with "Device not found" when flashing, then you may n
 
 ### Download
 
-Windows and macOS versions are available, and you can get [the latest release here](https://github.com/qmk/qmk_toolbox/releases).
+Get the latest release [here](https://github.com/qmk/qmk_toolbox/releases).
 
 For Homebrew users, it is also available as a Cask:
 
