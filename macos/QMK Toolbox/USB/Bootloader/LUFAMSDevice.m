@@ -24,14 +24,16 @@
             [self printMessage:[NSString stringWithFormat:@"Deleting %@...", destFile] withType:MessageType_Command];
             if (![[NSFileManager defaultManager] removeItemAtPath:destFile error:&error]) {
                 [self printMessage:[NSString stringWithFormat:@"IO ERROR: %@", [error localizedDescription]] withType:MessageType_Error];
+                return;
             }
 
             [self printMessage:[NSString stringWithFormat:@"Copying %@ to %@...", file, destFile] withType:MessageType_Command];
             if (![[NSFileManager defaultManager] copyItemAtPath:file toPath:destFile error:&error]) {
                 [self printMessage:[NSString stringWithFormat:@"IO ERROR: %@", [error localizedDescription]] withType:MessageType_Error];
+                return;
             }
 
-            [self printMessage:@"Done, please eject drive now." withType:MessageType_Info];
+            [self printMessage:@"Done, please eject drive now." withType:MessageType_Bootloader];
         } else {
             [self printMessage:@"Only firmware files in .bin format can be flashed with this bootloader!" withType:MessageType_Error];
         }
