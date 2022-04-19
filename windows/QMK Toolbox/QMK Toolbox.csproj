@@ -118,6 +118,7 @@
     <Compile Include="Usb\Bootloader\CaterinaDevice.cs" />
     <Compile Include="Usb\Bootloader\HalfKayDevice.cs" />
     <Compile Include="Usb\Bootloader\KiibohdDfuDevice.cs" />
+    <Compile Include="Usb\Bootloader\LufaHidDevice.cs" />
     <Compile Include="Usb\Bootloader\LufaMsDevice.cs" />
     <Compile Include="Usb\Bootloader\Stm32DfuDevice.cs" />
     <Compile Include="Usb\Bootloader\Stm32DuinoDevice.cs" />
@@ -185,6 +186,7 @@
     <EmbeddedResource Include="Resources\bootloadHID.exe" />
     <EmbeddedResource Include="Resources\dfu-programmer.exe" />
     <EmbeddedResource Include="Resources\dfu-util.exe" />
+    <EmbeddedResource Include="Resources\hid_bootloader_cli.exe" />
     <EmbeddedResource Include="Resources\mdloader.exe" />
     <EmbeddedResource Include="Resources\qmk_driver_installer.exe" />
     <EmbeddedResource Include="Resources\teensy_loader_cli.exe" />

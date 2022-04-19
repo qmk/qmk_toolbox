@@ -170,6 +170,9 @@ namespace QMK_Toolbox.Usb
                     return new HalfKayDevice(usbDevice);
                 case BootloaderType.KiibohdDfu:
                      return new KiibohdDfuDevice(usbDevice);
+                case BootloaderType.LufaHid:
+                case BootloaderType.QmkHid:
+                    return new LufaHidDevice(usbDevice);
                 case BootloaderType.LufaMs:
                     return new LufaMsDevice(usbDevice);
                 case BootloaderType.Stm32Dfu:
@@ -194,6 +197,13 @@ namespace QMK_Toolbox.Usb
                     {
                         case 0x2045:
                             return BootloaderType.LufaMs;
+                        case 0x2067:
+                            if (revisionBcd == 0x0936) // Unicode Ψ
+                            {
+                                return BootloaderType.QmkHid;
+                            }
+
+                            return BootloaderType.LufaHid;
                         case 0x2FEF: // ATmega16U2
                         case 0x2FF0: // ATmega32U2
                         case 0x2FF3: // ATmega16U4
