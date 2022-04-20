@@ -11,7 +11,7 @@ This is a collection of flashing tools packaged into one app. It supports auto-d
 
 |Windows|macOS|
 |-------|-----|
-|[![Windows](https://i.imgur.com/NjOaPrE.png)](https://i.imgur.com/NjOaPrE.png)|[![macOS](https://i.imgur.com/A6mfa5h.png)](https://i.imgur.com/A6mfa5h.png)|
+|[![Windows](https://i.imgur.com/sdh8byj.png)](https://i.imgur.com/sdh8byj.png)|[![macOS](https://i.imgur.com/3x8Xrkv.png)](https://i.imgur.com/3x8Xrkv.png)|
 
 ## Flashing
 
@@ -40,7 +40,7 @@ The Toolbox also listens to HID messages on usage page `0xFF31` and usage `0x007
 
 If you have `CONSOLE_ENABLE = yes` in your keyboard's `rules.mk`, you can print messages with `xprintf()`, useful for debugging:
 
-![Hello world from Console](https://i.imgur.com/iYTa5PB.png)
+![Hello world from Console](https://i.imgur.com/qxLb2zS.png)
 
 See the [QMK Docs](https://docs.qmk.fm/#/newbs_testing_debugging?id=debugging) for more information.
 
