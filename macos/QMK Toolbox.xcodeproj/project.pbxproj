@@ -23,10 +23,12 @@
 		09D79CBC1FB8A64B0086ABF6 /* libusb-0.1.4.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		3A1AF21126FA31D700AC977B /* KeyTesterWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A1AF21026FA31D700AC977B /* KeyTesterWindow.m */; };
 		3A245407270817DF001F4AE0 /* MicrocontrollerSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A245406270817DF001F4AE0 /* MicrocontrollerSelector.m */; };
+		3A3B4E2E27D9FBF800526FBF /* LUFAHIDDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3B4E2D27D9FBF800526FBF /* LUFAHIDDevice.m */; };
 		3A5166BC26E07F0000EBE3DC /* KeyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A5166BB26E07F0000EBE3DC /* KeyView.m */; };
 		3A5863112725A99D00354E07 /* APM32DFUDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A5863102725A99D00354E07 /* APM32DFUDevice.m */; };
 		3A62C86526A96AED001C655A /* reset_right.eep in Resources */ = {isa = PBXBuildFile; fileRef = 3A62C86326A96AED001C655A /* reset_right.eep */; };
 		3A62C86626A96AED001C655A /* reset_left.eep in Resources */ = {isa = PBXBuildFile; fileRef = 3A62C86426A96AED001C655A /* reset_left.eep */; };
+		3A7492CC27DF96BF0073A5A0 /* hid_bootloader_cli in Resources */ = {isa = PBXBuildFile; fileRef = 3A7492CB27DF96BF0073A5A0 /* hid_bootloader_cli */; };
 		3A7770DA22BD3BA300398C40 /* libftdi.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3A7770D822BD3B8200398C40 /* libftdi.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		3A8F9EFF26E75012007480A7 /* KeyTesterWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A8F9F0126E75012007480A7 /* KeyTesterWindow.xib */; };
 		3A8F9F0226E7501E007480A7 /* KeyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A8F9F0426E7501E007480A7 /* KeyView.xib */; };
@@ -95,12 +97,15 @@
 		3A1AF21026FA31D700AC977B /* KeyTesterWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyTesterWindow.m; sourceTree = "<group>"; };
 		3A245405270817DF001F4AE0 /* MicrocontrollerSelector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MicrocontrollerSelector.h; sourceTree = "<group>"; };
 		3A245406270817DF001F4AE0 /* MicrocontrollerSelector.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MicrocontrollerSelector.m; sourceTree = "<group>"; };
+		3A3B4E2C27D9FBF800526FBF /* LUFAHIDDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUFAHIDDevice.h; sourceTree = "<group>"; };
+		3A3B4E2D27D9FBF800526FBF /* LUFAHIDDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUFAHIDDevice.m; sourceTree = "<group>"; };
 		3A5166BA26E07F0000EBE3DC /* KeyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyView.h; sourceTree = "<group>"; };
 		3A5166BB26E07F0000EBE3DC /* KeyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyView.m; sourceTree = "<group>"; };
 		3A58630F2725A99D00354E07 /* APM32DFUDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APM32DFUDevice.h; sourceTree = "<group>"; };
 		3A5863102725A99D00354E07 /* APM32DFUDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APM32DFUDevice.m; sourceTree = "<group>"; };
 		3A62C86326A96AED001C655A /* reset_right.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset_right.eep; path = ../../../common/reset_right.eep; sourceTree = "<group>"; };
 		3A62C86426A96AED001C655A /* reset_left.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset_left.eep; path = ../../../common/reset_left.eep; sourceTree = "<group>"; };
+		3A7492CB27DF96BF0073A5A0 /* hid_bootloader_cli */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = hid_bootloader_cli; sourceTree = "<group>"; };
 		3A7770D822BD3B8200398C40 /* libftdi.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libftdi.1.dylib; sourceTree = "<group>"; };
 		3A8F9F0026E75012007480A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/KeyTesterWindow.xib; sourceTree = "<group>"; };
 		3A8F9F0326E7501E007480A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/KeyView.xib; sourceTree = "<group>"; };
@@ -235,6 +240,7 @@
 				3AB4BC9C2495540A00204A3F /* bootloadHID */,
 				0929640C1F5E403C004F2D3F /* dfu-programmer */,
 				098AEDFA1F5E45C300CA054D /* dfu-util */,
+				3A7492CB27DF96BF0073A5A0 /* hid_bootloader_cli */,
 				C9A09B5622EE6826008C3CF3 /* mdloader */,
 				0929640E1F5E4068004F2D3F /* teensy_loader_cli */,
 				9BE10717275F4CFE00C708D5 /* wb32-dfu-updater_cli */,
@@ -292,6 +298,8 @@
 				3AE6D9F02726C9B500CECA21 /* HalfKayDevice.m */,
 				3AE6D9F22726C9EC00CECA21 /* KiibohdDFUDevice.h */,
 				3AE6D9F32726C9EC00CECA21 /* KiibohdDFUDevice.m */,
+				3A3B4E2C27D9FBF800526FBF /* LUFAHIDDevice.h */,
+				3A3B4E2D27D9FBF800526FBF /* LUFAHIDDevice.m */,
 				3AE6D9F52726CA1C00CECA21 /* LUFAMSDevice.h */,
 				3AE6D9F62726CA1C00CECA21 /* LUFAMSDevice.m */,
 				3AE6D9FB2726CAF900CECA21 /* STM32DFUDevice.h */,
@@ -380,6 +388,7 @@
 				3AB4BC9D2495540A00204A3F /* bootloadHID in Resources */,
 				0929640D1F5E403C004F2D3F /* dfu-programmer in Resources */,
 				098AEDFB1F5E45C300CA054D /* dfu-util in Resources */,
+				3A7492CC27DF96BF0073A5A0 /* hid_bootloader_cli in Resources */,
 				C9A09B5722EE6826008C3CF3 /* mdloader in Resources */,
 				0929640F1F5E4068004F2D3F /* teensy_loader_cli in Resources */,
 				9BE10718275F4CFE00C708D5 /* wb32-dfu-updater_cli in Resources */,
@@ -413,6 +422,7 @@
 				3AE6D9EE2726C95C00CECA21 /* CaterinaDevice.m in Sources */,
 				3AE6D9F12726C9B500CECA21 /* HalfKayDevice.m in Sources */,
 				3AE6D9F42726C9EC00CECA21 /* KiibohdDFUDevice.m in Sources */,
+				3A3B4E2E27D9FBF800526FBF /* LUFAHIDDevice.m in Sources */,
 				3AE6D9F72726CA1C00CECA21 /* LUFAMSDevice.m in Sources */,
 				3AE6D9FD2726CAF900CECA21 /* STM32DFUDevice.m in Sources */,
 				3AE6DA002726CB2600CECA21 /* STM32DuinoDevice.m in Sources */,

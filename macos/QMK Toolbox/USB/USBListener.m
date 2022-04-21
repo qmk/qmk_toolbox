@@ -11,6 +11,7 @@
 #import "CaterinaDevice.h"
 #import "HalfKayDevice.h"
 #import "KiibohdDFUDevice.h"
+#import "LUFAHIDDevice.h"
 #import "LUFAMSDevice.h"
 #import "STM32DFUDevice.h"
 #import "STM32DuinoDevice.h"
@@ -145,6 +146,9 @@ static void deviceDisconnected(void *context, io_iterator_t iterator) {
             return [[HalfKayDevice alloc] initWithUSBDevice:usbDevice];
         case BootloaderTypeKiibohdDFU:
             return [[KiibohdDFUDevice alloc] initWithUSBDevice:usbDevice];
+        case BootloaderTypeLUFAHID:
+        case BootloaderTypeQMKHID:
+            return [[LUFAHIDDevice alloc] initWithUSBDevice:usbDevice];
         case BootloaderTypeLUFAMS:
             return [[LUFAMSDevice alloc] initWithUSBDevice:usbDevice];
         case BootloaderTypeSTM32DFU:
@@ -169,6 +173,11 @@ static void deviceDisconnected(void *context, io_iterator_t iterator) {
             switch (productID) {
                 case 0x2045:
                     return BootloaderTypeLUFAMS;
+                case 0x2067:
+                    if (revisionBCD == 0x0936) { // Unicode Ψ
+                        return BootloaderTypeQMKHID;
+                    }
+                    return BootloaderTypeLUFAHID;
                 case 0x2FEF: // ATmega16U2
                 case 0x2FF0: // ATmega32U2
                 case 0x2FF3: // ATmega16U4
