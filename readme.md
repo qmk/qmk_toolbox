@@ -11,7 +11,7 @@ This is a collection of flashing tools packaged into one app. It supports auto-d
 
 |Windows|macOS|
 |-------|-----|
-|[![Windows](https://i.imgur.com/NjOaPrE.png)](https://i.imgur.com/NjOaPrE.png)|[![macOS](https://i.imgur.com/A6mfa5h.png)](https://i.imgur.com/A6mfa5h.png)|
+|[![Windows](https://i.imgur.com/sdh8byj.png)](https://i.imgur.com/sdh8byj.png)|[![macOS](https://i.imgur.com/3x8Xrkv.png)](https://i.imgur.com/3x8Xrkv.png)|
 
 ## Flashing
 
@@ -23,6 +23,7 @@ QMK Toolbox supports the following bootloaders:
  - BootloadHID (Atmel, PS2AVRGB) via [bootloadHID](https://www.obdev.at/products/vusb/bootloadhid.html)
  - Caterina (Arduino, Pro Micro) via [avrdude](http://nongnu.org/avrdude/)
  - HalfKay (Teensy, Ergodox EZ) via [Teensy Loader](https://pjrc.com/teensy/loader_cli.html)
+ - LUFA/QMK HID via [hid_bootloader_cli](https://github.com/abcminiuser/lufa)
  - WB32 DFU (WB32) via [wb32-dfu-updater_cli](https://github.com/WestberryTech/wb32-dfu-updater)
  - LUFA Mass Storage
 
@@ -40,11 +41,16 @@ The Toolbox also listens to HID messages on usage page `0xFF31` and usage `0x007
 
 If you have `CONSOLE_ENABLE = yes` in your keyboard's `rules.mk`, you can print messages with `xprintf()`, useful for debugging:
 
-![Hello world from Console](https://i.imgur.com/iYTa5PB.png)
+![Hello world from Console](https://i.imgur.com/qxLb2zS.png)
 
 See the [QMK Docs](https://docs.qmk.fm/#/newbs_testing_debugging?id=debugging) for more information.
 
 ## Installation
+
+### System Requirements
+
+* macOS 10.15 (Catalina) or higher
+* Windows 10 May 2019 Update or higher (earlier with [.NET Framework 4.8](https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/versions-and-dependencies#net-framework-48))
 
 ### Dependencies
 
@@ -54,7 +60,7 @@ If you run into any issues with "Device not found" when flashing, then you may n
 
 ### Download
 
-Windows and macOS versions are available, and you can get [the latest release here](https://github.com/qmk/qmk_toolbox/releases).
+Get the latest release [here](https://github.com/qmk/qmk_toolbox/releases).
 
 For Homebrew users, it is also available as a Cask:
 

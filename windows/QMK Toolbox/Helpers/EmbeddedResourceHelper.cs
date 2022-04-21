@@ -17,6 +17,7 @@ namespace QMK_Toolbox.Helpers
             "bootloadHID.exe",
             "dfu-programmer.exe",
             "dfu-util.exe",
+            "hid_bootloader_cli.exe",
             "mdloader.exe",
             "teensy_loader_cli.exe",
             "wb32-dfu-updater_cli.exe",
