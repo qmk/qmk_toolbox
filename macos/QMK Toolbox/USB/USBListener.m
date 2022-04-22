@@ -67,7 +67,7 @@ static void deviceConnected(void *context, io_iterator_t iterator) {
     io_service_t service;
     while ((service = IOIteratorNext(iterator))) {
         CFStringRef className = IOObjectCopyClass(service);
-        if (CFEqual(className, CFSTR("IOUSBDevice"))) {
+        if (CFEqual(className, CFSTR("IOUSBDevice")) || CFEqual(className, CFSTR("IOUSBHostDevice"))) {
             BOOL alreadyListed = NO;
             for (USBDevice *d in listener.devices) {
                 if (d.service == service) {
@@ -95,7 +95,7 @@ static void deviceDisconnected(void *context, io_iterator_t iterator) {
     io_service_t service;
     while ((service = IOIteratorNext(iterator))) {
         CFStringRef className = IOObjectCopyClass(service);
-        if (CFEqual(className, CFSTR("IOUSBDevice"))) {
+        if (CFEqual(className, CFSTR("IOUSBDevice")) || CFEqual(className, CFSTR("IOUSBHostDevice"))) {
             NSMutableArray<id<USBDevice>> *discardedItems = [NSMutableArray array];
             for (id<USBDevice> d in listener.devices) {
                 if (d.service == service) {
