@@ -1,4 +1,5 @@
 ﻿using QMK_Toolbox.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -6,21 +7,26 @@ namespace QMK_Toolbox
 {
     public class MicrocontrollerSelector : ComboBox
     {
-        public MicrocontrollerSelector()
+        protected override void OnHandleCreated(EventArgs e)
         {
-            List<KeyValuePair<string, string>> microcontrollerDataSource = new List<KeyValuePair<string, string>>();
-            string[] microcontrollers = EmbeddedResourceHelper.GetResourceContent("mcu-list.txt").Split('\n');
+            base.OnHandleCreated(e);
 
-            foreach (string microcontroller in microcontrollers)
+            if (!DesignMode)
             {
-                if (microcontroller.Length > 0)
-                {
-                    string[] parts = microcontroller.Split(':');
-                    microcontrollerDataSource.Add(new KeyValuePair<string, string>(parts[0], parts[1]));
-                }
-            }
+                List<KeyValuePair<string, string>> microcontrollerDataSource = new List<KeyValuePair<string, string>>();
+                string[] microcontrollers = EmbeddedResourceHelper.GetResourceContent("mcu-list.txt").Split('\n');
 
-            DataSource = microcontrollerDataSource;
+                foreach (string microcontroller in microcontrollers)
+                {
+                    if (microcontroller.Length > 0)
+                    {
+                        string[] parts = microcontroller.Split(':');
+                        microcontrollerDataSource.Add(new KeyValuePair<string, string>(parts[0], parts[1]));
+                    }
+                }
+
+                DataSource = microcontrollerDataSource;
+            }
         }
     }
 }
