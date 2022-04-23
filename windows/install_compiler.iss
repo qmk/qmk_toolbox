@@ -49,12 +49,6 @@ Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: 
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
 [Registry]
-; .qmk file format handler
-Root: HKCR; Subkey: ".qmk";                            ValueData: "{#MyAppName}";                     ValueType: string; ValueName: ""; Flags: uninsdeletevalue
-Root: HKCR; Subkey: "{#MyAppName}";                    ValueData: "{#MyAppName}";                     ValueType: string; ValueName: ""; Flags: uninsdeletekey
-Root: HKCR; Subkey: "{#MyAppName}\DefaultIcon";        ValueData: "{app}\{#MyAppExeName}";            ValueType: string; ValueName: ""
-Root: HKCR; Subkey: "{#MyAppName}\shell\open\command"; ValueData: """{app}\{#MyAppExeName}"" ""%1"""; ValueType: string; ValueName: ""
-
 ; qmk:// protocol handler
 Root: HKCR; Subkey: "{#MyAppHandle}";                    ValueData: "URL:{#MyAppName}";                 ValueType: string; ValueName: "";             Flags: uninsdeletevalue
 Root: HKCR; Subkey: "{#MyAppHandle}";                    ValueData: "";                                 ValueType: string; ValueName: "URL Protocol"; Flags: uninsdeletekey
