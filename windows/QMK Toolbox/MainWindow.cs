@@ -4,22 +4,19 @@ using QMK_Toolbox.KeyTester;
 using QMK_Toolbox.Properties;
 using QMK_Toolbox.Usb;
 using QMK_Toolbox.Usb.Bootloader;
+using Syroot.Windows.IO;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
+using System.Net;
 using System.Security.Permissions;
 using System.Windows.Forms;
 
 namespace QMK_Toolbox
 {
-    using Newtonsoft.Json;
-    using Syroot.Windows.IO;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Net;
-
     public partial class MainWindow : Form
     {
         private readonly WindowState windowState = new WindowState();
@@ -37,7 +34,7 @@ namespace QMK_Toolbox
             if (path != string.Empty)
             {
                 var extension = Path.GetExtension(path)?.ToLower();
-                if (extension == ".qmk" || extension == ".hex" || extension == ".bin")
+                if (extension == ".hex" || extension == ".bin")
                 {
                     _filePassedIn = path;
                 }
@@ -122,7 +119,7 @@ namespace QMK_Toolbox
                 if (files.Length == 1)
                 {
                     var extension = Path.GetExtension(files.First())?.ToLower();
-                    if (extension == ".qmk" || extension == ".hex" || extension == ".bin")
+                    if (extension == ".hex" || extension == ".bin")
                     {
                         e.Effect = DragDropEffects.Copy;
                     }
@@ -480,49 +477,6 @@ namespace QMK_Toolbox
                     }
                     logTextBox.LogInfo($"File saved to: {filepath}");
                 }
-            }
-            if (filepath.EndsWith(".qmk", true, null))
-            {
-                logTextBox.LogInfo("Found .qmk file");
-                var qmkFilepath = $"{Path.GetTempPath()}qmk_toolbox{filepath.Substring(filepath.LastIndexOf("\\"))}\\";
-                logTextBox.LogInfo($"Extracting to {qmkFilepath}");
-                if (Directory.Exists(qmkFilepath))
-                {
-                    Directory.Delete(qmkFilepath, true);
-                }
-                ZipFile.ExtractToDirectory(filepath, qmkFilepath);
-                var files = Directory.GetFiles(qmkFilepath);
-                var readme = "";
-                var info = new Info();
-                foreach (var file in files)
-                {
-                    logTextBox.LogInfo($" - {file.Substring(file.LastIndexOf("\\") + 1)}");
-                    if (file.Substring(file.LastIndexOf("\\") + 1).Equals("firmware.hex", StringComparison.OrdinalIgnoreCase) ||
-                        file.Substring(file.LastIndexOf("\\") + 1).Equals("firmware.bin", StringComparison.OrdinalIgnoreCase))
-                    {
-                        SetFilePath(file);
-                    }
-                    if (file.Substring(file.LastIndexOf("\\") + 1).Equals("readme.md", StringComparison.OrdinalIgnoreCase))
-                    {
-                        readme = File.ReadAllText(file);
-                    }
-                    if (file.Substring(file.LastIndexOf("\\") + 1).Equals("info.json", StringComparison.OrdinalIgnoreCase))
-                    {
-                        info = JsonConvert.DeserializeObject<Info>(File.ReadAllText(file));
-                    }
-                }
-                if (!string.IsNullOrEmpty(info.Keyboard))
-                {
-                    logTextBox.LogInfo($"Keymap for keyboard \"{info.Keyboard}\" - {info.VendorId}:{info.ProductId}");
-                }
-
-                if (string.IsNullOrEmpty(readme))
-                {
-                    return;
-                }
-
-                logTextBox.LogInfo("Notes for this keymap:");
-                logTextBox.LogInfo(readme);
             }
             else
             {

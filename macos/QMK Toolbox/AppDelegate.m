@@ -30,9 +30,7 @@
 @implementation AppDelegate
 #pragma mark App Delegate
 - (BOOL)application:(NSApplication *)sender openFile:(NSString *)filename {
-    if ([[[filename pathExtension] lowercaseString] isEqualToString:@"qmk"] ||
-    [[[filename pathExtension] lowercaseString] isEqualToString:@"hex"] ||
-    [[[filename pathExtension] lowercaseString] isEqualToString:@"bin"]) {
+    if ([[[filename pathExtension] lowercaseString] isEqualToString:@"hex"] || [[[filename pathExtension] lowercaseString] isEqualToString:@"bin"]) {
         [self setFilePath:[NSURL fileURLWithPath:filename]];
         return true;
     } else {
@@ -343,7 +341,7 @@
     [panel setCanChooseDirectories:NO];
     [panel setAllowsMultipleSelection:NO];
     [panel setMessage:@"Select firmware to load"];
-    NSArray *types = @[@"qmk", @"bin", @"hex"];
+    NSArray *types = @[@"bin", @"hex"];
     [panel setAllowedFileTypes:types];
 
     [panel beginWithCompletionHandler:^(NSInteger result){
