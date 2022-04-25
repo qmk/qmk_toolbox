@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("QMK")]
 [assembly: AssemblyProduct("QMK Toolbox")]
-[assembly: AssemblyCopyright("Copyright © 2021 QMK")]
+[assembly: AssemblyCopyright("Copyright © 2022 QMK")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
