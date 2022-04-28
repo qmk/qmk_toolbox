@@ -445,45 +445,41 @@ namespace QMK_Toolbox
 
         private void SetFilePath(string filepath)
         {
-            if (!filepath.StartsWith("\\\\wsl$"))
+            if (!string.IsNullOrEmpty(filepath))
             {
-                var uri = new Uri(filepath);
-                if (uri.Scheme == "qmk")
+                if (!filepath.StartsWith("\\\\wsl$"))
                 {
-                    string url;
-                    url = filepath.Replace(filepath.Contains("qmk://") ? "qmk://" : "qmk:", "");
-                    filepath = Path.Combine(KnownFolders.Downloads.Path, filepath.Substring(filepath.LastIndexOf("/") + 1).Replace(".", "_" + Guid.NewGuid().ToString().Substring(0, 8) + "."));
+                    var uri = new Uri(filepath);
+                    if (uri.Scheme == "qmk")
+                    {
+                        string url = filepath.Replace(filepath.Contains("qmk://") ? "qmk://" : "qmk:", "");
+                        filepath = Path.Combine(KnownFolders.Downloads.Path, filepath.Substring(filepath.LastIndexOf("/") + 1).Replace(".", "_" + Guid.NewGuid().ToString().Substring(0, 8) + "."));
 
-                    try
-                    {
-                        logTextBox.LogInfo($"Downloading the file: {url}");
-                        DownloadFirmwareFile(url, filepath);
-                    }
-                    catch (Exception)
-                    {
                         try
                         {
-                            // Try .bin extension if hex 404'd
-                            url = Path.ChangeExtension(url, "bin");
-                            filepath = Path.ChangeExtension(filepath, "bin");
-                            logTextBox.LogInfo($"No .hex file found, trying {url}");
+                            logTextBox.LogInfo($"Downloading the file: {url}");
                             DownloadFirmwareFile(url, filepath);
                         }
                         catch (Exception)
                         {
-                            logTextBox.LogError("Something went wrong when trying to get the default keymap file.");
-                            return;
+                            try
+                            {
+                                // Try .bin extension if hex 404'd
+                                url = Path.ChangeExtension(url, "bin");
+                                filepath = Path.ChangeExtension(filepath, "bin");
+                                logTextBox.LogInfo($"No .hex file found, trying {url}");
+                                DownloadFirmwareFile(url, filepath);
+                            }
+                            catch (Exception)
+                            {
+                                logTextBox.LogError("Something went wrong when trying to get the default keymap file.");
+                                return;
+                            }
                         }
+                        logTextBox.LogInfo($"File saved to: {filepath}");
                     }
-                    logTextBox.LogInfo($"File saved to: {filepath}");
                 }
-            }
-            else
-            {
-                if (string.IsNullOrEmpty(filepath))
-                {
-                    return;
-                }
+
                 filepathBox.Text = filepath;
                 if (!filepathBox.Items.Contains(filepath))
                 {
