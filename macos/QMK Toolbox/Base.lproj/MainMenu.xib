@@ -77,7 +77,7 @@
                         <items>
                             <menuItem title="Open…" keyEquivalent="o" id="hhY-cL-bGV">
                                 <connections>
-                                    <action selector="openDocument:" target="-1" id="g2C-w6-Bis"/>
+                                    <action selector="openButtonClick:" target="-1" id="2xs-eP-Fnk"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Open Recent" id="vc1-Sr-4c4">
@@ -321,7 +321,7 @@
                                         <font key="font" metaFont="label" size="12"/>
                                     </buttonCell>
                                     <connections>
-                                        <action selector="openButtonClick:" target="Voe-Tx-rLC" id="3wi-np-wbs"/>
+                                        <action selector="openButtonClick:" target="-1" id="tQf-hm-vEB"/>
                                     </connections>
                                 </button>
                                 <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="A13-Sl-S0x" customClass="MicrocontrollerSelector">
@@ -362,7 +362,7 @@
                         </textFieldCell>
                     </textField>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="TwL-TO-5Ka">
-                        <rect key="frame" x="453" y="553" width="93" height="18"/>
+                        <rect key="frame" x="458" y="553.5" width="88" height="18"/>
                         <buttonCell key="cell" type="check" title="Auto-Flash" bezelStyle="regularSquare" imagePosition="trailing" inset="2" id="X8j-zC-WSC">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="label" size="12"/>

@@ -89,6 +89,12 @@
     }
 }
 
+- (IBAction)clearRecentDocuments:(id)sender {
+    [[NSDocumentController sharedDocumentController] clearRecentDocuments:sender];
+    [self.filepathBox removeAllItems];
+    [self.filepathBox setStringValue:@""];
+}
+
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
     return YES;
 }
