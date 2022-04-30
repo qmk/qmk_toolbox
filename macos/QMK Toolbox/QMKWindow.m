@@ -14,7 +14,7 @@
     if ([[pboard pasteboardItems] count] == 1) {
         NSString *fileExtension = [[NSURL URLFromPasteboard:pboard] pathExtension];
 
-        if ([fileExtension isEqualToString:@"qmk"] || [fileExtension isEqualToString:@"hex"] || [fileExtension isEqualToString:@"bin"]) {
+        if ([fileExtension isEqualToString:@"hex"] || [fileExtension isEqualToString:@"bin"]) {
             return NSDragOperationCopy;
         }
     }
