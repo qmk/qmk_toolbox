@@ -150,8 +150,8 @@
 		3AE6DA022726CB7A00CECA21 /* USBAspDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = USBAspDevice.m; sourceTree = "<group>"; };
 		3AE6DA042726CBB200CECA21 /* USBTinyISPDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = USBTinyISPDevice.h; sourceTree = "<group>"; };
 		3AE6DA052726CBB200CECA21 /* USBTinyISPDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = USBTinyISPDevice.m; sourceTree = "<group>"; };
-		9B7999ED280AA1C8007469DA /* WB32DFUDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WB32DFUDevice.h; sourceTree = "<group>"; };
-		9B7999EE280AA1D0007469DA /* WB32DFUDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WB32DFUDevice.m; sourceTree = "<group>"; };
+		9B7999ED280AA1C8007469DA /* WB32DFUDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WB32DFUDevice.h; sourceTree = "<group>"; };
+		9B7999EE280AA1D0007469DA /* WB32DFUDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WB32DFUDevice.m; sourceTree = "<group>"; };
 		9BE10717275F4CFE00C708D5 /* wb32-dfu-updater_cli */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "wb32-dfu-updater_cli"; sourceTree = "<group>"; };
 		3AFD4BCF281AB83C00ADCB65 /* libhidapi.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libhidapi.0.dylib; sourceTree = "<group>"; };
 		C93A0FF32292232D0006C88F /* reset.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset.eep; path = ../../../common/reset.eep; sourceTree = "<group>"; };
