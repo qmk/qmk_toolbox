@@ -300,7 +300,7 @@
 - (IBAction)setHandednessButtonClick:(id)sender {
     if ([self.mcuBox indexOfSelectedItem] >= 0) {
         NSString *mcu = [self.mcuBox keyForSelectedItem];
-        NSString *file = [sender tag] == 0 ? @"left.eep" : @"right.eep";
+        NSString *file = [sender tag] == 0 ? @"reset_left.eep" : @"reset_right.eep";
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             dispatch_sync(dispatch_get_main_queue(), ^{
