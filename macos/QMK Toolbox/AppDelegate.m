@@ -30,9 +30,7 @@
 @implementation AppDelegate
 #pragma mark App Delegate
 - (BOOL)application:(NSApplication *)sender openFile:(NSString *)filename {
-    if ([[[filename pathExtension] lowercaseString] isEqualToString:@"qmk"] ||
-    [[[filename pathExtension] lowercaseString] isEqualToString:@"hex"] ||
-    [[[filename pathExtension] lowercaseString] isEqualToString:@"bin"]) {
+    if ([[[filename pathExtension] lowercaseString] isEqualToString:@"hex"] || [[[filename pathExtension] lowercaseString] isEqualToString:@"bin"]) {
         [self setFilePath:[NSURL fileURLWithPath:filename]];
         return true;
     } else {
@@ -90,6 +88,12 @@
     if (self.filepathBox.numberOfItems > 0) {
         [self.filepathBox selectItemAtIndex:0];
     }
+}
+
+- (IBAction)clearRecentDocuments:(id)sender {
+    [[NSDocumentController sharedDocumentController] clearRecentDocuments:sender];
+    [self.filepathBox removeAllItems];
+    [self.filepathBox setStringValue:@""];
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
@@ -344,7 +348,7 @@
     [panel setCanChooseDirectories:NO];
     [panel setAllowsMultipleSelection:NO];
     [panel setMessage:@"Select firmware to load"];
-    NSArray *types = @[@"qmk", @"bin", @"hex"];
+    NSArray *types = @[@"bin", @"hex"];
     [panel setAllowedFileTypes:types];
 
     [panel beginWithCompletionHandler:^(NSInteger result){
