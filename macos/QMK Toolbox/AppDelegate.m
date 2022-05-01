@@ -363,42 +363,36 @@
 }
 
 - (void)setFilePath:(NSURL *)path {
-    NSString *filename = @"";
-    if ([path.scheme isEqualToString:@"file"]) {
-        filename = [[path.absoluteString stringByRemovingPercentEncoding] stringByReplacingOccurrencesOfString:@"file://" withString:@""];
-    }
     if ([path.scheme isEqualToString:@"qmk"]) {
-        NSURL *url;
-        if ([path.absoluteString containsString:@"qmk://"]) {
-            url = [NSURL URLWithString:[path.absoluteString stringByReplacingOccurrencesOfString:@"qmk://" withString:@""]];
-        } else {
-            url = [NSURL URLWithString:[path.absoluteString stringByReplacingOccurrencesOfString:@"qmk:" withString:@""]];
-        }
+        NSURL *unwrappedUrl = [NSURL URLWithString:[path.absoluteString substringFromIndex:[path.absoluteString hasPrefix:@"qmk://"] ? 6 : 4]];
+        [self downloadFile:unwrappedUrl];
+    } else {
+        [self loadLocalFile:path.path];
+    }
+}
 
-        [self.logTextView logInfo:[NSString stringWithFormat:@"Downloading the file: %@", url.absoluteString]];
-        NSData *data = [NSData dataWithContentsOfURL:url];
-        if (!data) {
-            // Try .bin extension if .hex 404'd
-            url = [[url URLByDeletingPathExtension] URLByAppendingPathExtension:@"bin"];
-            [self.logTextView logInfo:[NSString stringWithFormat:@"No .hex file found, trying %@", url.absoluteString]];
-            data = [NSData dataWithContentsOfURL:url];
-        }
-        if (data) {
-            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDownloadsDirectory, NSUserDomainMask, YES);
-            NSString *downloadsDirectory = [paths objectAtIndex:0];
-            NSString *name = [url.lastPathComponent stringByReplacingOccurrencesOfString:@"." withString:[NSString stringWithFormat:@"_%@.", [[[NSProcessInfo processInfo] globallyUniqueString] substringToIndex:8]]];
-            filename = [NSString stringWithFormat:@"%@/%@", downloadsDirectory, name];
-            [data writeToFile:filename atomically:YES];
-            [self.logTextView logInfo:[NSString stringWithFormat:@"File saved to: %@", filename]];
-        }
+-(void)loadLocalFile:(NSString *)path {
+    if ([self.filepathBox indexOfItemWithObjectValue:path] == NSNotFound) {
+        [self.filepathBox addItemWithObjectValue:path];
     }
-    if (![filename isEqualToString:@""]) {
-        if ([self.filepathBox indexOfItemWithObjectValue:filename] == NSNotFound) {
-            [self.filepathBox addItemWithObjectValue:filename];
-        }
-        [self.filepathBox selectItemWithObjectValue:filename];
-        [[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:[[NSURL alloc] initFileURLWithPath:filename]];
+    [self.filepathBox selectItemWithObjectValue:path];
+    [[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:[[NSURL alloc] initFileURLWithPath:path]];
+}
+
+-(void)downloadFile:(NSURL *)url {
+    NSURL *downloadsUrl = [[NSFileManager defaultManager] URLForDirectory:NSDownloadsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+    NSURL *destFileUrl = [downloadsUrl URLByAppendingPathComponent:url.lastPathComponent];
+    [self.logTextView logInfo:[NSString stringWithFormat:@"Downloading the file: %@", url.absoluteString]];
+
+    NSError *error;
+    NSData *data = [NSData dataWithContentsOfURL:url options:0 error:&error];
+    if (error) {
+        [self.logTextView logError:[NSString stringWithFormat:@"Could not download file: %@", [error localizedDescription]]];
     }
+
+    [data writeToURL:destFileUrl atomically:YES];
+    [self.logTextView logInfo:[NSString stringWithFormat:@"File saved to: %@", destFileUrl.path]];
+    [self loadLocalFile:destFileUrl.path];
 }
 
 - (void)enableUI {

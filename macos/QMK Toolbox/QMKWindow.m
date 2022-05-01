@@ -24,8 +24,7 @@
 
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
-    NSString *file = [[NSURL URLFromPasteboard:pboard] path];
-    [(AppDelegate *)[[NSApplication sharedApplication] delegate] setFilePath:[NSURL fileURLWithPath:file]];
+    [(AppDelegate *)[[NSApplication sharedApplication] delegate] setFilePath:[NSURL URLFromPasteboard:pboard]];
     return YES;
 }
 
