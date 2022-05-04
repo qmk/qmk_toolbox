@@ -30,9 +30,7 @@
 @implementation AppDelegate
 #pragma mark App Delegate
 - (BOOL)application:(NSApplication *)sender openFile:(NSString *)filename {
-    if ([[[filename pathExtension] lowercaseString] isEqualToString:@"qmk"] ||
-    [[[filename pathExtension] lowercaseString] isEqualToString:@"hex"] ||
-    [[[filename pathExtension] lowercaseString] isEqualToString:@"bin"]) {
+    if ([[[filename pathExtension] lowercaseString] isEqualToString:@"hex"] || [[[filename pathExtension] lowercaseString] isEqualToString:@"bin"]) {
         [self setFilePath:[NSURL fileURLWithPath:filename]];
         return true;
     } else {
@@ -89,6 +87,12 @@
     if (self.filepathBox.numberOfItems > 0) {
         [self.filepathBox selectItemAtIndex:0];
     }
+}
+
+- (IBAction)clearRecentDocuments:(id)sender {
+    [[NSDocumentController sharedDocumentController] clearRecentDocuments:sender];
+    [self.filepathBox removeAllItems];
+    [self.filepathBox setStringValue:@""];
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
@@ -296,7 +300,7 @@
 - (IBAction)setHandednessButtonClick:(id)sender {
     if ([self.mcuBox indexOfSelectedItem] >= 0) {
         NSString *mcu = [self.mcuBox keyForSelectedItem];
-        NSString *file = [sender tag] == 0 ? @"left.eep" : @"right.eep";
+        NSString *file = [sender tag] == 0 ? @"reset_left.eep" : @"reset_right.eep";
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             dispatch_sync(dispatch_get_main_queue(), ^{
@@ -343,7 +347,7 @@
     [panel setCanChooseDirectories:NO];
     [panel setAllowsMultipleSelection:NO];
     [panel setMessage:@"Select firmware to load"];
-    NSArray *types = @[@"qmk", @"bin", @"hex"];
+    NSArray *types = @[@"bin", @"hex"];
     [panel setAllowedFileTypes:types];
 
     [panel beginWithCompletionHandler:^(NSInteger result){

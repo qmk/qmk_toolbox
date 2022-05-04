@@ -52,6 +52,7 @@
 		3AE6DA002726CB2600CECA21 /* STM32DuinoDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6D9FF2726CB2600CECA21 /* STM32DuinoDevice.m */; };
 		3AE6DA032726CB7A00CECA21 /* USBAspDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6DA022726CB7A00CECA21 /* USBAspDevice.m */; };
 		3AE6DA062726CBB200CECA21 /* USBTinyISPDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6DA052726CBB200CECA21 /* USBTinyISPDevice.m */; };
+		3AFD4BD1281AB86800ADCB65 /* libhidapi.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3AFD4BCF281AB83C00ADCB65 /* libhidapi.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		C93A0FF42292232E0006C88F /* reset.eep in Resources */ = {isa = PBXBuildFile; fileRef = C93A0FF32292232D0006C88F /* reset.eep */; };
 		C9A09B5722EE6826008C3CF3 /* mdloader in Resources */ = {isa = PBXBuildFile; fileRef = C9A09B5622EE6826008C3CF3 /* mdloader */; };
 /* End PBXBuildFile section */
@@ -64,6 +65,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				3A7770DA22BD3BA300398C40 /* libftdi.1.dylib in CopyFiles */,
+				3AFD4BD1281AB86800ADCB65 /* libhidapi.0.dylib in CopyFiles */,
 				09D79CBC1FB8A64B0086ABF6 /* libusb-0.1.4.dylib in CopyFiles */,
 				09D79CBA1FB8A6360086ABF6 /* libusb-1.0.0.dylib in CopyFiles */,
 			);
@@ -95,8 +97,8 @@
 		3A1AF21026FA31D700AC977B /* KeyTesterWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyTesterWindow.m; sourceTree = "<group>"; };
 		3A245405270817DF001F4AE0 /* MicrocontrollerSelector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MicrocontrollerSelector.h; sourceTree = "<group>"; };
 		3A245406270817DF001F4AE0 /* MicrocontrollerSelector.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MicrocontrollerSelector.m; sourceTree = "<group>"; };
-		3A3B4E2C27D9FBF800526FBF /* LUFAHIDDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUFAHIDDevice.h; sourceTree = "<group>"; };
-		3A3B4E2D27D9FBF800526FBF /* LUFAHIDDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUFAHIDDevice.m; sourceTree = "<group>"; };
+		3A3B4E2C27D9FBF800526FBF /* LUFAHIDDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LUFAHIDDevice.h; sourceTree = "<group>"; };
+		3A3B4E2D27D9FBF800526FBF /* LUFAHIDDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LUFAHIDDevice.m; sourceTree = "<group>"; };
 		3A5166BA26E07F0000EBE3DC /* KeyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyView.h; sourceTree = "<group>"; };
 		3A5166BB26E07F0000EBE3DC /* KeyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyView.m; sourceTree = "<group>"; };
 		3A58630F2725A99D00354E07 /* APM32DFUDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APM32DFUDevice.h; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 		3AE6DA022726CB7A00CECA21 /* USBAspDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = USBAspDevice.m; sourceTree = "<group>"; };
 		3AE6DA042726CBB200CECA21 /* USBTinyISPDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = USBTinyISPDevice.h; sourceTree = "<group>"; };
 		3AE6DA052726CBB200CECA21 /* USBTinyISPDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = USBTinyISPDevice.m; sourceTree = "<group>"; };
+		3AFD4BCF281AB83C00ADCB65 /* libhidapi.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libhidapi.0.dylib; sourceTree = "<group>"; };
 		C93A0FF32292232D0006C88F /* reset.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset.eep; path = ../../../common/reset.eep; sourceTree = "<group>"; };
 		C9A09B5622EE6826008C3CF3 /* mdloader */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = mdloader; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -239,6 +242,7 @@
 				C9A09B5622EE6826008C3CF3 /* mdloader */,
 				0929640E1F5E4068004F2D3F /* teensy_loader_cli */,
 				3A7770D822BD3B8200398C40 /* libftdi.1.dylib */,
+				3AFD4BCF281AB83C00ADCB65 /* libhidapi.0.dylib */,
 				09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */,
 				09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */,
 			);
