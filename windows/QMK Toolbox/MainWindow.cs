@@ -398,7 +398,7 @@ namespace QMK_Toolbox
         private async void SetHandednessButton_Click(object sender, EventArgs e)
         {
             string selectedMcu = (string)mcuBox.SelectedValue;
-            string file = sender == eepromLeftToolStripMenuItem ? "left.eep" : "right.eep";
+            string file = sender == eepromLeftToolStripMenuItem ? "reset_left.eep" : "reset_right.eep";
 
             if (!windowState.AutoFlashEnabled)
             {
