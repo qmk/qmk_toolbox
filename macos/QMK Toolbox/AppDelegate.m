@@ -146,12 +146,20 @@
 #pragma mark USB Devices & Bootloaders
 - (void)bootloaderDeviceDidConnect:(BootloaderDevice *)device {
     [self.logTextView logBootloader:[NSString stringWithFormat:@"%@ device connected: %@", device.name, device]];
-    [self enableUI];
+
+    if (self.autoFlashEnabled) {
+        [self flashAll];
+    } else {
+        [self enableUI];
+    }
 }
 
 - (void)bootloaderDeviceDidDisconnect:(BootloaderDevice *)device {
     [self.logTextView logBootloader:[NSString stringWithFormat:@"%@ device disconnnected: %@", device.name, device]];
-    [self enableUI];
+
+    if (!self.autoFlashEnabled) {
+        [self enableUI];
+    }
 }
 
 -(void)bootloaderDevice:(BootloaderDevice *)device didReceiveCommandOutput:(NSString *)data messageType:(MessageType)type {
@@ -201,7 +209,7 @@
     [[NSUserDefaults standardUserDefaults] setBool:showAllDevices forKey:kShowAllDevices];
 }
 
-- (IBAction)flashButtonClick:(id)sender {
+- (void)flashAll {
     NSString *file = [self.filepathBox stringValue];
 
     if ([file length] > 0) {
@@ -237,7 +245,7 @@
     }
 }
 
-- (IBAction)resetButtonClick:(id)sender {
+- (void)resetAll {
     if ([self.mcuBox indexOfSelectedItem] >= 0) {
         NSString *mcu = [self.mcuBox keyForSelectedItem];
 
@@ -265,7 +273,7 @@
     }
 }
 
-- (IBAction)clearEEPROMButtonClick:(id)sender {
+- (void)clearEEPROMAll {
     if ([self.mcuBox indexOfSelectedItem] >= 0) {
         NSString *mcu = [self.mcuBox keyForSelectedItem];
 
@@ -297,10 +305,10 @@
     }
 }
 
-- (IBAction)setHandednessButtonClick:(id)sender {
+- (void)setHandednessAll:(BOOL)left {
     if ([self.mcuBox indexOfSelectedItem] >= 0) {
         NSString *mcu = [self.mcuBox keyForSelectedItem];
-        NSString *file = [sender tag] == 0 ? @"reset_left.eep" : @"reset_right.eep";
+        NSString *file = left ? @"reset_left.eep" : @"reset_right.eep";
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             dispatch_sync(dispatch_get_main_queue(), ^{
@@ -328,6 +336,22 @@
     } else {
         [self.logTextView logError:@"Please select a microcontroller"];
     }
+}
+
+- (IBAction)flashButtonClick:(id)sender {
+    [self flashAll];
+}
+
+- (IBAction)resetButtonClick:(id)sender {
+    [self resetAll];
+}
+
+- (IBAction)clearEEPROMButtonClick:(id)sender {
+    [self clearEEPROMAll];
+}
+
+- (IBAction)setHandednessButtonClick:(id)sender {
+    [self setHandednessAll:[sender tag] == 0];
 }
 
 -(NSMutableArray<BootloaderDevice *> *)findBootloaders {

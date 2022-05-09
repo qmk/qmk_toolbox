@@ -248,7 +248,15 @@ namespace QMK_Toolbox
             Invoke(new Action(() =>
             {
                 logTextBox.LogBootloader($"{device.Name} device connected ({device.Driver}): {device}");
-                EnableUI();
+
+                if (windowState.AutoFlashEnabled)
+                {
+                    FlashAllAsync();
+                }
+                else
+                {
+                    EnableUI();
+                }
             }));
         }
 
@@ -257,7 +265,11 @@ namespace QMK_Toolbox
             Invoke(new Action(() =>
             {
                 logTextBox.LogBootloader($"{device.Name} device disconnected ({device.Driver}): {device}");
-                EnableUI();
+
+                if (!windowState.AutoFlashEnabled)
+                {
+                    EnableUI();
+                }
             }));
         }
 
@@ -318,7 +330,7 @@ namespace QMK_Toolbox
             }
         }
 
-        private async void FlashButton_Click(object sender, EventArgs e)
+        private async void FlashAllAsync()
         {
             string selectedMcu = (string)mcuBox.SelectedValue;
             string filePath = filepathBox.Text;
@@ -347,7 +359,7 @@ namespace QMK_Toolbox
             }
         }
 
-        private async void ResetButton_Click(object sender, EventArgs e)
+        private async void ResetAllAsync()
         {
             string selectedMcu = (string)mcuBox.SelectedValue;
 
@@ -370,7 +382,7 @@ namespace QMK_Toolbox
             }
         }
 
-        private async void ClearEepromButton_Click(object sender, EventArgs e)
+        private async void ClearEepromAllAsync()
         {
             string selectedMcu = (string)mcuBox.SelectedValue;
 
@@ -395,10 +407,10 @@ namespace QMK_Toolbox
             }
         }
 
-        private async void SetHandednessButton_Click(object sender, EventArgs e)
+        private async void SetHandednessAllAsync(bool left)
         {
             string selectedMcu = (string)mcuBox.SelectedValue;
-            string file = sender == eepromLeftToolStripMenuItem ? "reset_left.eep" : "reset_right.eep";
+            string file = left ? "reset_left.eep" : "reset_right.eep";
 
             if (!windowState.AutoFlashEnabled)
             {
@@ -419,6 +431,26 @@ namespace QMK_Toolbox
             {
                 Invoke(new Action(EnableUI));
             }
+        }
+
+        private void FlashButton_Click(object sender, EventArgs e)
+        {
+            FlashAllAsync();
+        }
+
+        private void ResetButton_Click(object sender, EventArgs e)
+        {
+            ResetAllAsync();
+        }
+
+        private void ClearEepromButton_Click(object sender, EventArgs e)
+        {
+            ClearEepromAllAsync();
+        }
+
+        private void SetHandednessButton_Click(object sender, EventArgs e)
+        {
+            SetHandednessAllAsync(sender == eepromLeftToolStripMenuItem);
         }
 
         private List<BootloaderDevice> FindBootloaders()
