@@ -24,7 +24,7 @@ namespace QMK_Toolbox
                 Application.SetCompatibleTextRenderingDefault(false);
                 try
                 {
-                    Application.Run(args.Length == 0 ? new MainWindow(string.Empty) : new MainWindow(args[0]));
+                    Application.Run(new MainWindow(args.Length == 0 ? string.Empty : args[0]));
                 }
                 finally
                 {

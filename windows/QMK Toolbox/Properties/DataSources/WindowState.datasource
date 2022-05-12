@@ -6,5 +6,5 @@
     cause the file to be unrecognizable by the program.
 -->
 <GenericObjectDataSource DisplayName="WindowState" Version="1.0" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
-   <TypeInfo>QMK_Toolbox.WindowState, qmk_toolbox, Version=0.2.0.0, Culture=neutral, PublicKeyToken=null</TypeInfo>
+   <TypeInfo>QMK_Toolbox.WindowState, qmk_toolbox, Version=0.2.1.0, Culture=neutral, PublicKeyToken=null</TypeInfo>
 </GenericObjectDataSource>

@@ -146,12 +146,20 @@
 #pragma mark USB Devices & Bootloaders
 - (void)bootloaderDeviceDidConnect:(BootloaderDevice *)device {
     [self.logTextView logBootloader:[NSString stringWithFormat:@"%@ device connected: %@", device.name, device]];
-    [self enableUI];
+
+    if (self.autoFlashEnabled) {
+        [self flashAll];
+    } else {
+        [self enableUI];
+    }
 }
 
 - (void)bootloaderDeviceDidDisconnect:(BootloaderDevice *)device {
     [self.logTextView logBootloader:[NSString stringWithFormat:@"%@ device disconnnected: %@", device.name, device]];
-    [self enableUI];
+
+    if (!self.autoFlashEnabled) {
+        [self enableUI];
+    }
 }
 
 -(void)bootloaderDevice:(BootloaderDevice *)device didReceiveCommandOutput:(NSString *)data messageType:(MessageType)type {
@@ -201,7 +209,7 @@
     [[NSUserDefaults standardUserDefaults] setBool:showAllDevices forKey:kShowAllDevices];
 }
 
-- (IBAction)flashButtonClick:(id)sender {
+- (void)flashAll {
     NSString *file = [self.filepathBox stringValue];
 
     if ([file length] > 0) {
@@ -237,7 +245,7 @@
     }
 }
 
-- (IBAction)resetButtonClick:(id)sender {
+- (void)resetAll {
     if ([self.mcuBox indexOfSelectedItem] >= 0) {
         NSString *mcu = [self.mcuBox keyForSelectedItem];
 
@@ -265,7 +273,7 @@
     }
 }
 
-- (IBAction)clearEEPROMButtonClick:(id)sender {
+- (void)clearEEPROMAll {
     if ([self.mcuBox indexOfSelectedItem] >= 0) {
         NSString *mcu = [self.mcuBox keyForSelectedItem];
 
@@ -297,10 +305,10 @@
     }
 }
 
-- (IBAction)setHandednessButtonClick:(id)sender {
+- (void)setHandednessAll:(BOOL)left {
     if ([self.mcuBox indexOfSelectedItem] >= 0) {
         NSString *mcu = [self.mcuBox keyForSelectedItem];
-        NSString *file = [sender tag] == 0 ? @"reset_left.eep" : @"reset_right.eep";
+        NSString *file = left ? @"reset_left.eep" : @"reset_right.eep";
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             dispatch_sync(dispatch_get_main_queue(), ^{
@@ -328,6 +336,22 @@
     } else {
         [self.logTextView logError:@"Please select a microcontroller"];
     }
+}
+
+- (IBAction)flashButtonClick:(id)sender {
+    [self flashAll];
+}
+
+- (IBAction)resetButtonClick:(id)sender {
+    [self resetAll];
+}
+
+- (IBAction)clearEEPROMButtonClick:(id)sender {
+    [self clearEEPROMAll];
+}
+
+- (IBAction)setHandednessButtonClick:(id)sender {
+    [self setHandednessAll:[sender tag] == 0];
 }
 
 -(NSMutableArray<BootloaderDevice *> *)findBootloaders {
@@ -363,42 +387,36 @@
 }
 
 - (void)setFilePath:(NSURL *)path {
-    NSString *filename = @"";
-    if ([path.scheme isEqualToString:@"file"]) {
-        filename = [[path.absoluteString stringByRemovingPercentEncoding] stringByReplacingOccurrencesOfString:@"file://" withString:@""];
-    }
     if ([path.scheme isEqualToString:@"qmk"]) {
-        NSURL *url;
-        if ([path.absoluteString containsString:@"qmk://"]) {
-            url = [NSURL URLWithString:[path.absoluteString stringByReplacingOccurrencesOfString:@"qmk://" withString:@""]];
-        } else {
-            url = [NSURL URLWithString:[path.absoluteString stringByReplacingOccurrencesOfString:@"qmk:" withString:@""]];
-        }
+        NSURL *unwrappedUrl = [NSURL URLWithString:[path.absoluteString substringFromIndex:[path.absoluteString hasPrefix:@"qmk://"] ? 6 : 4]];
+        [self downloadFile:unwrappedUrl];
+    } else {
+        [self loadLocalFile:path.path];
+    }
+}
 
-        [self.logTextView logInfo:[NSString stringWithFormat:@"Downloading the file: %@", url.absoluteString]];
-        NSData *data = [NSData dataWithContentsOfURL:url];
-        if (!data) {
-            // Try .bin extension if .hex 404'd
-            url = [[url URLByDeletingPathExtension] URLByAppendingPathExtension:@"bin"];
-            [self.logTextView logInfo:[NSString stringWithFormat:@"No .hex file found, trying %@", url.absoluteString]];
-            data = [NSData dataWithContentsOfURL:url];
-        }
-        if (data) {
-            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDownloadsDirectory, NSUserDomainMask, YES);
-            NSString *downloadsDirectory = [paths objectAtIndex:0];
-            NSString *name = [url.lastPathComponent stringByReplacingOccurrencesOfString:@"." withString:[NSString stringWithFormat:@"_%@.", [[[NSProcessInfo processInfo] globallyUniqueString] substringToIndex:8]]];
-            filename = [NSString stringWithFormat:@"%@/%@", downloadsDirectory, name];
-            [data writeToFile:filename atomically:YES];
-            [self.logTextView logInfo:[NSString stringWithFormat:@"File saved to: %@", filename]];
-        }
+-(void)loadLocalFile:(NSString *)path {
+    if ([self.filepathBox indexOfItemWithObjectValue:path] == NSNotFound) {
+        [self.filepathBox addItemWithObjectValue:path];
     }
-    if (![filename isEqualToString:@""]) {
-        if ([self.filepathBox indexOfItemWithObjectValue:filename] == NSNotFound) {
-            [self.filepathBox addItemWithObjectValue:filename];
-        }
-        [self.filepathBox selectItemWithObjectValue:filename];
-        [[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:[[NSURL alloc] initFileURLWithPath:filename]];
+    [self.filepathBox selectItemWithObjectValue:path];
+    [[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:[[NSURL alloc] initFileURLWithPath:path]];
+}
+
+-(void)downloadFile:(NSURL *)url {
+    NSURL *downloadsUrl = [[NSFileManager defaultManager] URLForDirectory:NSDownloadsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+    NSURL *destFileUrl = [downloadsUrl URLByAppendingPathComponent:url.lastPathComponent];
+    [self.logTextView logInfo:[NSString stringWithFormat:@"Downloading the file: %@", url.absoluteString]];
+
+    NSError *error;
+    NSData *data = [NSData dataWithContentsOfURL:url options:0 error:&error];
+    if (error) {
+        [self.logTextView logError:[NSString stringWithFormat:@"Could not download file: %@", [error localizedDescription]]];
     }
+
+    [data writeToURL:destFileUrl atomically:YES];
+    [self.logTextView logInfo:[NSString stringWithFormat:@"File saved to: %@", destFileUrl.path]];
+    [self loadLocalFile:destFileUrl.path];
 }
 
 - (void)enableUI {

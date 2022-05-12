@@ -249,7 +249,15 @@ namespace QMK_Toolbox
             Invoke(new Action(() =>
             {
                 logTextBox.LogBootloader($"{device.Name} device connected ({device.Driver}): {device}");
-                EnableUI();
+
+                if (windowState.AutoFlashEnabled)
+                {
+                    FlashAllAsync();
+                }
+                else
+                {
+                    EnableUI();
+                }
             }));
         }
 
@@ -258,7 +266,11 @@ namespace QMK_Toolbox
             Invoke(new Action(() =>
             {
                 logTextBox.LogBootloader($"{device.Name} device disconnected ({device.Driver}): {device}");
-                EnableUI();
+
+                if (!windowState.AutoFlashEnabled)
+                {
+                    EnableUI();
+                }
             }));
         }
 
@@ -319,7 +331,7 @@ namespace QMK_Toolbox
             }
         }
 
-        private async void FlashButton_Click(object sender, EventArgs e)
+        private async void FlashAllAsync()
         {
             string selectedMcu = (string)mcuBox.SelectedValue;
             string filePath = filepathBox.Text;
@@ -348,7 +360,7 @@ namespace QMK_Toolbox
             }
         }
 
-        private async void ResetButton_Click(object sender, EventArgs e)
+        private async void ResetAllAsync()
         {
             string selectedMcu = (string)mcuBox.SelectedValue;
 
@@ -371,7 +383,7 @@ namespace QMK_Toolbox
             }
         }
 
-        private async void ClearEepromButton_Click(object sender, EventArgs e)
+        private async void ClearEepromAllAsync()
         {
             string selectedMcu = (string)mcuBox.SelectedValue;
 
@@ -396,10 +408,10 @@ namespace QMK_Toolbox
             }
         }
 
-        private async void SetHandednessButton_Click(object sender, EventArgs e)
+        private async void SetHandednessAllAsync(bool left)
         {
             string selectedMcu = (string)mcuBox.SelectedValue;
-            string file = sender == eepromLeftToolStripMenuItem ? "reset_left.eep" : "reset_right.eep";
+            string file = left ? "reset_left.eep" : "reset_right.eep";
 
             if (!windowState.AutoFlashEnabled)
             {
@@ -420,6 +432,26 @@ namespace QMK_Toolbox
             {
                 Invoke(new Action(EnableUI));
             }
+        }
+
+        private void FlashButton_Click(object sender, EventArgs e)
+        {
+            FlashAllAsync();
+        }
+
+        private void ResetButton_Click(object sender, EventArgs e)
+        {
+            ResetAllAsync();
+        }
+
+        private void ClearEepromButton_Click(object sender, EventArgs e)
+        {
+            ClearEepromAllAsync();
+        }
+
+        private void SetHandednessButton_Click(object sender, EventArgs e)
+        {
+            SetHandednessAllAsync(sender == eepromLeftToolStripMenuItem);
         }
 
         private List<BootloaderDevice> FindBootloaders()
@@ -448,53 +480,46 @@ namespace QMK_Toolbox
         {
             if (!string.IsNullOrEmpty(filepath))
             {
-                if (!filepath.StartsWith("\\\\wsl$"))
+                if (filepath.StartsWith("qmk:"))
                 {
-                    var uri = new Uri(filepath);
-                    if (uri.Scheme == "qmk")
-                    {
-                        string url = filepath.Replace(filepath.Contains("qmk://") ? "qmk://" : "qmk:", "");
-                        filepath = Path.Combine(KnownFolders.Downloads.Path, filepath.Substring(filepath.LastIndexOf("/") + 1).Replace(".", "_" + Guid.NewGuid().ToString().Substring(0, 8) + "."));
-
-                        try
-                        {
-                            logTextBox.LogInfo($"Downloading the file: {url}");
-                            DownloadFirmwareFile(url, filepath);
-                        }
-                        catch (Exception)
-                        {
-                            try
-                            {
-                                // Try .bin extension if hex 404'd
-                                url = Path.ChangeExtension(url, "bin");
-                                filepath = Path.ChangeExtension(filepath, "bin");
-                                logTextBox.LogInfo($"No .hex file found, trying {url}");
-                                DownloadFirmwareFile(url, filepath);
-                            }
-                            catch (Exception)
-                            {
-                                logTextBox.LogError("Something went wrong when trying to get the default keymap file.");
-                                return;
-                            }
-                        }
-                        logTextBox.LogInfo($"File saved to: {filepath}");
-                    }
+                    string unwrappedUrl = filepath.Substring(filepath.StartsWith("qmk://") ? 6 : 4);
+                    DownloadFile(unwrappedUrl);
                 }
-
-                filepathBox.Text = filepath;
-                if (!filepathBox.Items.Contains(filepath))
+                else
                 {
-                    filepathBox.Items.Add(filepath);
+                    LoadLocalFile(filepath);
                 }
             }
         }
 
-        private void DownloadFirmwareFile(string url, string filepath)
+        private void LoadLocalFile(string path)
         {
-            using (var wb = new WebClient())
+            if (!filepathBox.Items.Contains(path))
             {
-                wb.Headers.Add("User-Agent", "QMK Toolbox");
-                wb.DownloadFile(url, filepath);
+                filepathBox.Items.Add(path);
+            }
+            filepathBox.SelectedItem = path;
+        }
+
+        private void DownloadFile(string url)
+        {
+            logTextBox.LogInfo($"Downloading the file: {url}");
+
+            try
+            {
+                string destFile = Path.Combine(KnownFolders.Downloads.Path, url.Substring(url.LastIndexOf("/") + 1));
+                using (var wb = new WebClient())
+                {
+                    wb.Headers.Add("User-Agent", "QMK Toolbox");
+                    wb.DownloadFile(url, destFile);
+                }
+                logTextBox.LogInfo($"File saved to: {destFile}");
+
+                LoadLocalFile(destFile);
+            }
+            catch (Exception e)
+            {
+                logTextBox.LogError($"Could not download file: {e.Message}");
             }
         }
 
