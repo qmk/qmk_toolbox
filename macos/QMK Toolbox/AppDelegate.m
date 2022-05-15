@@ -155,7 +155,7 @@
 }
 
 - (void)bootloaderDeviceDidDisconnect:(BootloaderDevice *)device {
-    [self.logTextView logBootloader:[NSString stringWithFormat:@"%@ device disconnnected: %@", device.name, device]];
+    [self.logTextView logBootloader:[NSString stringWithFormat:@"%@ device disconnected: %@", device.name, device]];
 
     if (!self.autoFlashEnabled) {
         [self enableUI];
