@@ -56,7 +56,7 @@ jobs:
     - name: Check binary permissions
       working-directory: ./macos/QMK Toolbox/Resources
       env:
-        QMK_BINARIES: avrdude bootloadHID dfu-programmer dfu-util mdloader teensy_loader_cli
+        QMK_BINARIES: avrdude bootloadHID dfu-programmer dfu-util mdloader teensy_loader_cli wb32-dfu-updater_cli
       run: |
         status=0
         for b in $QMK_BINARIES; do

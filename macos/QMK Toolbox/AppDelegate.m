@@ -60,6 +60,7 @@
     [self.logTextView logInfo:@" - Caterina (Arduino, Pro Micro) via avrdude (http://nongnu.org/avrdude/)"];
     [self.logTextView logInfo:@" - HalfKay (Teensy, Ergodox EZ) via Teensy Loader (https://pjrc.com/teensy/loader_cli.html)"];
     [self.logTextView logInfo:@" - LUFA/QMK HID via hid_bootloader_cli (https://github.com/abcminiuser/lufa)"];
+    [self.logTextView logInfo:@" - WB32 DFU via wb32-dfu-updater_cli (https://github.com/WestberryTech/wb32-dfu-updater)"];
     [self.logTextView logInfo:@" - LUFA Mass Storage"];
     [self.logTextView logInfo:@"Supported ISP flashers:"];
     [self.logTextView logInfo:@" - AVRISP (Arduino ISP)"];

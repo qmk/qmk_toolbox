@@ -17,6 +17,7 @@
 #import "STM32DuinoDevice.h"
 #import "USBAspDevice.h"
 #import "USBTinyISPDevice.h"
+#import "WB32DFUDevice.h"
 
 @implementation USBListener {
     mach_port_t masterPort;
@@ -158,6 +159,8 @@ static void deviceDisconnected(void *context, io_iterator_t iterator) {
             return [[USBAspDevice alloc] initWithUSBDevice:usbDevice];
         case BootloaderTypeUSBTinyISP:
             return [[USBTinyISPDevice alloc] initWithUSBDevice:usbDevice];
+        case BootloaderTypeWB32DFU:
+            return [[WB32DFUDevice alloc] initWithUSBDevice:usbDevice];
         case BootloaderTypeNone:
         default:
             return usbDevice;
@@ -260,6 +263,11 @@ static void deviceDisconnected(void *context, io_iterator_t iterator) {
         case 0x314B: // Geehy Semiconductor Co. Ltd.
             if (productID == 0x0106) {
                 return BootloaderTypeAPM32DFU;
+            }
+            break;
+        case 0x342D: // WestBerryTech
+            if (productID == 0xDFA0) {
+                return BootloaderTypeWB32DFU;
             }
             break;
     }
