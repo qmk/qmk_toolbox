@@ -70,6 +70,7 @@ namespace QMK_Toolbox
             logTextBox.LogInfo(" - Caterina (Arduino, Pro Micro) via avrdude (http://nongnu.org/avrdude/)");
             logTextBox.LogInfo(" - HalfKay (Teensy, Ergodox EZ) via Teensy Loader (https://pjrc.com/teensy/loader_cli.html)");
             logTextBox.LogInfo(" - LUFA/QMK HID via hid_bootloader_cli (https://github.com/abcminiuser/lufa)");
+            logTextBox.LogInfo(" - WB32 DFU via wb32-dfu-updater_cli (https://github.com/WestberryTech/wb32-dfu-updater)");
             logTextBox.LogInfo(" - LUFA Mass Storage");
             logTextBox.LogInfo("Supported ISP flashers:");
             logTextBox.LogInfo(" - AVRISP (Arduino ISP)");

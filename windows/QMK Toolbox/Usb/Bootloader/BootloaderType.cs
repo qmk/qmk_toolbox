@@ -18,6 +18,7 @@
         Stm32Duino,
         UsbAsp,
         UsbTinyIsp,
+        Wb32Dfu,
         None
     }
 }
