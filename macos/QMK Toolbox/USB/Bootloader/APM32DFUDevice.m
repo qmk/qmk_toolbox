@@ -15,7 +15,7 @@
     if([[[file pathExtension] lowercaseString] isEqualToString:@"bin"]) {
         [self runProcess:@"dfu-util" withArgs:@[@"-a", @"0", @"-d", @"314B:0106", @"-s", @"0x8000000:leave", @"-D", file]];
     } else {
-        [self printMessage:@"Only firmware files in .bin format can be flashed with dfu-util!" withType:MessageType_Error];
+        [self printMessage:@"Only firmware files in .bin format can be flashed with dfu-util!" withType:MessageTypeError];
     }
 }
 

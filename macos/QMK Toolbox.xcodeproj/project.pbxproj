@@ -25,6 +25,7 @@
 		3A1AF21126FA31D700AC977B /* KeyTesterWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A1AF21026FA31D700AC977B /* KeyTesterWindow.m */; };
 		3A245407270817DF001F4AE0 /* MicrocontrollerSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A245406270817DF001F4AE0 /* MicrocontrollerSelector.m */; };
 		3A3B4E2E27D9FBF800526FBF /* LUFAHIDDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3B4E2D27D9FBF800526FBF /* LUFAHIDDevice.m */; };
+		3A49F9A5282A92EB00B73DA0 /* MessageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A49F9A4282A92EB00B73DA0 /* MessageType.swift */; };
 		3A5166BC26E07F0000EBE3DC /* KeyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A5166BB26E07F0000EBE3DC /* KeyView.m */; };
 		3A5863112725A99D00354E07 /* APM32DFUDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A5863102725A99D00354E07 /* APM32DFUDevice.m */; };
 		3A62C86526A96AED001C655A /* reset_right.eep in Resources */ = {isa = PBXBuildFile; fileRef = 3A62C86326A96AED001C655A /* reset_right.eep */; };
@@ -97,13 +98,14 @@
 		09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libusb-0.1.4.dylib"; sourceTree = "<group>"; };
 		113C662528743AE8007F5A4B /* GD32VDFUDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GD32VDFUDevice.m; sourceTree = "<group>"; };
 		113C662628743AE8007F5A4B /* GD32VDFUDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GD32VDFUDevice.h; sourceTree = "<group>"; };
-		3A09B47F27DB61DE00F839C5 /* MessageType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageType.h; sourceTree = "<group>"; };
 		3A1AF20F26FA31D700AC977B /* KeyTesterWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyTesterWindow.h; sourceTree = "<group>"; };
 		3A1AF21026FA31D700AC977B /* KeyTesterWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyTesterWindow.m; sourceTree = "<group>"; };
 		3A245405270817DF001F4AE0 /* MicrocontrollerSelector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MicrocontrollerSelector.h; sourceTree = "<group>"; };
 		3A245406270817DF001F4AE0 /* MicrocontrollerSelector.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MicrocontrollerSelector.m; sourceTree = "<group>"; };
 		3A3B4E2C27D9FBF800526FBF /* LUFAHIDDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LUFAHIDDevice.h; sourceTree = "<group>"; };
 		3A3B4E2D27D9FBF800526FBF /* LUFAHIDDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LUFAHIDDevice.m; sourceTree = "<group>"; };
+		3A49F9A1282A911000B73DA0 /* QMK Toolbox-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "QMK Toolbox-Bridging-Header.h"; sourceTree = "<group>"; };
+		3A49F9A4282A92EB00B73DA0 /* MessageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageType.swift; sourceTree = "<group>"; };
 		3A5166BA26E07F0000EBE3DC /* KeyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyView.h; sourceTree = "<group>"; };
 		3A5166BB26E07F0000EBE3DC /* KeyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyView.m; sourceTree = "<group>"; };
 		3A58630F2725A99D00354E07 /* APM32DFUDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APM32DFUDevice.h; sourceTree = "<group>"; };
@@ -204,12 +206,13 @@
 				092963FC1F5C8B2C004F2D3F /* AppDelegate.m */,
 				3AC087EC28020C87003D78D3 /* LogTextView.h */,
 				3AC087ED28020C87003D78D3 /* LogTextView.m */,
-				3A09B47F27DB61DE00F839C5 /* MessageType.h */,
+				3A49F9A4282A92EB00B73DA0 /* MessageType.swift */,
 				3A245405270817DF001F4AE0 /* MicrocontrollerSelector.h */,
 				3A245406270817DF001F4AE0 /* MicrocontrollerSelector.m */,
 				098AEE0E1F60C6F600CA054D /* QMKWindow.h */,
 				098AEE0F1F60C6F600CA054D /* QMKWindow.m */,
 				092963FE1F5C8B2C004F2D3F /* Supporting Files */,
+				3A49F9A1282A911000B73DA0 /* QMK Toolbox-Bridging-Header.h */,
 			);
 			path = "QMK Toolbox";
 			sourceTree = "<group>";
@@ -352,11 +355,12 @@
 		092963F01F5C8B2C004F2D3F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1330;
 				ORGANIZATIONNAME = QMK;
 				TargetAttributes = {
 					092963F71F5C8B2C004F2D3F = {
 						CreatedOnToolsVersion = 7.1;
+						LastSwiftMigration = 1330;
 					};
 				};
 			};
@@ -414,6 +418,7 @@
 				092964001F5C8B2C004F2D3F /* main.m in Sources */,
 				092963FD1F5C8B2C004F2D3F /* AppDelegate.m in Sources */,
 				3AC087EE28020C87003D78D3 /* LogTextView.m in Sources */,
+				3A49F9A5282A92EB00B73DA0 /* MessageType.swift in Sources */,
 				3A245407270817DF001F4AE0 /* MicrocontrollerSelector.m in Sources */,
 				098AEE101F60C6F600CA054D /* QMKWindow.m in Sources */,
 				3A93852B26AB83840026F3C4 /* HIDConsoleDevice.m in Sources */,
@@ -570,6 +575,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
 		};
@@ -577,8 +583,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
 				INFOPLIST_FILE = "QMK Toolbox/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -591,6 +599,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = fm.qmk.toolbox;
 				PRODUCT_NAME = "QMK Toolbox";
+				SWIFT_OBJC_BRIDGING_HEADER = "QMK Toolbox/QMK Toolbox-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -598,8 +609,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
 				INFOPLIST_FILE = "QMK Toolbox/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -612,6 +625,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = fm.qmk.toolbox;
 				PRODUCT_NAME = "QMK Toolbox";
+				SWIFT_OBJC_BRIDGING_HEADER = "QMK Toolbox/QMK Toolbox-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

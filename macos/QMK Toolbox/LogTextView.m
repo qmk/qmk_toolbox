@@ -10,39 +10,39 @@
 }
 
 - (void)logBootloader:(NSString *)message {
-    [self log:message withType:MessageType_Bootloader];
+    [self log:message withType:MessageTypeBootloader];
 }
 
 - (void)logCommand:(NSString *)message {
-    [self log:message withType:MessageType_Command];
+    [self log:message withType:MessageTypeCommand];
 }
 
 - (void)logCommandError:(NSString *)message {
-    [self log:message withType:MessageType_CommandError];
+    [self log:message withType:MessageTypeCommandError];
 }
 
 - (void)logCommandOutput:(NSString *)message {
-    [self log:message withType:MessageType_CommandOutput];
+    [self log:message withType:MessageTypeCommandOutput];
 }
 
 - (void)logError:(NSString *)message {
-    [self log:message withType:MessageType_Error];
+    [self log:message withType:MessageTypeError];
 }
 
 - (void)logHID:(NSString *)message {
-    [self log:message withType:MessageType_HID];
+    [self log:message withType:MessageTypeHid];
 }
 
 - (void)logHIDOutput:(NSString *)message {
-    [self log:message withType:MessageType_HIDOutput];
+    [self log:message withType:MessageTypeHidOutput];
 }
 
 - (void)logInfo:(NSString *)message {
-    [self log:message withType:MessageType_Info];
+    [self log:message withType:MessageTypeInfo];
 }
 
 - (void)logUSB:(NSString *)message {
-    [self log:message withType:MessageType_USB];
+    [self log:message withType:MessageTypeUsb];
 }
 
 - (void)log:(NSString *)message withType:(MessageType)type {
@@ -54,35 +54,35 @@
 
     for (NSString *line in lines) {
         switch (type) {
-            case MessageType_Bootloader:
+            case MessageTypeBootloader:
                 [self appendString:[NSString stringWithFormat:@"%@\n", line] withColor:[NSColor colorNamed:@"LogMessageBootloader"]];
                 break;
-            case MessageType_Command:
+            case MessageTypeCommand:
                 [self appendString:[NSString stringWithFormat:@"> %@\n", line] withColor:[NSColor colorNamed:@"LogMessageDefault"]];
                 break;
-            case MessageType_CommandError:
+            case MessageTypeCommandError:
                 [self appendString:@"> " withColor:[NSColor colorNamed:@"LogMessageError"]];
                 [self appendString:[NSString stringWithFormat:@"%@\n", line] withColor:[NSColor colorNamed:@"LogMessageInfo"]];
                 break;
-            case MessageType_CommandOutput:
+            case MessageTypeCommandOutput:
                 [self appendString:@"> " withColor:[NSColor colorNamed:@"LogMessageDefault"]];
                 [self appendString:[NSString stringWithFormat:@"%@\n", line] withColor:[NSColor colorNamed:@"LogMessageInfo"]];
                 break;
-            case MessageType_Error:
+            case MessageTypeError:
                 [self appendString:[NSString stringWithFormat:@"%@\n", line] withColor:[NSColor colorNamed:@"LogMessageError"]];
                 break;
-            case MessageType_HID:
+            case MessageTypeHid:
                 [self appendString:[NSString stringWithFormat:@"%@\n", line] withColor:[NSColor colorNamed:@"LogMessageHID"]];
                 break;
-            case MessageType_HIDOutput:
+            case MessageTypeHidOutput:
                 [self appendString:@"> " withColor:[NSColor colorNamed:@"LogMessageHID"]];
                 [self appendString:[NSString stringWithFormat:@"%@\n", line] withColor:[NSColor colorNamed:@"LogMessageHIDOutput"]];
                 break;
-            case MessageType_Info:
+            case MessageTypeInfo:
                 [self appendString:@"* " withColor:[NSColor colorNamed:@"LogMessageDefault"]];
                 [self appendString:[NSString stringWithFormat:@"%@\n", line] withColor:[NSColor colorNamed:@"LogMessageInfo"]];
                 break;
-            case MessageType_USB:
+            case MessageTypeUsb:
                 [self appendString:[NSString stringWithFormat:@"%@\n", line] withColor:[NSColor colorNamed:@"LogMessageDefault"]];
                 break;
         }

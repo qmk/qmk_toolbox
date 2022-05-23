@@ -31,7 +31,7 @@
     [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"flash", @"--force", @"--suppress-validation", @"--eeprom", file]];
 
     if (self.type == BootloaderTypeAtmelDFU) {
-        [self printMessage:@"Please reflash device with firmware now" withType:MessageType_Bootloader];
+        [self printMessage:@"Please reflash device with firmware now" withType:MessageTypeBootloader];
     }
 }
 

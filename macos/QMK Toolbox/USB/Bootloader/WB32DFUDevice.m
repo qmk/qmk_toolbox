@@ -17,7 +17,7 @@
     } else if([[[file pathExtension] lowercaseString] isEqualToString:@"hex"]) {
         [self runProcess:@"wb32-dfu-updater_cli" withArgs:@[@"--toolbox-mode", @"--download", file]];
     } else {
-        [self printMessage:@"Only firmware files in .bin or .hex format can be flashed with wb32-dfu-updater_cli!" withType:MessageType_Error];
+        [self printMessage:@"Only firmware files in .bin or .hex format can be flashed with wb32-dfu-updater_cli!" withType:MessageTypeError];
     }
 }
 

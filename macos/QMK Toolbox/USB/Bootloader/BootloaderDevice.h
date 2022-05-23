@@ -3,7 +3,7 @@
 
 #import "BootloaderType.h"
 #import "USBDevice.h"
-#import "MessageType.h"
+#import <QMK_Toolbox-Swift.h>
 
 @class BootloaderDevice;
 

@@ -62,7 +62,7 @@
 }
 
 - (void)runProcess:(NSString *)command withArgs:(NSArray<NSString *> *)args {
-    [self printMessage:[NSString stringWithFormat:@"%@ %@", command, [args componentsJoinedByString:@" "]] withType:MessageType_Command];
+    [self printMessage:[NSString stringWithFormat:@"%@ %@", command, [args componentsJoinedByString:@" "]] withType:MessageTypeCommand];
 
     NSTask *task = [[NSTask alloc] init];
     task.executableURL = [[NSBundle mainBundle] URLForResource:command withExtension:@""];
@@ -104,11 +104,11 @@
 }
 
 - (void)printOutput:(NSString *)output {
-    [self printMessage:output withType:MessageType_CommandOutput];
+    [self printMessage:output withType:MessageTypeCommandOutput];
 }
 
 - (void)printErrorOutput:(NSString *)output {
-    [self printMessage:output withType:MessageType_CommandError];
+    [self printMessage:output withType:MessageTypeCommandError];
 }
 
 - (void)printMessage:(NSString *)message withType:(MessageType)type {

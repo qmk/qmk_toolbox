@@ -21,24 +21,24 @@
             NSString *destFile = [NSString stringWithFormat:@"%@/FLASH.BIN", self.mountPoint];
             NSError *error;
 
-            [self printMessage:[NSString stringWithFormat:@"Deleting %@...", destFile] withType:MessageType_Command];
+            [self printMessage:[NSString stringWithFormat:@"Deleting %@...", destFile] withType:MessageTypeCommand];
             if (![[NSFileManager defaultManager] removeItemAtPath:destFile error:&error]) {
-                [self printMessage:[NSString stringWithFormat:@"IO ERROR: %@", [error localizedDescription]] withType:MessageType_Error];
+                [self printMessage:[NSString stringWithFormat:@"IO ERROR: %@", [error localizedDescription]] withType:MessageTypeError];
                 return;
             }
 
-            [self printMessage:[NSString stringWithFormat:@"Copying %@ to %@...", file, destFile] withType:MessageType_Command];
+            [self printMessage:[NSString stringWithFormat:@"Copying %@ to %@...", file, destFile] withType:MessageTypeCommand];
             if (![[NSFileManager defaultManager] copyItemAtPath:file toPath:destFile error:&error]) {
-                [self printMessage:[NSString stringWithFormat:@"IO ERROR: %@", [error localizedDescription]] withType:MessageType_Error];
+                [self printMessage:[NSString stringWithFormat:@"IO ERROR: %@", [error localizedDescription]] withType:MessageTypeError];
                 return;
             }
 
-            [self printMessage:@"Done, please eject drive now." withType:MessageType_Bootloader];
+            [self printMessage:@"Done, please eject drive now." withType:MessageTypeBootloader];
         } else {
-            [self printMessage:@"Only firmware files in .bin format can be flashed with this bootloader!" withType:MessageType_Error];
+            [self printMessage:@"Only firmware files in .bin format can be flashed with this bootloader!" withType:MessageTypeError];
         }
     } else {
-        [self printMessage:@"Could not find mount path for device!" withType:MessageType_Error];
+        [self printMessage:@"Could not find mount path for device!" withType:MessageTypeError];
     }
 }
 

@@ -1,6 +1,6 @@
 #import <Cocoa/Cocoa.h>
 
-#import "MessageType.h"
+#import <QMK_Toolbox-Swift.h>
 
 @interface LogTextView : NSTextView
 
