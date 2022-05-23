@@ -2,7 +2,6 @@
 
 #import "HIDConsoleListener.h"
 #import "MicrocontrollerSelector.h"
-#import "QMKWindow.h"
 #import "USBListener.h"
 
 @interface AppDelegate () <HIDConsoleListenerDelegate, USBListenerDelegate>

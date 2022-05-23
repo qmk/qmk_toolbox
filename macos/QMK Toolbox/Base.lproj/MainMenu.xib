@@ -287,7 +287,7 @@
                 <action selector="clearButtonClick:" target="Voe-Tx-rLC" id="6FO-CI-SpB"/>
             </connections>
         </menuItem>
-        <window title="QMK Toolbox" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" tabbingMode="disallowed" titlebarAppearsTransparent="YES" id="QvC-M9-y7g" customClass="QMKWindow">
+        <window title="QMK Toolbox" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" tabbingMode="disallowed" titlebarAppearsTransparent="YES" id="QvC-M9-y7g" customClass="QMKWindow" customModule="QMK_Toolbox" customModuleProvider="target">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <rect key="contentRect" x="350" y="100" width="800" height="640"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="875"/>
