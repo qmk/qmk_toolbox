@@ -38,9 +38,9 @@
 		3A93852B26AB83840026F3C4 /* HIDConsoleDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A93852A26AB83840026F3C4 /* HIDConsoleDevice.m */; };
 		3AA5D3472803FCE1008121E4 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AA5D3462803FCE1008121E4 /* Colors.xcassets */; };
 		3AA7F96B283BCD2E009FFDD5 /* BootloaderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA7F96A283BCD2E009FFDD5 /* BootloaderType.swift */; };
+		3AAB20AB283BEEC700029ABD /* LogTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AAB20AA283BEEC700029ABD /* LogTextView.swift */; };
 		3AB4BC9D2495540A00204A3F /* bootloadHID in Resources */ = {isa = PBXBuildFile; fileRef = 3AB4BC9C2495540A00204A3F /* bootloadHID */; };
 		3ABD0A0227257A070076C1ED /* BootloaderDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ABD0A0127257A070076C1ED /* BootloaderDevice.m */; };
-		3AC087EE28020C87003D78D3 /* LogTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AC087ED28020C87003D78D3 /* LogTextView.m */; };
 		3AC7BE4E2725504E00FED7DB /* USBListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AC7BE4D2725504E00FED7DB /* USBListener.m */; };
 		3AC7BE532725684200FED7DB /* USBDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AC7BE522725684200FED7DB /* USBDevice.m */; };
 		3AE6D9E22726C75500CECA21 /* AtmelDFUDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6D9E12726C75500CECA21 /* AtmelDFUDevice.m */; };
@@ -123,11 +123,10 @@
 		3A93852A26AB83840026F3C4 /* HIDConsoleDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HIDConsoleDevice.m; sourceTree = "<group>"; };
 		3AA5D3462803FCE1008121E4 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		3AA7F96A283BCD2E009FFDD5 /* BootloaderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootloaderType.swift; sourceTree = "<group>"; };
+		3AAB20AA283BEEC700029ABD /* LogTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogTextView.swift; sourceTree = "<group>"; };
 		3AB4BC9C2495540A00204A3F /* bootloadHID */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = bootloadHID; sourceTree = "<group>"; };
 		3ABD0A0027257A070076C1ED /* BootloaderDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BootloaderDevice.h; sourceTree = "<group>"; };
 		3ABD0A0127257A070076C1ED /* BootloaderDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BootloaderDevice.m; sourceTree = "<group>"; };
-		3AC087EC28020C87003D78D3 /* LogTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LogTextView.h; sourceTree = "<group>"; };
-		3AC087ED28020C87003D78D3 /* LogTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LogTextView.m; sourceTree = "<group>"; };
 		3AC7BE4C2725504E00FED7DB /* USBListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = USBListener.h; sourceTree = "<group>"; };
 		3AC7BE4D2725504E00FED7DB /* USBListener.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = USBListener.m; sourceTree = "<group>"; };
 		3AC7BE512725684200FED7DB /* USBDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = USBDevice.h; sourceTree = "<group>"; };
@@ -205,8 +204,7 @@
 				092964031F5C8B2C004F2D3F /* MainMenu.xib */,
 				092963FB1F5C8B2C004F2D3F /* AppDelegate.h */,
 				092963FC1F5C8B2C004F2D3F /* AppDelegate.m */,
-				3AC087EC28020C87003D78D3 /* LogTextView.h */,
-				3AC087ED28020C87003D78D3 /* LogTextView.m */,
+				3AAB20AA283BEEC700029ABD /* LogTextView.swift */,
 				3A49F9A4282A92EB00B73DA0 /* MessageType.swift */,
 				3A245405270817DF001F4AE0 /* MicrocontrollerSelector.h */,
 				3A245406270817DF001F4AE0 /* MicrocontrollerSelector.m */,
@@ -418,7 +416,6 @@
 			files = (
 				092964001F5C8B2C004F2D3F /* main.m in Sources */,
 				092963FD1F5C8B2C004F2D3F /* AppDelegate.m in Sources */,
-				3AC087EE28020C87003D78D3 /* LogTextView.m in Sources */,
 				3A49F9A5282A92EB00B73DA0 /* MessageType.swift in Sources */,
 				3A245407270817DF001F4AE0 /* MicrocontrollerSelector.m in Sources */,
 				098AEE101F60C6F600CA054D /* QMKWindow.m in Sources */,
@@ -426,6 +423,7 @@
 				3A93852826AB5A790026F3C4 /* HIDConsoleListener.m in Sources */,
 				3A1AF21126FA31D700AC977B /* KeyTesterWindow.m in Sources */,
 				3A5166BC26E07F0000EBE3DC /* KeyView.m in Sources */,
+				3AAB20AB283BEEC700029ABD /* LogTextView.swift in Sources */,
 				3AC7BE532725684200FED7DB /* USBDevice.m in Sources */,
 				3AC7BE4E2725504E00FED7DB /* USBListener.m in Sources */,
 				3A5863112725A99D00354E07 /* APM32DFUDevice.m in Sources */,

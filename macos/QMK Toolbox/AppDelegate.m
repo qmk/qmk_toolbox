@@ -1,7 +1,6 @@
 #import "AppDelegate.h"
 
 #import "HIDConsoleListener.h"
-#import "LogTextView.h"
 #import "MicrocontrollerSelector.h"
 #import "QMKWindow.h"
 #import "USBListener.h"
@@ -165,7 +164,7 @@
 
 -(void)bootloaderDevice:(BootloaderDevice *)device didReceiveCommandOutput:(NSString *)data messageType:(MessageType)type {
     dispatch_sync(dispatch_get_main_queue(), ^{
-        [self.logTextView log:data withType:type];
+        [self.logTextView log:data type:type];
     });
 }
 
