@@ -6,10 +6,10 @@
     if (self = [super initWithUSBDevice:usbDevice]) {
         if ([self revisionBCD] == 0x0936) {
             self.name = @"QMK DFU";
-            self.type = BootloaderTypeQMKDFU;
+            self.type = BootloaderTypeQmkDfu;
         } else {
             self.name = @"Atmel DFU";
-            self.type = BootloaderTypeAtmelDFU;
+            self.type = BootloaderTypeAtmelDfu;
         }
         self.eepromFlashable = YES;
         self.resettable = YES;
@@ -24,13 +24,13 @@
 }
 
 -(void)flashEEPROMWithMCU:(NSString *)mcu file:(NSString *)file {
-    if (self.type == BootloaderTypeAtmelDFU) {
+    if (self.type == BootloaderTypeAtmelDfu) {
         [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"erase", @"--force"]];
     }
 
     [self runProcess:@"dfu-programmer" withArgs:@[mcu, @"flash", @"--force", @"--suppress-validation", @"--eeprom", file]];
 
-    if (self.type == BootloaderTypeAtmelDFU) {
+    if (self.type == BootloaderTypeAtmelDfu) {
         [self printMessage:@"Please reflash device with firmware now" withType:MessageTypeBootloader];
     }
 }

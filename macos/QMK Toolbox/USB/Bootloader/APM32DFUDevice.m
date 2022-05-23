@@ -5,7 +5,7 @@
 - (id)initWithUSBDevice:(USBDevice *)usbDevice {
     if (self = [super initWithUSBDevice:usbDevice]) {
         self.name = @"APM32 DFU";
-        self.type = BootloaderTypeAPM32DFU;
+        self.type = BootloaderTypeApm32Dfu;
         self.resettable = YES;
     }
     return self;

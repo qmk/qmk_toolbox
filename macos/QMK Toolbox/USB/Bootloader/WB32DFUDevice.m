@@ -5,7 +5,7 @@
 - (id)initWithUSBDevice:(USBDevice *)usbDevice {
     if (self = [super initWithUSBDevice:usbDevice]) {
         self.name = @"WB32 DFU";
-        self.type = BootloaderTypeWB32DFU;
+        self.type = BootloaderTypeWb32Dfu;
         self.resettable = YES;
     }
     return self;

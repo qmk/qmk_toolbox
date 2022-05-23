@@ -7,7 +7,7 @@
 - (id)initWithUSBDevice:(USBDevice *)usbDevice {
     if (self = [super initWithUSBDevice:usbDevice]) {
         self.name = @"LUFA MS";
-        self.type = BootloaderTypeLUFAMS;
+        self.type = BootloaderTypeLufaMs;
         while (self.mountPoint == nil) {
             self.mountPoint = [self findMountPoint];
         }

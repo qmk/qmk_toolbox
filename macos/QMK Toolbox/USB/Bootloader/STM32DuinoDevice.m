@@ -5,7 +5,7 @@
 - (id)initWithUSBDevice:(USBDevice *)usbDevice {
     if (self = [super initWithUSBDevice:usbDevice]) {
         self.name = @"STM32Duino";
-        self.type = BootloaderTypeSTM32Duino;
+        self.type = BootloaderTypeStm32duino;
     }
     return self;
 }

@@ -5,7 +5,7 @@
 - (id)initWithUSBDevice:(USBDevice *)usbDevice {
     if (self = [super initWithUSBDevice:usbDevice]) {
         self.name = @"STM32 DFU";
-        self.type = BootloaderTypeSTM32DFU;
+        self.type = BootloaderTypeStm32Dfu;
         self.resettable = YES;
     }
     return self;

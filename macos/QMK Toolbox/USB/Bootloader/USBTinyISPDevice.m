@@ -5,7 +5,7 @@
 - (id)initWithUSBDevice:(USBDevice *)usbDevice {
     if (self = [super initWithUSBDevice:usbDevice]) {
         self.name = @"USBTinyISP";
-        self.type = BootloaderTypeUSBTinyISP;
+        self.type = BootloaderTypeUsbTinyIsp;
         self.eepromFlashable = YES;
     }
     return self;

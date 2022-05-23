@@ -5,7 +5,7 @@
 - (id)initWithUSBDevice:(USBDevice *)usbDevice {
     if (self = [super initWithUSBDevice:usbDevice]) {
         self.name = @"AVR ISP";
-        self.type = BootloaderTypeAVRISP;
+        self.type = BootloaderTypeAvrIsp;
         while (self.serialPort == nil) {
             self.serialPort = [self findSerialPort];
         }

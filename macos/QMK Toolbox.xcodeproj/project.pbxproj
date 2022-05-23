@@ -37,6 +37,7 @@
 		3A93852826AB5A790026F3C4 /* HIDConsoleListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A93852726AB5A790026F3C4 /* HIDConsoleListener.m */; };
 		3A93852B26AB83840026F3C4 /* HIDConsoleDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A93852A26AB83840026F3C4 /* HIDConsoleDevice.m */; };
 		3AA5D3472803FCE1008121E4 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AA5D3462803FCE1008121E4 /* Colors.xcassets */; };
+		3AA7F96B283BCD2E009FFDD5 /* BootloaderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA7F96A283BCD2E009FFDD5 /* BootloaderType.swift */; };
 		3AB4BC9D2495540A00204A3F /* bootloadHID in Resources */ = {isa = PBXBuildFile; fileRef = 3AB4BC9C2495540A00204A3F /* bootloadHID */; };
 		3ABD0A0227257A070076C1ED /* BootloaderDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ABD0A0127257A070076C1ED /* BootloaderDevice.m */; };
 		3AC087EE28020C87003D78D3 /* LogTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AC087ED28020C87003D78D3 /* LogTextView.m */; };
@@ -121,6 +122,7 @@
 		3A93852926AB83840026F3C4 /* HIDConsoleDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HIDConsoleDevice.h; sourceTree = "<group>"; };
 		3A93852A26AB83840026F3C4 /* HIDConsoleDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HIDConsoleDevice.m; sourceTree = "<group>"; };
 		3AA5D3462803FCE1008121E4 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		3AA7F96A283BCD2E009FFDD5 /* BootloaderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootloaderType.swift; sourceTree = "<group>"; };
 		3AB4BC9C2495540A00204A3F /* bootloadHID */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = bootloadHID; sourceTree = "<group>"; };
 		3ABD0A0027257A070076C1ED /* BootloaderDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BootloaderDevice.h; sourceTree = "<group>"; };
 		3ABD0A0127257A070076C1ED /* BootloaderDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BootloaderDevice.m; sourceTree = "<group>"; };
@@ -128,7 +130,6 @@
 		3AC087ED28020C87003D78D3 /* LogTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LogTextView.m; sourceTree = "<group>"; };
 		3AC7BE4C2725504E00FED7DB /* USBListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = USBListener.h; sourceTree = "<group>"; };
 		3AC7BE4D2725504E00FED7DB /* USBListener.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = USBListener.m; sourceTree = "<group>"; };
-		3AC7BE4F27255D8000FED7DB /* BootloaderType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BootloaderType.h; sourceTree = "<group>"; };
 		3AC7BE512725684200FED7DB /* USBDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = USBDevice.h; sourceTree = "<group>"; };
 		3AC7BE522725684200FED7DB /* USBDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = USBDevice.m; sourceTree = "<group>"; };
 		3AE6D9E02726C75500CECA21 /* AtmelDFUDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AtmelDFUDevice.h; sourceTree = "<group>"; };
@@ -301,7 +302,7 @@
 				3ABD0A0127257A070076C1ED /* BootloaderDevice.m */,
 				3AE6D9E92726C8E200CECA21 /* BootloadHIDDevice.h */,
 				3AE6D9EA2726C8E200CECA21 /* BootloadHIDDevice.m */,
-				3AC7BE4F27255D8000FED7DB /* BootloaderType.h */,
+				3AA7F96A283BCD2E009FFDD5 /* BootloaderType.swift */,
 				3AE6D9EC2726C95C00CECA21 /* CaterinaDevice.h */,
 				3AE6D9ED2726C95C00CECA21 /* CaterinaDevice.m */,
 				113C662628743AE8007F5A4B /* GD32VDFUDevice.h */,
@@ -434,6 +435,7 @@
 				3AE6D9E82726C83700CECA21 /* AVRISPDevice.m in Sources */,
 				3ABD0A0227257A070076C1ED /* BootloaderDevice.m in Sources */,
 				3AE6D9EB2726C8E200CECA21 /* BootloadHIDDevice.m in Sources */,
+				3AA7F96B283BCD2E009FFDD5 /* BootloaderType.swift in Sources */,
 				3AE6D9EE2726C95C00CECA21 /* CaterinaDevice.m in Sources */,
 				3AE6D9F12726C9B500CECA21 /* HalfKayDevice.m in Sources */,
 				3AE6D9F42726C9EC00CECA21 /* KiibohdDFUDevice.m in Sources */,

@@ -6,10 +6,10 @@
     if (self = [super initWithUSBDevice:usbDevice]) {
         if ([self revisionBCD] == 0x0936) {
             self.name = @"QMK HID";
-            self.type = BootloaderTypeQMKHID;
+            self.type = BootloaderTypeQmkHid;
         } else {
             self.name = @"LUFA HID";
-            self.type = BootloaderTypeLUFAHID;
+            self.type = BootloaderTypeLufaHid;
         }
     }
     return self;

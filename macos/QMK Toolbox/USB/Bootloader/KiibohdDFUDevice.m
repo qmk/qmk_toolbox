@@ -5,7 +5,7 @@
 - (id)initWithUSBDevice:(USBDevice *)usbDevice {
     if (self = [super initWithUSBDevice:usbDevice]) {
         self.name = @"Kiibohd DFU";
-        self.type = BootloaderTypeKiibohdDFU;
+        self.type = BootloaderTypeKiibohdDfu;
         self.resettable = YES;
     }
     return self;

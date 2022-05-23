@@ -5,7 +5,7 @@
 - (id)initWithUSBDevice:(USBDevice *)usbDevice {
     if (self = [super initWithUSBDevice:usbDevice]) {
         self.name = @"Atmel SAM-BA";
-        self.type = BootloaderTypeAtmelSAMBA;
+        self.type = BootloaderTypeAtmelSamBa;
         self.resettable = YES;
         while (self.serialPort == nil) {
             self.serialPort = [self findSerialPort];

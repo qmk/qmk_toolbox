@@ -5,7 +5,7 @@
 - (id)initWithUSBDevice:(USBDevice *)usbDevice {
     if (self = [super initWithUSBDevice:usbDevice]) {
         self.name = @"BootloadHID";
-        self.type = BootloaderTypeBootloadHID;
+        self.type = BootloaderTypeBootloadHid;
         self.resettable = YES;
     }
     return self;

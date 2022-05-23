@@ -2,7 +2,6 @@
 
 #import "USBListener.h"
 
-#import "BootloaderType.h"
 #import "APM32DFUDevice.h"
 #import "AtmelDFUDevice.h"
 #import "AtmelSAMBADevice.h"
@@ -130,16 +129,16 @@ static void deviceDisconnected(void *context, io_iterator_t iterator) {
     USBDevice *usbDevice = [[USBDevice alloc] initWithService:service];
 
     switch ([self deviceTypeForVendorID:usbDevice.vendorID productID:usbDevice.productID revisionBCD:usbDevice.revisionBCD]) {
-        case BootloaderTypeAPM32DFU:
+        case BootloaderTypeApm32Dfu:
             return [[APM32DFUDevice alloc] initWithUSBDevice:usbDevice];
-        case BootloaderTypeAtmelDFU:
-        case BootloaderTypeQMKDFU:
+        case BootloaderTypeAtmelDfu:
+        case BootloaderTypeQmkDfu:
             return [[AtmelDFUDevice alloc] initWithUSBDevice:usbDevice];
-        case BootloaderTypeAtmelSAMBA:
+        case BootloaderTypeAtmelSamBa:
             return [[AtmelSAMBADevice alloc] initWithUSBDevice:usbDevice];
-        case BootloaderTypeAVRISP:
+        case BootloaderTypeAvrIsp:
             return [[AVRISPDevice alloc] initWithUSBDevice:usbDevice];
-        case BootloaderTypeBootloadHID:
+        case BootloaderTypeBootloadHid:
             return [[BootloadHIDDevice alloc] initWithUSBDevice:usbDevice];
         case BootloaderTypeCaterina:
             return [[CaterinaDevice alloc] initWithUSBDevice:usbDevice];
@@ -147,22 +146,22 @@ static void deviceDisconnected(void *context, io_iterator_t iterator) {
             return [[GD32VDFUDevice alloc] initWithUSBDevice:usbDevice];
         case BootloaderTypeHalfKay:
             return [[HalfKayDevice alloc] initWithUSBDevice:usbDevice];
-        case BootloaderTypeKiibohdDFU:
+        case BootloaderTypeKiibohdDfu:
             return [[KiibohdDFUDevice alloc] initWithUSBDevice:usbDevice];
-        case BootloaderTypeLUFAHID:
-        case BootloaderTypeQMKHID:
+        case BootloaderTypeLufaHid:
+        case BootloaderTypeQmkHid:
             return [[LUFAHIDDevice alloc] initWithUSBDevice:usbDevice];
-        case BootloaderTypeLUFAMS:
+        case BootloaderTypeLufaMs:
             return [[LUFAMSDevice alloc] initWithUSBDevice:usbDevice];
-        case BootloaderTypeSTM32DFU:
+        case BootloaderTypeStm32Dfu:
             return [[STM32DFUDevice alloc] initWithUSBDevice:usbDevice];
-        case BootloaderTypeSTM32Duino:
+        case BootloaderTypeStm32duino:
             return [[STM32DuinoDevice alloc] initWithUSBDevice:usbDevice];
-        case BootloaderTypeUSBAsp:
+        case BootloaderTypeUsbAsp:
             return [[USBAspDevice alloc] initWithUSBDevice:usbDevice];
-        case BootloaderTypeUSBTinyISP:
+        case BootloaderTypeUsbTinyIsp:
             return [[USBTinyISPDevice alloc] initWithUSBDevice:usbDevice];
-        case BootloaderTypeWB32DFU:
+        case BootloaderTypeWb32Dfu:
             return [[WB32DFUDevice alloc] initWithUSBDevice:usbDevice];
         case BootloaderTypeNone:
         default:
@@ -175,12 +174,12 @@ static void deviceDisconnected(void *context, io_iterator_t iterator) {
         case 0x03EB: // Atmel Corporation
             switch (productID) {
                 case 0x2045:
-                    return BootloaderTypeLUFAMS;
+                    return BootloaderTypeLufaMs;
                 case 0x2067:
                     if (revisionBCD == 0x0936) { // Unicode Ψ
-                        return BootloaderTypeQMKHID;
+                        return BootloaderTypeQmkHid;
                     }
-                    return BootloaderTypeLUFAHID;
+                    return BootloaderTypeLufaHid;
                 case 0x2FEF: // ATmega16U2
                 case 0x2FF0: // ATmega32U2
                 case 0x2FF3: // ATmega16U4
@@ -189,17 +188,17 @@ static void deviceDisconnected(void *context, io_iterator_t iterator) {
                 case 0x2FFA: // AT90USB162
                 case 0x2FFB: // AT90USB128
                     if (revisionBCD == 0x0936) { // Unicode Ψ
-                        return BootloaderTypeQMKDFU;
+                        return BootloaderTypeQmkDfu;
                     }
 
-                    return BootloaderTypeAtmelDFU;
+                    return BootloaderTypeAtmelDfu;
                 case 0x6124:
-                    return BootloaderTypeAtmelSAMBA;
+                    return BootloaderTypeAtmelSamBa;
             }
             break;
         case 0x0483: // STMicroelectronics
             if (productID == 0xDF11) {
-                return BootloaderTypeSTM32DFU;
+                return BootloaderTypeStm32Dfu;
             }
             break;
         case 0x1209: // pid.codes
@@ -212,16 +211,16 @@ static void deviceDisconnected(void *context, io_iterator_t iterator) {
                 case 0x0478:
                     return BootloaderTypeHalfKay;
                 case 0x0483:
-                    return BootloaderTypeAVRISP;
+                    return BootloaderTypeAvrIsp;
                 case 0x05DC:
-                    return BootloaderTypeUSBAsp;
+                    return BootloaderTypeUsbAsp;
                 case 0x05DF:
-                    return BootloaderTypeBootloadHID;
+                    return BootloaderTypeBootloadHid;
             }
             break;
         case 0x1781: // MECANIQUE
             if (productID == 0x0C9F) {
-                return BootloaderTypeUSBTinyISP;
+                return BootloaderTypeUsbTinyIsp;
             }
             break;
         case 0x1B4F: // Spark Fun Electronics
@@ -234,12 +233,12 @@ static void deviceDisconnected(void *context, io_iterator_t iterator) {
             break;
         case 0x1C11: // Input Club Inc.
             if (productID == 0xB007) {
-                return BootloaderTypeKiibohdDFU;
+                return BootloaderTypeKiibohdDfu;
             }
             break;
         case 0x1EAF: // Leaflabs
             if (productID == 0x0003) {
-                return BootloaderTypeSTM32Duino;
+                return BootloaderTypeStm32duino;
             }
             break;
         case 0x1FFB: // Pololu Corporation
@@ -270,12 +269,12 @@ static void deviceDisconnected(void *context, io_iterator_t iterator) {
             break;
         case 0x314B: // Geehy Semiconductor Co. Ltd.
             if (productID == 0x0106) {
-                return BootloaderTypeAPM32DFU;
+                return BootloaderTypeApm32Dfu;
             }
             break;
         case 0x342D: // WestBerryTech
             if (productID == 0xDFA0) {
-                return BootloaderTypeWB32DFU;
+                return BootloaderTypeWb32Dfu;
             }
             break;
     }

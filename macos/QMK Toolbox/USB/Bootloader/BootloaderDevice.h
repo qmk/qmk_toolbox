@@ -1,7 +1,6 @@
 #import <Foundation/Foundation.h>
 #import <IOKit/serial/IOSerialKeys.h>
 
-#import "BootloaderType.h"
 #import "USBDevice.h"
 #import <QMK_Toolbox-Swift.h>
 

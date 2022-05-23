@@ -5,7 +5,7 @@
 - (id)initWithUSBDevice:(USBDevice *)usbDevice {
     if (self = [super initWithUSBDevice:usbDevice]) {
         self.name = @"USBasp";
-        self.type = BootloaderTypeUSBAsp;
+        self.type = BootloaderTypeUsbAsp;
         self.eepromFlashable = YES;
     }
     return self;
