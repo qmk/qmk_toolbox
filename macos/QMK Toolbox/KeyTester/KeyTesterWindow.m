@@ -1,7 +1,7 @@
 #import <Carbon/Carbon.h>
 
 #import "KeyTesterWindow.h"
-#import "KeyView.h"
+#import <QMK_Toolbox-Swift.h>
 
 @interface KeyTesterWindow ()
 @property (weak) IBOutlet KeyView * keyViewEscape;

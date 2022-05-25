@@ -23,9 +23,9 @@
 		113C662728743AE8007F5A4B /* GD32VDFUDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 113C662528743AE8007F5A4B /* GD32VDFUDevice.m */; };
 		3A128567283D3F0800173A80 /* MicrocontrollerSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A128566283D3F0800173A80 /* MicrocontrollerSelector.swift */; };
 		3A1AF21126FA31D700AC977B /* KeyTesterWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A1AF21026FA31D700AC977B /* KeyTesterWindow.m */; };
+		3A37607A283E769300C19B3F /* KeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A376079283E769300C19B3F /* KeyView.swift */; };
 		3A3B4E2E27D9FBF800526FBF /* LUFAHIDDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3B4E2D27D9FBF800526FBF /* LUFAHIDDevice.m */; };
 		3A49F9A5282A92EB00B73DA0 /* MessageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A49F9A4282A92EB00B73DA0 /* MessageType.swift */; };
-		3A5166BC26E07F0000EBE3DC /* KeyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A5166BB26E07F0000EBE3DC /* KeyView.m */; };
 		3A5863112725A99D00354E07 /* APM32DFUDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A5863102725A99D00354E07 /* APM32DFUDevice.m */; };
 		3A62C86526A96AED001C655A /* reset_right.eep in Resources */ = {isa = PBXBuildFile; fileRef = 3A62C86326A96AED001C655A /* reset_right.eep */; };
 		3A62C86626A96AED001C655A /* reset_left.eep in Resources */ = {isa = PBXBuildFile; fileRef = 3A62C86426A96AED001C655A /* reset_left.eep */; };
@@ -100,12 +100,11 @@
 		3A128566283D3F0800173A80 /* MicrocontrollerSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrocontrollerSelector.swift; sourceTree = "<group>"; };
 		3A1AF20F26FA31D700AC977B /* KeyTesterWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyTesterWindow.h; sourceTree = "<group>"; };
 		3A1AF21026FA31D700AC977B /* KeyTesterWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyTesterWindow.m; sourceTree = "<group>"; };
+		3A376079283E769300C19B3F /* KeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyView.swift; sourceTree = "<group>"; };
 		3A3B4E2C27D9FBF800526FBF /* LUFAHIDDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LUFAHIDDevice.h; sourceTree = "<group>"; };
 		3A3B4E2D27D9FBF800526FBF /* LUFAHIDDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LUFAHIDDevice.m; sourceTree = "<group>"; };
 		3A49F9A1282A911000B73DA0 /* QMK Toolbox-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "QMK Toolbox-Bridging-Header.h"; sourceTree = "<group>"; };
 		3A49F9A4282A92EB00B73DA0 /* MessageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageType.swift; sourceTree = "<group>"; };
-		3A5166BA26E07F0000EBE3DC /* KeyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyView.h; sourceTree = "<group>"; };
-		3A5166BB26E07F0000EBE3DC /* KeyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyView.m; sourceTree = "<group>"; };
 		3A58630F2725A99D00354E07 /* APM32DFUDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APM32DFUDevice.h; sourceTree = "<group>"; };
 		3A5863102725A99D00354E07 /* APM32DFUDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APM32DFUDevice.m; sourceTree = "<group>"; };
 		3A62C86326A96AED001C655A /* reset_right.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset_right.eep; path = ../../../common/reset_right.eep; sourceTree = "<group>"; };
@@ -262,8 +261,7 @@
 				3A1AF20F26FA31D700AC977B /* KeyTesterWindow.h */,
 				3A1AF21026FA31D700AC977B /* KeyTesterWindow.m */,
 				3A8F9F0126E75012007480A7 /* KeyTesterWindow.xib */,
-				3A5166BA26E07F0000EBE3DC /* KeyView.h */,
-				3A5166BB26E07F0000EBE3DC /* KeyView.m */,
+				3A376079283E769300C19B3F /* KeyView.swift */,
 				3A8F9F0426E7501E007480A7 /* KeyView.xib */,
 			);
 			path = KeyTester;
@@ -412,12 +410,12 @@
 			files = (
 				092964001F5C8B2C004F2D3F /* main.m in Sources */,
 				092963FD1F5C8B2C004F2D3F /* AppDelegate.m in Sources */,
+				3A37607A283E769300C19B3F /* KeyView.swift in Sources */,
 				3A49F9A5282A92EB00B73DA0 /* MessageType.swift in Sources */,
 				3A93852B26AB83840026F3C4 /* HIDConsoleDevice.m in Sources */,
 				3A93852826AB5A790026F3C4 /* HIDConsoleListener.m in Sources */,
 				3AAB20B5283BF7FF00029ABD /* QMKWindow.swift in Sources */,
 				3A1AF21126FA31D700AC977B /* KeyTesterWindow.m in Sources */,
-				3A5166BC26E07F0000EBE3DC /* KeyView.m in Sources */,
 				3AAB20AB283BEEC700029ABD /* LogTextView.swift in Sources */,
 				3AC7BE532725684200FED7DB /* USBDevice.m in Sources */,
 				3AC7BE4E2725504E00FED7DB /* USBListener.m in Sources */,
