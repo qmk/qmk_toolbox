@@ -1,7 +1,6 @@
 #import "AppDelegate.h"
 
 #import "HIDConsoleListener.h"
-#import "MicrocontrollerSelector.h"
 #import "USBListener.h"
 
 @interface AppDelegate () <HIDConsoleListenerDelegate, USBListenerDelegate>

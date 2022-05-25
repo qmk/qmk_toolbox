@@ -324,7 +324,7 @@
                                         <action selector="openButtonClick:" target="-1" id="tQf-hm-vEB"/>
                                     </connections>
                                 </button>
-                                <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="A13-Sl-S0x" customClass="MicrocontrollerSelector">
+                                <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="A13-Sl-S0x" customClass="MicrocontrollerSelector" customModule="QMK_Toolbox" customModuleProvider="target">
                                     <rect key="frame" x="652" y="4" width="123" height="26"/>
                                     <constraints>
                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="ngg-OW-E96"/>

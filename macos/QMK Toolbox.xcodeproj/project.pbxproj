@@ -21,8 +21,8 @@
 		09D79CBA1FB8A6360086ABF6 /* libusb-1.0.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		09D79CBC1FB8A64B0086ABF6 /* libusb-0.1.4.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		113C662728743AE8007F5A4B /* GD32VDFUDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 113C662528743AE8007F5A4B /* GD32VDFUDevice.m */; };
+		3A128567283D3F0800173A80 /* MicrocontrollerSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A128566283D3F0800173A80 /* MicrocontrollerSelector.swift */; };
 		3A1AF21126FA31D700AC977B /* KeyTesterWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A1AF21026FA31D700AC977B /* KeyTesterWindow.m */; };
-		3A245407270817DF001F4AE0 /* MicrocontrollerSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A245406270817DF001F4AE0 /* MicrocontrollerSelector.m */; };
 		3A3B4E2E27D9FBF800526FBF /* LUFAHIDDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3B4E2D27D9FBF800526FBF /* LUFAHIDDevice.m */; };
 		3A49F9A5282A92EB00B73DA0 /* MessageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A49F9A4282A92EB00B73DA0 /* MessageType.swift */; };
 		3A5166BC26E07F0000EBE3DC /* KeyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A5166BB26E07F0000EBE3DC /* KeyView.m */; };
@@ -97,10 +97,9 @@
 		09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libusb-0.1.4.dylib"; sourceTree = "<group>"; };
 		113C662528743AE8007F5A4B /* GD32VDFUDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GD32VDFUDevice.m; sourceTree = "<group>"; };
 		113C662628743AE8007F5A4B /* GD32VDFUDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GD32VDFUDevice.h; sourceTree = "<group>"; };
+		3A128566283D3F0800173A80 /* MicrocontrollerSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrocontrollerSelector.swift; sourceTree = "<group>"; };
 		3A1AF20F26FA31D700AC977B /* KeyTesterWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyTesterWindow.h; sourceTree = "<group>"; };
 		3A1AF21026FA31D700AC977B /* KeyTesterWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyTesterWindow.m; sourceTree = "<group>"; };
-		3A245405270817DF001F4AE0 /* MicrocontrollerSelector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MicrocontrollerSelector.h; sourceTree = "<group>"; };
-		3A245406270817DF001F4AE0 /* MicrocontrollerSelector.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MicrocontrollerSelector.m; sourceTree = "<group>"; };
 		3A3B4E2C27D9FBF800526FBF /* LUFAHIDDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LUFAHIDDevice.h; sourceTree = "<group>"; };
 		3A3B4E2D27D9FBF800526FBF /* LUFAHIDDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LUFAHIDDevice.m; sourceTree = "<group>"; };
 		3A49F9A1282A911000B73DA0 /* QMK Toolbox-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "QMK Toolbox-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -205,8 +204,7 @@
 				092963FC1F5C8B2C004F2D3F /* AppDelegate.m */,
 				3AAB20AA283BEEC700029ABD /* LogTextView.swift */,
 				3A49F9A4282A92EB00B73DA0 /* MessageType.swift */,
-				3A245405270817DF001F4AE0 /* MicrocontrollerSelector.h */,
-				3A245406270817DF001F4AE0 /* MicrocontrollerSelector.m */,
+				3A128566283D3F0800173A80 /* MicrocontrollerSelector.swift */,
 				3AAB20B4283BF7FF00029ABD /* QMKWindow.swift */,
 				092963FE1F5C8B2C004F2D3F /* Supporting Files */,
 				3A49F9A1282A911000B73DA0 /* QMK Toolbox-Bridging-Header.h */,
@@ -415,7 +413,6 @@
 				092964001F5C8B2C004F2D3F /* main.m in Sources */,
 				092963FD1F5C8B2C004F2D3F /* AppDelegate.m in Sources */,
 				3A49F9A5282A92EB00B73DA0 /* MessageType.swift in Sources */,
-				3A245407270817DF001F4AE0 /* MicrocontrollerSelector.m in Sources */,
 				3A93852B26AB83840026F3C4 /* HIDConsoleDevice.m in Sources */,
 				3A93852826AB5A790026F3C4 /* HIDConsoleListener.m in Sources */,
 				3AAB20B5283BF7FF00029ABD /* QMKWindow.swift in Sources */,
@@ -432,6 +429,7 @@
 				3ABD0A0227257A070076C1ED /* BootloaderDevice.m in Sources */,
 				3AE6D9EB2726C8E200CECA21 /* BootloadHIDDevice.m in Sources */,
 				3AA7F96B283BCD2E009FFDD5 /* BootloaderType.swift in Sources */,
+				3A128567283D3F0800173A80 /* MicrocontrollerSelector.swift in Sources */,
 				3AE6D9EE2726C95C00CECA21 /* CaterinaDevice.m in Sources */,
 				3AE6D9F12726C9B500CECA21 /* HalfKayDevice.m in Sources */,
 				3AE6D9F42726C9EC00CECA21 /* KiibohdDFUDevice.m in Sources */,
