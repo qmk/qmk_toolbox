@@ -1,7 +1,6 @@
 #import <Foundation/Foundation.h>
 #import <IOKit/serial/IOSerialKeys.h>
 
-#import "USBDevice.h"
 #import <QMK_Toolbox-Swift.h>
 
 @class BootloaderDevice;
@@ -10,7 +9,7 @@
 - (void)bootloaderDevice:(BootloaderDevice *)device didReceiveCommandOutput:(NSString *)data messageType:(MessageType)type;
 @end
 
-@interface BootloaderDevice : NSObject<USBDevice>
+@interface BootloaderDevice : NSObject<USBDeviceProtocol>
 @property (nonatomic, assign) id<BootloaderDeviceDelegate> delegate;
 
 @property USBDevice *usbDevice;

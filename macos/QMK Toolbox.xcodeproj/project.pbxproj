@@ -26,6 +26,7 @@
 		3A3B4E2E27D9FBF800526FBF /* LUFAHIDDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3B4E2D27D9FBF800526FBF /* LUFAHIDDevice.m */; };
 		3A49F9A5282A92EB00B73DA0 /* MessageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A49F9A4282A92EB00B73DA0 /* MessageType.swift */; };
 		3A5863112725A99D00354E07 /* APM32DFUDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A5863102725A99D00354E07 /* APM32DFUDevice.m */; };
+		3A5A916C28410F53004DD9BD /* USBDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5A916B28410F53004DD9BD /* USBDevice.swift */; };
 		3A62C86526A96AED001C655A /* reset_right.eep in Resources */ = {isa = PBXBuildFile; fileRef = 3A62C86326A96AED001C655A /* reset_right.eep */; };
 		3A62C86626A96AED001C655A /* reset_left.eep in Resources */ = {isa = PBXBuildFile; fileRef = 3A62C86426A96AED001C655A /* reset_left.eep */; };
 		3A7492CC27DF96BF0073A5A0 /* hid_bootloader_cli in Resources */ = {isa = PBXBuildFile; fileRef = 3A7492CB27DF96BF0073A5A0 /* hid_bootloader_cli */; };
@@ -41,7 +42,6 @@
 		3AB4BC9D2495540A00204A3F /* bootloadHID in Resources */ = {isa = PBXBuildFile; fileRef = 3AB4BC9C2495540A00204A3F /* bootloadHID */; };
 		3ABD0A0227257A070076C1ED /* BootloaderDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ABD0A0127257A070076C1ED /* BootloaderDevice.m */; };
 		3AC7BE4E2725504E00FED7DB /* USBListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AC7BE4D2725504E00FED7DB /* USBListener.m */; };
-		3AC7BE532725684200FED7DB /* USBDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AC7BE522725684200FED7DB /* USBDevice.m */; };
 		3AE6D9E22726C75500CECA21 /* AtmelDFUDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6D9E12726C75500CECA21 /* AtmelDFUDevice.m */; };
 		3AE6D9E52726C80D00CECA21 /* AtmelSAMBADevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6D9E42726C80D00CECA21 /* AtmelSAMBADevice.m */; };
 		3AE6D9E82726C83700CECA21 /* AVRISPDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6D9E72726C83700CECA21 /* AVRISPDevice.m */; };
@@ -105,6 +105,7 @@
 		3A49F9A4282A92EB00B73DA0 /* MessageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageType.swift; sourceTree = "<group>"; };
 		3A58630F2725A99D00354E07 /* APM32DFUDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APM32DFUDevice.h; sourceTree = "<group>"; };
 		3A5863102725A99D00354E07 /* APM32DFUDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APM32DFUDevice.m; sourceTree = "<group>"; };
+		3A5A916B28410F53004DD9BD /* USBDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = USBDevice.swift; sourceTree = "<group>"; };
 		3A62C86326A96AED001C655A /* reset_right.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset_right.eep; path = ../../../common/reset_right.eep; sourceTree = "<group>"; };
 		3A62C86426A96AED001C655A /* reset_left.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset_left.eep; path = ../../../common/reset_left.eep; sourceTree = "<group>"; };
 		3A7492CB27DF96BF0073A5A0 /* hid_bootloader_cli */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = hid_bootloader_cli; sourceTree = "<group>"; };
@@ -124,8 +125,6 @@
 		3ABD0A0127257A070076C1ED /* BootloaderDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BootloaderDevice.m; sourceTree = "<group>"; };
 		3AC7BE4C2725504E00FED7DB /* USBListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = USBListener.h; sourceTree = "<group>"; };
 		3AC7BE4D2725504E00FED7DB /* USBListener.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = USBListener.m; sourceTree = "<group>"; };
-		3AC7BE512725684200FED7DB /* USBDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = USBDevice.h; sourceTree = "<group>"; };
-		3AC7BE522725684200FED7DB /* USBDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = USBDevice.m; sourceTree = "<group>"; };
 		3AE6D9E02726C75500CECA21 /* AtmelDFUDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AtmelDFUDevice.h; sourceTree = "<group>"; };
 		3AE6D9E12726C75500CECA21 /* AtmelDFUDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AtmelDFUDevice.m; sourceTree = "<group>"; };
 		3AE6D9E32726C80D00CECA21 /* AtmelSAMBADevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AtmelSAMBADevice.h; sourceTree = "<group>"; };
@@ -269,8 +268,7 @@
 			isa = PBXGroup;
 			children = (
 				3AC7BE50272565B600FED7DB /* Bootloader */,
-				3AC7BE512725684200FED7DB /* USBDevice.h */,
-				3AC7BE522725684200FED7DB /* USBDevice.m */,
+				3A5A916B28410F53004DD9BD /* USBDevice.swift */,
 				3AC7BE4C2725504E00FED7DB /* USBListener.h */,
 				3AC7BE4D2725504E00FED7DB /* USBListener.m */,
 			);
@@ -414,7 +412,6 @@
 				3A93852826AB5A790026F3C4 /* HIDConsoleListener.m in Sources */,
 				3AAB20B5283BF7FF00029ABD /* QMKWindow.swift in Sources */,
 				3AAB20AB283BEEC700029ABD /* LogTextView.swift in Sources */,
-				3AC7BE532725684200FED7DB /* USBDevice.m in Sources */,
 				3AC7BE4E2725504E00FED7DB /* USBListener.m in Sources */,
 				3A5863112725A99D00354E07 /* APM32DFUDevice.m in Sources */,
 				113C662728743AE8007F5A4B /* GD32VDFUDevice.m in Sources */,
@@ -423,6 +420,7 @@
 				3AE6D9E52726C80D00CECA21 /* AtmelSAMBADevice.m in Sources */,
 				3AE6D9E82726C83700CECA21 /* AVRISPDevice.m in Sources */,
 				3ABD0A0227257A070076C1ED /* BootloaderDevice.m in Sources */,
+				3A5A916C28410F53004DD9BD /* USBDevice.swift in Sources */,
 				3AE6D9EB2726C8E200CECA21 /* BootloadHIDDevice.m in Sources */,
 				3AA7F96B283BCD2E009FFDD5 /* BootloaderType.swift in Sources */,
 				3A128567283D3F0800173A80 /* MicrocontrollerSelector.swift in Sources */,

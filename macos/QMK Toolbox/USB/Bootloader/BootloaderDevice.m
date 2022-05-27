@@ -128,7 +128,7 @@
         ushort parentProductID = [self.usbDevice productIDForService:port];
 
         if (parentVendorID == self.vendorID && parentProductID == self.productID) {
-            return [self.usbDevice stringProperty:CFSTR(kIOCalloutDeviceKey) forService:port];
+            return [self.usbDevice stringProperty:@kIOCalloutDeviceKey forService:port];
         }
     }
     return nil;

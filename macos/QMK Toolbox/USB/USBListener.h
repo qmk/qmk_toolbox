@@ -1,7 +1,6 @@
 #import <Foundation/Foundation.h>
 
 #import "BootloaderDevice.h"
-#import "USBDevice.h"
 
 @protocol USBListenerDelegate <NSObject>
 - (void)usbDeviceDidConnect:(USBDevice *)device;
@@ -19,7 +18,7 @@
 
 @property (nonatomic, weak) id<USBListenerDelegate> delegate;
 
-@property NSMutableArray<id<USBDevice>> *devices;
+@property NSMutableArray<id<USBDeviceProtocol>> *devices;
 
 - (void)start;
 

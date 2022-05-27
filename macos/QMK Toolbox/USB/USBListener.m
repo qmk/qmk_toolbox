@@ -77,7 +77,7 @@ static void deviceConnected(void *context, io_iterator_t iterator) {
                 }
             }
             if (!alreadyListed) {
-                id<USBDevice> usbDevice = [listener createDevice:service];
+                id<USBDeviceProtocol> usbDevice = [listener createDevice:service];
                 [listener.devices addObject:usbDevice];
                 if ([usbDevice isKindOfClass:[BootloaderDevice class]]) {
                     [listener.delegate bootloaderDeviceDidConnect:usbDevice];
@@ -97,15 +97,15 @@ static void deviceDisconnected(void *context, io_iterator_t iterator) {
     while ((service = IOIteratorNext(iterator))) {
         CFStringRef className = IOObjectCopyClass(service);
         if (CFEqual(className, CFSTR(kIOUSBDeviceClassName)) || CFEqual(className, CFSTR(kIOUSBHostDeviceClassName))) {
-            NSMutableArray<id<USBDevice>> *discardedItems = [NSMutableArray array];
-            for (id<USBDevice> d in listener.devices) {
+            NSMutableArray<id<USBDeviceProtocol>> *discardedItems = [NSMutableArray array];
+            for (id<USBDeviceProtocol> d in listener.devices) {
                 if (d.service == service) {
                     [discardedItems addObject:d];
                 }
             }
 
             [listener.devices removeObjectsInArray:discardedItems];
-            for (id<USBDevice> d in discardedItems) {
+            for (id<USBDeviceProtocol> d in discardedItems) {
                 if ([d isKindOfClass:[BootloaderDevice class]]) {
                     [listener.delegate bootloaderDeviceDidDisconnect:d];
                 } else {
@@ -125,7 +125,7 @@ static void deviceDisconnected(void *context, io_iterator_t iterator) {
     masterPort = 0;
 }
 
-- (id<USBDevice>)createDevice:(io_service_t)service {
+- (id<USBDeviceProtocol>)createDevice:(io_service_t)service {
     USBDevice *usbDevice = [[USBDevice alloc] initWithService:service];
 
     switch ([self deviceTypeForVendorID:usbDevice.vendorID productID:usbDevice.productID revisionBCD:usbDevice.revisionBCD]) {
