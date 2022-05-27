@@ -22,7 +22,6 @@
 		09D79CBC1FB8A64B0086ABF6 /* libusb-0.1.4.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		113C662728743AE8007F5A4B /* GD32VDFUDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 113C662528743AE8007F5A4B /* GD32VDFUDevice.m */; };
 		3A128567283D3F0800173A80 /* MicrocontrollerSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A128566283D3F0800173A80 /* MicrocontrollerSelector.swift */; };
-		3A1AF21126FA31D700AC977B /* KeyTesterWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A1AF21026FA31D700AC977B /* KeyTesterWindow.m */; };
 		3A37607A283E769300C19B3F /* KeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A376079283E769300C19B3F /* KeyView.swift */; };
 		3A3B4E2E27D9FBF800526FBF /* LUFAHIDDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3B4E2D27D9FBF800526FBF /* LUFAHIDDevice.m */; };
 		3A49F9A5282A92EB00B73DA0 /* MessageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A49F9A4282A92EB00B73DA0 /* MessageType.swift */; };
@@ -55,6 +54,7 @@
 		3AE6DA002726CB2600CECA21 /* STM32DuinoDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6D9FF2726CB2600CECA21 /* STM32DuinoDevice.m */; };
 		3AE6DA032726CB7A00CECA21 /* USBAspDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6DA022726CB7A00CECA21 /* USBAspDevice.m */; };
 		3AE6DA062726CBB200CECA21 /* USBTinyISPDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6DA052726CBB200CECA21 /* USBTinyISPDevice.m */; };
+		3AFA80BC283E92A7000227B2 /* KeyTesterWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFA80BB283E92A7000227B2 /* KeyTesterWindow.swift */; };
 		3AFD4BD1281AB86800ADCB65 /* libhidapi.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3AFD4BCF281AB83C00ADCB65 /* libhidapi.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		9B7999EF280AA1D0007469DA /* WB32DFUDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B7999EE280AA1D0007469DA /* WB32DFUDevice.m */; };
 		9BE10718275F4CFE00C708D5 /* wb32-dfu-updater_cli in Resources */ = {isa = PBXBuildFile; fileRef = 9BE10717275F4CFE00C708D5 /* wb32-dfu-updater_cli */; };
@@ -98,8 +98,6 @@
 		113C662528743AE8007F5A4B /* GD32VDFUDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GD32VDFUDevice.m; sourceTree = "<group>"; };
 		113C662628743AE8007F5A4B /* GD32VDFUDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GD32VDFUDevice.h; sourceTree = "<group>"; };
 		3A128566283D3F0800173A80 /* MicrocontrollerSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrocontrollerSelector.swift; sourceTree = "<group>"; };
-		3A1AF20F26FA31D700AC977B /* KeyTesterWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyTesterWindow.h; sourceTree = "<group>"; };
-		3A1AF21026FA31D700AC977B /* KeyTesterWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyTesterWindow.m; sourceTree = "<group>"; };
 		3A376079283E769300C19B3F /* KeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyView.swift; sourceTree = "<group>"; };
 		3A3B4E2C27D9FBF800526FBF /* LUFAHIDDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LUFAHIDDevice.h; sourceTree = "<group>"; };
 		3A3B4E2D27D9FBF800526FBF /* LUFAHIDDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LUFAHIDDevice.m; sourceTree = "<group>"; };
@@ -152,6 +150,7 @@
 		3AE6DA022726CB7A00CECA21 /* USBAspDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = USBAspDevice.m; sourceTree = "<group>"; };
 		3AE6DA042726CBB200CECA21 /* USBTinyISPDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = USBTinyISPDevice.h; sourceTree = "<group>"; };
 		3AE6DA052726CBB200CECA21 /* USBTinyISPDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = USBTinyISPDevice.m; sourceTree = "<group>"; };
+		3AFA80BB283E92A7000227B2 /* KeyTesterWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyTesterWindow.swift; sourceTree = "<group>"; };
 		3AFD4BCF281AB83C00ADCB65 /* libhidapi.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libhidapi.0.dylib; sourceTree = "<group>"; };
 		9B7999ED280AA1C8007469DA /* WB32DFUDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WB32DFUDevice.h; sourceTree = "<group>"; };
 		9B7999EE280AA1D0007469DA /* WB32DFUDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WB32DFUDevice.m; sourceTree = "<group>"; };
@@ -258,8 +257,7 @@
 		3AC739EB26E23A9800D8B258 /* KeyTester */ = {
 			isa = PBXGroup;
 			children = (
-				3A1AF20F26FA31D700AC977B /* KeyTesterWindow.h */,
-				3A1AF21026FA31D700AC977B /* KeyTesterWindow.m */,
+				3AFA80BB283E92A7000227B2 /* KeyTesterWindow.swift */,
 				3A8F9F0126E75012007480A7 /* KeyTesterWindow.xib */,
 				3A376079283E769300C19B3F /* KeyView.swift */,
 				3A8F9F0426E7501E007480A7 /* KeyView.xib */,
@@ -415,12 +413,12 @@
 				3A93852B26AB83840026F3C4 /* HIDConsoleDevice.m in Sources */,
 				3A93852826AB5A790026F3C4 /* HIDConsoleListener.m in Sources */,
 				3AAB20B5283BF7FF00029ABD /* QMKWindow.swift in Sources */,
-				3A1AF21126FA31D700AC977B /* KeyTesterWindow.m in Sources */,
 				3AAB20AB283BEEC700029ABD /* LogTextView.swift in Sources */,
 				3AC7BE532725684200FED7DB /* USBDevice.m in Sources */,
 				3AC7BE4E2725504E00FED7DB /* USBListener.m in Sources */,
 				3A5863112725A99D00354E07 /* APM32DFUDevice.m in Sources */,
 				113C662728743AE8007F5A4B /* GD32VDFUDevice.m in Sources */,
+				3AFA80BC283E92A7000227B2 /* KeyTesterWindow.swift in Sources */,
 				3AE6D9E22726C75500CECA21 /* AtmelDFUDevice.m in Sources */,
 				3AE6D9E52726C80D00CECA21 /* AtmelSAMBADevice.m in Sources */,
 				3AE6D9E82726C83700CECA21 /* AVRISPDevice.m in Sources */,

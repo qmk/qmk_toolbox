@@ -2,8 +2,7 @@ import Foundation
 import AppKit
 
 @IBDesignable
-@objc
-public class KeyView: NSView {
+class KeyView: NSView {
     @IBOutlet var contentView: NSView!
     @IBOutlet var boxView: NSBox!
     @IBOutlet var legendView: NSTextField!
@@ -40,7 +39,7 @@ public class KeyView: NSView {
         customInit()
     }
 
-    public override func draw(_ dirtyRect: NSRect) {
+    override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         boxView.fillColor = pressed ? NSColor.systemYellow : tested ? NSColor.systemGreen : NSColor.clear
         legendView.textColor = (pressed || tested) ? NSColor.black : NSColor.secondaryLabelColor
