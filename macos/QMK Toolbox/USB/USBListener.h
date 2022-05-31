@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-#import "BootloaderDevice.h"
+#import <QMK_Toolbox-Swift.h>
 
 @protocol USBListenerDelegate <NSObject>
 - (void)usbDeviceDidConnect:(USBDevice *)device;

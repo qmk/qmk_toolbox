@@ -2,7 +2,7 @@ import Foundation
 import IOKit.usb
 
 @objc
-protocol USBDeviceProtocol: NSObjectProtocol {
+public protocol USBDeviceProtocol: NSObjectProtocol {
     @objc
     var service: io_service_t { get }
 
@@ -22,27 +22,27 @@ protocol USBDeviceProtocol: NSObjectProtocol {
 @objc
 public class USBDevice: NSObject, USBDeviceProtocol {
     @objc
-    var service: io_service_t
+    public var service: io_service_t
 
     @objc(manufacturerString)
-    var manufacturer: String? {
+    public var manufacturer: String? {
         stringProperty(kUSBVendorString, service: service)
     }
     @objc(productString)
-    var product: String? {
+    public var product: String? {
         stringProperty(kUSBProductString, service: service)
     }
 
     @objc
-    var vendorID: UInt16 {
+    public var vendorID: UInt16 {
         vendorID(service: service)
     }
     @objc
-    var productID: UInt16 {
+    public var productID: UInt16 {
         productID(service: service)
     }
     @objc
-    var revisionBCD: UInt16 {
+    public var revisionBCD: UInt16 {
         ushortProperty(kUSBDeviceReleaseNumber, service: service)
     }
 

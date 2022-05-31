@@ -2,23 +2,6 @@
 
 #import "USBListener.h"
 
-#import "APM32DFUDevice.h"
-#import "AtmelDFUDevice.h"
-#import "AtmelSAMBADevice.h"
-#import "AVRISPDevice.h"
-#import "BootloadHIDDevice.h"
-#import "CaterinaDevice.h"
-#import "GD32VDFUDevice.h"
-#import "HalfKayDevice.h"
-#import "KiibohdDFUDevice.h"
-#import "LUFAHIDDevice.h"
-#import "LUFAMSDevice.h"
-#import "STM32DFUDevice.h"
-#import "STM32DuinoDevice.h"
-#import "USBAspDevice.h"
-#import "USBTinyISPDevice.h"
-#import "WB32DFUDevice.h"
-
 @implementation USBListener {
     mach_port_t masterPort;
     IONotificationPortRef notificationPort;
