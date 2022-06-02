@@ -1,6 +1,6 @@
 #import "AppDelegate.h"
 
-#import "HIDConsoleListener.h"
+#import <QMK_Toolbox-Swift.h>
 
 @interface AppDelegate () <HIDConsoleListenerDelegate, USBListenerDelegate>
 @property (weak) IBOutlet QMKWindow *window;
