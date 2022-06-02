@@ -10,7 +10,7 @@ public protocol BootloaderDeviceDelegate {
 @objc
 public class BootloaderDevice: NSObject, USBDeviceProtocol {
     @objc
-    public var delegate: BootloaderDeviceDelegate?
+    public weak var delegate: BootloaderDeviceDelegate?
 
     @objc
     public var usbDevice: USBDevice
