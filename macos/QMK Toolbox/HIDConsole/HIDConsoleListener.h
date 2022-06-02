@@ -1,6 +1,6 @@
 #import <IOKit/hid/IOHIDManager.h>
 
-#import "HIDConsoleDevice.h"
+#import <QMK_Toolbox-Swift.h>
 
 @protocol HIDConsoleListenerDelegate <NSObject>
 - (void)consoleDeviceDidConnect:(HIDConsoleDevice *)device;

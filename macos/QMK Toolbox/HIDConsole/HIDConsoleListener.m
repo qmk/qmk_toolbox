@@ -63,13 +63,16 @@ static void deviceConnected(void *context, IOReturn result, void *sender, IOHIDD
 static void deviceDisconnected(void *context, IOReturn result, void *sender, IOHIDDeviceRef device) {
     HIDConsoleListener *const listener = (__bridge HIDConsoleListener *const)context;
 
+    NSMutableArray<HIDConsoleDevice *> *discardedItems = [NSMutableArray array];
     for (HIDConsoleDevice *d in listener.devices) {
         if (d.deviceRef == device) {
-            HIDConsoleDevice *tempDevice = [d copy];
-            [listener.devices removeObject:d];
-            [listener.delegate consoleDeviceDidDisconnect:tempDevice];
-            break;
+            [discardedItems addObject:d];
         }
+    }
+
+    [listener.devices removeObjectsInArray:discardedItems];
+    for (HIDConsoleDevice *d in discardedItems) {
+        [listener.delegate consoleDeviceDidDisconnect:d];
     }
 }
 

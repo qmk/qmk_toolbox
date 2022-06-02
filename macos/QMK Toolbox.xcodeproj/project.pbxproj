@@ -44,10 +44,10 @@
 		3A62C86626A96AED001C655A /* reset_left.eep in Resources */ = {isa = PBXBuildFile; fileRef = 3A62C86426A96AED001C655A /* reset_left.eep */; };
 		3A7492CC27DF96BF0073A5A0 /* hid_bootloader_cli in Resources */ = {isa = PBXBuildFile; fileRef = 3A7492CB27DF96BF0073A5A0 /* hid_bootloader_cli */; };
 		3A7770DA22BD3BA300398C40 /* libftdi.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3A7770D822BD3B8200398C40 /* libftdi.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		3A8DE01A284636780012063A /* HIDConsoleDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8DE019284636780012063A /* HIDConsoleDevice.swift */; };
 		3A8F9EFF26E75012007480A7 /* KeyTesterWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A8F9F0126E75012007480A7 /* KeyTesterWindow.xib */; };
 		3A8F9F0226E7501E007480A7 /* KeyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A8F9F0426E7501E007480A7 /* KeyView.xib */; };
 		3A93852826AB5A790026F3C4 /* HIDConsoleListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A93852726AB5A790026F3C4 /* HIDConsoleListener.m */; };
-		3A93852B26AB83840026F3C4 /* HIDConsoleDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A93852A26AB83840026F3C4 /* HIDConsoleDevice.m */; };
 		3AA5D3472803FCE1008121E4 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AA5D3462803FCE1008121E4 /* Colors.xcassets */; };
 		3AA7F96B283BCD2E009FFDD5 /* BootloaderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA7F96A283BCD2E009FFDD5 /* BootloaderType.swift */; };
 		3AAB20AB283BEEC700029ABD /* LogTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AAB20AA283BEEC700029ABD /* LogTextView.swift */; };
@@ -120,12 +120,11 @@
 		3A62C86426A96AED001C655A /* reset_left.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset_left.eep; path = ../../../common/reset_left.eep; sourceTree = "<group>"; };
 		3A7492CB27DF96BF0073A5A0 /* hid_bootloader_cli */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = hid_bootloader_cli; sourceTree = "<group>"; };
 		3A7770D822BD3B8200398C40 /* libftdi.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libftdi.1.dylib; sourceTree = "<group>"; };
+		3A8DE019284636780012063A /* HIDConsoleDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HIDConsoleDevice.swift; sourceTree = "<group>"; };
 		3A8F9F0026E75012007480A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/KeyTesterWindow.xib; sourceTree = "<group>"; };
 		3A8F9F0326E7501E007480A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/KeyView.xib; sourceTree = "<group>"; };
 		3A93852626AB5A790026F3C4 /* HIDConsoleListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HIDConsoleListener.h; sourceTree = "<group>"; };
 		3A93852726AB5A790026F3C4 /* HIDConsoleListener.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HIDConsoleListener.m; sourceTree = "<group>"; };
-		3A93852926AB83840026F3C4 /* HIDConsoleDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HIDConsoleDevice.h; sourceTree = "<group>"; };
-		3A93852A26AB83840026F3C4 /* HIDConsoleDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HIDConsoleDevice.m; sourceTree = "<group>"; };
 		3AA5D3462803FCE1008121E4 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		3AA7F96A283BCD2E009FFDD5 /* BootloaderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootloaderType.swift; sourceTree = "<group>"; };
 		3AAB20AA283BEEC700029ABD /* LogTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogTextView.swift; sourceTree = "<group>"; };
@@ -204,8 +203,7 @@
 		3A3DDC4C26AE27F600A04A99 /* HIDConsole */ = {
 			isa = PBXGroup;
 			children = (
-				3A93852926AB83840026F3C4 /* HIDConsoleDevice.h */,
-				3A93852A26AB83840026F3C4 /* HIDConsoleDevice.m */,
+				3A8DE019284636780012063A /* HIDConsoleDevice.swift */,
 				3A93852626AB5A790026F3C4 /* HIDConsoleListener.h */,
 				3A93852726AB5A790026F3C4 /* HIDConsoleListener.m */,
 			);
@@ -375,7 +373,6 @@
 				3A37607A283E769300C19B3F /* KeyView.swift in Sources */,
 				3A32CF59284141D60016D7B7 /* APM32DFUDevice.swift in Sources */,
 				3A49F9A5282A92EB00B73DA0 /* MessageType.swift in Sources */,
-				3A93852B26AB83840026F3C4 /* HIDConsoleDevice.m in Sources */,
 				3A93852826AB5A790026F3C4 /* HIDConsoleListener.m in Sources */,
 				3A32CF4D28413E6B0016D7B7 /* HalfKayDevice.swift in Sources */,
 				3A32CF4B28412C420016D7B7 /* BootloaderDevice.swift in Sources */,
@@ -383,6 +380,7 @@
 				3A32CF61284143990016D7B7 /* STM32DuinoDevice.swift in Sources */,
 				3AAB20B5283BF7FF00029ABD /* QMKWindow.swift in Sources */,
 				3AAB20AB283BEEC700029ABD /* LogTextView.swift in Sources */,
+				3A8DE01A284636780012063A /* HIDConsoleDevice.swift in Sources */,
 				3AC7BE4E2725504E00FED7DB /* USBListener.m in Sources */,
 				3A32CF5B284142300016D7B7 /* KiibohdDevice.swift in Sources */,
 				3A32CF4F28413F900016D7B7 /* CaterinaDevice.swift in Sources */,
