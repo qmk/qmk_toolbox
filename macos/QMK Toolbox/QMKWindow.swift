@@ -18,7 +18,7 @@ class QMKWindow: NSWindow, NSDraggingDestination {
 
     func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
         let pasteboard = sender.draggingPasteboard
-        guard let file = (NSURL(from: pasteboard) as URL?) else { return false }
+        guard let file = NSURL(from: pasteboard) as? URL else { return false }
         (NSApplication.shared.delegate as! AppDelegate).setFilePath(file)
         return true
     }

@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		092963FD1F5C8B2C004F2D3F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 092963FC1F5C8B2C004F2D3F /* AppDelegate.m */; };
-		092964001F5C8B2C004F2D3F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 092963FF1F5C8B2C004F2D3F /* main.m */; };
 		092964021F5C8B2C004F2D3F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 092964011F5C8B2C004F2D3F /* Assets.xcassets */; };
 		092964051F5C8B2C004F2D3F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 092964031F5C8B2C004F2D3F /* MainMenu.xib */; };
 		0929640D1F5E403C004F2D3F /* dfu-programmer in Resources */ = {isa = PBXBuildFile; fileRef = 0929640C1F5E403C004F2D3F /* dfu-programmer */; };
@@ -44,6 +42,7 @@
 		3A62C86626A96AED001C655A /* reset_left.eep in Resources */ = {isa = PBXBuildFile; fileRef = 3A62C86426A96AED001C655A /* reset_left.eep */; };
 		3A708D982848A23300394E52 /* USBListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A708D972848A23300394E52 /* USBListener.swift */; };
 		3A708D9A284901F500394E52 /* HIDConsoleListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A708D99284901F500394E52 /* HIDConsoleListener.swift */; };
+		3A708D9C284916F700394E52 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A708D9B284916F700394E52 /* AppDelegate.swift */; };
 		3A7492CC27DF96BF0073A5A0 /* hid_bootloader_cli in Resources */ = {isa = PBXBuildFile; fileRef = 3A7492CB27DF96BF0073A5A0 /* hid_bootloader_cli */; };
 		3A7770DA22BD3BA300398C40 /* libftdi.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3A7770D822BD3B8200398C40 /* libftdi.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		3A8DE01A284636780012063A /* HIDConsoleDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8DE019284636780012063A /* HIDConsoleDevice.swift */; };
@@ -80,9 +79,6 @@
 
 /* Begin PBXFileReference section */
 		092963F81F5C8B2C004F2D3F /* QMK Toolbox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "QMK Toolbox.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		092963FB1F5C8B2C004F2D3F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		092963FC1F5C8B2C004F2D3F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		092963FF1F5C8B2C004F2D3F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		092964011F5C8B2C004F2D3F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		092964041F5C8B2C004F2D3F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		092964061F5C8B2C004F2D3F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -120,6 +116,7 @@
 		3A62C86426A96AED001C655A /* reset_left.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset_left.eep; path = ../../../common/reset_left.eep; sourceTree = "<group>"; };
 		3A708D972848A23300394E52 /* USBListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = USBListener.swift; sourceTree = "<group>"; };
 		3A708D99284901F500394E52 /* HIDConsoleListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HIDConsoleListener.swift; sourceTree = "<group>"; };
+		3A708D9B284916F700394E52 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3A7492CB27DF96BF0073A5A0 /* hid_bootloader_cli */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = hid_bootloader_cli; sourceTree = "<group>"; };
 		3A7770D822BD3B8200398C40 /* libftdi.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libftdi.1.dylib; sourceTree = "<group>"; };
 		3A8DE019284636780012063A /* HIDConsoleDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HIDConsoleDevice.swift; sourceTree = "<group>"; };
@@ -177,8 +174,7 @@
 				3AC739EB26E23A9800D8B258 /* KeyTester */,
 				3AC7BE4B27254FB800FED7DB /* USB */,
 				092964031F5C8B2C004F2D3F /* MainMenu.xib */,
-				092963FB1F5C8B2C004F2D3F /* AppDelegate.h */,
-				092963FC1F5C8B2C004F2D3F /* AppDelegate.m */,
+				3A708D9B284916F700394E52 /* AppDelegate.swift */,
 				3AAB20AA283BEEC700029ABD /* LogTextView.swift */,
 				3A49F9A4282A92EB00B73DA0 /* MessageType.swift */,
 				3A128566283D3F0800173A80 /* MicrocontrollerSelector.swift */,
@@ -193,7 +189,6 @@
 			isa = PBXGroup;
 			children = (
 				3A53FB5B268A33F10020BAB0 /* Resources */,
-				092963FF1F5C8B2C004F2D3F /* main.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -364,8 +359,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				092964001F5C8B2C004F2D3F /* main.m in Sources */,
-				092963FD1F5C8B2C004F2D3F /* AppDelegate.m in Sources */,
 				3A708D982848A23300394E52 /* USBListener.swift in Sources */,
 				3A37607A283E769300C19B3F /* KeyView.swift in Sources */,
 				3A32CF59284141D60016D7B7 /* APM32DFUDevice.swift in Sources */,
@@ -382,6 +375,7 @@
 				3A32CF4F28413F900016D7B7 /* CaterinaDevice.swift in Sources */,
 				3AFA80BC283E92A7000227B2 /* KeyTesterWindow.swift in Sources */,
 				3A32CF672841451D0016D7B7 /* WB32DFUDevice.swift in Sources */,
+				3A708D9C284916F700394E52 /* AppDelegate.swift in Sources */,
 				3A32CF5D2841427E0016D7B7 /* LUFAHIDDevice.swift in Sources */,
 				3A32CF57284141680016D7B7 /* AVRISPDevice.swift in Sources */,
 				3A5A916C28410F53004DD9BD /* USBDevice.swift in Sources */,

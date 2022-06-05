@@ -1,6 +1,5 @@
-import Foundation
-import Carbon.HIToolbox.Events
 import AppKit
+import Carbon.HIToolbox.Events
 
 class KeyTesterWindow: NSPanel {
     @IBOutlet var keyViewEscape: KeyView!

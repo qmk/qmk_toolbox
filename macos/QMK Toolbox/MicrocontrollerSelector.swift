@@ -1,4 +1,4 @@
-import Foundation
+import AppKit
 
 @objc
 public class MicrocontrollerSelector: NSComboBox, NSComboBoxDelegate, NSComboBoxDataSource {
@@ -20,7 +20,7 @@ public class MicrocontrollerSelector: NSComboBox, NSComboBoxDelegate, NSComboBox
         do {
             let fileContents = try String(contentsOfFile: path, encoding: .utf8)
 
-            for microcontroller in fileContents.components(separatedBy: "\n") {
+            for microcontroller in fileContents.split(separator: "\n") {
                 guard microcontroller.count > 0 else { return }
                 let parts = microcontroller.components(separatedBy: ":")
                 guard parts.count == 2 else { return }

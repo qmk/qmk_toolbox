@@ -14,17 +14,13 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
+        <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="QMK_Toolbox" customModuleProvider="target">
             <connections>
-                <outlet property="clearEEPROMButton" destination="RSb-Il-mNt" id="uEb-yN-jO6"/>
                 <outlet property="clearMenuItem" destination="82o-TW-Mbd" id="aCu-qp-Nqf"/>
                 <outlet property="consoleListBox" destination="FPO-qP-5FM" id="wDE-1D-dvL"/>
                 <outlet property="filepathBox" destination="fMz-rn-IEt" id="eSr-wv-y0f"/>
-                <outlet property="flashButton" destination="OKF-oG-mRx" id="3MC-L3-Hfy"/>
                 <outlet property="logTextView" destination="tMQ-2J-GgU" id="HlS-Hf-0po"/>
                 <outlet property="mcuBox" destination="A13-Sl-S0x" id="VCZ-JH-C9H"/>
-                <outlet property="openButton" destination="oJO-GM-iRa" id="1vj-RC-Mm9"/>
-                <outlet property="resetButton" destination="qEj-2h-OmC" id="mmT-oh-51z"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
