@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -307,7 +307,7 @@
 				};
 			};
 			buildConfigurationList = 092963F31F5C8B2C004F2D3F /* Build configuration list for PBXProject "QMK Toolbox" */;
-			compatibilityVersion = "Xcode 12.0";
+			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -357,35 +357,35 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A708D982848A23300394E52 /* USBListener.swift in Sources */,
+				3A8DE01A284636780012063A /* HIDConsoleDevice.swift in Sources */,
+				3A708D9A284901F500394E52 /* HIDConsoleListener.swift in Sources */,
+				3AFA80BC283E92A7000227B2 /* KeyTesterWindow.swift in Sources */,
 				3A37607A283E769300C19B3F /* KeyView.swift in Sources */,
 				3A32CF59284141D60016D7B7 /* APM32DFUDevice.swift in Sources */,
-				3A49F9A5282A92EB00B73DA0 /* MessageType.swift in Sources */,
-				3A32CF4D28413E6B0016D7B7 /* HalfKayDevice.swift in Sources */,
-				3A32CF4B28412C420016D7B7 /* BootloaderDevice.swift in Sources */,
-				3A708D9A284901F500394E52 /* HIDConsoleListener.swift in Sources */,
-				3A32CF63284143EC0016D7B7 /* USBAspDevice.swift in Sources */,
-				3A32CF61284143990016D7B7 /* STM32DuinoDevice.swift in Sources */,
-				3AAB20B5283BF7FF00029ABD /* QMKWindow.swift in Sources */,
-				3AAB20AB283BEEC700029ABD /* LogTextView.swift in Sources */,
-				3A8DE01A284636780012063A /* HIDConsoleDevice.swift in Sources */,
-				3A32CF5B284142300016D7B7 /* KiibohdDevice.swift in Sources */,
-				3A32CF4F28413F900016D7B7 /* CaterinaDevice.swift in Sources */,
-				3AFA80BC283E92A7000227B2 /* KeyTesterWindow.swift in Sources */,
-				3A32CF672841451D0016D7B7 /* WB32DFUDevice.swift in Sources */,
-				3A708D9C284916F700394E52 /* AppDelegate.swift in Sources */,
-				3A32CF5D2841427E0016D7B7 /* LUFAHIDDevice.swift in Sources */,
-				3A32CF57284141680016D7B7 /* AVRISPDevice.swift in Sources */,
-				3A5A916C28410F53004DD9BD /* USBDevice.swift in Sources */,
-				3A32CF69284145900016D7B7 /* LUFAMSDevice.swift in Sources */,
-				3AA7F96B283BCD2E009FFDD5 /* BootloaderType.swift in Sources */,
-				3A128567283D3F0800173A80 /* MicrocontrollerSelector.swift in Sources */,
 				3A32CF55284140E30016D7B7 /* AtmelDFUDevice.swift in Sources */,
-				3AB09F1D28B46672006CC212 /* GD32VDFUDevice.swift in Sources */,
-				3A32CF652841445E0016D7B7 /* USBTinyISPDevice.swift in Sources */,
-				3A32CF5F284142D10016D7B7 /* STM32DFUDevice.swift in Sources */,
 				3A32CF532841409B0016D7B7 /* AtmelSAMBADevice.swift in Sources */,
+				3A32CF57284141680016D7B7 /* AVRISPDevice.swift in Sources */,
+				3A32CF4B28412C420016D7B7 /* BootloaderDevice.swift in Sources */,
 				3A32CF512841403B0016D7B7 /* BootloadHIDDevice.swift in Sources */,
+				3AA7F96B283BCD2E009FFDD5 /* BootloaderType.swift in Sources */,
+				3A32CF4F28413F900016D7B7 /* CaterinaDevice.swift in Sources */,
+				3A32CF4D28413E6B0016D7B7 /* HalfKayDevice.swift in Sources */,
+				3AB09F1D28B46672006CC212 /* GD32VDFUDevice.swift in Sources */,
+				3A32CF5B284142300016D7B7 /* KiibohdDevice.swift in Sources */,
+				3A32CF5D2841427E0016D7B7 /* LUFAHIDDevice.swift in Sources */,
+				3A32CF69284145900016D7B7 /* LUFAMSDevice.swift in Sources */,
+				3A32CF5F284142D10016D7B7 /* STM32DFUDevice.swift in Sources */,
+				3A32CF61284143990016D7B7 /* STM32DuinoDevice.swift in Sources */,
+				3A32CF63284143EC0016D7B7 /* USBAspDevice.swift in Sources */,
+				3A32CF652841445E0016D7B7 /* USBTinyISPDevice.swift in Sources */,
+				3A32CF672841451D0016D7B7 /* WB32DFUDevice.swift in Sources */,
+				3A5A916C28410F53004DD9BD /* USBDevice.swift in Sources */,
+				3A708D982848A23300394E52 /* USBListener.swift in Sources */,
+				3A708D9C284916F700394E52 /* AppDelegate.swift in Sources */,
+				3AAB20AB283BEEC700029ABD /* LogTextView.swift in Sources */,
+				3A49F9A5282A92EB00B73DA0 /* MessageType.swift in Sources */,
+				3A128567283D3F0800173A80 /* MicrocontrollerSelector.swift in Sources */,
+				3AAB20B5283BF7FF00029ABD /* QMKWindow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
