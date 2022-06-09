@@ -1,78 +1,58 @@
 import Foundation
 import IOKit.serial
 
-@objc
-public protocol BootloaderDeviceDelegate {
-    @objc(bootloaderDevice:didReceiveCommandOutput:messageType:)
+protocol BootloaderDeviceDelegate: AnyObject {
     func bootloaderDevice(_ device: BootloaderDevice, didReceiveCommandOutput data: String, type: MessageType)
 }
 
-@objc
-public class BootloaderDevice: NSObject, USBDeviceProtocol {
-    @objc
-    public weak var delegate: BootloaderDeviceDelegate?
+class BootloaderDevice: USBDeviceProtocol, CustomStringConvertible {
+    weak var delegate: BootloaderDeviceDelegate?
 
-    @objc
-    public var usbDevice: USBDevice
+    let usbDevice: USBDevice
 
-    @objc
-    public var name: String = ""
+    var name: String = ""
 
-    @objc
-    public var type: BootloaderType = .none
+    var type: BootloaderType = .none
 
-    @objc
-    public var eepromFlashable: Bool = false
+    var eepromFlashable: Bool = false
 
-    @objc
-    public var resettable: Bool = false
+    var resettable: Bool = false
 
-    @objc
-    public var service: io_service_t {
+    var service: io_service_t {
         usbDevice.service
     }
 
-    @objc(manufacturerString)
-    public var manufacturer: String? {
+    var manufacturer: String? {
         usbDevice.manufacturer
     }
 
-    @objc(productString)
-    public var product: String? {
+    var product: String? {
         usbDevice.product
     }
 
-    @objc
-    public var vendorID: UInt16 {
+    var vendorID: UInt16 {
         usbDevice.vendorID
     }
 
-    @objc
-    public var productID: UInt16 {
+    var productID: UInt16 {
         usbDevice.productID
     }
 
-    @objc
-    public var revisionBCD: UInt16 {
+    var revisionBCD: UInt16 {
         usbDevice.revisionBCD
     }
 
-    @objc(initWithUSBDevice:)
-    public init(usbDevice: USBDevice) {
+    init(usbDevice: USBDevice) {
         self.usbDevice = usbDevice
     }
 
-    @objc(flashWithMCU:file:)
-    public func flash(_ mcu: String, file: String) {}
+    func flash(_ mcu: String, file: String) {}
 
-    @objc(flashEEPROMWithMCU:file:)
-    public func flashEEPROM(_ mcu: String, file: String) {}
+    func flashEEPROM(_ mcu: String, file: String) {}
 
-    @objc(resetWithMCU:)
-    public func reset(_ mcu: String) {}
+    func reset(_ mcu: String) {}
 
-    @objc(runProcess:withArgs:)
-    public func runProcess(_ command: String, args: [String]) {
+    func runProcess(_ command: String, args: [String]) {
         print(message: "\(command) \(args.joined(separator: " "))", type: .command)
 
         let task = Process()
@@ -129,18 +109,15 @@ public class BootloaderDevice: NSObject, USBDeviceProtocol {
         print(message: output, type: .commandError)
     }
 
-    @objc
-    public func print(message: String, type: MessageType) {
+    func print(message: String, type: MessageType) {
         delegate?.bootloaderDevice(self, didReceiveCommandOutput: message, type: type)
     }
 
-    @objc
-    public override var description: String {
+    var description: String {
         usbDevice.description
     }
 
-    @objc
-    public func findSerialPort() -> String? {
+    func findSerialPort() -> String? {
         let serialMatcher = IOServiceMatching(kIOSerialBSDServiceValue)
         var serialIterator: io_iterator_t = 0
 

@@ -9,9 +9,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, HIDConsoleListenerDelegate, 
     @IBOutlet var clearMenuItem: NSMenuItem!
     @IBOutlet var consoleListBox: NSComboBox!
 
-    private var keyTesterWindowController: NSWindowController!
+    var keyTesterWindowController: NSWindowController!
 
-    @objc private dynamic var autoFlashEnabled: Bool = false {
+    @objc dynamic var autoFlashEnabled: Bool = false {
         didSet {
             if autoFlashEnabled {
                 logTextView.logInfo("Auto-Flash enabled")
@@ -22,10 +22,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, HIDConsoleListenerDelegate, 
             }
         }
     }
-    @objc private dynamic var canFlash: Bool = false
-    @objc private dynamic var canReset: Bool = false
-    @objc private dynamic var canClearEEPROM: Bool = false
-    @objc private dynamic var showAllDevices: Bool = false {
+    @objc dynamic var canFlash: Bool = false
+    @objc dynamic var canReset: Bool = false
+    @objc dynamic var canClearEEPROM: Bool = false
+    @objc dynamic var showAllDevices: Bool = false {
         didSet {
             UserDefaults.standard.set(showAllDevices, forKey: "ShowAllDevices")
         }
@@ -107,22 +107,22 @@ class AppDelegate: NSObject, NSApplicationDelegate, HIDConsoleListenerDelegate, 
 
     // MARK: HID Console
 
-    private var consoleListener: HIDConsoleListener!
-    private var lastReportedDevice: HIDConsoleDevice?
+    var consoleListener: HIDConsoleListener!
+    var lastReportedDevice: HIDConsoleDevice?
 
-    public func consoleDeviceDidConnect(_ device: HIDConsoleDevice) {
+    func consoleDeviceDidConnect(_ device: HIDConsoleDevice) {
         lastReportedDevice = device
         updateConsoleList()
         logTextView.logHID("HID console connected: \(device)")
     }
 
-    public func consoleDeviceDidDisconnect(_ device: HIDConsoleDevice) {
+    func consoleDeviceDidDisconnect(_ device: HIDConsoleDevice) {
         lastReportedDevice = nil
         updateConsoleList()
         logTextView.logHID("HID console disconnected: \(device)")
     }
 
-    public func consoleDevice(_ device: HIDConsoleDevice, didReceiveReport report: String) {
+    func consoleDevice(_ device: HIDConsoleDevice, didReceiveReport report: String) {
         let selectedDevice = consoleListBox.indexOfSelectedItem
         if selectedDevice == 0 || consoleListener.devices[selectedDevice - 1] == device {
             if lastReportedDevice != device {
@@ -150,9 +150,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, HIDConsoleListenerDelegate, 
 
     // MARK: USB Devices & Bootloaders
 
-    private var usbListener: USBListener!
+    var usbListener: USBListener!
 
-    public func bootloaderDeviceDidConnect(_ device: BootloaderDevice) {
+    func bootloaderDeviceDidConnect(_ device: BootloaderDevice) {
         logTextView.logBootloader("\(device.name) device connected: \(device)")
 
         if autoFlashEnabled {
@@ -162,7 +162,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, HIDConsoleListenerDelegate, 
         }
     }
 
-    public func bootloaderDeviceDidDisconnect(_ device: BootloaderDevice) {
+    func bootloaderDeviceDidDisconnect(_ device: BootloaderDevice) {
         logTextView.logBootloader("\(device.name) device disconnected: \(device)")
 
         if !autoFlashEnabled {
@@ -170,19 +170,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, HIDConsoleListenerDelegate, 
         }
     }
 
-    public func bootloaderDevice(_ device: BootloaderDevice, didReceiveCommandOutput data: String, type: MessageType) {
+    func bootloaderDevice(_ device: BootloaderDevice, didReceiveCommandOutput data: String, type: MessageType) {
         DispatchQueue.main.sync {
             logTextView.log(data, type: type)
         }
     }
 
-    public func usbDeviceDidConnect(_ device: USBDevice) {
+    func usbDeviceDidConnect(_ device: USBDevice) {
         if showAllDevices {
             logTextView.logUSB("USB device connected: \(device)")
         }
     }
 
-    public func usbDeviceDidDisconnect(_ device: USBDevice) {
+    func usbDeviceDidDisconnect(_ device: USBDevice) {
         if showAllDevices {
             logTextView.logUSB("USB device disconnected: \(device)")
         }

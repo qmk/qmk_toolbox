@@ -1,12 +1,10 @@
 import Foundation
 import IOKit.storage
 
-@objc
-public class LUFAMSDevice: BootloaderDevice {
+class LUFAMSDevice: BootloaderDevice {
     private var mountPoint: String?
 
-    @objc
-    public override init(usbDevice: USBDevice) {
+    override init(usbDevice: USBDevice) {
         super.init(usbDevice: usbDevice)
         name = "LUFA MS"
         type = .lufaMs
@@ -15,8 +13,7 @@ public class LUFAMSDevice: BootloaderDevice {
         }
     }
 
-    @objc
-    public override func flash(_ mcu: String, file: String) {
+    override func flash(_ mcu: String, file: String) {
         guard file.lowercased().hasSuffix(".bin") else {
             print(message: "Only firmware files in .bin format can be flashed with this bootloader!", type: .error)
             return
@@ -69,8 +66,7 @@ public class LUFAMSDevice: BootloaderDevice {
         return nil
     }
 
-    @objc
-    public override var description: String {
+    override var description: String {
         "\(super.description) [\(mountPoint!)]"
     }
 }

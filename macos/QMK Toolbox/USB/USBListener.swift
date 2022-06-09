@@ -1,40 +1,30 @@
 import Foundation
 import IOKit.usb
 
-@objc
-public protocol USBListenerDelegate: NSObjectProtocol {
-    @objc
+protocol USBListenerDelegate: AnyObject {
     func usbDeviceDidConnect(_ device: USBDevice)
 
-    @objc
     func usbDeviceDidDisconnect(_ device: USBDevice)
 
-    @objc
     func bootloaderDeviceDidConnect(_ device: BootloaderDevice)
 
-    @objc
     func bootloaderDeviceDidDisconnect(_ device: BootloaderDevice)
 
-    @objc(bootloaderDevice:didReceiveCommandOutput:messageType:)
     func bootloaderDevice(_ device: BootloaderDevice, didReceiveCommandOutput data: String, type: MessageType)
 }
 
-@objc
-public class USBListener: NSObject, BootloaderDeviceDelegate {
-    @objc
-    public weak var delegate: USBListenerDelegate?
+class USBListener: BootloaderDeviceDelegate {
+    weak var delegate: USBListenerDelegate?
 
-    @objc
-    public var devices: [USBDeviceProtocol] = []
+    var devices: [USBDeviceProtocol] = []
 
     private var notificationPort: IONotificationPortRef?
 
-    public func bootloaderDevice(_ device: BootloaderDevice, didReceiveCommandOutput data: String, type: MessageType) {
+    func bootloaderDevice(_ device: BootloaderDevice, didReceiveCommandOutput data: String, type: MessageType) {
         delegate?.bootloaderDevice(device, didReceiveCommandOutput: data, type: type)
     }
 
-    @objc
-    public func start() {
+    func start() {
         notificationPort = IONotificationPortCreate(kIOMasterPortDefault)
         let runLoopSource = IONotificationPortGetRunLoopSource(notificationPort).takeUnretainedValue()
         CFRunLoopAddSource(RunLoop.current.getCFRunLoop(), runLoopSource, .defaultMode)
@@ -59,8 +49,7 @@ public class USBListener: NSObject, BootloaderDeviceDelegate {
         deviceDisconnected(usbDisconnectedIter)
     }
 
-    @objc
-    public func stop() {
+    func stop() {
         devices = []
         IONotificationPortDestroy(notificationPort)
     }
@@ -94,11 +83,11 @@ public class USBListener: NSObject, BootloaderDeviceDelegate {
             let discardedItems = devices.filter { $0.service == service }
             devices = devices.filter({ d1 in
                 !discardedItems.contains(where: { d2 in
-                    d1 === d2
+                    d1.service == d2.service
                 })
             })
 
-            for d in discardedItems {
+            discardedItems.forEach { d in
                 if d is BootloaderDevice {
                     delegate?.bootloaderDeviceDidDisconnect(d as! BootloaderDevice)
                 } else {
@@ -115,8 +104,7 @@ public class USBListener: NSObject, BootloaderDeviceDelegate {
         switch deviceType {
         case .apm32Dfu:
             return APM32DFUDevice(usbDevice: usbDevice)
-        case .atmelDfu: fallthrough
-        case .qmkDfu:
+        case .atmelDfu, .qmkDfu:
             return AtmelDFUDevice(usbDevice: usbDevice)
         case .atmelSamBa:
             return AtmelSAMBADevice(usbDevice: usbDevice)
@@ -132,8 +120,7 @@ public class USBListener: NSObject, BootloaderDeviceDelegate {
             return HalfKayDevice(usbDevice: usbDevice)
         case .kiibohdDfu:
             return KiibohdDFUDevice(usbDevice: usbDevice)
-        case .lufaHid: fallthrough
-        case .qmkHid:
+        case .lufaHid, .qmkHid:
             return LUFAHIDDevice(usbDevice: usbDevice)
         case .lufaMs:
             return LUFAMSDevice(usbDevice: usbDevice)
@@ -161,13 +148,8 @@ public class USBListener: NSObject, BootloaderDeviceDelegate {
             case 0x2067:
                 // Unicode Ψ
                 return revisionBCD == 0x0936 ? .qmkHid : .lufaHid
-            case 0x2FEF: fallthrough // ATmega16U2
-            case 0x2FF0: fallthrough // ATmega32U2
-            case 0x2FF3: fallthrough // ATmega16U4
-            case 0x2FF4: fallthrough // ATmega32U4
-            case 0x2FF9: fallthrough // AT90USB64
-            case 0x2FFA: fallthrough // AT90USB162
-            case 0x2FFB: // AT90USB128
+            // ATmega16U2, ATmega32U2, ATmega16U4, ATmega32U4, AT90USB64, AT90USB162, AT90USB128
+            case 0x2FEF, 0x2FF0, 0x2FF3, 0x2FF4, 0x2FF9, 0x2FFA, 0x2FFB:
                 // Unicode Ψ
                 return revisionBCD == 0x0936 ? .qmkDfu : .atmelDfu
             case 0x6124:
@@ -202,9 +184,7 @@ public class USBListener: NSObject, BootloaderDeviceDelegate {
             }
         case 0x1B4F: // Spark Fun Electronics
             switch productID {
-            case 0x9203: fallthrough // Pro Micro 3V3/8MHz
-            case 0x9205: fallthrough // Pro Micro 5V/16MHz
-            case 0x9207: // LilyPad 3V3/8MHz (and some Pro Micro clones)
+            case 0x9203, 0x9205, 0x9207: // Pro Micro 3V3/8MHz, Pro Micro 5V/16MHz, LilyPad 3V3/8MHz (and some Pro Micro clones)
                 return .caterina
             default:
                 break
@@ -222,20 +202,16 @@ public class USBListener: NSObject, BootloaderDeviceDelegate {
             if productID == 0x0101 { // A-Star 32U4
                 return .caterina
             }
-        case 0x2341: fallthrough // Arduino SA
-        case 0x2A03: // dog hunter AG
+        case 0x2341, 0x2A03: // Arduino SA, dog hunter AG
             switch productID {
-            case 0x0036: fallthrough // Leonardo
-            case 0x0037: // Micro
+            case 0x0036, 0x0037: // Leonardo, Micro
                 return .caterina
             default:
                 break
             }
         case 0x239A: // Adafruit
             switch productID {
-            case 0x000C: fallthrough // Feather 32U4
-            case 0x000D: fallthrough // ItsyBitsy 32U4 3V3/8MHz
-            case 0x000E: // ItsyBitsy 32U4 5V/16MHz
+            case 0x000C, 0x000D, 0x000E: // Feather 32U4, ItsyBitsy 32U4 3V3/8MHz, ItsyBitsy 32U4 5V/16MHz
                 return .caterina
             default:
                 break

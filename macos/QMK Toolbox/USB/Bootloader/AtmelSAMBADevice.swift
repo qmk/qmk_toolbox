@@ -1,11 +1,9 @@
 import Foundation
 
-@objc
-public class AtmelSAMBADevice: BootloaderDevice {
+class AtmelSAMBADevice: BootloaderDevice {
     private var serialPort: String?
 
-    @objc
-    public override init(usbDevice: USBDevice) {
+    override init(usbDevice: USBDevice) {
         super.init(usbDevice: usbDevice)
         name = "Atmel SAM-BA"
         type = .atmelSamBa
@@ -15,18 +13,15 @@ public class AtmelSAMBADevice: BootloaderDevice {
         }
     }
 
-    @objc
-    public override func flash(_ mcu: String, file: String) {
+    override func flash(_ mcu: String, file: String) {
         runProcess("mdloader", args: ["-p", serialPort!, "-D", file, "--restart"])
     }
 
-    @objc
-    public override func reset(_ mcu: String) {
+    override func reset(_ mcu: String) {
         runProcess("mdloader", args: ["-p", serialPort!, "--restart"])
     }
 
-    @objc
-    public override var description: String {
+    override var description: String {
         "\(super.description) [\(serialPort!)]"
     }
 }

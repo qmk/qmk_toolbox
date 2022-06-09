@@ -1,16 +1,15 @@
 import AppKit
 
-@objc
-public class MicrocontrollerSelector: NSComboBox, NSComboBoxDelegate, NSComboBoxDataSource {
+class MicrocontrollerSelector: NSComboBox, NSComboBoxDelegate, NSComboBoxDataSource {
     var keys: [String] = []
     var values: [String] = []
 
-    public override init(frame frameRect: NSRect) {
+    override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
         customInit()
     }
 
-    public required init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         super.init(coder: coder)
         customInit()
     }
@@ -40,24 +39,23 @@ public class MicrocontrollerSelector: NSComboBox, NSComboBoxDelegate, NSComboBox
         selectItem(at: index)
     }
 
-    @objc
-    public func keyForSelectedItem() -> String {
+    func keyForSelectedItem() -> String {
         keys[indexOfSelectedItem]
     }
 
-    public func comboBox(_ comboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {
+    func comboBox(_ comboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {
         values[index]
     }
 
-    public func numberOfItems(in comboBox: NSComboBox) -> Int {
+    func numberOfItems(in comboBox: NSComboBox) -> Int {
         values.count
     }
 
-    public func comboBox(_ comboBox: NSComboBox, indexOfItemWithStringValue string: String) -> Int {
+    func comboBox(_ comboBox: NSComboBox, indexOfItemWithStringValue string: String) -> Int {
         values.firstIndex(of: string) ?? -1
     }
 
-    public func comboBoxSelectionDidChange(_ notification: Notification) {
+    func comboBoxSelectionDidChange(_ notification: Notification) {
         UserDefaults.standard.set(keyForSelectedItem(), forKey: "Microcontroller")
     }
 }

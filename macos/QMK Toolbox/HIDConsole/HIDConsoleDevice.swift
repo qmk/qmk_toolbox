@@ -1,54 +1,42 @@
 import Foundation
 
-@objc
-public protocol HIDConsoleDeviceDelegate: NSObjectProtocol {
-    @objc
+protocol HIDConsoleDeviceDelegate: AnyObject {
     func consoleDevice(_ device: HIDConsoleDevice, didReceiveReport report: String)
 }
 
-@objc
-public class HIDConsoleDevice: NSObject {
-    @objc
-    public weak var delegate: HIDConsoleDeviceDelegate?
+class HIDConsoleDevice: Equatable, CustomStringConvertible {
+    weak var delegate: HIDConsoleDeviceDelegate?
 
     private var reportBuffer: UnsafeMutablePointer<UInt8>
 
     private var reportBufferSize: Int = 0
 
-    @objc(deviceRef)
-    public let hidDevice: IOHIDDevice
+    let hidDevice: IOHIDDevice
 
-    @objc(manufacturerString)
     var manufacturer: String? {
         HIDConsoleDevice.stringProperty(kIOHIDManufacturerKey, for: hidDevice)
     }
 
-    @objc(productString)
     var product: String? {
         HIDConsoleDevice.stringProperty(kIOHIDProductKey, for: hidDevice)
     }
 
-    @objc
-    public var vendorID: UInt16 {
+    var vendorID: UInt16 {
         HIDConsoleDevice.uint16Property(kIOHIDVendorIDKey, for: hidDevice)
     }
 
-    @objc
-    public var productID: UInt16 {
+    var productID: UInt16 {
         HIDConsoleDevice.uint16Property(kIOHIDProductIDKey, for: hidDevice)
     }
 
-    @objc
-    public var revisionBCD: UInt16 {
+    var revisionBCD: UInt16 {
         HIDConsoleDevice.uint16Property(kIOHIDVersionNumberKey, for: hidDevice)
     }
 
-    @objc(initWithDeviceRef:)
-    public init(_ device: IOHIDDevice) {
+    init(_ device: IOHIDDevice) {
         hidDevice = device
         reportBufferSize = IOHIDDeviceGetProperty(device, kIOHIDMaxInputReportSizeKey as CFString) as! Int
         reportBuffer = UnsafeMutablePointer<UInt8>.allocate(capacity: reportBufferSize)
-        super.init()
 
         let inputReportCallback: IOHIDReportCallback = { context, result, sender, type, reportID, report, length in
             let device = Unmanaged<HIDConsoleDevice>.fromOpaque(context!).takeUnretainedValue()
@@ -88,9 +76,12 @@ public class HIDConsoleDevice: NSObject {
         }
     }
 
-    @objc
-    public override var description: String {
+    var description: String {
         String(format: "%@ %@ (%04X:%04X:%04X)", manufacturer ?? "", product ?? "", vendorID, productID, revisionBCD)
+    }
+
+    static func == (lhs: HIDConsoleDevice, rhs: HIDConsoleDevice) -> Bool {
+        return lhs.hidDevice === rhs.hidDevice
     }
 
     static func stringProperty(_ propertyName: String, for device: IOHIDDevice) -> String? {

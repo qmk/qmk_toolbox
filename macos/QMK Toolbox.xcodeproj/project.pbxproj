@@ -109,7 +109,6 @@
 		3A32CF662841451D0016D7B7 /* WB32DFUDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WB32DFUDevice.swift; sourceTree = "<group>"; };
 		3A32CF68284145900016D7B7 /* LUFAMSDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LUFAMSDevice.swift; sourceTree = "<group>"; };
 		3A376079283E769300C19B3F /* KeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyView.swift; sourceTree = "<group>"; };
-		3A49F9A1282A911000B73DA0 /* QMK Toolbox-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "QMK Toolbox-Bridging-Header.h"; sourceTree = "<group>"; };
 		3A49F9A4282A92EB00B73DA0 /* MessageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageType.swift; sourceTree = "<group>"; };
 		3A5A916B28410F53004DD9BD /* USBDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = USBDevice.swift; sourceTree = "<group>"; };
 		3A62C86326A96AED001C655A /* reset_right.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset_right.eep; path = ../../../common/reset_right.eep; sourceTree = "<group>"; };
@@ -180,7 +179,6 @@
 				3A128566283D3F0800173A80 /* MicrocontrollerSelector.swift */,
 				3AAB20B4283BF7FF00029ABD /* QMKWindow.swift */,
 				092963FE1F5C8B2C004F2D3F /* Supporting Files */,
-				3A49F9A1282A911000B73DA0 /* QMK Toolbox-Bridging-Header.h */,
 			);
 			path = "QMK Toolbox";
 			sourceTree = "<group>";
@@ -543,7 +541,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = fm.qmk.toolbox;
 				PRODUCT_NAME = "QMK Toolbox";
-				SWIFT_OBJC_BRIDGING_HEADER = "QMK Toolbox/QMK Toolbox-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
@@ -569,7 +566,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = fm.qmk.toolbox;
 				PRODUCT_NAME = "QMK Toolbox";
-				SWIFT_OBJC_BRIDGING_HEADER = "QMK Toolbox/QMK Toolbox-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;

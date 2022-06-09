@@ -1,9 +1,7 @@
 import Foundation
 
-@objc
-public class LUFAHIDDevice: BootloaderDevice {
-    @objc
-    public override init(usbDevice: USBDevice) {
+class LUFAHIDDevice: BootloaderDevice {
+    override init(usbDevice: USBDevice) {
         super.init(usbDevice: usbDevice)
         if revisionBCD == 0x0936 {
             name = "QMK HID"
@@ -15,15 +13,13 @@ public class LUFAHIDDevice: BootloaderDevice {
         //resettable = true
     }
 
-    @objc
-    public override func flash(_ mcu: String, file: String) {
+    override func flash(_ mcu: String, file: String) {
         runProcess("hid_bootloader_cli", args: ["-mmcu=\(mcu)", file, "-v"])
     }
 
     // hid_bootloader_cli 210130 lacks -b flag
     // Next LUFA release should have it thanks to abcminiuser/lufa#173
-    //@objc
-    //public override func reset(_ mcu: String) {
+    //override func reset(_ mcu: String) {
     //    runProcess("hid_bootloader_cli", args: ["-mmcu=\(mcu)", "-bv"])
     //}
 }

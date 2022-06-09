@@ -4,37 +4,28 @@ import IOKit.hid
 let CONSOLE_USAGE_PAGE: UInt16 = 0xFF31
 let CONSOLE_USAGE: UInt16      = 0x0074
 
-@objc
-public protocol HIDConsoleListenerDelegate: NSObjectProtocol {
-    @objc
+protocol HIDConsoleListenerDelegate: AnyObject {
     func consoleDeviceDidConnect(_ device: HIDConsoleDevice)
 
-    @objc
     func consoleDeviceDidDisconnect(_ device: HIDConsoleDevice)
 
-    @objc
     func consoleDevice(_ device: HIDConsoleDevice, didReceiveReport report: String)
 }
 
-@objc
-public class HIDConsoleListener: NSObject, HIDConsoleDeviceDelegate {
-    @objc
-    public weak var delegate: HIDConsoleListenerDelegate?
+class HIDConsoleListener: HIDConsoleDeviceDelegate {
+    weak var delegate: HIDConsoleListenerDelegate?
 
     private var hidManager: IOHIDManager
 
-    @objc
-    public var devices: [HIDConsoleDevice] = []
+    var devices: [HIDConsoleDevice] = []
 
-    @objc
-    public override init() {
+    init() {
         hidManager = IOHIDManagerCreate(kCFAllocatorDefault, IOOptionBits(kIOHIDOptionsTypeNone))
         let consoleMatcher = [kIOHIDDeviceUsagePageKey: CONSOLE_USAGE_PAGE, kIOHIDDeviceUsageKey: CONSOLE_USAGE]
         IOHIDManagerSetDeviceMatching(hidManager, consoleMatcher as CFDictionary?)
     }
 
-    @objc
-    public func start() {
+    func start() {
         IOHIDManagerScheduleWithRunLoop(hidManager, RunLoop.current.getCFRunLoop(), CFRunLoopMode.defaultMode.rawValue)
         IOHIDManagerOpen(hidManager, IOOptionBits(kIOHIDOptionsTypeNone))
 
@@ -53,8 +44,7 @@ public class HIDConsoleListener: NSObject, HIDConsoleDeviceDelegate {
         IOHIDManagerRegisterDeviceRemovalCallback(hidManager, removalCallback, unsafeSelf)
     }
 
-    @objc
-    public func deviceConnected(_ device: IOHIDDevice) {
+    func deviceConnected(_ device: IOHIDDevice) {
         if devices.contains(where: { $0.hidDevice === device }) {
             return
         }
@@ -65,8 +55,7 @@ public class HIDConsoleListener: NSObject, HIDConsoleDeviceDelegate {
         delegate?.consoleDeviceDidConnect(consoleDevice)
     }
 
-    @objc
-    public func deviceDisconnected(_ device: IOHIDDevice) {
+    func deviceDisconnected(_ device: IOHIDDevice) {
         let discardedItems = devices.filter { $0.hidDevice === device }
         devices = devices.filter { !discardedItems.contains($0) }
 
@@ -75,12 +64,11 @@ public class HIDConsoleListener: NSObject, HIDConsoleDeviceDelegate {
         }
     }
 
-    public func consoleDevice(_ device: HIDConsoleDevice, didReceiveReport report: String) {
+    func consoleDevice(_ device: HIDConsoleDevice, didReceiveReport report: String) {
         delegate?.consoleDevice(device, didReceiveReport: report)
     }
 
-    @objc
-    public func stop() {
+    func stop() {
         let unsafeSelf = Unmanaged.passRetained(self).toOpaque()
         IOHIDManagerRegisterDeviceMatchingCallback(hidManager, nil, unsafeSelf)
         IOHIDManagerRegisterDeviceRemovalCallback(hidManager, nil, unsafeSelf)

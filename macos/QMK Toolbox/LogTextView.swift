@@ -1,62 +1,50 @@
 import Cocoa
 
-@objc
-public class LogTextView: NSTextView {
-    @objc
-    public override func awakeFromNib() {
+class LogTextView: NSTextView {
+    override func awakeFromNib() {
         selectedTextAttributes = [
             .backgroundColor: NSColor(named: "LogBoxSelection")!,
             .foregroundColor: NSColor.white
         ]
     }
 
-    @objc
-    public func logBootloader(_ message: String) {
+    func logBootloader(_ message: String) {
         log(message, type: .bootloader)
     }
 
-    @objc
-    public func logCommand(_ message: String) {
+    func logCommand(_ message: String) {
         log(message, type: .command)
     }
 
-    @objc
-    public func logCommandError(_ message: String) {
+    func logCommandError(_ message: String) {
         log(message, type: .commandError)
     }
 
-    @objc
-    public func logCommandOutput(_ message: String) {
+    func logCommandOutput(_ message: String) {
         log(message, type: .commandOutput)
     }
 
-    @objc
-    public func logError(_ message: String) {
+    func logError(_ message: String) {
         log(message, type: .error)
     }
 
-    @objc
-    public func logHID(_ message: String) {
+    func logHID(_ message: String) {
         log(message, type: .hid)
     }
 
-    @objc
-    public func logHIDOutput(_ message: String) {
+    func logHIDOutput(_ message: String) {
         log(message, type: .hidOutput)
     }
 
-    @objc
-    public func logInfo(_ message: String) {
+    func logInfo(_ message: String) {
         log(message, type: .info)
     }
 
-    @objc
-    public func logUSB(_ message: String) {
+    func logUSB(_ message: String) {
         log(message, type: .usb)
     }
 
-    @objc
-    public func log(_ message: String, type: MessageType) {
+    func log(_ message: String, type: MessageType) {
         var trimmedMessage = message
         if trimmedMessage.last == "\n" {
             trimmedMessage.removeLast()
