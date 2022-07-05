@@ -8,6 +8,7 @@
         AvrIsp,
         BootloadHid,
         Caterina,
+        Gd32VDfu,
         HalfKay,
         KiibohdDfu,
         LufaHid,
