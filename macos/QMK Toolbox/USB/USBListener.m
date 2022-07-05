@@ -9,6 +9,7 @@
 #import "AVRISPDevice.h"
 #import "BootloadHIDDevice.h"
 #import "CaterinaDevice.h"
+#import "GD32VDFUDevice.h"
 #import "HalfKayDevice.h"
 #import "KiibohdDFUDevice.h"
 #import "LUFAHIDDevice.h"
@@ -142,6 +143,8 @@ static void deviceDisconnected(void *context, io_iterator_t iterator) {
             return [[BootloadHIDDevice alloc] initWithUSBDevice:usbDevice];
         case BootloaderTypeCaterina:
             return [[CaterinaDevice alloc] initWithUSBDevice:usbDevice];
+        case BootloaderTypeGD32VDFU:
+            return [[GD32VDFUDevice alloc] initWithUSBDevice:usbDevice];
         case BootloaderTypeHalfKay:
             return [[HalfKayDevice alloc] initWithUSBDevice:usbDevice];
         case BootloaderTypeKiibohdDFU:
@@ -258,6 +261,11 @@ static void deviceDisconnected(void *context, io_iterator_t iterator) {
                 case 0x000D: // ItsyBitsy 32U4 3V3/8MHz
                 case 0x000E: // ItsyBitfy 32U4 5V/16MHz
                     return BootloaderTypeCaterina;
+            }
+            break;
+        case 0x28E9: // GigaDevice Semiconductor (Beijing) Inc.
+            if (productID == 0x0189) { // GD32VF103
+                return BootloaderTypeGD32VDFU;
             }
             break;
         case 0x314B: // Geehy Semiconductor Co. Ltd.
