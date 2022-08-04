@@ -53,7 +53,7 @@
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     [self.logTextView logInfo:[NSString stringWithFormat:@"QMK Toolbox %@ (https://qmk.fm/toolbox)", version]];
     [self.logTextView logInfo:@"Supported bootloaders:"];
-    [self.logTextView logInfo:@" - ARM DFU (APM32, Kiibohd, STM32, STM32duino) via dfu-util (http://dfu-util.sourceforge.net/)"];
+    [self.logTextView logInfo:@" - ARM DFU (APM32, Kiibohd, STM32, STM32duino) and RISC-V DFU (GD32V) via dfu-util (http://dfu-util.sourceforge.net/)"];
     [self.logTextView logInfo:@" - Atmel/LUFA/QMK DFU via dfu-programmer (http://dfu-programmer.github.io/)"];
     [self.logTextView logInfo:@" - Atmel SAM-BA (Massdrop) via Massdrop Loader (https://github.com/massdrop/mdloader)"];
     [self.logTextView logInfo:@" - BootloadHID (Atmel, PS2AVRGB) via bootloadHID (https://www.obdev.at/products/vusb/bootloadhid.html)"];

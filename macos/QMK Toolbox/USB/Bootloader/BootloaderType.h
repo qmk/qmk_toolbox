@@ -5,6 +5,7 @@ typedef enum BootloaderType : NSUInteger {
     BootloaderTypeAVRISP,
     BootloaderTypeBootloadHID,
     BootloaderTypeCaterina,
+    BootloaderTypeGD32VDFU,
     BootloaderTypeHalfKay,
     BootloaderTypeKiibohdDFU,
     BootloaderTypeLUFAHID,

@@ -166,6 +166,8 @@ namespace QMK_Toolbox.Usb
                     return new BootloadHidDevice(usbDevice);
                 case BootloaderType.Caterina:
                     return new CaterinaDevice(usbDevice);
+                case BootloaderType.Gd32VDfu:
+                    return new Gd32VDfuDevice(usbDevice);
                 case BootloaderType.HalfKay:
                     return new HalfKayDevice(usbDevice);
                 case BootloaderType.KiibohdDfu:
@@ -297,6 +299,13 @@ namespace QMK_Toolbox.Usb
                         case 0x000D: // ItsyBitsy 32U4 3V3/8MHz
                         case 0x000E: // ItsyBitsy 32U4 5V/16MHz
                             return BootloaderType.Caterina;
+                    }
+                    break;
+                case 0x28E9: // GigaDevice Semiconductor (Beijing) Inc.
+                    switch (productId)
+                    {
+                        case 0x0189: // GD32VF103 DFU
+                            return BootloaderType.Gd32VDfu;
                     }
                     break;
                 case 0x314B: // Geehy Semiconductor Co. Ltd.
