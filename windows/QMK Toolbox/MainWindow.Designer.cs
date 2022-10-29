@@ -88,6 +88,7 @@ namespace QMK_Toolbox {
             this.flashButton.Size = new System.Drawing.Size(72, 27);
             this.flashButton.TabIndex = 6;
             this.flashButton.Text = "Flash";
+            this.flashButton.UseVisualStyleBackColor = true;
             this.flashButton.Click += new System.EventHandler(this.FlashButton_Click);
             // 
             // windowStateBindingSource
@@ -137,6 +138,7 @@ namespace QMK_Toolbox {
             this.resetButton.Size = new System.Drawing.Size(78, 27);
             this.resetButton.TabIndex = 8;
             this.resetButton.Text = "Exit DFU";
+            this.resetButton.UseVisualStyleBackColor = true;
             this.resetButton.Click += new System.EventHandler(this.ResetButton_Click);
             // 
             // mcuLabel
