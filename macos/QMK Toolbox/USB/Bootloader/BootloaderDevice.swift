@@ -62,43 +62,46 @@ class BootloaderDevice: USBDeviceProtocol, CustomStringConvertible {
 
         let outPipe = Pipe()
         task.standardOutput = outPipe
+        let outHandle = outPipe.fileHandleForReading
+        outHandle.waitForDataInBackgroundAndNotify()
         let errPipe = Pipe()
         task.standardError = errPipe
+        let errHandle = errPipe.fileHandleForReading
+        errHandle.waitForDataInBackgroundAndNotify()
 
-        let group = DispatchGroup()
+        var outObserver: NSObjectProtocol!
+        outObserver = NotificationCenter.default.addObserver(forName: .NSFileHandleDataAvailable, object: outHandle, queue: nil) { notification -> Void in
+            let data = outHandle.availableData
 
-        group.enter()
-        outPipe.fileHandleForReading.readabilityHandler = { handle in
-            let data = handle.readData(ofLength: Int.max)
             guard data.count > 0 else {
-                handle.readabilityHandler = nil
-                group.leave()
+                NotificationCenter.default.removeObserver(outObserver!)
                 return
             }
 
             self.printOutput(String(decoding: data, as: UTF8.self))
+            outHandle.waitForDataInBackgroundAndNotify()
         }
 
-        group.enter()
-        errPipe.fileHandleForReading.readabilityHandler = { handle in
-            let data = handle.readData(ofLength: Int.max)
+        var errObserver: NSObjectProtocol!
+        errObserver = NotificationCenter.default.addObserver(forName: .NSFileHandleDataAvailable, object: errHandle, queue: nil) { notification -> Void in
+            let data = errHandle.availableData
+
             guard data.count > 0 else {
-                handle.readabilityHandler = nil
-                group.leave()
+                NotificationCenter.default.removeObserver(errObserver!)
                 return
             }
 
             self.printErrorOutput(String(decoding: data, as: UTF8.self))
+            errHandle.waitForDataInBackgroundAndNotify()
         }
 
         do {
             try task.run()
+            task.waitUntilExit()
         } catch let error {
             print(message: error.localizedDescription, type: .error)
             return
         }
-
-        group.wait()
     }
 
     func printOutput(_ output: String) {

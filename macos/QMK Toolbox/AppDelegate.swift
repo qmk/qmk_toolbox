@@ -171,9 +171,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, HIDConsoleListenerDelegate, 
     }
 
     func bootloaderDevice(_ device: BootloaderDevice, didReceiveCommandOutput data: String, type: MessageType) {
-        DispatchQueue.main.sync {
-            logTextView.log(data, type: type)
-        }
+        logTextView.log(data, type: type)
     }
 
     func usbDeviceDidConnect(_ device: USBDevice) {
