@@ -14,7 +14,7 @@ class HIDConsoleWindow: NSPanel, NSWindowDelegate, HIDConsoleListenerDelegate {
 
     func windowDidBecomeKey(_ notification: Notification) {
         logTextView.menu?.addItem(NSMenuItem.separator())
-        logTextView.menu?.addItem(hidClearMenuItem)
+        logTextView.menu?.addItem(clearMenuItem)
 
         consoleListener = HIDConsoleListener()
         consoleListener.delegate = self
