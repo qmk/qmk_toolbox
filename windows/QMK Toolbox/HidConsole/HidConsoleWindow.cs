@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace QMK_Toolbox.HidConsole
@@ -7,6 +8,7 @@ namespace QMK_Toolbox.HidConsole
     {
         private static HidConsoleWindow instance = null;
 
+        #region Window Events
         public HidConsoleWindow()
         {
             InitializeComponent();
@@ -35,7 +37,9 @@ namespace QMK_Toolbox.HidConsole
         {
             consoleListener.Dispose();
         }
+        #endregion
 
+        #region HID Console
         private readonly HidConsoleListener consoleListener = new HidConsoleListener();
 
         private HidConsoleDevice lastReportedDevice;
@@ -96,5 +100,29 @@ namespace QMK_Toolbox.HidConsole
                 consoleList.SelectedIndex = consoleList.Items.Count > selected ? selected : 0;
             }
         }
+        #endregion
+
+        #region Log Box
+        private void LogContextMenuStrip_Opening(object sender, CancelEventArgs e)
+        {
+            copyToolStripMenuItem.Enabled = (logTextBox.SelectedText.Length > 0);
+            selectAllToolStripMenuItem.Enabled = (logTextBox.Text.Length > 0);
+            clearToolStripMenuItem.Enabled = (logTextBox.Text.Length > 0);
+        }
+
+        private void CopyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            logTextBox.Copy();
+        }
+
+        private void SelectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            logTextBox.SelectAll();
+        }
+        private void ClearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            logTextBox.Clear();
+        }
+        #endregion
     }
 }
