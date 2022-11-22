@@ -5,12 +5,17 @@ class HIDConsoleWindow: NSPanel, NSWindowDelegate, HIDConsoleListenerDelegate {
 
     @IBOutlet var logTextView: LogTextView!
 
+    @IBOutlet var clearMenuItem: NSMenuItem!
+
     override init(contentRect: NSRect, styleMask style: NSWindow.StyleMask, backing backingStoreType: NSWindow.BackingStoreType, defer flag: Bool) {
         super.init(contentRect: contentRect, styleMask: style, backing: backingStoreType, defer: flag)
         self.delegate = self
     }
 
     func windowDidBecomeKey(_ notification: Notification) {
+        logTextView.menu?.addItem(NSMenuItem.separator())
+        logTextView.menu?.addItem(hidClearMenuItem)
+
         consoleListener = HIDConsoleListener()
         consoleListener.delegate = self
         consoleListener.start()

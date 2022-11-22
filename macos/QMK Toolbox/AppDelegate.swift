@@ -344,6 +344,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, USBListenerDelegate {
     }
 
     @IBAction
+    func clearButtonClick(_ sender: Any) {
+        logTextView.string = ""
+    }
+
+    @IBAction
     func keyTesterButtonClick(_ sender: Any) {
         if keyTesterWindowController == nil {
             keyTesterWindowController = NSWindowController(windowNibName: "KeyTesterWindow")

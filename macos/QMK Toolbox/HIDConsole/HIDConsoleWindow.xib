@@ -67,11 +67,18 @@
                 </constraints>
             </view>
             <connections>
+                <outlet property="clearMenuItem" destination="6O0-CP-cRN" id="t9E-wt-2cc"/>
                 <outlet property="consoleListBox" destination="ZM8-GK-ZlA" id="BO5-wv-5qy"/>
                 <outlet property="logTextView" destination="4WM-0s-RPN" id="FNM-Wd-oaW"/>
             </connections>
             <point key="canvasLocation" x="24" y="126"/>
         </window>
+        <menuItem title="Clear" id="6O0-CP-cRN">
+            <modifierMask key="keyEquivalentModifierMask"/>
+            <connections>
+                <action selector="clearButtonClick:" target="QvC-M9-y7g" id="yog-yl-S1U"/>
+            </connections>
+        </menuItem>
     </objects>
     <resources>
         <namedColor name="LogBoxBackground">
