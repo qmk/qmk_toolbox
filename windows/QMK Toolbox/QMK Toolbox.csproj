@@ -76,6 +76,12 @@
     <Compile Include="Helpers\EmbeddedResourceHelper.cs" />
     <Compile Include="HidConsole\HidConsoleDevice.cs" />
     <Compile Include="HidConsole\HidConsoleListener.cs" />
+    <Compile Include="HidConsole\HidConsoleWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HidConsole\HidConsoleWindow.Designer.cs">
+      <DependentUpon>HidConsoleWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="KeyTester\KeyControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -130,6 +136,9 @@
     <Compile Include="WindowState.cs" />
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HidConsole\HidConsoleWindow.resx">
+      <DependentUpon>HidConsoleWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="KeyTester\KeyControl.resx">
       <DependentUpon>KeyControl.cs</DependentUpon>

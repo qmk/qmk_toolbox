@@ -1,4 +1,4 @@
-using QMK_Toolbox.Helpers;
+﻿using QMK_Toolbox.Helpers;
 using QMK_Toolbox.HidConsole;
 using QMK_Toolbox.KeyTester;
 using QMK_Toolbox.Properties;
@@ -84,11 +84,6 @@ namespace QMK_Toolbox
             usbListener.outputReceived += BootloaderCommandOutputReceived;
             usbListener.Start();
 
-            consoleListener.consoleDeviceConnected += ConsoleDeviceConnected;
-            consoleListener.consoleDeviceDisconnected += ConsoleDeviceDisconnected;
-            consoleListener.consoleReportReceived += ConsoleReportReceived;
-            consoleListener.Start();
-
             if (_filePassedIn != string.Empty)
             {
                 SetFilePath(_filePassedIn);
@@ -169,7 +164,6 @@ namespace QMK_Toolbox
             Settings.Default.Save();
 
             usbListener.Dispose();
-            consoleListener.Dispose();
         }
 
         private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
@@ -177,69 +171,6 @@ namespace QMK_Toolbox
             Settings.Default.Save();
         }
         #endregion Window Events
-
-        #region HID Console
-        private readonly HidConsoleListener consoleListener = new HidConsoleListener();
-
-        private HidConsoleDevice lastReportedDevice;
-
-        private void ConsoleDeviceConnected(HidConsoleDevice device)
-        {
-            Invoke(new Action(() =>
-            {
-                lastReportedDevice = device;
-                UpdateConsoleList();
-                logTextBox.LogHid($"HID console connected: {device}");
-            }));
-        }
-
-        private void ConsoleDeviceDisconnected(HidConsoleDevice device)
-        {
-            Invoke(new Action(() =>
-            {
-                lastReportedDevice = null;
-                UpdateConsoleList();
-                logTextBox.LogHid($"HID console disconnected: {device}");
-            }));
-        }
-
-        private void ConsoleReportReceived(HidConsoleDevice device, string report)
-        {
-            Invoke(new Action(() =>
-            {
-                int selectedDevice = consoleList.SelectedIndex;
-                if (selectedDevice == 0 || consoleListener.Devices[selectedDevice - 1] == device)
-                {
-                    if (lastReportedDevice != device)
-                    {
-                        logTextBox.LogHid($"{device.ManufacturerString} {device.ProductString}:");
-                        lastReportedDevice = device;
-                    }
-                    logTextBox.LogHidOutput(report);
-                }
-            }));
-        }
-
-        private void UpdateConsoleList()
-        {
-            var selected = consoleList.SelectedIndex != -1 ? consoleList.SelectedIndex : 0;
-            consoleList.Items.Clear();
-
-            foreach (var device in consoleListener.Devices)
-            {
-                if (device != null)
-                {
-                    consoleList.Items.Add(device.ToString());
-                }
-            }
-
-            if (consoleList.Items.Count > 0)
-            {
-                consoleList.Items.Insert(0, "(All connected devices)");
-                consoleList.SelectedIndex = consoleList.Items.Count > selected ? selected : 0;
-            }
-        }
-        #endregion HID Console
 
         #region USB Devices & Bootloaders
         private readonly UsbListener usbListener = new UsbListener();
@@ -557,6 +488,12 @@ namespace QMK_Toolbox
         {
             KeyTesterWindow.GetInstance().Show();
             KeyTesterWindow.GetInstance().Focus();
+        }
+
+        private void HidConsoleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            HidConsoleWindow.GetInstance().Show();
+            HidConsoleWindow.GetInstance().Focus();
         }
         #endregion
 

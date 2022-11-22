@@ -1,4 +1,4 @@
-namespace QMK_Toolbox {
+﻿namespace QMK_Toolbox {
     partial class MainWindow {
         /// <summary>
         /// Required designer variable.
@@ -45,7 +45,6 @@ namespace QMK_Toolbox {
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logContextMenuSep2 = new System.Windows.Forms.ToolStripSeparator();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.consoleList = new QMK_Toolbox.ComboBoxPlaceholder();
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -64,6 +63,7 @@ namespace QMK_Toolbox {
             this.showAllDevicesToolStripMenuItem = new QMK_Toolbox.BindableToolStripMenuItem();
             this.toolsToolStripMenuSep2 = new System.Windows.Forms.ToolStripSeparator();
             this.keyTesterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hidConsoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.installDriversToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuSep3 = new System.Windows.Forms.ToolStripSeparator();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -215,7 +215,7 @@ namespace QMK_Toolbox {
             this.logTextBox.Location = new System.Drawing.Point(12, 115);
             this.logTextBox.Name = "logTextBox";
             this.logTextBox.ReadOnly = true;
-            this.logTextBox.Size = new System.Drawing.Size(776, 509);
+            this.logTextBox.Size = new System.Drawing.Size(776, 537);
             this.logTextBox.TabIndex = 9;
             this.logTextBox.Text = "";
             this.logTextBox.WordWrap = false;
@@ -287,18 +287,6 @@ namespace QMK_Toolbox {
             this.clearToolStripMenuItem.Text = "Clea&r";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.ClearToolStripMenuItem_Click);
             // 
-            // consoleList
-            // 
-            this.consoleList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.consoleList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.consoleList.FormattingEnabled = true;
-            this.consoleList.Location = new System.Drawing.Point(12, 631);
-            this.consoleList.Name = "consoleList";
-            this.consoleList.PlaceholderText = "No HID console devices connected";
-            this.consoleList.Size = new System.Drawing.Size(776, 21);
-            this.consoleList.TabIndex = 10;
-            // 
             // mainMenu
             // 
             this.mainMenu.BackColor = System.Drawing.Color.Transparent;
@@ -354,6 +342,7 @@ namespace QMK_Toolbox {
             this.showAllDevicesToolStripMenuItem,
             this.toolsToolStripMenuSep2,
             this.keyTesterToolStripMenuItem,
+            this.hidConsoleToolStripMenuItem,
             this.installDriversToolStripMenuItem,
             this.toolsToolStripMenuSep3,
             this.optionsToolStripMenuItem});
@@ -463,6 +452,13 @@ namespace QMK_Toolbox {
             this.keyTesterToolStripMenuItem.Text = "Key Tester";
             this.keyTesterToolStripMenuItem.Click += new System.EventHandler(this.KeyTesterToolStripMenuItem_Click);
             // 
+            // hidConsoleToolStripMenuItem
+            // 
+            this.hidConsoleToolStripMenuItem.Name = "hidConsoleToolStripMenuItem";
+            this.hidConsoleToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.hidConsoleToolStripMenuItem.Text = "HID Console";
+            this.hidConsoleToolStripMenuItem.Click += new System.EventHandler(this.HidConsoleToolStripMenuItem_Click);
+            // 
             // installDriversToolStripMenuItem
             // 
             this.installDriversToolStripMenuItem.Name = "installDriversToolStripMenuItem";
@@ -520,7 +516,6 @@ namespace QMK_Toolbox {
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 664);
             this.Controls.Add(this.mainMenu);
-            this.Controls.Add(this.consoleList);
             this.Controls.Add(this.clearEepromButton);
             this.Controls.Add(this.fileGroupBox);
             this.Controls.Add(this.flashButton);
@@ -560,7 +555,6 @@ namespace QMK_Toolbox {
         private System.Windows.Forms.Label mcuLabel;
         private System.Windows.Forms.GroupBox fileGroupBox;
         private System.Windows.Forms.Button clearEepromButton;
-        private ComboBoxPlaceholder consoleList;
         private System.Windows.Forms.ContextMenuStrip logContextMenu;
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
         private BetterComboBox filepathBox;
@@ -596,5 +590,6 @@ namespace QMK_Toolbox {
         private System.Windows.Forms.ToolStripMenuItem keyTesterToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolsToolStripMenuSep3;
         private QMK_Toolbox.BindableToolStripMenuItem showAllDevicesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hidConsoleToolStripMenuItem;
     }
 }
