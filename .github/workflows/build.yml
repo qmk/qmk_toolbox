@@ -20,22 +20,45 @@ jobs:
     - uses: nuget/setup-nuget@v1
 
     - uses: actions/checkout@v3
+      
+    - name: Sign resource binaries
+      uses: dlemstra/code-sign-action@v1
+      with:
+        certificate: '${{ secrets.WINDOWS_CERTIFICATE }}'
+        password: '${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}'
+        folder: './windows'
+        recursive: true
 
     - name: Build
       working-directory: ./windows
       run: |
         nuget restore
         msbuild "QMK Toolbox.sln" /verbosity:minimal /p:Configuration=Release
-
-    - uses: actions/upload-artifact@v3
+      
+    - name: Sign QMK Toolbox
+      uses: dlemstra/code-sign-action@v1
       with:
-        name: qmk_toolbox.exe
-        path: windows/QMK Toolbox/bin/Release/qmk_toolbox.exe
+        certificate: '${{ secrets.WINDOWS_CERTIFICATE }}'
+        password: '${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}'
+        folder: './windows/QMK Toolbox/bin/Release'
+        recursive: true
 
     - name: Create installer
       working-directory: ./windows
       run: |
         iscc install_compiler.iss
+      
+    - name: Sign QMK Toolbox installer
+      uses: dlemstra/code-sign-action@v1
+      with:
+        certificate: '${{ secrets.WINDOWS_CERTIFICATE }}'
+        password: '${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}'
+        folder: './windows'
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: qmk_toolbox.exe
+        path: windows/QMK Toolbox/bin/Release/qmk_toolbox.exe
 
     - uses: actions/upload-artifact@v3
       with:
