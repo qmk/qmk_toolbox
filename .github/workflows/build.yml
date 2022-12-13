@@ -15,7 +15,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: microsoft/setup-msbuild@v1.1
+    - uses: microsoft/setup-msbuild@v1.2
 
     - uses: nuget/setup-nuget@v1
 
