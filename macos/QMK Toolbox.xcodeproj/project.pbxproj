@@ -9,15 +9,17 @@
 /* Begin PBXBuildFile section */
 		092964021F5C8B2C004F2D3F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 092964011F5C8B2C004F2D3F /* Assets.xcassets */; };
 		092964051F5C8B2C004F2D3F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 092964031F5C8B2C004F2D3F /* MainMenu.xib */; };
-		0929640D1F5E403C004F2D3F /* dfu-programmer in Resources */ = {isa = PBXBuildFile; fileRef = 0929640C1F5E403C004F2D3F /* dfu-programmer */; };
-		0929640F1F5E4068004F2D3F /* teensy_loader_cli in Resources */ = {isa = PBXBuildFile; fileRef = 0929640E1F5E4068004F2D3F /* teensy_loader_cli */; };
-		092964111F5E4186004F2D3F /* avrdude in Resources */ = {isa = PBXBuildFile; fileRef = 092964101F5E4186004F2D3F /* avrdude */; };
+		0929640D1F5E403C004F2D3F /* dfu-programmer in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0929640C1F5E403C004F2D3F /* dfu-programmer */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0929640F1F5E4068004F2D3F /* teensy_loader_cli in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0929640E1F5E4068004F2D3F /* teensy_loader_cli */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		092964111F5E4186004F2D3F /* avrdude in CopyFiles */ = {isa = PBXBuildFile; fileRef = 092964101F5E4186004F2D3F /* avrdude */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		09522BB31F61E32700AEBC5E /* mcu-list.txt in Resources */ = {isa = PBXBuildFile; fileRef = 09522BB21F61E32700AEBC5E /* mcu-list.txt */; };
 		09522BBB1F6216BA00AEBC5E /* avrdude.conf in Resources */ = {isa = PBXBuildFile; fileRef = 09522BBA1F6216BA00AEBC5E /* avrdude.conf */; };
-		098AEDFB1F5E45C300CA054D /* dfu-util in Resources */ = {isa = PBXBuildFile; fileRef = 098AEDFA1F5E45C300CA054D /* dfu-util */; };
+		098AEDFB1F5E45C300CA054D /* dfu-util in CopyFiles */ = {isa = PBXBuildFile; fileRef = 098AEDFA1F5E45C300CA054D /* dfu-util */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		098AEE081F5F370900CA054D /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098AEE071F5F370900CA054D /* IOKit.framework */; };
-		09D79CBA1FB8A6360086ABF6 /* libusb-1.0.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		09D79CBC1FB8A64B0086ABF6 /* libusb-0.1.4.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		3066649728392281007C93C8 /* libusb-0.1.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */; };
+		3066649828392281007C93C8 /* libusb-0.1.4.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		3066649928392281007C93C8 /* libusb-1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */; };
+		3066649A28392281007C93C8 /* libusb-1.0.0.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		3A128567283D3F0800173A80 /* MicrocontrollerSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A128566283D3F0800173A80 /* MicrocontrollerSelector.swift */; };
 		3A32CF4B28412C420016D7B7 /* BootloaderDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A32CF4A28412C420016D7B7 /* BootloaderDevice.swift */; };
 		3A32CF4D28413E6B0016D7B7 /* HalfKayDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A32CF4C28413E6B0016D7B7 /* HalfKayDevice.swift */; };
@@ -43,8 +45,9 @@
 		3A708D982848A23300394E52 /* USBListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A708D972848A23300394E52 /* USBListener.swift */; };
 		3A708D9A284901F500394E52 /* HIDConsoleListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A708D99284901F500394E52 /* HIDConsoleListener.swift */; };
 		3A708D9C284916F700394E52 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A708D9B284916F700394E52 /* AppDelegate.swift */; };
-		3A7492CC27DF96BF0073A5A0 /* hid_bootloader_cli in Resources */ = {isa = PBXBuildFile; fileRef = 3A7492CB27DF96BF0073A5A0 /* hid_bootloader_cli */; };
-		3A7770DA22BD3BA300398C40 /* libftdi.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3A7770D822BD3B8200398C40 /* libftdi.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		3A7492CC27DF96BF0073A5A0 /* hid_bootloader_cli in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3A7492CB27DF96BF0073A5A0 /* hid_bootloader_cli */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		3066649328392281007C93C8 /* libftdi.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A7770D822BD3B8200398C40 /* libftdi.1.dylib */; };
+		3066649428392281007C93C8 /* libftdi.1.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 3A7770D822BD3B8200398C40 /* libftdi.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		3A8DE01A284636780012063A /* HIDConsoleDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8DE019284636780012063A /* HIDConsoleDevice.swift */; };
 		3A8F9EFF26E75012007480A7 /* KeyTesterWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A8F9F0126E75012007480A7 /* KeyTesterWindow.xib */; };
 		3A8F9F0226E7501E007480A7 /* KeyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A8F9F0426E7501E007480A7 /* KeyView.xib */; };
@@ -53,26 +56,45 @@
 		3AAB20AB283BEEC700029ABD /* LogTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AAB20AA283BEEC700029ABD /* LogTextView.swift */; };
 		3AAB20B5283BF7FF00029ABD /* QMKWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AAB20B4283BF7FF00029ABD /* QMKWindow.swift */; };
 		3AB09F1D28B46672006CC212 /* GD32VDFUDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB09F1C28B46672006CC212 /* GD32VDFUDevice.swift */; };
-		3AB4BC9D2495540A00204A3F /* bootloadHID in Resources */ = {isa = PBXBuildFile; fileRef = 3AB4BC9C2495540A00204A3F /* bootloadHID */; };
+		3AB4BC9D2495540A00204A3F /* bootloadHID in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3AB4BC9C2495540A00204A3F /* bootloadHID */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		3AFA80BC283E92A7000227B2 /* KeyTesterWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFA80BB283E92A7000227B2 /* KeyTesterWindow.swift */; };
-		3AFD4BD1281AB86800ADCB65 /* libhidapi.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3AFD4BCF281AB83C00ADCB65 /* libhidapi.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		9BE10718275F4CFE00C708D5 /* wb32-dfu-updater_cli in Resources */ = {isa = PBXBuildFile; fileRef = 9BE10717275F4CFE00C708D5 /* wb32-dfu-updater_cli */; };
+		3066649528392281007C93C8 /* libhidapi.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AFD4BCF281AB83C00ADCB65 /* libhidapi.0.dylib */; };
+		3066649628392281007C93C8 /* libhidapi.0.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 3AFD4BCF281AB83C00ADCB65 /* libhidapi.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		9BE10718275F4CFE00C708D5 /* wb32-dfu-updater_cli in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9BE10717275F4CFE00C708D5 /* wb32-dfu-updater_cli */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		C93A0FF42292232E0006C88F /* reset.eep in Resources */ = {isa = PBXBuildFile; fileRef = C93A0FF32292232D0006C88F /* reset.eep */; };
-		C9A09B5722EE6826008C3CF3 /* mdloader in Resources */ = {isa = PBXBuildFile; fileRef = C9A09B5622EE6826008C3CF3 /* mdloader */; };
+		C9A09B5722EE6826008C3CF3 /* mdloader in CopyFiles */ = {isa = PBXBuildFile; fileRef = C9A09B5622EE6826008C3CF3 /* mdloader */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		09D79CB91FB8A6320086ABF6 /* CopyFiles */ = {
+		3066649128392231007C93C8 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				092964111F5E4186004F2D3F /* avrdude in CopyFiles */,
+				3AB4BC9D2495540A00204A3F /* bootloadHID in CopyFiles */,
+				0929640D1F5E403C004F2D3F /* dfu-programmer in CopyFiles */,
+				098AEDFB1F5E45C300CA054D /* dfu-util in CopyFiles */,
+				3A7492CC27DF96BF0073A5A0 /* hid_bootloader_cli in CopyFiles */,
+				C9A09B5722EE6826008C3CF3 /* mdloader in CopyFiles */,
+				0929640F1F5E4068004F2D3F /* teensy_loader_cli in CopyFiles */,
+				9BE10718275F4CFE00C708D5 /* wb32-dfu-updater_cli in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3066649B28392281007C93C8 /* Embed Libraries */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				3A7770DA22BD3BA300398C40 /* libftdi.1.dylib in CopyFiles */,
-				3AFD4BD1281AB86800ADCB65 /* libhidapi.0.dylib in CopyFiles */,
-				09D79CBC1FB8A64B0086ABF6 /* libusb-0.1.4.dylib in CopyFiles */,
-				09D79CBA1FB8A6360086ABF6 /* libusb-1.0.0.dylib in CopyFiles */,
+				3066649428392281007C93C8 /* libftdi.1.dylib in Embed Libraries */,
+				3066649628392281007C93C8 /* libhidapi.0.dylib in Embed Libraries */,
+				3066649828392281007C93C8 /* libusb-0.1.4.dylib in Embed Libraries */,
+				3066649A28392281007C93C8 /* libusb-1.0.0.dylib in Embed Libraries */,
 			);
+			name = "Embed Libraries";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -91,6 +113,7 @@
 		098AEE071F5F370900CA054D /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libusb-1.0.0.dylib"; sourceTree = "<group>"; };
 		09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libusb-0.1.4.dylib"; sourceTree = "<group>"; };
+		300641B328359D3E00F58C4B /* QMK ToolboxRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "QMK ToolboxRelease.entitlements"; sourceTree = "<group>"; };
 		3A128566283D3F0800173A80 /* MicrocontrollerSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrocontrollerSelector.swift; sourceTree = "<group>"; };
 		3A32CF4A28412C420016D7B7 /* BootloaderDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootloaderDevice.swift; sourceTree = "<group>"; };
 		3A32CF4C28413E6B0016D7B7 /* HalfKayDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalfKayDevice.swift; sourceTree = "<group>"; };
@@ -139,7 +162,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3066649328392281007C93C8 /* libftdi.1.dylib in Frameworks */,
+				3066649928392281007C93C8 /* libusb-1.0.0.dylib in Frameworks */,
 				098AEE081F5F370900CA054D /* IOKit.framework in Frameworks */,
+				3066649528392281007C93C8 /* libhidapi.0.dylib in Frameworks */,
+				3066649728392281007C93C8 /* libusb-0.1.4.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -152,6 +179,7 @@
 				098AEE071F5F370900CA054D /* IOKit.framework */,
 				092963FA1F5C8B2C004F2D3F /* QMK Toolbox */,
 				092963F91F5C8B2C004F2D3F /* Products */,
+				3066649228392281007C93C8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -166,6 +194,7 @@
 		092963FA1F5C8B2C004F2D3F /* QMK Toolbox */ = {
 			isa = PBXGroup;
 			children = (
+				300641B328359D3E00F58C4B /* QMK ToolboxRelease.entitlements */,
 				092964011F5C8B2C004F2D3F /* Assets.xcassets */,
 				3AA5D3462803FCE1008121E4 /* Colors.xcassets */,
 				092964061F5C8B2C004F2D3F /* Info.plist */,
@@ -189,6 +218,13 @@
 				3A53FB5B268A33F10020BAB0 /* Resources */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3066649228392281007C93C8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		3A3DDC4C26AE27F600A04A99 /* HIDConsole */ = {
@@ -280,7 +316,8 @@
 				092963F41F5C8B2C004F2D3F /* Sources */,
 				092963F51F5C8B2C004F2D3F /* Frameworks */,
 				092963F61F5C8B2C004F2D3F /* Resources */,
-				09D79CB91FB8A6320086ABF6 /* CopyFiles */,
+				3066649128392231007C93C8 /* CopyFiles */,
+				3066649B28392281007C93C8 /* Embed Libraries */,
 			);
 			buildRules = (
 			);
@@ -340,14 +377,6 @@
 				C93A0FF42292232E0006C88F /* reset.eep in Resources */,
 				3A62C86626A96AED001C655A /* reset_left.eep in Resources */,
 				3A62C86526A96AED001C655A /* reset_right.eep in Resources */,
-				092964111F5E4186004F2D3F /* avrdude in Resources */,
-				3AB4BC9D2495540A00204A3F /* bootloadHID in Resources */,
-				0929640D1F5E403C004F2D3F /* dfu-programmer in Resources */,
-				098AEDFB1F5E45C300CA054D /* dfu-util in Resources */,
-				3A7492CC27DF96BF0073A5A0 /* hid_bootloader_cli in Resources */,
-				C9A09B5722EE6826008C3CF3 /* mdloader in Resources */,
-				0929640F1F5E4068004F2D3F /* teensy_loader_cli in Resources */,
-				9BE10718275F4CFE00C708D5 /* wb32-dfu-updater_cli in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -540,7 +569,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
+				EXCLUDED_ARCHS = arm64;
 				INFOPLIST_FILE = "QMK Toolbox/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -550,9 +582,11 @@
 					"$(inherited)",
 					"\"$(PROJECT_DIR)/QMK Toolbox\"",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/QMK\\ Toolbox/Resources",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = fm.qmk.toolbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -562,8 +596,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_ENTITLEMENTS = "QMK Toolbox/QMK ToolboxRelease.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = NAASF73NJ7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				EXCLUDED_ARCHS = arm64;
 				INFOPLIST_FILE = "QMK Toolbox/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -573,9 +612,11 @@
 					"$(inherited)",
 					"\"$(PROJECT_DIR)/QMK Toolbox\"",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/QMK\\ Toolbox/Resources",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = fm.qmk.toolbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
