@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="NSWindowController"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="HID Console" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" titlebarAppearsTransparent="YES" id="QvC-M9-y7g" customClass="HIDConsoleWindow" customModule="QMK_Toolbox" customModuleProvider="target">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES"/>
+            <windowCollectionBehavior key="collectionBehavior" fullScreenNone="YES"/>
+            <rect key="contentRect" x="196" y="240" width="640" height="480"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="875"/>
+            <value key="minSize" type="size" width="640" height="480"/>
+            <value key="maxSize" type="size" width="1024" height="960"/>
+            <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
+                <rect key="frame" x="0.0" y="0.0" width="640" height="480"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZM8-GK-ZlA">
+                        <rect key="frame" x="9" y="448" width="624" height="23"/>
+                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="No HID console devices connected" drawsBackground="YES" buttonBordered="NO" completes="NO" numberOfVisibleItems="5" id="mOe-6O-fZY">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </comboBoxCell>
+                    </comboBox>
+                    <scrollView autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yHP-xk-1az">
+                        <rect key="frame" x="10" y="10" width="620" height="430"/>
+                        <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="pCM-Ye-G2B">
+                            <rect key="frame" x="1" y="1" width="618" height="428"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <textView editable="NO" importsGraphics="NO" verticallyResizable="YES" id="4WM-0s-RPN" customClass="LogTextView" customModule="QMK_Toolbox" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="618" height="428"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <color key="textColor" name="LogMessageDefault"/>
+                                    <color key="backgroundColor" name="LogBoxBackground"/>
+                                    <size key="minSize" width="618" height="428"/>
+                                    <size key="maxSize" width="897" height="10000000"/>
+                                    <color key="insertionPointColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </textView>
+                            </subviews>
+                        </clipView>
+                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="ri7-Re-x1j">
+                            <rect key="frame" x="1" y="363" width="478" height="16"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="hbn-7A-Cud">
+                            <rect key="frame" x="463" y="1" width="16" height="348"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                    </scrollView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="yHP-xk-1az" firstAttribute="top" secondItem="ZM8-GK-ZlA" secondAttribute="bottom" constant="10" id="J62-7G-f95"/>
+                    <constraint firstAttribute="trailing" secondItem="yHP-xk-1az" secondAttribute="trailing" constant="10" id="NB3-Rw-PnW"/>
+                    <constraint firstAttribute="bottom" secondItem="yHP-xk-1az" secondAttribute="bottom" constant="10" id="VhQ-e9-OJW"/>
+                    <constraint firstItem="ZM8-GK-ZlA" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="10" id="iuK-7y-9BA"/>
+                    <constraint firstItem="ZM8-GK-ZlA" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="10" id="lPA-CC-Ztv"/>
+                    <constraint firstItem="yHP-xk-1az" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="10" id="sQb-7a-R3F"/>
+                    <constraint firstAttribute="trailing" secondItem="ZM8-GK-ZlA" secondAttribute="trailing" constant="10" id="xUk-7A-w1b"/>
+                </constraints>
+            </view>
+            <connections>
+                <outlet property="clearMenuItem" destination="6O0-CP-cRN" id="t9E-wt-2cc"/>
+                <outlet property="consoleListBox" destination="ZM8-GK-ZlA" id="BO5-wv-5qy"/>
+                <outlet property="logTextView" destination="4WM-0s-RPN" id="FNM-Wd-oaW"/>
+            </connections>
+            <point key="canvasLocation" x="24" y="126"/>
+        </window>
+        <menuItem title="Clear" id="6O0-CP-cRN">
+            <modifierMask key="keyEquivalentModifierMask"/>
+            <connections>
+                <action selector="clearButtonClick:" target="QvC-M9-y7g" id="yog-yl-S1U"/>
+            </connections>
+        </menuItem>
+    </objects>
+    <resources>
+        <namedColor name="LogBoxBackground">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="LogMessageDefault">
+            <color red="0.11800000071525574" green="0.11800000071525574" blue="0.11800000071525574" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

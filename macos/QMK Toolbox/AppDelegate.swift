@@ -1,15 +1,15 @@
 import Cocoa
 
 @main
-class AppDelegate: NSObject, NSApplicationDelegate, HIDConsoleListenerDelegate, USBListenerDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, USBListenerDelegate {
     @IBOutlet var window: QMKWindow!
     @IBOutlet var filepathBox: NSComboBox!
     @IBOutlet var mcuBox: MicrocontrollerSelector!
     @IBOutlet var logTextView: LogTextView!
     @IBOutlet var clearMenuItem: NSMenuItem!
-    @IBOutlet var consoleListBox: NSComboBox!
 
     var keyTesterWindowController: NSWindowController!
+    var hidConsoleWindowController: NSWindowController!
 
     @objc dynamic var autoFlashEnabled: Bool = false {
         didSet {
@@ -73,10 +73,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, HIDConsoleListenerDelegate, 
         usbListener = USBListener()
         usbListener.delegate = self
         usbListener.start()
-
-        consoleListener = HIDConsoleListener()
-        consoleListener.delegate = self
-        consoleListener.start()
     }
 
     func loadRecentDocuments() {
@@ -102,50 +98,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, HIDConsoleListenerDelegate, 
 
     func applicationWillTerminate(_ notification: Notification) {
         usbListener.stop()
-        consoleListener.stop()
-    }
-
-    // MARK: HID Console
-
-    var consoleListener: HIDConsoleListener!
-    var lastReportedDevice: HIDConsoleDevice?
-
-    func consoleDeviceDidConnect(_ device: HIDConsoleDevice) {
-        lastReportedDevice = device
-        updateConsoleList()
-        logTextView.logHID("HID console connected: \(device)")
-    }
-
-    func consoleDeviceDidDisconnect(_ device: HIDConsoleDevice) {
-        lastReportedDevice = nil
-        updateConsoleList()
-        logTextView.logHID("HID console disconnected: \(device)")
-    }
-
-    func consoleDevice(_ device: HIDConsoleDevice, didReceiveReport report: String) {
-        let selectedDevice = consoleListBox.indexOfSelectedItem
-        if selectedDevice == 0 || consoleListener.devices[selectedDevice - 1] == device {
-            if lastReportedDevice != device {
-                logTextView.logHID("\(device.manufacturer ?? "") \(device.product ?? "")")
-                lastReportedDevice = device
-            }
-        }
-        logTextView.logHIDOutput(report)
-    }
-
-    func updateConsoleList() {
-        let selectedItem = consoleListBox.indexOfSelectedItem >= 0 ? consoleListBox.indexOfSelectedItem : 0
-        consoleListBox.deselectItem(at: selectedItem)
-        consoleListBox.removeAllItems()
-
-        consoleListener.devices.forEach { device in
-            consoleListBox.addItem(withObjectValue: device.description)
-        }
-
-        if consoleListBox.numberOfItems > 0 {
-            consoleListBox.insertItem(withObjectValue: "(All connected devices)", at: 0)
-            consoleListBox.selectItem(at: consoleListBox.numberOfItems > selectedItem ? selectedItem : 0)
-        }
     }
 
     // MARK: USB Devices & Bootloaders
@@ -392,6 +344,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, HIDConsoleListenerDelegate, 
     }
 
     @IBAction
+    func clearButtonClick(_ sender: Any) {
+        logTextView.string = ""
+    }
+
+    @IBAction
     func keyTesterButtonClick(_ sender: Any) {
         if keyTesterWindowController == nil {
             keyTesterWindowController = NSWindowController(windowNibName: "KeyTesterWindow")
@@ -400,7 +357,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, HIDConsoleListenerDelegate, 
     }
 
     @IBAction
-    func clearButtonClick(_ sender: Any) {
-        logTextView.string = ""
+    func hidConsoleButtonClick(_ sender: Any) {
+        if hidConsoleWindowController == nil {
+            hidConsoleWindowController = NSWindowController(windowNibName: "HIDConsoleWindow")
+        }
+        hidConsoleWindowController.showWindow(self)
     }
 }
