@@ -423,7 +423,7 @@
                             </subviews>
                         </clipView>
                         <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="IBW-oz-f3p">
-                            <rect key="frame" x="1" y="489" width="778" height="16"/>
+                            <rect key="frame" x="1" y="517" width="778" height="16"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="guZ-nH-ZjT">
@@ -450,7 +450,7 @@
                     <constraint firstItem="9ht-zl-DdM" firstAttribute="bottom" secondItem="t67-0j-kLe" secondAttribute="top" constant="14" id="me3-Ss-MQt"/>
                     <constraint firstItem="OKF-oG-mRx" firstAttribute="leading" secondItem="TwL-TO-5Ka" secondAttribute="trailing" constant="8" symbolic="YES" id="okv-8t-gzV"/>
                     <constraint firstItem="w5R-Hk-e8X" firstAttribute="top" secondItem="qEj-2h-OmC" secondAttribute="bottom" constant="8" id="pgm-gC-AX5"/>
-                    <constraint firstItem="TwL-TO-5Ka" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="453" id="tV3-KG-Gbt"/>
+                    <constraint firstItem="TwL-TO-5Ka" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="458" id="tV3-KG-Gbt"/>
                     <constraint firstItem="t67-0j-kLe" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="10" id="tnv-lz-t10"/>
                     <constraint firstItem="qEj-2h-OmC" firstAttribute="leading" secondItem="RSb-Il-mNt" secondAttribute="trailing" constant="8" id="vD8-g2-zXG"/>
                     <constraint firstItem="qEj-2h-OmC" firstAttribute="top" secondItem="t67-0j-kLe" secondAttribute="bottom" constant="8" id="x1T-gj-rus"/>
