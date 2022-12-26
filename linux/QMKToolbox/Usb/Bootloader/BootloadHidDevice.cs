@@ -1,19 +1,24 @@
-﻿using System.Threading.Tasks;
+﻿// ReSharper disable StringLiteralTypo
+using System.Threading.Tasks;
 
-namespace QMK_Toolbox.Usb.Bootloader
+namespace QMK_Toolbox.Usb.Bootloader;
+
+internal class BootloadHidDevice : BootloaderDevice
 {
-    class BootloadHidDevice : BootloaderDevice
+    public BootloadHidDevice(KnownHidDevice d) : base(d)
     {
-        public BootloadHidDevice(UsbDevice d) : base(d)
-        {
-            Type = BootloaderType.AtmelDfu;
-            Name = "BootloadHID";
-            PreferredDriver = "HidUsb";
-            IsResettable = true;
-        }
+        Type = BootloaderType.AtmelDfu;
+        Name = "BootloadHID";
+        IsResettable = true;
+    }
 
-        public async override Task Flash(string mcu, string file) => await RunProcessAsync("bootloadHID.exe", $"-r \"{file}\"");
+    public override void Flash(string mcu, string file)
+    {
+        RunProcessAsync("bootloadHID", $"-r \"{file}\"").Wait();
+    }
 
-        public async override Task Reset(string mcu) => await RunProcessAsync("bootloadHID.exe", $"-r");
+    public override void Reset(string mcu)
+    {
+        RunProcessAsync("bootloadHID", "-r").Wait();
     }
 }

@@ -1,13 +1,16 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using QMKToolbox.ViewModels;
-using QMKToolbox.Views;
+using QMK_Toolbox.ViewModels;
+using QMK_Toolbox.Views;
 
-namespace QMKToolbox;
+namespace QMK_Toolbox;
 
-public partial class App : Application
+public class App : Application
 {
+    // ReSharper disable once MemberCanBePrivate.Global
+    public MainWindowViewModel MainWindowViewModel { get; set; }
+
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -17,10 +20,9 @@ public partial class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = new MainWindow
-            {
-                DataContext = new MainWindowViewModel(),
-            };
+            desktop.MainWindow = new MainWindow();
+            MainWindowViewModel = new MainWindowViewModel(Program.Arg, (IWindow)desktop.MainWindow);
+            desktop.MainWindow.DataContext = MainWindowViewModel;
         }
 
         base.OnFrameworkInitializationCompleted();

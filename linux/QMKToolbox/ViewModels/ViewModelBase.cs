@@ -1,6 +1,6 @@
 ﻿using ReactiveUI;
 
-namespace QMKToolbox.ViewModels;
+namespace QMK_Toolbox.ViewModels;
 
 public class ViewModelBase : ReactiveObject
 {

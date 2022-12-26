@@ -1,19 +1,25 @@
-﻿using System.Threading.Tasks;
+﻿// ReSharper disable StringLiteralTypo
+using System.Threading.Tasks;
 
-namespace QMK_Toolbox.Usb.Bootloader
+namespace QMK_Toolbox.Usb.Bootloader;
+
+internal class HalfKayDevice : BootloaderDevice
 {
-    class HalfKayDevice : BootloaderDevice
+    public HalfKayDevice(KnownHidDevice d) : base(d)
     {
-        public HalfKayDevice(UsbDevice d) : base(d)
-        {
-            Type = BootloaderType.HalfKay;
-            Name = "HalfKay";
-            PreferredDriver = "HidUsb";
-            IsResettable = true;
-        }
+        Type = BootloaderType.HalfKay;
+        Name = "HalfKay";
 
-        public async override Task Flash(string mcu, string file) => await RunProcessAsync("teensy_loader_cli.exe", $"-mmcu={mcu} \"{file}\" -v");
+        IsResettable = true;
+    }
 
-        public async override Task Reset(string mcu) => await RunProcessAsync("teensy_loader_cli.exe", $"-mmcu={mcu} -bv");
+    public override void Flash(string mcu, string file)
+    {
+        RunProcessAsync("/tmp/teensy_loader_cli", $"-mmcu={mcu} \"{file}\" -v").Wait();
+    }
+
+    public override void Reset(string mcu)
+    {
+        RunProcessAsync("/tmp/teensy_loader_cli", $"-mmcu={mcu} -bv").Wait();
     }
 }

@@ -1,147 +1,119 @@
 ﻿using System;
+using Avalonia.Threading;
+// ReSharper disable StringLiteralTypo
 using System.Diagnostics;
-using System.IO;
-using System.Management;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
-namespace QMK_Toolbox.Usb.Bootloader
+namespace QMK_Toolbox.Usb.Bootloader;
+
+internal abstract class BootloaderDevice
 {
-    public abstract class BootloaderDevice : IUsbDevice
+    public delegate void FlashOutputReceivedDelegate(BootloaderDevice device, string data, MessageType type);
+
+    public FlashOutputReceivedDelegate OutputReceived;
+
+    public BootloaderDevice(KnownHidDevice d)
     {
-        public delegate void FlashOutputReceivedDelegate(BootloaderDevice device, string data, MessageType type);
+        KnownHidDevice = d;
+    }
 
-        public FlashOutputReceivedDelegate outputReceived;
+    private KnownHidDevice KnownHidDevice { get; }
 
-        private UsbDevice UsbDevice { get; }
+    public ushort VendorId => KnownHidDevice.VendorId;
 
-        public ManagementBaseObject WmiDevice { get => UsbDevice.WmiDevice; }
+    public ushort ProductId => KnownHidDevice.ProductId;
 
-        public ushort VendorId { get => UsbDevice.VendorId; }
+    public ushort RevisionBcd => KnownHidDevice.RevisionBcd;
 
-        public ushort ProductId { get => UsbDevice.ProductId; }
+    public string ManufacturerString => KnownHidDevice.VendorName;
 
-        public ushort RevisionBcd { get => UsbDevice.RevisionBcd; }
+    public string ProductString => KnownHidDevice.ProductName;
 
-        public string ManufacturerString { get => UsbDevice.ManufacturerString; }
+    public bool IsEepromFlashable { get; protected set; }
 
-        public string ProductString { get => UsbDevice.ProductString; }
+    public bool IsResettable { get; protected set; }
 
-        public string Driver { get => UsbDevice.Driver; }
+    public BootloaderType Type { get; protected set; }
 
-        public string PreferredDriver { get; protected set; }
+    public string Name { get; protected set; }
 
-        public bool IsEepromFlashable { get; protected set; }
+    public override string ToString()
+    {
+        return KnownHidDevice.ToString();
+    }
 
-        public bool IsResettable { get; protected set; }
+    public virtual void Flash(string mcu, string file)
+    {
+        throw new NotImplementedException();
+    }
 
-        public BootloaderType Type { get; protected set; }
+    public virtual void FlashEeprom(string mcu, string file)
+    {
+        throw new NotImplementedException();
+    }
+    
+    public virtual void Reset(string mcu)
+    {
+        throw new NotImplementedException();
+    }
 
-        public string Name { get; protected set; }
-
-        public BootloaderDevice(UsbDevice d)
+    protected async Task<int> RunProcessAsync(string command, string args)
+    {
+        using var process = new Process
         {
-            UsbDevice = d;
-        }
-
-        public override string ToString() => UsbDevice.ToString();
-
-        public abstract Task Flash(string mcu, string file);
-
-        public virtual Task FlashEeprom(string mcu, string file)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual Task Reset(string mcu)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected async Task<int> RunProcessAsync(string command, string args)
-        {
-            PrintMessage($"{command} {args}", MessageType.Command);
-
-            using (var process = new Process
+            StartInfo =
             {
-                StartInfo =
-                {
-                    FileName = Path.Combine(Application.LocalUserAppDataPath, command),
-                    Arguments = args,
-                    WorkingDirectory = Application.LocalUserAppDataPath,
-                    UseShellExecute = false,
-                    CreateNoWindow = true,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true
-                },
-                EnableRaisingEvents = true
-            })
-            {
-                return await RunProcessAsync(process).ConfigureAwait(false);
-            }
-        }
+                FileName = command,
+                Arguments = args,
+                WorkingDirectory ="/tmp",
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            },
+            EnableRaisingEvents = true
+        };
+        return await RunProcessAsync(process).ConfigureAwait(false);
+    }
 
-        private Task<int> RunProcessAsync(Process process)
+    private Task<int> RunProcessAsync(Process process)
+    {
+        var tcs = new TaskCompletionSource<int>();
+
+        process.Exited += (sender, e) =>
         {
-            var tcs = new TaskCompletionSource<int>();
+            process.WaitForExit();
+            tcs.SetResult(process.ExitCode);
+        };
 
-            process.Exited += (sender, e) =>
+        process.OutputDataReceived += ProcessOutput;
+        process.ErrorDataReceived += ProcessErrorOutput;
+
+        var started = process.Start();
+        if (!started) PrintMessage($"Could not start process: {process}", MessageType.Error);
+
+        process.BeginOutputReadLine();
+        process.BeginErrorReadLine();
+
+        return tcs.Task;
+    }
+
+    private void ProcessOutput(object sender, DataReceivedEventArgs e)
+    {
+        if (e.Data != null) PrintMessage(e.Data, MessageType.CommandOutput);
+    }
+
+    private void ProcessErrorOutput(object sender, DataReceivedEventArgs e)
+    {
+        if (e.Data != null) PrintMessage(e.Data, MessageType.CommandError);
+    }
+
+    protected void PrintMessage(string message, MessageType type)
+    {
+        Task.Delay(1).ContinueWith( t => Dispatcher.UIThread.InvokeAsync(
+            () =>
             {
-                process.WaitForExit();
-                tcs.SetResult(process.ExitCode);
-            };
-
-            process.OutputDataReceived += ProcessOutput;
-            process.ErrorDataReceived += ProcessErrorOutput;
-
-            bool started = process.Start();
-            if (!started)
-            {
-                PrintMessage($"Could not start process: {process}", MessageType.Error);
-            }
-
-            process.BeginOutputReadLine();
-            process.BeginErrorReadLine();
-
-            return tcs.Task;
-        }
-
-        private void ProcessOutput(object sender, DataReceivedEventArgs e)
-        {
-            if (e.Data != null)
-            {
-                PrintMessage(e.Data, MessageType.CommandOutput);
-            }
-        }
-
-        private void ProcessErrorOutput(object sender, DataReceivedEventArgs e)
-        {
-            if (e.Data != null)
-            {
-                PrintMessage(e.Data, MessageType.CommandError);
-            }
-        }
-
-        protected void PrintMessage(string message, MessageType type)
-        {
-            outputReceived?.Invoke(this, message, type);
-        }
-
-        protected string FindComPort()
-        {
-            using (var searcher = new ManagementObjectSearcher("SELECT PNPDeviceID, DeviceID FROM Win32_SerialPort"))
-            {
-                foreach (var device in searcher.Get())
-                {
-                    if (device.GetPropertyValue("PNPDeviceID").ToString().Equals(WmiDevice.GetPropertyValue("PNPDeviceID").ToString()))
-                    {
-                        return device.GetPropertyValue("DeviceID").ToString();
-                    }
-                }
-            }
-
-            return null;
-        }
+                OutputReceived?.Invoke(this, message, type);
+            }));
     }
 }

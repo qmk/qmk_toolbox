@@ -1,34 +1,32 @@
-﻿using System.IO;
+﻿// ReSharper disable StringLiteralTypo
+using System.IO;
 using System.Threading.Tasks;
 
-namespace QMK_Toolbox.Usb.Bootloader
+namespace QMK_Toolbox.Usb.Bootloader;
+
+internal class Wb32DfuDevice : BootloaderDevice
 {
-    class Wb32DfuDevice : BootloaderDevice
+    public Wb32DfuDevice(KnownHidDevice d) : base(d)
     {
-        public Wb32DfuDevice(UsbDevice d) : base(d)
-        {
-            Type = BootloaderType.Wb32Dfu;
-            Name = "WB32 DFU";
-            PreferredDriver = "WinUSB";
-            IsResettable = true;
-        }
+        Type = BootloaderType.Wb32Dfu;
+        Name = "WB32 DFU";
+        IsResettable = true;
+    }
 
-        public async override Task Flash(string mcu, string file)
-        {
-            if (Path.GetExtension(file)?.ToLower() == ".bin")
-            {
-                await RunProcessAsync("wb32-dfu-updater_cli.exe", $"--toolbox-mode --dfuse-address 0x08000000 --download \"{file}\"");
-            }
-            else if (Path.GetExtension(file)?.ToLower() == ".hex")
-            {
-                await RunProcessAsync("wb32-dfu-updater_cli.exe", $"--toolbox-mode --download \"{file}\"");
-            }
-            else
-            {
-                PrintMessage("Only firmware files in .bin or .hex format can be flashed with wb32-dfu-updater_cli!", MessageType.Error);
-            }
-        }
+    public override void Flash(string mcu, string file)
+    {
+        if (Path.GetExtension(file)?.ToLower() == ".bin")
+            RunProcessAsync
+                ("/tmp/wb32-dfu-updater_cli", $"--toolbox-mode --dfuse-address 0x08000000 --download \"{file}\"").Wait();
+        else if (Path.GetExtension(file)?.ToLower() == ".hex")
+            RunProcessAsync("/tmp/wb32-dfu-updater_cli", $"--toolbox-mode --download \"{file}\"").Wait();
+        else
+            PrintMessage("Only firmware files in .bin or .hex format can be flashed with wb32-dfu-updater_cli!",
+                MessageType.Error);
+    }
 
-        public async override Task Reset(string mcu) => await RunProcessAsync("wb32-dfu-updater_cli.exe", $"--reset");
+    public override void Reset(string mcu)
+    {
+        RunProcessAsync("/tmp/wb32-dfu-updater_cli", "--reset").Wait();
     }
 }

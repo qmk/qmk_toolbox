@@ -1,43 +1,45 @@
-﻿using System.Threading.Tasks;
+﻿// ReSharper disable StringLiteralTypo
+namespace QMK_Toolbox.Usb.Bootloader;
 
-namespace QMK_Toolbox.Usb.Bootloader
+internal class CaterinaDevice : BootloaderDevice
 {
-    class CaterinaDevice : BootloaderDevice
+    public CaterinaDevice(KnownHidDevice d) : base(d)
     {
-        public string ComPort { get; }
+        Type = BootloaderType.Caterina;
+        Name = "Caterina";
 
-        public CaterinaDevice(UsbDevice d) : base(d)
+        IsEepromFlashable = true;
+
+        // TODO: Fix this
+        ComPort = "/dev/ttyS0"; // hard coded for now
+    }
+
+    public string ComPort { get; }
+
+    public override void Flash(string mcu, string file)
+    {
+        if (ComPort == null)
         {
-            Type = BootloaderType.Caterina;
-            Name = "Caterina";
-            PreferredDriver = "usbser";
-            IsEepromFlashable = true;
-
-            ComPort = FindComPort();
+            PrintMessage("COM port not found!", MessageType.Error);
+            return;
         }
 
-        public async override Task Flash(string mcu, string file)
-        {
-            if (ComPort == null)
-            {
-                PrintMessage("COM port not found!", MessageType.Error);
-                return;
-            }
+        RunProcessAsync("/tmp/avrdude", $"-p {mcu} -c avr109 -U flash:w:\"{file}\":i -P {ComPort}").Wait();
+    }
 
-            await RunProcessAsync("avrdude.exe", $"-p {mcu} -c avr109 -U flash:w:\"{file}\":i -P {ComPort}");
+    public override void FlashEeprom(string mcu, string file)
+    {
+        if (ComPort == null)
+        {
+            PrintMessage("COM port not found!", MessageType.Error);
+            return;
         }
 
-        public async override Task FlashEeprom(string mcu, string file)
-        {
-            if (ComPort == null)
-            {
-                PrintMessage("COM port not found!", MessageType.Error);
-                return;
-            }
+        RunProcessAsync("/tmp/avrdude", $"-p {mcu} -c avr109 -U eeprom:w:\"{file}\":i -P {ComPort}").Wait();
+    }
 
-            await RunProcessAsync("avrdude.exe", $"-p {mcu} -c avr109 -U eeprom:w:\"{file}\":i -P {ComPort}");
-        }
-
-        public override string ToString() => $"{base.ToString()} [{ComPort}]";
+    public override string ToString()
+    {
+        return $"{base.ToString()} [{ComPort}]";
     }
 }

@@ -42,7 +42,7 @@ namespace QMK_Toolbox
                 {
                     MessageBox.Show("QMK Toolbox doesn't support this kind of file", "File Type Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
-            }
+            
         }
 
         private void MainWindow_Load(object sender, EventArgs e)

@@ -1,19 +1,159 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:QMKToolbox.ViewModels"
+        xmlns:vm="using:QMK_Toolbox.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="QMKToolbox.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="QMKToolbox">
+        x:Class="QMK_Toolbox.Views.MainWindow"
+        Initialized="OnInitialized"
+        Width="800"
+        Height="670"
+        MinWidth="800"
+        MinHeight="670"
+        Title="QMK Toolbox"
+        Background="LightGray"
+        Icon="/Resources/qmk.ico">
 
     <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
+        <vm:MainWindowViewModel />
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <Grid ShowGridLines="False" VerticalAlignment="Stretch" 
+          ColumnDefinitions="10,Auto,*,*,*,*,*,10"
+          RowDefinitions="10,20,30,30,*,30,10">
+        <Label
+            FontSize="10"
+            Grid.Row="1"
+            Grid.Column="1"
+            VerticalAlignment="Bottom"
+            HorizontalAlignment="Left"
+            Content="Local File" />
+        <Label
+            FontSize="10"
+            Grid.Row="1"
+            Grid.Column="6"
+            VerticalAlignment="Bottom"
+            HorizontalAlignment="Right"
+            Margin="0,0,10,0"
+            Content="MCU (AVR only)" />
+        <TextBlock
+            TextWrapping="Wrap"
+            Grid.Row="2"
+            Grid.Column="1"
+            Grid.ColumnSpan="4"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Stretch"
+            Height="30"
+            Margin="0,7,0,10"
+            FontSize="11"
+            Text="{Binding HexFile}" />
+        <StackPanel
+            Orientation="Horizontal"
+            Grid.Row="2"
+            Grid.Column="5"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Right">
+            <Button
+                Command="{Binding OpenFileCommand}"
+                IsEnabled = "{Binding CanOpenFile}"
+                Margin="0,0,10,0"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right"
+                Height="26"
+                FontSize="11"
+                Content="_Open..." />
+            <ComboBox
+                x:Name="McuCombo"
+                Items="{Binding Mcus}"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right"
+                BorderBrush="DarkGray"
+                FontSize="10"
+                Width="120"
+                Height="26"
+                SelectedIndex="{Binding SelectedMcuIndex}" />
 
+        </StackPanel>
+        <StackPanel
+            Orientation="Horizontal"
+            Grid.Row="3"
+            Grid.Column="4"
+            Grid.ColumnSpan="3"
+            HorizontalAlignment="Right">
+            <Label
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left"
+                Height="20"
+                Margin="0,0,0,0"
+                FontSize="11"
+                Content="_Auto Flash" />
+            <CheckBox
+                x:Name="CheckBox"
+                IsEnabled = "{Binding CanAutoFlash}"
+                IsChecked="{Binding IsAutoFlash}"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left" />
+            <Button
+                Command="{Binding FlashCommand}"
+                IsEnabled = "{Binding CanFlash}"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left"
+                Height="25"
+                FontSize="11"
+                Margin="0,0,5,0"
+                Content="_Flash" />
+            <Button
+                Command="{Binding ClearEEPromCommand}"
+                IsEnabled = "{Binding CanClearEeprom}"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left"
+                Height="25"
+                FontSize="11"
+                Margin="0,0,5,0"
+                Content="_Clear EEPROM" />
+            <Button
+                Command="{Binding ExitDfuCommand}"
+                IsEnabled = "{Binding CanReset}"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left"
+                Height="25"
+                FontSize="11"
+                Content="_Exit DFU" />
+        </StackPanel>
+        
+        <Border 
+            Margin="0,5,0,5"
+            BorderThickness="1"
+            BorderBrush="DarkGray"
+            Grid.ColumnSpan="6"
+            Grid.Row="4"
+            Grid.Column="1">
+            <TextBlock
+                Padding="5,0,5,0"
+                FontFamily="Courier New"
+                Background="LightGray"
+                FontSize="10"
+                ScrollViewer.VerticalScrollBarVisibility ="Auto"
+                Margin="0,5,0,5"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch"
+                Text="{Binding Log}" 
+                MinHeight="500"
+                MinWidth="500" />
+        </Border>
+
+        <ComboBox x:Name="HidDeviceCombo"
+              Background="LightGray"
+              Grid.Row="5"
+              Grid.Column="1"
+              VerticalAlignment="Top"
+              HorizontalAlignment="Stretch"
+              FontSize="10"
+              Height="25"
+              BorderBrush="DarkGray"
+              Grid.ColumnSpan="6"
+              SelectedIndex="0">
+            <ComboBoxItem>No HID console devices connected</ComboBoxItem>
+        </ComboBox>
+    </Grid>
 </Window>

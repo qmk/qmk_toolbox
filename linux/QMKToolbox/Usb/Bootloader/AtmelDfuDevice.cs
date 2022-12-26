@@ -1,50 +1,52 @@
-﻿using System.Threading.Tasks;
+﻿
+// ReSharper disable StringLiteral
 
-namespace QMK_Toolbox.Usb.Bootloader
+using System.Threading.Tasks;
+
+namespace QMK_Toolbox.Usb.Bootloader;
+
+internal class AtmelDfuDevice : BootloaderDevice
 {
-    class AtmelDfuDevice : BootloaderDevice
+    public AtmelDfuDevice(KnownHidDevice d) : base(d)
     {
-        public AtmelDfuDevice(UsbDevice d) : base(d)
+        if (d.RevisionBcd == 0x0936)
         {
-            if (d.RevisionBcd == 0x0936)
-            {
-                Type = BootloaderType.QmkDfu;
-                Name = "QMK DFU";
-            }
-            else
-            {
-                Type = BootloaderType.AtmelDfu;
-                Name = "Atmel DFU";
-            }
-            PreferredDriver = "libusb0";
-            IsEepromFlashable = true;
-            IsResettable = true;
+            Type = BootloaderType.QmkDfu;
+            Name = "QMK DFU";
+        }
+        else
+        {
+            Type = BootloaderType.AtmelDfu;
+            Name = "Atmel DFU";
         }
 
-        public async override Task Flash(string mcu, string file)
-        {
-            await RunProcessAsync("dfu-programmer.exe", $"{mcu} erase --force");
-            await Task.Delay(5);
-            await RunProcessAsync("dfu-programmer.exe", $"{mcu} flash --force \"{file}\"");
-            await Task.Delay(5);
-            await RunProcessAsync("dfu-programmer.exe", $"{mcu} reset");
-        }
+        IsEepromFlashable = true;
+        IsResettable = true;
+    }
 
-        public async override Task FlashEeprom(string mcu, string file)
-        {
-            if (Type == BootloaderType.AtmelDfu)
-            {
-                await RunProcessAsync("dfu-programmer.exe", $"{mcu} erase --force");
-            }
+    public override void Flash(string mcu, string file)
+    {
+        RunProcessAsync("/tmp/dfu-programmer", $"{mcu} erase --force").Wait();
+        Task.Delay(5).Wait();
+        RunProcessAsync("/tmp/dfu-programmer", $"{mcu} flash --force \"{file}\"").Wait();
+        Task.Delay(5).Wait();
+        RunProcessAsync("/tmp/dfu-programmer", $"{mcu} reset").Wait();
+    }
 
-            await RunProcessAsync("dfu-programmer.exe", $"{mcu} flash --force --suppress-validation --eeprom \"{file}\"");
+    public override void FlashEeprom(string mcu, string file)
+    {
+        if (Type == BootloaderType.AtmelDfu) 
+            RunProcessAsync("/tmp/dfu-programmer", $"{mcu} erase --force").Wait();
 
-            if (Type == BootloaderType.AtmelDfu)
-            {
-                PrintMessage("Please reflash device with firmware now", MessageType.Bootloader);
-            }
-        }
+        RunProcessAsync("dfu-programmer",
+            $"{mcu} flash --force --suppress-validation --eeprom \"{file}\"").Wait();
 
-        public async override Task Reset(string mcu) => await RunProcessAsync("dfu-programmer.exe", $"{mcu} reset");
+        if (Type == BootloaderType.AtmelDfu)
+            PrintMessage("Please reflash device with firmware now", MessageType.Bootloader);
+    }
+
+    public override void Reset(string mcu)
+    {
+        RunProcessAsync("/tmp/dfu-programmer", $"{mcu} reset").Wait();
     }
 }

@@ -1,328 +1,380 @@
-﻿using QMK_Toolbox.Usb.Bootloader;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Management;
-using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+using LibUsbDotNet.LibUsb;
+using LibUsbDotNet.Main;
+using QMK_Toolbox.Usb.Bootloader;
 
-namespace QMK_Toolbox.Usb
+// ReSharper disable StringLiteralTypo
+
+namespace QMK_Toolbox.Usb;
+
+internal class UsbListener
 {
-    public class UsbListener
+    public delegate void BootloaderDeviceEventDelegate(BootloaderDevice device);
+
+    public delegate void FlashOutputReceivedDelegate(BootloaderDevice device, string data, MessageType type);
+
+    private readonly List<KnownHidDevice> _attachedDevices = new();
+    private readonly List<KnownHidDevice> _knownDevices = new();
+    private Task _backgroundTask;
+
+    public BootloaderDeviceEventDelegate BootloaderDeviceConnected;
+    public BootloaderDeviceEventDelegate BootloaderDeviceDisconnected;
+
+    public FlashOutputReceivedDelegate OutputReceived;
+
+    public UsbListener()
     {
-        private static readonly Regex UsbIdRegex = new Regex(@"USB\\VID_([0-9A-F]{4})&PID_([0-9A-F]{4})&REV_([0-9A-F]{4})");
+        PopulateKnownDevices();
+    }
 
-        public List<IUsbDevice> Devices { get; private set; }
+    public void Start()
+    {
+        _backgroundTask = new Task(CheckKnownDevicesConnectionState, TaskCreationOptions.LongRunning);
+        _backgroundTask.Start();
+    }
 
-        public delegate void UsbDeviceEventDelegate(UsbDevice device);
+    public void Stop()
+    {
+    }
 
-        public delegate void BootloaderDeviceEventDelegate(BootloaderDevice device);
-        public delegate void FlashOutputReceivedDelegate(BootloaderDevice device, string data, MessageType type);
+    public void Dispose()
+    {
+    }
 
-        public UsbDeviceEventDelegate usbDeviceConnected;
-        public UsbDeviceEventDelegate usbDeviceDisconnected;
+    private void FlashOutputReceived(BootloaderDevice device, string data, MessageType type)
+    {
+        OutputReceived?.Invoke(device, data, type);
+    }
 
-        public BootloaderDeviceEventDelegate bootloaderDeviceConnected;
-        public BootloaderDeviceEventDelegate bootloaderDeviceDisconnected;
-        public FlashOutputReceivedDelegate outputReceived;
-
-        private void EnumerateUsbDevices(bool connected)
+    private void CheckKnownDevicesConnectionState()
+    {
+        while (true)
         {
-            var enumeratedDevices = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity WHERE DeviceID LIKE 'USB%'").Get()
-                .Cast<ManagementBaseObject>().ToList()
-                .Where(d => ((string[])d.GetPropertyValue("HardwareID")).Any(s => UsbIdRegex.Match(s).Success));
-
-            if (connected)
+            foreach (var device in _knownDevices.Where(dev=>dev.RevisionBcd==0x0100))
             {
-                foreach (var device in enumeratedDevices)
+                UsbDeviceFinder finder;
+                finder = new UsbDeviceFinder(device.VendorId, device.ProductId);
+
+                using var context = new UsbContext();
+                var myUsbDevice = (UsbDevice)context.Find(finder);
+                if (myUsbDevice != null)
                 {
-                    var listed = Devices.ToList().Aggregate(false, (curr, d) => curr | d.WmiDevice.Equals(device));
-
-                    if (device != null && !listed)
+                    if (!_attachedDevices.Any(x => x.VendorId == device.VendorId && x.ProductId == device.ProductId))
                     {
-                        IUsbDevice usbDevice = CreateDevice(device);
-                        Devices.Add(usbDevice);
-
-                        if (usbDevice is BootloaderDevice)
-                        {
-                            bootloaderDeviceConnected?.Invoke(usbDevice as BootloaderDevice);
-                            (usbDevice as BootloaderDevice).outputReceived = FlashOutputReceived;
-                        }
-                        else
-                        {
-                            usbDeviceConnected?.Invoke(usbDevice as UsbDevice);
-                        }
+                        _attachedDevices.Add(device);
+                        var bootloaderDevice = CreateDevice(device);
+                        BootloaderDeviceConnected?.Invoke(bootloaderDevice);
+                        bootloaderDevice.OutputReceived = FlashOutputReceived;
                     }
                 }
-            }
-            else
-            {
-                foreach (var device in Devices.ToList())
+                else
                 {
-                    var listed = enumeratedDevices.Aggregate(false, (curr, d) => curr | device.WmiDevice.Equals(d));
-
-                    if (!listed)
+                    if (_attachedDevices.Any(x => x.VendorId == device.VendorId && x.ProductId == device.ProductId))
                     {
-                        Devices.Remove(device);
-
-                        if (device is BootloaderDevice)
-                        {
-                            bootloaderDeviceDisconnected?.Invoke(device as BootloaderDevice);
-                            (device as BootloaderDevice).outputReceived = null;
-                        }
-                        else
-                        {
-                            usbDeviceDisconnected?.Invoke(device as UsbDevice);
-                        }
+                        _attachedDevices.Remove(device);
+                        var bootloaderDevice = CreateDevice(device);
+                        BootloaderDeviceDisconnected?.Invoke(bootloaderDevice);
+                        bootloaderDevice.OutputReceived = null;
                     }
                 }
+
+                myUsbDevice?.Dispose();
+
+                Thread.Sleep(10);
             }
         }
+    }
 
-        private void FlashOutputReceived(BootloaderDevice device, string data, MessageType type)
+    private static BootloaderDevice CreateDevice(KnownHidDevice device)
+    {
+        switch (device.BootloaderType)
         {
-            outputReceived?.Invoke(device, data, type);
+            case BootloaderType.Apm32Dfu:
+                return new Apm32DfuDevice(device);
+            case BootloaderType.AtmelDfu:
+            case BootloaderType.QmkDfu:
+                return new AtmelDfuDevice(device);
+            case BootloaderType.AtmelSamBa:
+                return new AtmelSamBaDevice(device);
+            case BootloaderType.AvrIsp:
+                return new AvrIspDevice(device);
+            case BootloaderType.BootloadHid:
+                return new BootloadHidDevice(device);
+            case BootloaderType.Caterina:
+                return new CaterinaDevice(device);
+            case BootloaderType.Gd32VDfu:
+                return new Gd32VDfuDevice(device);
+            case BootloaderType.HalfKay:
+                return new HalfKayDevice(device);
+            case BootloaderType.KiibohdDfu:
+                return new KiibohdDfuDevice(device);
+            case BootloaderType.LufaHid:
+            case BootloaderType.QmkHid:
+                return new LufaHidDevice(device);
+            case BootloaderType.LufaMs:
+                return new LufaMsDevice(device);
+            case BootloaderType.Stm32Dfu:
+                return new Stm32DfuDevice(device);
+            case BootloaderType.Stm32Duino:
+                return new Stm32DuinoDevice(device);
+            case BootloaderType.UsbAsp:
+                return new UsbAspDevice(device);
+            case BootloaderType.UsbTinyIsp:
+                return new UsbTinyIspDevice(device);
+            case BootloaderType.Wb32Dfu:
+                return new Wb32DfuDevice(device);
         }
 
-        private ManagementEventWatcher deviceConnectedWatcher;
-        private ManagementEventWatcher deviceDisconnectedWatcher;
+        return null;
+    }
 
-        private ManagementEventWatcher CreateManagementEventWatcher(string eventType)
+    private void PopulateKnownDevices()
+    {
+        _knownDevices.Add(new KnownHidDevice
         {
-            return new ManagementEventWatcher($"SELECT * FROM {eventType} WITHIN 2 WHERE TargetInstance ISA 'Win32_PnPEntity' AND TargetInstance.DeviceID LIKE 'USB%'");
-        }
-
-        private void UsbDeviceWmiEvent(object sender, EventArrivedEventArgs e)
+            VendorId = 0x03eb, ProductId = 0x2045,
+            VendorName = "Amtel", ProductName = "Bootloader", BootloaderType = BootloaderType.LufaMs
+        });
+        _knownDevices.Add(new KnownHidDevice
         {
-            if (!(e.NewEvent["TargetInstance"] is ManagementBaseObject _))
-            {
-                return;
-            }
-
-            (sender as ManagementEventWatcher)?.Stop();
-            EnumerateUsbDevices(e.NewEvent.ClassPath.ClassName.Equals("__InstanceCreationEvent"));
-            (sender as ManagementEventWatcher)?.Start();
-        }
-
-        public void Start()
+            VendorId = 0x03eb, ProductId = 0x2067, RevisionBcd = 0x0936,
+            VendorName = "Amtel", ProductName = "Bootloader QmkHid", BootloaderType = BootloaderType.QmkHid
+        });
+        _knownDevices.Add(new KnownHidDevice
         {
-            if (Devices == null)
-            {
-                Devices = new List<IUsbDevice>();
-            }
-            EnumerateUsbDevices(true);
-
-            if (deviceConnectedWatcher == null)
-            {
-                deviceConnectedWatcher = CreateManagementEventWatcher("__InstanceCreationEvent");
-            }
-            deviceConnectedWatcher.EventArrived += UsbDeviceWmiEvent;
-            deviceConnectedWatcher.Start();
-
-            if (deviceDisconnectedWatcher == null)
-            {
-                deviceDisconnectedWatcher = CreateManagementEventWatcher("__InstanceDeletionEvent");
-            }
-            deviceDisconnectedWatcher.EventArrived += UsbDeviceWmiEvent;
-            deviceDisconnectedWatcher.Start();
-        }
-
-        public void Stop()
+            VendorId = 0x03eb, ProductId = 0x2067,
+            VendorName = "Amtel", ProductName = "Bootloader QmkHid", BootloaderType = BootloaderType.LufaHid
+        });
+        _knownDevices.Add(new KnownHidDevice
         {
-            if (deviceConnectedWatcher != null)
-            {
-                deviceConnectedWatcher.Stop();
-                deviceConnectedWatcher.EventArrived -= UsbDeviceWmiEvent;
-            }
-
-            if (deviceDisconnectedWatcher != null)
-            {
-                deviceDisconnectedWatcher.Stop();
-                deviceDisconnectedWatcher.EventArrived -= UsbDeviceWmiEvent;
-            }
-        }
-
-        public void Dispose()
+            VendorId = 0x03eb, ProductId = 0x2fef,
+            VendorName = "Amtel", ProductName = "ATMega16U2", BootloaderType = BootloaderType.AtmelDfu
+        });
+        _knownDevices.Add(new KnownHidDevice
         {
-            Stop();
-            deviceConnectedWatcher?.Dispose();
-            deviceDisconnectedWatcher?.Dispose();
-        }
-
-        private static IUsbDevice CreateDevice(ManagementBaseObject d)
+            VendorId = 0x03eb, ProductId = 0x2ff0,
+            VendorName = "Amtel", ProductName = "ATmega32U2", BootloaderType = BootloaderType.AtmelDfu
+        });
+        _knownDevices.Add(new KnownHidDevice
         {
-            UsbDevice usbDevice = new UsbDevice(d);
-
-            switch (GetDeviceType(usbDevice.VendorId, usbDevice.ProductId, usbDevice.RevisionBcd))
-            {
-                case BootloaderType.Apm32Dfu:
-                    return new Apm32DfuDevice(usbDevice);
-                case BootloaderType.AtmelDfu:
-                case BootloaderType.QmkDfu:
-                    return new AtmelDfuDevice(usbDevice);
-                case BootloaderType.AtmelSamBa:
-                    return new AtmelSamBaDevice(usbDevice);
-                case BootloaderType.AvrIsp:
-                    return new AvrIspDevice(usbDevice);
-                case BootloaderType.BootloadHid:
-                    return new BootloadHidDevice(usbDevice);
-                case BootloaderType.Caterina:
-                    return new CaterinaDevice(usbDevice);
-                case BootloaderType.Gd32VDfu:
-                    return new Gd32VDfuDevice(usbDevice);
-                case BootloaderType.HalfKay:
-                    return new HalfKayDevice(usbDevice);
-                case BootloaderType.KiibohdDfu:
-                     return new KiibohdDfuDevice(usbDevice);
-                case BootloaderType.LufaHid:
-                case BootloaderType.QmkHid:
-                    return new LufaHidDevice(usbDevice);
-                case BootloaderType.LufaMs:
-                    return new LufaMsDevice(usbDevice);
-                case BootloaderType.Stm32Dfu:
-                    return new Stm32DfuDevice(usbDevice);
-                case BootloaderType.Stm32Duino:
-                    return new Stm32DuinoDevice(usbDevice);
-                case BootloaderType.UsbAsp:
-                    return new UsbAspDevice(usbDevice);
-                case BootloaderType.UsbTinyIsp:
-                    return new UsbTinyIspDevice(usbDevice);
-                case BootloaderType.Wb32Dfu:
-                    return new Wb32DfuDevice(usbDevice);
-            }
-
-            return usbDevice;
-        }
-
-        private static BootloaderType GetDeviceType(ushort vendorId, ushort productId, ushort revisionBcd)
+            VendorId = 0x03eb, ProductId = 0x2ff3,
+            VendorName = "Amtel", ProductName = "ATmega16U4", BootloaderType = BootloaderType.AtmelDfu
+        });
+        _knownDevices.Add(new KnownHidDevice
         {
-            switch (vendorId)
-            {
-                case 0x03EB: // Atmel Corporation
-                    switch (productId)
-                    {
-                        case 0x2045:
-                            return BootloaderType.LufaMs;
-                        case 0x2067:
-                            if (revisionBcd == 0x0936) // Unicode Ψ
-                            {
-                                return BootloaderType.QmkHid;
-                            }
+            VendorId = 0x03eb, ProductId = 0x2ff4,
+            VendorName = "Amtel", ProductName = "ATmega32U4", BootloaderType = BootloaderType.AtmelDfu
+        });
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x03eb, ProductId = 0x2ff9,
+            VendorName = "Amtel", ProductName = "AT90USB64", BootloaderType = BootloaderType.AtmelDfu
+        });
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x03eb, ProductId = 0x2ffa,
+            VendorName = "Amtel", ProductName = "AT90USB64r", BootloaderType = BootloaderType.AtmelDfu
+        });
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x03eb, ProductId = 0x2ffb,
+            VendorName = "Amtel", ProductName = "AT90USB128", BootloaderType = BootloaderType.AtmelDfu
+        });
+        //
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x03eb, ProductId = 0x2067, RevisionBcd = 0x0936,
+            VendorName = "Amtel", ProductName = "Bootloader QmkHid", BootloaderType = BootloaderType.LufaHid
+        });
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x03eb, ProductId = 0x2fef, RevisionBcd = 0x0936,
+            VendorName = "Amtel", ProductName = "ATMega16U2", BootloaderType = BootloaderType.QmkDfu
+        });
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x03eb, ProductId = 0x2ff0, RevisionBcd = 0x0936,
+            VendorName = "Amtel", ProductName = "ATmega32U2", BootloaderType = BootloaderType.QmkDfu
+        });
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x03eb, ProductId = 0x2ff3, RevisionBcd = 0x0936,
+            VendorName = "Amtel", ProductName = "ATmega16U4", BootloaderType = BootloaderType.QmkDfu
+        });
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x03eb, ProductId = 0x2ff4, RevisionBcd = 0x0936,
+            VendorName = "Amtel", ProductName = "ATmega32U4", BootloaderType = BootloaderType.QmkDfu
+        });
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x03eb, ProductId = 0x2ff9, RevisionBcd = 0x0936,
+            VendorName = "Amtel", ProductName = "AT90USB64", BootloaderType = BootloaderType.QmkDfu
+        });
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x03eb, ProductId = 0x2ffa, RevisionBcd = 0x0936,
+            VendorName = "Amtel", ProductName = "AT90USB64r", BootloaderType = BootloaderType.QmkDfu
+        });
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x03eb, ProductId = 0x2ffb, RevisionBcd = 0x0936,
+            VendorName = "Amtel", ProductName = "AT90USB128", BootloaderType = BootloaderType.QmkDfu
+        });
 
-                            return BootloaderType.LufaHid;
-                        case 0x2FEF: // ATmega16U2
-                        case 0x2FF0: // ATmega32U2
-                        case 0x2FF3: // ATmega16U4
-                        case 0x2FF4: // ATmega32U4
-                        case 0x2FF9: // AT90USB64
-                        case 0x2FFA: // AT90USB162
-                        case 0x2FFB: // AT90USB128
-                            if (revisionBcd == 0x0936) // Unicode Ψ
-                            {
-                                return BootloaderType.QmkDfu;
-                            }
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x0438, ProductId = 0x0000,
+            VendorName = "STMicroelectronics", ProductName = "STM Device in DFU Mode",
+            BootloaderType = BootloaderType.Stm32Dfu
+        });
 
-                            return BootloaderType.AtmelDfu;
-                        case 0x6124:
-                            return BootloaderType.AtmelSamBa;
-                    }
-                    break;
-                case 0x0483: // STMicroelectronics
-                    if (productId == 0xDF11)
-                    {
-                        return BootloaderType.Stm32Dfu;
-                    }
-                    break;
-                case 0x1209: // pid.codes
-                    if (productId == 0x2302) // Keyboardio Atreus 2 Bootloader
-                    {
-                        return BootloaderType.Caterina;
-                    }
-                    break;
-                case 0x16C0: // Van Ooijen Technische Informatica
-                    switch (productId)
-                    {
-                        case 0x0478:
-                            return BootloaderType.HalfKay;
-                        case 0x0483:
-                            return BootloaderType.AvrIsp;
-                        case 0x05DC:
-                            return BootloaderType.UsbAsp;
-                        case 0x05DF:
-                            return BootloaderType.BootloadHid;
-                    }
-                    break;
-                case 0x1781: // MECANIQUE
-                    if (productId == 0x0C9F)
-                    {
-                        return BootloaderType.UsbTinyIsp;
-                    }
-                    break;
-                case 0x1B4F: // Spark Fun Electronics
-                    switch (productId)
-                    {
-                        case 0x9203: // Pro Micro 3V3/8MHz
-                        case 0x9205: // Pro Micro 5V/16MHz
-                        case 0x9207: // LilyPad 3V3/8MHz (and some Pro Micro clones)
-                            return BootloaderType.Caterina;
-                    }
-                    break;
-                case 0x1C11: // Input Club Inc.
-                    if (productId == 0xB007)
-                    {
-                        return BootloaderType.KiibohdDfu;
-                    }
-                    break;
-                case 0x1EAF: // Leaflabs
-                    if (productId == 0x0003)
-                    {
-                        return BootloaderType.Stm32Duino;
-                    }
-                    break;
-                case 0x1FFB: // Pololu Corporation
-                    if (productId == 0x0101) // A-Star 32U4
-                    {
-                        return BootloaderType.Caterina;
-                    }
-                    break;
-                case 0x2341: // Arduino SA
-                case 0x2A03: // dog hunter AG
-                    switch (productId)
-                    {
-                        case 0x0036: // Leonardo
-                        case 0x0037: // Micro
-                            return BootloaderType.Caterina;
-                    }
-                    break;
-                case 0x239A: // Adafruit
-                    switch (productId)
-                    {
-                        case 0x000C: // Feather 32U4
-                        case 0x000D: // ItsyBitsy 32U4 3V3/8MHz
-                        case 0x000E: // ItsyBitsy 32U4 5V/16MHz
-                            return BootloaderType.Caterina;
-                    }
-                    break;
-                case 0x28E9: // GigaDevice Semiconductor (Beijing) Inc.
-                    switch (productId)
-                    {
-                        case 0x0189: // GD32VF103 DFU
-                            return BootloaderType.Gd32VDfu;
-                    }
-                    break;
-                case 0x314B: // Geehy Semiconductor Co. Ltd.
-                    if (productId == 0x0106)
-                    {
-                        return BootloaderType.Apm32Dfu;
-                    }
-                    break;
-                case 0x342D: // WestBerryTech
-                    if (productId == 0xDFA0)
-                    {
-                        return BootloaderType.Wb32Dfu;
-                    }
-                    break;
-            }
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x2045, ProductId = 0x0000,
+            VendorName = "Generic", ProductName = "Keyboardio Atreus 2 Bootloader",
+            BootloaderType = BootloaderType.Caterina
+        });
 
-            return BootloaderType.None;
-        }
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x1209, ProductId = 0x0478,
+            VendorName = "Van Ooijen Technische Informatica", ProductName = "Teensy Halfkay Bootloader",
+            BootloaderType = BootloaderType.HalfKay
+        });
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x1209, ProductId = 0x483,
+            VendorName = "Van Ooijen Technische Informatica", ProductName = "Teensyduino Serial",
+            BootloaderType = BootloaderType.AvrIsp
+        });
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x1209, ProductId = 0x05dc,
+            VendorName = "Van Ooijen Technische Informatica", ProductName = "Teensy Halfkay Bootloader",
+            BootloaderType = BootloaderType.UsbAsp
+        });
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x1209, ProductId = 0x5df,
+            VendorName = "Van Ooijen Technische Informatica", ProductName = "SharedID for USB",
+            BootloaderType = BootloaderType.BootloadHid
+        });
+
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 1781, ProductId = 0x0,
+            VendorName = "Mechanique", ProductName = "USB Tiny",
+            BootloaderType = BootloaderType.UsbTinyIsp
+        });
+
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x1b4f, ProductId = 0x9203,
+            VendorName = "Spark Fun Electronics", ProductName = "Pro Micro 3V3/8MHz",
+            BootloaderType = BootloaderType.Caterina
+        });
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x1b4f, ProductId = 0x9205,
+            VendorName = "Spark Fun Electronics", ProductName = "Pro Micro 5V/16MHz",
+            BootloaderType = BootloaderType.Caterina
+        });
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x1b4f, ProductId = 0x9207,
+            VendorName = "Spark Fun Electronics", ProductName = "LilyPad 3V3/8MHz (and some Pro Micro clones)",
+            BootloaderType = BootloaderType.Caterina
+        });
+
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x1c11, ProductId = 0xb007,
+            VendorName = "Input Club Inc.", ProductName = "Kiibohd DFU",
+            BootloaderType = BootloaderType.KiibohdDfu
+        });
+
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x1eaf, ProductId = 0x0003,
+            VendorName = "Leaf Labs", ProductName = "A-Star 32U4",
+            BootloaderType = BootloaderType.Stm32Duino
+        });
+
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x1ffb, ProductId = 0x0003,
+            VendorName = "Pololu Corporation", ProductName = "STM32Duino",
+            BootloaderType = BootloaderType.Caterina
+        });
+
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x2341, ProductId = 0x0036,
+            VendorName = "Arduino SA", ProductName = "Arduino Leonardo (bootloader)",
+            BootloaderType = BootloaderType.Caterina
+        });
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x2341, ProductId = 0x0037,
+            VendorName = "Arduino SA", ProductName = "Arduino Micro (bootloader)",
+            BootloaderType = BootloaderType.Caterina
+        });
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x2a03, ProductId = 0x0036,
+            VendorName = "dog hunter AG", ProductName = "Arduino Leonardo (bootloader)",
+            BootloaderType = BootloaderType.Caterina
+        });
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x2a03, ProductId = 0x0037,
+            VendorName = "dog hunter AG", ProductName = "Arduino Micro (bootloader)",
+            BootloaderType = BootloaderType.Caterina
+        });
+
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x2398, ProductId = 0x000c,
+            VendorName = "AdaFruit", ProductName = "Feather 32U4",
+            BootloaderType = BootloaderType.Caterina
+        });
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x2398, ProductId = 0x000d,
+            VendorName = "AdaFruit", ProductName = "ItsyBitsy 32U4 3V3/8MHz",
+            BootloaderType = BootloaderType.Caterina
+        });
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x2398, ProductId = 0x000e,
+            VendorName = "AdaFruit", ProductName = "ItsyBitsy 32U4 5V/16MHz",
+            BootloaderType = BootloaderType.Caterina
+        });
+
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x28e9, ProductId = 0x0189,
+            VendorName = "GDMicroelectronics", ProductName = "GD32 DFU Bootloader (Longan Nano)",
+            BootloaderType = BootloaderType.Gd32VDfu
+        });
+
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x314b, ProductId = 0x0106,
+            VendorName = "Geehy Semiconductor Co. Ltd.", ProductName = "APM32 DFU Bootloader",
+            BootloaderType = BootloaderType.Apm32Dfu
+        });
+
+        _knownDevices.Add(new KnownHidDevice
+        {
+            VendorId = 0x3420, ProductId = 0x0003,
+            VendorName = "WestBerryTech", ProductName = "WB32 DFU Bootloader",
+            BootloaderType = BootloaderType.Wb32Dfu
+        });
     }
 }

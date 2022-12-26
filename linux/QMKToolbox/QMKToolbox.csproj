@@ -1,28 +1,67 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-  </PropertyGroup>
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+        <RootNamespace>QMK_Toolbox</RootNamespace>
+        <ImplicitUsings>false</ImplicitUsings>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <Nullable>disable</Nullable>
+        <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+        <PublishTrimmed>true</PublishTrimmed>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\" />
-    <AvaloniaResource Include="Assets\**" />
-    <None Remove=".gitignore" />
-  </ItemGroup>
+    <ItemGroup>
+        <AvaloniaResource Include="Resources\**" />
+        <None Remove=".gitignore" />
+        <None Remove="Usb\Bootloader\LufaHidDevice.cs~" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <TrimmerRootDescriptor Include="Roots.xml" />
-  </ItemGroup>
+    <ItemGroup>
+        <TrimmerRootDescriptor Include="Roots.xml" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.10.18" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.10.18" />
-    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.18" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.18" />
-    <PackageReference Include="XamlNameReferenceGenerator" Version="1.5.1" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="0.10.18" />
+        <PackageReference Include="Avalonia.Desktop" Version="0.10.18" />
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.18" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.18" />
+        <PackageReference Include="MessageBox.Avalonia" Version="2.1.0" />
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
+        <PackageReference Include="XamlNameReferenceGenerator" Version="1.5.1" />
+        <PackageReference Include="LibUsbDotNet" Version="3.0.102-alpha" />
+
+    </ItemGroup>
+
+    <ItemGroup>
+
+        <EmbeddedResource Include="../../common/avrdude.conf">
+            <Link>Resources/avrdude.conf</Link>
+        </EmbeddedResource>
+        <EmbeddedResource Include="../../common/mcu-list.txt">
+            <Link>Resources/mcu-list.txt</Link>
+        </EmbeddedResource>
+        <EmbeddedResource Include="../../common/reset.eep">
+            <Link>Resources/reset.eep</Link>
+        </EmbeddedResource>
+        <EmbeddedResource Include="../../common/reset_left.eep">
+            <Link>Resources/reset_left.eep</Link>
+        </EmbeddedResource>
+        <EmbeddedResource Include="../../common/reset_right.eep">
+            <Link>Resources/reset_right.eep</Link>
+        </EmbeddedResource>
+        <EmbeddedResource Include="Resources/avrdude" />
+        <EmbeddedResource Include="Resources/bootloadHID" />
+        <EmbeddedResource Include="Resources/dfu-programmer" />
+        <EmbeddedResource Include="Resources/dfu-util" />
+        <EmbeddedResource Include="Resources/hid_bootloader_cli" />
+        <EmbeddedResource Include="Resources/mdloader" />
+        <EmbeddedResource Include="Resources/teensy-loader" />
+        <EmbeddedResource Include="Resources/wb32-dfu-updater_cli" />
+        <EmbeddedResource Include="Resources/libftdi1.so" />
+        <EmbeddedResource Include="Resources/libusb.so" />
+
+    </ItemGroup>
+
+
 </Project>

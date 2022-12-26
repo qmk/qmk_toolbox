@@ -145,3 +145,8 @@ namespace QMK_Toolbox.Usb.Bootloader
         }
     }
 }
+Console.WriteLine($"Detaching device -- VID: {device.VendorId:x4}, PID: {device.ProductId:x4}");
+                        _attachedDevices.Remove(device);
+                        var bootloaderDevice = CreateDevice(device);
+                        BootloaderDeviceDisconnected?.Invoke(bootloaderDevice);
+                        bootloaderDevice.OutputReceived = null;

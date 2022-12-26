@@ -1,29 +1,25 @@
-﻿using System.Threading.Tasks;
+﻿// ReSharper disable StringLiteralTypo
+namespace QMK_Toolbox.Usb.Bootloader;
 
-namespace QMK_Toolbox.Usb.Bootloader
+internal class AvrIspDevice : BootloaderDevice
 {
-    class AvrIspDevice : BootloaderDevice
+    public AvrIspDevice(KnownHidDevice d) : base(d)
     {
-        private string ComPort { get; }
+        Type = BootloaderType.AvrIsp;
+        Name = "AVR ISP";
+        // TODO: Fix this
+        ComPort = "/dev/ttyS0"; // hard coded for now
+    }
 
-        public AvrIspDevice(UsbDevice d) : base(d)
+    private string ComPort { get; }
+
+    public override void Flash(string mcu, string file)
+    {
+        if (ComPort == null)
         {
-            Type = BootloaderType.AvrIsp;
-            Name = "AVR ISP";
-            PreferredDriver = "usbser";
-
-            ComPort = FindComPort();
+            PrintMessage("COM port not found!", MessageType.Error);
+            return;
         }
-
-        public async override Task Flash(string mcu, string file)
-        {
-            if (ComPort == null)
-            {
-                PrintMessage("COM port not found!", MessageType.Error);
-                return;
-            }
-
-            await RunProcessAsync("avrdude.exe", $"-p {mcu} -c avrisp -U flash:w:\"{file}\":i -P {ComPort}");
-        }
+        RunProcessAsync("/tmp/avrdude", $"-p {mcu} -c avrisp -U flash:w:\"{file}\":i -P {ComPort}").Wait();
     }
 }

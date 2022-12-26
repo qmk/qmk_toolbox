@@ -192,7 +192,7 @@ namespace QMK_Toolbox.Usb
             return usbDevice;
         }
 
-        private static BootloaderType GetDeviceType(ushort vendorId, ushort productId, ushort revisionBcd)
+        private static BootloaderType (ushort vendorId, ushort productId, ushort revisionBcd)
         {
             switch (vendorId)
             {
@@ -309,7 +309,7 @@ namespace QMK_Toolbox.Usb
                     }
                     break;
                 case 0x314B: // Geehy Semiconductor Co. Ltd.
-                    if (productId == 0x0106)
+                    if (productId == 0x0106)device
                     {
                         return BootloaderType.Apm32Dfu;
                     }

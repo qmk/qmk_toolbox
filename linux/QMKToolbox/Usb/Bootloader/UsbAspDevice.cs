@@ -1,19 +1,24 @@
-﻿using System.Threading.Tasks;
+﻿// ReSharper disable StringLiteralTypo
+using System.Threading.Tasks;
 
-namespace QMK_Toolbox.Usb.Bootloader
+namespace QMK_Toolbox.Usb.Bootloader;
+
+internal class UsbAspDevice : BootloaderDevice
 {
-    class UsbAspDevice : BootloaderDevice
+    public UsbAspDevice(KnownHidDevice d) : base(d)
     {
-        public UsbAspDevice(UsbDevice d) : base(d)
-        {
-            Type = BootloaderType.UsbAsp;
-            Name = "USBasp";
-            PreferredDriver = "libusbK";
-            IsEepromFlashable = true;
-        }
+        Type = BootloaderType.UsbAsp;
+        Name = "USBasp";
+        IsEepromFlashable = true;
+    }
 
-        public async override Task Flash(string mcu, string file) => await RunProcessAsync("avrdude.exe", $"-p {mcu} -c usbasp -U flash:w:\"{file}\":i");
+    public override void Flash(string mcu, string file)
+    {
+        RunProcessAsync("/tmp/avrdude", $"-p {mcu} -c usbasp -U flash:w:\"{file}\":i").Wait();
+    }
 
-        public async override Task FlashEeprom(string mcu, string file) => await RunProcessAsync("avrdude.exe", $"-p {mcu} -c usbasp -U eeprom:w:\"{file}\":i");
+    public override void FlashEeprom(string mcu, string file)
+    {
+        RunProcessAsync("/tmp/avrdude", $"-p {mcu} -c usbasp -U eeprom:w:\"{file}\":i").Wait();
     }
 }
