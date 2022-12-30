@@ -52,7 +52,7 @@ public partial class MainWindow : Window, IWindow
     public void OnFileOpen()
     {
         var vm = ((App)App.Current).MainWindowViewModel;
-        var isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+        var isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         if (isLinux)
         {
             var helper = new OpenDlgHelper();

@@ -141,7 +141,7 @@ public class MainWindowViewModel : ViewModelBase
         ShowInitialLogMessages();
         SubscribeToEvents();
 
-        //EmbeddedResourceHelper.ExtractResources(EmbeddedResourceHelper.Resources);
+        EmbeddedResourceHelper.ExtractResources(EmbeddedResourceHelper.Resources);
     }
 
     private void SubscribeToEvents()
@@ -231,8 +231,20 @@ public class MainWindowViewModel : ViewModelBase
 
     public void OpenFileCommand()
     {
-        Task.Delay(1).ContinueWith(_ => Dispatcher.UIThread.InvokeAsync(
-            () => { _mainWindow.OnFileOpen(); }));
+        Task.Delay(30).ContinueWith(_ => Dispatcher.UIThread.InvokeAsync(
+            () =>
+          { _mainWindow.OnFileOpen(); }));
+    }
+
+    public void AutoFlashMenuCommand()
+    {
+        CanAutoFlash = !CanAutoFlash;
+    }
+
+    [DependsOn(nameof(CanAutoFlash))]
+    public bool CanAutoFlashMenuCommand()
+    {
+        return  _canAutoFlash;
     }
 
     [DependsOn(nameof(CanOpenFile))]

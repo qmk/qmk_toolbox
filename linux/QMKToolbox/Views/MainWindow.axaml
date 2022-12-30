@@ -31,7 +31,7 @@
               Grid.ColumnSpan="2"
               Margin="0,3,0,3">
             <MenuItem Header="_File">
-                <MenuItem Header="_Open..."/>
+                <MenuItem Header="_Open..." Command="{Binding OpenFileCommand}"/>
                 <Separator/>
                 <MenuItem Header="_Exit" Command="{Binding CloseCommand}"/>
             </MenuItem>
@@ -40,11 +40,11 @@
                 <MenuItem Header="EEPROM" Command = "{Binding ClearEepromCommand}" />
                 <MenuItem Header="Exit DFU" Command = "{Binding ExitDfuCommand}"/>
                 <Separator/>
-                <MenuItem Header="Auto-Flash" Command="{Binding IsAutoFlash }" IsEnabled="True" >
-                    <!-- <MenuItem.Icon> -->
-                    <!--     <CheckBox IsEnabled="True" IsChecked="{Binding IsAutoFlash}" BorderThickness="0"> -->
-                    <!--     </CheckBox> -->
-                    <!-- </MenuItem.Icon> -->
+                <MenuItem Header="Auto-Flash" Command="{Binding IsAutoFlash }" >
+                    <MenuItem.Icon>
+                        <CheckBox IsChecked="{Binding IsAutoFlash}" BorderThickness="0">
+                        </CheckBox>
+                    </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Show All Devices"/>
                 <Separator/>
@@ -189,7 +189,7 @@
             Grid.Column="1">
             <TextBlock
                 Padding="0,0,0,0"
-                FontFamily="Consolas"
+                FontFamily="Courier New"
                 Background="#1e1e1e"
                 Foreground="DarkGray"
                 FontSize="13"
