@@ -7,12 +7,15 @@
         x:Class="QMK_Toolbox.Views.MainWindow"
         Initialized="OnInitialized"
         Width="800"
-        Height="670"
+        DragDrop.AllowDrop="True"
+        Height="680"
+        FontSize="10"
         MinWidth="800"
-        MinHeight="670"
+        MinHeight="680"
         Title="QMK Toolbox"
-        Background="LightGray"
+        Background="#f0f0f0"
         Icon="/Resources/qmk.ico">
+   
 
     <Design.DataContext>
         <vm:MainWindowViewModel />
@@ -20,7 +23,41 @@
 
     <Grid ShowGridLines="False" VerticalAlignment="Stretch" 
           ColumnDefinitions="10,Auto,*,*,*,*,*,10"
-          RowDefinitions="10,20,30,30,*,30,10">
+          RowDefinitions="22,20,30,30,*,30,10">
+
+        <Menu Grid.Row="0" 
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                Margin="0,3,0,3">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open..."/>
+                <Separator/>
+                <MenuItem Header="_Exit" Command="{Binding CloseCommand}"/>
+            </MenuItem>
+            <MenuItem Header="_Tools">
+                <MenuItem Header="Flash" Command="{Binding FlashCommand}" />
+                <MenuItem Header="EEPROM" Command = "{Binding ClearEepromCommand}" />
+                <MenuItem Header="Exit DFU" Command = "{Binding ExitDfuCommand}"/>
+                <Separator/>
+                <MenuItem Header="Auto-Flash" Command="{Binding IsAutoFlash }" IsEnabled="True" >
+                    <!-- <MenuItem.Icon> -->
+                    <!--     <CheckBox IsEnabled="True" IsChecked="{Binding IsAutoFlash}" BorderThickness="0"> -->
+                    <!--     </CheckBox> -->
+                    <!-- </MenuItem.Icon> -->
+                </MenuItem>
+            
+                <MenuItem Header="Show All Devices"/>
+                <Separator/>
+                <MenuItem Header="Key Tester" IsEnabled="False"/>
+       
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="Check for updates..." IsEnabled="False"/>
+                <Separator/>
+                <MenuItem Header="About"/>
+            </MenuItem>
+        </Menu>
+
         <Label
             FontSize="10"
             Grid.Row="1"
@@ -36,17 +73,23 @@
             HorizontalAlignment="Right"
             Margin="0,0,10,0"
             Content="MCU (AVR only)" />
-        <TextBlock
-            TextWrapping="Wrap"
-            Grid.Row="2"
-            Grid.Column="1"
-            Grid.ColumnSpan="4"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Stretch"
-            Height="30"
-            Margin="0,7,0,10"
-            FontSize="11"
-            Text="{Binding HexFile}" />
+        <Border x:Name="border"
+                BorderThickness="1"
+                BorderBrush="DarkGray"
+                Grid.Row="2"
+                Grid.Column="1"
+                Grid.ColumnSpan="4">
+            <TextBlock
+                x:Name="HexFile"
+
+                TextWrapping="Wrap"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Stretch"
+                Height="30"
+                Margin="0,7,0,10"
+                FontSize="11"
+                Text="{Binding HexFile}" />
+        </Border>
         <StackPanel
             Orientation="Horizontal"
             Grid.Row="2"
@@ -55,7 +98,6 @@
             HorizontalAlignment="Right">
             <Button
                 Command="{Binding OpenFileCommand}"
-                IsEnabled = "{Binding CanOpenFile}"
                 Margin="0,0,10,0"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Right"
@@ -77,25 +119,27 @@
         <StackPanel
             Orientation="Horizontal"
             Grid.Row="3"
-            Grid.Column="4"
-            Grid.ColumnSpan="3"
+            Grid.Column="2"
+            Grid.ColumnSpan="5"
             HorizontalAlignment="Right">
             <Label
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left"
                 Height="20"
-                Margin="0,0,0,0"
+                Margin="0,2,0,0"
                 FontSize="11"
-                Content="_Auto Flash" />
+                Content="_Auto-Flash" />
             <CheckBox
                 x:Name="CheckBox"
-                IsEnabled = "{Binding CanAutoFlash}"
+                Margin="0,0,5,0"
+                Padding="0,0,0,0"
+                FontSize="8"
                 IsChecked="{Binding IsAutoFlash}"
                 VerticalAlignment="Center"
-                HorizontalAlignment="Left" />
+                HorizontalAlignment="Left" >
+            </CheckBox>
             <Button
                 Command="{Binding FlashCommand}"
-                IsEnabled = "{Binding CanFlash}"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left"
                 Height="25"
@@ -104,7 +148,6 @@
                 Content="_Flash" />
             <Button
                 Command="{Binding ClearEEPromCommand}"
-                IsEnabled = "{Binding CanClearEeprom}"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left"
                 Height="25"
@@ -113,7 +156,6 @@
                 Content="_Clear EEPROM" />
             <Button
                 Command="{Binding ExitDfuCommand}"
-                IsEnabled = "{Binding CanReset}"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left"
                 Height="25"
@@ -131,8 +173,9 @@
             <TextBlock
                 Padding="5,0,5,0"
                 FontFamily="Courier New"
-                Background="LightGray"
-                FontSize="10"
+                Background="#1e1e1e"
+                Foreground="LightGray"
+                FontSize="12"
                 ScrollViewer.VerticalScrollBarVisibility ="Auto"
                 Margin="0,5,0,5"
                 VerticalAlignment="Stretch"
@@ -144,6 +187,7 @@
 
         <ComboBox x:Name="HidDeviceCombo"
               Background="LightGray"
+              Margin="0,0,0,5"
               Grid.Row="5"
               Grid.Column="1"
               VerticalAlignment="Top"

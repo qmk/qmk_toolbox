@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Avalonia.Metadata;
 using Avalonia.Threading;
 using QMK_Toolbox.Helpers;
 using QMK_Toolbox.Properties;
@@ -17,8 +19,8 @@ namespace QMK_Toolbox.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    private const string Prompt = "[Click Open to open a firmware file]";
-    private string _hexFile = Prompt;
+    internal readonly string Prompt = "[Click Open to open a firmware file]";
+    private string _hexFile;
     private List<string> _mcus;
     private int _selectedMcu=10;
     private bool _isAutoFlash;
@@ -27,7 +29,7 @@ public class MainWindowViewModel : ViewModelBase
     private readonly IWindow _mainWindow;
     private readonly UsbListener _usbListener;
     private BootloaderDevice _currentBootloader;
-    private bool _canOpenFile;
+    private bool _canOpenFile = true;
     private bool _canFlash;
     private bool _canReset;
     private bool _canClearEeprom;
@@ -39,6 +41,7 @@ public class MainWindowViewModel : ViewModelBase
         _mainWindow = mainWindow;
         _usbListener = new UsbListener();
         _usbListener.Start();
+        _hexFile = Prompt;
     }
     
     // ReSharper disable once InconsistentNaming
@@ -139,7 +142,7 @@ public class MainWindowViewModel : ViewModelBase
         ShowInitialLogMessages();
         SubscribeToEvents();
 
-        EmbeddedResourceHelper.ExtractResources(EmbeddedResourceHelper.Resources);
+        //EmbeddedResourceHelper.ExtractResources(EmbeddedResourceHelper.Resources);
     }
 
     private void SubscribeToEvents()
@@ -188,25 +191,25 @@ public class MainWindowViewModel : ViewModelBase
 
     private void ShowInitialLogMessages()
     {
-        AddToLog($"QMK Toolbox {VersionAttribute.Version} (https://qmk.fm/toolbox)", false);
-        AddToLog("Supported bootloaders:", false);
+        AddToLog($"* QMK Toolbox {VersionAttribute.Version} (https://qmk.fm/toolbox)", false);
+        AddToLog("* Supported bootloaders:", false);
         AddToLog(
-            " - ARM DFU (APM32, Kiibohd, STM32, STM32duino) and RISC-V DFU (GD32V) via dfu-util (http://dfu-util.sourceforge.net/)",
+            "* - ARM DFU (APM32, Kiibohd, STM32, STM32duino) and RISC-V DFU (GD32V) via dfu-util (http://dfu-util.sourceforge.net/)",
             false);
-        AddToLog(" - Atmel/LUFA/QMK DFU via dfu-programmer (http://dfu-programmer.github.io/)", false);
-        AddToLog(" - Atmel SAM-BA (Massdrop) via Massdrop Loader (https://github.com/massdrop/mdloader)", false);
+        AddToLog("* - Atmel/LUFA/QMK DFU via dfu-programmer (http://dfu-programmer.github.io/)", false);
+        AddToLog("* - Atmel SAM-BA (Massdrop) via Massdrop Loader (https://github.com/massdrop/mdloader)", false);
         AddToLog(
-            " - BootloadHID (Atmel, PS2AVRGB) via bootloadHID (https://www.obdev.at/products/vusb/bootloadhid.html)",
+            "* - BootloadHID (Atmel, PS2AVRGB) via bootloadHID (https://www.obdev.at/products/vusb/bootloadhid.html)",
             false);
-        AddToLog(" - Caterina (Arduino, Pro Micro) via avrdude (http://nongnu.org/avrdude/)", false);
-        AddToLog(" - HalfKay (Teensy, Ergodox EZ) via Teensy Loader (https://pjrc.com/teensy/loader_cli.html)", false);
-        AddToLog(" - LUFA/QMK HID via hid_bootloader_cli (https://github.com/abcminiuser/lufa)", false);
-        AddToLog(" - WB32 DFU via wb32-dfu-updater_cli (https://github.com/WestberryTech/wb32-dfu-updater)", false);
-        AddToLog(" - LUFA Mass Storage", false);
-        AddToLog("Supported ISP flashers:", false);
-        AddToLog(" - AVRISP (Arduino ISP)", false);
-        AddToLog(" - USBasp (AVR ISP)", false);
-        AddToLog(" - USBTiny (AVR Pocket)", true);
+        AddToLog("* - Caterina (Arduino, Pro Micro) via avrdude (http://nongnu.org/avrdude/)", false);
+        AddToLog("* - HalfKay (Teensy, Ergodox EZ) via Teensy Loader (https://pjrc.com/teensy/loader_cli.html)", false);
+        AddToLog("* - LUFA/QMK HID via hid_bootloader_cli (https://github.com/abcminiuser/lufa)", false);
+        AddToLog("* - WB32 DFU via wb32-dfu-updater_cli (https://github.com/WestberryTech/wb32-dfu-updater)", false);
+        AddToLog("* - LUFA Mass Storage", false);
+        AddToLog("* Supported ISP flashers:", false);
+        AddToLog("* - AVRISP (Arduino ISP)", false);
+        AddToLog("* - USBasp (AVR ISP)", false);
+        AddToLog("* - USBTiny (AVR Pocket)", true);
     }
 
     public string HexFile
@@ -221,18 +224,35 @@ public class MainWindowViewModel : ViewModelBase
         }
     }
 
-    public void OpenFileCommand()
+    public void CloseCommand()
     {
-        var helper = new OpenDlgHelper();
-        var result = helper.GetFileName();
-        HexFile = string.IsNullOrEmpty(result) ? Prompt : result;
+        Task.Delay(1).ContinueWith(_ => Dispatcher.UIThread.InvokeAsync(
+            () => { _mainWindow.OnClose(); }));
     }
 
+    public void OpenFileCommand()
+    {
+        Task.Delay(1).ContinueWith(_ => Dispatcher.UIThread.InvokeAsync(
+            () => { _mainWindow.OnFileOpen(); }));
+    }
+
+    [DependsOn(nameof(CanOpenFile))]
+    public bool CanOpenFileCommand(object _)
+    {
+        return _canOpenFile;
+    }
+    
     public void FlashCommand()
     {
         DisableUI();
         _currentBootloader.Flash(Mcus[SelectedMcuIndex], HexFile);
         EnableUI();
+    }
+    
+    [DependsOn(nameof(CanFlash))]
+    public bool CanFlashCommand(object _)
+    {
+        return _canFlash;
     }
 
     // ReSharper disable once InconsistentNaming
@@ -242,12 +262,25 @@ public class MainWindowViewModel : ViewModelBase
         _currentBootloader.FlashEeprom(Mcus[SelectedMcuIndex], HexFile);
         EnableUI();
     }
+    
+    // ReSharper disable once InconsistentNaming
+    [DependsOn(nameof(CanClearEeprom))]
+    public bool CanClearEEPromCommand(object _)
+    {
+        return _canClearEeprom;
+    }
 
     public void ExitDfuCommand()
     {
         DisableUI();
         _currentBootloader.Reset(Mcus[SelectedMcuIndex]);
         EnableUI();
+    }
+    
+    [DependsOn(nameof(CanReset))]
+    public bool CanExitDfuCommand(object _)
+    {
+        return _canReset;
     }
     
     private List<string> PopulateMcuListFromResourceFile()
