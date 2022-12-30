@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Mime;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +18,7 @@ namespace QMK_Toolbox.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    internal readonly string Prompt = "[Click Open to open a firmware file]";
+    internal readonly string Prompt = "Click Open or drag to window to select file";
     private string _hexFile;
     private List<string> _mcus;
     private int _selectedMcu=10;
@@ -41,7 +40,7 @@ public class MainWindowViewModel : ViewModelBase
         _mainWindow = mainWindow;
         _usbListener = new UsbListener();
         _usbListener.Start();
-        _hexFile = Prompt;
+        HexFile = Prompt;
     }
     
     // ReSharper disable once InconsistentNaming

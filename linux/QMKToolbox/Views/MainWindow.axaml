@@ -24,7 +24,7 @@
     <Grid HorizontalAlignment="Stretch" 
           ShowGridLines="False" 
           VerticalAlignment="Stretch" 
-          RowDefinitions="22,20,30,30,*,30,10"
+          RowDefinitions="22,20,30,30,*,30,5"
           ColumnDefinitions="10,*,200,10">
         <Menu Grid.Row="0" 
               Grid.Column="0"
@@ -64,7 +64,7 @@
             Grid.Column="1"
             Padding="0,0,0,0"
             VerticalAlignment="Top"
-            Margin="-1,8,0,0"
+            Margin="0,8,0,0"
             HorizontalAlignment="Left"
             Content="Local File" />
         <Label
@@ -78,7 +78,7 @@
             Content="MCU (AVR only)" />
         <Border x:Name="border"
                 BorderThickness="1"
-                BorderBrush="DarkGray"
+                BorderBrush="Black"
                 Grid.Row="2"
                 Grid.Column="1"
                 VerticalAlignment="Center"
@@ -86,8 +86,9 @@
             <TextBlock
                 x:Name="HexFile"
                 TextWrapping="Wrap"
-                Padding="0,0,0,0"
-                Height="15"
+                Padding="2,3,0,0"
+                Height="19"
+                Background="White"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Stretch"
                 Margin="0,0,0,0"
@@ -102,20 +103,23 @@
             <Button
                 Command="{Binding OpenFileCommand}"
                 Margin="0,0,10,0"
+                Padding ="2,4,0,0"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Right"
-                Height="26"
-                FontSize="11"
+                Height="22"
+                Width="45"
+                FontSize="10"
                 Content="_Open..." />
             <ComboBox
                 x:Name="McuCombo"
+                Padding ="4,2,0,0"
                 Items="{Binding Mcus}"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Right"
                 BorderBrush="DarkGray"
                 FontSize="10"
                 Width="120"
-                Height="26"
+                Height="22"
                 SelectedIndex="{Binding SelectedMcuIndex}" />
 
         </StackPanel>
@@ -137,6 +141,7 @@
                 Margin="0,0,5,0"
                 Padding="0,0,0,0"
                 FontSize="8"
+                Height="22"
                 IsChecked="{Binding IsAutoFlash}"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left" >
@@ -145,42 +150,51 @@
                 Command="{Binding FlashCommand}"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left"
-                Height="25"
-                FontSize="11"
+                HorizontalContentAlignment="Center"
+                Padding ="3,4,0,0"
+                Height="22"
+                Width="55"
+                FontSize="10"
                 Margin="0,0,5,0"
                 Content="_Flash" />
             <Button
                 Command="{Binding ClearEEPromCommand}"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left"
-                Height="25"
-                FontSize="11"
+                Padding ="0,4,0,0"
+                HorizontalContentAlignment="Center"
+                Height="22"
+                Width="110"
+                FontSize="10"
                 Margin="0,0,5,0"
                 Content="_Clear EEPROM" />
             <Button
                 Command="{Binding ExitDfuCommand}"
                 VerticalAlignment="Center"
+                Padding ="0,4,0,0"
                 HorizontalAlignment="Left"
-                Height="25"
-                FontSize="11"
+                HorizontalContentAlignment="Center"
+                Height="22"
+                Width="70"
+                FontSize="10"
                 Content="_Exit DFU" />
         </StackPanel>
         
         <Border 
-            Margin="0,5,0,5"
-            BorderThickness="1"
+            Margin="0,0,0,0"
+            BorderThickness="0"
             BorderBrush="DarkGray"
             Grid.ColumnSpan="2"
             Grid.Row="4"
             Grid.Column="1">
             <TextBlock
-                Padding="5,0,5,0"
-                FontFamily="Courier New"
+                Padding="0,0,0,0"
+                FontFamily="Consolas"
                 Background="#1e1e1e"
-                Foreground="LightGray"
-                FontSize="12"
+                Foreground="DarkGray"
+                FontSize="13"
                 ScrollViewer.VerticalScrollBarVisibility ="Auto"
-                Margin="0,5,0,5"
+                Margin="0,5,0,6"
                 VerticalAlignment="Stretch"
                 HorizontalAlignment="Stretch"
                 Text="{Binding Log}" 
@@ -190,13 +204,13 @@
 
         <ComboBox x:Name="HidDeviceCombo"
               Background="LightGray"
-              Margin="0,0,0,5"
+              Margin="0,0,0,0"
               Grid.Row="5"
               Grid.Column="1"
               VerticalAlignment="Top"
               HorizontalAlignment="Stretch"
               FontSize="10"
-              Height="25"
+              Height="22"
               BorderBrush="DarkGray"
               Grid.ColumnSpan="2"
               SelectedIndex="0">

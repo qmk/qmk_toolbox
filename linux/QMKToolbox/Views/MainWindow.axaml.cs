@@ -93,10 +93,11 @@ public partial class MainWindow : Window, IWindow
     }
     private void Drop(object sender, DragEventArgs e)
     {
+        var vm = ((App)App.Current).MainWindowViewModel;
         Debug.WriteLine("Drop");
         if (e.Data.Contains(DataFormats.Text))
-            _hexTextBlock.Text = e.Data.GetText();
+           vm.HexFile = e.Data.GetText();
         else if (e.Data.Contains(DataFormats.FileNames))
-            _hexTextBlock.Text =  e.Data.GetFileNames()?.FirstOrDefault();
+           vm.HexFile =  e.Data.GetFileNames()?.FirstOrDefault();
     }
 }
