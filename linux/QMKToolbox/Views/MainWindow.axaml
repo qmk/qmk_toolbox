@@ -21,14 +21,15 @@
         <vm:MainWindowViewModel />
     </Design.DataContext>
 
-    <Grid ShowGridLines="False" VerticalAlignment="Stretch" 
-          ColumnDefinitions="10,Auto,*,*,*,*,*,10"
-          RowDefinitions="22,20,30,30,*,30,10">
-
+    <Grid HorizontalAlignment="Stretch" 
+          ShowGridLines="Falsesgi" 
+          VerticalAlignment="Stretch" 
+          RowDefinitions="22,20,30,30,*,30,10"
+          ColumnDefinitions="10,*,200,10">
         <Menu Grid.Row="0" 
-                Grid.Column="0"
-                Grid.ColumnSpan="3"
-                Margin="0,3,0,3">
+              Grid.Column="0"
+              Grid.ColumnSpan="2"
+              Margin="0,3,0,3">
             <MenuItem Header="_File">
                 <MenuItem Header="_Open..."/>
                 <Separator/>
@@ -45,7 +46,6 @@
                     <!--     </CheckBox> -->
                     <!-- </MenuItem.Icon> -->
                 </MenuItem>
-            
                 <MenuItem Header="Show All Devices"/>
                 <Separator/>
                 <MenuItem Header="Key Tester" IsEnabled="False"/>
@@ -62,39 +62,42 @@
             FontSize="10"
             Grid.Row="1"
             Grid.Column="1"
-            VerticalAlignment="Bottom"
+            Padding="0,0,0,0"
+            VerticalAlignment="Top"
+            Margin="-1,8,0,0"
             HorizontalAlignment="Left"
             Content="Local File" />
         <Label
             FontSize="10"
             Grid.Row="1"
-            Grid.Column="6"
-            VerticalAlignment="Bottom"
+            Grid.Column="2"
+            Padding="0,0,0,0"
+            VerticalAlignment="Top"
             HorizontalAlignment="Right"
-            Margin="0,0,10,0"
+            Margin="0,8,42,0"
             Content="MCU (AVR only)" />
         <Border x:Name="border"
                 BorderThickness="1"
                 BorderBrush="DarkGray"
                 Grid.Row="2"
                 Grid.Column="1"
-                Grid.ColumnSpan="4">
+                VerticalAlignment="Center"
+                HorizontalAlignment ="Stretch">
             <TextBlock
                 x:Name="HexFile"
-
                 TextWrapping="Wrap"
+                Padding="0,0,0,0"
+                Height="15"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Stretch"
-                Height="30"
-                Margin="0,7,0,10"
-                FontSize="11"
+                Margin="0,0,0,0"
+                FontSize="10"
                 Text="{Binding HexFile}" />
         </Border>
         <StackPanel
             Orientation="Horizontal"
             Grid.Row="2"
-            Grid.Column="5"
-            Grid.ColumnSpan="2"
+            Grid.Column="2"
             HorizontalAlignment="Right">
             <Button
                 Command="{Binding OpenFileCommand}"
@@ -119,8 +122,8 @@
         <StackPanel
             Orientation="Horizontal"
             Grid.Row="3"
-            Grid.Column="2"
-            Grid.ColumnSpan="5"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
             HorizontalAlignment="Right">
             <Label
                 VerticalAlignment="Center"
@@ -167,7 +170,7 @@
             Margin="0,5,0,5"
             BorderThickness="1"
             BorderBrush="DarkGray"
-            Grid.ColumnSpan="6"
+            Grid.ColumnSpan="2"
             Grid.Row="4"
             Grid.Column="1">
             <TextBlock
@@ -181,8 +184,8 @@
                 VerticalAlignment="Stretch"
                 HorizontalAlignment="Stretch"
                 Text="{Binding Log}" 
-                MinHeight="500"
-                MinWidth="500" />
+                
+                 />
         </Border>
 
         <ComboBox x:Name="HidDeviceCombo"
@@ -195,7 +198,7 @@
               FontSize="10"
               Height="25"
               BorderBrush="DarkGray"
-              Grid.ColumnSpan="6"
+              Grid.ColumnSpan="2"
               SelectedIndex="0">
             <ComboBoxItem>No HID console devices connected</ComboBoxItem>
         </ComboBox>
