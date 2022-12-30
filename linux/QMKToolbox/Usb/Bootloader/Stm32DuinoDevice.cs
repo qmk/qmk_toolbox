@@ -15,7 +15,7 @@ internal class Stm32DuinoDevice : BootloaderDevice
     public override void Flash(string mcu, string file)
     {
         if (Path.GetExtension(file)?.ToLower() == ".bin")
-            RunProcessAsync("/tmp/dfu-util", $"-a 2 -d 1EAF:0003 -R -D \"{file}\"").Wait();
+            RunProcessAsync("dfu-util", $"-a 2 -d 1EAF:0003 -R -D \"{file}\"").Wait();
         else
             PrintMessage("Only firmware files in .bin format can be flashed with dfu-util!", MessageType.Error);
     }

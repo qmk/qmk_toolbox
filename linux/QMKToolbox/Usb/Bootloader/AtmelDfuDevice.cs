@@ -26,17 +26,17 @@ internal class AtmelDfuDevice : BootloaderDevice
 
     public override void Flash(string mcu, string file)
     {
-        RunProcessAsync("/tmp/dfu-programmer", $"{mcu} erase --force").Wait();
+        RunProcessAsync("dfu-programmer", $"{mcu} erase --force").Wait();
         Task.Delay(5).Wait();
-        RunProcessAsync("/tmp/dfu-programmer", $"{mcu} flash --force \"{file}\"").Wait();
+        RunProcessAsync("dfu-programmer", $"{mcu} flash --force \"{file}\"").Wait();
         Task.Delay(5).Wait();
-        RunProcessAsync("/tmp/dfu-programmer", $"{mcu} reset").Wait();
+        RunProcessAsync("dfu-programmer", $"{mcu} reset").Wait();
     }
 
     public override void FlashEeprom(string mcu, string file)
     {
         if (Type == BootloaderType.AtmelDfu) 
-            RunProcessAsync("/tmp/dfu-programmer", $"{mcu} erase --force").Wait();
+            RunProcessAsync("dfu-programmer", $"{mcu} erase --force").Wait();
 
         RunProcessAsync("dfu-programmer",
             $"{mcu} flash --force --suppress-validation --eeprom \"{file}\"").Wait();
@@ -47,6 +47,6 @@ internal class AtmelDfuDevice : BootloaderDevice
 
     public override void Reset(string mcu)
     {
-        RunProcessAsync("/tmp/dfu-programmer", $"{mcu} reset").Wait();
+        RunProcessAsync("dfu-programmer", $"{mcu} reset").Wait();
     }
 }

@@ -20,6 +20,6 @@ internal class AvrIspDevice : BootloaderDevice
             PrintMessage("COM port not found!", MessageType.Error);
             return;
         }
-        RunProcessAsync("/tmp/avrdude", $"-p {mcu} -c avrisp -U flash:w:\"{file}\":i -P {ComPort}").Wait();
+        RunProcessAsync("avrdude", $"-p {mcu} -c avrisp -U flash:w:\"{file}\":i -P {ComPort}").Wait();
     }
 }

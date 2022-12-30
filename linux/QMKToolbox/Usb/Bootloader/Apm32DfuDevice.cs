@@ -17,7 +17,7 @@ internal class Apm32DfuDevice : BootloaderDevice
     public override void Flash(string mcu, string file)
     {
         if (Path.GetExtension(file)?.ToLower() == ".bin")
-            RunProcessAsync("/tmp/dfu-util", $"-a 0 -d 314B:0106 -s 0x08000000:leave -D \"{file}\"").Wait();
+            RunProcessAsync("dfu-util", $"-a 0 -d 314B:0106 -s 0x08000000:leave -D \"{file}\"").Wait();
         else
             PrintMessage("Only firmware files in .bin format can be flashed with dfu-util!",
                 MessageType.Error);
@@ -25,6 +25,6 @@ internal class Apm32DfuDevice : BootloaderDevice
 
     public override void Reset(string mcu)
     {
-        RunProcessAsync("/tmp/dfu-util", "-a 0 -d 314B:0106 -s 0x08000000:leave").Wait();
+        RunProcessAsync("dfu-util", "-a 0 -d 314B:0106 -s 0x08000000:leave").Wait();
     }
 }

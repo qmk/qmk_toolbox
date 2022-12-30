@@ -22,10 +22,10 @@ internal class LufaHidDevice : BootloaderDevice
 
     public override void Flash(string mcu, string file)
     {
-        RunProcessAsync("/tmp/hid_bootloader_cli", $"-mmcu={mcu} \"{file}\" -v").Wait();
+        RunProcessAsync("hid_bootloader_cli", $"-mmcu={mcu} \"{file}\" -v").Wait();
     }
 
     // hid_bootloader_cli 210130 lacks -b flag
     // Next LUFA release should have it thanks to abcminiuser/lufa#173
-    //public async override Task Reset(string mcu) => await RunProcessAsync("/tmp/hid_bootloader_cli", $"-mmcu={mcu} -bv");
+    //public async override Task Reset(string mcu) => await RunProcessAsync("hid_bootloader_cli", $"-mmcu={mcu} -bv");
 }

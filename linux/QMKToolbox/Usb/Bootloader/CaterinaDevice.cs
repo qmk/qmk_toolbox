@@ -24,7 +24,7 @@ internal class CaterinaDevice : BootloaderDevice
             return;
         }
 
-        RunProcessAsync("/tmp/avrdude", $"-p {mcu} -c avr109 -U flash:w:\"{file}\":i -P {ComPort}").Wait();
+        RunProcessAsync("avrdude", $"-p {mcu} -c avr109 -U flash:w:\"{file}\":i -P {ComPort}").Wait();
     }
 
     public override void FlashEeprom(string mcu, string file)
@@ -35,7 +35,7 @@ internal class CaterinaDevice : BootloaderDevice
             return;
         }
 
-        RunProcessAsync("/tmp/avrdude", $"-p {mcu} -c avr109 -U eeprom:w:\"{file}\":i -P {ComPort}").Wait();
+        RunProcessAsync("avrdude", $"-p {mcu} -c avr109 -U eeprom:w:\"{file}\":i -P {ComPort}").Wait();
     }
 
     public override string ToString()

@@ -24,7 +24,7 @@ internal class AtmelSamBaDevice : BootloaderDevice
             return;
         }
 
-        RunProcessAsync("/tmp/mdloader", $"-p {ComPort} -D \"{file}\" --restart").Wait();
+        RunProcessAsync("mdloader", $"-p {ComPort} -D \"{file}\" --restart").Wait();
     }
 
     public override void Reset(string mcu)
@@ -35,7 +35,7 @@ internal class AtmelSamBaDevice : BootloaderDevice
             return;
         }
 
-        RunProcessAsync("/tmp/mdloader", $"-p {ComPort} --restart").Wait();
+        RunProcessAsync("mdloader", $"-p {ComPort} --restart").Wait();
     }
 
     public override string ToString()
