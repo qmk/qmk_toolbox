@@ -42,7 +42,7 @@ public class MainWindowViewModel : ViewModelBase
         _usbListener.Start();
         HexFile = Prompt;
     }
-    
+
     // ReSharper disable once InconsistentNaming
     private void EnableUI()
     {
@@ -56,7 +56,7 @@ public class MainWindowViewModel : ViewModelBase
                 CanAutoFlash = true;
             }));
     }
-       
+
     // ReSharper disable once InconsistentNaming
     private void DisableUI()
     {
@@ -70,25 +70,25 @@ public class MainWindowViewModel : ViewModelBase
                 CanAutoFlash = true;
             }));
     }
-    
+
     public bool CanAutoFlash
     {
         get => _canAutoFlash;
         set => this.RaiseAndSetIfChanged(ref _canAutoFlash, value);
     }
-    
+
     public bool CanOpenFile
     {
         get => _canOpenFile;
         set => this.RaiseAndSetIfChanged(ref _canOpenFile, value);
     }
-    
+
     public bool CanFlash
     {
         get => _canFlash;
         set => this.RaiseAndSetIfChanged(ref _canFlash, value);
     }
-    
+
     public bool CanReset
     {
         get => _canReset;
@@ -99,14 +99,14 @@ public class MainWindowViewModel : ViewModelBase
     {
         get => _canClearEeprom;
         set => this.RaiseAndSetIfChanged(ref _canClearEeprom, value);
-    }   
-  
+    }
+
     public List<string> Mcus
     {
         get => _mcus;
         set => this.RaiseAndSetIfChanged(ref _mcus, value);
     }
-    
+
     public string Log => _log.ToString();
 
     private void AddToLog(string text, bool notify=true)
@@ -115,22 +115,22 @@ public class MainWindowViewModel : ViewModelBase
         if (notify)
             this.RaisePropertyChanged(nameof(Log));
     }
-    
+
     public bool IsAutoFlash
     {
         get => _isAutoFlash;
         set => this.RaiseAndSetIfChanged(ref _isAutoFlash, value);
     }
-    
+
     public int SelectedMcuIndex
     {
         get => _selectedMcu;
         set => this.RaiseAndSetIfChanged(ref _selectedMcu, value);
     }
-  
+
     private AssemblyFileVersionAttribute VersionAttribute =>
         typeof(MainWindowViewModel).Assembly
-            .GetCustomAttributes(typeof(AssemblyFileVersionAttribute), false).FirstOrDefault() 
+            .GetCustomAttributes(typeof(AssemblyFileVersionAttribute), false).FirstOrDefault()
                 as AssemblyFileVersionAttribute;
 
     public void InitUi()
@@ -140,9 +140,16 @@ public class MainWindowViewModel : ViewModelBase
         RestoreLastSavedHexFile();
         ShowInitialLogMessages();
         SubscribeToEvents();
-
-        EmbeddedResourceHelper.ExtractResources(EmbeddedResourceHelper.Resources);
+        /*
+          The extraction of embedded resources is nice, but more work is needed on Linux for this
+          The installers for the flash programmers do a whitelising for them to be able to access the
+          USB device in write mode. Also, all the dependencies of all the installers need to be
+          fully taken into consideration. For now, we will assume that the flash drivers have been
+          installed and are available. See discussion here: https://github.com/qmk/qmk_toolbox/issues/59
+        */
+        // EmbeddedResourceHelper.ExtractResources(EmbeddedResourceHelper.Resources);
     }
+    
 
     private void SubscribeToEvents()
     {
@@ -174,7 +181,7 @@ public class MainWindowViewModel : ViewModelBase
 
     private void UpdateHexFileFromCommandLineArguments()
     {
-        if (string.IsNullOrEmpty(_arg)) 
+        if (string.IsNullOrEmpty(_arg))
             return;
         var extension = Path.GetExtension(_arg)?.ToLower();
         if (extension is ".hex" or ".bin")
@@ -252,14 +259,14 @@ public class MainWindowViewModel : ViewModelBase
     {
         return _canOpenFile;
     }
-    
+
     public void FlashCommand()
     {
         DisableUI();
         _currentBootloader.Flash(Mcus[SelectedMcuIndex], HexFile);
         EnableUI();
     }
-    
+
     [DependsOn(nameof(CanFlash))]
     public bool CanFlashCommand(object _)
     {
@@ -273,7 +280,7 @@ public class MainWindowViewModel : ViewModelBase
         _currentBootloader.FlashEeprom(Mcus[SelectedMcuIndex], HexFile);
         EnableUI();
     }
-    
+
     // ReSharper disable once InconsistentNaming
     [DependsOn(nameof(CanClearEeprom))]
     public bool CanClearEEPromCommand(object _)
@@ -287,13 +294,13 @@ public class MainWindowViewModel : ViewModelBase
         _currentBootloader.Reset(Mcus[SelectedMcuIndex]);
         EnableUI();
     }
-    
+
     [DependsOn(nameof(CanReset))]
     public bool CanExitDfuCommand(object _)
     {
         return _canReset;
     }
-    
+
     private List<string> PopulateMcuListFromResourceFile()
     {
         List<string> mcuList = new();
@@ -301,7 +308,7 @@ public class MainWindowViewModel : ViewModelBase
 
         foreach (var microcontroller in microcontrollers)
         {
-            if (microcontroller.Length <= 0) 
+            if (microcontroller.Length <= 0)
                 continue;
             var parts = microcontroller.Split(':');
             mcuList.Add(parts[0]);

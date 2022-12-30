@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using LibUsbDotNet.LibUsb;
 using LibUsbDotNet.Main;
 using QMK_Toolbox.Usb.Bootloader;
@@ -37,58 +39,98 @@ internal class UsbListener
         _backgroundTask.Start();
     }
 
-    public void Stop()
-    {
-    }
-
-    public void Dispose()
-    {
-    }
 
     private void FlashOutputReceived(BootloaderDevice device, string data, MessageType type)
     {
         OutputReceived?.Invoke(device, data, type);
     }
 
-    private void CheckKnownDevicesConnectionState()
+    private static void GetNewUsbDevices(List<UsbDeviceNameRecord> listNew, List<UsbDeviceNameRecord> deviceRecords)
     {
-        while (true)
+        using UsbContext context = new UsbContext();
+        var allDevices = context.List();
+
+        foreach (var dev in allDevices)
         {
-            foreach (var device in _knownDevices.Where(dev=>dev.RevisionBcd==0x0100))
+            var deviceRevisionBcd = dev.Info.Device;
+            if (listNew.Any(x => x.ProductId == dev.ProductId && x.VendorId == dev.VendorId))
+                continue;
             {
-                UsbDeviceFinder finder;
-                finder = new UsbDeviceFinder(device.VendorId, device.ProductId);
+                var manufacturer = deviceRecords.FirstOrDefault(x => x.VendorId == dev.VendorId)
+                    ?.ManufacturerName;
 
-                using var context = new UsbContext();
-                var myUsbDevice = (UsbDevice)context.Find(finder);
-                if (myUsbDevice != null)
+                listNew.Add(new UsbDeviceNameRecord()
                 {
-                    if (!_attachedDevices.Any(x => x.VendorId == device.VendorId && x.ProductId == device.ProductId))
-                    {
-                        _attachedDevices.Add(device);
-                        var bootloaderDevice = CreateDevice(device);
-                        BootloaderDeviceConnected?.Invoke(bootloaderDevice);
-                        bootloaderDevice.OutputReceived = FlashOutputReceived;
-                    }
-                }
-                else
-                {
-                    if (_attachedDevices.Any(x => x.VendorId == device.VendorId && x.ProductId == device.ProductId))
-                    {
-                        _attachedDevices.Remove(device);
-                        var bootloaderDevice = CreateDevice(device);
-                        BootloaderDeviceDisconnected?.Invoke(bootloaderDevice);
-                        bootloaderDevice.OutputReceived = null;
-                    }
-                }
-
-                myUsbDevice?.Dispose();
-
-                Thread.Sleep(10);
+                    VendorId = dev.VendorId, ProductId = dev.ProductId,
+                    DeviceRevisionBcd = deviceRevisionBcd, ManufacturerName = manufacturer
+                });
             }
         }
     }
+    
+    private void CheckKnownDevicesConnectionState()
+    {
+        List<UsbDeviceNameRecord> listOld = new();
+        List<UsbDeviceNameRecord> listNew = new();
+        var helper = new UsbDeviceRecordHelper();
+        var deviceRecords = helper.GetUsbDeviceRecordsWithNames();
+        
+        GetNewUsbDevices(listNew, deviceRecords);
 
+        while (true)
+        {
+            listOld = new ();
+            listOld.AddRange(listNew);
+            listNew = new();
+
+            Thread.Sleep(500);
+            deviceRecords = helper.GetUsbDeviceRecordsWithNames();
+
+            GetNewUsbDevices(listNew, deviceRecords);
+
+            var added = listNew.Except(listOld, new UsbDeviceRecordComparer()).ToList();
+            var removed = listOld.Except(listNew, new UsbDeviceRecordComparer()).ToList();
+            if (added.Count > 0)
+            {
+                var item = added.FirstOrDefault();
+                Debug.Assert(item!=null);
+
+                var device =_knownDevices.FirstOrDefault(x=>x.VendorId == item.VendorId && 
+                                                            x.ProductId == item.ProductId);
+                if (device == null)
+                {
+                   Console.WriteLine(@"Could not find device with VendorId: {0}, ProductId: {1}", 
+                       item.VendorId, item.ProductId);
+                   continue;
+                }
+                
+                // we take the device bcd from the actual device, not from our table
+                // the BootloaderDevice subclasses will handle it.
+                device.RevisionBcd = item.DeviceRevisionBcd;
+                var bootloaderDevice = CreateDevice(device);
+                _attachedDevices.Add(device);
+                BootloaderDeviceConnected?.Invoke(bootloaderDevice);
+                bootloaderDevice.OutputReceived = FlashOutputReceived;
+            }
+
+            if (removed.Count > 0)
+            {
+                var item = removed.FirstOrDefault();
+                Debug.Assert(item != null);
+                var device =_knownDevices.FirstOrDefault(x=>x.VendorId == item.VendorId && 
+                                                            x.ProductId == item.ProductId);
+                _attachedDevices.Remove(device);
+                var bootloaderDevice = CreateDevice(device);
+                BootloaderDeviceDisconnected?.Invoke(bootloaderDevice);
+                bootloaderDevice.OutputReceived = null;
+            }
+
+            added.Clear();
+            removed.Clear();
+        }
+    }
+    
+    
     private static BootloaderDevice CreateDevice(KnownHidDevice device)
     {
         switch (device.BootloaderType)
@@ -128,7 +170,6 @@ internal class UsbListener
             case BootloaderType.Wb32Dfu:
                 return new Wb32DfuDevice(device);
         }
-
         return null;
     }
 
