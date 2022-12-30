@@ -22,7 +22,7 @@
     </Design.DataContext>
 
     <Grid HorizontalAlignment="Stretch" 
-          ShowGridLines="Falsesgi" 
+          ShowGridLines="False" 
           VerticalAlignment="Stretch" 
           RowDefinitions="22,20,30,30,*,30,10"
           ColumnDefinitions="10,*,200,10">
