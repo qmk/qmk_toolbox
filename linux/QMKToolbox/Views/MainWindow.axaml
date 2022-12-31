@@ -49,7 +49,6 @@
                 <MenuItem Header="Show All Devices"/>
                 <Separator/>
                 <MenuItem Header="Key Tester" IsEnabled="False"/>
-       
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Header="Check for updates..." IsEnabled="False"/>
@@ -57,7 +56,6 @@
                 <MenuItem Header="About"/>
             </MenuItem>
         </Menu>
-
         <Label
             FontSize="10"
             Grid.Row="1"
@@ -77,12 +75,12 @@
             Margin="0,8,42,0"
             Content="MCU (AVR only)" />
         <Border x:Name="border"
-                BorderThickness="1"
-                BorderBrush="Black"
-                Grid.Row="2"
-                Grid.Column="1"
-                VerticalAlignment="Center"
-                HorizontalAlignment ="Stretch">
+            BorderThickness="1"
+            BorderBrush="Black"
+            Grid.Row="2"
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            HorizontalAlignment ="Stretch">
             <TextBlock
                 x:Name="HexFile"
                 TextWrapping="Wrap"
@@ -121,7 +119,6 @@
                 Width="120"
                 Height="22"
                 SelectedIndex="{Binding SelectedMcuIndex}" />
-
         </StackPanel>
         <StackPanel
             Orientation="Horizontal"
@@ -179,7 +176,6 @@
                 FontSize="10"
                 Content="_Exit DFU" />
         </StackPanel>
-        
         <Border 
             Margin="0,0,0,0"
             BorderThickness="0"
@@ -197,11 +193,8 @@
                 Margin="0,5,0,6"
                 VerticalAlignment="Stretch"
                 HorizontalAlignment="Stretch"
-                Text="{Binding Log}" 
-                
-                 />
+                Text="{Binding Log}" />
         </Border>
-
         <ComboBox x:Name="HidDeviceCombo"
               Background="LightGray"
               Margin="0,0,0,0"

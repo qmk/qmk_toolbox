@@ -145,7 +145,7 @@ public class MainWindowViewModel : ViewModelBase
         SubscribeToEvents();
         /*
           The extraction of embedded resources is nice, but more work is needed on Linux for this
-          The installers for the flash programmers do a whitelising for them to be able to access the
+          The installers for the flash programmers do an allow-listing for them to be able to access the
           USB device in write mode. Also, all the dependencies of all the installers need to be
           fully taken into consideration. For now, we will assume that the flash drivers have been
           installed and are available. See discussion here: https://github.com/qmk/qmk_toolbox/issues/59
@@ -170,7 +170,8 @@ public class MainWindowViewModel : ViewModelBase
         _usbListener.BootloaderDeviceDisconnected += (device) =>
         {
             DisableUI();
-            AddToLog($"Bootloader device disconnected: {device.ManufacturerString} - {device.ProductString}");
+            AddToLog($"Bootloader device disconnected: {device.ManufacturerString} - +" +
+                     $"{device.ProductString}({device.VendorId:x4}:{device.ProductId:x4})"); 
             _currentBootloader = null;
         };
     }
