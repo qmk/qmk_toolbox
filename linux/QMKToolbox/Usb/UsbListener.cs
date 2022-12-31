@@ -45,7 +45,7 @@ internal class UsbListener
         OutputReceived?.Invoke(device, data, type);
     }
 
-    private static void GetNewUsbDevices(List<UsbDeviceNameRecord> listNew, List<UsbDeviceNameRecord> deviceRecords)
+    private static void GetNewUsbDevices(List<UsbDeviceNameRecord> listNew)
     {
         using UsbContext context = new UsbContext();
         var allDevices = context.List();
@@ -56,8 +56,7 @@ internal class UsbListener
             if (listNew.Any(x => x.ProductId == dev.ProductId && x.VendorId == dev.VendorId))
                 continue;
             {
-                var manufacturer = deviceRecords.FirstOrDefault(x => x.VendorId == dev.VendorId)
-                    ?.ManufacturerName;
+                var manufacturer = "n/a";
 
                 listNew.Add(new UsbDeviceNameRecord()
                 {
@@ -73,20 +72,20 @@ internal class UsbListener
         List<UsbDeviceNameRecord> listOld = new();
         List<UsbDeviceNameRecord> listNew = new();
         var helper = new UsbDeviceRecordHelper();
-        var deviceRecords = helper.GetUsbDeviceRecordsWithNames();
         
-        GetNewUsbDevices(listNew, deviceRecords);
+        GetNewUsbDevices(listNew);
 
         while (true)
         {
             listOld = new ();
             listOld.AddRange(listNew);
             listNew = new();
-
+    
+            // we are polling 2x per sec for a list of usb devices on this background
+            // thread.
             Thread.Sleep(500);
-            deviceRecords = helper.GetUsbDeviceRecordsWithNames();
 
-            GetNewUsbDevices(listNew, deviceRecords);
+            GetNewUsbDevices(listNew);
 
             var added = listNew.Except(listOld, new UsbDeviceRecordComparer()).ToList();
             var removed = listOld.Except(listNew, new UsbDeviceRecordComparer()).ToList();
@@ -119,10 +118,14 @@ internal class UsbListener
                 Debug.Assert(item != null);
                 var device =_knownDevices.FirstOrDefault(x=>x.VendorId == item.VendorId && 
                                                             x.ProductId == item.ProductId);
-                _attachedDevices.Remove(device);
+                if (device == null)
+                    continue;
                 var bootloaderDevice = CreateDevice(device);
-                BootloaderDeviceDisconnected?.Invoke(bootloaderDevice);
-                bootloaderDevice.OutputReceived = null;
+                if (bootloaderDevice != null)
+                {
+                    BootloaderDeviceDisconnected?.Invoke(bootloaderDevice);
+                    bootloaderDevice.OutputReceived = null;
+                }
             }
 
             added.Clear();

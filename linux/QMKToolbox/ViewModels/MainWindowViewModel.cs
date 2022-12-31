@@ -40,7 +40,10 @@ public class MainWindowViewModel : ViewModelBase
         _mainWindow = mainWindow;
         _usbListener = new UsbListener();
         _usbListener.Start();
-        HexFile = Prompt;
+        if (string.IsNullOrEmpty(Settings.Default.hexFile))
+            HexFile = Prompt;
+        else
+            HexFile = Settings.Default.hexFile;
     }
 
     // ReSharper disable once InconsistentNaming
@@ -157,7 +160,8 @@ public class MainWindowViewModel : ViewModelBase
         _usbListener.BootloaderDeviceConnected += (device) =>
         {
             EnableUI();
-            AddToLog($"Bootloader device connected: {device.ManufacturerString} - {device.ProductString}");
+            AddToLog($"Bootloader device connected: {device.ManufacturerString} - " +
+                     $"{device.ProductString}({device.VendorId:x4}:{device.ProductId:x4})");
             _currentBootloader = device;
             _currentBootloader.OutputReceived += (_, data, _) => { AddToLog(data); };
             if (_isAutoFlash)
