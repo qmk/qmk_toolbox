@@ -1,5 +1,6 @@
 ﻿using System;
 using Avalonia;
+using Avalonia.Dialogs;
 using Avalonia.ReactiveUI;
 
 namespace QMK_Toolbox;
@@ -24,6 +25,7 @@ internal class Program
     {
         return AppBuilder.Configure<App>()
             .UsePlatformDetect()
+            .UseManagedSystemDialogs()
             .LogToTrace()
             .UseReactiveUI();
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Controls.Platform;
 using Avalonia.Input;
 using Avalonia.Threading;
 using MessageBox.Avalonia;
@@ -49,30 +50,24 @@ public partial class MainWindow : Window, IWindow
         Close();
     }
 
-    public void OnFileOpen()
+    public async Task OnFileOpen()
     {
         var vm = ((App)App.Current).MainWindowViewModel;
-        var isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
-        if (isLinux)
-        {
-            var helper = new OpenDlgHelper();
-            var result = helper.GetFileName();
-            vm.HexFile = string.IsNullOrEmpty(result) ? vm.Prompt : result;
-            return;
-        }
-
-        var hexFile = GetPath();
+        var hexFile = await GetPath();
         vm.HexFile = string.IsNullOrEmpty(hexFile) ? vm.Prompt : hexFile;
     }
     
-    private string GetPath()
+    private async Task<string> GetPath()
     {
         var dialog = new OpenFileDialog();
-        dialog.Filters.Add(new FileDialogFilter() { Name = "Hex", Extensions = { "hex" } });
-        dialog.Filters.Add(new FileDialogFilter() { Name = "Bin", Extensions = { "bin" } });
+        if (dialog.Filters != null)
+        {
+            dialog.Filters.Add(new FileDialogFilter() { Name = "Hex", Extensions = { "hex" } });
+            dialog.Filters.Add(new FileDialogFilter() { Name = "Bin", Extensions = { "bin" } });
+        }
         dialog.AllowMultiple = false;
-        var result = dialog.ShowAsync(this).Result;
-        return result?.First();
+        var result = await dialog.ShowAsync(this);
+        return result?[0];
     }
 
     private async void DoDrag(object sender, Avalonia.Input.PointerPressedEventArgs e)

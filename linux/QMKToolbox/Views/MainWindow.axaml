@@ -26,6 +26,60 @@
           VerticalAlignment="Stretch" 
           RowDefinitions="22,20,30,30,*,30,5"
           ColumnDefinitions="10,*,200,10">
+        <Grid.Resources>
+            <!-- <Style Selector="CheckBox"> -->
+                <!-- <Setter Property="Padding" Value="8,0,0,0" /> -->
+              
+                <!-- <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" /> -->
+                <!-- <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" /> -->
+                <!-- <Setter Property="MinHeight" Value="32" /> -->
+                <!-- <Setter Property="Foreground" Value="{DynamicResource CheckBoxForegroundUnchecked}" /> -->
+                <!-- <Setter Property="Background" Value="{DynamicResource CheckBoxBackgroundUnchecked}" /> -->
+                <!-- <Setter Property="BorderBrush" Value="{DynamicResource CheckBoxBorderBrushUnchecked}" /> -->
+                <!-- <Setter Property="Template"> -->
+                <!--   <ControlTemplate> -->
+                <!--     <Grid x:Name="RootGrid" ColumnDefinitions="20,*"> -->
+                <!--       <Border x:Name="PART_Border" -->
+                <!--               Grid.ColumnSpan="2" -->
+                <!--               Background="{TemplateBinding Background}" -->
+                <!--               BorderBrush="{TemplateBinding BorderBrush}" -->
+                <!--               BorderThickness="{TemplateBinding BorderThickness}" -->
+                <!--               CornerRadius="{TemplateBinding CornerRadius}" /> -->
+                <!-- -->
+                <!--       <Grid VerticalAlignment="Top" Height="32"> -->
+                <!--         <Border x:Name="NormalRectangle" -->
+                <!--                 BorderBrush="{DynamicResource CheckBoxCheckBackgroundStrokeUnchecked}" -->
+                <!--                 Background="{DynamicResource CheckBoxCheckBackgroundFillUnchecked}" -->
+                <!--                 BorderThickness="{DynamicResource CheckBoxBorderThemeThickness}" -->
+                <!--                 CornerRadius="{TemplateBinding CornerRadius}" -->
+                <!--                 UseLayoutRounding="False" -->
+                <!--                 Height="20" -->
+                <!--                 Width="20" /> -->
+                <!-- -->
+                <!--         <Viewbox UseLayoutRounding="False"> -->
+                <!--           <Panel> -->
+                <!--             <Panel Height="16" Width="16" /> -->
+                <!--             <Path x:Name="CheckGlyph" -->
+                <!--                   Opacity="0" -->
+                <!--                   Fill="{DynamicResource CheckBoxCheckGlyphForegroundUnchecked}" -->
+                <!--                   Stretch="Uniform" -->
+                <!--                   VerticalAlignment="Center"/> -->
+                <!--           </Panel> -->
+                <!--         </Viewbox> -->
+                <!--       </Grid> -->
+                <!--       <ContentPresenter x:Name="ContentPresenter" -->
+                <!--                       ContentTemplate="{TemplateBinding ContentTemplate}" -->
+                <!--                       Content="{TemplateBinding Content}" -->
+                <!--                       Margin="{TemplateBinding Padding}" -->
+                <!--                       RecognizesAccessKey="True" -->
+                <!--                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" -->
+                <!--                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}" -->
+                <!--                       Grid.Column="1" /> -->
+                <!--     </Grid> -->
+                <!--   </ControlTemplate> -->
+                <!-- </Setter> -->
+            <!-- </Style> -->
+        </Grid.Resources>
         <Menu Grid.Row="0" 
               Grid.Column="0"
               Grid.ColumnSpan="2"
