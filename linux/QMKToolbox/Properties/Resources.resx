@@ -114,4 +114,70 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ApplicationTitle" xml:space="preserve">
+    <value>QMK Toolbox</value>
+  </data>
+  <data name="Menu_File" xml:space="preserve">
+    <value>_File</value>
+  </data>
+  <data name="Menu_FileOpen" xml:space="preserve">
+    <value>_Open</value>
+  </data>
+  <data name="Menu_FileExit" xml:space="preserve">
+    <value>_Exit</value>
+  </data>
+  <data name="Menu_Tools" xml:space="preserve">
+    <value>_Tools</value>
+  </data>
+  <data name="Menu_ToolsFlash" xml:space="preserve">
+    <value>Flash</value>
+  </data>
+  <data name="Menu_ToolEeprom" xml:space="preserve">
+    <value>EEPROM</value>
+  </data>
+  <data name="Menu_ToolExitDFU" xml:space="preserve">
+    <value>Exit DFU</value>
+  </data>
+  <data name="Menu_ToolAutoFlash" xml:space="preserve">
+    <value>Auto-Flash</value>
+  </data>
+  <data name="Menu_ToolShowAll" xml:space="preserve">
+    <value>Show All Devices</value>
+  </data>
+  <data name="Menu_Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="Menu_HelpCheckNew" xml:space="preserve">
+    <value>Check for Updates...</value>
+  </data>
+  <data name="Menu_HelpAbout" xml:space="preserve">
+    <value>About...</value>
+  </data>
+  <data name="Label_LocalFile" xml:space="preserve">
+    <value>Local File</value>
+  </data>
+  <data name="Label_MCU" xml:space="preserve">
+    <value>MCU (AVR only)</value>
+  </data>
+  <data name="Button_Open" xml:space="preserve">
+    <value>_Open...</value>
+  </data>
+  <data name="Label_AutoFlash" xml:space="preserve">
+    <value>_Auto Flash</value>
+  </data>
+  <data name="Button_Flash" xml:space="preserve">
+    <value>_Flash</value>
+  </data>
+  <data name="Button_Clear" xml:space="preserve">
+    <value>_Clear EEPROM</value>
+  </data>
+  <data name="Button_ExitDFU" xml:space="preserve">
+    <value>_Exit DFU</value>
+  </data>
+  <data name="NoHID" xml:space="preserve">
+    <value>No HID console devices connected</value>
+  </data>
+  <data name="Menu_ToolsKeyTester" xml:space="preserve">
+    <value>Key Tester</value>
+  </data>
 </root>

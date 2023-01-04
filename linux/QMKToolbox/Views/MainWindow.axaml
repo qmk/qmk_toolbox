@@ -3,6 +3,7 @@
         xmlns:vm="using:QMK_Toolbox.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:r="clr-namespace:QMK_Toolbox.Properties" 
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="QMK_Toolbox.Views.MainWindow"
         Initialized="OnInitialized"
@@ -12,7 +13,7 @@
         FontSize="10"
         MinWidth="800"
         MinHeight="680"
-        Title="QMK Toolbox"
+        Title="{x:Static r:Resources.ApplicationTitle}"
         Background="#f0f0f0"
         Icon="/Resources/qmk.ico">
    
@@ -84,30 +85,30 @@
               Grid.Column="0"
               Grid.ColumnSpan="2"
               Margin="0,3,0,3">
-            <MenuItem Header="_File">
-                <MenuItem Header="_Open..." Command="{Binding OpenFileCommand}"/>
+            <MenuItem Header="{x:Static r:Resources.Menu_File}">
+                <MenuItem Header="{x:Static r:Resources.Menu_FileOpen}" Command="{Binding OpenFileCommand}"/>
                 <Separator/>
-                <MenuItem Header="_Exit" Command="{Binding CloseCommand}"/>
+                <MenuItem Header="{x:Static r:Resources.Menu_FileExit}" Command="{Binding CloseCommand}"/>
             </MenuItem>
-            <MenuItem Header="_Tools">
+            <MenuItem Header="{x:Static r:Resources.Menu_Tools}">
                 <MenuItem Header="Flash" Command="{Binding FlashCommand}" />
-                <MenuItem Header="EEPROM" Command = "{Binding ClearEepromCommand}" />
-                <MenuItem Header="Exit DFU" Command = "{Binding ExitDfuCommand}"/>
+                <MenuItem Header="EEPROM" Command="{Binding ClearEepromCommand}" />
+                <MenuItem Header="Exit DFU" Command="{Binding ExitDfuCommand}"/>
                 <Separator/>
-                <MenuItem Header="Auto-Flash" Command="{Binding IsAutoFlash }" >
+                <MenuItem Header="{x:Static r:Resources.Menu_ToolsFlash}" Command="{Binding IsAutoFlash }" >
                     <MenuItem.Icon>
                         <CheckBox IsChecked="{Binding IsAutoFlash}" BorderThickness="0">
                         </CheckBox>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Show All Devices"/>
+                <MenuItem Header="{x:Static r:Resources.Menu_ToolShowAll}"/>
                 <Separator/>
-                <MenuItem Header="Key Tester" IsEnabled="False"/>
+                <MenuItem Header="{x:Static r:Resources.Menu_ToolsKeyTester}" IsEnabled="False"/>
             </MenuItem>
-            <MenuItem Header="_Help">
-                <MenuItem Header="Check for updates..." IsEnabled="False"/>
+            <MenuItem Header="{x:Static r:Resources.Menu_Help}">
+                <MenuItem Header="{x:Static r:Resources.Menu_HelpCheckNew}" IsEnabled="False"/>
                 <Separator/>
-                <MenuItem Header="About"/>
+                <MenuItem Header="{x:Static r:Resources.Menu_HelpAbout}"/>
             </MenuItem>
         </Menu>
         <Label
@@ -118,7 +119,7 @@
             VerticalAlignment="Top"
             Margin="0,8,0,0"
             HorizontalAlignment="Left"
-            Content="Local File" />
+            Content="{x:Static r:Resources.Label_LocalFile}" />
         <Label
             FontSize="10"
             Grid.Row="1"
@@ -127,7 +128,7 @@
             VerticalAlignment="Top"
             HorizontalAlignment="Right"
             Margin="0,8,42,0"
-            Content="MCU (AVR only)" />
+            Content="{x:Static r:Resources.Label_MCU}" />
         <Border x:Name="border"
             BorderThickness="1"
             BorderBrush="Black"
@@ -161,7 +162,7 @@
                 Height="22"
                 Width="45"
                 FontSize="10"
-                Content="_Open..." />
+                Content="{x:Static r:Resources.Button_Open}" />
             <ComboBox
                 x:Name="McuCombo"
                 Padding ="4,2,0,0"
@@ -186,7 +187,7 @@
                 Height="20"
                 Margin="0,2,0,0"
                 FontSize="11"
-                Content="_Auto-Flash" />
+                Content="{x:Static r:Resources.Label_AutoFlash}" />
             <CheckBox
                 x:Name="CheckBox"
                 Margin="0,0,5,0"
@@ -207,7 +208,7 @@
                 Width="55"
                 FontSize="10"
                 Margin="0,0,5,0"
-                Content="_Flash" />
+                Content="{x:Static r:Resources.Button_Flash}" />
             <Button
                 Command="{Binding ClearEEPromCommand}"
                 VerticalAlignment="Center"
@@ -218,7 +219,7 @@
                 Width="110"
                 FontSize="10"
                 Margin="0,0,5,0"
-                Content="_Clear EEPROM" />
+                Content="{x:Static r:Resources.Button_Clear}" />
             <Button
                 Command="{Binding ExitDfuCommand}"
                 VerticalAlignment="Center"
@@ -228,7 +229,7 @@
                 Height="22"
                 Width="70"
                 FontSize="10"
-                Content="_Exit DFU" />
+                Content="{x:Static r:Resources.Button_ExitDFU}" />
         </StackPanel>
         <Border 
             Margin="0,0,0,0"
@@ -261,7 +262,7 @@
               BorderBrush="DarkGray"
               Grid.ColumnSpan="2"
               SelectedIndex="0">
-            <ComboBoxItem>No HID console devices connected</ComboBoxItem>
+            <ComboBoxItem Content="{x:Static r:Resources.NoHID}"/>
         </ComboBox>
     </Grid>
 </Window>

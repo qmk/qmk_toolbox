@@ -6,16 +6,6 @@
         <local:ViewLocator />
     </Application.DataTemplates>
     <Application.Resources>
-        <Style Selector="TextBlock.Label">
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="#FF999999"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-        </Style>
-                <Style Selector="TextBlock.Label">
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="#FF999999"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-        </Style>
         
     </Application.Resources>   
     <Application.Styles>

@@ -14,7 +14,6 @@
     <ItemGroup>
         <AvaloniaResource Include="Resources\**" />
         <None Remove=".gitignore" />
-        <None Remove="Usb\Bootloader\LufaHidDevice.cs~" />
     </ItemGroup>
 
     <ItemGroup>
@@ -30,11 +29,15 @@
         <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
         <PackageReference Include="XamlNameReferenceGenerator" Version="1.5.1" />
         <PackageReference Include="LibUsbDotNet" Version="3.0.102-alpha" />
-
     </ItemGroup>
 
     <ItemGroup>
-
+        <EmbeddedResource Update="Properties/Resources.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+        </EmbeddedResource>
+    </ItemGroup>
+    
+    <ItemGroup>
         <EmbeddedResource Include="../../common/avrdude.conf">
             <Link>Resources/avrdude.conf</Link>
         </EmbeddedResource>
