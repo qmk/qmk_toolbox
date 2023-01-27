@@ -15,13 +15,9 @@
 		09522BB31F61E32700AEBC5E /* mcu-list.txt in Resources */ = {isa = PBXBuildFile; fileRef = 09522BB21F61E32700AEBC5E /* mcu-list.txt */; };
 		09522BBB1F6216BA00AEBC5E /* avrdude.conf in Resources */ = {isa = PBXBuildFile; fileRef = 09522BBA1F6216BA00AEBC5E /* avrdude.conf */; };
 		098AEDFB1F5E45C300CA054D /* dfu-util in CopyFiles */ = {isa = PBXBuildFile; fileRef = 098AEDFA1F5E45C300CA054D /* dfu-util */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		3066649328392281007C93C8 /* libftdi.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A7770D822BD3B8200398C40 /* libftdi.1.dylib */; };
 		3066649428392281007C93C8 /* libftdi.1.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 3A7770D822BD3B8200398C40 /* libftdi.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		3066649528392281007C93C8 /* libhidapi.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AFD4BCF281AB83C00ADCB65 /* libhidapi.0.dylib */; };
 		3066649628392281007C93C8 /* libhidapi.0.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 3AFD4BCF281AB83C00ADCB65 /* libhidapi.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		3066649728392281007C93C8 /* libusb-0.1.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */; };
 		3066649828392281007C93C8 /* libusb-0.1.4.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		3066649928392281007C93C8 /* libusb-1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */; };
 		3066649A28392281007C93C8 /* libusb-1.0.0.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		3A128567283D3F0800173A80 /* MicrocontrollerSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A128566283D3F0800173A80 /* MicrocontrollerSelector.swift */; };
 		3A32CF4B28412C420016D7B7 /* BootloaderDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A32CF4A28412C420016D7B7 /* BootloaderDevice.swift */; };
@@ -164,10 +160,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3066649328392281007C93C8 /* libftdi.1.dylib in Frameworks */,
-				3066649528392281007C93C8 /* libhidapi.0.dylib in Frameworks */,
-				3066649728392281007C93C8 /* libusb-0.1.4.dylib in Frameworks */,
-				3066649928392281007C93C8 /* libusb-1.0.0.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
