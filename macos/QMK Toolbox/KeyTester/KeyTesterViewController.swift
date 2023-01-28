@@ -1,7 +1,7 @@
-import AppKit
+import Cocoa
 import Carbon.HIToolbox.Events
 
-class KeyTesterWindow: NSPanel {
+class KeyTesterViewController: NSViewController {
     @IBOutlet var keyViewEscape: KeyView!
     @IBOutlet var keyViewF1: KeyView!
     @IBOutlet var keyViewF2: KeyView!
@@ -124,12 +124,23 @@ class KeyTesterWindow: NSPanel {
     @IBOutlet var lastVKLabel: NSTextField!
     @IBOutlet var flagsLabel: NSTextField!
 
-    override func keyDown(with event: NSEvent) {
-        keyEvent(true, keyCode: event.keyCode)
-    }
-
-    override func keyUp(with event: NSEvent) {
-        keyEvent(false, keyCode: event.keyCode)
+    override func viewDidLoad() {
+        NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) { event in
+            self.flagsChanged(with: event)
+            return nil
+        }
+        NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+            self.keyEvent(true, keyCode: event.keyCode)
+            // Fn+Esc to close window
+            if event.keyCode == kVK_Escape && event.modifierFlags.contains(.function) {
+                return event
+            }
+            return nil
+        }
+        NSEvent.addLocalMonitorForEvents(matching: .keyUp) { event in
+            self.keyEvent(false, keyCode: event.keyCode)
+            return nil
+        }
     }
 
     override func flagsChanged(with event: NSEvent) {

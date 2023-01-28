@@ -1,29 +1,26 @@
-import AppKit
+import Cocoa
 
-class HIDConsoleWindow: NSPanel, NSWindowDelegate, HIDConsoleListenerDelegate {
+class HIDConsoleViewController: NSViewController, HIDConsoleListenerDelegate {
     @IBOutlet var consoleListBox: NSComboBox!
 
     @IBOutlet var logTextView: LogTextView!
 
-    @IBOutlet var clearMenuItem: NSMenuItem!
-
-    override init(contentRect: NSRect, styleMask style: NSWindow.StyleMask, backing backingStoreType: NSWindow.BackingStoreType, defer flag: Bool) {
-        super.init(contentRect: contentRect, styleMask: style, backing: backingStoreType, defer: flag)
-        self.delegate = self
-    }
-
-    func windowDidBecomeKey(_ notification: Notification) {
-        logTextView.menu?.addItem(NSMenuItem.separator())
-        logTextView.menu?.addItem(clearMenuItem)
-
+    override func viewDidLoad() {
         consoleListener = HIDConsoleListener()
         consoleListener.delegate = self
         consoleListener.start()
     }
 
-    func windowWillClose(_ notification: Notification) {
+    override func viewWillDisappear() {
         consoleListener.stop()
     }
+
+    @IBAction
+    func clearButtonClick(_ sender: Any) {
+        logTextView.string = ""
+    }
+
+    // MARK: HID Console Devices
 
     var consoleListener: HIDConsoleListener!
     var lastReportedDevice: HIDConsoleDevice?
@@ -64,10 +61,5 @@ class HIDConsoleWindow: NSPanel, NSWindowDelegate, HIDConsoleListenerDelegate {
             consoleListBox.insertItem(withObjectValue: "(All connected devices)", at: 0)
             consoleListBox.selectItem(at: consoleListBox.numberOfItems > selectedItem ? selectedItem : 0)
         }
-    }
-
-    @IBAction
-    func clearButtonClick(_ sender: Any) {
-        logTextView.string = ""
     }
 }

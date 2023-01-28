@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		092964021F5C8B2C004F2D3F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 092964011F5C8B2C004F2D3F /* Assets.xcassets */; };
-		092964051F5C8B2C004F2D3F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 092964031F5C8B2C004F2D3F /* MainMenu.xib */; };
 		0929640D1F5E403C004F2D3F /* dfu-programmer in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0929640C1F5E403C004F2D3F /* dfu-programmer */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0929640F1F5E4068004F2D3F /* teensy_loader_cli in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0929640E1F5E4068004F2D3F /* teensy_loader_cli */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		092964111F5E4186004F2D3F /* avrdude in CopyFiles */ = {isa = PBXBuildFile; fileRef = 092964101F5E4186004F2D3F /* avrdude */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -46,17 +45,18 @@
 		3A708D9C284916F700394E52 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A708D9B284916F700394E52 /* AppDelegate.swift */; };
 		3A7492CC27DF96BF0073A5A0 /* hid_bootloader_cli in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3A7492CB27DF96BF0073A5A0 /* hid_bootloader_cli */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		3A8DE01A284636780012063A /* HIDConsoleDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8DE019284636780012063A /* HIDConsoleDevice.swift */; };
-		3A8F9EFF26E75012007480A7 /* KeyTesterWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A8F9F0126E75012007480A7 /* KeyTesterWindow.xib */; };
 		3A8F9F0226E7501E007480A7 /* KeyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A8F9F0426E7501E007480A7 /* KeyView.xib */; };
-		3A928718292CA8770015D961 /* HIDConsoleWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A928717292CA8770015D961 /* HIDConsoleWindow.xib */; };
-		3A92871A292CAAC70015D961 /* HIDConsoleWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A928719292CAAC70015D961 /* HIDConsoleWindow.swift */; };
+		3A92871E292CE6400015D961 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A92871D292CE6400015D961 /* MainViewController.swift */; };
+		3A92873D292CF7A10015D961 /* HIDConsoleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A92873C292CF7A10015D961 /* HIDConsoleViewController.swift */; };
+		3A928747292D2BB20015D961 /* WindowState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A928746292D2BB20015D961 /* WindowState.swift */; };
+		3A928749292D49E80015D961 /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A928748292D49E80015D961 /* MainWindow.swift */; };
+		3A968D45294CA66C006EAE9E /* KeyTesterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A968D44294CA66C006EAE9E /* KeyTesterViewController.swift */; };
 		3AA5D3472803FCE1008121E4 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AA5D3462803FCE1008121E4 /* Colors.xcassets */; };
 		3AA7F96B283BCD2E009FFDD5 /* BootloaderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA7F96A283BCD2E009FFDD5 /* BootloaderType.swift */; };
 		3AAB20AB283BEEC700029ABD /* LogTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AAB20AA283BEEC700029ABD /* LogTextView.swift */; };
-		3AAB20B5283BF7FF00029ABD /* QMKWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AAB20B4283BF7FF00029ABD /* QMKWindow.swift */; };
 		3AB09F1D28B46672006CC212 /* GD32VDFUDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB09F1C28B46672006CC212 /* GD32VDFUDevice.swift */; };
 		3AB4BC9D2495540A00204A3F /* bootloadHID in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3AB4BC9C2495540A00204A3F /* bootloadHID */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		3AFA80BC283E92A7000227B2 /* KeyTesterWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFA80BB283E92A7000227B2 /* KeyTesterWindow.swift */; };
+		3AE86EF8294C9CEC00008D3E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3AE86EFA294C9CEC00008D3E /* Main.storyboard */; };
 		9BE10718275F4CFE00C708D5 /* wb32-dfu-updater_cli in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9BE10717275F4CFE00C708D5 /* wb32-dfu-updater_cli */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		C93A0FF42292232E0006C88F /* reset.eep in Resources */ = {isa = PBXBuildFile; fileRef = C93A0FF32292232D0006C88F /* reset.eep */; };
 		C9A09B5722EE6826008C3CF3 /* mdloader in CopyFiles */ = {isa = PBXBuildFile; fileRef = C9A09B5622EE6826008C3CF3 /* mdloader */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -99,7 +99,6 @@
 /* Begin PBXFileReference section */
 		092963F81F5C8B2C004F2D3F /* QMK Toolbox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "QMK Toolbox.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		092964011F5C8B2C004F2D3F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		092964041F5C8B2C004F2D3F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		092964061F5C8B2C004F2D3F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0929640C1F5E403C004F2D3F /* dfu-programmer */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "dfu-programmer"; sourceTree = "<group>"; };
 		0929640E1F5E4068004F2D3F /* teensy_loader_cli */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = teensy_loader_cli; sourceTree = "<group>"; };
@@ -138,17 +137,18 @@
 		3A7492CB27DF96BF0073A5A0 /* hid_bootloader_cli */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = hid_bootloader_cli; sourceTree = "<group>"; };
 		3A7770D822BD3B8200398C40 /* libftdi.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libftdi.1.dylib; sourceTree = "<group>"; };
 		3A8DE019284636780012063A /* HIDConsoleDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HIDConsoleDevice.swift; sourceTree = "<group>"; };
-		3A8F9F0026E75012007480A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/KeyTesterWindow.xib; sourceTree = "<group>"; };
 		3A8F9F0326E7501E007480A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/KeyView.xib; sourceTree = "<group>"; };
-		3A928717292CA8770015D961 /* HIDConsoleWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HIDConsoleWindow.xib; sourceTree = "<group>"; };
-		3A928719292CAAC70015D961 /* HIDConsoleWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HIDConsoleWindow.swift; sourceTree = "<group>"; };
+		3A92871D292CE6400015D961 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		3A92873C292CF7A10015D961 /* HIDConsoleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HIDConsoleViewController.swift; sourceTree = "<group>"; };
+		3A928746292D2BB20015D961 /* WindowState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowState.swift; sourceTree = "<group>"; };
+		3A928748292D49E80015D961 /* MainWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
+		3A968D44294CA66C006EAE9E /* KeyTesterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyTesterViewController.swift; sourceTree = "<group>"; };
 		3AA5D3462803FCE1008121E4 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		3AA7F96A283BCD2E009FFDD5 /* BootloaderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootloaderType.swift; sourceTree = "<group>"; };
 		3AAB20AA283BEEC700029ABD /* LogTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogTextView.swift; sourceTree = "<group>"; };
-		3AAB20B4283BF7FF00029ABD /* QMKWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QMKWindow.swift; sourceTree = "<group>"; };
 		3AB09F1C28B46672006CC212 /* GD32VDFUDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GD32VDFUDevice.swift; sourceTree = "<group>"; };
 		3AB4BC9C2495540A00204A3F /* bootloadHID */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = bootloadHID; sourceTree = "<group>"; };
-		3AFA80BB283E92A7000227B2 /* KeyTesterWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyTesterWindow.swift; sourceTree = "<group>"; };
+		3AE86EF9294C9CEC00008D3E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3AFD4BCF281AB83C00ADCB65 /* libhidapi.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libhidapi.0.dylib; sourceTree = "<group>"; };
 		9BE10717275F4CFE00C708D5 /* wb32-dfu-updater_cli */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "wb32-dfu-updater_cli"; sourceTree = "<group>"; };
 		C93A0FF32292232D0006C88F /* reset.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset.eep; path = ../../../common/reset.eep; sourceTree = "<group>"; };
@@ -190,12 +190,14 @@
 				3AC7BE4B27254FB800FED7DB /* USB */,
 				3A708D9B284916F700394E52 /* AppDelegate.swift */,
 				3AAB20AA283BEEC700029ABD /* LogTextView.swift */,
+				3A92871D292CE6400015D961 /* MainViewController.swift */,
+				3A928748292D49E80015D961 /* MainWindow.swift */,
 				3A49F9A4282A92EB00B73DA0 /* MessageType.swift */,
 				3A128566283D3F0800173A80 /* MicrocontrollerSelector.swift */,
-				3AAB20B4283BF7FF00029ABD /* QMKWindow.swift */,
+				3A928746292D2BB20015D961 /* WindowState.swift */,
 				092964011F5C8B2C004F2D3F /* Assets.xcassets */,
 				3AA5D3462803FCE1008121E4 /* Colors.xcassets */,
-				092964031F5C8B2C004F2D3F /* MainMenu.xib */,
+				3AE86EFA294C9CEC00008D3E /* Main.storyboard */,
 				092964061F5C8B2C004F2D3F /* Info.plist */,
 				300641B328359D3E00F58C4B /* QMK ToolboxRelease.entitlements */,
 				092963FE1F5C8B2C004F2D3F /* Supporting Files */,
@@ -216,8 +218,7 @@
 			children = (
 				3A8DE019284636780012063A /* HIDConsoleDevice.swift */,
 				3A708D99284901F500394E52 /* HIDConsoleListener.swift */,
-				3A928719292CAAC70015D961 /* HIDConsoleWindow.swift */,
-				3A928717292CA8770015D961 /* HIDConsoleWindow.xib */,
+				3A92873C292CF7A10015D961 /* HIDConsoleViewController.swift */,
 			);
 			path = HIDConsole;
 			sourceTree = "<group>";
@@ -249,8 +250,7 @@
 		3AC739EB26E23A9800D8B258 /* KeyTester */ = {
 			isa = PBXGroup;
 			children = (
-				3AFA80BB283E92A7000227B2 /* KeyTesterWindow.swift */,
-				3A8F9F0126E75012007480A7 /* KeyTesterWindow.xib */,
+				3A968D44294CA66C006EAE9E /* KeyTesterViewController.swift */,
 				3A376079283E769300C19B3F /* KeyView.swift */,
 				3A8F9F0426E7501E007480A7 /* KeyView.xib */,
 			);
@@ -355,9 +355,7 @@
 			files = (
 				092964021F5C8B2C004F2D3F /* Assets.xcassets in Resources */,
 				3AA5D3472803FCE1008121E4 /* Colors.xcassets in Resources */,
-				092964051F5C8B2C004F2D3F /* MainMenu.xib in Resources */,
-				3A928718292CA8770015D961 /* HIDConsoleWindow.xib in Resources */,
-				3A8F9EFF26E75012007480A7 /* KeyTesterWindow.xib in Resources */,
+				3AE86EF8294C9CEC00008D3E /* Main.storyboard in Resources */,
 				3A8F9F0226E7501E007480A7 /* KeyView.xib in Resources */,
 				09522BBB1F6216BA00AEBC5E /* avrdude.conf in Resources */,
 				09522BB31F61E32700AEBC5E /* mcu-list.txt in Resources */,
@@ -376,8 +374,7 @@
 			files = (
 				3A8DE01A284636780012063A /* HIDConsoleDevice.swift in Sources */,
 				3A708D9A284901F500394E52 /* HIDConsoleListener.swift in Sources */,
-				3A92871A292CAAC70015D961 /* HIDConsoleWindow.swift in Sources */,
-				3AFA80BC283E92A7000227B2 /* KeyTesterWindow.swift in Sources */,
+				3A92873D292CF7A10015D961 /* HIDConsoleViewController.swift in Sources */,
 				3A37607A283E769300C19B3F /* KeyView.swift in Sources */,
 				3A32CF59284141D60016D7B7 /* APM32DFUDevice.swift in Sources */,
 				3A32CF55284140E30016D7B7 /* AtmelDFUDevice.swift in Sources */,
@@ -398,40 +395,35 @@
 				3A32CF652841445E0016D7B7 /* USBTinyISPDevice.swift in Sources */,
 				3A32CF672841451D0016D7B7 /* WB32DFUDevice.swift in Sources */,
 				3A5A916C28410F53004DD9BD /* USBDevice.swift in Sources */,
+				3A968D45294CA66C006EAE9E /* KeyTesterViewController.swift in Sources */,
 				3A708D982848A23300394E52 /* USBListener.swift in Sources */,
 				3A708D9C284916F700394E52 /* AppDelegate.swift in Sources */,
 				3AAB20AB283BEEC700029ABD /* LogTextView.swift in Sources */,
+				3A92871E292CE6400015D961 /* MainViewController.swift in Sources */,
+				3A928749292D49E80015D961 /* MainWindow.swift in Sources */,
 				3A49F9A5282A92EB00B73DA0 /* MessageType.swift in Sources */,
 				3A128567283D3F0800173A80 /* MicrocontrollerSelector.swift in Sources */,
-				3AAB20B5283BF7FF00029ABD /* QMKWindow.swift in Sources */,
+				3A928747292D2BB20015D961 /* WindowState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		092964031F5C8B2C004F2D3F /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				092964041F5C8B2C004F2D3F /* Base */,
-			);
-			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-		3A8F9F0126E75012007480A7 /* KeyTesterWindow.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3A8F9F0026E75012007480A7 /* Base */,
-			);
-			name = KeyTesterWindow.xib;
-			sourceTree = "<group>";
-		};
 		3A8F9F0426E7501E007480A7 /* KeyView.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				3A8F9F0326E7501E007480A7 /* Base */,
 			);
 			name = KeyView.xib;
+			sourceTree = "<group>";
+		};
+		3AE86EFA294C9CEC00008D3E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3AE86EF9294C9CEC00008D3E /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

@@ -1,7 +1,6 @@
-import Foundation
-import AppKit
+import Cocoa
 
-class QMKWindow: NSWindow, NSDraggingDestination {
+class MainWindow: NSWindow, NSDraggingDestination {
     override func awakeFromNib() {
         self.registerForDraggedTypes([.fileURL])
     }
@@ -17,9 +16,8 @@ class QMKWindow: NSWindow, NSDraggingDestination {
     }
 
     func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
-        let pasteboard = sender.draggingPasteboard
-        guard let file = NSURL(from: pasteboard) as? URL else { return false }
-        (NSApplication.shared.delegate as! AppDelegate).setFilePath(file)
+        guard let file = NSURL(from: sender.draggingPasteboard) as? URL else { return false }
+        NotificationCenter.default.post(name: NSNotification.Name("OpenedFile"), object: file)
         return true
     }
 }
