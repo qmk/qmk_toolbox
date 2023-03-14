@@ -77,14 +77,14 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: "Import Certificate: Development"
-      uses: apple-actions/import-codesign-certs@v1
+      uses: apple-actions/import-codesign-certs@v2
       with:
         p12-file-base64: ${{ secrets.DEVELOPMENT_CERTIFICATE_DATA }}
         p12-password: ${{ secrets.DEVELOPMENT_CERTIFICATE_PASSPHRASE }}
         keychain-password: ${{ secrets.KEYCHAIN_PASSWORD }}
 
     - name: "Import Certificate: App Distribution"
-      uses: apple-actions/import-codesign-certs@v1
+      uses: apple-actions/import-codesign-certs@v2
       with:
         p12-file-base64: ${{ secrets.APP_DISTRIBUTION_CERTIFICATE_DATA }}
         p12-password: ${{ secrets.APP_DISTRIBUTION_CERTIFICATE_PASSPHRASE }}
@@ -92,7 +92,7 @@ jobs:
         create-keychain: false
 
     - name: "Import Certificate: Installer Distribution"
-      uses: apple-actions/import-codesign-certs@v1
+      uses: apple-actions/import-codesign-certs@v2
       with:
         p12-file-base64: ${{ secrets.INSTALLER_DISTRIBUTION_CERTIFICATE_DATA }}
         p12-password: ${{ secrets.INSTALLER_DISTRIBUTION_CERTIFICATE_PASSPHRASE }}
