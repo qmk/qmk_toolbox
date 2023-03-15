@@ -22,6 +22,7 @@ jobs:
     - uses: actions/checkout@v3
       
     - name: Sign resource binaries
+      if: github.event_name != 'pull_request'
       uses: dlemstra/code-sign-action@v1
       with:
         certificate: '${{ secrets.WINDOWS_CERTIFICATE }}'
@@ -36,6 +37,7 @@ jobs:
         msbuild "QMK Toolbox.sln" /verbosity:minimal /p:Configuration=Release
       
     - name: Sign QMK Toolbox
+      if: github.event_name != 'pull_request'
       uses: dlemstra/code-sign-action@v1
       with:
         certificate: '${{ secrets.WINDOWS_CERTIFICATE }}'
@@ -49,6 +51,7 @@ jobs:
         iscc install_compiler.iss
       
     - name: Sign QMK Toolbox installer
+      if: github.event_name != 'pull_request'
       uses: dlemstra/code-sign-action@v1
       with:
         certificate: '${{ secrets.WINDOWS_CERTIFICATE }}'
