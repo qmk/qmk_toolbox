@@ -22,6 +22,7 @@ jobs:
     - uses: actions/checkout@v3
       
     - name: Sign resource binaries
+      if: github.event_name != 'pull_request'
       uses: dlemstra/code-sign-action@v1
       with:
         certificate: '${{ secrets.WINDOWS_CERTIFICATE }}'
@@ -36,6 +37,7 @@ jobs:
         msbuild "QMK Toolbox.sln" /verbosity:minimal /p:Configuration=Release
       
     - name: Sign QMK Toolbox
+      if: github.event_name != 'pull_request'
       uses: dlemstra/code-sign-action@v1
       with:
         certificate: '${{ secrets.WINDOWS_CERTIFICATE }}'
@@ -49,6 +51,7 @@ jobs:
         iscc install_compiler.iss
       
     - name: Sign QMK Toolbox installer
+      if: github.event_name != 'pull_request'
       uses: dlemstra/code-sign-action@v1
       with:
         certificate: '${{ secrets.WINDOWS_CERTIFICATE }}'
@@ -77,14 +80,16 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: "Import Certificate: Development"
-      uses: apple-actions/import-codesign-certs@v1
+      if: github.event_name != 'pull_request'
+      uses: apple-actions/import-codesign-certs@v2
       with:
         p12-file-base64: ${{ secrets.DEVELOPMENT_CERTIFICATE_DATA }}
         p12-password: ${{ secrets.DEVELOPMENT_CERTIFICATE_PASSPHRASE }}
         keychain-password: ${{ secrets.KEYCHAIN_PASSWORD }}
 
     - name: "Import Certificate: App Distribution"
-      uses: apple-actions/import-codesign-certs@v1
+      if: github.event_name != 'pull_request'
+      uses: apple-actions/import-codesign-certs@v2
       with:
         p12-file-base64: ${{ secrets.APP_DISTRIBUTION_CERTIFICATE_DATA }}
         p12-password: ${{ secrets.APP_DISTRIBUTION_CERTIFICATE_PASSPHRASE }}
@@ -92,7 +97,8 @@ jobs:
         create-keychain: false
 
     - name: "Import Certificate: Installer Distribution"
-      uses: apple-actions/import-codesign-certs@v1
+      if: github.event_name != 'pull_request'
+      uses: apple-actions/import-codesign-certs@v2
       with:
         p12-file-base64: ${{ secrets.INSTALLER_DISTRIBUTION_CERTIFICATE_DATA }}
         p12-password: ${{ secrets.INSTALLER_DISTRIBUTION_CERTIFICATE_PASSPHRASE }}
@@ -112,31 +118,42 @@ jobs:
         done
         exit $status
 
-    - name: "Archive"
+    - name: Archive
+      if: github.event_name != 'pull_request'
       uses: devbotsxyz/xcode-archive@v1
       with:
         workspace: "macos/QMK Toolbox.xcworkspace"
         scheme: "QMK Toolbox"
         export-path: "macos/build"
 
-    - name: "Export & Sign Release Build"
+    - name: Export & Sign Release Build
+      if: github.event_name != 'pull_request'
       uses: devbotsxyz/xcode-export-archive@master
       with:
         workspace: "macos/QMK Toolbox.xcworkspace"
         scheme: "QMK Toolbox"
         export-path: "macos/build"
 
-    - name: "Notarize Release Build"
+    - name: Notarize Release Build
+      if: github.event_name != 'pull_request'
       uses: devbotsxyz/xcode-notarize@v1
       with:
         product-path: "macos/build/QMK Toolbox.app"
         appstore-connect-username: ${{ secrets.NOTARIZATION_USERNAME }}
         appstore-connect-password: ${{ secrets.NOTARIZATION_PASSWORD }}
 
-    - name: "Staple Release Build"
+    - name: Staple Release Build
+      if: github.event_name != 'pull_request'
       uses: devbotsxyz/xcode-staple@v1
       with:
         product-path: "macos/build/QMK Toolbox.app"
+
+    - name: Build (unsigned-only)
+      if: github.event_name == 'pull_request'
+      working-directory: ./macos
+      run: |
+        mkdir build
+        xcodebuild CONFIGURATION_BUILD_DIR=build -configuration Debug
     
     - name: Package for Distribution
       run: ditto -ck --rsrc --sequesterRsrc -v --keepParent "macos/build/QMK Toolbox.app" macos/build/QMK.Toolbox.app.zip
@@ -153,10 +170,12 @@ jobs:
         packagesbuild -v "QMK Toolbox.pkgproj"
 
     - name: Sign Installer
+      if: github.event_name != 'pull_request'
       working-directory: ./macos
       run: productsign -s "${{ secrets.DEVELOPER_ID_INSTALLER_NAME }}" "build/QMK Toolbox.pkg" build/QMK.Toolbox.pkg
 
-    - name: "Notarize Installer"
+    - name: Notarize Installer
+      if: github.event_name != 'pull_request'
       uses: devbotsxyz/xcode-notarize@v1
       with:
         product-path: "macos/build/QMK.Toolbox.pkg"
@@ -164,10 +183,16 @@ jobs:
         appstore-connect-password: ${{ secrets.NOTARIZATION_PASSWORD }}
         primary-bundle-id: fm.qmk.toolbox
 
-    - name: "Staple Installer"
+    - name: Staple Installer
+      if: github.event_name != 'pull_request'
       uses: devbotsxyz/xcode-staple@v1
       with:
         product-path: "macos/build/QMK.Toolbox.pkg"
+
+    - name: Move installer (unsigned-only)
+      if: github.event_name == 'pull_request'
+      working-directory: ./macos
+      run: mv "build/QMK Toolbox.pkg" build/QMK.Toolbox.pkg
 
     - uses: actions/upload-artifact@v3
       with:
