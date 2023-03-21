@@ -56,7 +56,6 @@ class MainViewController: NSViewController, USBListenerDelegate {
         }
     }
 
-    @IBAction
     func clearRecentDocuments(_ sender: Any) {
         NSDocumentController.shared.clearRecentDocuments(sender)
         filepathBox.removeAllItems()
