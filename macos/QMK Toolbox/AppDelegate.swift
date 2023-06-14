@@ -64,6 +64,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, USBListenerDelegate {
         logTextView.logInfo(" - HalfKay (Teensy, Ergodox EZ) via Teensy Loader (https://pjrc.com/teensy/loader_cli.html)")
         logTextView.logInfo(" - LUFA/QMK HID via hid_bootloader_cli (https://github.com/abcminiuser/lufa)")
         logTextView.logInfo(" - WB32 DFU via wb32-dfu-updater_cli (https://github.com/WestberryTech/wb32-dfu-updater)")
+        logTextView.logInfo(" - SN32 DFU via sonixflasher (https://github.com/SonixQMK/SonixFlasherC)")
         logTextView.logInfo(" - LUFA Mass Storage")
         logTextView.logInfo("Supported ISP flashers:")
         logTextView.logInfo(" - AVRISP (Arduino ISP)")

@@ -20,6 +20,7 @@
         UsbAsp,
         UsbTinyIsp,
         Wb32Dfu,
+        Sn32Dfu,
         None
     }
 }

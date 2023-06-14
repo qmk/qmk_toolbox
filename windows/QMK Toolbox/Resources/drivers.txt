@@ -10,6 +10,9 @@ winusb,GD32V Bootloader,28E9,0189,e1421fd6-f799-4b6c-97e6-39e87d37f858
 winusb,STM32duino Bootloader,1EAF,0003,746915ec-99d8-4a90-a722-3c85ba31e4fe
 libusbk,USBaspLoader,16C0,05DC,e69affdc-0ef0-427c-aefb-4e593c9d2724
 winusb,Kiibohd DFU Bootloader,1C11,B007,aa5a3f86-b81e-4416-89ad-0c1ea1ed63af
+winusb,SN32F240 DFU bootloader,0c45,7900,745a17a0-74d3-11d0-b6fe-00a0c90f57da
+winusb,SN32F240b DFU bootloader,0c45,7040,43941f75-f64e-4974-a768-b8cb72e2d6e6
+winusb,SN32F260 DFU bootloader,0c45,7010,9b000b8a-f952-4de6-8159-5d222ba3f8f1
 libusb,ATmega16U2,03EB,2FEF,007274da-b75f-492e-a288-8fc0aff8339f
 libusb,ATmega32U2,03EB,2FF0,ddc2c572-cb6e-4f61-a6cc-1a5de941f063
 libusb,ATmega16U4,03EB,2FF3,3180d426-bf93-4578-a693-2efbc337da8e

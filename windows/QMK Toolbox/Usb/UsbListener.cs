@@ -187,6 +187,8 @@ namespace QMK_Toolbox.Usb
                     return new UsbTinyIspDevice(usbDevice);
                 case BootloaderType.Wb32Dfu:
                     return new Wb32DfuDevice(usbDevice);
+                case BootloaderType.Sn32Dfu:
+                    return new Sn32DfuDevice(usbDevice);
             }
 
             return usbDevice;
@@ -229,6 +231,17 @@ namespace QMK_Toolbox.Usb
                     if (productId == 0xDF11)
                     {
                         return BootloaderType.Stm32Dfu;
+                    }
+                    break;
+                case 0x0c45: // Sonix
+                    switch (productId)
+                    {
+                        case 0x7010: // SN32F260
+                            return BootloaderType.Sn32Dfu;
+                        case 0x7040: // SN32F240b
+                            return BootloaderType.Sn32Dfu;
+                        case 0x7900: // SN32F240
+                            return BootloaderType.Sn32Dfu;
                     }
                     break;
                 case 0x1209: // pid.codes
