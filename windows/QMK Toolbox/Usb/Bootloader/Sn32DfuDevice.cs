@@ -9,7 +9,7 @@ namespace QMK_Toolbox.Usb.Bootloader
         {
             Type = BootloaderType.Sn32Dfu;
             Name = "SN32 DFU";
-            PreferredDriver = "WinUSB";
+            PreferredDriver = "HidUsb";
         }
 
         public async override Task Flash(string mcu, string file)
