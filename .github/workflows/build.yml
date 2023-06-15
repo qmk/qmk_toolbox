@@ -227,7 +227,7 @@ jobs:
 
     needs: [build_win, build_macos]
 
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && !github.event.repository.fork }}
 
     steps:
       - uses: actions/download-artifact@v3
