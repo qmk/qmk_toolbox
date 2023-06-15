@@ -25,6 +25,7 @@ QMK Toolbox supports the following bootloaders:
  - HalfKay (Teensy, Ergodox EZ) via [Teensy Loader](https://pjrc.com/teensy/loader_cli.html)
  - LUFA/QMK HID via [hid_bootloader_cli](https://github.com/abcminiuser/lufa)
  - WB32 DFU (WB32) via [wb32-dfu-updater_cli](https://github.com/WestberryTech/wb32-dfu-updater)
+ - SN32 DFU (SN32) via [sonixflasher](https://github.com/SonixQMK/SonixFlasherC)
  - LUFA Mass Storage
 
 And the following ISP flashers:

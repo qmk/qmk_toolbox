@@ -15,6 +15,8 @@
 		09522BB31F61E32700AEBC5E /* mcu-list.txt in Resources */ = {isa = PBXBuildFile; fileRef = 09522BB21F61E32700AEBC5E /* mcu-list.txt */; };
 		09522BBB1F6216BA00AEBC5E /* avrdude.conf in Resources */ = {isa = PBXBuildFile; fileRef = 09522BBA1F6216BA00AEBC5E /* avrdude.conf */; };
 		098AEDFB1F5E45C300CA054D /* dfu-util in CopyFiles */ = {isa = PBXBuildFile; fileRef = 098AEDFA1F5E45C300CA054D /* dfu-util */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0D742A3B2A3B0AF600637C14 /* SN32DFUDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D742A3A2A3B0AF600637C14 /* SN32DFUDevice.swift */; };
+		0D742A3F2A3B0B8600637C14 /* sonixflasher in Resources */ = {isa = PBXBuildFile; fileRef = 0D742A3E2A3B0B8600637C14 /* sonixflasher */; };
 		3066649428392281007C93C8 /* libftdi.1.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 3A7770D822BD3B8200398C40 /* libftdi.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		3066649628392281007C93C8 /* libhidapi.0.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 3AFD4BCF281AB83C00ADCB65 /* libhidapi.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		3066649828392281007C93C8 /* libusb-0.1.4.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -109,6 +111,8 @@
 		098AEDFA1F5E45C300CA054D /* dfu-util */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "dfu-util"; sourceTree = "<group>"; };
 		09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libusb-1.0.0.dylib"; sourceTree = "<group>"; };
 		09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libusb-0.1.4.dylib"; sourceTree = "<group>"; };
+		0D742A3A2A3B0AF600637C14 /* SN32DFUDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SN32DFUDevice.swift; sourceTree = "<group>"; };
+		0D742A3E2A3B0B8600637C14 /* sonixflasher */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = sonixflasher; sourceTree = "<group>"; };
 		300641B328359D3E00F58C4B /* QMK ToolboxRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "QMK ToolboxRelease.entitlements"; sourceTree = "<group>"; };
 		3A128566283D3F0800173A80 /* MicrocontrollerSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrocontrollerSelector.swift; sourceTree = "<group>"; };
 		3A32CF4A28412C420016D7B7 /* BootloaderDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootloaderDevice.swift; sourceTree = "<group>"; };
@@ -225,6 +229,7 @@
 		3A53FB5B268A33F10020BAB0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0D742A3E2A3B0B8600637C14 /* sonixflasher */,
 				09522BBA1F6216BA00AEBC5E /* avrdude.conf */,
 				09522BB21F61E32700AEBC5E /* mcu-list.txt */,
 				C93A0FF32292232D0006C88F /* reset.eep */,
@@ -283,6 +288,7 @@
 				3A32CF5A284142300016D7B7 /* KiibohdDevice.swift */,
 				3A32CF5C2841427E0016D7B7 /* LUFAHIDDevice.swift */,
 				3A32CF68284145900016D7B7 /* LUFAMSDevice.swift */,
+				0D742A3A2A3B0AF600637C14 /* SN32DFUDevice.swift */,
 				3A32CF5E284142D10016D7B7 /* STM32DFUDevice.swift */,
 				3A32CF60284143990016D7B7 /* STM32DuinoDevice.swift */,
 				3A32CF62284143EC0016D7B7 /* USBAspDevice.swift */,
@@ -355,6 +361,7 @@
 			files = (
 				092964021F5C8B2C004F2D3F /* Assets.xcassets in Resources */,
 				3AA5D3472803FCE1008121E4 /* Colors.xcassets in Resources */,
+				0D742A3F2A3B0B8600637C14 /* sonixflasher in Resources */,
 				092964051F5C8B2C004F2D3F /* MainMenu.xib in Resources */,
 				3A928718292CA8770015D961 /* HIDConsoleWindow.xib in Resources */,
 				3A8F9EFF26E75012007480A7 /* KeyTesterWindow.xib in Resources */,
@@ -386,6 +393,7 @@
 				3A32CF4B28412C420016D7B7 /* BootloaderDevice.swift in Sources */,
 				3A32CF512841403B0016D7B7 /* BootloadHIDDevice.swift in Sources */,
 				3AA7F96B283BCD2E009FFDD5 /* BootloaderType.swift in Sources */,
+				0D742A3B2A3B0AF600637C14 /* SN32DFUDevice.swift in Sources */,
 				3A32CF4F28413F900016D7B7 /* CaterinaDevice.swift in Sources */,
 				3AB09F1D28B46672006CC212 /* GD32VDFUDevice.swift in Sources */,
 				3A32CF4D28413E6B0016D7B7 /* HalfKayDevice.swift in Sources */,

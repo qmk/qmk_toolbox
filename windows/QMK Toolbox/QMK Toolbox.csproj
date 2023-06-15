@@ -131,6 +131,7 @@
     <Compile Include="Usb\Bootloader\UsbAspDevice.cs" />
     <Compile Include="Usb\Bootloader\UsbTinyIspDevice.cs" />
     <Compile Include="Usb\Bootloader\Wb32DfuDevice.cs" />
+    <Compile Include="Usb\Bootloader\Sn32DfuDevice.cs" />
     <Compile Include="Usb\IUsbDevice.cs" />
     <Compile Include="Usb\UsbDevice.cs" />
     <Compile Include="Usb\UsbListener.cs" />
@@ -201,6 +202,8 @@
     <EmbeddedResource Include="Resources\qmk_driver_installer.exe" />
     <EmbeddedResource Include="Resources\teensy_loader_cli.exe" />
     <EmbeddedResource Include="Resources\wb32-dfu-updater_cli.exe" />
+    <EmbeddedResource Include="Resources\sonixflasher.exe" />
+    <EmbeddedResource Include="Resources\libhidapi-0.dll" />
     <EmbeddedResource Include="Resources\libftdi1.dll" />
     <EmbeddedResource Include="Resources\libusb0.dll" />
     <EmbeddedResource Include="Resources\libusb-0-1-4.dll" />
