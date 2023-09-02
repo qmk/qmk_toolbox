@@ -26,7 +26,7 @@ namespace QMK_Toolbox
                         return titleAttribute.Title;
                     }
                 }
-                return System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase);
+                return System.IO.Path.GetFileNameWithoutExtension(path: Assembly.GetExecutingAssembly().Location);
             }
         }
 

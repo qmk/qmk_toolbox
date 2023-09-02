@@ -12,6 +12,8 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Permissions;
 using System.Windows.Forms;
 
@@ -128,7 +130,6 @@ namespace QMK_Toolbox
             SetFilePath(((string[])e.Data.GetData(DataFormats.FileDrop, false)).First());
         }
 
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         protected override void WndProc(ref Message m)
         {
             if (m.Msg == NativeMethods.WmShowme)
@@ -432,19 +433,23 @@ namespace QMK_Toolbox
             filepathBox.SelectedItem = path;
         }
 
-        private void DownloadFile(string url)
+        private async void DownloadFile(string url)
         {
             logTextBox.LogInfo($"Downloading the file: {url}");
 
             try
             {
                 string destFile = Path.Combine(KnownFolders.Downloads.Path, url.Substring(url.LastIndexOf("/") + 1));
-                using (var wb = new WebClient())
+
+                var client = new HttpClient();
+                client.DefaultRequestHeaders.UserAgent.ParseAdd("QMK Toolbox");
+
+                var response = await client.GetAsync(url);
+                using (var fs = new FileStream(destFile, FileMode.CreateNew))
                 {
-                    wb.Headers.Add("User-Agent", "QMK Toolbox");
-                    wb.DownloadFile(url, destFile);
+                    await response.Content.CopyToAsync(fs);
+                    logTextBox.LogInfo($"File saved to: {destFile}");
                 }
-                logTextBox.LogInfo($"File saved to: {destFile}");
 
                 LoadLocalFile(destFile);
             }
