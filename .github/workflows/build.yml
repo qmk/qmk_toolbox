@@ -9,9 +9,6 @@ on:
       - published
   pull_request:
 
-env:
-  SIGNING_ENABLED: ${{ false }}
-
 jobs:
   build_win:
     name: Build (Windows)
@@ -24,42 +21,16 @@ jobs:
 
     - uses: actions/checkout@v3
 
-    - name: Sign resource binaries
-      if: env.SIGNING_ENABLED == 'true' && github.event_name != 'pull_request'
-      uses: dlemstra/code-sign-action@v1
-      with:
-        certificate: '${{ secrets.WINDOWS_CERTIFICATE }}'
-        password: '${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}'
-        folder: './windows'
-        recursive: true
-
     - name: Build
       working-directory: ./windows
       run: |
         nuget restore
         msbuild "QMK Toolbox.sln" /verbosity:minimal /p:Configuration=Release
 
-    - name: Sign QMK Toolbox
-      if: env.SIGNING_ENABLED == 'true' && github.event_name != 'pull_request'
-      uses: dlemstra/code-sign-action@v1
-      with:
-        certificate: '${{ secrets.WINDOWS_CERTIFICATE }}'
-        password: '${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}'
-        folder: './windows/QMK Toolbox/bin/Release'
-        recursive: true
-
     - name: Create installer
       working-directory: ./windows
       run: |
         iscc install_compiler.iss
-
-    - name: Sign QMK Toolbox installer
-      if: env.SIGNING_ENABLED == 'true' && github.event_name != 'pull_request'
-      uses: dlemstra/code-sign-action@v1
-      with:
-        certificate: '${{ secrets.WINDOWS_CERTIFICATE }}'
-        password: '${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}'
-        folder: './windows'
 
     - uses: actions/upload-artifact@v3
       with:
@@ -82,32 +53,6 @@ jobs:
 
     - uses: actions/checkout@v3
 
-    - name: "Import Certificate: Development"
-      if: env.SIGNING_ENABLED == 'true' && github.event_name != 'pull_request'
-      uses: apple-actions/import-codesign-certs@v2
-      with:
-        p12-file-base64: ${{ secrets.DEVELOPMENT_CERTIFICATE_DATA }}
-        p12-password: ${{ secrets.DEVELOPMENT_CERTIFICATE_PASSPHRASE }}
-        keychain-password: ${{ secrets.KEYCHAIN_PASSWORD }}
-
-    - name: "Import Certificate: App Distribution"
-      if: env.SIGNING_ENABLED == 'true' && github.event_name != 'pull_request'
-      uses: apple-actions/import-codesign-certs@v2
-      with:
-        p12-file-base64: ${{ secrets.APP_DISTRIBUTION_CERTIFICATE_DATA }}
-        p12-password: ${{ secrets.APP_DISTRIBUTION_CERTIFICATE_PASSPHRASE }}
-        keychain-password: ${{ secrets.KEYCHAIN_PASSWORD }}
-        create-keychain: false
-
-    - name: "Import Certificate: Installer Distribution"
-      if: env.SIGNING_ENABLED == 'true' && github.event_name != 'pull_request'
-      uses: apple-actions/import-codesign-certs@v2
-      with:
-        p12-file-base64: ${{ secrets.INSTALLER_DISTRIBUTION_CERTIFICATE_DATA }}
-        p12-password: ${{ secrets.INSTALLER_DISTRIBUTION_CERTIFICATE_PASSPHRASE }}
-        keychain-password: ${{ secrets.KEYCHAIN_PASSWORD }}
-        create-keychain: false
-
     - name: Check binary permissions
       working-directory: ./macos/QMK Toolbox/Resources
       env:
@@ -121,81 +66,24 @@ jobs:
         done
         exit $status
 
-    - name: Archive
-      if: env.SIGNING_ENABLED == 'true' && github.event_name != 'pull_request'
-      uses: devbotsxyz/xcode-archive@v1
-      with:
-        workspace: "macos/QMK Toolbox.xcworkspace"
-        scheme: "QMK Toolbox"
-        export-path: "macos/build"
-
-    - name: Export & Sign Release Build
-      if: env.SIGNING_ENABLED == 'true' && github.event_name != 'pull_request'
-      uses: devbotsxyz/xcode-export-archive@master
-      with:
-        workspace: "macos/QMK Toolbox.xcworkspace"
-        scheme: "QMK Toolbox"
-        export-path: "macos/build"
-
-    - name: Notarize Release Build
-      if: env.SIGNING_ENABLED == 'true' && github.event_name != 'pull_request'
-      uses: devbotsxyz/xcode-notarize@v1
-      with:
-        product-path: "macos/build/QMK Toolbox.app"
-        appstore-connect-username: ${{ secrets.NOTARIZATION_USERNAME }}
-        appstore-connect-password: ${{ secrets.NOTARIZATION_PASSWORD }}
-
-    - name: Staple Release Build
-      if: env.SIGNING_ENABLED == 'true' && github.event_name != 'pull_request'
-      uses: devbotsxyz/xcode-staple@v1
-      with:
-        product-path: "macos/build/QMK Toolbox.app"
-
-    - name: Build (unsigned-only)
-      if: env.SIGNING_ENABLED == 'false' || github.event_name == 'pull_request'
+    - name: Build
       working-directory: ./macos
       run: |
         mkdir build
-        xcodebuild CONFIGURATION_BUILD_DIR=build -configuration Debug
-
-    - name: Package for Distribution
-      run: ditto -ck --rsrc --sequesterRsrc -v --keepParent "macos/build/QMK Toolbox.app" macos/build/QMK.Toolbox.app.zip
+        xcodebuild CONFIGURATION_BUILD_DIR=build
+        ditto -ck --rsrc --sequesterRsrc -v --keepParent "build/QMK Toolbox.app" build/QMK.Toolbox.app.zip
 
     - uses: actions/upload-artifact@v3
       with:
         name: QMK.Toolbox.app.zip
         path: macos/build/QMK.Toolbox.app.zip
 
-    - name: Create Installer
+    - name: Create installer
       working-directory: ./macos
       run: |
         brew install packages
         packagesbuild -v "QMK Toolbox.pkgproj"
-
-    - name: Sign Installer
-      if: env.SIGNING_ENABLED == 'true' && github.event_name != 'pull_request'
-      working-directory: ./macos
-      run: productsign -s "${{ secrets.DEVELOPER_ID_INSTALLER_NAME }}" "build/QMK Toolbox.pkg" build/QMK.Toolbox.pkg
-
-    - name: Notarize Installer
-      if: env.SIGNING_ENABLED == 'true' && github.event_name != 'pull_request'
-      uses: devbotsxyz/xcode-notarize@v1
-      with:
-        product-path: "macos/build/QMK.Toolbox.pkg"
-        appstore-connect-username: ${{ secrets.NOTARIZATION_USERNAME }}
-        appstore-connect-password: ${{ secrets.NOTARIZATION_PASSWORD }}
-        primary-bundle-id: fm.qmk.toolbox
-
-    - name: Staple Installer
-      if: env.SIGNING_ENABLED == 'true' && github.event_name != 'pull_request'
-      uses: devbotsxyz/xcode-staple@v1
-      with:
-        product-path: "macos/build/QMK.Toolbox.pkg"
-
-    - name: Move installer (unsigned-only)
-      if: env.SIGNING_ENABLED == 'false' || github.event_name == 'pull_request'
-      working-directory: ./macos
-      run: mv "build/QMK Toolbox.pkg" build/QMK.Toolbox.pkg
+        mv "build/QMK Toolbox.pkg" build/QMK.Toolbox.pkg
 
     - uses: actions/upload-artifact@v3
       with:
