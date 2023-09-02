@@ -108,7 +108,6 @@
 		098AEDFA1F5E45C300CA054D /* dfu-util */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "dfu-util"; sourceTree = "<group>"; };
 		09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libusb-1.0.0.dylib"; sourceTree = "<group>"; };
 		09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libusb-0.1.4.dylib"; sourceTree = "<group>"; };
-		300641B328359D3E00F58C4B /* QMK ToolboxRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "QMK ToolboxRelease.entitlements"; sourceTree = "<group>"; };
 		3A128566283D3F0800173A80 /* MicrocontrollerSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrocontrollerSelector.swift; sourceTree = "<group>"; };
 		3A32CF4A28412C420016D7B7 /* BootloaderDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootloaderDevice.swift; sourceTree = "<group>"; };
 		3A32CF4C28413E6B0016D7B7 /* HalfKayDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalfKayDevice.swift; sourceTree = "<group>"; };
@@ -199,7 +198,6 @@
 				3AA5D3462803FCE1008121E4 /* Colors.xcassets */,
 				3AE86EFA294C9CEC00008D3E /* Main.storyboard */,
 				092964061F5C8B2C004F2D3F /* Info.plist */,
-				300641B328359D3E00F58C4B /* QMK ToolboxRelease.entitlements */,
 				092963FE1F5C8B2C004F2D3F /* Supporting Files */,
 			);
 			path = "QMK Toolbox";
@@ -551,11 +549,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = "";
-				EXCLUDED_ARCHS = arm64;
 				INFOPLIST_FILE = "QMK Toolbox/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -569,7 +564,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = fm.qmk.toolbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -579,14 +573,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "QMK Toolbox/QMK ToolboxRelease.entitlements";
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = NAASF73NJ7;
-				ENABLE_HARDENED_RUNTIME = YES;
-				EXCLUDED_ARCHS = arm64;
 				INFOPLIST_FILE = "QMK Toolbox/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -600,7 +589,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = fm.qmk.toolbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
