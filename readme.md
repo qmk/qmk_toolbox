@@ -50,7 +50,7 @@ See the [QMK Docs](https://docs.qmk.fm/#/newbs_testing_debugging?id=debugging) f
 ### System Requirements
 
 * macOS 10.15 (Catalina) or higher
-* Windows 10 May 2019 Update or higher (earlier with [.NET Framework 4.8](https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/versions-and-dependencies#net-framework-48))
+* Windows 10 May 2020 Update (20H1) or higher
 
 ### Dependencies
 
