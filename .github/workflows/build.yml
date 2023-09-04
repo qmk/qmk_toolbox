@@ -19,7 +19,7 @@ jobs:
 
     - uses: nuget/setup-nuget@v1
 
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Build
       working-directory: ./windows
@@ -51,7 +51,7 @@ jobs:
       with:
         xcode-version: latest-stable
 
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Check binary permissions
       working-directory: ./macos/QMK Toolbox/Resources
