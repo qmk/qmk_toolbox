@@ -1,0 +1,4 @@
+windows:
+  - windows/**/*
+macos:
+  - macos/**/*
