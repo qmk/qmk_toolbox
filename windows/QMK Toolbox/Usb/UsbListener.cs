@@ -1,4 +1,5 @@
 ﻿using QMK_Toolbox.Usb.Bootloader;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management;
@@ -6,9 +7,9 @@ using System.Text.RegularExpressions;
 
 namespace QMK_Toolbox.Usb
 {
-    public class UsbListener
+    public class UsbListener: IDisposable
     {
-        private static readonly Regex UsbIdRegex = new Regex(@"USB\\VID_([0-9A-F]{4})&PID_([0-9A-F]{4})&REV_([0-9A-F]{4})");
+        private static readonly Regex UsbIdRegex = new(@"USB\\VID_([0-9A-F]{4})&PID_([0-9A-F]{4})&REV_([0-9A-F]{4})");
 
         public List<IUsbDevice> Devices { get; private set; }
 
@@ -85,14 +86,14 @@ namespace QMK_Toolbox.Usb
         private ManagementEventWatcher deviceConnectedWatcher;
         private ManagementEventWatcher deviceDisconnectedWatcher;
 
-        private ManagementEventWatcher CreateManagementEventWatcher(string eventType)
+        private static ManagementEventWatcher CreateManagementEventWatcher(string eventType)
         {
             return new ManagementEventWatcher($"SELECT * FROM {eventType} WITHIN 2 WHERE TargetInstance ISA 'Win32_PnPEntity' AND TargetInstance.DeviceID LIKE 'USB%'");
         }
 
         private void UsbDeviceWmiEvent(object sender, EventArrivedEventArgs e)
         {
-            if (!(e.NewEvent["TargetInstance"] is ManagementBaseObject _))
+            if (e.NewEvent["TargetInstance"] is not ManagementBaseObject _)
             {
                 return;
             }
@@ -104,23 +105,14 @@ namespace QMK_Toolbox.Usb
 
         public void Start()
         {
-            if (Devices == null)
-            {
-                Devices = new List<IUsbDevice>();
-            }
+            Devices ??= new List<IUsbDevice>();
             EnumerateUsbDevices(true);
 
-            if (deviceConnectedWatcher == null)
-            {
-                deviceConnectedWatcher = CreateManagementEventWatcher("__InstanceCreationEvent");
-            }
+            deviceConnectedWatcher ??= CreateManagementEventWatcher("__InstanceCreationEvent");
             deviceConnectedWatcher.EventArrived += UsbDeviceWmiEvent;
             deviceConnectedWatcher.Start();
 
-            if (deviceDisconnectedWatcher == null)
-            {
-                deviceDisconnectedWatcher = CreateManagementEventWatcher("__InstanceDeletionEvent");
-            }
+            deviceDisconnectedWatcher ??= CreateManagementEventWatcher("__InstanceDeletionEvent");
             deviceDisconnectedWatcher.EventArrived += UsbDeviceWmiEvent;
             deviceDisconnectedWatcher.Start();
         }
@@ -145,11 +137,12 @@ namespace QMK_Toolbox.Usb
             Stop();
             deviceConnectedWatcher?.Dispose();
             deviceDisconnectedWatcher?.Dispose();
+            GC.SuppressFinalize(this);
         }
 
         private static IUsbDevice CreateDevice(ManagementBaseObject d)
         {
-            UsbDevice usbDevice = new UsbDevice(d);
+            UsbDevice usbDevice = new(d);
 
             switch (GetDeviceType(usbDevice.VendorId, usbDevice.ProductId, usbDevice.RevisionBcd))
             {
@@ -171,7 +164,7 @@ namespace QMK_Toolbox.Usb
                 case BootloaderType.HalfKay:
                     return new HalfKayDevice(usbDevice);
                 case BootloaderType.KiibohdDfu:
-                     return new KiibohdDfuDevice(usbDevice);
+                    return new KiibohdDfuDevice(usbDevice);
                 case BootloaderType.LufaHid:
                 case BootloaderType.QmkHid:
                     return new LufaHidDevice(usbDevice);
@@ -187,6 +180,8 @@ namespace QMK_Toolbox.Usb
                     return new UsbTinyIspDevice(usbDevice);
                 case BootloaderType.Wb32Dfu:
                     return new Wb32DfuDevice(usbDevice);
+                default:
+                    break;
             }
 
             return usbDevice;

@@ -9,7 +9,9 @@ namespace QMK_Toolbox
             get
             {
                 if (Items.Count == 0 && SelectedIndex > -1)
+                {
                     SelectedIndex = -1;
+                }
                 return base.Text;
             }
             set => base.Text = value;

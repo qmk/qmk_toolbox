@@ -40,7 +40,7 @@ namespace QMK_Toolbox.HidConsole
         #endregion
 
         #region HID Console
-        private readonly HidConsoleListener consoleListener = new HidConsoleListener();
+        private readonly HidConsoleListener consoleListener = new();
 
         private HidConsoleDevice lastReportedDevice;
 
@@ -105,9 +105,9 @@ namespace QMK_Toolbox.HidConsole
         #region Log Box
         private void LogContextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
-            copyToolStripMenuItem.Enabled = (logTextBox.SelectedText.Length > 0);
-            selectAllToolStripMenuItem.Enabled = (logTextBox.Text.Length > 0);
-            clearToolStripMenuItem.Enabled = (logTextBox.Text.Length > 0);
+            copyToolStripMenuItem.Enabled = logTextBox.SelectedText.Length > 0;
+            selectAllToolStripMenuItem.Enabled = logTextBox.Text.Length > 0;
+            clearToolStripMenuItem.Enabled = logTextBox.Text.Length > 0;
         }
 
         private void CopyToolStripMenuItem_Click(object sender, EventArgs e)

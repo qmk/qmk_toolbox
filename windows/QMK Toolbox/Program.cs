@@ -13,7 +13,7 @@ namespace QMK_Toolbox
         /// </summary>
         ///
 
-        private static readonly Mutex Mutex = new Mutex(true, "{8F7F0AC4-B9A1-45fd-A8CF-72F04E6BDE8F}");
+        private static readonly Mutex Mutex = new(true, "{8F7F0AC4-B9A1-45fd-A8CF-72F04E6BDE8F}");
 
         [STAThread]
         private static void Main(string[] args)
@@ -37,10 +37,8 @@ namespace QMK_Toolbox
                 // jump on top of all the other windows
                 if (args.Length > 0)
                 {
-                    using (var sw = new StreamWriter(Path.Combine(Path.GetTempPath(), "qmk_toolbox_file.txt")))
-                    {
-                        sw.WriteLine(args[0]);
-                    }
+                    using var sw = new StreamWriter(Path.Combine(Path.GetTempPath(), "qmk_toolbox_file.txt"));
+                    sw.WriteLine(args[0]);
                 }
                 NativeMethods.PostMessage(
                     (IntPtr)NativeMethods.HwndBroadcast,
@@ -60,7 +58,7 @@ namespace QMK_Toolbox
         [DllImport("user32")]
         public static extern bool PostMessage(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam);
 
-        [DllImport("user32")]
+        [DllImport("user32", CharSet = CharSet.Unicode)]
         public static extern int RegisterWindowMessage(string message);
     }
 }

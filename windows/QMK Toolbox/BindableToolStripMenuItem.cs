@@ -13,10 +13,7 @@ namespace QMK_Toolbox
         {
             get
             {
-                if (_bindingContext == null)
-                {
-                    _bindingContext = new BindingContext();
-                }
+                _bindingContext ??= new BindingContext();
                 return _bindingContext;
             }
             set
@@ -32,10 +29,7 @@ namespace QMK_Toolbox
         {
             get
             {
-                if (_dataBindings == null)
-                {
-                    _dataBindings = new ControlBindingsCollection(this);
-                }
+                _dataBindings ??= new ControlBindingsCollection(this);
                 return _dataBindings;
             }
         }

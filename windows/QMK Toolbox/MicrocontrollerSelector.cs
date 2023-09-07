@@ -13,7 +13,7 @@ namespace QMK_Toolbox
 
             if (!DesignMode)
             {
-                List<KeyValuePair<string, string>> microcontrollerDataSource = new List<KeyValuePair<string, string>>();
+                List<KeyValuePair<string, string>> microcontrollerDataSource = new();
                 string[] microcontrollers = EmbeddedResourceHelper.GetResourceContent("mcu-list.txt").Split('\n');
 
                 foreach (string microcontroller in microcontrollers)

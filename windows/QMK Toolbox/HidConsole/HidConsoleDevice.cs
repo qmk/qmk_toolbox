@@ -64,8 +64,8 @@ namespace QMK_Toolbox.HidConsole
                 while (lineEnd >= 0)
                 {
                     // Fire delegate with completed lines until we have none left
-                    string completedLine = currentLine.Substring(0, lineEnd);
-                    currentLine = currentLine.Substring(lineEnd + 1);
+                    string completedLine = currentLine[..lineEnd];
+                    currentLine = currentLine[(lineEnd + 1)..];
                     lineEnd = currentLine.IndexOf('\n');
                     consoleReportReceived?.Invoke(this, completedLine);
                 }
@@ -80,7 +80,7 @@ namespace QMK_Toolbox.HidConsole
             if (d == null) return "";
 
             d.ReadManufacturer(out var bs);
-            return System.Text.Encoding.Default.GetString(bs.Where(b => b > 0).ToArray());
+            return Encoding.Default.GetString(bs.Where(b => b > 0).ToArray());
         }
 
         private static string GetProductString(IHidDevice d)
@@ -88,7 +88,7 @@ namespace QMK_Toolbox.HidConsole
             if (d == null) return "";
 
             d.ReadProduct(out var bs);
-            return System.Text.Encoding.Default.GetString(bs.Where(b => b > 0).ToArray());
+            return Encoding.Default.GetString(bs.Where(b => b > 0).ToArray());
         }
     }
 }

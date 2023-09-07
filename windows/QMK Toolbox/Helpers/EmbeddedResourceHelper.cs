@@ -34,13 +34,9 @@ namespace QMK_Toolbox.Helpers
 
             if (!File.Exists(destPath))
             {
-                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"QMK_Toolbox.Resources.{file}"))
-                {
-                    using (var filestream = new FileStream(destPath, FileMode.Create))
-                    {
-                        stream?.CopyTo(filestream);
-                    }
-                }
+                using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"QMK_Toolbox.Resources.{file}");
+                using var filestream = new FileStream(destPath, FileMode.Create);
+                stream?.CopyTo(filestream);
             }
         }
 
@@ -55,13 +51,9 @@ namespace QMK_Toolbox.Helpers
 
         public static string GetResourceContent(string file)
         {
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"QMK_Toolbox.Resources.{file}"))
-            {
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    return reader.ReadToEnd();
-                }
-            }
+            using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"QMK_Toolbox.Resources.{file}");
+            using StreamReader reader = new(stream);
+            return reader.ReadToEnd();
         }
     }
 }

@@ -11,17 +11,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Security.Permissions;
 using System.Windows.Forms;
 
 namespace QMK_Toolbox
 {
     public partial class MainWindow : Form
     {
-        private readonly WindowState windowState = new WindowState();
+        private readonly WindowState windowState = new();
 
         private readonly string _filePassedIn = string.Empty;
 
@@ -174,7 +171,7 @@ namespace QMK_Toolbox
         #endregion Window Events
 
         #region USB Devices & Bootloaders
-        private readonly UsbListener usbListener = new UsbListener();
+        private readonly UsbListener usbListener = new();
 
         private void BootloaderDeviceConnected(BootloaderDevice device)
         {
@@ -414,7 +411,7 @@ namespace QMK_Toolbox
             {
                 if (filepath.StartsWith("qmk:"))
                 {
-                    string unwrappedUrl = filepath.Substring(filepath.StartsWith("qmk://") ? 6 : 4);
+                    string unwrappedUrl = filepath[(filepath.StartsWith("qmk://") ? 6 : 4)..];
                     DownloadFile(unwrappedUrl);
                 }
                 else
@@ -439,7 +436,7 @@ namespace QMK_Toolbox
 
             try
             {
-                string destFile = Path.Combine(KnownFolders.Downloads.Path, url.Substring(url.LastIndexOf("/") + 1));
+                string destFile = Path.Combine(KnownFolders.Downloads.Path, url[(url.LastIndexOf("/") + 1)..]);
 
                 var client = new HttpClient();
                 client.DefaultRequestHeaders.UserAgent.ParseAdd("QMK Toolbox");

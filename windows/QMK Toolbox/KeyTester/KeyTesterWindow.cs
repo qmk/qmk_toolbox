@@ -171,7 +171,7 @@ namespace QMK_Toolbox.KeyTester
 
                 if (pressedKeyControl != null)
                 {
-                    pressedKeyControl.Pressed = (m.Msg == WM_KEYDOWN || m.Msg == WM_SYSKEYDOWN);
+                    pressedKeyControl.Pressed = m.Msg == WM_KEYDOWN || m.Msg == WM_SYSKEYDOWN;
                     pressedKeyControl.Tested = true;
                 }
 

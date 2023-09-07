@@ -36,7 +36,7 @@ namespace QMK_Toolbox.HidConsole
 
                     if (device != null && !listed)
                     {
-                        HidConsoleDevice consoleDevice = new HidConsoleDevice(device)
+                        HidConsoleDevice consoleDevice = new(device)
                         {
                             consoleReportReceived = HidConsoleReportReceived
                         };
@@ -73,14 +73,14 @@ namespace QMK_Toolbox.HidConsole
         private ManagementEventWatcher deviceConnectedWatcher;
         private ManagementEventWatcher deviceDisconnectedWatcher;
 
-        private ManagementEventWatcher CreateManagementEventWatcher(string eventType)
+        private static ManagementEventWatcher CreateManagementEventWatcher(string eventType)
         {
             return new ManagementEventWatcher($"SELECT * FROM {eventType} WITHIN 2 WHERE TargetInstance ISA 'Win32_PnPEntity' AND TargetInstance.DeviceID LIKE 'HID%'");
         }
 
         private void HidDeviceWmiEvent(object sender, EventArrivedEventArgs e)
         {
-            if (!(e.NewEvent["TargetInstance"] is ManagementBaseObject _))
+            if (e.NewEvent["TargetInstance"] is not ManagementBaseObject _)
             {
                 return;
             }
@@ -92,23 +92,14 @@ namespace QMK_Toolbox.HidConsole
 
         public void Start()
         {
-            if (Devices == null)
-            {
-                Devices = new List<HidConsoleDevice>();
-            }
+            Devices ??= new List<HidConsoleDevice>();
             EnumerateHidDevices(true);
 
-            if (deviceConnectedWatcher == null)
-            {
-                deviceConnectedWatcher = CreateManagementEventWatcher("__InstanceCreationEvent");
-            }
+            deviceConnectedWatcher ??= CreateManagementEventWatcher("__InstanceCreationEvent");
             deviceConnectedWatcher.EventArrived += HidDeviceWmiEvent;
             deviceConnectedWatcher.Start();
 
-            if (deviceDisconnectedWatcher == null)
-            {
-                deviceDisconnectedWatcher = CreateManagementEventWatcher("__InstanceDeletionEvent");
-            }
+            deviceDisconnectedWatcher ??= CreateManagementEventWatcher("__InstanceDeletionEvent");
             deviceDisconnectedWatcher.EventArrived += HidDeviceWmiEvent;
             deviceDisconnectedWatcher.Start();
         }
@@ -133,6 +124,7 @@ namespace QMK_Toolbox.HidConsole
             Stop();
             deviceConnectedWatcher?.Dispose();
             deviceDisconnectedWatcher?.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }
