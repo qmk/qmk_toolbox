@@ -65,6 +65,5 @@ Get the latest release [here](https://github.com/qmk/qmk_toolbox/releases).
 For Homebrew users, it is also available as a Cask:
 
 ```sh
-$ brew tap homebrew/cask-drivers
-$ brew install --cask qmk-toolbox
+$ brew install qmk-toolbox
 ```
