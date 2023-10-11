@@ -9,7 +9,7 @@ namespace QMK_Toolbox
     {
         private const uint CB_SETCUEBANNER = 0x1703;
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = false)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = false)]
         private static extern IntPtr SendMessage(HandleRef hWnd, uint msg, IntPtr wParam, string lParam);
 
         private string _placeholderText = string.Empty;
@@ -26,10 +26,7 @@ namespace QMK_Toolbox
             get { return _placeholderText; }
             set
             {
-                if (value == null)
-                {
-                    value = string.Empty;
-                }
+                value ??= string.Empty;
 
                 if (!_placeholderText.Equals(value, StringComparison.CurrentCulture))
                 {

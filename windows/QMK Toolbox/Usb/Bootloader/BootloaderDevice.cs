@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 using System.Management;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -63,7 +62,7 @@ namespace QMK_Toolbox.Usb.Bootloader
         {
             PrintMessage($"{command} {args}", MessageType.Command);
 
-            using (var process = new Process
+            using var process = new Process
             {
                 StartInfo =
                 {
@@ -76,10 +75,8 @@ namespace QMK_Toolbox.Usb.Bootloader
                     RedirectStandardError = true
                 },
                 EnableRaisingEvents = true
-            })
-            {
-                return await RunProcessAsync(process).ConfigureAwait(false);
-            }
+            };
+            return await RunProcessAsync(process).ConfigureAwait(false);
         }
 
         private Task<int> RunProcessAsync(Process process)
@@ -130,14 +127,12 @@ namespace QMK_Toolbox.Usb.Bootloader
 
         protected string FindComPort()
         {
-            using (var searcher = new ManagementObjectSearcher("SELECT PNPDeviceID, DeviceID FROM Win32_SerialPort"))
+            using var searcher = new ManagementObjectSearcher("SELECT PNPDeviceID, DeviceID FROM Win32_SerialPort");
+            foreach (var device in searcher.Get())
             {
-                foreach (var device in searcher.Get())
+                if (device.GetPropertyValue("PNPDeviceID").ToString().Equals(WmiDevice.GetPropertyValue("PNPDeviceID").ToString()))
                 {
-                    if (device.GetPropertyValue("PNPDeviceID").ToString().Equals(WmiDevice.GetPropertyValue("PNPDeviceID").ToString()))
-                    {
-                        return device.GetPropertyValue("DeviceID").ToString();
-                    }
+                    return device.GetPropertyValue("DeviceID").ToString();
                 }
             }
 

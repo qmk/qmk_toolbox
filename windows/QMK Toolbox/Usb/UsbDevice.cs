@@ -6,7 +6,7 @@ namespace QMK_Toolbox.Usb
 {
     public class UsbDevice : IUsbDevice
     {
-        private static readonly Regex HardwareIdTripletRegex = new Regex(@"USB\\VID_([0-9A-F]{4})&PID_([0-9A-F]{4})&REV_([0-9A-F]{4}).*");
+        private static readonly Regex HardwareIdTripletRegex = new(@"USB\\VID_([0-9A-F]{4})&PID_([0-9A-F]{4})&REV_([0-9A-F]{4}).*");
 
         public ManagementBaseObject WmiDevice { get; }
 

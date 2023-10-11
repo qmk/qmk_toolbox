@@ -166,12 +166,12 @@ namespace QMK_Toolbox.KeyTester
             if (m.Msg == WM_KEYDOWN || m.Msg == WM_KEYUP || m.Msg == WM_SYSKEYDOWN || m.Msg == WM_SYSKEYUP)
             {
                 int vKey = m.WParam.ToInt32();
-                int scanCode = (m.LParam.ToInt32() >> 16) & 0x1FF;
+                int scanCode = (int)((m.LParam.ToInt64() >> 16) & 0x1FF);
                 KeyControl pressedKeyControl = GetKeyControlForKey(vKey, scanCode);
 
                 if (pressedKeyControl != null)
                 {
-                    pressedKeyControl.Pressed = (m.Msg == WM_KEYDOWN || m.Msg == WM_SYSKEYDOWN);
+                    pressedKeyControl.Pressed = m.Msg == WM_KEYDOWN || m.Msg == WM_SYSKEYDOWN;
                     pressedKeyControl.Tested = true;
                 }
 
