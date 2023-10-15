@@ -1,6 +1,7 @@
 ﻿using HidLibrary;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace QMK_Toolbox.HidConsole
 {
@@ -33,8 +34,7 @@ namespace QMK_Toolbox.HidConsole
             ProductId = (ushort)HidDevice.Attributes.ProductId;
             RevisionBcd = (ushort)HidDevice.Attributes.Version;
 
-            HidDevice.MonitorDeviceEvents = true;
-            HidDevice.ReadReport(HidDeviceReportEvent);
+            RegisterReportTask();
 
             HidDevice.CloseDevice();
         }
@@ -42,6 +42,16 @@ namespace QMK_Toolbox.HidConsole
         public override string ToString()
         {
             return $"{ManufacturerString} {ProductString} ({VendorId:X4}:{ProductId:X4}:{RevisionBcd:X4})";
+        }
+
+        private void RegisterReportTask()
+        {
+            Task.Run(async () => await ReadReportAsync()).ContinueWith(t => HidDeviceReportEvent(t.Result));
+        }
+
+        private async Task<HidReport> ReadReportAsync()
+        {
+            return await Task.Run(() => HidDevice.ReadReport());
         }
 
         private string currentLine = "";
@@ -71,7 +81,7 @@ namespace QMK_Toolbox.HidConsole
                 }
 
                 // Reregister this callback
-                HidDevice.ReadReport(HidDeviceReportEvent);
+                RegisterReportTask();
             }
         }
 
