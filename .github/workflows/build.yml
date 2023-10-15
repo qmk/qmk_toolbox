@@ -15,17 +15,16 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: microsoft/setup-msbuild@v1.3
-
-    - uses: nuget/setup-nuget@v1
+    - uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '6.x'
 
     - uses: actions/checkout@v4
 
     - name: Build
       working-directory: ./windows
       run: |
-        nuget restore
-        msbuild "QMK Toolbox.sln" /verbosity:minimal /p:Configuration=Release
+        dotnet publish -c Release -r win-x64 --self-contained true
 
     - name: Create installer
       working-directory: ./windows
@@ -35,7 +34,7 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: qmk_toolbox.exe
-        path: windows/QMK Toolbox/bin/Release/qmk_toolbox.exe
+        path: windows/QMK Toolbox/bin/Release/win-x64/publish/qmk_toolbox.exe
 
     - uses: actions/upload-artifact@v3
       with:

@@ -38,7 +38,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"
 
 [Files]
-Source: "QMK Toolbox\bin\Release\qmk_toolbox.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "QMK Toolbox\bin\Release\win-x64\publish\qmk_toolbox.exe"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
