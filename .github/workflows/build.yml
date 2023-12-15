@@ -15,7 +15,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/setup-dotnet@v3
+    - uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '6.x'
 
@@ -31,12 +31,12 @@ jobs:
       run: |
         iscc install_compiler.iss
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: qmk_toolbox.exe
         path: windows/QMK Toolbox/bin/Release/win-x64/publish/qmk_toolbox.exe
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: qmk_toolbox_install.exe
         path: windows/qmk_toolbox_install.exe
@@ -72,7 +72,7 @@ jobs:
         xcodebuild CONFIGURATION_BUILD_DIR=build
         ditto -ck --rsrc --sequesterRsrc -v --keepParent "build/QMK Toolbox.app" build/QMK.Toolbox.app.zip
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: QMK.Toolbox.app.zip
         path: macos/build/QMK.Toolbox.app.zip
@@ -85,7 +85,7 @@ jobs:
         packagesbuild -v "QMK Toolbox.pkgproj"
         mv "build/QMK Toolbox.pkg" build/QMK.Toolbox.pkg
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: QMK.Toolbox.pkg
         path: macos/build/QMK.Toolbox.pkg
@@ -99,7 +99,7 @@ jobs:
     if: github.event.release.tag_name
 
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
 
       - uses: softprops/action-gh-release@v1
         env:
@@ -121,7 +121,7 @@ jobs:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
 
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:
