@@ -1,4 +1,6 @@
 windows:
-  - windows/**/*
+  - changed-files:
+    - any-glob-to-any-file: 'windows/**/*'
 macos:
-  - macos/**/*
+  - changed-files:
+    - any-glob-to-any-file: 'macos/**/*'
