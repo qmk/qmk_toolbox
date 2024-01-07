@@ -271,6 +271,12 @@ namespace QMK_Toolbox
                 return;
             }
 
+            if (!File.Exists(filePath))
+            {
+                logTextBox.LogError("File does not exist!");
+                return;
+            }
+
             if (!windowState.AutoFlashEnabled)
             {
                 Invoke(new Action(DisableUI));

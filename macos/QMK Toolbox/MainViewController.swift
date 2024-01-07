@@ -120,6 +120,11 @@ class MainViewController: NSViewController, USBListenerDelegate {
             return
         }
 
+        guard FileManager.default.fileExists(atPath: file) else {
+            logTextView.logError("File does not exist")
+            return
+        }
+
         guard mcuBox.indexOfSelectedItem > 0 else {
             logTextView.logError("Please select a microcontroller")
             return
