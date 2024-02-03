@@ -29,7 +29,7 @@ namespace QMK_Toolbox.Usb
         {
             var enumeratedDevices = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity WHERE DeviceID LIKE 'USB%'").Get()
                 .Cast<ManagementBaseObject>().ToList()
-                .Where(d => ((string[])d.GetPropertyValue("HardwareID")).Any(s => UsbIdRegex.Match(s).Success));
+                .Where(d => (d.GetPropertyValue("HardwareID") as string[])?.Any(s => UsbIdRegex.Match(s).Success) ?? false);
 
             if (connected)
             {
