@@ -49,7 +49,7 @@ See the [QMK Docs](https://docs.qmk.fm/#/newbs_testing_debugging?id=debugging) f
 
 ### System Requirements
 
-* macOS 10.15 (Catalina) or higher
+* macOS 12 (Monterey) or higher
 * Windows 10 May 2020 Update (20H1) or higher
 
 ### Dependencies
