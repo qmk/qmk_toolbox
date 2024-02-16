@@ -1,4 +1,5 @@
 ﻿using HidLibrary;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -54,29 +55,34 @@ namespace QMK_Toolbox.HidConsole
             return await Task.Run(() => HidDevice.ReadReport());
         }
 
-        private string currentLine = "";
+        private List<byte> currentLine = new();
 
         private void HidDeviceReportEvent(HidReport report)
         {
             if (HidDevice.IsConnected)
             {
                 // Check if we have a completed line queued
-                int lineEnd = currentLine.IndexOf('\n');
+                int lineEnd = currentLine.IndexOf((byte)'\n');
                 if (lineEnd == -1)
                 {
                     // Partial line or nothing - append incoming report to current line
-                    string reportString = Encoding.UTF8.GetString(report.Data).Trim('\0');
-                    currentLine += reportString;
+                    foreach (byte b in report.Data)
+                    {
+                        // Trim trailing null bytes
+                        if (b == 0) break;
+                        currentLine.Add(b);
+                    }
                 }
 
                 // Check again for a completed line
-                lineEnd = currentLine.IndexOf('\n');
+                lineEnd = currentLine.IndexOf((byte)'\n');
                 while (lineEnd >= 0)
                 {
                     // Fire delegate with completed lines until we have none left
-                    string completedLine = currentLine[..lineEnd];
-                    currentLine = currentLine[(lineEnd + 1)..];
-                    lineEnd = currentLine.IndexOf('\n');
+                    // Only convert to string at the last possible moment in case there is a UTF-8 sequence split across reports
+                    string completedLine = Encoding.UTF8.GetString(currentLine.GetRange(0, lineEnd).ToArray());
+                    currentLine = currentLine.Skip(lineEnd + 1).ToList();
+                    lineEnd = currentLine.IndexOf((byte)'\n');
                     consoleReportReceived?.Invoke(this, completedLine);
                 }
 
