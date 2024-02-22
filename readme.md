@@ -11,7 +11,7 @@ This is a collection of flashing tools packaged into one app. It supports auto-d
 
 |Windows|macOS|
 |-------|-----|
-|[![Windows](https://i.imgur.com/sdh8byj.png)](https://i.imgur.com/sdh8byj.png)|[![macOS](https://i.imgur.com/3x8Xrkv.png)](https://i.imgur.com/3x8Xrkv.png)|
+|[![Windows](https://i.imgur.com/jHaX9bV.png)](https://i.imgur.com/jHaX9bV.png)|[![macOS](https://i.imgur.com/8hZEfDD.png)](https://i.imgur.com/8hZEfDD.png)|
 
 ## Flashing
 
