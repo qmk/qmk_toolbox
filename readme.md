@@ -41,7 +41,7 @@ The Toolbox also listens to HID messages on usage page `0xFF31` and usage `0x007
 
 If you have `CONSOLE_ENABLE = yes` in your keyboard's `rules.mk`, you can print messages with `xprintf()`, useful for debugging:
 
-![Hello world from Console](https://i.imgur.com/qxLb2zS.png)
+![Hello world from Console](https://i.imgur.com/bY8l233.png)
 
 See the [QMK Docs](https://docs.qmk.fm/#/newbs_testing_debugging?id=debugging) for more information.
 
