@@ -78,7 +78,7 @@
     <EmbeddedResource Include="Resources\teensy_loader_cli.exe" />
     <EmbeddedResource Include="Resources\wb32-dfu-updater_cli.exe" />
     <EmbeddedResource Include="Resources\libftdi1.dll" />
-    <EmbeddedResource Include="Resources\libusb0.dll" />
+    <EmbeddedResource Include="Resources\libhidapi-0.dll" />
     <EmbeddedResource Include="Resources\libusb-0-1-4.dll" />
     <EmbeddedResource Include="Resources\libusb-1.0.dll" />
     <EmbeddedResource Include="Resources\libwinpthread-1.dll" />
