@@ -25,7 +25,7 @@ class USBListener: BootloaderDeviceDelegate {
     }
 
     func start() {
-        notificationPort = IONotificationPortCreate(kIOMasterPortDefault)
+        notificationPort = IONotificationPortCreate(kIOMainPortDefault)
         let runLoopSource = IONotificationPortGetRunLoopSource(notificationPort).takeUnretainedValue()
         CFRunLoopAddSource(RunLoop.current.getCFRunLoop(), runLoopSource, .defaultMode)
 
