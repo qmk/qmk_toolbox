@@ -1,4 +1,5 @@
 import Cocoa
+import UniformTypeIdentifiers
 
 class MainViewController: NSViewController, USBListenerDelegate {
     @IBOutlet var filepathBox: NSComboBox!
@@ -273,7 +274,10 @@ class MainViewController: NSViewController, USBListenerDelegate {
         openPanel.canChooseDirectories = false
         openPanel.allowsMultipleSelection = false
         openPanel.message = "Select firmware to load"
-        openPanel.allowedFileTypes = ["bin", "hex"]
+        openPanel.allowedContentTypes = [
+            UTType(filenameExtension: "bin")!,
+            UTType(filenameExtension: "hex")!
+        ]
         openPanel.beginSheetModal(for: window) { response in
             guard response == .OK, let file = openPanel.url else { return }
             self.setFilePath(file)
