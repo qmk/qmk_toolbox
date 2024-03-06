@@ -124,7 +124,7 @@ class BootloaderDevice: USBDeviceProtocol, CustomStringConvertible {
         let serialMatcher = IOServiceMatching(kIOSerialBSDServiceValue)
         var serialIterator: io_iterator_t = 0
 
-        guard IOServiceGetMatchingServices(kIOMasterPortDefault, serialMatcher, &serialIterator) == KERN_SUCCESS else { return nil }
+        guard IOServiceGetMatchingServices(kIOMainPortDefault, serialMatcher, &serialIterator) == KERN_SUCCESS else { return nil }
 
         repeat {
             let port = IOIteratorNext(serialIterator)

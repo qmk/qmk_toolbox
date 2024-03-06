@@ -13,6 +13,8 @@
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>fm.qmk.hex</string>
@@ -20,7 +22,7 @@
 			<key>LSTypeIsPackage</key>
 			<integer>0</integer>
 			<key>NSDocumentClass</key>
-			<string>NSDocument</string>
+			<string></string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -29,6 +31,8 @@
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>com.apple.macbinary-archive</string>
@@ -36,7 +40,7 @@
 			<key>LSTypeIsPackage</key>
 			<integer>0</integer>
 			<key>NSDocumentClass</key>
-			<string>NSDocument</string>
+			<string></string>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>

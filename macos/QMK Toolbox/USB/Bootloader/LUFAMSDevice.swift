@@ -41,7 +41,7 @@ class LUFAMSDevice: BootloaderDevice {
         massStorageMatcher[kIOMediaRemovableKey] = true
 
         var massStorageIterator: io_iterator_t = 0
-        guard IOServiceGetMatchingServices(kIOMasterPortDefault, massStorageMatcher as CFDictionary, &massStorageIterator) == KERN_SUCCESS else { return nil }
+        guard IOServiceGetMatchingServices(kIOMainPortDefault, massStorageMatcher as CFDictionary, &massStorageIterator) == KERN_SUCCESS else { return nil }
 
         repeat {
             let media = IOIteratorNext(massStorageIterator)
