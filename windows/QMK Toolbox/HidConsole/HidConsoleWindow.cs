@@ -35,6 +35,9 @@ namespace QMK_Toolbox.HidConsole
 
         private void HidConsoleWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
+            consoleListener.consoleDeviceConnected -= ConsoleDeviceConnected;
+            consoleListener.consoleDeviceDisconnected -= ConsoleDeviceDisconnected;
+            consoleListener.consoleReportReceived -= ConsoleReportReceived;
             consoleListener.Dispose();
         }
         #endregion
