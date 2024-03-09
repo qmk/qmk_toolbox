@@ -18,13 +18,13 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
-    <AssemblyVersion>0.3.0</AssemblyVersion>
-    <FileVersion>0.3.0</FileVersion>
+    <AssemblyVersion>0.3.1</AssemblyVersion>
+    <FileVersion>0.3.1</FileVersion>
     <Title>QMK Toolbox</Title>
     <Copyright>Copyright © 2024 QMK</Copyright>
     <Company>QMK</Company>
     <Description>A flashing/debug utility for devices running QMK Firmware</Description>
-    <Version>0.3.0</Version>
+    <Version>0.3.1</Version>
     <Product>QMK Toolbox</Product>
   </PropertyGroup>
   <ItemGroup>
