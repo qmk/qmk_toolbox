@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
 namespace QMK_Toolbox.KeyTester
 {
@@ -159,7 +160,7 @@ namespace QMK_Toolbox.KeyTester
             return instance;
         }
 
-        private void KeyTesterWindow_Load(object sender, System.EventArgs e)
+        private void KeyTesterWindow_Load(object sender, EventArgs e)
         {
             CenterToParent();
         }
