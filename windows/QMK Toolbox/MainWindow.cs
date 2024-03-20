@@ -494,13 +494,13 @@ namespace QMK_Toolbox
 
         private void KeyTesterToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            KeyTesterWindow.GetInstance().Show();
+            KeyTesterWindow.GetInstance().Show(this);
             KeyTesterWindow.GetInstance().Focus();
         }
 
         private void HidConsoleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            HidConsoleWindow.GetInstance().Show();
+            HidConsoleWindow.GetInstance().Show(this);
             HidConsoleWindow.GetInstance().Focus();
         }
         #endregion
@@ -508,9 +508,9 @@ namespace QMK_Toolbox
         #region Log Box
         private void LogContextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
-            copyToolStripMenuItem.Enabled = (logTextBox.SelectedText.Length > 0);
-            selectAllToolStripMenuItem.Enabled = (logTextBox.Text.Length > 0);
-            clearToolStripMenuItem.Enabled = (logTextBox.Text.Length > 0);
+            copyToolStripMenuItem.Enabled = logTextBox.SelectedText.Length > 0;
+            selectAllToolStripMenuItem.Enabled = logTextBox.Text.Length > 0;
+            clearToolStripMenuItem.Enabled = logTextBox.Text.Length > 0;
         }
 
         private void CopyToolStripMenuItem_Click(object sender, EventArgs e)

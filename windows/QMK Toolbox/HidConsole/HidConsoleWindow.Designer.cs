@@ -28,139 +28,141 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            components = new System.ComponentModel.Container();
+            Properties.Settings settings1 = new Properties.Settings();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HidConsoleWindow));
-            this.consoleList = new QMK_Toolbox.ComboBoxPlaceholder();
-            this.logTextBox = new QMK_Toolbox.LogTextBox();
-            this.logContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.logContextMenuSep1 = new System.Windows.Forms.ToolStripSeparator();
-            this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.logContextMenuSep2 = new System.Windows.Forms.ToolStripSeparator();
-            this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.logContextMenu.SuspendLayout();
-            this.SuspendLayout();
+            consoleList = new ComboBoxPlaceholder();
+            logTextBox = new LogTextBox();
+            logContextMenu = new System.Windows.Forms.ContextMenuStrip(components);
+            cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            logContextMenuSep1 = new System.Windows.Forms.ToolStripSeparator();
+            selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            logContextMenuSep2 = new System.Windows.Forms.ToolStripSeparator();
+            clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            logContextMenu.SuspendLayout();
+            SuspendLayout();
             // 
             // consoleList
             // 
-            this.consoleList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.consoleList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.consoleList.FormattingEnabled = true;
-            this.consoleList.Location = new System.Drawing.Point(12, 12);
-            this.consoleList.Name = "consoleList";
-            this.consoleList.PlaceholderText = "No HID console devices connected";
-            this.consoleList.Size = new System.Drawing.Size(600, 21);
-            this.consoleList.TabIndex = 0;
+            consoleList.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            consoleList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            consoleList.FormattingEnabled = true;
+            consoleList.Location = new System.Drawing.Point(14, 14);
+            consoleList.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            consoleList.Name = "consoleList";
+            consoleList.PlaceholderText = "No HID console devices connected";
+            consoleList.Size = new System.Drawing.Size(699, 23);
+            consoleList.TabIndex = 0;
             // 
             // logTextBox
             // 
-            this.logTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.logTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.logTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.logTextBox.ContextMenuStrip = this.logContextMenu;
-            this.logTextBox.DataBindings.Add(new System.Windows.Forms.Binding("ZoomFactor", global::QMK_Toolbox.Properties.Settings.Default, "outputZoom", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.logTextBox.DetectUrls = false;
-            this.logTextBox.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.logTextBox.ForeColor = System.Drawing.Color.White;
-            this.logTextBox.HideSelection = false;
-            this.logTextBox.Location = new System.Drawing.Point(12, 39);
-            this.logTextBox.Name = "logTextBox";
-            this.logTextBox.ReadOnly = true;
-            this.logTextBox.Size = new System.Drawing.Size(600, 390);
-            this.logTextBox.TabIndex = 1;
-            this.logTextBox.Text = "";
-            this.logTextBox.WordWrap = false;
-            this.logTextBox.ZoomFactor = global::QMK_Toolbox.Properties.Settings.Default.outputZoom;
+            logTextBox.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            logTextBox.BackColor = System.Drawing.Color.FromArgb(30, 30, 30);
+            logTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            logTextBox.ContextMenuStrip = logContextMenu;
+            settings1.autoSetting = false;
+            settings1.driversInstalled = false;
+            settings1.firstStart = true;
+            settings1.hexFileCollection = null;
+            settings1.hexFileSetting = "";
+            settings1.keyboard = "";
+            settings1.keymap = "";
+            settings1.outputZoom = 1F;
+            settings1.SettingsKey = "";
+            settings1.showAllDevices = false;
+            settings1.targetSetting = "atmega32u4";
+            logTextBox.DataBindings.Add(new System.Windows.Forms.Binding("ZoomFactor", settings1, "outputZoom", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            logTextBox.DetectUrls = false;
+            logTextBox.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            logTextBox.ForeColor = System.Drawing.Color.White;
+            logTextBox.HideSelection = false;
+            logTextBox.Location = new System.Drawing.Point(14, 45);
+            logTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            logTextBox.Name = "logTextBox";
+            logTextBox.ReadOnly = true;
+            logTextBox.Size = new System.Drawing.Size(700, 450);
+            logTextBox.TabIndex = 1;
+            logTextBox.Text = "";
+            logTextBox.WordWrap = false;
             // 
             // logContextMenu
             // 
-            this.logContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cutToolStripMenuItem,
-            this.copyToolStripMenuItem,
-            this.pasteToolStripMenuItem,
-            this.logContextMenuSep1,
-            this.selectAllToolStripMenuItem,
-            this.logContextMenuSep2,
-            this.clearToolStripMenuItem});
-            this.logContextMenu.Name = "contextMenuStrip2";
-            this.logContextMenu.ShowImageMargin = false;
-            this.logContextMenu.Size = new System.Drawing.Size(140, 126);
+            logContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { cutToolStripMenuItem, copyToolStripMenuItem, pasteToolStripMenuItem, logContextMenuSep1, selectAllToolStripMenuItem, logContextMenuSep2, clearToolStripMenuItem });
+            logContextMenu.Name = "contextMenuStrip2";
+            logContextMenu.ShowImageMargin = false;
+            logContextMenu.Size = new System.Drawing.Size(140, 126);
             // 
             // cutToolStripMenuItem
             // 
-            this.cutToolStripMenuItem.Enabled = false;
-            this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-            this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.cutToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
-            this.cutToolStripMenuItem.Text = "Cut";
+            cutToolStripMenuItem.Enabled = false;
+            cutToolStripMenuItem.Name = "cutToolStripMenuItem";
+            cutToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X;
+            cutToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            cutToolStripMenuItem.Text = "Cut";
             // 
             // copyToolStripMenuItem
             // 
-            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
-            this.copyToolStripMenuItem.Text = "&Copy";
+            copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            copyToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C;
+            copyToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            copyToolStripMenuItem.Text = "&Copy";
             // 
             // pasteToolStripMenuItem
             // 
-            this.pasteToolStripMenuItem.Enabled = false;
-            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
-            this.pasteToolStripMenuItem.Text = "Paste";
+            pasteToolStripMenuItem.Enabled = false;
+            pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
+            pasteToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V;
+            pasteToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            pasteToolStripMenuItem.Text = "Paste";
             // 
             // logContextMenuSep1
             // 
-            this.logContextMenuSep1.Name = "logContextMenuSep1";
-            this.logContextMenuSep1.Size = new System.Drawing.Size(136, 6);
+            logContextMenuSep1.Name = "logContextMenuSep1";
+            logContextMenuSep1.Size = new System.Drawing.Size(136, 6);
             // 
             // selectAllToolStripMenuItem
             // 
-            this.selectAllToolStripMenuItem.Enabled = false;
-            this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
-            this.selectAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
-            this.selectAllToolStripMenuItem.Text = "Select &All";
+            selectAllToolStripMenuItem.Enabled = false;
+            selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
+            selectAllToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A;
+            selectAllToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            selectAllToolStripMenuItem.Text = "Select &All";
             // 
             // logContextMenuSep2
             // 
-            this.logContextMenuSep2.Name = "logContextMenuSep2";
-            this.logContextMenuSep2.Size = new System.Drawing.Size(136, 6);
+            logContextMenuSep2.Name = "logContextMenuSep2";
+            logContextMenuSep2.Size = new System.Drawing.Size(136, 6);
             // 
             // clearToolStripMenuItem
             // 
-            this.clearToolStripMenuItem.Enabled = false;
-            this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
-            this.clearToolStripMenuItem.Text = "Clea&r";
-            this.clearToolStripMenuItem.Click += new System.EventHandler(this.ClearToolStripMenuItem_Click);
+            clearToolStripMenuItem.Enabled = false;
+            clearToolStripMenuItem.Name = "clearToolStripMenuItem";
+            clearToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            clearToolStripMenuItem.Text = "Clea&r";
+            clearToolStripMenuItem.Click += ClearToolStripMenuItem_Click;
             // 
             // HidConsoleWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(624, 441);
-            this.Controls.Add(this.consoleList);
-            this.Controls.Add(this.logTextBox);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(1024, 960);
-            this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(640, 480);
-            this.Name = "HidConsoleWindow";
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "HID Console";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.HidConsoleWindow_FormClosing);
-            this.Load += new System.EventHandler(this.HidConsoleWindow_Load);
-            this.logContextMenu.ResumeLayout(false);
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(728, 509);
+            Controls.Add(consoleList);
+            Controls.Add(logTextBox);
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            MaximumSize = new System.Drawing.Size(1192, 1102);
+            MinimizeBox = false;
+            MinimumSize = new System.Drawing.Size(744, 548);
+            Name = "HidConsoleWindow";
+            ShowInTaskbar = false;
+            Text = "HID Console";
+            FormClosing += HidConsoleWindow_FormClosing;
+            Load += HidConsoleWindow_Load;
+            logContextMenu.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
         #endregion

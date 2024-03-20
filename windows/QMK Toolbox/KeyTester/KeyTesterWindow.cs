@@ -159,6 +159,11 @@ namespace QMK_Toolbox.KeyTester
             return instance;
         }
 
+        private void KeyTesterWindow_Load(object sender, System.EventArgs e)
+        {
+            CenterToParent();
+        }
+
         protected override bool ProcessKeyMessage(ref Message m)
         {
             // The KeyDown and KeyUp events do not provide access to the virtual key and scancode
