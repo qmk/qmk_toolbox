@@ -182,7 +182,7 @@
             keyF1.Enabled = false;
             keyF1.Legend = "F1";
             keyF1.Location = new System.Drawing.Point(127, 70);
-            keyF1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyF1.Margin = new System.Windows.Forms.Padding(5);
             keyF1.Name = "keyF1";
             keyF1.Pressed = false;
             keyF1.Size = new System.Drawing.Size(47, 46);
@@ -194,7 +194,7 @@
             keyF2.Enabled = false;
             keyF2.Legend = "F2";
             keyF2.Location = new System.Drawing.Point(183, 70);
-            keyF2.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyF2.Margin = new System.Windows.Forms.Padding(5);
             keyF2.Name = "keyF2";
             keyF2.Pressed = false;
             keyF2.Size = new System.Drawing.Size(47, 46);
@@ -206,7 +206,7 @@
             keyF3.Enabled = false;
             keyF3.Legend = "F3";
             keyF3.Location = new System.Drawing.Point(239, 70);
-            keyF3.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyF3.Margin = new System.Windows.Forms.Padding(5);
             keyF3.Name = "keyF3";
             keyF3.Pressed = false;
             keyF3.Size = new System.Drawing.Size(47, 46);
@@ -218,7 +218,7 @@
             keyF4.Enabled = false;
             keyF4.Legend = "F4";
             keyF4.Location = new System.Drawing.Point(295, 70);
-            keyF4.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyF4.Margin = new System.Windows.Forms.Padding(5);
             keyF4.Name = "keyF4";
             keyF4.Pressed = false;
             keyF4.Size = new System.Drawing.Size(47, 46);
@@ -230,7 +230,7 @@
             keyF5.Enabled = false;
             keyF5.Legend = "F5";
             keyF5.Location = new System.Drawing.Point(379, 70);
-            keyF5.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyF5.Margin = new System.Windows.Forms.Padding(5);
             keyF5.Name = "keyF5";
             keyF5.Pressed = false;
             keyF5.Size = new System.Drawing.Size(47, 46);
@@ -242,7 +242,7 @@
             keyF6.Enabled = false;
             keyF6.Legend = "F6";
             keyF6.Location = new System.Drawing.Point(435, 70);
-            keyF6.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyF6.Margin = new System.Windows.Forms.Padding(5);
             keyF6.Name = "keyF6";
             keyF6.Pressed = false;
             keyF6.Size = new System.Drawing.Size(47, 46);
@@ -254,7 +254,7 @@
             keyF7.Enabled = false;
             keyF7.Legend = "F7";
             keyF7.Location = new System.Drawing.Point(491, 70);
-            keyF7.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyF7.Margin = new System.Windows.Forms.Padding(5);
             keyF7.Name = "keyF7";
             keyF7.Pressed = false;
             keyF7.Size = new System.Drawing.Size(47, 46);
@@ -266,7 +266,7 @@
             keyF8.Enabled = false;
             keyF8.Legend = "F8";
             keyF8.Location = new System.Drawing.Point(547, 70);
-            keyF8.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyF8.Margin = new System.Windows.Forms.Padding(5);
             keyF8.Name = "keyF8";
             keyF8.Pressed = false;
             keyF8.Size = new System.Drawing.Size(47, 46);
@@ -278,7 +278,7 @@
             keyF9.Enabled = false;
             keyF9.Legend = "F9";
             keyF9.Location = new System.Drawing.Point(631, 70);
-            keyF9.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyF9.Margin = new System.Windows.Forms.Padding(5);
             keyF9.Name = "keyF9";
             keyF9.Pressed = false;
             keyF9.Size = new System.Drawing.Size(47, 46);
@@ -290,7 +290,7 @@
             keyF10.Enabled = false;
             keyF10.Legend = "F10";
             keyF10.Location = new System.Drawing.Point(687, 70);
-            keyF10.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyF10.Margin = new System.Windows.Forms.Padding(5);
             keyF10.Name = "keyF10";
             keyF10.Pressed = false;
             keyF10.Size = new System.Drawing.Size(47, 46);
@@ -302,7 +302,7 @@
             keyF11.Enabled = false;
             keyF11.Legend = "F11";
             keyF11.Location = new System.Drawing.Point(743, 70);
-            keyF11.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyF11.Margin = new System.Windows.Forms.Padding(5);
             keyF11.Name = "keyF11";
             keyF11.Pressed = false;
             keyF11.Size = new System.Drawing.Size(47, 46);
@@ -314,7 +314,7 @@
             keyF12.Enabled = false;
             keyF12.Legend = "F12";
             keyF12.Location = new System.Drawing.Point(799, 70);
-            keyF12.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyF12.Margin = new System.Windows.Forms.Padding(5);
             keyF12.Name = "keyF12";
             keyF12.Pressed = false;
             keyF12.Size = new System.Drawing.Size(47, 46);
@@ -326,7 +326,7 @@
             keyF13.Enabled = false;
             keyF13.Legend = "F13";
             keyF13.Location = new System.Drawing.Point(127, 15);
-            keyF13.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyF13.Margin = new System.Windows.Forms.Padding(5);
             keyF13.Name = "keyF13";
             keyF13.Pressed = false;
             keyF13.Size = new System.Drawing.Size(47, 46);
@@ -338,7 +338,7 @@
             keyF14.Enabled = false;
             keyF14.Legend = "F14";
             keyF14.Location = new System.Drawing.Point(183, 15);
-            keyF14.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyF14.Margin = new System.Windows.Forms.Padding(5);
             keyF14.Name = "keyF14";
             keyF14.Pressed = false;
             keyF14.Size = new System.Drawing.Size(47, 46);
@@ -350,7 +350,7 @@
             keyF15.Enabled = false;
             keyF15.Legend = "F15";
             keyF15.Location = new System.Drawing.Point(239, 15);
-            keyF15.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyF15.Margin = new System.Windows.Forms.Padding(5);
             keyF15.Name = "keyF15";
             keyF15.Pressed = false;
             keyF15.Size = new System.Drawing.Size(47, 46);
@@ -362,7 +362,7 @@
             keyF16.Enabled = false;
             keyF16.Legend = "F16";
             keyF16.Location = new System.Drawing.Point(295, 15);
-            keyF16.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyF16.Margin = new System.Windows.Forms.Padding(5);
             keyF16.Name = "keyF16";
             keyF16.Pressed = false;
             keyF16.Size = new System.Drawing.Size(47, 46);
@@ -374,7 +374,7 @@
             keyF17.Enabled = false;
             keyF17.Legend = "F17";
             keyF17.Location = new System.Drawing.Point(379, 15);
-            keyF17.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyF17.Margin = new System.Windows.Forms.Padding(5);
             keyF17.Name = "keyF17";
             keyF17.Pressed = false;
             keyF17.Size = new System.Drawing.Size(47, 46);
@@ -386,7 +386,7 @@
             keyF18.Enabled = false;
             keyF18.Legend = "F18";
             keyF18.Location = new System.Drawing.Point(435, 15);
-            keyF18.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyF18.Margin = new System.Windows.Forms.Padding(5);
             keyF18.Name = "keyF18";
             keyF18.Pressed = false;
             keyF18.Size = new System.Drawing.Size(47, 46);
@@ -398,7 +398,7 @@
             keyF19.Enabled = false;
             keyF19.Legend = "F19";
             keyF19.Location = new System.Drawing.Point(491, 15);
-            keyF19.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyF19.Margin = new System.Windows.Forms.Padding(5);
             keyF19.Name = "keyF19";
             keyF19.Pressed = false;
             keyF19.Size = new System.Drawing.Size(47, 46);
@@ -410,7 +410,7 @@
             keyF20.Enabled = false;
             keyF20.Legend = "F20";
             keyF20.Location = new System.Drawing.Point(547, 15);
-            keyF20.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyF20.Margin = new System.Windows.Forms.Padding(5);
             keyF20.Name = "keyF20";
             keyF20.Pressed = false;
             keyF20.Size = new System.Drawing.Size(47, 46);
@@ -422,7 +422,7 @@
             keyF21.Enabled = false;
             keyF21.Legend = "F21";
             keyF21.Location = new System.Drawing.Point(631, 15);
-            keyF21.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyF21.Margin = new System.Windows.Forms.Padding(5);
             keyF21.Name = "keyF21";
             keyF21.Pressed = false;
             keyF21.Size = new System.Drawing.Size(47, 46);
@@ -434,7 +434,7 @@
             keyF22.Enabled = false;
             keyF22.Legend = "F22";
             keyF22.Location = new System.Drawing.Point(687, 15);
-            keyF22.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyF22.Margin = new System.Windows.Forms.Padding(5);
             keyF22.Name = "keyF22";
             keyF22.Pressed = false;
             keyF22.Size = new System.Drawing.Size(47, 46);
@@ -446,7 +446,7 @@
             keyF23.Enabled = false;
             keyF23.Legend = "F23";
             keyF23.Location = new System.Drawing.Point(743, 15);
-            keyF23.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyF23.Margin = new System.Windows.Forms.Padding(5);
             keyF23.Name = "keyF23";
             keyF23.Pressed = false;
             keyF23.Size = new System.Drawing.Size(47, 46);
@@ -458,7 +458,7 @@
             keyF24.Enabled = false;
             keyF24.Legend = "F24";
             keyF24.Location = new System.Drawing.Point(799, 15);
-            keyF24.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyF24.Margin = new System.Windows.Forms.Padding(5);
             keyF24.Name = "keyF24";
             keyF24.Pressed = false;
             keyF24.Size = new System.Drawing.Size(47, 46);
@@ -470,7 +470,7 @@
             key1.Enabled = false;
             key1.Legend = "!\r\n1";
             key1.Location = new System.Drawing.Point(71, 144);
-            key1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            key1.Margin = new System.Windows.Forms.Padding(5);
             key1.Name = "key1";
             key1.Pressed = false;
             key1.Size = new System.Drawing.Size(47, 46);
@@ -482,7 +482,7 @@
             key2.Enabled = false;
             key2.Legend = "@\r\n2";
             key2.Location = new System.Drawing.Point(127, 144);
-            key2.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            key2.Margin = new System.Windows.Forms.Padding(5);
             key2.Name = "key2";
             key2.Pressed = false;
             key2.Size = new System.Drawing.Size(47, 46);
@@ -494,7 +494,7 @@
             key3.Enabled = false;
             key3.Legend = "#\r\n3";
             key3.Location = new System.Drawing.Point(183, 144);
-            key3.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            key3.Margin = new System.Windows.Forms.Padding(5);
             key3.Name = "key3";
             key3.Pressed = false;
             key3.Size = new System.Drawing.Size(47, 46);
@@ -506,7 +506,7 @@
             key4.Enabled = false;
             key4.Legend = "$\r\n4";
             key4.Location = new System.Drawing.Point(239, 144);
-            key4.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            key4.Margin = new System.Windows.Forms.Padding(5);
             key4.Name = "key4";
             key4.Pressed = false;
             key4.Size = new System.Drawing.Size(47, 46);
@@ -518,7 +518,7 @@
             key5.Enabled = false;
             key5.Legend = "%\r\n5";
             key5.Location = new System.Drawing.Point(295, 144);
-            key5.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            key5.Margin = new System.Windows.Forms.Padding(5);
             key5.Name = "key5";
             key5.Pressed = false;
             key5.Size = new System.Drawing.Size(47, 46);
@@ -530,7 +530,7 @@
             key6.Enabled = false;
             key6.Legend = "^\r\n6";
             key6.Location = new System.Drawing.Point(351, 144);
-            key6.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            key6.Margin = new System.Windows.Forms.Padding(5);
             key6.Name = "key6";
             key6.Pressed = false;
             key6.Size = new System.Drawing.Size(47, 46);
@@ -542,7 +542,7 @@
             key7.Enabled = false;
             key7.Legend = "&&\r\n7";
             key7.Location = new System.Drawing.Point(407, 144);
-            key7.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            key7.Margin = new System.Windows.Forms.Padding(5);
             key7.Name = "key7";
             key7.Pressed = false;
             key7.Size = new System.Drawing.Size(47, 46);
@@ -554,7 +554,7 @@
             key8.Enabled = false;
             key8.Legend = "*\r\n8";
             key8.Location = new System.Drawing.Point(463, 144);
-            key8.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            key8.Margin = new System.Windows.Forms.Padding(5);
             key8.Name = "key8";
             key8.Pressed = false;
             key8.Size = new System.Drawing.Size(47, 46);
@@ -566,7 +566,7 @@
             key9.Enabled = false;
             key9.Legend = "(\r\n9";
             key9.Location = new System.Drawing.Point(519, 144);
-            key9.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            key9.Margin = new System.Windows.Forms.Padding(5);
             key9.Name = "key9";
             key9.Pressed = false;
             key9.Size = new System.Drawing.Size(47, 46);
@@ -578,7 +578,7 @@
             key0.Enabled = false;
             key0.Legend = ")\r\n0";
             key0.Location = new System.Drawing.Point(575, 144);
-            key0.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            key0.Margin = new System.Windows.Forms.Padding(5);
             key0.Name = "key0";
             key0.Pressed = false;
             key0.Size = new System.Drawing.Size(47, 46);
@@ -590,7 +590,7 @@
             keyQ.Enabled = false;
             keyQ.Legend = "Q";
             keyQ.Location = new System.Drawing.Point(99, 200);
-            keyQ.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyQ.Margin = new System.Windows.Forms.Padding(5);
             keyQ.Name = "keyQ";
             keyQ.Pressed = false;
             keyQ.Size = new System.Drawing.Size(47, 46);
@@ -602,7 +602,7 @@
             keyW.Enabled = false;
             keyW.Legend = "W";
             keyW.Location = new System.Drawing.Point(155, 200);
-            keyW.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyW.Margin = new System.Windows.Forms.Padding(5);
             keyW.Name = "keyW";
             keyW.Pressed = false;
             keyW.Size = new System.Drawing.Size(47, 46);
@@ -614,7 +614,7 @@
             keyE.Enabled = false;
             keyE.Legend = "E";
             keyE.Location = new System.Drawing.Point(211, 200);
-            keyE.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyE.Margin = new System.Windows.Forms.Padding(5);
             keyE.Name = "keyE";
             keyE.Pressed = false;
             keyE.Size = new System.Drawing.Size(47, 46);
@@ -626,7 +626,7 @@
             keyR.Enabled = false;
             keyR.Legend = "R";
             keyR.Location = new System.Drawing.Point(267, 200);
-            keyR.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyR.Margin = new System.Windows.Forms.Padding(5);
             keyR.Name = "keyR";
             keyR.Pressed = false;
             keyR.Size = new System.Drawing.Size(47, 46);
@@ -638,7 +638,7 @@
             keyT.Enabled = false;
             keyT.Legend = "T";
             keyT.Location = new System.Drawing.Point(323, 200);
-            keyT.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyT.Margin = new System.Windows.Forms.Padding(5);
             keyT.Name = "keyT";
             keyT.Pressed = false;
             keyT.Size = new System.Drawing.Size(47, 46);
@@ -650,7 +650,7 @@
             keyY.Enabled = false;
             keyY.Legend = "Y";
             keyY.Location = new System.Drawing.Point(379, 200);
-            keyY.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyY.Margin = new System.Windows.Forms.Padding(5);
             keyY.Name = "keyY";
             keyY.Pressed = false;
             keyY.Size = new System.Drawing.Size(47, 46);
@@ -662,7 +662,7 @@
             keyU.Enabled = false;
             keyU.Legend = "U";
             keyU.Location = new System.Drawing.Point(435, 200);
-            keyU.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyU.Margin = new System.Windows.Forms.Padding(5);
             keyU.Name = "keyU";
             keyU.Pressed = false;
             keyU.Size = new System.Drawing.Size(47, 46);
@@ -674,7 +674,7 @@
             keyI.Enabled = false;
             keyI.Legend = "I";
             keyI.Location = new System.Drawing.Point(491, 200);
-            keyI.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyI.Margin = new System.Windows.Forms.Padding(5);
             keyI.Name = "keyI";
             keyI.Pressed = false;
             keyI.Size = new System.Drawing.Size(47, 46);
@@ -686,7 +686,7 @@
             keyO.Enabled = false;
             keyO.Legend = "O";
             keyO.Location = new System.Drawing.Point(547, 200);
-            keyO.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyO.Margin = new System.Windows.Forms.Padding(5);
             keyO.Name = "keyO";
             keyO.Pressed = false;
             keyO.Size = new System.Drawing.Size(47, 46);
@@ -698,7 +698,7 @@
             keyP.Enabled = false;
             keyP.Legend = "P";
             keyP.Location = new System.Drawing.Point(603, 200);
-            keyP.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyP.Margin = new System.Windows.Forms.Padding(5);
             keyP.Name = "keyP";
             keyP.Pressed = false;
             keyP.Size = new System.Drawing.Size(47, 46);
@@ -710,7 +710,7 @@
             keyA.Enabled = false;
             keyA.Legend = "A";
             keyA.Location = new System.Drawing.Point(113, 255);
-            keyA.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyA.Margin = new System.Windows.Forms.Padding(5);
             keyA.Name = "keyA";
             keyA.Pressed = false;
             keyA.Size = new System.Drawing.Size(47, 46);
@@ -722,7 +722,7 @@
             keyS.Enabled = false;
             keyS.Legend = "S";
             keyS.Location = new System.Drawing.Point(169, 255);
-            keyS.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyS.Margin = new System.Windows.Forms.Padding(5);
             keyS.Name = "keyS";
             keyS.Pressed = false;
             keyS.Size = new System.Drawing.Size(47, 46);
@@ -734,7 +734,7 @@
             keyD.Enabled = false;
             keyD.Legend = "D";
             keyD.Location = new System.Drawing.Point(225, 255);
-            keyD.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyD.Margin = new System.Windows.Forms.Padding(5);
             keyD.Name = "keyD";
             keyD.Pressed = false;
             keyD.Size = new System.Drawing.Size(47, 46);
@@ -746,7 +746,7 @@
             keyF.Enabled = false;
             keyF.Legend = "F";
             keyF.Location = new System.Drawing.Point(281, 255);
-            keyF.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyF.Margin = new System.Windows.Forms.Padding(5);
             keyF.Name = "keyF";
             keyF.Pressed = false;
             keyF.Size = new System.Drawing.Size(47, 46);
@@ -758,7 +758,7 @@
             keyG.Enabled = false;
             keyG.Legend = "G";
             keyG.Location = new System.Drawing.Point(337, 255);
-            keyG.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyG.Margin = new System.Windows.Forms.Padding(5);
             keyG.Name = "keyG";
             keyG.Pressed = false;
             keyG.Size = new System.Drawing.Size(47, 46);
@@ -770,7 +770,7 @@
             keyH.Enabled = false;
             keyH.Legend = "H";
             keyH.Location = new System.Drawing.Point(393, 255);
-            keyH.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyH.Margin = new System.Windows.Forms.Padding(5);
             keyH.Name = "keyH";
             keyH.Pressed = false;
             keyH.Size = new System.Drawing.Size(47, 46);
@@ -782,7 +782,7 @@
             keyJ.Enabled = false;
             keyJ.Legend = "J";
             keyJ.Location = new System.Drawing.Point(449, 255);
-            keyJ.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyJ.Margin = new System.Windows.Forms.Padding(5);
             keyJ.Name = "keyJ";
             keyJ.Pressed = false;
             keyJ.Size = new System.Drawing.Size(47, 46);
@@ -794,7 +794,7 @@
             keyK.Enabled = false;
             keyK.Legend = "K";
             keyK.Location = new System.Drawing.Point(505, 255);
-            keyK.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyK.Margin = new System.Windows.Forms.Padding(5);
             keyK.Name = "keyK";
             keyK.Pressed = false;
             keyK.Size = new System.Drawing.Size(47, 46);
@@ -806,7 +806,7 @@
             keyL.Enabled = false;
             keyL.Legend = "L";
             keyL.Location = new System.Drawing.Point(561, 255);
-            keyL.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyL.Margin = new System.Windows.Forms.Padding(5);
             keyL.Name = "keyL";
             keyL.Pressed = false;
             keyL.Size = new System.Drawing.Size(47, 46);
@@ -818,7 +818,7 @@
             keyZ.Enabled = false;
             keyZ.Legend = "Z";
             keyZ.Location = new System.Drawing.Point(141, 310);
-            keyZ.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyZ.Margin = new System.Windows.Forms.Padding(5);
             keyZ.Name = "keyZ";
             keyZ.Pressed = false;
             keyZ.Size = new System.Drawing.Size(47, 46);
@@ -830,7 +830,7 @@
             keyX.Enabled = false;
             keyX.Legend = "X";
             keyX.Location = new System.Drawing.Point(197, 310);
-            keyX.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyX.Margin = new System.Windows.Forms.Padding(5);
             keyX.Name = "keyX";
             keyX.Pressed = false;
             keyX.Size = new System.Drawing.Size(47, 46);
@@ -842,7 +842,7 @@
             keyC.Enabled = false;
             keyC.Legend = "C";
             keyC.Location = new System.Drawing.Point(253, 310);
-            keyC.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyC.Margin = new System.Windows.Forms.Padding(5);
             keyC.Name = "keyC";
             keyC.Pressed = false;
             keyC.Size = new System.Drawing.Size(47, 46);
@@ -854,7 +854,7 @@
             keyV.Enabled = false;
             keyV.Legend = "V";
             keyV.Location = new System.Drawing.Point(309, 310);
-            keyV.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyV.Margin = new System.Windows.Forms.Padding(5);
             keyV.Name = "keyV";
             keyV.Pressed = false;
             keyV.Size = new System.Drawing.Size(47, 46);
@@ -866,7 +866,7 @@
             keyB.Enabled = false;
             keyB.Legend = "B";
             keyB.Location = new System.Drawing.Point(365, 310);
-            keyB.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyB.Margin = new System.Windows.Forms.Padding(5);
             keyB.Name = "keyB";
             keyB.Pressed = false;
             keyB.Size = new System.Drawing.Size(47, 46);
@@ -878,7 +878,7 @@
             keyN.Enabled = false;
             keyN.Legend = "N";
             keyN.Location = new System.Drawing.Point(421, 310);
-            keyN.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyN.Margin = new System.Windows.Forms.Padding(5);
             keyN.Name = "keyN";
             keyN.Pressed = false;
             keyN.Size = new System.Drawing.Size(47, 46);
@@ -890,7 +890,7 @@
             keyM.Enabled = false;
             keyM.Legend = "M";
             keyM.Location = new System.Drawing.Point(477, 310);
-            keyM.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyM.Margin = new System.Windows.Forms.Padding(5);
             keyM.Name = "keyM";
             keyM.Pressed = false;
             keyM.Size = new System.Drawing.Size(47, 46);
@@ -902,7 +902,7 @@
             keyEscape.Enabled = false;
             keyEscape.Legend = "Esc";
             keyEscape.Location = new System.Drawing.Point(15, 70);
-            keyEscape.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyEscape.Margin = new System.Windows.Forms.Padding(5);
             keyEscape.Name = "keyEscape";
             keyEscape.Pressed = false;
             keyEscape.Size = new System.Drawing.Size(47, 46);
@@ -914,7 +914,7 @@
             keyGrave.Enabled = false;
             keyGrave.Legend = "~\r\n`";
             keyGrave.Location = new System.Drawing.Point(15, 144);
-            keyGrave.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyGrave.Margin = new System.Windows.Forms.Padding(5);
             keyGrave.Name = "keyGrave";
             keyGrave.Pressed = false;
             keyGrave.Size = new System.Drawing.Size(47, 46);
@@ -926,7 +926,7 @@
             keyMinus.Enabled = false;
             keyMinus.Legend = "_\r\n-";
             keyMinus.Location = new System.Drawing.Point(631, 144);
-            keyMinus.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyMinus.Margin = new System.Windows.Forms.Padding(5);
             keyMinus.Name = "keyMinus";
             keyMinus.Pressed = false;
             keyMinus.Size = new System.Drawing.Size(47, 46);
@@ -938,7 +938,7 @@
             keyEqual.Enabled = false;
             keyEqual.Legend = "+\r\n=";
             keyEqual.Location = new System.Drawing.Point(687, 144);
-            keyEqual.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyEqual.Margin = new System.Windows.Forms.Padding(5);
             keyEqual.Name = "keyEqual";
             keyEqual.Pressed = false;
             keyEqual.Size = new System.Drawing.Size(47, 46);
@@ -950,7 +950,7 @@
             keyBackspace.Enabled = false;
             keyBackspace.Legend = "Backspace";
             keyBackspace.Location = new System.Drawing.Point(743, 144);
-            keyBackspace.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyBackspace.Margin = new System.Windows.Forms.Padding(5);
             keyBackspace.Name = "keyBackspace";
             keyBackspace.Pressed = false;
             keyBackspace.Size = new System.Drawing.Size(103, 46);
@@ -962,7 +962,7 @@
             keyTab.Enabled = false;
             keyTab.Legend = "Tab";
             keyTab.Location = new System.Drawing.Point(15, 200);
-            keyTab.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyTab.Margin = new System.Windows.Forms.Padding(5);
             keyTab.Name = "keyTab";
             keyTab.Pressed = false;
             keyTab.Size = new System.Drawing.Size(75, 46);
@@ -974,7 +974,7 @@
             keyLeftBrace.Enabled = false;
             keyLeftBrace.Legend = "{\r\n[";
             keyLeftBrace.Location = new System.Drawing.Point(659, 200);
-            keyLeftBrace.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyLeftBrace.Margin = new System.Windows.Forms.Padding(5);
             keyLeftBrace.Name = "keyLeftBrace";
             keyLeftBrace.Pressed = false;
             keyLeftBrace.Size = new System.Drawing.Size(47, 46);
@@ -986,7 +986,7 @@
             keyRightBrace.Enabled = false;
             keyRightBrace.Legend = "}\r\n]";
             keyRightBrace.Location = new System.Drawing.Point(715, 200);
-            keyRightBrace.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyRightBrace.Margin = new System.Windows.Forms.Padding(5);
             keyRightBrace.Name = "keyRightBrace";
             keyRightBrace.Pressed = false;
             keyRightBrace.Size = new System.Drawing.Size(47, 46);
@@ -998,7 +998,7 @@
             keyBackslash.Enabled = false;
             keyBackslash.Legend = "|\r\n\\";
             keyBackslash.Location = new System.Drawing.Point(771, 200);
-            keyBackslash.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyBackslash.Margin = new System.Windows.Forms.Padding(5);
             keyBackslash.Name = "keyBackslash";
             keyBackslash.Pressed = false;
             keyBackslash.Size = new System.Drawing.Size(75, 46);
@@ -1010,7 +1010,7 @@
             keyCapsLock.Enabled = false;
             keyCapsLock.Legend = "Caps Lock";
             keyCapsLock.Location = new System.Drawing.Point(15, 255);
-            keyCapsLock.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyCapsLock.Margin = new System.Windows.Forms.Padding(5);
             keyCapsLock.Name = "keyCapsLock";
             keyCapsLock.Pressed = false;
             keyCapsLock.Size = new System.Drawing.Size(89, 46);
@@ -1022,7 +1022,7 @@
             keySemicolon.Enabled = false;
             keySemicolon.Legend = ":\r\n;";
             keySemicolon.Location = new System.Drawing.Point(617, 255);
-            keySemicolon.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keySemicolon.Margin = new System.Windows.Forms.Padding(5);
             keySemicolon.Name = "keySemicolon";
             keySemicolon.Pressed = false;
             keySemicolon.Size = new System.Drawing.Size(47, 46);
@@ -1034,7 +1034,7 @@
             keyQuote.Enabled = false;
             keyQuote.Legend = "\"\r\n'";
             keyQuote.Location = new System.Drawing.Point(673, 255);
-            keyQuote.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyQuote.Margin = new System.Windows.Forms.Padding(5);
             keyQuote.Name = "keyQuote";
             keyQuote.Pressed = false;
             keyQuote.Size = new System.Drawing.Size(47, 46);
@@ -1046,7 +1046,7 @@
             keyNUHS.Enabled = false;
             keyNUHS.Legend = "~\r\n#";
             keyNUHS.Location = new System.Drawing.Point(729, 255);
-            keyNUHS.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyNUHS.Margin = new System.Windows.Forms.Padding(5);
             keyNUHS.Name = "keyNUHS";
             keyNUHS.Pressed = false;
             keyNUHS.Size = new System.Drawing.Size(47, 46);
@@ -1058,7 +1058,7 @@
             keyEnter.Enabled = false;
             keyEnter.Legend = "Enter";
             keyEnter.Location = new System.Drawing.Point(785, 255);
-            keyEnter.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyEnter.Margin = new System.Windows.Forms.Padding(5);
             keyEnter.Name = "keyEnter";
             keyEnter.Pressed = false;
             keyEnter.Size = new System.Drawing.Size(61, 46);
@@ -1070,7 +1070,7 @@
             keyNUBS.Enabled = false;
             keyNUBS.Legend = "|\r\n\\";
             keyNUBS.Location = new System.Drawing.Point(85, 310);
-            keyNUBS.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyNUBS.Margin = new System.Windows.Forms.Padding(5);
             keyNUBS.Name = "keyNUBS";
             keyNUBS.Pressed = false;
             keyNUBS.Size = new System.Drawing.Size(47, 46);
@@ -1082,7 +1082,7 @@
             keyComma.Enabled = false;
             keyComma.Legend = "<\r\n,";
             keyComma.Location = new System.Drawing.Point(533, 310);
-            keyComma.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyComma.Margin = new System.Windows.Forms.Padding(5);
             keyComma.Name = "keyComma";
             keyComma.Pressed = false;
             keyComma.Size = new System.Drawing.Size(47, 46);
@@ -1094,7 +1094,7 @@
             keyDot.Enabled = false;
             keyDot.Legend = ">\r\n.";
             keyDot.Location = new System.Drawing.Point(589, 310);
-            keyDot.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyDot.Margin = new System.Windows.Forms.Padding(5);
             keyDot.Name = "keyDot";
             keyDot.Pressed = false;
             keyDot.Size = new System.Drawing.Size(47, 46);
@@ -1106,7 +1106,7 @@
             keySlash.Enabled = false;
             keySlash.Legend = "?\r\n/";
             keySlash.Location = new System.Drawing.Point(645, 310);
-            keySlash.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keySlash.Margin = new System.Windows.Forms.Padding(5);
             keySlash.Name = "keySlash";
             keySlash.Pressed = false;
             keySlash.Size = new System.Drawing.Size(47, 46);
@@ -1118,7 +1118,7 @@
             keySpace.Enabled = false;
             keySpace.Legend = "";
             keySpace.Location = new System.Drawing.Point(225, 366);
-            keySpace.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keySpace.Margin = new System.Windows.Forms.Padding(5);
             keySpace.Name = "keySpace";
             keySpace.Pressed = false;
             keySpace.Size = new System.Drawing.Size(341, 46);
@@ -1130,7 +1130,7 @@
             keyMenu.Enabled = false;
             keyMenu.Legend = "Menu";
             keyMenu.Location = new System.Drawing.Point(715, 366);
-            keyMenu.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyMenu.Margin = new System.Windows.Forms.Padding(5);
             keyMenu.Name = "keyMenu";
             keyMenu.Pressed = false;
             keyMenu.Size = new System.Drawing.Size(61, 46);
@@ -1142,7 +1142,7 @@
             keyLeftControl.Enabled = false;
             keyLeftControl.Legend = "Ctrl";
             keyLeftControl.Location = new System.Drawing.Point(15, 366);
-            keyLeftControl.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyLeftControl.Margin = new System.Windows.Forms.Padding(5);
             keyLeftControl.Name = "keyLeftControl";
             keyLeftControl.Pressed = false;
             keyLeftControl.Size = new System.Drawing.Size(61, 46);
@@ -1154,7 +1154,7 @@
             keyLeftShift.Enabled = false;
             keyLeftShift.Legend = "Shift";
             keyLeftShift.Location = new System.Drawing.Point(15, 310);
-            keyLeftShift.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyLeftShift.Margin = new System.Windows.Forms.Padding(5);
             keyLeftShift.Name = "keyLeftShift";
             keyLeftShift.Pressed = false;
             keyLeftShift.Size = new System.Drawing.Size(61, 46);
@@ -1166,7 +1166,7 @@
             keyLeftAlt.Enabled = false;
             keyLeftAlt.Legend = "Alt";
             keyLeftAlt.Location = new System.Drawing.Point(155, 366);
-            keyLeftAlt.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyLeftAlt.Margin = new System.Windows.Forms.Padding(5);
             keyLeftAlt.Name = "keyLeftAlt";
             keyLeftAlt.Pressed = false;
             keyLeftAlt.Size = new System.Drawing.Size(61, 46);
@@ -1178,7 +1178,7 @@
             keyLeftGUI.Enabled = false;
             keyLeftGUI.Legend = "Win";
             keyLeftGUI.Location = new System.Drawing.Point(85, 366);
-            keyLeftGUI.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyLeftGUI.Margin = new System.Windows.Forms.Padding(5);
             keyLeftGUI.Name = "keyLeftGUI";
             keyLeftGUI.Pressed = false;
             keyLeftGUI.Size = new System.Drawing.Size(61, 46);
@@ -1190,7 +1190,7 @@
             keyRightControl.Enabled = false;
             keyRightControl.Legend = "Ctrl";
             keyRightControl.Location = new System.Drawing.Point(785, 366);
-            keyRightControl.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyRightControl.Margin = new System.Windows.Forms.Padding(5);
             keyRightControl.Name = "keyRightControl";
             keyRightControl.Pressed = false;
             keyRightControl.Size = new System.Drawing.Size(61, 46);
@@ -1202,7 +1202,7 @@
             keyRightShift.Enabled = false;
             keyRightShift.Legend = "Shift";
             keyRightShift.Location = new System.Drawing.Point(701, 310);
-            keyRightShift.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyRightShift.Margin = new System.Windows.Forms.Padding(5);
             keyRightShift.Name = "keyRightShift";
             keyRightShift.Pressed = false;
             keyRightShift.Size = new System.Drawing.Size(145, 46);
@@ -1214,7 +1214,7 @@
             keyRightAlt.Enabled = false;
             keyRightAlt.Legend = "Alt";
             keyRightAlt.Location = new System.Drawing.Point(575, 366);
-            keyRightAlt.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyRightAlt.Margin = new System.Windows.Forms.Padding(5);
             keyRightAlt.Name = "keyRightAlt";
             keyRightAlt.Pressed = false;
             keyRightAlt.Size = new System.Drawing.Size(61, 46);
@@ -1226,7 +1226,7 @@
             keyRightGUI.Enabled = false;
             keyRightGUI.Legend = "Win";
             keyRightGUI.Location = new System.Drawing.Point(645, 366);
-            keyRightGUI.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyRightGUI.Margin = new System.Windows.Forms.Padding(5);
             keyRightGUI.Name = "keyRightGUI";
             keyRightGUI.Pressed = false;
             keyRightGUI.Size = new System.Drawing.Size(61, 46);
@@ -1238,7 +1238,7 @@
             keyPrintScreen.Enabled = false;
             keyPrintScreen.Legend = "Print\r\nScrn";
             keyPrintScreen.Location = new System.Drawing.Point(864, 70);
-            keyPrintScreen.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyPrintScreen.Margin = new System.Windows.Forms.Padding(5);
             keyPrintScreen.Name = "keyPrintScreen";
             keyPrintScreen.Pressed = false;
             keyPrintScreen.Size = new System.Drawing.Size(47, 46);
@@ -1250,7 +1250,7 @@
             keyScrollLock.Enabled = false;
             keyScrollLock.Legend = "Scroll\r\nLock";
             keyScrollLock.Location = new System.Drawing.Point(920, 70);
-            keyScrollLock.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyScrollLock.Margin = new System.Windows.Forms.Padding(5);
             keyScrollLock.Name = "keyScrollLock";
             keyScrollLock.Pressed = false;
             keyScrollLock.Size = new System.Drawing.Size(47, 46);
@@ -1262,7 +1262,7 @@
             keyPauseBreak.Enabled = false;
             keyPauseBreak.Legend = "Pause";
             keyPauseBreak.Location = new System.Drawing.Point(976, 70);
-            keyPauseBreak.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyPauseBreak.Margin = new System.Windows.Forms.Padding(5);
             keyPauseBreak.Name = "keyPauseBreak";
             keyPauseBreak.Pressed = false;
             keyPauseBreak.Size = new System.Drawing.Size(47, 46);
@@ -1274,7 +1274,7 @@
             keyInsert.Enabled = false;
             keyInsert.Legend = "Insert";
             keyInsert.Location = new System.Drawing.Point(864, 144);
-            keyInsert.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyInsert.Margin = new System.Windows.Forms.Padding(5);
             keyInsert.Name = "keyInsert";
             keyInsert.Pressed = false;
             keyInsert.Size = new System.Drawing.Size(47, 46);
@@ -1286,7 +1286,7 @@
             keyHome.Enabled = false;
             keyHome.Legend = "Home";
             keyHome.Location = new System.Drawing.Point(920, 144);
-            keyHome.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyHome.Margin = new System.Windows.Forms.Padding(5);
             keyHome.Name = "keyHome";
             keyHome.Pressed = false;
             keyHome.Size = new System.Drawing.Size(47, 46);
@@ -1298,7 +1298,7 @@
             keyPageUp.Enabled = false;
             keyPageUp.Legend = "Page\r\nUp";
             keyPageUp.Location = new System.Drawing.Point(976, 144);
-            keyPageUp.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyPageUp.Margin = new System.Windows.Forms.Padding(5);
             keyPageUp.Name = "keyPageUp";
             keyPageUp.Pressed = false;
             keyPageUp.Size = new System.Drawing.Size(47, 46);
@@ -1310,7 +1310,7 @@
             keyDelete.Enabled = false;
             keyDelete.Legend = "Delete";
             keyDelete.Location = new System.Drawing.Point(864, 200);
-            keyDelete.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyDelete.Margin = new System.Windows.Forms.Padding(5);
             keyDelete.Name = "keyDelete";
             keyDelete.Pressed = false;
             keyDelete.Size = new System.Drawing.Size(47, 46);
@@ -1322,7 +1322,7 @@
             keyEnd.Enabled = false;
             keyEnd.Legend = "End";
             keyEnd.Location = new System.Drawing.Point(920, 200);
-            keyEnd.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyEnd.Margin = new System.Windows.Forms.Padding(5);
             keyEnd.Name = "keyEnd";
             keyEnd.Pressed = false;
             keyEnd.Size = new System.Drawing.Size(47, 46);
@@ -1334,7 +1334,7 @@
             keyPageDown.Enabled = false;
             keyPageDown.Legend = "Page\r\nDown";
             keyPageDown.Location = new System.Drawing.Point(976, 200);
-            keyPageDown.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyPageDown.Margin = new System.Windows.Forms.Padding(5);
             keyPageDown.Name = "keyPageDown";
             keyPageDown.Pressed = false;
             keyPageDown.Size = new System.Drawing.Size(47, 46);
@@ -1346,7 +1346,7 @@
             keyUp.Enabled = false;
             keyUp.Legend = "▴";
             keyUp.Location = new System.Drawing.Point(920, 310);
-            keyUp.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyUp.Margin = new System.Windows.Forms.Padding(5);
             keyUp.Name = "keyUp";
             keyUp.Pressed = false;
             keyUp.Size = new System.Drawing.Size(47, 46);
@@ -1358,7 +1358,7 @@
             keyLeft.Enabled = false;
             keyLeft.Legend = "◂";
             keyLeft.Location = new System.Drawing.Point(864, 366);
-            keyLeft.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyLeft.Margin = new System.Windows.Forms.Padding(5);
             keyLeft.Name = "keyLeft";
             keyLeft.Pressed = false;
             keyLeft.Size = new System.Drawing.Size(47, 46);
@@ -1370,7 +1370,7 @@
             keyDown.Enabled = false;
             keyDown.Legend = "▾";
             keyDown.Location = new System.Drawing.Point(920, 366);
-            keyDown.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyDown.Margin = new System.Windows.Forms.Padding(5);
             keyDown.Name = "keyDown";
             keyDown.Pressed = false;
             keyDown.Size = new System.Drawing.Size(47, 46);
@@ -1382,7 +1382,7 @@
             keyRight.Enabled = false;
             keyRight.Legend = "▸";
             keyRight.Location = new System.Drawing.Point(976, 366);
-            keyRight.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyRight.Margin = new System.Windows.Forms.Padding(5);
             keyRight.Name = "keyRight";
             keyRight.Pressed = false;
             keyRight.Size = new System.Drawing.Size(47, 46);
@@ -1394,7 +1394,7 @@
             keyNumLock.Enabled = false;
             keyNumLock.Legend = "Num\r\nLock";
             keyNumLock.Location = new System.Drawing.Point(1042, 144);
-            keyNumLock.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyNumLock.Margin = new System.Windows.Forms.Padding(5);
             keyNumLock.Name = "keyNumLock";
             keyNumLock.Pressed = false;
             keyNumLock.Size = new System.Drawing.Size(47, 46);
@@ -1406,7 +1406,7 @@
             keyPadSlash.Enabled = false;
             keyPadSlash.Legend = "/";
             keyPadSlash.Location = new System.Drawing.Point(1098, 144);
-            keyPadSlash.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyPadSlash.Margin = new System.Windows.Forms.Padding(5);
             keyPadSlash.Name = "keyPadSlash";
             keyPadSlash.Pressed = false;
             keyPadSlash.Size = new System.Drawing.Size(47, 46);
@@ -1418,7 +1418,7 @@
             keyPadAsterisk.Enabled = false;
             keyPadAsterisk.Legend = "*";
             keyPadAsterisk.Location = new System.Drawing.Point(1154, 144);
-            keyPadAsterisk.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyPadAsterisk.Margin = new System.Windows.Forms.Padding(5);
             keyPadAsterisk.Name = "keyPadAsterisk";
             keyPadAsterisk.Pressed = false;
             keyPadAsterisk.Size = new System.Drawing.Size(47, 46);
@@ -1430,7 +1430,7 @@
             keyPadMinus.Enabled = false;
             keyPadMinus.Legend = "-";
             keyPadMinus.Location = new System.Drawing.Point(1210, 144);
-            keyPadMinus.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyPadMinus.Margin = new System.Windows.Forms.Padding(5);
             keyPadMinus.Name = "keyPadMinus";
             keyPadMinus.Pressed = false;
             keyPadMinus.Size = new System.Drawing.Size(47, 46);
@@ -1442,7 +1442,7 @@
             keyPadPlus.Enabled = false;
             keyPadPlus.Legend = "+";
             keyPadPlus.Location = new System.Drawing.Point(1210, 200);
-            keyPadPlus.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyPadPlus.Margin = new System.Windows.Forms.Padding(5);
             keyPadPlus.Name = "keyPadPlus";
             keyPadPlus.Pressed = false;
             keyPadPlus.Size = new System.Drawing.Size(47, 102);
@@ -1454,7 +1454,7 @@
             keyPadEnter.Enabled = false;
             keyPadEnter.Legend = "Ent";
             keyPadEnter.Location = new System.Drawing.Point(1210, 310);
-            keyPadEnter.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyPadEnter.Margin = new System.Windows.Forms.Padding(5);
             keyPadEnter.Name = "keyPadEnter";
             keyPadEnter.Pressed = false;
             keyPadEnter.Size = new System.Drawing.Size(47, 102);
@@ -1466,7 +1466,7 @@
             keyPadDot.Enabled = false;
             keyPadDot.Legend = ".";
             keyPadDot.Location = new System.Drawing.Point(1154, 366);
-            keyPadDot.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyPadDot.Margin = new System.Windows.Forms.Padding(5);
             keyPadDot.Name = "keyPadDot";
             keyPadDot.Pressed = false;
             keyPadDot.Size = new System.Drawing.Size(47, 46);
@@ -1478,7 +1478,7 @@
             keyPad0.Enabled = false;
             keyPad0.Legend = "0";
             keyPad0.Location = new System.Drawing.Point(1042, 366);
-            keyPad0.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyPad0.Margin = new System.Windows.Forms.Padding(5);
             keyPad0.Name = "keyPad0";
             keyPad0.Pressed = false;
             keyPad0.Size = new System.Drawing.Size(103, 46);
@@ -1490,7 +1490,7 @@
             keyPad1.Enabled = false;
             keyPad1.Legend = "1";
             keyPad1.Location = new System.Drawing.Point(1042, 310);
-            keyPad1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyPad1.Margin = new System.Windows.Forms.Padding(5);
             keyPad1.Name = "keyPad1";
             keyPad1.Pressed = false;
             keyPad1.Size = new System.Drawing.Size(47, 46);
@@ -1502,7 +1502,7 @@
             keyPad2.Enabled = false;
             keyPad2.Legend = "2";
             keyPad2.Location = new System.Drawing.Point(1098, 310);
-            keyPad2.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyPad2.Margin = new System.Windows.Forms.Padding(5);
             keyPad2.Name = "keyPad2";
             keyPad2.Pressed = false;
             keyPad2.Size = new System.Drawing.Size(47, 46);
@@ -1514,7 +1514,7 @@
             keyPad3.Enabled = false;
             keyPad3.Legend = "3";
             keyPad3.Location = new System.Drawing.Point(1154, 310);
-            keyPad3.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyPad3.Margin = new System.Windows.Forms.Padding(5);
             keyPad3.Name = "keyPad3";
             keyPad3.Pressed = false;
             keyPad3.Size = new System.Drawing.Size(47, 46);
@@ -1526,7 +1526,7 @@
             keyPad4.Enabled = false;
             keyPad4.Legend = "4";
             keyPad4.Location = new System.Drawing.Point(1042, 255);
-            keyPad4.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyPad4.Margin = new System.Windows.Forms.Padding(5);
             keyPad4.Name = "keyPad4";
             keyPad4.Pressed = false;
             keyPad4.Size = new System.Drawing.Size(47, 46);
@@ -1538,7 +1538,7 @@
             keyPad5.Enabled = false;
             keyPad5.Legend = "5";
             keyPad5.Location = new System.Drawing.Point(1098, 255);
-            keyPad5.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyPad5.Margin = new System.Windows.Forms.Padding(5);
             keyPad5.Name = "keyPad5";
             keyPad5.Pressed = false;
             keyPad5.Size = new System.Drawing.Size(47, 46);
@@ -1550,7 +1550,7 @@
             keyPad6.Enabled = false;
             keyPad6.Legend = "6";
             keyPad6.Location = new System.Drawing.Point(1154, 255);
-            keyPad6.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyPad6.Margin = new System.Windows.Forms.Padding(5);
             keyPad6.Name = "keyPad6";
             keyPad6.Pressed = false;
             keyPad6.Size = new System.Drawing.Size(47, 46);
@@ -1562,7 +1562,7 @@
             keyPad7.Enabled = false;
             keyPad7.Legend = "7";
             keyPad7.Location = new System.Drawing.Point(1042, 200);
-            keyPad7.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyPad7.Margin = new System.Windows.Forms.Padding(5);
             keyPad7.Name = "keyPad7";
             keyPad7.Pressed = false;
             keyPad7.Size = new System.Drawing.Size(47, 46);
@@ -1574,7 +1574,7 @@
             keyPad8.Enabled = false;
             keyPad8.Legend = "8";
             keyPad8.Location = new System.Drawing.Point(1098, 200);
-            keyPad8.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyPad8.Margin = new System.Windows.Forms.Padding(5);
             keyPad8.Name = "keyPad8";
             keyPad8.Pressed = false;
             keyPad8.Size = new System.Drawing.Size(47, 46);
@@ -1586,7 +1586,7 @@
             keyPad9.Enabled = false;
             keyPad9.Legend = "9";
             keyPad9.Location = new System.Drawing.Point(1154, 200);
-            keyPad9.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyPad9.Margin = new System.Windows.Forms.Padding(5);
             keyPad9.Name = "keyPad9";
             keyPad9.Pressed = false;
             keyPad9.Size = new System.Drawing.Size(47, 46);
@@ -1598,7 +1598,7 @@
             keyMute.Enabled = false;
             keyMute.Legend = "Mut";
             keyMute.Location = new System.Drawing.Point(1042, 15);
-            keyMute.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyMute.Margin = new System.Windows.Forms.Padding(5);
             keyMute.Name = "keyMute";
             keyMute.Pressed = false;
             keyMute.Size = new System.Drawing.Size(47, 46);
@@ -1610,7 +1610,7 @@
             keyVolumeDown.Enabled = false;
             keyVolumeDown.Legend = "Vol-";
             keyVolumeDown.Location = new System.Drawing.Point(1098, 15);
-            keyVolumeDown.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyVolumeDown.Margin = new System.Windows.Forms.Padding(5);
             keyVolumeDown.Name = "keyVolumeDown";
             keyVolumeDown.Pressed = false;
             keyVolumeDown.Size = new System.Drawing.Size(47, 46);
@@ -1622,7 +1622,7 @@
             keyVolumeUp.Enabled = false;
             keyVolumeUp.Legend = "Vol+";
             keyVolumeUp.Location = new System.Drawing.Point(1154, 15);
-            keyVolumeUp.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyVolumeUp.Margin = new System.Windows.Forms.Padding(5);
             keyVolumeUp.Name = "keyVolumeUp";
             keyVolumeUp.Pressed = false;
             keyVolumeUp.Size = new System.Drawing.Size(47, 46);
@@ -1634,7 +1634,7 @@
             keyPlayPause.Enabled = false;
             keyPlayPause.Legend = "Play";
             keyPlayPause.Location = new System.Drawing.Point(1042, 70);
-            keyPlayPause.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyPlayPause.Margin = new System.Windows.Forms.Padding(5);
             keyPlayPause.Name = "keyPlayPause";
             keyPlayPause.Pressed = false;
             keyPlayPause.Size = new System.Drawing.Size(47, 46);
@@ -1646,7 +1646,7 @@
             keyMediaPrevious.Enabled = false;
             keyMediaPrevious.Legend = "Prev";
             keyMediaPrevious.Location = new System.Drawing.Point(1098, 70);
-            keyMediaPrevious.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyMediaPrevious.Margin = new System.Windows.Forms.Padding(5);
             keyMediaPrevious.Name = "keyMediaPrevious";
             keyMediaPrevious.Pressed = false;
             keyMediaPrevious.Size = new System.Drawing.Size(47, 46);
@@ -1658,7 +1658,7 @@
             keyMediaNext.Enabled = false;
             keyMediaNext.Legend = "Next";
             keyMediaNext.Location = new System.Drawing.Point(1154, 70);
-            keyMediaNext.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyMediaNext.Margin = new System.Windows.Forms.Padding(5);
             keyMediaNext.Name = "keyMediaNext";
             keyMediaNext.Pressed = false;
             keyMediaNext.Size = new System.Drawing.Size(47, 46);
@@ -1670,7 +1670,7 @@
             keyMail.Enabled = false;
             keyMail.Legend = "Mail";
             keyMail.Location = new System.Drawing.Point(1210, 15);
-            keyMail.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyMail.Margin = new System.Windows.Forms.Padding(5);
             keyMail.Name = "keyMail";
             keyMail.Pressed = false;
             keyMail.Size = new System.Drawing.Size(47, 46);
@@ -1682,7 +1682,7 @@
             keyCalculator.Enabled = false;
             keyCalculator.Legend = "Calc";
             keyCalculator.Location = new System.Drawing.Point(1210, 70);
-            keyCalculator.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            keyCalculator.Margin = new System.Windows.Forms.Padding(5);
             keyCalculator.Name = "keyCalculator";
             keyCalculator.Pressed = false;
             keyCalculator.Size = new System.Drawing.Size(47, 46);
