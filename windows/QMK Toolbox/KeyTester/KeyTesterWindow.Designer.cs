@@ -1831,6 +1831,7 @@
             Name = "KeyTesterWindow";
             ShowInTaskbar = false;
             Text = "Key Tester";
+            TopMost = true;
             Load += KeyTesterWindow_Load;
             ResumeLayout(false);
         }
