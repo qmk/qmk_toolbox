@@ -28,31 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblLegend = new System.Windows.Forms.Label();
-            this.SuspendLayout();
+            lblLegend = new System.Windows.Forms.Label();
+            SuspendLayout();
             // 
             // lblLegend
             // 
-            this.lblLegend.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.lblLegend.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblLegend.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblLegend.Location = new System.Drawing.Point(0, 0);
-            this.lblLegend.Margin = new System.Windows.Forms.Padding(0);
-            this.lblLegend.Name = "lblLegend";
-            this.lblLegend.Size = new System.Drawing.Size(40, 40);
-            this.lblLegend.TabIndex = 0;
-            this.lblLegend.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            lblLegend.BackColor = System.Drawing.SystemColors.ControlLight;
+            lblLegend.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            lblLegend.Dock = System.Windows.Forms.DockStyle.Fill;
+            lblLegend.Location = new System.Drawing.Point(0, 0);
+            lblLegend.Margin = new System.Windows.Forms.Padding(0);
+            lblLegend.Name = "lblLegend";
+            lblLegend.Size = new System.Drawing.Size(47, 46);
+            lblLegend.TabIndex = 0;
+            lblLegend.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // KeyControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.lblLegend);
-            this.Enabled = false;
-            this.Name = "KeyControl";
-            this.Size = new System.Drawing.Size(40, 40);
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            Controls.Add(lblLegend);
+            Enabled = false;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Name = "KeyControl";
+            Size = new System.Drawing.Size(47, 46);
+            ResumeLayout(false);
         }
 
         #endregion
