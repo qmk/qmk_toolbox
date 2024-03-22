@@ -29,1808 +29,1811 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KeyTesterWindow));
-            this.lblLastVirtualKey = new System.Windows.Forms.Label();
-            this.lblLastScanCode = new System.Windows.Forms.Label();
-            this.keyF1 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyF2 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyF3 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyF4 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyF5 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyF6 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyF7 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyF8 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyF9 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyF10 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyF11 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyF12 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyF13 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyF14 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyF15 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyF16 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyF17 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyF18 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyF19 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyF20 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyF21 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyF22 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyF23 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyF24 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.key1 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.key2 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.key3 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.key4 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.key5 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.key6 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.key7 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.key8 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.key9 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.key0 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyQ = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyW = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyE = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyR = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyT = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyY = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyU = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyI = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyO = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyP = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyA = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyS = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyD = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyF = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyG = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyH = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyJ = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyK = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyL = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyZ = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyX = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyC = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyV = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyB = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyN = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyM = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyEscape = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyGrave = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyMinus = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyEqual = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyBackspace = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyTab = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyLeftBrace = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyRightBrace = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyBackslash = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyCapsLock = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keySemicolon = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyQuote = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyNUHS = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyEnter = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyNUBS = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyComma = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyDot = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keySlash = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keySpace = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyMenu = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyLeftControl = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyLeftShift = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyLeftAlt = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyLeftGUI = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyRightControl = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyRightShift = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyRightAlt = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyRightGUI = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyPrintScreen = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyScrollLock = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyPauseBreak = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyInsert = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyHome = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyPageUp = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyDelete = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyEnd = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyPageDown = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyUp = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyLeft = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyDown = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyRight = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyNumLock = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyPadSlash = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyPadAsterisk = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyPadMinus = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyPadPlus = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyPadEnter = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyPadDot = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyPad0 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyPad1 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyPad2 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyPad3 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyPad4 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyPad5 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyPad6 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyPad7 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyPad8 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyPad9 = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyMute = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyVolumeDown = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyVolumeUp = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyPlayPause = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyMediaPrevious = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyMediaNext = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyMail = new QMK_Toolbox.KeyTester.KeyControl();
-            this.keyCalculator = new QMK_Toolbox.KeyTester.KeyControl();
-            this.SuspendLayout();
+            lblLastVirtualKey = new System.Windows.Forms.Label();
+            lblLastScanCode = new System.Windows.Forms.Label();
+            keyF1 = new KeyControl();
+            keyF2 = new KeyControl();
+            keyF3 = new KeyControl();
+            keyF4 = new KeyControl();
+            keyF5 = new KeyControl();
+            keyF6 = new KeyControl();
+            keyF7 = new KeyControl();
+            keyF8 = new KeyControl();
+            keyF9 = new KeyControl();
+            keyF10 = new KeyControl();
+            keyF11 = new KeyControl();
+            keyF12 = new KeyControl();
+            keyF13 = new KeyControl();
+            keyF14 = new KeyControl();
+            keyF15 = new KeyControl();
+            keyF16 = new KeyControl();
+            keyF17 = new KeyControl();
+            keyF18 = new KeyControl();
+            keyF19 = new KeyControl();
+            keyF20 = new KeyControl();
+            keyF21 = new KeyControl();
+            keyF22 = new KeyControl();
+            keyF23 = new KeyControl();
+            keyF24 = new KeyControl();
+            key1 = new KeyControl();
+            key2 = new KeyControl();
+            key3 = new KeyControl();
+            key4 = new KeyControl();
+            key5 = new KeyControl();
+            key6 = new KeyControl();
+            key7 = new KeyControl();
+            key8 = new KeyControl();
+            key9 = new KeyControl();
+            key0 = new KeyControl();
+            keyQ = new KeyControl();
+            keyW = new KeyControl();
+            keyE = new KeyControl();
+            keyR = new KeyControl();
+            keyT = new KeyControl();
+            keyY = new KeyControl();
+            keyU = new KeyControl();
+            keyI = new KeyControl();
+            keyO = new KeyControl();
+            keyP = new KeyControl();
+            keyA = new KeyControl();
+            keyS = new KeyControl();
+            keyD = new KeyControl();
+            keyF = new KeyControl();
+            keyG = new KeyControl();
+            keyH = new KeyControl();
+            keyJ = new KeyControl();
+            keyK = new KeyControl();
+            keyL = new KeyControl();
+            keyZ = new KeyControl();
+            keyX = new KeyControl();
+            keyC = new KeyControl();
+            keyV = new KeyControl();
+            keyB = new KeyControl();
+            keyN = new KeyControl();
+            keyM = new KeyControl();
+            keyEscape = new KeyControl();
+            keyGrave = new KeyControl();
+            keyMinus = new KeyControl();
+            keyEqual = new KeyControl();
+            keyBackspace = new KeyControl();
+            keyTab = new KeyControl();
+            keyLeftBrace = new KeyControl();
+            keyRightBrace = new KeyControl();
+            keyBackslash = new KeyControl();
+            keyCapsLock = new KeyControl();
+            keySemicolon = new KeyControl();
+            keyQuote = new KeyControl();
+            keyNUHS = new KeyControl();
+            keyEnter = new KeyControl();
+            keyNUBS = new KeyControl();
+            keyComma = new KeyControl();
+            keyDot = new KeyControl();
+            keySlash = new KeyControl();
+            keySpace = new KeyControl();
+            keyMenu = new KeyControl();
+            keyLeftControl = new KeyControl();
+            keyLeftShift = new KeyControl();
+            keyLeftAlt = new KeyControl();
+            keyLeftGUI = new KeyControl();
+            keyRightControl = new KeyControl();
+            keyRightShift = new KeyControl();
+            keyRightAlt = new KeyControl();
+            keyRightGUI = new KeyControl();
+            keyPrintScreen = new KeyControl();
+            keyScrollLock = new KeyControl();
+            keyPauseBreak = new KeyControl();
+            keyInsert = new KeyControl();
+            keyHome = new KeyControl();
+            keyPageUp = new KeyControl();
+            keyDelete = new KeyControl();
+            keyEnd = new KeyControl();
+            keyPageDown = new KeyControl();
+            keyUp = new KeyControl();
+            keyLeft = new KeyControl();
+            keyDown = new KeyControl();
+            keyRight = new KeyControl();
+            keyNumLock = new KeyControl();
+            keyPadSlash = new KeyControl();
+            keyPadAsterisk = new KeyControl();
+            keyPadMinus = new KeyControl();
+            keyPadPlus = new KeyControl();
+            keyPadEnter = new KeyControl();
+            keyPadDot = new KeyControl();
+            keyPad0 = new KeyControl();
+            keyPad1 = new KeyControl();
+            keyPad2 = new KeyControl();
+            keyPad3 = new KeyControl();
+            keyPad4 = new KeyControl();
+            keyPad5 = new KeyControl();
+            keyPad6 = new KeyControl();
+            keyPad7 = new KeyControl();
+            keyPad8 = new KeyControl();
+            keyPad9 = new KeyControl();
+            keyMute = new KeyControl();
+            keyVolumeDown = new KeyControl();
+            keyVolumeUp = new KeyControl();
+            keyPlayPause = new KeyControl();
+            keyMediaPrevious = new KeyControl();
+            keyMediaNext = new KeyControl();
+            keyMail = new KeyControl();
+            keyCalculator = new KeyControl();
+            SuspendLayout();
             // 
             // lblLastVirtualKey
             // 
-            this.lblLastVirtualKey.Location = new System.Drawing.Point(738, 221);
-            this.lblLastVirtualKey.Name = "lblLastVirtualKey";
-            this.lblLastVirtualKey.Size = new System.Drawing.Size(139, 13);
-            this.lblLastVirtualKey.TabIndex = 0;
-            this.lblLastVirtualKey.Text = "Last VK: -";
+            lblLastVirtualKey.Location = new System.Drawing.Point(861, 255);
+            lblLastVirtualKey.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblLastVirtualKey.Name = "lblLastVirtualKey";
+            lblLastVirtualKey.Size = new System.Drawing.Size(162, 15);
+            lblLastVirtualKey.TabIndex = 0;
+            lblLastVirtualKey.Text = "Last VK: -";
             // 
             // lblLastScanCode
             // 
-            this.lblLastScanCode.Location = new System.Drawing.Point(738, 248);
-            this.lblLastScanCode.Name = "lblLastScanCode";
-            this.lblLastScanCode.Size = new System.Drawing.Size(139, 13);
-            this.lblLastScanCode.TabIndex = 1;
-            this.lblLastScanCode.Text = "Last SC: -";
+            lblLastScanCode.Location = new System.Drawing.Point(861, 286);
+            lblLastScanCode.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblLastScanCode.Name = "lblLastScanCode";
+            lblLastScanCode.Size = new System.Drawing.Size(162, 15);
+            lblLastScanCode.TabIndex = 1;
+            lblLastScanCode.Text = "Last SC: -";
             // 
             // keyF1
             // 
-            this.keyF1.Enabled = false;
-            this.keyF1.Legend = "F1";
-            this.keyF1.Location = new System.Drawing.Point(109, 61);
-            this.keyF1.Margin = new System.Windows.Forms.Padding(4);
-            this.keyF1.Name = "keyF1";
-            this.keyF1.Pressed = false;
-            this.keyF1.Size = new System.Drawing.Size(40, 40);
-            this.keyF1.TabIndex = 2;
-            this.keyF1.Tested = false;
+            keyF1.Enabled = false;
+            keyF1.Legend = "F1";
+            keyF1.Location = new System.Drawing.Point(127, 70);
+            keyF1.Margin = new System.Windows.Forms.Padding(5);
+            keyF1.Name = "keyF1";
+            keyF1.Pressed = false;
+            keyF1.Size = new System.Drawing.Size(47, 46);
+            keyF1.TabIndex = 2;
+            keyF1.Tested = false;
             // 
             // keyF2
             // 
-            this.keyF2.Enabled = false;
-            this.keyF2.Legend = "F2";
-            this.keyF2.Location = new System.Drawing.Point(157, 61);
-            this.keyF2.Margin = new System.Windows.Forms.Padding(4);
-            this.keyF2.Name = "keyF2";
-            this.keyF2.Pressed = false;
-            this.keyF2.Size = new System.Drawing.Size(40, 40);
-            this.keyF2.TabIndex = 3;
-            this.keyF2.Tested = false;
+            keyF2.Enabled = false;
+            keyF2.Legend = "F2";
+            keyF2.Location = new System.Drawing.Point(183, 70);
+            keyF2.Margin = new System.Windows.Forms.Padding(5);
+            keyF2.Name = "keyF2";
+            keyF2.Pressed = false;
+            keyF2.Size = new System.Drawing.Size(47, 46);
+            keyF2.TabIndex = 3;
+            keyF2.Tested = false;
             // 
             // keyF3
             // 
-            this.keyF3.Enabled = false;
-            this.keyF3.Legend = "F3";
-            this.keyF3.Location = new System.Drawing.Point(205, 61);
-            this.keyF3.Margin = new System.Windows.Forms.Padding(4);
-            this.keyF3.Name = "keyF3";
-            this.keyF3.Pressed = false;
-            this.keyF3.Size = new System.Drawing.Size(40, 40);
-            this.keyF3.TabIndex = 4;
-            this.keyF3.Tested = false;
+            keyF3.Enabled = false;
+            keyF3.Legend = "F3";
+            keyF3.Location = new System.Drawing.Point(239, 70);
+            keyF3.Margin = new System.Windows.Forms.Padding(5);
+            keyF3.Name = "keyF3";
+            keyF3.Pressed = false;
+            keyF3.Size = new System.Drawing.Size(47, 46);
+            keyF3.TabIndex = 4;
+            keyF3.Tested = false;
             // 
             // keyF4
             // 
-            this.keyF4.Enabled = false;
-            this.keyF4.Legend = "F4";
-            this.keyF4.Location = new System.Drawing.Point(253, 61);
-            this.keyF4.Margin = new System.Windows.Forms.Padding(4);
-            this.keyF4.Name = "keyF4";
-            this.keyF4.Pressed = false;
-            this.keyF4.Size = new System.Drawing.Size(40, 40);
-            this.keyF4.TabIndex = 5;
-            this.keyF4.Tested = false;
+            keyF4.Enabled = false;
+            keyF4.Legend = "F4";
+            keyF4.Location = new System.Drawing.Point(295, 70);
+            keyF4.Margin = new System.Windows.Forms.Padding(5);
+            keyF4.Name = "keyF4";
+            keyF4.Pressed = false;
+            keyF4.Size = new System.Drawing.Size(47, 46);
+            keyF4.TabIndex = 5;
+            keyF4.Tested = false;
             // 
             // keyF5
             // 
-            this.keyF5.Enabled = false;
-            this.keyF5.Legend = "F5";
-            this.keyF5.Location = new System.Drawing.Point(325, 61);
-            this.keyF5.Margin = new System.Windows.Forms.Padding(4);
-            this.keyF5.Name = "keyF5";
-            this.keyF5.Pressed = false;
-            this.keyF5.Size = new System.Drawing.Size(40, 40);
-            this.keyF5.TabIndex = 6;
-            this.keyF5.Tested = false;
+            keyF5.Enabled = false;
+            keyF5.Legend = "F5";
+            keyF5.Location = new System.Drawing.Point(379, 70);
+            keyF5.Margin = new System.Windows.Forms.Padding(5);
+            keyF5.Name = "keyF5";
+            keyF5.Pressed = false;
+            keyF5.Size = new System.Drawing.Size(47, 46);
+            keyF5.TabIndex = 6;
+            keyF5.Tested = false;
             // 
             // keyF6
             // 
-            this.keyF6.Enabled = false;
-            this.keyF6.Legend = "F6";
-            this.keyF6.Location = new System.Drawing.Point(373, 61);
-            this.keyF6.Margin = new System.Windows.Forms.Padding(4);
-            this.keyF6.Name = "keyF6";
-            this.keyF6.Pressed = false;
-            this.keyF6.Size = new System.Drawing.Size(40, 40);
-            this.keyF6.TabIndex = 7;
-            this.keyF6.Tested = false;
+            keyF6.Enabled = false;
+            keyF6.Legend = "F6";
+            keyF6.Location = new System.Drawing.Point(435, 70);
+            keyF6.Margin = new System.Windows.Forms.Padding(5);
+            keyF6.Name = "keyF6";
+            keyF6.Pressed = false;
+            keyF6.Size = new System.Drawing.Size(47, 46);
+            keyF6.TabIndex = 7;
+            keyF6.Tested = false;
             // 
             // keyF7
             // 
-            this.keyF7.Enabled = false;
-            this.keyF7.Legend = "F7";
-            this.keyF7.Location = new System.Drawing.Point(421, 61);
-            this.keyF7.Margin = new System.Windows.Forms.Padding(4);
-            this.keyF7.Name = "keyF7";
-            this.keyF7.Pressed = false;
-            this.keyF7.Size = new System.Drawing.Size(40, 40);
-            this.keyF7.TabIndex = 8;
-            this.keyF7.Tested = false;
+            keyF7.Enabled = false;
+            keyF7.Legend = "F7";
+            keyF7.Location = new System.Drawing.Point(491, 70);
+            keyF7.Margin = new System.Windows.Forms.Padding(5);
+            keyF7.Name = "keyF7";
+            keyF7.Pressed = false;
+            keyF7.Size = new System.Drawing.Size(47, 46);
+            keyF7.TabIndex = 8;
+            keyF7.Tested = false;
             // 
             // keyF8
             // 
-            this.keyF8.Enabled = false;
-            this.keyF8.Legend = "F8";
-            this.keyF8.Location = new System.Drawing.Point(469, 61);
-            this.keyF8.Margin = new System.Windows.Forms.Padding(4);
-            this.keyF8.Name = "keyF8";
-            this.keyF8.Pressed = false;
-            this.keyF8.Size = new System.Drawing.Size(40, 40);
-            this.keyF8.TabIndex = 9;
-            this.keyF8.Tested = false;
+            keyF8.Enabled = false;
+            keyF8.Legend = "F8";
+            keyF8.Location = new System.Drawing.Point(547, 70);
+            keyF8.Margin = new System.Windows.Forms.Padding(5);
+            keyF8.Name = "keyF8";
+            keyF8.Pressed = false;
+            keyF8.Size = new System.Drawing.Size(47, 46);
+            keyF8.TabIndex = 9;
+            keyF8.Tested = false;
             // 
             // keyF9
             // 
-            this.keyF9.Enabled = false;
-            this.keyF9.Legend = "F9";
-            this.keyF9.Location = new System.Drawing.Point(541, 61);
-            this.keyF9.Margin = new System.Windows.Forms.Padding(4);
-            this.keyF9.Name = "keyF9";
-            this.keyF9.Pressed = false;
-            this.keyF9.Size = new System.Drawing.Size(40, 40);
-            this.keyF9.TabIndex = 10;
-            this.keyF9.Tested = false;
+            keyF9.Enabled = false;
+            keyF9.Legend = "F9";
+            keyF9.Location = new System.Drawing.Point(631, 70);
+            keyF9.Margin = new System.Windows.Forms.Padding(5);
+            keyF9.Name = "keyF9";
+            keyF9.Pressed = false;
+            keyF9.Size = new System.Drawing.Size(47, 46);
+            keyF9.TabIndex = 10;
+            keyF9.Tested = false;
             // 
             // keyF10
             // 
-            this.keyF10.Enabled = false;
-            this.keyF10.Legend = "F10";
-            this.keyF10.Location = new System.Drawing.Point(589, 61);
-            this.keyF10.Margin = new System.Windows.Forms.Padding(4);
-            this.keyF10.Name = "keyF10";
-            this.keyF10.Pressed = false;
-            this.keyF10.Size = new System.Drawing.Size(40, 40);
-            this.keyF10.TabIndex = 11;
-            this.keyF10.Tested = false;
+            keyF10.Enabled = false;
+            keyF10.Legend = "F10";
+            keyF10.Location = new System.Drawing.Point(687, 70);
+            keyF10.Margin = new System.Windows.Forms.Padding(5);
+            keyF10.Name = "keyF10";
+            keyF10.Pressed = false;
+            keyF10.Size = new System.Drawing.Size(47, 46);
+            keyF10.TabIndex = 11;
+            keyF10.Tested = false;
             // 
             // keyF11
             // 
-            this.keyF11.Enabled = false;
-            this.keyF11.Legend = "F11";
-            this.keyF11.Location = new System.Drawing.Point(637, 61);
-            this.keyF11.Margin = new System.Windows.Forms.Padding(4);
-            this.keyF11.Name = "keyF11";
-            this.keyF11.Pressed = false;
-            this.keyF11.Size = new System.Drawing.Size(40, 40);
-            this.keyF11.TabIndex = 12;
-            this.keyF11.Tested = false;
+            keyF11.Enabled = false;
+            keyF11.Legend = "F11";
+            keyF11.Location = new System.Drawing.Point(743, 70);
+            keyF11.Margin = new System.Windows.Forms.Padding(5);
+            keyF11.Name = "keyF11";
+            keyF11.Pressed = false;
+            keyF11.Size = new System.Drawing.Size(47, 46);
+            keyF11.TabIndex = 12;
+            keyF11.Tested = false;
             // 
             // keyF12
             // 
-            this.keyF12.Enabled = false;
-            this.keyF12.Legend = "F12";
-            this.keyF12.Location = new System.Drawing.Point(685, 61);
-            this.keyF12.Margin = new System.Windows.Forms.Padding(4);
-            this.keyF12.Name = "keyF12";
-            this.keyF12.Pressed = false;
-            this.keyF12.Size = new System.Drawing.Size(40, 40);
-            this.keyF12.TabIndex = 13;
-            this.keyF12.Tested = false;
+            keyF12.Enabled = false;
+            keyF12.Legend = "F12";
+            keyF12.Location = new System.Drawing.Point(799, 70);
+            keyF12.Margin = new System.Windows.Forms.Padding(5);
+            keyF12.Name = "keyF12";
+            keyF12.Pressed = false;
+            keyF12.Size = new System.Drawing.Size(47, 46);
+            keyF12.TabIndex = 13;
+            keyF12.Tested = false;
             // 
             // keyF13
             // 
-            this.keyF13.Enabled = false;
-            this.keyF13.Legend = "F13";
-            this.keyF13.Location = new System.Drawing.Point(109, 13);
-            this.keyF13.Margin = new System.Windows.Forms.Padding(4);
-            this.keyF13.Name = "keyF13";
-            this.keyF13.Pressed = false;
-            this.keyF13.Size = new System.Drawing.Size(40, 40);
-            this.keyF13.TabIndex = 14;
-            this.keyF13.Tested = false;
+            keyF13.Enabled = false;
+            keyF13.Legend = "F13";
+            keyF13.Location = new System.Drawing.Point(127, 15);
+            keyF13.Margin = new System.Windows.Forms.Padding(5);
+            keyF13.Name = "keyF13";
+            keyF13.Pressed = false;
+            keyF13.Size = new System.Drawing.Size(47, 46);
+            keyF13.TabIndex = 14;
+            keyF13.Tested = false;
             // 
             // keyF14
             // 
-            this.keyF14.Enabled = false;
-            this.keyF14.Legend = "F14";
-            this.keyF14.Location = new System.Drawing.Point(157, 13);
-            this.keyF14.Margin = new System.Windows.Forms.Padding(4);
-            this.keyF14.Name = "keyF14";
-            this.keyF14.Pressed = false;
-            this.keyF14.Size = new System.Drawing.Size(40, 40);
-            this.keyF14.TabIndex = 15;
-            this.keyF14.Tested = false;
+            keyF14.Enabled = false;
+            keyF14.Legend = "F14";
+            keyF14.Location = new System.Drawing.Point(183, 15);
+            keyF14.Margin = new System.Windows.Forms.Padding(5);
+            keyF14.Name = "keyF14";
+            keyF14.Pressed = false;
+            keyF14.Size = new System.Drawing.Size(47, 46);
+            keyF14.TabIndex = 15;
+            keyF14.Tested = false;
             // 
             // keyF15
             // 
-            this.keyF15.Enabled = false;
-            this.keyF15.Legend = "F15";
-            this.keyF15.Location = new System.Drawing.Point(205, 13);
-            this.keyF15.Margin = new System.Windows.Forms.Padding(4);
-            this.keyF15.Name = "keyF15";
-            this.keyF15.Pressed = false;
-            this.keyF15.Size = new System.Drawing.Size(40, 40);
-            this.keyF15.TabIndex = 16;
-            this.keyF15.Tested = false;
+            keyF15.Enabled = false;
+            keyF15.Legend = "F15";
+            keyF15.Location = new System.Drawing.Point(239, 15);
+            keyF15.Margin = new System.Windows.Forms.Padding(5);
+            keyF15.Name = "keyF15";
+            keyF15.Pressed = false;
+            keyF15.Size = new System.Drawing.Size(47, 46);
+            keyF15.TabIndex = 16;
+            keyF15.Tested = false;
             // 
             // keyF16
             // 
-            this.keyF16.Enabled = false;
-            this.keyF16.Legend = "F16";
-            this.keyF16.Location = new System.Drawing.Point(253, 13);
-            this.keyF16.Margin = new System.Windows.Forms.Padding(4);
-            this.keyF16.Name = "keyF16";
-            this.keyF16.Pressed = false;
-            this.keyF16.Size = new System.Drawing.Size(40, 40);
-            this.keyF16.TabIndex = 17;
-            this.keyF16.Tested = false;
+            keyF16.Enabled = false;
+            keyF16.Legend = "F16";
+            keyF16.Location = new System.Drawing.Point(295, 15);
+            keyF16.Margin = new System.Windows.Forms.Padding(5);
+            keyF16.Name = "keyF16";
+            keyF16.Pressed = false;
+            keyF16.Size = new System.Drawing.Size(47, 46);
+            keyF16.TabIndex = 17;
+            keyF16.Tested = false;
             // 
             // keyF17
             // 
-            this.keyF17.Enabled = false;
-            this.keyF17.Legend = "F17";
-            this.keyF17.Location = new System.Drawing.Point(325, 13);
-            this.keyF17.Margin = new System.Windows.Forms.Padding(4);
-            this.keyF17.Name = "keyF17";
-            this.keyF17.Pressed = false;
-            this.keyF17.Size = new System.Drawing.Size(40, 40);
-            this.keyF17.TabIndex = 18;
-            this.keyF17.Tested = false;
+            keyF17.Enabled = false;
+            keyF17.Legend = "F17";
+            keyF17.Location = new System.Drawing.Point(379, 15);
+            keyF17.Margin = new System.Windows.Forms.Padding(5);
+            keyF17.Name = "keyF17";
+            keyF17.Pressed = false;
+            keyF17.Size = new System.Drawing.Size(47, 46);
+            keyF17.TabIndex = 18;
+            keyF17.Tested = false;
             // 
             // keyF18
             // 
-            this.keyF18.Enabled = false;
-            this.keyF18.Legend = "F18";
-            this.keyF18.Location = new System.Drawing.Point(373, 13);
-            this.keyF18.Margin = new System.Windows.Forms.Padding(4);
-            this.keyF18.Name = "keyF18";
-            this.keyF18.Pressed = false;
-            this.keyF18.Size = new System.Drawing.Size(40, 40);
-            this.keyF18.TabIndex = 19;
-            this.keyF18.Tested = false;
+            keyF18.Enabled = false;
+            keyF18.Legend = "F18";
+            keyF18.Location = new System.Drawing.Point(435, 15);
+            keyF18.Margin = new System.Windows.Forms.Padding(5);
+            keyF18.Name = "keyF18";
+            keyF18.Pressed = false;
+            keyF18.Size = new System.Drawing.Size(47, 46);
+            keyF18.TabIndex = 19;
+            keyF18.Tested = false;
             // 
             // keyF19
             // 
-            this.keyF19.Enabled = false;
-            this.keyF19.Legend = "F19";
-            this.keyF19.Location = new System.Drawing.Point(421, 13);
-            this.keyF19.Margin = new System.Windows.Forms.Padding(4);
-            this.keyF19.Name = "keyF19";
-            this.keyF19.Pressed = false;
-            this.keyF19.Size = new System.Drawing.Size(40, 40);
-            this.keyF19.TabIndex = 20;
-            this.keyF19.Tested = false;
+            keyF19.Enabled = false;
+            keyF19.Legend = "F19";
+            keyF19.Location = new System.Drawing.Point(491, 15);
+            keyF19.Margin = new System.Windows.Forms.Padding(5);
+            keyF19.Name = "keyF19";
+            keyF19.Pressed = false;
+            keyF19.Size = new System.Drawing.Size(47, 46);
+            keyF19.TabIndex = 20;
+            keyF19.Tested = false;
             // 
             // keyF20
             // 
-            this.keyF20.Enabled = false;
-            this.keyF20.Legend = "F20";
-            this.keyF20.Location = new System.Drawing.Point(469, 13);
-            this.keyF20.Margin = new System.Windows.Forms.Padding(4);
-            this.keyF20.Name = "keyF20";
-            this.keyF20.Pressed = false;
-            this.keyF20.Size = new System.Drawing.Size(40, 40);
-            this.keyF20.TabIndex = 21;
-            this.keyF20.Tested = false;
+            keyF20.Enabled = false;
+            keyF20.Legend = "F20";
+            keyF20.Location = new System.Drawing.Point(547, 15);
+            keyF20.Margin = new System.Windows.Forms.Padding(5);
+            keyF20.Name = "keyF20";
+            keyF20.Pressed = false;
+            keyF20.Size = new System.Drawing.Size(47, 46);
+            keyF20.TabIndex = 21;
+            keyF20.Tested = false;
             // 
             // keyF21
             // 
-            this.keyF21.Enabled = false;
-            this.keyF21.Legend = "F21";
-            this.keyF21.Location = new System.Drawing.Point(541, 13);
-            this.keyF21.Margin = new System.Windows.Forms.Padding(4);
-            this.keyF21.Name = "keyF21";
-            this.keyF21.Pressed = false;
-            this.keyF21.Size = new System.Drawing.Size(40, 40);
-            this.keyF21.TabIndex = 22;
-            this.keyF21.Tested = false;
+            keyF21.Enabled = false;
+            keyF21.Legend = "F21";
+            keyF21.Location = new System.Drawing.Point(631, 15);
+            keyF21.Margin = new System.Windows.Forms.Padding(5);
+            keyF21.Name = "keyF21";
+            keyF21.Pressed = false;
+            keyF21.Size = new System.Drawing.Size(47, 46);
+            keyF21.TabIndex = 22;
+            keyF21.Tested = false;
             // 
             // keyF22
             // 
-            this.keyF22.Enabled = false;
-            this.keyF22.Legend = "F22";
-            this.keyF22.Location = new System.Drawing.Point(589, 13);
-            this.keyF22.Margin = new System.Windows.Forms.Padding(4);
-            this.keyF22.Name = "keyF22";
-            this.keyF22.Pressed = false;
-            this.keyF22.Size = new System.Drawing.Size(40, 40);
-            this.keyF22.TabIndex = 23;
-            this.keyF22.Tested = false;
+            keyF22.Enabled = false;
+            keyF22.Legend = "F22";
+            keyF22.Location = new System.Drawing.Point(687, 15);
+            keyF22.Margin = new System.Windows.Forms.Padding(5);
+            keyF22.Name = "keyF22";
+            keyF22.Pressed = false;
+            keyF22.Size = new System.Drawing.Size(47, 46);
+            keyF22.TabIndex = 23;
+            keyF22.Tested = false;
             // 
             // keyF23
             // 
-            this.keyF23.Enabled = false;
-            this.keyF23.Legend = "F23";
-            this.keyF23.Location = new System.Drawing.Point(637, 13);
-            this.keyF23.Margin = new System.Windows.Forms.Padding(4);
-            this.keyF23.Name = "keyF23";
-            this.keyF23.Pressed = false;
-            this.keyF23.Size = new System.Drawing.Size(40, 40);
-            this.keyF23.TabIndex = 24;
-            this.keyF23.Tested = false;
+            keyF23.Enabled = false;
+            keyF23.Legend = "F23";
+            keyF23.Location = new System.Drawing.Point(743, 15);
+            keyF23.Margin = new System.Windows.Forms.Padding(5);
+            keyF23.Name = "keyF23";
+            keyF23.Pressed = false;
+            keyF23.Size = new System.Drawing.Size(47, 46);
+            keyF23.TabIndex = 24;
+            keyF23.Tested = false;
             // 
             // keyF24
             // 
-            this.keyF24.Enabled = false;
-            this.keyF24.Legend = "F24";
-            this.keyF24.Location = new System.Drawing.Point(685, 13);
-            this.keyF24.Margin = new System.Windows.Forms.Padding(4);
-            this.keyF24.Name = "keyF24";
-            this.keyF24.Pressed = false;
-            this.keyF24.Size = new System.Drawing.Size(40, 40);
-            this.keyF24.TabIndex = 25;
-            this.keyF24.Tested = false;
+            keyF24.Enabled = false;
+            keyF24.Legend = "F24";
+            keyF24.Location = new System.Drawing.Point(799, 15);
+            keyF24.Margin = new System.Windows.Forms.Padding(5);
+            keyF24.Name = "keyF24";
+            keyF24.Pressed = false;
+            keyF24.Size = new System.Drawing.Size(47, 46);
+            keyF24.TabIndex = 25;
+            keyF24.Tested = false;
             // 
             // key1
             // 
-            this.key1.Enabled = false;
-            this.key1.Legend = "!\r\n1";
-            this.key1.Location = new System.Drawing.Point(61, 125);
-            this.key1.Margin = new System.Windows.Forms.Padding(4);
-            this.key1.Name = "key1";
-            this.key1.Pressed = false;
-            this.key1.Size = new System.Drawing.Size(40, 40);
-            this.key1.TabIndex = 26;
-            this.key1.Tested = false;
+            key1.Enabled = false;
+            key1.Legend = "!\r\n1";
+            key1.Location = new System.Drawing.Point(71, 144);
+            key1.Margin = new System.Windows.Forms.Padding(5);
+            key1.Name = "key1";
+            key1.Pressed = false;
+            key1.Size = new System.Drawing.Size(47, 46);
+            key1.TabIndex = 26;
+            key1.Tested = false;
             // 
             // key2
             // 
-            this.key2.Enabled = false;
-            this.key2.Legend = "@\r\n2";
-            this.key2.Location = new System.Drawing.Point(109, 125);
-            this.key2.Margin = new System.Windows.Forms.Padding(4);
-            this.key2.Name = "key2";
-            this.key2.Pressed = false;
-            this.key2.Size = new System.Drawing.Size(40, 40);
-            this.key2.TabIndex = 27;
-            this.key2.Tested = false;
+            key2.Enabled = false;
+            key2.Legend = "@\r\n2";
+            key2.Location = new System.Drawing.Point(127, 144);
+            key2.Margin = new System.Windows.Forms.Padding(5);
+            key2.Name = "key2";
+            key2.Pressed = false;
+            key2.Size = new System.Drawing.Size(47, 46);
+            key2.TabIndex = 27;
+            key2.Tested = false;
             // 
             // key3
             // 
-            this.key3.Enabled = false;
-            this.key3.Legend = "#\r\n3";
-            this.key3.Location = new System.Drawing.Point(157, 125);
-            this.key3.Margin = new System.Windows.Forms.Padding(4);
-            this.key3.Name = "key3";
-            this.key3.Pressed = false;
-            this.key3.Size = new System.Drawing.Size(40, 40);
-            this.key3.TabIndex = 28;
-            this.key3.Tested = false;
+            key3.Enabled = false;
+            key3.Legend = "#\r\n3";
+            key3.Location = new System.Drawing.Point(183, 144);
+            key3.Margin = new System.Windows.Forms.Padding(5);
+            key3.Name = "key3";
+            key3.Pressed = false;
+            key3.Size = new System.Drawing.Size(47, 46);
+            key3.TabIndex = 28;
+            key3.Tested = false;
             // 
             // key4
             // 
-            this.key4.Enabled = false;
-            this.key4.Legend = "$\r\n4";
-            this.key4.Location = new System.Drawing.Point(205, 125);
-            this.key4.Margin = new System.Windows.Forms.Padding(4);
-            this.key4.Name = "key4";
-            this.key4.Pressed = false;
-            this.key4.Size = new System.Drawing.Size(40, 40);
-            this.key4.TabIndex = 29;
-            this.key4.Tested = false;
+            key4.Enabled = false;
+            key4.Legend = "$\r\n4";
+            key4.Location = new System.Drawing.Point(239, 144);
+            key4.Margin = new System.Windows.Forms.Padding(5);
+            key4.Name = "key4";
+            key4.Pressed = false;
+            key4.Size = new System.Drawing.Size(47, 46);
+            key4.TabIndex = 29;
+            key4.Tested = false;
             // 
             // key5
             // 
-            this.key5.Enabled = false;
-            this.key5.Legend = "%\r\n5";
-            this.key5.Location = new System.Drawing.Point(253, 125);
-            this.key5.Margin = new System.Windows.Forms.Padding(4);
-            this.key5.Name = "key5";
-            this.key5.Pressed = false;
-            this.key5.Size = new System.Drawing.Size(40, 40);
-            this.key5.TabIndex = 30;
-            this.key5.Tested = false;
+            key5.Enabled = false;
+            key5.Legend = "%\r\n5";
+            key5.Location = new System.Drawing.Point(295, 144);
+            key5.Margin = new System.Windows.Forms.Padding(5);
+            key5.Name = "key5";
+            key5.Pressed = false;
+            key5.Size = new System.Drawing.Size(47, 46);
+            key5.TabIndex = 30;
+            key5.Tested = false;
             // 
             // key6
             // 
-            this.key6.Enabled = false;
-            this.key6.Legend = "^\r\n6";
-            this.key6.Location = new System.Drawing.Point(301, 125);
-            this.key6.Margin = new System.Windows.Forms.Padding(4);
-            this.key6.Name = "key6";
-            this.key6.Pressed = false;
-            this.key6.Size = new System.Drawing.Size(40, 40);
-            this.key6.TabIndex = 31;
-            this.key6.Tested = false;
+            key6.Enabled = false;
+            key6.Legend = "^\r\n6";
+            key6.Location = new System.Drawing.Point(351, 144);
+            key6.Margin = new System.Windows.Forms.Padding(5);
+            key6.Name = "key6";
+            key6.Pressed = false;
+            key6.Size = new System.Drawing.Size(47, 46);
+            key6.TabIndex = 31;
+            key6.Tested = false;
             // 
             // key7
             // 
-            this.key7.Enabled = false;
-            this.key7.Legend = "&&\r\n7";
-            this.key7.Location = new System.Drawing.Point(349, 125);
-            this.key7.Margin = new System.Windows.Forms.Padding(4);
-            this.key7.Name = "key7";
-            this.key7.Pressed = false;
-            this.key7.Size = new System.Drawing.Size(40, 40);
-            this.key7.TabIndex = 32;
-            this.key7.Tested = false;
+            key7.Enabled = false;
+            key7.Legend = "&&\r\n7";
+            key7.Location = new System.Drawing.Point(407, 144);
+            key7.Margin = new System.Windows.Forms.Padding(5);
+            key7.Name = "key7";
+            key7.Pressed = false;
+            key7.Size = new System.Drawing.Size(47, 46);
+            key7.TabIndex = 32;
+            key7.Tested = false;
             // 
             // key8
             // 
-            this.key8.Enabled = false;
-            this.key8.Legend = "*\r\n8";
-            this.key8.Location = new System.Drawing.Point(397, 125);
-            this.key8.Margin = new System.Windows.Forms.Padding(4);
-            this.key8.Name = "key8";
-            this.key8.Pressed = false;
-            this.key8.Size = new System.Drawing.Size(40, 40);
-            this.key8.TabIndex = 33;
-            this.key8.Tested = false;
+            key8.Enabled = false;
+            key8.Legend = "*\r\n8";
+            key8.Location = new System.Drawing.Point(463, 144);
+            key8.Margin = new System.Windows.Forms.Padding(5);
+            key8.Name = "key8";
+            key8.Pressed = false;
+            key8.Size = new System.Drawing.Size(47, 46);
+            key8.TabIndex = 33;
+            key8.Tested = false;
             // 
             // key9
             // 
-            this.key9.Enabled = false;
-            this.key9.Legend = "(\r\n9";
-            this.key9.Location = new System.Drawing.Point(445, 125);
-            this.key9.Margin = new System.Windows.Forms.Padding(4);
-            this.key9.Name = "key9";
-            this.key9.Pressed = false;
-            this.key9.Size = new System.Drawing.Size(40, 40);
-            this.key9.TabIndex = 34;
-            this.key9.Tested = false;
+            key9.Enabled = false;
+            key9.Legend = "(\r\n9";
+            key9.Location = new System.Drawing.Point(519, 144);
+            key9.Margin = new System.Windows.Forms.Padding(5);
+            key9.Name = "key9";
+            key9.Pressed = false;
+            key9.Size = new System.Drawing.Size(47, 46);
+            key9.TabIndex = 34;
+            key9.Tested = false;
             // 
             // key0
             // 
-            this.key0.Enabled = false;
-            this.key0.Legend = ")\r\n0";
-            this.key0.Location = new System.Drawing.Point(493, 125);
-            this.key0.Margin = new System.Windows.Forms.Padding(4);
-            this.key0.Name = "key0";
-            this.key0.Pressed = false;
-            this.key0.Size = new System.Drawing.Size(40, 40);
-            this.key0.TabIndex = 35;
-            this.key0.Tested = false;
+            key0.Enabled = false;
+            key0.Legend = ")\r\n0";
+            key0.Location = new System.Drawing.Point(575, 144);
+            key0.Margin = new System.Windows.Forms.Padding(5);
+            key0.Name = "key0";
+            key0.Pressed = false;
+            key0.Size = new System.Drawing.Size(47, 46);
+            key0.TabIndex = 35;
+            key0.Tested = false;
             // 
             // keyQ
             // 
-            this.keyQ.Enabled = false;
-            this.keyQ.Legend = "Q";
-            this.keyQ.Location = new System.Drawing.Point(85, 173);
-            this.keyQ.Margin = new System.Windows.Forms.Padding(4);
-            this.keyQ.Name = "keyQ";
-            this.keyQ.Pressed = false;
-            this.keyQ.Size = new System.Drawing.Size(40, 40);
-            this.keyQ.TabIndex = 36;
-            this.keyQ.Tested = false;
+            keyQ.Enabled = false;
+            keyQ.Legend = "Q";
+            keyQ.Location = new System.Drawing.Point(99, 200);
+            keyQ.Margin = new System.Windows.Forms.Padding(5);
+            keyQ.Name = "keyQ";
+            keyQ.Pressed = false;
+            keyQ.Size = new System.Drawing.Size(47, 46);
+            keyQ.TabIndex = 36;
+            keyQ.Tested = false;
             // 
             // keyW
             // 
-            this.keyW.Enabled = false;
-            this.keyW.Legend = "W";
-            this.keyW.Location = new System.Drawing.Point(133, 173);
-            this.keyW.Margin = new System.Windows.Forms.Padding(4);
-            this.keyW.Name = "keyW";
-            this.keyW.Pressed = false;
-            this.keyW.Size = new System.Drawing.Size(40, 40);
-            this.keyW.TabIndex = 37;
-            this.keyW.Tested = false;
+            keyW.Enabled = false;
+            keyW.Legend = "W";
+            keyW.Location = new System.Drawing.Point(155, 200);
+            keyW.Margin = new System.Windows.Forms.Padding(5);
+            keyW.Name = "keyW";
+            keyW.Pressed = false;
+            keyW.Size = new System.Drawing.Size(47, 46);
+            keyW.TabIndex = 37;
+            keyW.Tested = false;
             // 
             // keyE
             // 
-            this.keyE.Enabled = false;
-            this.keyE.Legend = "E";
-            this.keyE.Location = new System.Drawing.Point(181, 173);
-            this.keyE.Margin = new System.Windows.Forms.Padding(4);
-            this.keyE.Name = "keyE";
-            this.keyE.Pressed = false;
-            this.keyE.Size = new System.Drawing.Size(40, 40);
-            this.keyE.TabIndex = 38;
-            this.keyE.Tested = false;
+            keyE.Enabled = false;
+            keyE.Legend = "E";
+            keyE.Location = new System.Drawing.Point(211, 200);
+            keyE.Margin = new System.Windows.Forms.Padding(5);
+            keyE.Name = "keyE";
+            keyE.Pressed = false;
+            keyE.Size = new System.Drawing.Size(47, 46);
+            keyE.TabIndex = 38;
+            keyE.Tested = false;
             // 
             // keyR
             // 
-            this.keyR.Enabled = false;
-            this.keyR.Legend = "R";
-            this.keyR.Location = new System.Drawing.Point(229, 173);
-            this.keyR.Margin = new System.Windows.Forms.Padding(4);
-            this.keyR.Name = "keyR";
-            this.keyR.Pressed = false;
-            this.keyR.Size = new System.Drawing.Size(40, 40);
-            this.keyR.TabIndex = 39;
-            this.keyR.Tested = false;
+            keyR.Enabled = false;
+            keyR.Legend = "R";
+            keyR.Location = new System.Drawing.Point(267, 200);
+            keyR.Margin = new System.Windows.Forms.Padding(5);
+            keyR.Name = "keyR";
+            keyR.Pressed = false;
+            keyR.Size = new System.Drawing.Size(47, 46);
+            keyR.TabIndex = 39;
+            keyR.Tested = false;
             // 
             // keyT
             // 
-            this.keyT.Enabled = false;
-            this.keyT.Legend = "T";
-            this.keyT.Location = new System.Drawing.Point(277, 173);
-            this.keyT.Margin = new System.Windows.Forms.Padding(4);
-            this.keyT.Name = "keyT";
-            this.keyT.Pressed = false;
-            this.keyT.Size = new System.Drawing.Size(40, 40);
-            this.keyT.TabIndex = 40;
-            this.keyT.Tested = false;
+            keyT.Enabled = false;
+            keyT.Legend = "T";
+            keyT.Location = new System.Drawing.Point(323, 200);
+            keyT.Margin = new System.Windows.Forms.Padding(5);
+            keyT.Name = "keyT";
+            keyT.Pressed = false;
+            keyT.Size = new System.Drawing.Size(47, 46);
+            keyT.TabIndex = 40;
+            keyT.Tested = false;
             // 
             // keyY
             // 
-            this.keyY.Enabled = false;
-            this.keyY.Legend = "Y";
-            this.keyY.Location = new System.Drawing.Point(325, 173);
-            this.keyY.Margin = new System.Windows.Forms.Padding(4);
-            this.keyY.Name = "keyY";
-            this.keyY.Pressed = false;
-            this.keyY.Size = new System.Drawing.Size(40, 40);
-            this.keyY.TabIndex = 41;
-            this.keyY.Tested = false;
+            keyY.Enabled = false;
+            keyY.Legend = "Y";
+            keyY.Location = new System.Drawing.Point(379, 200);
+            keyY.Margin = new System.Windows.Forms.Padding(5);
+            keyY.Name = "keyY";
+            keyY.Pressed = false;
+            keyY.Size = new System.Drawing.Size(47, 46);
+            keyY.TabIndex = 41;
+            keyY.Tested = false;
             // 
             // keyU
             // 
-            this.keyU.Enabled = false;
-            this.keyU.Legend = "U";
-            this.keyU.Location = new System.Drawing.Point(373, 173);
-            this.keyU.Margin = new System.Windows.Forms.Padding(4);
-            this.keyU.Name = "keyU";
-            this.keyU.Pressed = false;
-            this.keyU.Size = new System.Drawing.Size(40, 40);
-            this.keyU.TabIndex = 42;
-            this.keyU.Tested = false;
+            keyU.Enabled = false;
+            keyU.Legend = "U";
+            keyU.Location = new System.Drawing.Point(435, 200);
+            keyU.Margin = new System.Windows.Forms.Padding(5);
+            keyU.Name = "keyU";
+            keyU.Pressed = false;
+            keyU.Size = new System.Drawing.Size(47, 46);
+            keyU.TabIndex = 42;
+            keyU.Tested = false;
             // 
             // keyI
             // 
-            this.keyI.Enabled = false;
-            this.keyI.Legend = "I";
-            this.keyI.Location = new System.Drawing.Point(421, 173);
-            this.keyI.Margin = new System.Windows.Forms.Padding(4);
-            this.keyI.Name = "keyI";
-            this.keyI.Pressed = false;
-            this.keyI.Size = new System.Drawing.Size(40, 40);
-            this.keyI.TabIndex = 43;
-            this.keyI.Tested = false;
+            keyI.Enabled = false;
+            keyI.Legend = "I";
+            keyI.Location = new System.Drawing.Point(491, 200);
+            keyI.Margin = new System.Windows.Forms.Padding(5);
+            keyI.Name = "keyI";
+            keyI.Pressed = false;
+            keyI.Size = new System.Drawing.Size(47, 46);
+            keyI.TabIndex = 43;
+            keyI.Tested = false;
             // 
             // keyO
             // 
-            this.keyO.Enabled = false;
-            this.keyO.Legend = "O";
-            this.keyO.Location = new System.Drawing.Point(469, 173);
-            this.keyO.Margin = new System.Windows.Forms.Padding(4);
-            this.keyO.Name = "keyO";
-            this.keyO.Pressed = false;
-            this.keyO.Size = new System.Drawing.Size(40, 40);
-            this.keyO.TabIndex = 44;
-            this.keyO.Tested = false;
+            keyO.Enabled = false;
+            keyO.Legend = "O";
+            keyO.Location = new System.Drawing.Point(547, 200);
+            keyO.Margin = new System.Windows.Forms.Padding(5);
+            keyO.Name = "keyO";
+            keyO.Pressed = false;
+            keyO.Size = new System.Drawing.Size(47, 46);
+            keyO.TabIndex = 44;
+            keyO.Tested = false;
             // 
             // keyP
             // 
-            this.keyP.Enabled = false;
-            this.keyP.Legend = "P";
-            this.keyP.Location = new System.Drawing.Point(517, 173);
-            this.keyP.Margin = new System.Windows.Forms.Padding(4);
-            this.keyP.Name = "keyP";
-            this.keyP.Pressed = false;
-            this.keyP.Size = new System.Drawing.Size(40, 40);
-            this.keyP.TabIndex = 45;
-            this.keyP.Tested = false;
+            keyP.Enabled = false;
+            keyP.Legend = "P";
+            keyP.Location = new System.Drawing.Point(603, 200);
+            keyP.Margin = new System.Windows.Forms.Padding(5);
+            keyP.Name = "keyP";
+            keyP.Pressed = false;
+            keyP.Size = new System.Drawing.Size(47, 46);
+            keyP.TabIndex = 45;
+            keyP.Tested = false;
             // 
             // keyA
             // 
-            this.keyA.Enabled = false;
-            this.keyA.Legend = "A";
-            this.keyA.Location = new System.Drawing.Point(97, 221);
-            this.keyA.Margin = new System.Windows.Forms.Padding(4);
-            this.keyA.Name = "keyA";
-            this.keyA.Pressed = false;
-            this.keyA.Size = new System.Drawing.Size(40, 40);
-            this.keyA.TabIndex = 46;
-            this.keyA.Tested = false;
+            keyA.Enabled = false;
+            keyA.Legend = "A";
+            keyA.Location = new System.Drawing.Point(113, 255);
+            keyA.Margin = new System.Windows.Forms.Padding(5);
+            keyA.Name = "keyA";
+            keyA.Pressed = false;
+            keyA.Size = new System.Drawing.Size(47, 46);
+            keyA.TabIndex = 46;
+            keyA.Tested = false;
             // 
             // keyS
             // 
-            this.keyS.Enabled = false;
-            this.keyS.Legend = "S";
-            this.keyS.Location = new System.Drawing.Point(145, 221);
-            this.keyS.Margin = new System.Windows.Forms.Padding(4);
-            this.keyS.Name = "keyS";
-            this.keyS.Pressed = false;
-            this.keyS.Size = new System.Drawing.Size(40, 40);
-            this.keyS.TabIndex = 47;
-            this.keyS.Tested = false;
+            keyS.Enabled = false;
+            keyS.Legend = "S";
+            keyS.Location = new System.Drawing.Point(169, 255);
+            keyS.Margin = new System.Windows.Forms.Padding(5);
+            keyS.Name = "keyS";
+            keyS.Pressed = false;
+            keyS.Size = new System.Drawing.Size(47, 46);
+            keyS.TabIndex = 47;
+            keyS.Tested = false;
             // 
             // keyD
             // 
-            this.keyD.Enabled = false;
-            this.keyD.Legend = "D";
-            this.keyD.Location = new System.Drawing.Point(193, 221);
-            this.keyD.Margin = new System.Windows.Forms.Padding(4);
-            this.keyD.Name = "keyD";
-            this.keyD.Pressed = false;
-            this.keyD.Size = new System.Drawing.Size(40, 40);
-            this.keyD.TabIndex = 48;
-            this.keyD.Tested = false;
+            keyD.Enabled = false;
+            keyD.Legend = "D";
+            keyD.Location = new System.Drawing.Point(225, 255);
+            keyD.Margin = new System.Windows.Forms.Padding(5);
+            keyD.Name = "keyD";
+            keyD.Pressed = false;
+            keyD.Size = new System.Drawing.Size(47, 46);
+            keyD.TabIndex = 48;
+            keyD.Tested = false;
             // 
             // keyF
             // 
-            this.keyF.Enabled = false;
-            this.keyF.Legend = "F";
-            this.keyF.Location = new System.Drawing.Point(241, 221);
-            this.keyF.Margin = new System.Windows.Forms.Padding(4);
-            this.keyF.Name = "keyF";
-            this.keyF.Pressed = false;
-            this.keyF.Size = new System.Drawing.Size(40, 40);
-            this.keyF.TabIndex = 49;
-            this.keyF.Tested = false;
+            keyF.Enabled = false;
+            keyF.Legend = "F";
+            keyF.Location = new System.Drawing.Point(281, 255);
+            keyF.Margin = new System.Windows.Forms.Padding(5);
+            keyF.Name = "keyF";
+            keyF.Pressed = false;
+            keyF.Size = new System.Drawing.Size(47, 46);
+            keyF.TabIndex = 49;
+            keyF.Tested = false;
             // 
             // keyG
             // 
-            this.keyG.Enabled = false;
-            this.keyG.Legend = "G";
-            this.keyG.Location = new System.Drawing.Point(289, 221);
-            this.keyG.Margin = new System.Windows.Forms.Padding(4);
-            this.keyG.Name = "keyG";
-            this.keyG.Pressed = false;
-            this.keyG.Size = new System.Drawing.Size(40, 40);
-            this.keyG.TabIndex = 50;
-            this.keyG.Tested = false;
+            keyG.Enabled = false;
+            keyG.Legend = "G";
+            keyG.Location = new System.Drawing.Point(337, 255);
+            keyG.Margin = new System.Windows.Forms.Padding(5);
+            keyG.Name = "keyG";
+            keyG.Pressed = false;
+            keyG.Size = new System.Drawing.Size(47, 46);
+            keyG.TabIndex = 50;
+            keyG.Tested = false;
             // 
             // keyH
             // 
-            this.keyH.Enabled = false;
-            this.keyH.Legend = "H";
-            this.keyH.Location = new System.Drawing.Point(337, 221);
-            this.keyH.Margin = new System.Windows.Forms.Padding(4);
-            this.keyH.Name = "keyH";
-            this.keyH.Pressed = false;
-            this.keyH.Size = new System.Drawing.Size(40, 40);
-            this.keyH.TabIndex = 51;
-            this.keyH.Tested = false;
+            keyH.Enabled = false;
+            keyH.Legend = "H";
+            keyH.Location = new System.Drawing.Point(393, 255);
+            keyH.Margin = new System.Windows.Forms.Padding(5);
+            keyH.Name = "keyH";
+            keyH.Pressed = false;
+            keyH.Size = new System.Drawing.Size(47, 46);
+            keyH.TabIndex = 51;
+            keyH.Tested = false;
             // 
             // keyJ
             // 
-            this.keyJ.Enabled = false;
-            this.keyJ.Legend = "J";
-            this.keyJ.Location = new System.Drawing.Point(385, 221);
-            this.keyJ.Margin = new System.Windows.Forms.Padding(4);
-            this.keyJ.Name = "keyJ";
-            this.keyJ.Pressed = false;
-            this.keyJ.Size = new System.Drawing.Size(40, 40);
-            this.keyJ.TabIndex = 52;
-            this.keyJ.Tested = false;
+            keyJ.Enabled = false;
+            keyJ.Legend = "J";
+            keyJ.Location = new System.Drawing.Point(449, 255);
+            keyJ.Margin = new System.Windows.Forms.Padding(5);
+            keyJ.Name = "keyJ";
+            keyJ.Pressed = false;
+            keyJ.Size = new System.Drawing.Size(47, 46);
+            keyJ.TabIndex = 52;
+            keyJ.Tested = false;
             // 
             // keyK
             // 
-            this.keyK.Enabled = false;
-            this.keyK.Legend = "K";
-            this.keyK.Location = new System.Drawing.Point(433, 221);
-            this.keyK.Margin = new System.Windows.Forms.Padding(4);
-            this.keyK.Name = "keyK";
-            this.keyK.Pressed = false;
-            this.keyK.Size = new System.Drawing.Size(40, 40);
-            this.keyK.TabIndex = 53;
-            this.keyK.Tested = false;
+            keyK.Enabled = false;
+            keyK.Legend = "K";
+            keyK.Location = new System.Drawing.Point(505, 255);
+            keyK.Margin = new System.Windows.Forms.Padding(5);
+            keyK.Name = "keyK";
+            keyK.Pressed = false;
+            keyK.Size = new System.Drawing.Size(47, 46);
+            keyK.TabIndex = 53;
+            keyK.Tested = false;
             // 
             // keyL
             // 
-            this.keyL.Enabled = false;
-            this.keyL.Legend = "L";
-            this.keyL.Location = new System.Drawing.Point(481, 221);
-            this.keyL.Margin = new System.Windows.Forms.Padding(4);
-            this.keyL.Name = "keyL";
-            this.keyL.Pressed = false;
-            this.keyL.Size = new System.Drawing.Size(40, 40);
-            this.keyL.TabIndex = 54;
-            this.keyL.Tested = false;
+            keyL.Enabled = false;
+            keyL.Legend = "L";
+            keyL.Location = new System.Drawing.Point(561, 255);
+            keyL.Margin = new System.Windows.Forms.Padding(5);
+            keyL.Name = "keyL";
+            keyL.Pressed = false;
+            keyL.Size = new System.Drawing.Size(47, 46);
+            keyL.TabIndex = 54;
+            keyL.Tested = false;
             // 
             // keyZ
             // 
-            this.keyZ.Enabled = false;
-            this.keyZ.Legend = "Z";
-            this.keyZ.Location = new System.Drawing.Point(121, 269);
-            this.keyZ.Margin = new System.Windows.Forms.Padding(4);
-            this.keyZ.Name = "keyZ";
-            this.keyZ.Pressed = false;
-            this.keyZ.Size = new System.Drawing.Size(40, 40);
-            this.keyZ.TabIndex = 55;
-            this.keyZ.Tested = false;
+            keyZ.Enabled = false;
+            keyZ.Legend = "Z";
+            keyZ.Location = new System.Drawing.Point(141, 310);
+            keyZ.Margin = new System.Windows.Forms.Padding(5);
+            keyZ.Name = "keyZ";
+            keyZ.Pressed = false;
+            keyZ.Size = new System.Drawing.Size(47, 46);
+            keyZ.TabIndex = 55;
+            keyZ.Tested = false;
             // 
             // keyX
             // 
-            this.keyX.Enabled = false;
-            this.keyX.Legend = "X";
-            this.keyX.Location = new System.Drawing.Point(169, 269);
-            this.keyX.Margin = new System.Windows.Forms.Padding(4);
-            this.keyX.Name = "keyX";
-            this.keyX.Pressed = false;
-            this.keyX.Size = new System.Drawing.Size(40, 40);
-            this.keyX.TabIndex = 56;
-            this.keyX.Tested = false;
+            keyX.Enabled = false;
+            keyX.Legend = "X";
+            keyX.Location = new System.Drawing.Point(197, 310);
+            keyX.Margin = new System.Windows.Forms.Padding(5);
+            keyX.Name = "keyX";
+            keyX.Pressed = false;
+            keyX.Size = new System.Drawing.Size(47, 46);
+            keyX.TabIndex = 56;
+            keyX.Tested = false;
             // 
             // keyC
             // 
-            this.keyC.Enabled = false;
-            this.keyC.Legend = "C";
-            this.keyC.Location = new System.Drawing.Point(217, 269);
-            this.keyC.Margin = new System.Windows.Forms.Padding(4);
-            this.keyC.Name = "keyC";
-            this.keyC.Pressed = false;
-            this.keyC.Size = new System.Drawing.Size(40, 40);
-            this.keyC.TabIndex = 57;
-            this.keyC.Tested = false;
+            keyC.Enabled = false;
+            keyC.Legend = "C";
+            keyC.Location = new System.Drawing.Point(253, 310);
+            keyC.Margin = new System.Windows.Forms.Padding(5);
+            keyC.Name = "keyC";
+            keyC.Pressed = false;
+            keyC.Size = new System.Drawing.Size(47, 46);
+            keyC.TabIndex = 57;
+            keyC.Tested = false;
             // 
             // keyV
             // 
-            this.keyV.Enabled = false;
-            this.keyV.Legend = "V";
-            this.keyV.Location = new System.Drawing.Point(265, 269);
-            this.keyV.Margin = new System.Windows.Forms.Padding(4);
-            this.keyV.Name = "keyV";
-            this.keyV.Pressed = false;
-            this.keyV.Size = new System.Drawing.Size(40, 40);
-            this.keyV.TabIndex = 58;
-            this.keyV.Tested = false;
+            keyV.Enabled = false;
+            keyV.Legend = "V";
+            keyV.Location = new System.Drawing.Point(309, 310);
+            keyV.Margin = new System.Windows.Forms.Padding(5);
+            keyV.Name = "keyV";
+            keyV.Pressed = false;
+            keyV.Size = new System.Drawing.Size(47, 46);
+            keyV.TabIndex = 58;
+            keyV.Tested = false;
             // 
             // keyB
             // 
-            this.keyB.Enabled = false;
-            this.keyB.Legend = "B";
-            this.keyB.Location = new System.Drawing.Point(313, 269);
-            this.keyB.Margin = new System.Windows.Forms.Padding(4);
-            this.keyB.Name = "keyB";
-            this.keyB.Pressed = false;
-            this.keyB.Size = new System.Drawing.Size(40, 40);
-            this.keyB.TabIndex = 59;
-            this.keyB.Tested = false;
+            keyB.Enabled = false;
+            keyB.Legend = "B";
+            keyB.Location = new System.Drawing.Point(365, 310);
+            keyB.Margin = new System.Windows.Forms.Padding(5);
+            keyB.Name = "keyB";
+            keyB.Pressed = false;
+            keyB.Size = new System.Drawing.Size(47, 46);
+            keyB.TabIndex = 59;
+            keyB.Tested = false;
             // 
             // keyN
             // 
-            this.keyN.Enabled = false;
-            this.keyN.Legend = "N";
-            this.keyN.Location = new System.Drawing.Point(361, 269);
-            this.keyN.Margin = new System.Windows.Forms.Padding(4);
-            this.keyN.Name = "keyN";
-            this.keyN.Pressed = false;
-            this.keyN.Size = new System.Drawing.Size(40, 40);
-            this.keyN.TabIndex = 60;
-            this.keyN.Tested = false;
+            keyN.Enabled = false;
+            keyN.Legend = "N";
+            keyN.Location = new System.Drawing.Point(421, 310);
+            keyN.Margin = new System.Windows.Forms.Padding(5);
+            keyN.Name = "keyN";
+            keyN.Pressed = false;
+            keyN.Size = new System.Drawing.Size(47, 46);
+            keyN.TabIndex = 60;
+            keyN.Tested = false;
             // 
             // keyM
             // 
-            this.keyM.Enabled = false;
-            this.keyM.Legend = "M";
-            this.keyM.Location = new System.Drawing.Point(409, 269);
-            this.keyM.Margin = new System.Windows.Forms.Padding(4);
-            this.keyM.Name = "keyM";
-            this.keyM.Pressed = false;
-            this.keyM.Size = new System.Drawing.Size(40, 40);
-            this.keyM.TabIndex = 61;
-            this.keyM.Tested = false;
+            keyM.Enabled = false;
+            keyM.Legend = "M";
+            keyM.Location = new System.Drawing.Point(477, 310);
+            keyM.Margin = new System.Windows.Forms.Padding(5);
+            keyM.Name = "keyM";
+            keyM.Pressed = false;
+            keyM.Size = new System.Drawing.Size(47, 46);
+            keyM.TabIndex = 61;
+            keyM.Tested = false;
             // 
             // keyEscape
             // 
-            this.keyEscape.Enabled = false;
-            this.keyEscape.Legend = "Esc";
-            this.keyEscape.Location = new System.Drawing.Point(13, 61);
-            this.keyEscape.Margin = new System.Windows.Forms.Padding(4);
-            this.keyEscape.Name = "keyEscape";
-            this.keyEscape.Pressed = false;
-            this.keyEscape.Size = new System.Drawing.Size(40, 40);
-            this.keyEscape.TabIndex = 62;
-            this.keyEscape.Tested = false;
+            keyEscape.Enabled = false;
+            keyEscape.Legend = "Esc";
+            keyEscape.Location = new System.Drawing.Point(15, 70);
+            keyEscape.Margin = new System.Windows.Forms.Padding(5);
+            keyEscape.Name = "keyEscape";
+            keyEscape.Pressed = false;
+            keyEscape.Size = new System.Drawing.Size(47, 46);
+            keyEscape.TabIndex = 62;
+            keyEscape.Tested = false;
             // 
             // keyGrave
             // 
-            this.keyGrave.Enabled = false;
-            this.keyGrave.Legend = "~\r\n`";
-            this.keyGrave.Location = new System.Drawing.Point(13, 125);
-            this.keyGrave.Margin = new System.Windows.Forms.Padding(4);
-            this.keyGrave.Name = "keyGrave";
-            this.keyGrave.Pressed = false;
-            this.keyGrave.Size = new System.Drawing.Size(40, 40);
-            this.keyGrave.TabIndex = 63;
-            this.keyGrave.Tested = false;
+            keyGrave.Enabled = false;
+            keyGrave.Legend = "~\r\n`";
+            keyGrave.Location = new System.Drawing.Point(15, 144);
+            keyGrave.Margin = new System.Windows.Forms.Padding(5);
+            keyGrave.Name = "keyGrave";
+            keyGrave.Pressed = false;
+            keyGrave.Size = new System.Drawing.Size(47, 46);
+            keyGrave.TabIndex = 63;
+            keyGrave.Tested = false;
             // 
             // keyMinus
             // 
-            this.keyMinus.Enabled = false;
-            this.keyMinus.Legend = "_\r\n-";
-            this.keyMinus.Location = new System.Drawing.Point(541, 125);
-            this.keyMinus.Margin = new System.Windows.Forms.Padding(4);
-            this.keyMinus.Name = "keyMinus";
-            this.keyMinus.Pressed = false;
-            this.keyMinus.Size = new System.Drawing.Size(40, 40);
-            this.keyMinus.TabIndex = 64;
-            this.keyMinus.Tested = false;
+            keyMinus.Enabled = false;
+            keyMinus.Legend = "_\r\n-";
+            keyMinus.Location = new System.Drawing.Point(631, 144);
+            keyMinus.Margin = new System.Windows.Forms.Padding(5);
+            keyMinus.Name = "keyMinus";
+            keyMinus.Pressed = false;
+            keyMinus.Size = new System.Drawing.Size(47, 46);
+            keyMinus.TabIndex = 64;
+            keyMinus.Tested = false;
             // 
             // keyEqual
             // 
-            this.keyEqual.Enabled = false;
-            this.keyEqual.Legend = "+\r\n=";
-            this.keyEqual.Location = new System.Drawing.Point(589, 125);
-            this.keyEqual.Margin = new System.Windows.Forms.Padding(4);
-            this.keyEqual.Name = "keyEqual";
-            this.keyEqual.Pressed = false;
-            this.keyEqual.Size = new System.Drawing.Size(40, 40);
-            this.keyEqual.TabIndex = 65;
-            this.keyEqual.Tested = false;
+            keyEqual.Enabled = false;
+            keyEqual.Legend = "+\r\n=";
+            keyEqual.Location = new System.Drawing.Point(687, 144);
+            keyEqual.Margin = new System.Windows.Forms.Padding(5);
+            keyEqual.Name = "keyEqual";
+            keyEqual.Pressed = false;
+            keyEqual.Size = new System.Drawing.Size(47, 46);
+            keyEqual.TabIndex = 65;
+            keyEqual.Tested = false;
             // 
             // keyBackspace
             // 
-            this.keyBackspace.Enabled = false;
-            this.keyBackspace.Legend = "Backspace";
-            this.keyBackspace.Location = new System.Drawing.Point(637, 125);
-            this.keyBackspace.Margin = new System.Windows.Forms.Padding(4);
-            this.keyBackspace.Name = "keyBackspace";
-            this.keyBackspace.Pressed = false;
-            this.keyBackspace.Size = new System.Drawing.Size(88, 40);
-            this.keyBackspace.TabIndex = 66;
-            this.keyBackspace.Tested = false;
+            keyBackspace.Enabled = false;
+            keyBackspace.Legend = "Backspace";
+            keyBackspace.Location = new System.Drawing.Point(743, 144);
+            keyBackspace.Margin = new System.Windows.Forms.Padding(5);
+            keyBackspace.Name = "keyBackspace";
+            keyBackspace.Pressed = false;
+            keyBackspace.Size = new System.Drawing.Size(103, 46);
+            keyBackspace.TabIndex = 66;
+            keyBackspace.Tested = false;
             // 
             // keyTab
             // 
-            this.keyTab.Enabled = false;
-            this.keyTab.Legend = "Tab";
-            this.keyTab.Location = new System.Drawing.Point(13, 173);
-            this.keyTab.Margin = new System.Windows.Forms.Padding(4);
-            this.keyTab.Name = "keyTab";
-            this.keyTab.Pressed = false;
-            this.keyTab.Size = new System.Drawing.Size(64, 40);
-            this.keyTab.TabIndex = 67;
-            this.keyTab.Tested = false;
+            keyTab.Enabled = false;
+            keyTab.Legend = "Tab";
+            keyTab.Location = new System.Drawing.Point(15, 200);
+            keyTab.Margin = new System.Windows.Forms.Padding(5);
+            keyTab.Name = "keyTab";
+            keyTab.Pressed = false;
+            keyTab.Size = new System.Drawing.Size(75, 46);
+            keyTab.TabIndex = 67;
+            keyTab.Tested = false;
             // 
             // keyLeftBrace
             // 
-            this.keyLeftBrace.Enabled = false;
-            this.keyLeftBrace.Legend = "{\r\n[";
-            this.keyLeftBrace.Location = new System.Drawing.Point(565, 173);
-            this.keyLeftBrace.Margin = new System.Windows.Forms.Padding(4);
-            this.keyLeftBrace.Name = "keyLeftBrace";
-            this.keyLeftBrace.Pressed = false;
-            this.keyLeftBrace.Size = new System.Drawing.Size(40, 40);
-            this.keyLeftBrace.TabIndex = 68;
-            this.keyLeftBrace.Tested = false;
+            keyLeftBrace.Enabled = false;
+            keyLeftBrace.Legend = "{\r\n[";
+            keyLeftBrace.Location = new System.Drawing.Point(659, 200);
+            keyLeftBrace.Margin = new System.Windows.Forms.Padding(5);
+            keyLeftBrace.Name = "keyLeftBrace";
+            keyLeftBrace.Pressed = false;
+            keyLeftBrace.Size = new System.Drawing.Size(47, 46);
+            keyLeftBrace.TabIndex = 68;
+            keyLeftBrace.Tested = false;
             // 
             // keyRightBrace
             // 
-            this.keyRightBrace.Enabled = false;
-            this.keyRightBrace.Legend = "}\r\n]";
-            this.keyRightBrace.Location = new System.Drawing.Point(613, 173);
-            this.keyRightBrace.Margin = new System.Windows.Forms.Padding(4);
-            this.keyRightBrace.Name = "keyRightBrace";
-            this.keyRightBrace.Pressed = false;
-            this.keyRightBrace.Size = new System.Drawing.Size(40, 40);
-            this.keyRightBrace.TabIndex = 69;
-            this.keyRightBrace.Tested = false;
+            keyRightBrace.Enabled = false;
+            keyRightBrace.Legend = "}\r\n]";
+            keyRightBrace.Location = new System.Drawing.Point(715, 200);
+            keyRightBrace.Margin = new System.Windows.Forms.Padding(5);
+            keyRightBrace.Name = "keyRightBrace";
+            keyRightBrace.Pressed = false;
+            keyRightBrace.Size = new System.Drawing.Size(47, 46);
+            keyRightBrace.TabIndex = 69;
+            keyRightBrace.Tested = false;
             // 
             // keyBackslash
             // 
-            this.keyBackslash.Enabled = false;
-            this.keyBackslash.Legend = "|\r\n\\";
-            this.keyBackslash.Location = new System.Drawing.Point(661, 173);
-            this.keyBackslash.Margin = new System.Windows.Forms.Padding(4);
-            this.keyBackslash.Name = "keyBackslash";
-            this.keyBackslash.Pressed = false;
-            this.keyBackslash.Size = new System.Drawing.Size(64, 40);
-            this.keyBackslash.TabIndex = 70;
-            this.keyBackslash.Tested = false;
+            keyBackslash.Enabled = false;
+            keyBackslash.Legend = "|\r\n\\";
+            keyBackslash.Location = new System.Drawing.Point(771, 200);
+            keyBackslash.Margin = new System.Windows.Forms.Padding(5);
+            keyBackslash.Name = "keyBackslash";
+            keyBackslash.Pressed = false;
+            keyBackslash.Size = new System.Drawing.Size(75, 46);
+            keyBackslash.TabIndex = 70;
+            keyBackslash.Tested = false;
             // 
             // keyCapsLock
             // 
-            this.keyCapsLock.Enabled = false;
-            this.keyCapsLock.Legend = "Caps Lock";
-            this.keyCapsLock.Location = new System.Drawing.Point(13, 221);
-            this.keyCapsLock.Margin = new System.Windows.Forms.Padding(4);
-            this.keyCapsLock.Name = "keyCapsLock";
-            this.keyCapsLock.Pressed = false;
-            this.keyCapsLock.Size = new System.Drawing.Size(76, 40);
-            this.keyCapsLock.TabIndex = 71;
-            this.keyCapsLock.Tested = false;
+            keyCapsLock.Enabled = false;
+            keyCapsLock.Legend = "Caps Lock";
+            keyCapsLock.Location = new System.Drawing.Point(15, 255);
+            keyCapsLock.Margin = new System.Windows.Forms.Padding(5);
+            keyCapsLock.Name = "keyCapsLock";
+            keyCapsLock.Pressed = false;
+            keyCapsLock.Size = new System.Drawing.Size(89, 46);
+            keyCapsLock.TabIndex = 71;
+            keyCapsLock.Tested = false;
             // 
             // keySemicolon
             // 
-            this.keySemicolon.Enabled = false;
-            this.keySemicolon.Legend = ":\r\n;";
-            this.keySemicolon.Location = new System.Drawing.Point(529, 221);
-            this.keySemicolon.Margin = new System.Windows.Forms.Padding(4);
-            this.keySemicolon.Name = "keySemicolon";
-            this.keySemicolon.Pressed = false;
-            this.keySemicolon.Size = new System.Drawing.Size(40, 40);
-            this.keySemicolon.TabIndex = 72;
-            this.keySemicolon.Tested = false;
+            keySemicolon.Enabled = false;
+            keySemicolon.Legend = ":\r\n;";
+            keySemicolon.Location = new System.Drawing.Point(617, 255);
+            keySemicolon.Margin = new System.Windows.Forms.Padding(5);
+            keySemicolon.Name = "keySemicolon";
+            keySemicolon.Pressed = false;
+            keySemicolon.Size = new System.Drawing.Size(47, 46);
+            keySemicolon.TabIndex = 72;
+            keySemicolon.Tested = false;
             // 
             // keyQuote
             // 
-            this.keyQuote.Enabled = false;
-            this.keyQuote.Legend = "\"\r\n\'";
-            this.keyQuote.Location = new System.Drawing.Point(577, 221);
-            this.keyQuote.Margin = new System.Windows.Forms.Padding(4);
-            this.keyQuote.Name = "keyQuote";
-            this.keyQuote.Pressed = false;
-            this.keyQuote.Size = new System.Drawing.Size(40, 40);
-            this.keyQuote.TabIndex = 73;
-            this.keyQuote.Tested = false;
+            keyQuote.Enabled = false;
+            keyQuote.Legend = "\"\r\n'";
+            keyQuote.Location = new System.Drawing.Point(673, 255);
+            keyQuote.Margin = new System.Windows.Forms.Padding(5);
+            keyQuote.Name = "keyQuote";
+            keyQuote.Pressed = false;
+            keyQuote.Size = new System.Drawing.Size(47, 46);
+            keyQuote.TabIndex = 73;
+            keyQuote.Tested = false;
             // 
             // keyNUHS
             // 
-            this.keyNUHS.Enabled = false;
-            this.keyNUHS.Legend = "~\r\n#";
-            this.keyNUHS.Location = new System.Drawing.Point(625, 221);
-            this.keyNUHS.Margin = new System.Windows.Forms.Padding(4);
-            this.keyNUHS.Name = "keyNUHS";
-            this.keyNUHS.Pressed = false;
-            this.keyNUHS.Size = new System.Drawing.Size(40, 40);
-            this.keyNUHS.TabIndex = 74;
-            this.keyNUHS.Tested = false;
+            keyNUHS.Enabled = false;
+            keyNUHS.Legend = "~\r\n#";
+            keyNUHS.Location = new System.Drawing.Point(729, 255);
+            keyNUHS.Margin = new System.Windows.Forms.Padding(5);
+            keyNUHS.Name = "keyNUHS";
+            keyNUHS.Pressed = false;
+            keyNUHS.Size = new System.Drawing.Size(47, 46);
+            keyNUHS.TabIndex = 74;
+            keyNUHS.Tested = false;
             // 
             // keyEnter
             // 
-            this.keyEnter.Enabled = false;
-            this.keyEnter.Legend = "Enter";
-            this.keyEnter.Location = new System.Drawing.Point(673, 221);
-            this.keyEnter.Margin = new System.Windows.Forms.Padding(4);
-            this.keyEnter.Name = "keyEnter";
-            this.keyEnter.Pressed = false;
-            this.keyEnter.Size = new System.Drawing.Size(52, 40);
-            this.keyEnter.TabIndex = 75;
-            this.keyEnter.Tested = false;
+            keyEnter.Enabled = false;
+            keyEnter.Legend = "Enter";
+            keyEnter.Location = new System.Drawing.Point(785, 255);
+            keyEnter.Margin = new System.Windows.Forms.Padding(5);
+            keyEnter.Name = "keyEnter";
+            keyEnter.Pressed = false;
+            keyEnter.Size = new System.Drawing.Size(61, 46);
+            keyEnter.TabIndex = 75;
+            keyEnter.Tested = false;
             // 
             // keyNUBS
             // 
-            this.keyNUBS.Enabled = false;
-            this.keyNUBS.Legend = "|\r\n\\";
-            this.keyNUBS.Location = new System.Drawing.Point(73, 269);
-            this.keyNUBS.Margin = new System.Windows.Forms.Padding(4);
-            this.keyNUBS.Name = "keyNUBS";
-            this.keyNUBS.Pressed = false;
-            this.keyNUBS.Size = new System.Drawing.Size(40, 40);
-            this.keyNUBS.TabIndex = 76;
-            this.keyNUBS.Tested = false;
+            keyNUBS.Enabled = false;
+            keyNUBS.Legend = "|\r\n\\";
+            keyNUBS.Location = new System.Drawing.Point(85, 310);
+            keyNUBS.Margin = new System.Windows.Forms.Padding(5);
+            keyNUBS.Name = "keyNUBS";
+            keyNUBS.Pressed = false;
+            keyNUBS.Size = new System.Drawing.Size(47, 46);
+            keyNUBS.TabIndex = 76;
+            keyNUBS.Tested = false;
             // 
             // keyComma
             // 
-            this.keyComma.Enabled = false;
-            this.keyComma.Legend = "<\r\n,";
-            this.keyComma.Location = new System.Drawing.Point(457, 269);
-            this.keyComma.Margin = new System.Windows.Forms.Padding(4);
-            this.keyComma.Name = "keyComma";
-            this.keyComma.Pressed = false;
-            this.keyComma.Size = new System.Drawing.Size(40, 40);
-            this.keyComma.TabIndex = 77;
-            this.keyComma.Tested = false;
+            keyComma.Enabled = false;
+            keyComma.Legend = "<\r\n,";
+            keyComma.Location = new System.Drawing.Point(533, 310);
+            keyComma.Margin = new System.Windows.Forms.Padding(5);
+            keyComma.Name = "keyComma";
+            keyComma.Pressed = false;
+            keyComma.Size = new System.Drawing.Size(47, 46);
+            keyComma.TabIndex = 77;
+            keyComma.Tested = false;
             // 
             // keyDot
             // 
-            this.keyDot.Enabled = false;
-            this.keyDot.Legend = ">\r\n.";
-            this.keyDot.Location = new System.Drawing.Point(505, 269);
-            this.keyDot.Margin = new System.Windows.Forms.Padding(4);
-            this.keyDot.Name = "keyDot";
-            this.keyDot.Pressed = false;
-            this.keyDot.Size = new System.Drawing.Size(40, 40);
-            this.keyDot.TabIndex = 78;
-            this.keyDot.Tested = false;
+            keyDot.Enabled = false;
+            keyDot.Legend = ">\r\n.";
+            keyDot.Location = new System.Drawing.Point(589, 310);
+            keyDot.Margin = new System.Windows.Forms.Padding(5);
+            keyDot.Name = "keyDot";
+            keyDot.Pressed = false;
+            keyDot.Size = new System.Drawing.Size(47, 46);
+            keyDot.TabIndex = 78;
+            keyDot.Tested = false;
             // 
             // keySlash
             // 
-            this.keySlash.Enabled = false;
-            this.keySlash.Legend = "?\r\n/";
-            this.keySlash.Location = new System.Drawing.Point(553, 269);
-            this.keySlash.Margin = new System.Windows.Forms.Padding(4);
-            this.keySlash.Name = "keySlash";
-            this.keySlash.Pressed = false;
-            this.keySlash.Size = new System.Drawing.Size(40, 40);
-            this.keySlash.TabIndex = 79;
-            this.keySlash.Tested = false;
+            keySlash.Enabled = false;
+            keySlash.Legend = "?\r\n/";
+            keySlash.Location = new System.Drawing.Point(645, 310);
+            keySlash.Margin = new System.Windows.Forms.Padding(5);
+            keySlash.Name = "keySlash";
+            keySlash.Pressed = false;
+            keySlash.Size = new System.Drawing.Size(47, 46);
+            keySlash.TabIndex = 79;
+            keySlash.Tested = false;
             // 
             // keySpace
             // 
-            this.keySpace.Enabled = false;
-            this.keySpace.Legend = "";
-            this.keySpace.Location = new System.Drawing.Point(193, 317);
-            this.keySpace.Margin = new System.Windows.Forms.Padding(4);
-            this.keySpace.Name = "keySpace";
-            this.keySpace.Pressed = false;
-            this.keySpace.Size = new System.Drawing.Size(292, 40);
-            this.keySpace.TabIndex = 80;
-            this.keySpace.Tested = false;
+            keySpace.Enabled = false;
+            keySpace.Legend = "";
+            keySpace.Location = new System.Drawing.Point(225, 366);
+            keySpace.Margin = new System.Windows.Forms.Padding(5);
+            keySpace.Name = "keySpace";
+            keySpace.Pressed = false;
+            keySpace.Size = new System.Drawing.Size(341, 46);
+            keySpace.TabIndex = 80;
+            keySpace.Tested = false;
             // 
             // keyMenu
             // 
-            this.keyMenu.Enabled = false;
-            this.keyMenu.Legend = "Menu";
-            this.keyMenu.Location = new System.Drawing.Point(613, 317);
-            this.keyMenu.Margin = new System.Windows.Forms.Padding(4);
-            this.keyMenu.Name = "keyMenu";
-            this.keyMenu.Pressed = false;
-            this.keyMenu.Size = new System.Drawing.Size(52, 40);
-            this.keyMenu.TabIndex = 81;
-            this.keyMenu.Tested = false;
+            keyMenu.Enabled = false;
+            keyMenu.Legend = "Menu";
+            keyMenu.Location = new System.Drawing.Point(715, 366);
+            keyMenu.Margin = new System.Windows.Forms.Padding(5);
+            keyMenu.Name = "keyMenu";
+            keyMenu.Pressed = false;
+            keyMenu.Size = new System.Drawing.Size(61, 46);
+            keyMenu.TabIndex = 81;
+            keyMenu.Tested = false;
             // 
             // keyLeftControl
             // 
-            this.keyLeftControl.Enabled = false;
-            this.keyLeftControl.Legend = "Ctrl";
-            this.keyLeftControl.Location = new System.Drawing.Point(13, 317);
-            this.keyLeftControl.Margin = new System.Windows.Forms.Padding(4);
-            this.keyLeftControl.Name = "keyLeftControl";
-            this.keyLeftControl.Pressed = false;
-            this.keyLeftControl.Size = new System.Drawing.Size(52, 40);
-            this.keyLeftControl.TabIndex = 82;
-            this.keyLeftControl.Tested = false;
+            keyLeftControl.Enabled = false;
+            keyLeftControl.Legend = "Ctrl";
+            keyLeftControl.Location = new System.Drawing.Point(15, 366);
+            keyLeftControl.Margin = new System.Windows.Forms.Padding(5);
+            keyLeftControl.Name = "keyLeftControl";
+            keyLeftControl.Pressed = false;
+            keyLeftControl.Size = new System.Drawing.Size(61, 46);
+            keyLeftControl.TabIndex = 82;
+            keyLeftControl.Tested = false;
             // 
             // keyLeftShift
             // 
-            this.keyLeftShift.Enabled = false;
-            this.keyLeftShift.Legend = "Shift";
-            this.keyLeftShift.Location = new System.Drawing.Point(13, 269);
-            this.keyLeftShift.Margin = new System.Windows.Forms.Padding(4);
-            this.keyLeftShift.Name = "keyLeftShift";
-            this.keyLeftShift.Pressed = false;
-            this.keyLeftShift.Size = new System.Drawing.Size(52, 40);
-            this.keyLeftShift.TabIndex = 83;
-            this.keyLeftShift.Tested = false;
+            keyLeftShift.Enabled = false;
+            keyLeftShift.Legend = "Shift";
+            keyLeftShift.Location = new System.Drawing.Point(15, 310);
+            keyLeftShift.Margin = new System.Windows.Forms.Padding(5);
+            keyLeftShift.Name = "keyLeftShift";
+            keyLeftShift.Pressed = false;
+            keyLeftShift.Size = new System.Drawing.Size(61, 46);
+            keyLeftShift.TabIndex = 83;
+            keyLeftShift.Tested = false;
             // 
             // keyLeftAlt
             // 
-            this.keyLeftAlt.Enabled = false;
-            this.keyLeftAlt.Legend = "Alt";
-            this.keyLeftAlt.Location = new System.Drawing.Point(133, 317);
-            this.keyLeftAlt.Margin = new System.Windows.Forms.Padding(4);
-            this.keyLeftAlt.Name = "keyLeftAlt";
-            this.keyLeftAlt.Pressed = false;
-            this.keyLeftAlt.Size = new System.Drawing.Size(52, 40);
-            this.keyLeftAlt.TabIndex = 84;
-            this.keyLeftAlt.Tested = false;
+            keyLeftAlt.Enabled = false;
+            keyLeftAlt.Legend = "Alt";
+            keyLeftAlt.Location = new System.Drawing.Point(155, 366);
+            keyLeftAlt.Margin = new System.Windows.Forms.Padding(5);
+            keyLeftAlt.Name = "keyLeftAlt";
+            keyLeftAlt.Pressed = false;
+            keyLeftAlt.Size = new System.Drawing.Size(61, 46);
+            keyLeftAlt.TabIndex = 84;
+            keyLeftAlt.Tested = false;
             // 
             // keyLeftGUI
             // 
-            this.keyLeftGUI.Enabled = false;
-            this.keyLeftGUI.Legend = "Win";
-            this.keyLeftGUI.Location = new System.Drawing.Point(73, 317);
-            this.keyLeftGUI.Margin = new System.Windows.Forms.Padding(4);
-            this.keyLeftGUI.Name = "keyLeftGUI";
-            this.keyLeftGUI.Pressed = false;
-            this.keyLeftGUI.Size = new System.Drawing.Size(52, 40);
-            this.keyLeftGUI.TabIndex = 85;
-            this.keyLeftGUI.Tested = false;
+            keyLeftGUI.Enabled = false;
+            keyLeftGUI.Legend = "Win";
+            keyLeftGUI.Location = new System.Drawing.Point(85, 366);
+            keyLeftGUI.Margin = new System.Windows.Forms.Padding(5);
+            keyLeftGUI.Name = "keyLeftGUI";
+            keyLeftGUI.Pressed = false;
+            keyLeftGUI.Size = new System.Drawing.Size(61, 46);
+            keyLeftGUI.TabIndex = 85;
+            keyLeftGUI.Tested = false;
             // 
             // keyRightControl
             // 
-            this.keyRightControl.Enabled = false;
-            this.keyRightControl.Legend = "Ctrl";
-            this.keyRightControl.Location = new System.Drawing.Point(673, 317);
-            this.keyRightControl.Margin = new System.Windows.Forms.Padding(4);
-            this.keyRightControl.Name = "keyRightControl";
-            this.keyRightControl.Pressed = false;
-            this.keyRightControl.Size = new System.Drawing.Size(52, 40);
-            this.keyRightControl.TabIndex = 86;
-            this.keyRightControl.Tested = false;
+            keyRightControl.Enabled = false;
+            keyRightControl.Legend = "Ctrl";
+            keyRightControl.Location = new System.Drawing.Point(785, 366);
+            keyRightControl.Margin = new System.Windows.Forms.Padding(5);
+            keyRightControl.Name = "keyRightControl";
+            keyRightControl.Pressed = false;
+            keyRightControl.Size = new System.Drawing.Size(61, 46);
+            keyRightControl.TabIndex = 86;
+            keyRightControl.Tested = false;
             // 
             // keyRightShift
             // 
-            this.keyRightShift.Enabled = false;
-            this.keyRightShift.Legend = "Shift";
-            this.keyRightShift.Location = new System.Drawing.Point(601, 269);
-            this.keyRightShift.Margin = new System.Windows.Forms.Padding(4);
-            this.keyRightShift.Name = "keyRightShift";
-            this.keyRightShift.Pressed = false;
-            this.keyRightShift.Size = new System.Drawing.Size(124, 40);
-            this.keyRightShift.TabIndex = 87;
-            this.keyRightShift.Tested = false;
+            keyRightShift.Enabled = false;
+            keyRightShift.Legend = "Shift";
+            keyRightShift.Location = new System.Drawing.Point(701, 310);
+            keyRightShift.Margin = new System.Windows.Forms.Padding(5);
+            keyRightShift.Name = "keyRightShift";
+            keyRightShift.Pressed = false;
+            keyRightShift.Size = new System.Drawing.Size(145, 46);
+            keyRightShift.TabIndex = 87;
+            keyRightShift.Tested = false;
             // 
             // keyRightAlt
             // 
-            this.keyRightAlt.Enabled = false;
-            this.keyRightAlt.Legend = "Alt";
-            this.keyRightAlt.Location = new System.Drawing.Point(493, 317);
-            this.keyRightAlt.Margin = new System.Windows.Forms.Padding(4);
-            this.keyRightAlt.Name = "keyRightAlt";
-            this.keyRightAlt.Pressed = false;
-            this.keyRightAlt.Size = new System.Drawing.Size(52, 40);
-            this.keyRightAlt.TabIndex = 88;
-            this.keyRightAlt.Tested = false;
+            keyRightAlt.Enabled = false;
+            keyRightAlt.Legend = "Alt";
+            keyRightAlt.Location = new System.Drawing.Point(575, 366);
+            keyRightAlt.Margin = new System.Windows.Forms.Padding(5);
+            keyRightAlt.Name = "keyRightAlt";
+            keyRightAlt.Pressed = false;
+            keyRightAlt.Size = new System.Drawing.Size(61, 46);
+            keyRightAlt.TabIndex = 88;
+            keyRightAlt.Tested = false;
             // 
             // keyRightGUI
             // 
-            this.keyRightGUI.Enabled = false;
-            this.keyRightGUI.Legend = "Win";
-            this.keyRightGUI.Location = new System.Drawing.Point(553, 317);
-            this.keyRightGUI.Margin = new System.Windows.Forms.Padding(4);
-            this.keyRightGUI.Name = "keyRightGUI";
-            this.keyRightGUI.Pressed = false;
-            this.keyRightGUI.Size = new System.Drawing.Size(52, 40);
-            this.keyRightGUI.TabIndex = 89;
-            this.keyRightGUI.Tested = false;
+            keyRightGUI.Enabled = false;
+            keyRightGUI.Legend = "Win";
+            keyRightGUI.Location = new System.Drawing.Point(645, 366);
+            keyRightGUI.Margin = new System.Windows.Forms.Padding(5);
+            keyRightGUI.Name = "keyRightGUI";
+            keyRightGUI.Pressed = false;
+            keyRightGUI.Size = new System.Drawing.Size(61, 46);
+            keyRightGUI.TabIndex = 89;
+            keyRightGUI.Tested = false;
             // 
             // keyPrintScreen
             // 
-            this.keyPrintScreen.Enabled = false;
-            this.keyPrintScreen.Legend = "Print\r\nScrn";
-            this.keyPrintScreen.Location = new System.Drawing.Point(741, 61);
-            this.keyPrintScreen.Margin = new System.Windows.Forms.Padding(4);
-            this.keyPrintScreen.Name = "keyPrintScreen";
-            this.keyPrintScreen.Pressed = false;
-            this.keyPrintScreen.Size = new System.Drawing.Size(40, 40);
-            this.keyPrintScreen.TabIndex = 90;
-            this.keyPrintScreen.Tested = false;
+            keyPrintScreen.Enabled = false;
+            keyPrintScreen.Legend = "Print\r\nScrn";
+            keyPrintScreen.Location = new System.Drawing.Point(864, 70);
+            keyPrintScreen.Margin = new System.Windows.Forms.Padding(5);
+            keyPrintScreen.Name = "keyPrintScreen";
+            keyPrintScreen.Pressed = false;
+            keyPrintScreen.Size = new System.Drawing.Size(47, 46);
+            keyPrintScreen.TabIndex = 90;
+            keyPrintScreen.Tested = false;
             // 
             // keyScrollLock
             // 
-            this.keyScrollLock.Enabled = false;
-            this.keyScrollLock.Legend = "Scroll\r\nLock";
-            this.keyScrollLock.Location = new System.Drawing.Point(789, 61);
-            this.keyScrollLock.Margin = new System.Windows.Forms.Padding(4);
-            this.keyScrollLock.Name = "keyScrollLock";
-            this.keyScrollLock.Pressed = false;
-            this.keyScrollLock.Size = new System.Drawing.Size(40, 40);
-            this.keyScrollLock.TabIndex = 91;
-            this.keyScrollLock.Tested = false;
+            keyScrollLock.Enabled = false;
+            keyScrollLock.Legend = "Scroll\r\nLock";
+            keyScrollLock.Location = new System.Drawing.Point(920, 70);
+            keyScrollLock.Margin = new System.Windows.Forms.Padding(5);
+            keyScrollLock.Name = "keyScrollLock";
+            keyScrollLock.Pressed = false;
+            keyScrollLock.Size = new System.Drawing.Size(47, 46);
+            keyScrollLock.TabIndex = 91;
+            keyScrollLock.Tested = false;
             // 
             // keyPauseBreak
             // 
-            this.keyPauseBreak.Enabled = false;
-            this.keyPauseBreak.Legend = "Pause";
-            this.keyPauseBreak.Location = new System.Drawing.Point(837, 61);
-            this.keyPauseBreak.Margin = new System.Windows.Forms.Padding(4);
-            this.keyPauseBreak.Name = "keyPauseBreak";
-            this.keyPauseBreak.Pressed = false;
-            this.keyPauseBreak.Size = new System.Drawing.Size(40, 40);
-            this.keyPauseBreak.TabIndex = 92;
-            this.keyPauseBreak.Tested = false;
+            keyPauseBreak.Enabled = false;
+            keyPauseBreak.Legend = "Pause";
+            keyPauseBreak.Location = new System.Drawing.Point(976, 70);
+            keyPauseBreak.Margin = new System.Windows.Forms.Padding(5);
+            keyPauseBreak.Name = "keyPauseBreak";
+            keyPauseBreak.Pressed = false;
+            keyPauseBreak.Size = new System.Drawing.Size(47, 46);
+            keyPauseBreak.TabIndex = 92;
+            keyPauseBreak.Tested = false;
             // 
             // keyInsert
             // 
-            this.keyInsert.Enabled = false;
-            this.keyInsert.Legend = "Insert";
-            this.keyInsert.Location = new System.Drawing.Point(741, 125);
-            this.keyInsert.Margin = new System.Windows.Forms.Padding(4);
-            this.keyInsert.Name = "keyInsert";
-            this.keyInsert.Pressed = false;
-            this.keyInsert.Size = new System.Drawing.Size(40, 40);
-            this.keyInsert.TabIndex = 93;
-            this.keyInsert.Tested = false;
+            keyInsert.Enabled = false;
+            keyInsert.Legend = "Insert";
+            keyInsert.Location = new System.Drawing.Point(864, 144);
+            keyInsert.Margin = new System.Windows.Forms.Padding(5);
+            keyInsert.Name = "keyInsert";
+            keyInsert.Pressed = false;
+            keyInsert.Size = new System.Drawing.Size(47, 46);
+            keyInsert.TabIndex = 93;
+            keyInsert.Tested = false;
             // 
             // keyHome
             // 
-            this.keyHome.Enabled = false;
-            this.keyHome.Legend = "Home";
-            this.keyHome.Location = new System.Drawing.Point(789, 125);
-            this.keyHome.Margin = new System.Windows.Forms.Padding(4);
-            this.keyHome.Name = "keyHome";
-            this.keyHome.Pressed = false;
-            this.keyHome.Size = new System.Drawing.Size(40, 40);
-            this.keyHome.TabIndex = 94;
-            this.keyHome.Tested = false;
+            keyHome.Enabled = false;
+            keyHome.Legend = "Home";
+            keyHome.Location = new System.Drawing.Point(920, 144);
+            keyHome.Margin = new System.Windows.Forms.Padding(5);
+            keyHome.Name = "keyHome";
+            keyHome.Pressed = false;
+            keyHome.Size = new System.Drawing.Size(47, 46);
+            keyHome.TabIndex = 94;
+            keyHome.Tested = false;
             // 
             // keyPageUp
             // 
-            this.keyPageUp.Enabled = false;
-            this.keyPageUp.Legend = "Page\r\nUp";
-            this.keyPageUp.Location = new System.Drawing.Point(837, 125);
-            this.keyPageUp.Margin = new System.Windows.Forms.Padding(4);
-            this.keyPageUp.Name = "keyPageUp";
-            this.keyPageUp.Pressed = false;
-            this.keyPageUp.Size = new System.Drawing.Size(40, 40);
-            this.keyPageUp.TabIndex = 95;
-            this.keyPageUp.Tested = false;
+            keyPageUp.Enabled = false;
+            keyPageUp.Legend = "Page\r\nUp";
+            keyPageUp.Location = new System.Drawing.Point(976, 144);
+            keyPageUp.Margin = new System.Windows.Forms.Padding(5);
+            keyPageUp.Name = "keyPageUp";
+            keyPageUp.Pressed = false;
+            keyPageUp.Size = new System.Drawing.Size(47, 46);
+            keyPageUp.TabIndex = 95;
+            keyPageUp.Tested = false;
             // 
             // keyDelete
             // 
-            this.keyDelete.Enabled = false;
-            this.keyDelete.Legend = "Delete";
-            this.keyDelete.Location = new System.Drawing.Point(741, 173);
-            this.keyDelete.Margin = new System.Windows.Forms.Padding(4);
-            this.keyDelete.Name = "keyDelete";
-            this.keyDelete.Pressed = false;
-            this.keyDelete.Size = new System.Drawing.Size(40, 40);
-            this.keyDelete.TabIndex = 96;
-            this.keyDelete.Tested = false;
+            keyDelete.Enabled = false;
+            keyDelete.Legend = "Delete";
+            keyDelete.Location = new System.Drawing.Point(864, 200);
+            keyDelete.Margin = new System.Windows.Forms.Padding(5);
+            keyDelete.Name = "keyDelete";
+            keyDelete.Pressed = false;
+            keyDelete.Size = new System.Drawing.Size(47, 46);
+            keyDelete.TabIndex = 96;
+            keyDelete.Tested = false;
             // 
             // keyEnd
             // 
-            this.keyEnd.Enabled = false;
-            this.keyEnd.Legend = "End";
-            this.keyEnd.Location = new System.Drawing.Point(789, 173);
-            this.keyEnd.Margin = new System.Windows.Forms.Padding(4);
-            this.keyEnd.Name = "keyEnd";
-            this.keyEnd.Pressed = false;
-            this.keyEnd.Size = new System.Drawing.Size(40, 40);
-            this.keyEnd.TabIndex = 97;
-            this.keyEnd.Tested = false;
+            keyEnd.Enabled = false;
+            keyEnd.Legend = "End";
+            keyEnd.Location = new System.Drawing.Point(920, 200);
+            keyEnd.Margin = new System.Windows.Forms.Padding(5);
+            keyEnd.Name = "keyEnd";
+            keyEnd.Pressed = false;
+            keyEnd.Size = new System.Drawing.Size(47, 46);
+            keyEnd.TabIndex = 97;
+            keyEnd.Tested = false;
             // 
             // keyPageDown
             // 
-            this.keyPageDown.Enabled = false;
-            this.keyPageDown.Legend = "Page\r\nDown";
-            this.keyPageDown.Location = new System.Drawing.Point(837, 173);
-            this.keyPageDown.Margin = new System.Windows.Forms.Padding(4);
-            this.keyPageDown.Name = "keyPageDown";
-            this.keyPageDown.Pressed = false;
-            this.keyPageDown.Size = new System.Drawing.Size(40, 40);
-            this.keyPageDown.TabIndex = 98;
-            this.keyPageDown.Tested = false;
+            keyPageDown.Enabled = false;
+            keyPageDown.Legend = "Page\r\nDown";
+            keyPageDown.Location = new System.Drawing.Point(976, 200);
+            keyPageDown.Margin = new System.Windows.Forms.Padding(5);
+            keyPageDown.Name = "keyPageDown";
+            keyPageDown.Pressed = false;
+            keyPageDown.Size = new System.Drawing.Size(47, 46);
+            keyPageDown.TabIndex = 98;
+            keyPageDown.Tested = false;
             // 
             // keyUp
             // 
-            this.keyUp.Enabled = false;
-            this.keyUp.Legend = "▴";
-            this.keyUp.Location = new System.Drawing.Point(789, 269);
-            this.keyUp.Margin = new System.Windows.Forms.Padding(4);
-            this.keyUp.Name = "keyUp";
-            this.keyUp.Pressed = false;
-            this.keyUp.Size = new System.Drawing.Size(40, 40);
-            this.keyUp.TabIndex = 99;
-            this.keyUp.Tested = false;
+            keyUp.Enabled = false;
+            keyUp.Legend = "▴";
+            keyUp.Location = new System.Drawing.Point(920, 310);
+            keyUp.Margin = new System.Windows.Forms.Padding(5);
+            keyUp.Name = "keyUp";
+            keyUp.Pressed = false;
+            keyUp.Size = new System.Drawing.Size(47, 46);
+            keyUp.TabIndex = 99;
+            keyUp.Tested = false;
             // 
             // keyLeft
             // 
-            this.keyLeft.Enabled = false;
-            this.keyLeft.Legend = "◂";
-            this.keyLeft.Location = new System.Drawing.Point(741, 317);
-            this.keyLeft.Margin = new System.Windows.Forms.Padding(4);
-            this.keyLeft.Name = "keyLeft";
-            this.keyLeft.Pressed = false;
-            this.keyLeft.Size = new System.Drawing.Size(40, 40);
-            this.keyLeft.TabIndex = 100;
-            this.keyLeft.Tested = false;
+            keyLeft.Enabled = false;
+            keyLeft.Legend = "◂";
+            keyLeft.Location = new System.Drawing.Point(864, 366);
+            keyLeft.Margin = new System.Windows.Forms.Padding(5);
+            keyLeft.Name = "keyLeft";
+            keyLeft.Pressed = false;
+            keyLeft.Size = new System.Drawing.Size(47, 46);
+            keyLeft.TabIndex = 100;
+            keyLeft.Tested = false;
             // 
             // keyDown
             // 
-            this.keyDown.Enabled = false;
-            this.keyDown.Legend = "▾";
-            this.keyDown.Location = new System.Drawing.Point(789, 317);
-            this.keyDown.Margin = new System.Windows.Forms.Padding(4);
-            this.keyDown.Name = "keyDown";
-            this.keyDown.Pressed = false;
-            this.keyDown.Size = new System.Drawing.Size(40, 40);
-            this.keyDown.TabIndex = 101;
-            this.keyDown.Tested = false;
+            keyDown.Enabled = false;
+            keyDown.Legend = "▾";
+            keyDown.Location = new System.Drawing.Point(920, 366);
+            keyDown.Margin = new System.Windows.Forms.Padding(5);
+            keyDown.Name = "keyDown";
+            keyDown.Pressed = false;
+            keyDown.Size = new System.Drawing.Size(47, 46);
+            keyDown.TabIndex = 101;
+            keyDown.Tested = false;
             // 
             // keyRight
             // 
-            this.keyRight.Enabled = false;
-            this.keyRight.Legend = "▸";
-            this.keyRight.Location = new System.Drawing.Point(837, 317);
-            this.keyRight.Margin = new System.Windows.Forms.Padding(4);
-            this.keyRight.Name = "keyRight";
-            this.keyRight.Pressed = false;
-            this.keyRight.Size = new System.Drawing.Size(40, 40);
-            this.keyRight.TabIndex = 102;
-            this.keyRight.Tested = false;
+            keyRight.Enabled = false;
+            keyRight.Legend = "▸";
+            keyRight.Location = new System.Drawing.Point(976, 366);
+            keyRight.Margin = new System.Windows.Forms.Padding(5);
+            keyRight.Name = "keyRight";
+            keyRight.Pressed = false;
+            keyRight.Size = new System.Drawing.Size(47, 46);
+            keyRight.TabIndex = 102;
+            keyRight.Tested = false;
             // 
             // keyNumLock
             // 
-            this.keyNumLock.Enabled = false;
-            this.keyNumLock.Legend = "Num\r\nLock";
-            this.keyNumLock.Location = new System.Drawing.Point(893, 125);
-            this.keyNumLock.Margin = new System.Windows.Forms.Padding(4);
-            this.keyNumLock.Name = "keyNumLock";
-            this.keyNumLock.Pressed = false;
-            this.keyNumLock.Size = new System.Drawing.Size(40, 40);
-            this.keyNumLock.TabIndex = 103;
-            this.keyNumLock.Tested = false;
+            keyNumLock.Enabled = false;
+            keyNumLock.Legend = "Num\r\nLock";
+            keyNumLock.Location = new System.Drawing.Point(1042, 144);
+            keyNumLock.Margin = new System.Windows.Forms.Padding(5);
+            keyNumLock.Name = "keyNumLock";
+            keyNumLock.Pressed = false;
+            keyNumLock.Size = new System.Drawing.Size(47, 46);
+            keyNumLock.TabIndex = 103;
+            keyNumLock.Tested = false;
             // 
             // keyPadSlash
             // 
-            this.keyPadSlash.Enabled = false;
-            this.keyPadSlash.Legend = "/";
-            this.keyPadSlash.Location = new System.Drawing.Point(941, 125);
-            this.keyPadSlash.Margin = new System.Windows.Forms.Padding(4);
-            this.keyPadSlash.Name = "keyPadSlash";
-            this.keyPadSlash.Pressed = false;
-            this.keyPadSlash.Size = new System.Drawing.Size(40, 40);
-            this.keyPadSlash.TabIndex = 104;
-            this.keyPadSlash.Tested = false;
+            keyPadSlash.Enabled = false;
+            keyPadSlash.Legend = "/";
+            keyPadSlash.Location = new System.Drawing.Point(1098, 144);
+            keyPadSlash.Margin = new System.Windows.Forms.Padding(5);
+            keyPadSlash.Name = "keyPadSlash";
+            keyPadSlash.Pressed = false;
+            keyPadSlash.Size = new System.Drawing.Size(47, 46);
+            keyPadSlash.TabIndex = 104;
+            keyPadSlash.Tested = false;
             // 
             // keyPadAsterisk
             // 
-            this.keyPadAsterisk.Enabled = false;
-            this.keyPadAsterisk.Legend = "*";
-            this.keyPadAsterisk.Location = new System.Drawing.Point(989, 125);
-            this.keyPadAsterisk.Margin = new System.Windows.Forms.Padding(4);
-            this.keyPadAsterisk.Name = "keyPadAsterisk";
-            this.keyPadAsterisk.Pressed = false;
-            this.keyPadAsterisk.Size = new System.Drawing.Size(40, 40);
-            this.keyPadAsterisk.TabIndex = 105;
-            this.keyPadAsterisk.Tested = false;
+            keyPadAsterisk.Enabled = false;
+            keyPadAsterisk.Legend = "*";
+            keyPadAsterisk.Location = new System.Drawing.Point(1154, 144);
+            keyPadAsterisk.Margin = new System.Windows.Forms.Padding(5);
+            keyPadAsterisk.Name = "keyPadAsterisk";
+            keyPadAsterisk.Pressed = false;
+            keyPadAsterisk.Size = new System.Drawing.Size(47, 46);
+            keyPadAsterisk.TabIndex = 105;
+            keyPadAsterisk.Tested = false;
             // 
             // keyPadMinus
             // 
-            this.keyPadMinus.Enabled = false;
-            this.keyPadMinus.Legend = "-";
-            this.keyPadMinus.Location = new System.Drawing.Point(1037, 125);
-            this.keyPadMinus.Margin = new System.Windows.Forms.Padding(4);
-            this.keyPadMinus.Name = "keyPadMinus";
-            this.keyPadMinus.Pressed = false;
-            this.keyPadMinus.Size = new System.Drawing.Size(40, 40);
-            this.keyPadMinus.TabIndex = 106;
-            this.keyPadMinus.Tested = false;
+            keyPadMinus.Enabled = false;
+            keyPadMinus.Legend = "-";
+            keyPadMinus.Location = new System.Drawing.Point(1210, 144);
+            keyPadMinus.Margin = new System.Windows.Forms.Padding(5);
+            keyPadMinus.Name = "keyPadMinus";
+            keyPadMinus.Pressed = false;
+            keyPadMinus.Size = new System.Drawing.Size(47, 46);
+            keyPadMinus.TabIndex = 106;
+            keyPadMinus.Tested = false;
             // 
             // keyPadPlus
             // 
-            this.keyPadPlus.Enabled = false;
-            this.keyPadPlus.Legend = "+";
-            this.keyPadPlus.Location = new System.Drawing.Point(1037, 173);
-            this.keyPadPlus.Margin = new System.Windows.Forms.Padding(4);
-            this.keyPadPlus.Name = "keyPadPlus";
-            this.keyPadPlus.Pressed = false;
-            this.keyPadPlus.Size = new System.Drawing.Size(40, 88);
-            this.keyPadPlus.TabIndex = 107;
-            this.keyPadPlus.Tested = false;
+            keyPadPlus.Enabled = false;
+            keyPadPlus.Legend = "+";
+            keyPadPlus.Location = new System.Drawing.Point(1210, 200);
+            keyPadPlus.Margin = new System.Windows.Forms.Padding(5);
+            keyPadPlus.Name = "keyPadPlus";
+            keyPadPlus.Pressed = false;
+            keyPadPlus.Size = new System.Drawing.Size(47, 102);
+            keyPadPlus.TabIndex = 107;
+            keyPadPlus.Tested = false;
             // 
             // keyPadEnter
             // 
-            this.keyPadEnter.Enabled = false;
-            this.keyPadEnter.Legend = "Ent";
-            this.keyPadEnter.Location = new System.Drawing.Point(1037, 269);
-            this.keyPadEnter.Margin = new System.Windows.Forms.Padding(4);
-            this.keyPadEnter.Name = "keyPadEnter";
-            this.keyPadEnter.Pressed = false;
-            this.keyPadEnter.Size = new System.Drawing.Size(40, 88);
-            this.keyPadEnter.TabIndex = 108;
-            this.keyPadEnter.Tested = false;
+            keyPadEnter.Enabled = false;
+            keyPadEnter.Legend = "Ent";
+            keyPadEnter.Location = new System.Drawing.Point(1210, 310);
+            keyPadEnter.Margin = new System.Windows.Forms.Padding(5);
+            keyPadEnter.Name = "keyPadEnter";
+            keyPadEnter.Pressed = false;
+            keyPadEnter.Size = new System.Drawing.Size(47, 102);
+            keyPadEnter.TabIndex = 108;
+            keyPadEnter.Tested = false;
             // 
             // keyPadDot
             // 
-            this.keyPadDot.Enabled = false;
-            this.keyPadDot.Legend = ".";
-            this.keyPadDot.Location = new System.Drawing.Point(989, 317);
-            this.keyPadDot.Margin = new System.Windows.Forms.Padding(4);
-            this.keyPadDot.Name = "keyPadDot";
-            this.keyPadDot.Pressed = false;
-            this.keyPadDot.Size = new System.Drawing.Size(40, 40);
-            this.keyPadDot.TabIndex = 109;
-            this.keyPadDot.Tested = false;
+            keyPadDot.Enabled = false;
+            keyPadDot.Legend = ".";
+            keyPadDot.Location = new System.Drawing.Point(1154, 366);
+            keyPadDot.Margin = new System.Windows.Forms.Padding(5);
+            keyPadDot.Name = "keyPadDot";
+            keyPadDot.Pressed = false;
+            keyPadDot.Size = new System.Drawing.Size(47, 46);
+            keyPadDot.TabIndex = 109;
+            keyPadDot.Tested = false;
             // 
             // keyPad0
             // 
-            this.keyPad0.Enabled = false;
-            this.keyPad0.Legend = "0";
-            this.keyPad0.Location = new System.Drawing.Point(893, 317);
-            this.keyPad0.Margin = new System.Windows.Forms.Padding(4);
-            this.keyPad0.Name = "keyPad0";
-            this.keyPad0.Pressed = false;
-            this.keyPad0.Size = new System.Drawing.Size(88, 40);
-            this.keyPad0.TabIndex = 110;
-            this.keyPad0.Tested = false;
+            keyPad0.Enabled = false;
+            keyPad0.Legend = "0";
+            keyPad0.Location = new System.Drawing.Point(1042, 366);
+            keyPad0.Margin = new System.Windows.Forms.Padding(5);
+            keyPad0.Name = "keyPad0";
+            keyPad0.Pressed = false;
+            keyPad0.Size = new System.Drawing.Size(103, 46);
+            keyPad0.TabIndex = 110;
+            keyPad0.Tested = false;
             // 
             // keyPad1
             // 
-            this.keyPad1.Enabled = false;
-            this.keyPad1.Legend = "1";
-            this.keyPad1.Location = new System.Drawing.Point(893, 269);
-            this.keyPad1.Margin = new System.Windows.Forms.Padding(4);
-            this.keyPad1.Name = "keyPad1";
-            this.keyPad1.Pressed = false;
-            this.keyPad1.Size = new System.Drawing.Size(40, 40);
-            this.keyPad1.TabIndex = 111;
-            this.keyPad1.Tested = false;
+            keyPad1.Enabled = false;
+            keyPad1.Legend = "1";
+            keyPad1.Location = new System.Drawing.Point(1042, 310);
+            keyPad1.Margin = new System.Windows.Forms.Padding(5);
+            keyPad1.Name = "keyPad1";
+            keyPad1.Pressed = false;
+            keyPad1.Size = new System.Drawing.Size(47, 46);
+            keyPad1.TabIndex = 111;
+            keyPad1.Tested = false;
             // 
             // keyPad2
             // 
-            this.keyPad2.Enabled = false;
-            this.keyPad2.Legend = "2";
-            this.keyPad2.Location = new System.Drawing.Point(941, 269);
-            this.keyPad2.Margin = new System.Windows.Forms.Padding(4);
-            this.keyPad2.Name = "keyPad2";
-            this.keyPad2.Pressed = false;
-            this.keyPad2.Size = new System.Drawing.Size(40, 40);
-            this.keyPad2.TabIndex = 112;
-            this.keyPad2.Tested = false;
+            keyPad2.Enabled = false;
+            keyPad2.Legend = "2";
+            keyPad2.Location = new System.Drawing.Point(1098, 310);
+            keyPad2.Margin = new System.Windows.Forms.Padding(5);
+            keyPad2.Name = "keyPad2";
+            keyPad2.Pressed = false;
+            keyPad2.Size = new System.Drawing.Size(47, 46);
+            keyPad2.TabIndex = 112;
+            keyPad2.Tested = false;
             // 
             // keyPad3
             // 
-            this.keyPad3.Enabled = false;
-            this.keyPad3.Legend = "3";
-            this.keyPad3.Location = new System.Drawing.Point(989, 269);
-            this.keyPad3.Margin = new System.Windows.Forms.Padding(4);
-            this.keyPad3.Name = "keyPad3";
-            this.keyPad3.Pressed = false;
-            this.keyPad3.Size = new System.Drawing.Size(40, 40);
-            this.keyPad3.TabIndex = 113;
-            this.keyPad3.Tested = false;
+            keyPad3.Enabled = false;
+            keyPad3.Legend = "3";
+            keyPad3.Location = new System.Drawing.Point(1154, 310);
+            keyPad3.Margin = new System.Windows.Forms.Padding(5);
+            keyPad3.Name = "keyPad3";
+            keyPad3.Pressed = false;
+            keyPad3.Size = new System.Drawing.Size(47, 46);
+            keyPad3.TabIndex = 113;
+            keyPad3.Tested = false;
             // 
             // keyPad4
             // 
-            this.keyPad4.Enabled = false;
-            this.keyPad4.Legend = "4";
-            this.keyPad4.Location = new System.Drawing.Point(893, 221);
-            this.keyPad4.Margin = new System.Windows.Forms.Padding(4);
-            this.keyPad4.Name = "keyPad4";
-            this.keyPad4.Pressed = false;
-            this.keyPad4.Size = new System.Drawing.Size(40, 40);
-            this.keyPad4.TabIndex = 114;
-            this.keyPad4.Tested = false;
+            keyPad4.Enabled = false;
+            keyPad4.Legend = "4";
+            keyPad4.Location = new System.Drawing.Point(1042, 255);
+            keyPad4.Margin = new System.Windows.Forms.Padding(5);
+            keyPad4.Name = "keyPad4";
+            keyPad4.Pressed = false;
+            keyPad4.Size = new System.Drawing.Size(47, 46);
+            keyPad4.TabIndex = 114;
+            keyPad4.Tested = false;
             // 
             // keyPad5
             // 
-            this.keyPad5.Enabled = false;
-            this.keyPad5.Legend = "5";
-            this.keyPad5.Location = new System.Drawing.Point(941, 221);
-            this.keyPad5.Margin = new System.Windows.Forms.Padding(4);
-            this.keyPad5.Name = "keyPad5";
-            this.keyPad5.Pressed = false;
-            this.keyPad5.Size = new System.Drawing.Size(40, 40);
-            this.keyPad5.TabIndex = 115;
-            this.keyPad5.Tested = false;
+            keyPad5.Enabled = false;
+            keyPad5.Legend = "5";
+            keyPad5.Location = new System.Drawing.Point(1098, 255);
+            keyPad5.Margin = new System.Windows.Forms.Padding(5);
+            keyPad5.Name = "keyPad5";
+            keyPad5.Pressed = false;
+            keyPad5.Size = new System.Drawing.Size(47, 46);
+            keyPad5.TabIndex = 115;
+            keyPad5.Tested = false;
             // 
             // keyPad6
             // 
-            this.keyPad6.Enabled = false;
-            this.keyPad6.Legend = "6";
-            this.keyPad6.Location = new System.Drawing.Point(989, 221);
-            this.keyPad6.Margin = new System.Windows.Forms.Padding(4);
-            this.keyPad6.Name = "keyPad6";
-            this.keyPad6.Pressed = false;
-            this.keyPad6.Size = new System.Drawing.Size(40, 40);
-            this.keyPad6.TabIndex = 116;
-            this.keyPad6.Tested = false;
+            keyPad6.Enabled = false;
+            keyPad6.Legend = "6";
+            keyPad6.Location = new System.Drawing.Point(1154, 255);
+            keyPad6.Margin = new System.Windows.Forms.Padding(5);
+            keyPad6.Name = "keyPad6";
+            keyPad6.Pressed = false;
+            keyPad6.Size = new System.Drawing.Size(47, 46);
+            keyPad6.TabIndex = 116;
+            keyPad6.Tested = false;
             // 
             // keyPad7
             // 
-            this.keyPad7.Enabled = false;
-            this.keyPad7.Legend = "7";
-            this.keyPad7.Location = new System.Drawing.Point(893, 173);
-            this.keyPad7.Margin = new System.Windows.Forms.Padding(4);
-            this.keyPad7.Name = "keyPad7";
-            this.keyPad7.Pressed = false;
-            this.keyPad7.Size = new System.Drawing.Size(40, 40);
-            this.keyPad7.TabIndex = 117;
-            this.keyPad7.Tested = false;
+            keyPad7.Enabled = false;
+            keyPad7.Legend = "7";
+            keyPad7.Location = new System.Drawing.Point(1042, 200);
+            keyPad7.Margin = new System.Windows.Forms.Padding(5);
+            keyPad7.Name = "keyPad7";
+            keyPad7.Pressed = false;
+            keyPad7.Size = new System.Drawing.Size(47, 46);
+            keyPad7.TabIndex = 117;
+            keyPad7.Tested = false;
             // 
             // keyPad8
             // 
-            this.keyPad8.Enabled = false;
-            this.keyPad8.Legend = "8";
-            this.keyPad8.Location = new System.Drawing.Point(941, 173);
-            this.keyPad8.Margin = new System.Windows.Forms.Padding(4);
-            this.keyPad8.Name = "keyPad8";
-            this.keyPad8.Pressed = false;
-            this.keyPad8.Size = new System.Drawing.Size(40, 40);
-            this.keyPad8.TabIndex = 118;
-            this.keyPad8.Tested = false;
+            keyPad8.Enabled = false;
+            keyPad8.Legend = "8";
+            keyPad8.Location = new System.Drawing.Point(1098, 200);
+            keyPad8.Margin = new System.Windows.Forms.Padding(5);
+            keyPad8.Name = "keyPad8";
+            keyPad8.Pressed = false;
+            keyPad8.Size = new System.Drawing.Size(47, 46);
+            keyPad8.TabIndex = 118;
+            keyPad8.Tested = false;
             // 
             // keyPad9
             // 
-            this.keyPad9.Enabled = false;
-            this.keyPad9.Legend = "9";
-            this.keyPad9.Location = new System.Drawing.Point(989, 173);
-            this.keyPad9.Margin = new System.Windows.Forms.Padding(4);
-            this.keyPad9.Name = "keyPad9";
-            this.keyPad9.Pressed = false;
-            this.keyPad9.Size = new System.Drawing.Size(40, 40);
-            this.keyPad9.TabIndex = 119;
-            this.keyPad9.Tested = false;
+            keyPad9.Enabled = false;
+            keyPad9.Legend = "9";
+            keyPad9.Location = new System.Drawing.Point(1154, 200);
+            keyPad9.Margin = new System.Windows.Forms.Padding(5);
+            keyPad9.Name = "keyPad9";
+            keyPad9.Pressed = false;
+            keyPad9.Size = new System.Drawing.Size(47, 46);
+            keyPad9.TabIndex = 119;
+            keyPad9.Tested = false;
             // 
             // keyMute
             // 
-            this.keyMute.Enabled = false;
-            this.keyMute.Legend = "Mut";
-            this.keyMute.Location = new System.Drawing.Point(893, 13);
-            this.keyMute.Margin = new System.Windows.Forms.Padding(4);
-            this.keyMute.Name = "keyMute";
-            this.keyMute.Pressed = false;
-            this.keyMute.Size = new System.Drawing.Size(40, 40);
-            this.keyMute.TabIndex = 120;
-            this.keyMute.Tested = false;
+            keyMute.Enabled = false;
+            keyMute.Legend = "Mut";
+            keyMute.Location = new System.Drawing.Point(1042, 15);
+            keyMute.Margin = new System.Windows.Forms.Padding(5);
+            keyMute.Name = "keyMute";
+            keyMute.Pressed = false;
+            keyMute.Size = new System.Drawing.Size(47, 46);
+            keyMute.TabIndex = 120;
+            keyMute.Tested = false;
             // 
             // keyVolumeDown
             // 
-            this.keyVolumeDown.Enabled = false;
-            this.keyVolumeDown.Legend = "Vol-";
-            this.keyVolumeDown.Location = new System.Drawing.Point(941, 13);
-            this.keyVolumeDown.Margin = new System.Windows.Forms.Padding(4);
-            this.keyVolumeDown.Name = "keyVolumeDown";
-            this.keyVolumeDown.Pressed = false;
-            this.keyVolumeDown.Size = new System.Drawing.Size(40, 40);
-            this.keyVolumeDown.TabIndex = 121;
-            this.keyVolumeDown.Tested = false;
+            keyVolumeDown.Enabled = false;
+            keyVolumeDown.Legend = "Vol-";
+            keyVolumeDown.Location = new System.Drawing.Point(1098, 15);
+            keyVolumeDown.Margin = new System.Windows.Forms.Padding(5);
+            keyVolumeDown.Name = "keyVolumeDown";
+            keyVolumeDown.Pressed = false;
+            keyVolumeDown.Size = new System.Drawing.Size(47, 46);
+            keyVolumeDown.TabIndex = 121;
+            keyVolumeDown.Tested = false;
             // 
             // keyVolumeUp
             // 
-            this.keyVolumeUp.Enabled = false;
-            this.keyVolumeUp.Legend = "Vol+";
-            this.keyVolumeUp.Location = new System.Drawing.Point(989, 13);
-            this.keyVolumeUp.Margin = new System.Windows.Forms.Padding(4);
-            this.keyVolumeUp.Name = "keyVolumeUp";
-            this.keyVolumeUp.Pressed = false;
-            this.keyVolumeUp.Size = new System.Drawing.Size(40, 40);
-            this.keyVolumeUp.TabIndex = 122;
-            this.keyVolumeUp.Tested = false;
+            keyVolumeUp.Enabled = false;
+            keyVolumeUp.Legend = "Vol+";
+            keyVolumeUp.Location = new System.Drawing.Point(1154, 15);
+            keyVolumeUp.Margin = new System.Windows.Forms.Padding(5);
+            keyVolumeUp.Name = "keyVolumeUp";
+            keyVolumeUp.Pressed = false;
+            keyVolumeUp.Size = new System.Drawing.Size(47, 46);
+            keyVolumeUp.TabIndex = 122;
+            keyVolumeUp.Tested = false;
             // 
             // keyPlayPause
             // 
-            this.keyPlayPause.Enabled = false;
-            this.keyPlayPause.Legend = "Play";
-            this.keyPlayPause.Location = new System.Drawing.Point(893, 61);
-            this.keyPlayPause.Margin = new System.Windows.Forms.Padding(4);
-            this.keyPlayPause.Name = "keyPlayPause";
-            this.keyPlayPause.Pressed = false;
-            this.keyPlayPause.Size = new System.Drawing.Size(40, 40);
-            this.keyPlayPause.TabIndex = 123;
-            this.keyPlayPause.Tested = false;
+            keyPlayPause.Enabled = false;
+            keyPlayPause.Legend = "Play";
+            keyPlayPause.Location = new System.Drawing.Point(1042, 70);
+            keyPlayPause.Margin = new System.Windows.Forms.Padding(5);
+            keyPlayPause.Name = "keyPlayPause";
+            keyPlayPause.Pressed = false;
+            keyPlayPause.Size = new System.Drawing.Size(47, 46);
+            keyPlayPause.TabIndex = 123;
+            keyPlayPause.Tested = false;
             // 
             // keyMediaPrevious
             // 
-            this.keyMediaPrevious.Enabled = false;
-            this.keyMediaPrevious.Legend = "Prev";
-            this.keyMediaPrevious.Location = new System.Drawing.Point(941, 61);
-            this.keyMediaPrevious.Margin = new System.Windows.Forms.Padding(4);
-            this.keyMediaPrevious.Name = "keyMediaPrevious";
-            this.keyMediaPrevious.Pressed = false;
-            this.keyMediaPrevious.Size = new System.Drawing.Size(40, 40);
-            this.keyMediaPrevious.TabIndex = 124;
-            this.keyMediaPrevious.Tested = false;
+            keyMediaPrevious.Enabled = false;
+            keyMediaPrevious.Legend = "Prev";
+            keyMediaPrevious.Location = new System.Drawing.Point(1098, 70);
+            keyMediaPrevious.Margin = new System.Windows.Forms.Padding(5);
+            keyMediaPrevious.Name = "keyMediaPrevious";
+            keyMediaPrevious.Pressed = false;
+            keyMediaPrevious.Size = new System.Drawing.Size(47, 46);
+            keyMediaPrevious.TabIndex = 124;
+            keyMediaPrevious.Tested = false;
             // 
             // keyMediaNext
             // 
-            this.keyMediaNext.Enabled = false;
-            this.keyMediaNext.Legend = "Next";
-            this.keyMediaNext.Location = new System.Drawing.Point(989, 61);
-            this.keyMediaNext.Margin = new System.Windows.Forms.Padding(4);
-            this.keyMediaNext.Name = "keyMediaNext";
-            this.keyMediaNext.Pressed = false;
-            this.keyMediaNext.Size = new System.Drawing.Size(40, 40);
-            this.keyMediaNext.TabIndex = 125;
-            this.keyMediaNext.Tested = false;
+            keyMediaNext.Enabled = false;
+            keyMediaNext.Legend = "Next";
+            keyMediaNext.Location = new System.Drawing.Point(1154, 70);
+            keyMediaNext.Margin = new System.Windows.Forms.Padding(5);
+            keyMediaNext.Name = "keyMediaNext";
+            keyMediaNext.Pressed = false;
+            keyMediaNext.Size = new System.Drawing.Size(47, 46);
+            keyMediaNext.TabIndex = 125;
+            keyMediaNext.Tested = false;
             // 
             // keyMail
             // 
-            this.keyMail.Enabled = false;
-            this.keyMail.Legend = "Mail";
-            this.keyMail.Location = new System.Drawing.Point(1037, 13);
-            this.keyMail.Margin = new System.Windows.Forms.Padding(4);
-            this.keyMail.Name = "keyMail";
-            this.keyMail.Pressed = false;
-            this.keyMail.Size = new System.Drawing.Size(40, 40);
-            this.keyMail.TabIndex = 126;
-            this.keyMail.Tested = false;
+            keyMail.Enabled = false;
+            keyMail.Legend = "Mail";
+            keyMail.Location = new System.Drawing.Point(1210, 15);
+            keyMail.Margin = new System.Windows.Forms.Padding(5);
+            keyMail.Name = "keyMail";
+            keyMail.Pressed = false;
+            keyMail.Size = new System.Drawing.Size(47, 46);
+            keyMail.TabIndex = 126;
+            keyMail.Tested = false;
             // 
             // keyCalculator
             // 
-            this.keyCalculator.Enabled = false;
-            this.keyCalculator.Legend = "Calc";
-            this.keyCalculator.Location = new System.Drawing.Point(1037, 61);
-            this.keyCalculator.Margin = new System.Windows.Forms.Padding(4);
-            this.keyCalculator.Name = "keyCalculator";
-            this.keyCalculator.Pressed = false;
-            this.keyCalculator.Size = new System.Drawing.Size(40, 40);
-            this.keyCalculator.TabIndex = 127;
-            this.keyCalculator.Tested = false;
+            keyCalculator.Enabled = false;
+            keyCalculator.Legend = "Calc";
+            keyCalculator.Location = new System.Drawing.Point(1210, 70);
+            keyCalculator.Margin = new System.Windows.Forms.Padding(5);
+            keyCalculator.Name = "keyCalculator";
+            keyCalculator.Pressed = false;
+            keyCalculator.Size = new System.Drawing.Size(47, 46);
+            keyCalculator.TabIndex = 127;
+            keyCalculator.Tested = false;
             // 
             // KeyTesterWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1090, 370);
-            this.Controls.Add(this.lblLastScanCode);
-            this.Controls.Add(this.lblLastVirtualKey);
-            this.Controls.Add(this.keyF1);
-            this.Controls.Add(this.keyF2);
-            this.Controls.Add(this.keyF3);
-            this.Controls.Add(this.keyF4);
-            this.Controls.Add(this.keyF5);
-            this.Controls.Add(this.keyF6);
-            this.Controls.Add(this.keyF7);
-            this.Controls.Add(this.keyF8);
-            this.Controls.Add(this.keyF9);
-            this.Controls.Add(this.keyF10);
-            this.Controls.Add(this.keyF11);
-            this.Controls.Add(this.keyF12);
-            this.Controls.Add(this.keyF13);
-            this.Controls.Add(this.keyF14);
-            this.Controls.Add(this.keyF15);
-            this.Controls.Add(this.keyF16);
-            this.Controls.Add(this.keyF17);
-            this.Controls.Add(this.keyF18);
-            this.Controls.Add(this.keyF19);
-            this.Controls.Add(this.keyF20);
-            this.Controls.Add(this.keyF21);
-            this.Controls.Add(this.keyF22);
-            this.Controls.Add(this.keyF23);
-            this.Controls.Add(this.keyF24);
-            this.Controls.Add(this.key1);
-            this.Controls.Add(this.key2);
-            this.Controls.Add(this.key3);
-            this.Controls.Add(this.key4);
-            this.Controls.Add(this.key5);
-            this.Controls.Add(this.key6);
-            this.Controls.Add(this.key7);
-            this.Controls.Add(this.key8);
-            this.Controls.Add(this.key9);
-            this.Controls.Add(this.key0);
-            this.Controls.Add(this.keyQ);
-            this.Controls.Add(this.keyW);
-            this.Controls.Add(this.keyE);
-            this.Controls.Add(this.keyR);
-            this.Controls.Add(this.keyT);
-            this.Controls.Add(this.keyY);
-            this.Controls.Add(this.keyU);
-            this.Controls.Add(this.keyI);
-            this.Controls.Add(this.keyO);
-            this.Controls.Add(this.keyP);
-            this.Controls.Add(this.keyA);
-            this.Controls.Add(this.keyS);
-            this.Controls.Add(this.keyD);
-            this.Controls.Add(this.keyF);
-            this.Controls.Add(this.keyG);
-            this.Controls.Add(this.keyH);
-            this.Controls.Add(this.keyJ);
-            this.Controls.Add(this.keyK);
-            this.Controls.Add(this.keyL);
-            this.Controls.Add(this.keyZ);
-            this.Controls.Add(this.keyX);
-            this.Controls.Add(this.keyC);
-            this.Controls.Add(this.keyV);
-            this.Controls.Add(this.keyB);
-            this.Controls.Add(this.keyN);
-            this.Controls.Add(this.keyM);
-            this.Controls.Add(this.keyEscape);
-            this.Controls.Add(this.keyGrave);
-            this.Controls.Add(this.keyMinus);
-            this.Controls.Add(this.keyEqual);
-            this.Controls.Add(this.keyBackspace);
-            this.Controls.Add(this.keyTab);
-            this.Controls.Add(this.keyLeftBrace);
-            this.Controls.Add(this.keyRightBrace);
-            this.Controls.Add(this.keyBackslash);
-            this.Controls.Add(this.keyCapsLock);
-            this.Controls.Add(this.keySemicolon);
-            this.Controls.Add(this.keyQuote);
-            this.Controls.Add(this.keyNUHS);
-            this.Controls.Add(this.keyEnter);
-            this.Controls.Add(this.keyNUBS);
-            this.Controls.Add(this.keyComma);
-            this.Controls.Add(this.keyDot);
-            this.Controls.Add(this.keySlash);
-            this.Controls.Add(this.keySpace);
-            this.Controls.Add(this.keyMenu);
-            this.Controls.Add(this.keyLeftControl);
-            this.Controls.Add(this.keyLeftShift);
-            this.Controls.Add(this.keyLeftAlt);
-            this.Controls.Add(this.keyLeftGUI);
-            this.Controls.Add(this.keyRightControl);
-            this.Controls.Add(this.keyRightShift);
-            this.Controls.Add(this.keyRightAlt);
-            this.Controls.Add(this.keyRightGUI);
-            this.Controls.Add(this.keyPrintScreen);
-            this.Controls.Add(this.keyScrollLock);
-            this.Controls.Add(this.keyPauseBreak);
-            this.Controls.Add(this.keyInsert);
-            this.Controls.Add(this.keyHome);
-            this.Controls.Add(this.keyPageUp);
-            this.Controls.Add(this.keyDelete);
-            this.Controls.Add(this.keyEnd);
-            this.Controls.Add(this.keyPageDown);
-            this.Controls.Add(this.keyUp);
-            this.Controls.Add(this.keyLeft);
-            this.Controls.Add(this.keyDown);
-            this.Controls.Add(this.keyRight);
-            this.Controls.Add(this.keyNumLock);
-            this.Controls.Add(this.keyPadSlash);
-            this.Controls.Add(this.keyPadAsterisk);
-            this.Controls.Add(this.keyPadMinus);
-            this.Controls.Add(this.keyPadPlus);
-            this.Controls.Add(this.keyPadEnter);
-            this.Controls.Add(this.keyPadDot);
-            this.Controls.Add(this.keyPad0);
-            this.Controls.Add(this.keyPad1);
-            this.Controls.Add(this.keyPad2);
-            this.Controls.Add(this.keyPad3);
-            this.Controls.Add(this.keyPad4);
-            this.Controls.Add(this.keyPad5);
-            this.Controls.Add(this.keyPad6);
-            this.Controls.Add(this.keyPad7);
-            this.Controls.Add(this.keyPad8);
-            this.Controls.Add(this.keyPad9);
-            this.Controls.Add(this.keyMute);
-            this.Controls.Add(this.keyVolumeDown);
-            this.Controls.Add(this.keyVolumeUp);
-            this.Controls.Add(this.keyPlayPause);
-            this.Controls.Add(this.keyMediaPrevious);
-            this.Controls.Add(this.keyMediaNext);
-            this.Controls.Add(this.keyMail);
-            this.Controls.Add(this.keyCalculator);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.KeyPreview = true;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "KeyTesterWindow";
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Key Tester";
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(1272, 427);
+            Controls.Add(lblLastScanCode);
+            Controls.Add(lblLastVirtualKey);
+            Controls.Add(keyF1);
+            Controls.Add(keyF2);
+            Controls.Add(keyF3);
+            Controls.Add(keyF4);
+            Controls.Add(keyF5);
+            Controls.Add(keyF6);
+            Controls.Add(keyF7);
+            Controls.Add(keyF8);
+            Controls.Add(keyF9);
+            Controls.Add(keyF10);
+            Controls.Add(keyF11);
+            Controls.Add(keyF12);
+            Controls.Add(keyF13);
+            Controls.Add(keyF14);
+            Controls.Add(keyF15);
+            Controls.Add(keyF16);
+            Controls.Add(keyF17);
+            Controls.Add(keyF18);
+            Controls.Add(keyF19);
+            Controls.Add(keyF20);
+            Controls.Add(keyF21);
+            Controls.Add(keyF22);
+            Controls.Add(keyF23);
+            Controls.Add(keyF24);
+            Controls.Add(key1);
+            Controls.Add(key2);
+            Controls.Add(key3);
+            Controls.Add(key4);
+            Controls.Add(key5);
+            Controls.Add(key6);
+            Controls.Add(key7);
+            Controls.Add(key8);
+            Controls.Add(key9);
+            Controls.Add(key0);
+            Controls.Add(keyQ);
+            Controls.Add(keyW);
+            Controls.Add(keyE);
+            Controls.Add(keyR);
+            Controls.Add(keyT);
+            Controls.Add(keyY);
+            Controls.Add(keyU);
+            Controls.Add(keyI);
+            Controls.Add(keyO);
+            Controls.Add(keyP);
+            Controls.Add(keyA);
+            Controls.Add(keyS);
+            Controls.Add(keyD);
+            Controls.Add(keyF);
+            Controls.Add(keyG);
+            Controls.Add(keyH);
+            Controls.Add(keyJ);
+            Controls.Add(keyK);
+            Controls.Add(keyL);
+            Controls.Add(keyZ);
+            Controls.Add(keyX);
+            Controls.Add(keyC);
+            Controls.Add(keyV);
+            Controls.Add(keyB);
+            Controls.Add(keyN);
+            Controls.Add(keyM);
+            Controls.Add(keyEscape);
+            Controls.Add(keyGrave);
+            Controls.Add(keyMinus);
+            Controls.Add(keyEqual);
+            Controls.Add(keyBackspace);
+            Controls.Add(keyTab);
+            Controls.Add(keyLeftBrace);
+            Controls.Add(keyRightBrace);
+            Controls.Add(keyBackslash);
+            Controls.Add(keyCapsLock);
+            Controls.Add(keySemicolon);
+            Controls.Add(keyQuote);
+            Controls.Add(keyNUHS);
+            Controls.Add(keyEnter);
+            Controls.Add(keyNUBS);
+            Controls.Add(keyComma);
+            Controls.Add(keyDot);
+            Controls.Add(keySlash);
+            Controls.Add(keySpace);
+            Controls.Add(keyMenu);
+            Controls.Add(keyLeftControl);
+            Controls.Add(keyLeftShift);
+            Controls.Add(keyLeftAlt);
+            Controls.Add(keyLeftGUI);
+            Controls.Add(keyRightControl);
+            Controls.Add(keyRightShift);
+            Controls.Add(keyRightAlt);
+            Controls.Add(keyRightGUI);
+            Controls.Add(keyPrintScreen);
+            Controls.Add(keyScrollLock);
+            Controls.Add(keyPauseBreak);
+            Controls.Add(keyInsert);
+            Controls.Add(keyHome);
+            Controls.Add(keyPageUp);
+            Controls.Add(keyDelete);
+            Controls.Add(keyEnd);
+            Controls.Add(keyPageDown);
+            Controls.Add(keyUp);
+            Controls.Add(keyLeft);
+            Controls.Add(keyDown);
+            Controls.Add(keyRight);
+            Controls.Add(keyNumLock);
+            Controls.Add(keyPadSlash);
+            Controls.Add(keyPadAsterisk);
+            Controls.Add(keyPadMinus);
+            Controls.Add(keyPadPlus);
+            Controls.Add(keyPadEnter);
+            Controls.Add(keyPadDot);
+            Controls.Add(keyPad0);
+            Controls.Add(keyPad1);
+            Controls.Add(keyPad2);
+            Controls.Add(keyPad3);
+            Controls.Add(keyPad4);
+            Controls.Add(keyPad5);
+            Controls.Add(keyPad6);
+            Controls.Add(keyPad7);
+            Controls.Add(keyPad8);
+            Controls.Add(keyPad9);
+            Controls.Add(keyMute);
+            Controls.Add(keyVolumeDown);
+            Controls.Add(keyVolumeUp);
+            Controls.Add(keyPlayPause);
+            Controls.Add(keyMediaPrevious);
+            Controls.Add(keyMediaNext);
+            Controls.Add(keyMail);
+            Controls.Add(keyCalculator);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
+            KeyPreview = true;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "KeyTesterWindow";
+            ShowInTaskbar = false;
+            Text = "Key Tester";
+            TopMost = true;
+            Load += KeyTesterWindow_Load;
+            ResumeLayout(false);
         }
 
         #endregion

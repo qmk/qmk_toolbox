@@ -27,6 +27,8 @@ namespace QMK_Toolbox.HidConsole
 
         private void HidConsoleWindow_Load(object sender, EventArgs e)
         {
+            CenterToParent();
+
             consoleListener.consoleDeviceConnected += ConsoleDeviceConnected;
             consoleListener.consoleDeviceDisconnected += ConsoleDeviceDisconnected;
             consoleListener.consoleReportReceived += ConsoleReportReceived;
