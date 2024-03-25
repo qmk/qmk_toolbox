@@ -4,20 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Management;
 
-namespace QMK_Toolbox.HidConsole
+namespace QMK_Toolbox.Hid
 {
-    public class HidConsoleListener : IDisposable
+    public class HidListener : IDisposable
     {
         private const ushort ConsoleUsagePage = 0xFF31;
         private const ushort ConsoleUsage = 0x0074;
 
         public List<HidConsoleDevice> Devices { get; private set; }
 
-        public delegate void HidConsoleDeviceEventDelegate(HidConsoleDevice device);
+        public delegate void HidDeviceEventDelegate(HidConsoleDevice device);
         public delegate void HidConsoleReportReceivedDelegate(HidConsoleDevice device, string data);
 
-        public HidConsoleDeviceEventDelegate consoleDeviceConnected;
-        public HidConsoleDeviceEventDelegate consoleDeviceDisconnected;
+        public HidDeviceEventDelegate hidDeviceConnected;
+        public HidDeviceEventDelegate hidDeviceDisconnected;
         public HidConsoleReportReceivedDelegate consoleReportReceived;
 
         private void EnumerateHidDevices(bool connected)
@@ -36,12 +36,12 @@ namespace QMK_Toolbox.HidConsole
 
                     if (device != null && !listed)
                     {
-                        HidConsoleDevice consoleDevice = new(device)
+                        HidConsoleDevice hidDevice = new(device)
                         {
                             consoleReportReceived = HidConsoleReportReceived
                         };
-                        Devices.Add(consoleDevice);
-                        consoleDeviceConnected?.Invoke(consoleDevice);
+                        Devices.Add(hidDevice);
+                        hidDeviceConnected?.Invoke(hidDevice);
                     }
                 }
             }
@@ -59,7 +59,7 @@ namespace QMK_Toolbox.HidConsole
                         }
                         Devices.Remove(device);
                         device.consoleReportReceived = null;
-                        consoleDeviceDisconnected?.Invoke(device);
+                        hidDeviceDisconnected?.Invoke(device);
                     }
                 }
             }

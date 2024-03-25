@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QMK_Toolbox.HidConsole
+namespace QMK_Toolbox.Hid
 {
     public class HidConsoleDevice
     {

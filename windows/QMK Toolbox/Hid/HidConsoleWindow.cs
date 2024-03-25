@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace QMK_Toolbox.HidConsole
+namespace QMK_Toolbox.Hid
 {
     public partial class HidConsoleWindow : Form
     {
@@ -29,27 +29,27 @@ namespace QMK_Toolbox.HidConsole
         {
             CenterToParent();
 
-            consoleListener.consoleDeviceConnected += ConsoleDeviceConnected;
-            consoleListener.consoleDeviceDisconnected += ConsoleDeviceDisconnected;
-            consoleListener.consoleReportReceived += ConsoleReportReceived;
-            consoleListener.Start();
+            hidListener.hidDeviceConnected += HidDeviceConnected;
+            hidListener.hidDeviceDisconnected += HidDeviceDisconnected;
+            hidListener.consoleReportReceived += ConsoleReportReceived;
+            hidListener.Start();
         }
 
         private void HidConsoleWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
-            consoleListener.consoleDeviceConnected -= ConsoleDeviceConnected;
-            consoleListener.consoleDeviceDisconnected -= ConsoleDeviceDisconnected;
-            consoleListener.consoleReportReceived -= ConsoleReportReceived;
-            consoleListener.Dispose();
+            hidListener.hidDeviceConnected -= HidDeviceConnected;
+            hidListener.hidDeviceDisconnected -= HidDeviceDisconnected;
+            hidListener.consoleReportReceived -= ConsoleReportReceived;
+            hidListener.Dispose();
         }
         #endregion
 
         #region HID Console
-        private readonly HidConsoleListener consoleListener = new();
+        private readonly HidListener hidListener = new();
 
         private HidConsoleDevice lastReportedDevice;
 
-        private void ConsoleDeviceConnected(HidConsoleDevice device)
+        private void HidDeviceConnected(HidConsoleDevice device)
         {
             Invoke(new Action(() =>
             {
@@ -59,7 +59,7 @@ namespace QMK_Toolbox.HidConsole
             }));
         }
 
-        private void ConsoleDeviceDisconnected(HidConsoleDevice device)
+        private void HidDeviceDisconnected(HidConsoleDevice device)
         {
             Invoke(new Action(() =>
             {
@@ -74,7 +74,7 @@ namespace QMK_Toolbox.HidConsole
             Invoke(new Action(() =>
             {
                 int selectedDevice = consoleList.SelectedIndex;
-                if (selectedDevice == 0 || consoleListener.Devices[selectedDevice - 1] == device)
+                if (selectedDevice == 0 || hidListener.Devices[selectedDevice - 1] == device)
                 {
                     if (lastReportedDevice != device)
                     {
@@ -91,7 +91,7 @@ namespace QMK_Toolbox.HidConsole
             var selected = consoleList.SelectedIndex != -1 ? consoleList.SelectedIndex : 0;
             consoleList.Items.Clear();
 
-            foreach (var device in consoleListener.Devices)
+            foreach (var device in hidListener.Devices)
             {
                 if (device != null)
                 {
