@@ -1,5 +1,5 @@
 ﻿using QMK_Toolbox.Helpers;
-using QMK_Toolbox.HidConsole;
+using QMK_Toolbox.Hid;
 using QMK_Toolbox.KeyTester;
 using QMK_Toolbox.Properties;
 using QMK_Toolbox.Usb;
