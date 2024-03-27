@@ -1,0 +1,268 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:QMK_Toolbox.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:r="clr-namespace:QMK_Toolbox.Properties" 
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="QMK_Toolbox.Views.MainWindow"
+        Initialized="OnInitialized"
+        Width="800"
+        DragDrop.AllowDrop="True"
+        Height="680"
+        FontSize="10"
+        MinWidth="800"
+        MinHeight="680"
+        Title="{x:Static r:Resources.ApplicationTitle}"
+        Background="#f0f0f0"
+        Icon="/Resources/qmk.ico">
+   
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <Grid HorizontalAlignment="Stretch" 
+          ShowGridLines="False" 
+          VerticalAlignment="Stretch" 
+          RowDefinitions="22,20,30,30,*,30,5"
+          ColumnDefinitions="10,*,200,10">
+        <Grid.Resources>
+            <!-- <Style Selector="CheckBox"> -->
+                <!-- <Setter Property="Padding" Value="8,0,0,0" /> -->
+              
+                <!-- <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" /> -->
+                <!-- <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" /> -->
+                <!-- <Setter Property="MinHeight" Value="32" /> -->
+                <!-- <Setter Property="Foreground" Value="{DynamicResource CheckBoxForegroundUnchecked}" /> -->
+                <!-- <Setter Property="Background" Value="{DynamicResource CheckBoxBackgroundUnchecked}" /> -->
+                <!-- <Setter Property="BorderBrush" Value="{DynamicResource CheckBoxBorderBrushUnchecked}" /> -->
+                <!-- <Setter Property="Template"> -->
+                <!--   <ControlTemplate> -->
+                <!--     <Grid x:Name="RootGrid" ColumnDefinitions="20,*"> -->
+                <!--       <Border x:Name="PART_Border" -->
+                <!--               Grid.ColumnSpan="2" -->
+                <!--               Background="{TemplateBinding Background}" -->
+                <!--               BorderBrush="{TemplateBinding BorderBrush}" -->
+                <!--               BorderThickness="{TemplateBinding BorderThickness}" -->
+                <!--               CornerRadius="{TemplateBinding CornerRadius}" /> -->
+                <!-- -->
+                <!--       <Grid VerticalAlignment="Top" Height="32"> -->
+                <!--         <Border x:Name="NormalRectangle" -->
+                <!--                 BorderBrush="{DynamicResource CheckBoxCheckBackgroundStrokeUnchecked}" -->
+                <!--                 Background="{DynamicResource CheckBoxCheckBackgroundFillUnchecked}" -->
+                <!--                 BorderThickness="{DynamicResource CheckBoxBorderThemeThickness}" -->
+                <!--                 CornerRadius="{TemplateBinding CornerRadius}" -->
+                <!--                 UseLayoutRounding="False" -->
+                <!--                 Height="20" -->
+                <!--                 Width="20" /> -->
+                <!-- -->
+                <!--         <Viewbox UseLayoutRounding="False"> -->
+                <!--           <Panel> -->
+                <!--             <Panel Height="16" Width="16" /> -->
+                <!--             <Path x:Name="CheckGlyph" -->
+                <!--                   Opacity="0" -->
+                <!--                   Fill="{DynamicResource CheckBoxCheckGlyphForegroundUnchecked}" -->
+                <!--                   Stretch="Uniform" -->
+                <!--                   VerticalAlignment="Center"/> -->
+                <!--           </Panel> -->
+                <!--         </Viewbox> -->
+                <!--       </Grid> -->
+                <!--       <ContentPresenter x:Name="ContentPresenter" -->
+                <!--                       ContentTemplate="{TemplateBinding ContentTemplate}" -->
+                <!--                       Content="{TemplateBinding Content}" -->
+                <!--                       Margin="{TemplateBinding Padding}" -->
+                <!--                       RecognizesAccessKey="True" -->
+                <!--                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" -->
+                <!--                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}" -->
+                <!--                       Grid.Column="1" /> -->
+                <!--     </Grid> -->
+                <!--   </ControlTemplate> -->
+                <!-- </Setter> -->
+            <!-- </Style> -->
+        </Grid.Resources>
+        <Menu Grid.Row="0" 
+              Grid.Column="0"
+              Grid.ColumnSpan="2"
+              Margin="0,3,0,3">
+            <MenuItem Header="{x:Static r:Resources.Menu_File}">
+                <MenuItem Header="{x:Static r:Resources.Menu_FileOpen}" Command="{Binding OpenFileCommand}"/>
+                <Separator/>
+                <MenuItem Header="{x:Static r:Resources.Menu_FileExit}" Command="{Binding CloseCommand}"/>
+            </MenuItem>
+            <MenuItem Header="{x:Static r:Resources.Menu_Tools}">
+                <MenuItem Header="Flash" Command="{Binding FlashCommand}" />
+                <MenuItem Header="EEPROM" Command="{Binding ClearEepromCommand}" />
+                <MenuItem Header="Exit DFU" Command="{Binding ExitDfuCommand}"/>
+                <Separator/>
+                <MenuItem Header="{x:Static r:Resources.Menu_ToolsFlash}" Command="{Binding IsAutoFlash }" >
+                    <MenuItem.Icon>
+                        <CheckBox IsChecked="{Binding IsAutoFlash}" BorderThickness="0">
+                        </CheckBox>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="{x:Static r:Resources.Menu_ToolShowAll}"/>
+                <Separator/>
+                <MenuItem Header="{x:Static r:Resources.Menu_ToolsKeyTester}" IsEnabled="False"/>
+            </MenuItem>
+            <MenuItem Header="{x:Static r:Resources.Menu_Help}">
+                <MenuItem Header="{x:Static r:Resources.Menu_HelpCheckNew}" IsEnabled="False"/>
+                <Separator/>
+                <MenuItem Header="{x:Static r:Resources.Menu_HelpAbout}"/>
+            </MenuItem>
+        </Menu>
+        <Label
+            FontSize="10"
+            Grid.Row="1"
+            Grid.Column="1"
+            Padding="0,0,0,0"
+            VerticalAlignment="Top"
+            Margin="0,8,0,0"
+            HorizontalAlignment="Left"
+            Content="{x:Static r:Resources.Label_LocalFile}" />
+        <Label
+            FontSize="10"
+            Grid.Row="1"
+            Grid.Column="2"
+            Padding="0,0,0,0"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Right"
+            Margin="0,8,42,0"
+            Content="{x:Static r:Resources.Label_MCU}" />
+        <Border x:Name="border"
+            BorderThickness="1"
+            BorderBrush="Black"
+            Grid.Row="2"
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            HorizontalAlignment ="Stretch">
+            <TextBlock
+                x:Name="HexFile"
+                TextWrapping="Wrap"
+                Padding="2,3,0,0"
+                Height="19"
+                Background="White"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Stretch"
+                Margin="0,0,0,0"
+                FontSize="10"
+                Text="{Binding HexFile}" />
+        </Border>
+        <StackPanel
+            Orientation="Horizontal"
+            Grid.Row="2"
+            Grid.Column="2"
+            HorizontalAlignment="Right">
+            <Button
+                Command="{Binding OpenFileCommand}"
+                Margin="0,0,10,0"
+                Padding ="2,4,0,0"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right"
+                Height="22"
+                Width="45"
+                FontSize="10"
+                Content="{x:Static r:Resources.Button_Open}" />
+            <ComboBox
+                x:Name="McuCombo"
+                Padding ="4,2,0,0"
+                Items="{Binding Mcus}"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right"
+                BorderBrush="DarkGray"
+                FontSize="10"
+                Width="120"
+                Height="22"
+                SelectedIndex="{Binding SelectedMcuIndex}" />
+        </StackPanel>
+        <StackPanel
+            Orientation="Horizontal"
+            Grid.Row="3"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Right">
+            <Label
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left"
+                Height="20"
+                Margin="0,2,0,0"
+                FontSize="11"
+                Content="{x:Static r:Resources.Label_AutoFlash}" />
+            <CheckBox
+                x:Name="CheckBox"
+                Margin="0,0,5,0"
+                Padding="0,0,0,0"
+                FontSize="8"
+                Height="22"
+                IsChecked="{Binding IsAutoFlash}"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left" >
+            </CheckBox>
+            <Button
+                Command="{Binding FlashCommand}"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left"
+                HorizontalContentAlignment="Center"
+                Padding ="3,4,0,0"
+                Height="22"
+                Width="55"
+                FontSize="10"
+                Margin="0,0,5,0"
+                Content="{x:Static r:Resources.Button_Flash}" />
+            <Button
+                Command="{Binding ClearEEPromCommand}"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left"
+                Padding ="0,4,0,0"
+                HorizontalContentAlignment="Center"
+                Height="22"
+                Width="110"
+                FontSize="10"
+                Margin="0,0,5,0"
+                Content="{x:Static r:Resources.Button_Clear}" />
+            <Button
+                Command="{Binding ExitDfuCommand}"
+                VerticalAlignment="Center"
+                Padding ="0,4,0,0"
+                HorizontalAlignment="Left"
+                HorizontalContentAlignment="Center"
+                Height="22"
+                Width="70"
+                FontSize="10"
+                Content="{x:Static r:Resources.Button_ExitDFU}" />
+        </StackPanel>
+        <Border 
+            Margin="0,0,0,0"
+            BorderThickness="0"
+            BorderBrush="DarkGray"
+            Grid.ColumnSpan="2"
+            Grid.Row="4"
+            Grid.Column="1">
+            <TextBlock
+                Padding="0,0,0,0"
+                FontFamily="Courier New"
+                Background="#1e1e1e"
+                Foreground="DarkGray"
+                FontSize="13"
+                ScrollViewer.VerticalScrollBarVisibility ="Auto"
+                Margin="0,5,0,6"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch"
+                Text="{Binding Log}" />
+        </Border>
+        <ComboBox x:Name="HidDeviceCombo"
+              Background="LightGray"
+              Margin="0,0,0,0"
+              Grid.Row="5"
+              Grid.Column="1"
+              VerticalAlignment="Top"
+              HorizontalAlignment="Stretch"
+              FontSize="10"
+              Height="22"
+              BorderBrush="DarkGray"
+              Grid.ColumnSpan="2"
+              SelectedIndex="0">
+            <ComboBoxItem Content="{x:Static r:Resources.NoHID}"/>
+        </ComboBox>
+    </Grid>
+</Window>

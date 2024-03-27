@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="QMKToolbox/App.axaml" value="QMKToolbox/QMKToolbox.csproj" />
+        <entry key="QMKToolbox/Views/MainWindow.axaml" value="QMKToolbox/QMKToolbox.csproj" />
+        <entry key="QMKToolbox/Views/MessageBox.axaml" value="QMKToolbox/QMKToolbox.csproj" />
+      </map>
+    </option>
+  </component>
+</project>
