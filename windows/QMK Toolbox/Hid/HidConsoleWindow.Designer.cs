@@ -1,4 +1,4 @@
-﻿namespace QMK_Toolbox.HidConsole
+﻿namespace QMK_Toolbox.Hid
 {
     partial class HidConsoleWindow
     {
