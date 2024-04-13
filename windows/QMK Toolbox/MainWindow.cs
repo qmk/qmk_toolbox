@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace QMK_Toolbox
@@ -81,7 +82,16 @@ namespace QMK_Toolbox
             usbListener.bootloaderDeviceConnected += BootloaderDeviceConnected;
             usbListener.bootloaderDeviceDisconnected += BootloaderDeviceDisconnected;
             usbListener.outputReceived += BootloaderCommandOutputReceived;
-            usbListener.Start();
+
+            try
+            {
+                usbListener.Start();
+            }
+            catch (COMException e)
+            {
+                logTextBox.LogError("USB device enumeration failed.");
+                logTextBox.LogError($"{e}");
+            }
 
             if (_filePassedIn != string.Empty)
             {
