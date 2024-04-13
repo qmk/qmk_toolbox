@@ -87,10 +87,10 @@ namespace QMK_Toolbox
             {
                 usbListener.Start();
             }
-            catch (COMException e)
+            catch (COMException ex)
             {
                 logTextBox.LogError("USB device enumeration failed.");
-                logTextBox.LogError($"{e}");
+                logTextBox.LogError($"{ex}");
             }
 
             if (_filePassedIn != string.Empty)
