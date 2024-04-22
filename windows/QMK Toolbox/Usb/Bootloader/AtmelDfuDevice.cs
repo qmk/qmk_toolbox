@@ -16,7 +16,7 @@ namespace QMK_Toolbox.Usb.Bootloader
                 Type = BootloaderType.AtmelDfu;
                 Name = "Atmel DFU";
             }
-            PreferredDriver = "libusb0";
+            PreferredDriver = "WinUSB";
             IsEepromFlashable = true;
             IsResettable = true;
         }
