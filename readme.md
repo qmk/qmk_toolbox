@@ -57,7 +57,7 @@ If you run into any issues with "Device not found" when flashing, then you may n
 
 ### Download
 
-The [current version](https://github.com/qmk/qmk_toolbox/releases) of QMK Toolbox is **0.3.1**.
+The [current version](https://github.com/qmk/qmk_toolbox/releases) of QMK Toolbox is **0.3.2**.
 
 * **Windows:** [standalone](https://github.com/qmk/qmk_toolbox/releases/latest/download/qmk_toolbox.exe), [installer](https://github.com/qmk/qmk_toolbox/releases/latest/download/qmk_toolbox_install.exe)
 * **macOS**: [standalone](https://github.com/qmk/qmk_toolbox/releases/latest/download/QMK.Toolbox.app.zip), [installer](https://github.com/qmk/qmk_toolbox/releases/latest/download/QMK.Toolbox.pkg)
