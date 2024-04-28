@@ -179,6 +179,11 @@ namespace QMK_Toolbox
             {
                 logTextBox.LogBootloader($"{device.Name} device connected ({device.Driver}): {device}");
 
+                if (device.PreferredDriver != device.Driver)
+                {
+                    logTextBox.LogError($"{device.Name} device has {device.Driver} driver assigned but should be {device.PreferredDriver}. Flashing may not succeed.");
+                }
+
                 if (windowState.AutoFlashEnabled)
                 {
                     FlashAllAsync();
