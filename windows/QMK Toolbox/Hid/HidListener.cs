@@ -11,9 +11,12 @@ namespace QMK_Toolbox.Hid
         private const ushort ConsoleUsagePage = 0xFF31;
         private const ushort ConsoleUsage = 0x0074;
 
-        public List<HidConsoleDevice> Devices { get; private set; }
+        private const ushort RawUsagePage = 0xFF60;
+        private const ushort RawUsage = 0x0061;
 
-        public delegate void HidDeviceEventDelegate(HidConsoleDevice device);
+        public List<BaseHidDevice> Devices { get; private set; }
+
+        public delegate void HidDeviceEventDelegate(BaseHidDevice device);
         public delegate void HidConsoleReportReceivedDelegate(HidConsoleDevice device, string data);
 
         public HidDeviceEventDelegate hidDeviceConnected;
@@ -24,9 +27,7 @@ namespace QMK_Toolbox.Hid
         {
             var enumeratedDevices = HidDevices.Enumerate()
                 .Where(d => d.IsConnected)
-                .Where(d => d.Capabilities.InputReportByteLength > 0)
-                .Where(d => (ushort)d.Capabilities.UsagePage == ConsoleUsagePage)
-                .Where(d => (ushort)d.Capabilities.Usage == ConsoleUsage);
+                .Where(d => d.Capabilities.InputReportByteLength > 0);
 
             if (connected)
             {
@@ -36,12 +37,18 @@ namespace QMK_Toolbox.Hid
 
                     if (device != null && !listed)
                     {
-                        HidConsoleDevice hidDevice = new(device)
+                        BaseHidDevice hidDevice = CreateDevice(device);
+
+                        if (hidDevice != null)
                         {
-                            consoleReportReceived = HidConsoleReportReceived
-                        };
-                        Devices.Add(hidDevice);
-                        hidDeviceConnected?.Invoke(hidDevice);
+                            Devices.Add(hidDevice);
+
+                            if (hidDevice is HidConsoleDevice)
+                            {
+                                (hidDevice as HidConsoleDevice).consoleReportReceived = HidConsoleReportReceived;
+                            }
+                            hidDeviceConnected?.Invoke(hidDevice);
+                        }
                     }
                 }
             }
@@ -58,7 +65,11 @@ namespace QMK_Toolbox.Hid
                             device.HidDevice.CloseDevice();
                         }
                         Devices.Remove(device);
-                        device.consoleReportReceived = null;
+
+                        if (device is HidConsoleDevice)
+                        {
+                            (device as HidConsoleDevice).consoleReportReceived = null;
+                        }
                         hidDeviceDisconnected?.Invoke(device);
                     }
                 }
@@ -92,7 +103,7 @@ namespace QMK_Toolbox.Hid
 
         public void Start()
         {
-            Devices ??= new List<HidConsoleDevice>();
+            Devices ??= new List<BaseHidDevice>();
             EnumerateHidDevices(true);
 
             deviceConnectedWatcher ??= CreateManagementEventWatcher("__InstanceCreationEvent");
@@ -125,6 +136,20 @@ namespace QMK_Toolbox.Hid
             deviceConnectedWatcher?.Dispose();
             deviceDisconnectedWatcher?.Dispose();
             GC.SuppressFinalize(this);
+        }
+
+        private static BaseHidDevice CreateDevice(HidDevice d)
+        {
+            if ((ushort)d.Capabilities.UsagePage == ConsoleUsagePage && (ushort)d.Capabilities.Usage == ConsoleUsage)
+            {
+                return new HidConsoleDevice(d);
+            }
+            else if ((ushort)d.Capabilities.UsagePage == RawUsagePage && (ushort)d.Capabilities.Usage == RawUsage)
+            {
+                return new RawDevice(d);
+            }
+
+            return null;
         }
     }
 }
