@@ -3,11 +3,13 @@ import IOKit.hid
 
 let CONSOLE_USAGE_PAGE: UInt16 = 0xFF31
 let CONSOLE_USAGE: UInt16      = 0x0074
+let RAW_USAGE_PAGE: UInt16     = 0xFF60
+let RAW_USAGE: UInt16          = 0x0061
 
 protocol HIDListenerDelegate: AnyObject {
-    func hidDeviceDidConnect(_ device: HIDConsoleDevice)
+    func hidDeviceDidConnect(_ device: HIDDevice)
 
-    func hidDeviceDidDisconnect(_ device: HIDConsoleDevice)
+    func hidDeviceDidDisconnect(_ device: HIDDevice)
 
     func consoleDevice(_ device: HIDConsoleDevice, didReceiveReport report: String)
 }
@@ -17,12 +19,11 @@ class HIDListener: HIDConsoleDeviceDelegate {
 
     private var hidManager: IOHIDManager
 
-    var devices: [HIDConsoleDevice] = []
+    var devices: [HIDDevice] = []
 
     init() {
         hidManager = IOHIDManagerCreate(kCFAllocatorDefault, IOOptionBits(kIOHIDOptionsTypeNone))
-        let consoleMatcher = [kIOHIDDeviceUsagePageKey: CONSOLE_USAGE_PAGE, kIOHIDDeviceUsageKey: CONSOLE_USAGE]
-        IOHIDManagerSetDeviceMatching(hidManager, consoleMatcher as CFDictionary?)
+        IOHIDManagerSetDeviceMatching(hidManager, nil)
     }
 
     func start() {
@@ -49,10 +50,17 @@ class HIDListener: HIDConsoleDeviceDelegate {
             return
         }
 
-        let consoleDevice = HIDConsoleDevice(device)
-        consoleDevice.delegate = self
-        devices.append(consoleDevice)
-        delegate?.hidDeviceDidConnect(consoleDevice)
+        guard let hidDevice = createDevice(device) else {
+            return
+        }
+
+        devices.append(hidDevice)
+
+        if hidDevice is HIDConsoleDevice {
+            (hidDevice as! HIDConsoleDevice).delegate = self
+        }
+
+        delegate?.hidDeviceDidConnect(hidDevice)
     }
 
     func deviceDisconnected(_ device: IOHIDDevice) {
@@ -74,5 +82,18 @@ class HIDListener: HIDConsoleDeviceDelegate {
         IOHIDManagerRegisterDeviceRemovalCallback(hidManager, nil, unsafeSelf)
         IOHIDManagerUnscheduleFromRunLoop(hidManager, CFRunLoopGetCurrent(), CFRunLoopMode.defaultMode.rawValue)
         IOHIDManagerClose(hidManager, IOOptionBits(kIOHIDOptionsTypeNone))
+    }
+
+    func createDevice(_ d: IOHIDDevice) -> HIDDevice? {
+        let usagePage = HIDDevice.uint16Property(kIOHIDPrimaryUsagePageKey, for: d)
+        let usage = HIDDevice.uint16Property(kIOHIDPrimaryUsageKey, for: d)
+
+        if usagePage == CONSOLE_USAGE_PAGE && usage == CONSOLE_USAGE {
+            return HIDConsoleDevice(d)
+        } else if usagePage == RAW_USAGE_PAGE && usage == RAW_USAGE {
+            return RawDevice(d)
+        }
+
+        return nil
     }
 }

@@ -24,28 +24,36 @@ class HIDConsoleViewController: NSViewController, HIDListenerDelegate {
 
     var hidListener: HIDListener!
     var lastReportedDevice: HIDConsoleDevice?
-
-    func hidDeviceDidConnect(_ device: HIDConsoleDevice) {
-        lastReportedDevice = device
-        updateConsoleList()
-        logTextView.logHID("HID console connected: \(device)")
+    func hidDeviceDidConnect(_ device: HIDDevice) {
+        if device is HIDConsoleDevice {
+            lastReportedDevice = (device as! HIDConsoleDevice)
+            updateConsoleList()
+            logTextView.logHID("HID console connected: \(device)")
+        } else {
+            logTextView.logHID("Raw HID device connected: \(device)")
+        }
     }
 
-    func hidDeviceDidDisconnect(_ device: HIDConsoleDevice) {
-        lastReportedDevice = nil
-        updateConsoleList()
-        logTextView.logHID("HID console disconnected: \(device)")
+    func hidDeviceDidDisconnect(_ device: HIDDevice) {
+        if device is HIDConsoleDevice {
+            lastReportedDevice = nil
+            updateConsoleList()
+            logTextView.logHID("HID console disconnected: \(device)")
+        } else {
+            logTextView.logHID("Raw HID device disconnected: \(device)")
+        }
     }
 
     func consoleDevice(_ device: HIDConsoleDevice, didReceiveReport report: String) {
         let selectedDevice = consoleListBox.indexOfSelectedItem
-        if selectedDevice == 0 || hidListener.devices[selectedDevice - 1] == device {
+        let consoleDevices = hidListener.devices.filter { $0 is HIDConsoleDevice }
+        if selectedDevice == 0 || consoleDevices[selectedDevice - 1] == device {
             if lastReportedDevice != device {
                 logTextView.logHID("\(device.manufacturer ?? "") \(device.product ?? "")")
                 lastReportedDevice = device
             }
+            logTextView.logHIDOutput(report)
         }
-        logTextView.logHIDOutput(report)
     }
 
     func updateConsoleList() {
@@ -53,7 +61,7 @@ class HIDConsoleViewController: NSViewController, HIDListenerDelegate {
         consoleListBox.deselectItem(at: selectedItem)
         consoleListBox.removeAllItems()
 
-        hidListener.devices.forEach { device in
+        hidListener.devices.filter { $0 is HIDConsoleDevice }.forEach { device in
             consoleListBox.addItem(withObjectValue: device.description)
         }
 

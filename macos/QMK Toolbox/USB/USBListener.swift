@@ -193,7 +193,7 @@ class USBListener: BootloaderDeviceDelegate {
             if productID == 0xB007 {
                 return .kiibohdDfu
             }
-            break;
+            break
         case 0x1EAF: // Leaflabs
             if productID == 0x0003 {
                 return .stm32duino

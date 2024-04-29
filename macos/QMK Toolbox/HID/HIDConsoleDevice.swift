@@ -4,37 +4,14 @@ protocol HIDConsoleDeviceDelegate: AnyObject {
     func consoleDevice(_ device: HIDConsoleDevice, didReceiveReport report: String)
 }
 
-class HIDConsoleDevice: Equatable, CustomStringConvertible {
+class HIDConsoleDevice: HIDDevice {
     weak var delegate: HIDConsoleDeviceDelegate?
 
     private var reportBuffer: UnsafeMutablePointer<UInt8>
 
     private var reportBufferSize: Int = 0
 
-    let hidDevice: IOHIDDevice
-
-    var manufacturer: String? {
-        HIDConsoleDevice.stringProperty(kIOHIDManufacturerKey, for: hidDevice)
-    }
-
-    var product: String? {
-        HIDConsoleDevice.stringProperty(kIOHIDProductKey, for: hidDevice)
-    }
-
-    var vendorID: UInt16 {
-        HIDConsoleDevice.uint16Property(kIOHIDVendorIDKey, for: hidDevice)
-    }
-
-    var productID: UInt16 {
-        HIDConsoleDevice.uint16Property(kIOHIDProductIDKey, for: hidDevice)
-    }
-
-    var revisionBCD: UInt16 {
-        HIDConsoleDevice.uint16Property(kIOHIDVersionNumberKey, for: hidDevice)
-    }
-
-    init(_ device: IOHIDDevice) {
-        hidDevice = device
+    override init(_ device: IOHIDDevice) {
         reportBufferSize = IOHIDDeviceGetProperty(device, kIOHIDMaxInputReportSizeKey as CFString) as! Int
         reportBuffer = UnsafeMutablePointer<UInt8>.allocate(capacity: reportBufferSize)
 
@@ -43,6 +20,8 @@ class HIDConsoleDevice: Equatable, CustomStringConvertible {
             let reportData = Data(bytes: report, count: device.reportBufferSize)
             device.reportReceived(reportData)
         }
+
+        super.init(device)
 
         let unsafeSelf = Unmanaged.passRetained(self).toOpaque()
         IOHIDDeviceRegisterInputReportCallback(hidDevice, reportBuffer, reportBufferSize, inputReportCallback, unsafeSelf)
@@ -74,21 +53,5 @@ class HIDConsoleDevice: Equatable, CustomStringConvertible {
             lineEnd = currentLine.firstIndex(of: UInt8(ascii: "\n"))
             delegate?.consoleDevice(self, didReceiveReport: completedLine)
         }
-    }
-
-    var description: String {
-        String(format: "%@ %@ (%04X:%04X:%04X)", manufacturer ?? "", product ?? "", vendorID, productID, revisionBCD)
-    }
-
-    static func == (lhs: HIDConsoleDevice, rhs: HIDConsoleDevice) -> Bool {
-        return lhs.hidDevice === rhs.hidDevice
-    }
-
-    static func stringProperty(_ propertyName: String, for device: IOHIDDevice) -> String? {
-        return IOHIDDeviceGetProperty(device, propertyName as CFString) as! String?
-    }
-
-    static func uint16Property(_ propertyName: String, for device: IOHIDDevice) -> UInt16 {
-        return (IOHIDDeviceGetProperty(device, propertyName as CFString) as! NSNumber?)!.uint16Value
     }
 }
