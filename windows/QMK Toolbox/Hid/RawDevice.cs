@@ -7,4 +7,5 @@ namespace QMK_Toolbox.Hid
         public RawDevice(IHidDevice device) : base(device)
         {
         }
+    }
 }
