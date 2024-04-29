@@ -66,9 +66,8 @@ namespace QMK_Toolbox.Usb.Bootloader
             {
                 StartInfo =
                 {
-                    FileName = Path.Combine(Application.LocalUserAppDataPath, command),
+                    FileName = Path.Combine("C:\\QMK_MSYS\\mingw64\\bin", command),
                     Arguments = args,
-                    WorkingDirectory = Application.LocalUserAppDataPath,
                     UseShellExecute = false,
                     CreateNoWindow = true,
                     RedirectStandardOutput = true,

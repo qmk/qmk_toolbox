@@ -9,23 +9,9 @@ namespace QMK_Toolbox.Helpers
     {
         public static readonly string[] Resources =
         {
-            "avrdude.conf",
             "reset.eep",
             "reset_left.eep",
-            "reset_right.eep",
-            "avrdude.exe",
-            "bootloadHID.exe",
-            "dfu-programmer.exe",
-            "dfu-util.exe",
-            "hid_bootloader_cli.exe",
-            "mdloader.exe",
-            "teensy_loader_cli.exe",
-            "wb32-dfu-updater_cli.exe",
-            "libftdi1.dll",
-            "libhidapi-0.dll",
-            "libusb-0-1-4.dll",
-            "libusb-1.0.dll",
-            "libwinpthread-1.dll"
+            "reset_right.eep"
         };
 
         public static void ExtractResource(string file)

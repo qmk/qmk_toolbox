@@ -52,12 +52,26 @@ class BootloaderDevice: USBDeviceProtocol, CustomStringConvertible {
 
     func reset(_ mcu: String) {}
 
+    func resolveHomebrewBinary(for command: String) -> URL? {
+        let fileManager = FileManager()
+        if fileManager.fileExists(atPath: "/opt/homebrew/bin/\(command)") {
+            return URL(fileURLWithPath: "/opt/homebrew/bin/\(command)")
+        } else if fileManager.fileExists(atPath: "/usr/local/bin/\(command)") {
+            return URL(fileURLWithPath: "/usr/local/bin/\(command)")
+        }
+        return nil
+    }
+
     func runProcess(_ command: String, args: [String]) {
         print(message: "\(command) \(args.joined(separator: " "))", type: .command)
 
+        guard let resolvedCommand = resolveHomebrewBinary(for: command) else {
+            print(message: "\(command) does not seem to be installed!", type: .error)
+            return
+        }
+
         let task = Process()
-        task.executableURL = Bundle.main.url(forResource: command, withExtension: nil)
-        task.currentDirectoryURL = Bundle.main.resourceURL
+        task.executableURL = resolvedCommand
         task.arguments = args
 
         let outPipe = Pipe()

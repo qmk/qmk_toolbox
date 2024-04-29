@@ -52,19 +52,6 @@ jobs:
 
     - uses: actions/checkout@v4
 
-    - name: Check binary permissions
-      working-directory: ./macos/QMK Toolbox/Resources
-      env:
-        QMK_BINARIES: avrdude bootloadHID dfu-programmer dfu-util mdloader teensy_loader_cli wb32-dfu-updater_cli
-      run: |
-        status=0
-        for b in $QMK_BINARIES; do
-          perm=$(stat -f "%Lp" $b)
-          echo "$b: $perm"
-          [[ $perm == "755" ]] || status=1
-        done
-        exit $status
-
     - name: Build
       working-directory: ./macos
       run: |
