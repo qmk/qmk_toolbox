@@ -54,9 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\output.ico" />
-    <EmbeddedResource Include="..\..\common\avrdude.conf">
-      <Link>Resources\avrdude.conf</Link>
-    </EmbeddedResource>
     <EmbeddedResource Include="..\..\common\mcu-list.txt">
       <Link>Resources\mcu-list.txt</Link>
     </EmbeddedResource>
@@ -69,20 +66,7 @@
     <EmbeddedResource Include="..\..\common\reset_right.eep">
       <Link>Resources\reset_right.eep</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\avrdude.exe" />
-    <EmbeddedResource Include="Resources\bootloadHID.exe" />
-    <EmbeddedResource Include="Resources\dfu-programmer.exe" />
-    <EmbeddedResource Include="Resources\dfu-util.exe" />
-    <EmbeddedResource Include="Resources\hid_bootloader_cli.exe" />
-    <EmbeddedResource Include="Resources\mdloader.exe" />
     <EmbeddedResource Include="Resources\qmk_driver_installer.exe" />
-    <EmbeddedResource Include="Resources\teensy_loader_cli.exe" />
-    <EmbeddedResource Include="Resources\wb32-dfu-updater_cli.exe" />
-    <EmbeddedResource Include="Resources\libftdi1.dll" />
-    <EmbeddedResource Include="Resources\libhidapi-0.dll" />
-    <EmbeddedResource Include="Resources\libusb-0-1-4.dll" />
-    <EmbeddedResource Include="Resources\libusb-1.0.dll" />
-    <EmbeddedResource Include="Resources\libwinpthread-1.dll" />
     <EmbeddedResource Include="Resources\drivers.txt" />
   </ItemGroup>
   <ItemGroup>
