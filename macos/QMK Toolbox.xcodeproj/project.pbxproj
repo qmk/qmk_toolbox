@@ -38,7 +38,6 @@
 		3A37607A283E769300C19B3F /* KeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A376079283E769300C19B3F /* KeyView.swift */; };
 		3A49F9A5282A92EB00B73DA0 /* MessageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A49F9A4282A92EB00B73DA0 /* MessageType.swift */; };
 		3A5A916C28410F53004DD9BD /* USBDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5A916B28410F53004DD9BD /* USBDevice.swift */; };
-		3A62519B2B8DEAC600ED674E /* libavrdude.1.0.0.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 3A6251992B8DEA9E00ED674E /* libavrdude.1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		3A62C86526A96AED001C655A /* reset_right.eep in Resources */ = {isa = PBXBuildFile; fileRef = 3A62C86326A96AED001C655A /* reset_right.eep */; };
 		3A62C86626A96AED001C655A /* reset_left.eep in Resources */ = {isa = PBXBuildFile; fileRef = 3A62C86426A96AED001C655A /* reset_left.eep */; };
 		3A708D982848A23300394E52 /* USBListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A708D972848A23300394E52 /* USBListener.swift */; };
@@ -87,7 +86,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				3A62519B2B8DEAC600ED674E /* libavrdude.1.0.0.dylib in Embed Libraries */,
 				3066649428392281007C93C8 /* libftdi1.2.5.0.dylib in Embed Libraries */,
 				3066649628392281007C93C8 /* libhidapi.0.14.0.dylib in Embed Libraries */,
 				3066649828392281007C93C8 /* libusb-0.1.4.dylib in Embed Libraries */,
@@ -130,7 +128,6 @@
 		3A376079283E769300C19B3F /* KeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyView.swift; sourceTree = "<group>"; };
 		3A49F9A4282A92EB00B73DA0 /* MessageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageType.swift; sourceTree = "<group>"; };
 		3A5A916B28410F53004DD9BD /* USBDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = USBDevice.swift; sourceTree = "<group>"; };
-		3A6251992B8DEA9E00ED674E /* libavrdude.1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libavrdude.1.0.0.dylib; sourceTree = "<group>"; };
 		3A62C86326A96AED001C655A /* reset_right.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset_right.eep; path = ../../../common/reset_right.eep; sourceTree = "<group>"; };
 		3A62C86426A96AED001C655A /* reset_left.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset_left.eep; path = ../../../common/reset_left.eep; sourceTree = "<group>"; };
 		3A708D972848A23300394E52 /* USBListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = USBListener.swift; sourceTree = "<group>"; };
@@ -240,7 +237,6 @@
 				C9A09B5622EE6826008C3CF3 /* mdloader */,
 				0929640E1F5E4068004F2D3F /* teensy_loader_cli */,
 				9BE10717275F4CFE00C708D5 /* wb32-dfu-updater_cli */,
-				3A6251992B8DEA9E00ED674E /* libavrdude.1.0.0.dylib */,
 				3A7770D822BD3B8200398C40 /* libftdi1.2.5.0.dylib */,
 				3AFD4BCF281AB83C00ADCB65 /* libhidapi.0.14.0.dylib */,
 				09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */,
