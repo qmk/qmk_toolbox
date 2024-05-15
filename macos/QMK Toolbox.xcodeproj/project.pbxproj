@@ -56,6 +56,8 @@
 		3AAB20AB283BEEC700029ABD /* LogTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AAB20AA283BEEC700029ABD /* LogTextView.swift */; };
 		3AB09F1D28B46672006CC212 /* GD32VDFUDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB09F1C28B46672006CC212 /* GD32VDFUDevice.swift */; };
 		3AB4BC9D2495540A00204A3F /* bootloadHID in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3AB4BC9C2495540A00204A3F /* bootloadHID */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		3AB657102B9EABB4007805DD /* RawDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB6570F2B9EABB4007805DD /* RawDevice.swift */; };
+		3AB657122B9EAC34007805DD /* HIDDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB657112B9EAC34007805DD /* HIDDevice.swift */; };
 		3AE86EF8294C9CEC00008D3E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3AE86EFA294C9CEC00008D3E /* Main.storyboard */; };
 		9BE10718275F4CFE00C708D5 /* wb32-dfu-updater_cli in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9BE10717275F4CFE00C708D5 /* wb32-dfu-updater_cli */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		C93A0FF42292232E0006C88F /* reset.eep in Resources */ = {isa = PBXBuildFile; fileRef = C93A0FF32292232D0006C88F /* reset.eep */; };
@@ -147,6 +149,8 @@
 		3AAB20AA283BEEC700029ABD /* LogTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogTextView.swift; sourceTree = "<group>"; };
 		3AB09F1C28B46672006CC212 /* GD32VDFUDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GD32VDFUDevice.swift; sourceTree = "<group>"; };
 		3AB4BC9C2495540A00204A3F /* bootloadHID */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = bootloadHID; sourceTree = "<group>"; };
+		3AB6570F2B9EABB4007805DD /* RawDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawDevice.swift; sourceTree = "<group>"; };
+		3AB657112B9EAC34007805DD /* HIDDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HIDDevice.swift; sourceTree = "<group>"; };
 		3AE86EF9294C9CEC00008D3E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3AFD4BCF281AB83C00ADCB65 /* libhidapi.0.14.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libhidapi.0.14.0.dylib; sourceTree = "<group>"; };
 		9BE10717275F4CFE00C708D5 /* wb32-dfu-updater_cli */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "wb32-dfu-updater_cli"; sourceTree = "<group>"; };
@@ -217,6 +221,8 @@
 				3A8DE019284636780012063A /* HIDConsoleDevice.swift */,
 				3A708D99284901F500394E52 /* HIDListener.swift */,
 				3A92873C292CF7A10015D961 /* HIDConsoleViewController.swift */,
+				3AB657112B9EAC34007805DD /* HIDDevice.swift */,
+				3AB6570F2B9EABB4007805DD /* RawDevice.swift */,
 			);
 			path = HID;
 			sourceTree = "<group>";
@@ -371,6 +377,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A8DE01A284636780012063A /* HIDConsoleDevice.swift in Sources */,
+				3AB657102B9EABB4007805DD /* RawDevice.swift in Sources */,
 				3A708D9A284901F500394E52 /* HIDListener.swift in Sources */,
 				3A92873D292CF7A10015D961 /* HIDConsoleViewController.swift in Sources */,
 				3A37607A283E769300C19B3F /* KeyView.swift in Sources */,
@@ -390,6 +397,7 @@
 				3A32CF5F284142D10016D7B7 /* STM32DFUDevice.swift in Sources */,
 				3A32CF61284143990016D7B7 /* STM32DuinoDevice.swift in Sources */,
 				3A32CF63284143EC0016D7B7 /* USBAspDevice.swift in Sources */,
+				3AB657122B9EAC34007805DD /* HIDDevice.swift in Sources */,
 				3A32CF652841445E0016D7B7 /* USBTinyISPDevice.swift in Sources */,
 				3A32CF672841451D0016D7B7 /* WB32DFUDevice.swift in Sources */,
 				3A5A916C28410F53004DD9BD /* USBDevice.swift in Sources */,

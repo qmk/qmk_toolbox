@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace QMK_Toolbox.Hid
@@ -49,23 +50,37 @@ namespace QMK_Toolbox.Hid
 
         private HidConsoleDevice lastReportedDevice;
 
-        private void HidDeviceConnected(HidConsoleDevice device)
+        private void HidDeviceConnected(BaseHidDevice device)
         {
             Invoke(new Action(() =>
             {
-                lastReportedDevice = device;
-                UpdateConsoleList();
-                logTextBox.LogHid($"HID console connected: {device}");
+                if (device is HidConsoleDevice)
+                {
+                    lastReportedDevice = device as HidConsoleDevice;
+                    UpdateConsoleList();
+                    logTextBox.LogHid($"HID console connected: {device}");
+                }
+                else
+                {
+                    logTextBox.LogHid($"Raw HID device connected: {device}");
+                }
             }));
         }
 
-        private void HidDeviceDisconnected(HidConsoleDevice device)
+        private void HidDeviceDisconnected(BaseHidDevice device)
         {
             Invoke(new Action(() =>
             {
-                lastReportedDevice = null;
-                UpdateConsoleList();
-                logTextBox.LogHid($"HID console disconnected: {device}");
+                if (device is HidConsoleDevice)
+                {
+                    lastReportedDevice = null;
+                    UpdateConsoleList();
+                    logTextBox.LogHid($"HID console disconnected: {device}");
+                }
+                else
+                {
+                    logTextBox.LogHid($"Raw HID device disconnected: {device}");
+                }
             }));
         }
 
@@ -74,7 +89,8 @@ namespace QMK_Toolbox.Hid
             Invoke(new Action(() =>
             {
                 int selectedDevice = consoleList.SelectedIndex;
-                if (selectedDevice == 0 || hidListener.Devices[selectedDevice - 1] == device)
+                var consoleDevices = hidListener.Devices.Where(d => d is HidConsoleDevice).ToList();
+                if (selectedDevice == 0 || consoleDevices[selectedDevice - 1] == device)
                 {
                     if (lastReportedDevice != device)
                     {
@@ -91,12 +107,9 @@ namespace QMK_Toolbox.Hid
             var selected = consoleList.SelectedIndex != -1 ? consoleList.SelectedIndex : 0;
             consoleList.Items.Clear();
 
-            foreach (var device in hidListener.Devices)
+            foreach (var device in hidListener.Devices.Where(d => d is HidConsoleDevice))
             {
-                if (device != null)
-                {
-                    consoleList.Items.Add(device.ToString());
-                }
+                consoleList.Items.Add(device.ToString());
             }
 
             if (consoleList.Items.Count > 0)
