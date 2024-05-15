@@ -29,10 +29,10 @@ namespace QMK_Toolbox.Usb
             ManufacturerString = (string)WmiDevice.GetPropertyValue("Manufacturer");
             ProductString = (string)WmiDevice.GetPropertyValue("Name");
 
-            var hardwareIdTriplet = GetHardwareId(WmiDevice);
-            VendorId = Convert.ToUInt16(hardwareIdTriplet.Groups[1].ToString(), 16);
-            ProductId = Convert.ToUInt16(hardwareIdTriplet.Groups[2].ToString(), 16);
-            RevisionBcd = Convert.ToUInt16(hardwareIdTriplet.Groups[3].ToString(), 16);
+            var hardwareIdTriplet = GetHardwareId(WmiDevice).Value;
+            VendorId = hardwareIdTriplet.Item1;
+            ProductId = hardwareIdTriplet.Item2;
+            RevisionBcd = hardwareIdTriplet.Item3;
 
             Driver = GetDriverName(WmiDevice);
         }
@@ -42,7 +42,7 @@ namespace QMK_Toolbox.Usb
             return $"{ManufacturerString} {ProductString} ({VendorId:X4}:{ProductId:X4}:{RevisionBcd:X4})";
         }
 
-        private static Match GetHardwareId(ManagementBaseObject d)
+        private static (ushort, ushort, ushort)? GetHardwareId(ManagementBaseObject d)
         {
             var hardwareIds = (string[])d.GetPropertyValue("HardwareID");
             if (hardwareIds != null)
@@ -52,7 +52,11 @@ namespace QMK_Toolbox.Usb
                     Match match = HardwareIdTripletRegex.Match(hardwareId);
                     if (match.Success)
                     {
-                        return match;
+                        return (
+                            Convert.ToUInt16(match.Groups[1].ToString(), 16),
+                            Convert.ToUInt16(match.Groups[2].ToString(), 16),
+                            Convert.ToUInt16(match.Groups[3].ToString(), 16)
+                        );
                     }
                 }
             }
