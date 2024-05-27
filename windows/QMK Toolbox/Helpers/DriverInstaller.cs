@@ -26,8 +26,9 @@ namespace QMK_Toolbox.Helpers
 
         private static bool InstallDrivers()
         {
-            var driversPath = Path.Combine(Application.LocalUserAppDataPath, DriversListFilename);
-            var installerPath = Path.Combine(Application.LocalUserAppDataPath, InstallerFilename);
+            string toolboxData = EmbeddedResourceHelper.GetResourceFolder();
+            string driversPath = Path.Combine(toolboxData, DriversListFilename);
+            string installerPath = Path.Combine(toolboxData, InstallerFilename);
 
             if (!File.Exists(driversPath))
             {

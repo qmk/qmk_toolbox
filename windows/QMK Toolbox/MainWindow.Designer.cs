@@ -73,6 +73,7 @@
             checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             helpToolStripMenuSep = new System.Windows.Forms.ToolStripSeparator();
             aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            clearResourcesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)windowStateBindingSource).BeginInit();
             fileGroupBox.SuspendLayout();
             logContextMenu.SuspendLayout();
@@ -338,7 +339,7 @@
             // 
             // toolsToolStripMenuItem
             // 
-            toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { flashToolStripMenuItem, eepromToolStripMenuItem, exitDFUToolStripMenuItem, toolsToolStripMenuSep1, autoFlashToolStripMenuItem, showAllDevicesToolStripMenuItem, toolsToolStripMenuSep2, keyTesterToolStripMenuItem, hidConsoleToolStripMenuItem, installDriversToolStripMenuItem, toolsToolStripMenuSep3, optionsToolStripMenuItem });
+            toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { flashToolStripMenuItem, eepromToolStripMenuItem, exitDFUToolStripMenuItem, toolsToolStripMenuSep1, autoFlashToolStripMenuItem, showAllDevicesToolStripMenuItem, toolsToolStripMenuSep2, keyTesterToolStripMenuItem, hidConsoleToolStripMenuItem, installDriversToolStripMenuItem, clearResourcesToolStripMenuItem, toolsToolStripMenuSep3, optionsToolStripMenuItem });
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             toolsToolStripMenuItem.Text = "&Tools";
@@ -490,6 +491,13 @@
             aboutToolStripMenuItem.Text = "&About";
             aboutToolStripMenuItem.Click += AboutMenuItem_Click;
             // 
+            // clearResourcesToolStripMenuItem
+            // 
+            clearResourcesToolStripMenuItem.Name = "clearResourcesToolStripMenuItem";
+            clearResourcesToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            clearResourcesToolStripMenuItem.Text = "Clear Resources";
+            clearResourcesToolStripMenuItem.Click += ClearResourcesMenuItem_Click;
+            // 
             // MainWindow
             // 
             AllowDrop = true;
@@ -572,5 +580,6 @@
         private System.Windows.Forms.ToolStripSeparator toolsToolStripMenuSep3;
         private QMK_Toolbox.BindableToolStripMenuItem showAllDevicesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hidConsoleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clearResourcesToolStripMenuItem;
     }
 }

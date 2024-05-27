@@ -59,8 +59,6 @@ namespace QMK_Toolbox
 
             mcuBox.SelectedValue = Settings.Default.targetSetting;
 
-            EmbeddedResourceHelper.ExtractResources(EmbeddedResourceHelper.Resources);
-
             logTextBox.LogInfo($"QMK Toolbox {Application.ProductVersion} (https://qmk.fm/toolbox)");
             logTextBox.LogInfo("Supported bootloaders:");
             logTextBox.LogInfo(" - ARM DFU (APM32, Kiibohd, STM32, STM32duino) and RISC-V DFU (GD32V) via dfu-util (http://dfu-util.sourceforge.net/)");
@@ -105,6 +103,7 @@ namespace QMK_Toolbox
         {
             if (Settings.Default.firstStart)
             {
+                EmbeddedResourceHelper.InitResourceFolder();
                 Settings.Default.Upgrade();
             }
 
@@ -505,6 +504,11 @@ namespace QMK_Toolbox
         private void InstallDriversMenuItem_Click(object sender, EventArgs e)
         {
             DriverInstaller.DisplayPrompt();
+        }
+
+        private void ClearResourcesMenuItem_Click(object sender, EventArgs e)
+        {
+            EmbeddedResourceHelper.InitResourceFolder();
         }
 
         private void KeyTesterToolStripMenuItem_Click(object sender, EventArgs e)
