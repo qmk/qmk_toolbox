@@ -30,8 +30,8 @@ namespace QMK_Toolbox.Helpers
 
         public static string GetResourceFolder()
         {
-            string programData = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-            return Path.Combine(programData, "QMK Toolbox");
+            string appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            return Path.Combine(appData, "QMK", "Toolbox");
         }
 
         public static void InitResourceFolder()
@@ -40,8 +40,8 @@ namespace QMK_Toolbox.Helpers
             if (Directory.Exists(toolboxData))
             {
                 Directory.Delete(toolboxData, true);
-                Directory.CreateDirectory(toolboxData);
             }
+            Directory.CreateDirectory(toolboxData);
             ExtractResources(Resources);
         }
 
