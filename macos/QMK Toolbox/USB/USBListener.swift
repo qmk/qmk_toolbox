@@ -134,6 +134,8 @@ class USBListener: BootloaderDeviceDelegate {
             return USBTinyISPDevice(usbDevice: usbDevice)
         case .wb32Dfu:
             return WB32DFUDevice(usbDevice: usbDevice)
+        case .at32Dfu:
+            return AT32DFUDevice(usbDevice: usbDevice)
         case .none:
             return usbDevice
         }
@@ -227,6 +229,10 @@ class USBListener: BootloaderDeviceDelegate {
         case 0x342D: // WestBerryTech
             if productID == 0xDFA0 {
                 return .wb32Dfu
+            }
+        case 0x2E3C: // ArteryTech
+            if productID == 0xDF11 {
+                return .at32Dfu
             }
         default:
             break
