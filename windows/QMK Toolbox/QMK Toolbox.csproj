@@ -1,14 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
+    <TargetFramework>net6.0-windows10.0.18362.0</TargetFramework>
     <OutputType>WinExe</OutputType>
     <AssemblyName>qmk_toolbox</AssemblyName>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <UseWindowsForms>true</UseWindowsForms>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <PublishSingleFile>true</PublishSingleFile>
+    <PublishSingleFile>FALSE</PublishSingleFile>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\output.ico</ApplicationIcon>
@@ -26,6 +27,8 @@
     <Description>A flashing/debug utility for devices running QMK Firmware</Description>
     <Version>0.3.3</Version>
     <Product>QMK Toolbox</Product>
+    <PackAsTool>True</PackAsTool>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
     <Compile Update="BetterComboBox.cs">
@@ -90,6 +93,10 @@
       <Version>5.7.0</Version>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Fody" Version="6.5.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="hidlibrary">
       <Version>3.3.40</Version>
     </PackageReference>
@@ -110,5 +117,8 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FodyWeavers.xsd" />
   </ItemGroup>
 </Project>
