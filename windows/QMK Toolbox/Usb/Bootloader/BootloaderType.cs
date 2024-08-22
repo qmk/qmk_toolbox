@@ -5,6 +5,7 @@
         Apm32Dfu,
         AtmelDfu,
         AtmelSamBa,
+        At32Dfu,
         AvrIsp,
         BootloadHid,
         Caterina,

@@ -14,7 +14,7 @@ This is a collection of flashing tools packaged into one app. It supports auto-d
 
 QMK Toolbox supports the following bootloaders:
 
- - ARM DFU (APM32, Kiibohd, STM32, STM32duino) via [dfu-util](http://dfu-util.sourceforge.net/)
+ - ARM DFU (APM32, AT32, Kiibohd, STM32, STM32duino) via [dfu-util](http://dfu-util.sourceforge.net/)
  - Atmel/LUFA/QMK DFU via [dfu-programmer](http://dfu-programmer.github.io/)
  - Atmel SAM-BA (Massdrop) via [Massdrop Loader](https://github.com/massdrop/mdloader)
  - BootloadHID (Atmel, PS2AVRGB) via [bootloadHID](https://www.obdev.at/products/vusb/bootloadhid.html)
