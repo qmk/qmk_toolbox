@@ -1571,7 +1571,7 @@ down</string>
                                     <constraint firstAttribute="width" constant="40" id="vOY-sy-ISF"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="legend" value="▴"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="legend" value="⏶"/>
                                 </userDefinedRuntimeAttributes>
                             </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="lPg-Ey-Nmr" userLabel="Key View Left Arrow" customClass="KeyView" customModule="QMK_Toolbox" customModuleProvider="target">
@@ -1581,7 +1581,7 @@ down</string>
                                     <constraint firstAttribute="width" constant="40" id="pnl-7L-2HU"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="legend" value="◂"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="legend" value="⏴"/>
                                 </userDefinedRuntimeAttributes>
                             </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="6xm-LZ-fXe" userLabel="Key View Down Arrow" customClass="KeyView" customModule="QMK_Toolbox" customModuleProvider="target">
@@ -1591,7 +1591,7 @@ down</string>
                                     <constraint firstAttribute="width" constant="40" id="zPg-j1-siU"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="legend" value="▾"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="legend" value="⏷"/>
                                 </userDefinedRuntimeAttributes>
                             </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="nql-YS-Eiy" userLabel="Key View Right Arrow" customClass="KeyView" customModule="QMK_Toolbox" customModuleProvider="target">
@@ -1601,7 +1601,7 @@ down</string>
                                     <constraint firstAttribute="height" constant="40" id="P4P-D8-kXE"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="legend" value="▸"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="legend" value="⏵"/>
                                 </userDefinedRuntimeAttributes>
                             </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="QN8-Jo-7ee" userLabel="Key View Pad Clear" customClass="KeyView" customModule="QMK_Toolbox" customModuleProvider="target">
