@@ -153,6 +153,8 @@ namespace QMK_Toolbox.Usb
                     return new AtmelDfuDevice(usbDevice);
                 case BootloaderType.AtmelSamBa:
                     return new AtmelSamBaDevice(usbDevice);
+                case BootloaderType.At32Dfu:
+                    return new At32DfuDevice(usbDevice);
                 case BootloaderType.AvrIsp:
                     return new AvrIspDevice(usbDevice);
                 case BootloaderType.BootloadHid:
@@ -313,6 +315,12 @@ namespace QMK_Toolbox.Usb
                     if (productId == 0xDFA0)
                     {
                         return BootloaderType.Wb32Dfu;
+                    }
+                    break;
+                case 0x2E3C: // Artery Technology Co. Ltd.
+                    if (productId == 0xDF11)
+                    {
+                        return BootloaderType.At32Dfu;
                     }
                     break;
             }
