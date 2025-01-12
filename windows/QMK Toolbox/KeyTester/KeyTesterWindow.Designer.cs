@@ -1056,7 +1056,7 @@
             // keyEnter
             // 
             keyEnter.Enabled = false;
-            keyEnter.Legend = "Enter";
+            keyEnter.Legend = "Enter\r\n↵";
             keyEnter.Location = new System.Drawing.Point(785, 255);
             keyEnter.Margin = new System.Windows.Forms.Padding(5);
             keyEnter.Name = "keyEnter";
@@ -1344,7 +1344,7 @@
             // keyUp
             // 
             keyUp.Enabled = false;
-            keyUp.Legend = "▴";
+            keyUp.Legend = "⏶";
             keyUp.Location = new System.Drawing.Point(920, 310);
             keyUp.Margin = new System.Windows.Forms.Padding(5);
             keyUp.Name = "keyUp";
@@ -1356,7 +1356,7 @@
             // keyLeft
             // 
             keyLeft.Enabled = false;
-            keyLeft.Legend = "◂";
+            keyLeft.Legend = "⏴";
             keyLeft.Location = new System.Drawing.Point(864, 366);
             keyLeft.Margin = new System.Windows.Forms.Padding(5);
             keyLeft.Name = "keyLeft";
@@ -1368,7 +1368,7 @@
             // keyDown
             // 
             keyDown.Enabled = false;
-            keyDown.Legend = "▾";
+            keyDown.Legend = "⏷";
             keyDown.Location = new System.Drawing.Point(920, 366);
             keyDown.Margin = new System.Windows.Forms.Padding(5);
             keyDown.Name = "keyDown";
@@ -1380,7 +1380,7 @@
             // keyRight
             // 
             keyRight.Enabled = false;
-            keyRight.Legend = "▸";
+            keyRight.Legend = "⏵";
             keyRight.Location = new System.Drawing.Point(976, 366);
             keyRight.Margin = new System.Windows.Forms.Padding(5);
             keyRight.Name = "keyRight";
@@ -1452,7 +1452,7 @@
             // keyPadEnter
             // 
             keyPadEnter.Enabled = false;
-            keyPadEnter.Legend = "Ent";
+            keyPadEnter.Legend = "Enter";
             keyPadEnter.Location = new System.Drawing.Point(1210, 310);
             keyPadEnter.Margin = new System.Windows.Forms.Padding(5);
             keyPadEnter.Name = "keyPadEnter";
@@ -1464,7 +1464,7 @@
             // keyPadDot
             // 
             keyPadDot.Enabled = false;
-            keyPadDot.Legend = ".";
+            keyPadDot.Legend = ".\r\nDel";
             keyPadDot.Location = new System.Drawing.Point(1154, 366);
             keyPadDot.Margin = new System.Windows.Forms.Padding(5);
             keyPadDot.Name = "keyPadDot";
@@ -1476,7 +1476,7 @@
             // keyPad0
             // 
             keyPad0.Enabled = false;
-            keyPad0.Legend = "0";
+            keyPad0.Legend = "0\r\nIns";
             keyPad0.Location = new System.Drawing.Point(1042, 366);
             keyPad0.Margin = new System.Windows.Forms.Padding(5);
             keyPad0.Name = "keyPad0";
@@ -1488,7 +1488,7 @@
             // keyPad1
             // 
             keyPad1.Enabled = false;
-            keyPad1.Legend = "1";
+            keyPad1.Legend = "1\r\nEnd";
             keyPad1.Location = new System.Drawing.Point(1042, 310);
             keyPad1.Margin = new System.Windows.Forms.Padding(5);
             keyPad1.Name = "keyPad1";
@@ -1500,7 +1500,7 @@
             // keyPad2
             // 
             keyPad2.Enabled = false;
-            keyPad2.Legend = "2";
+            keyPad2.Legend = "2\r\n⏷";
             keyPad2.Location = new System.Drawing.Point(1098, 310);
             keyPad2.Margin = new System.Windows.Forms.Padding(5);
             keyPad2.Name = "keyPad2";
@@ -1512,7 +1512,7 @@
             // keyPad3
             // 
             keyPad3.Enabled = false;
-            keyPad3.Legend = "3";
+            keyPad3.Legend = "3\r\nPgDn";
             keyPad3.Location = new System.Drawing.Point(1154, 310);
             keyPad3.Margin = new System.Windows.Forms.Padding(5);
             keyPad3.Name = "keyPad3";
@@ -1524,7 +1524,7 @@
             // keyPad4
             // 
             keyPad4.Enabled = false;
-            keyPad4.Legend = "4";
+            keyPad4.Legend = "4\r\n⏴";
             keyPad4.Location = new System.Drawing.Point(1042, 255);
             keyPad4.Margin = new System.Windows.Forms.Padding(5);
             keyPad4.Name = "keyPad4";
@@ -1548,7 +1548,7 @@
             // keyPad6
             // 
             keyPad6.Enabled = false;
-            keyPad6.Legend = "6";
+            keyPad6.Legend = "6\r\n⏵";
             keyPad6.Location = new System.Drawing.Point(1154, 255);
             keyPad6.Margin = new System.Windows.Forms.Padding(5);
             keyPad6.Name = "keyPad6";
@@ -1560,7 +1560,7 @@
             // keyPad7
             // 
             keyPad7.Enabled = false;
-            keyPad7.Legend = "7";
+            keyPad7.Legend = "7\r\nHome";
             keyPad7.Location = new System.Drawing.Point(1042, 200);
             keyPad7.Margin = new System.Windows.Forms.Padding(5);
             keyPad7.Name = "keyPad7";
@@ -1572,7 +1572,7 @@
             // keyPad8
             // 
             keyPad8.Enabled = false;
-            keyPad8.Legend = "8";
+            keyPad8.Legend = "8\r\n⏶";
             keyPad8.Location = new System.Drawing.Point(1098, 200);
             keyPad8.Margin = new System.Windows.Forms.Padding(5);
             keyPad8.Name = "keyPad8";
@@ -1584,7 +1584,7 @@
             // keyPad9
             // 
             keyPad9.Enabled = false;
-            keyPad9.Legend = "9";
+            keyPad9.Legend = "9\r\nPgUp";
             keyPad9.Location = new System.Drawing.Point(1154, 200);
             keyPad9.Margin = new System.Windows.Forms.Padding(5);
             keyPad9.Name = "keyPad9";
@@ -1596,7 +1596,7 @@
             // keyMute
             // 
             keyMute.Enabled = false;
-            keyMute.Legend = "Mut";
+            keyMute.Legend = "Mute";
             keyMute.Location = new System.Drawing.Point(1042, 15);
             keyMute.Margin = new System.Windows.Forms.Padding(5);
             keyMute.Name = "keyMute";
@@ -1608,7 +1608,7 @@
             // keyVolumeDown
             // 
             keyVolumeDown.Enabled = false;
-            keyVolumeDown.Legend = "Vol-";
+            keyVolumeDown.Legend = "Vol ⏷";
             keyVolumeDown.Location = new System.Drawing.Point(1098, 15);
             keyVolumeDown.Margin = new System.Windows.Forms.Padding(5);
             keyVolumeDown.Name = "keyVolumeDown";
@@ -1620,7 +1620,7 @@
             // keyVolumeUp
             // 
             keyVolumeUp.Enabled = false;
-            keyVolumeUp.Legend = "Vol+";
+            keyVolumeUp.Legend = "Vol ⏶";
             keyVolumeUp.Location = new System.Drawing.Point(1154, 15);
             keyVolumeUp.Margin = new System.Windows.Forms.Padding(5);
             keyVolumeUp.Name = "keyVolumeUp";
