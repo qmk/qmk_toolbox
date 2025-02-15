@@ -1,4 +1,6 @@
-MIT License
+MIT License taken on this 2024..
+Now asper emergency purpose to taken Licence holder in madter AKJUS has a
+CEO ananthkumar j (vajratechnosolutions)..,
 
 Copyright (c) 2024 QMK
 
