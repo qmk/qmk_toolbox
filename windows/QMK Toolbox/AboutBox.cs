@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace QMK_Toolbox
 {
@@ -12,7 +13,7 @@ namespace QMK_Toolbox
 
         private void GithubLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start(githubLink.Text);
+            Process.Start(new ProcessStartInfo(githubLink.Text) { UseShellExecute = true });
         }
     }
 }
