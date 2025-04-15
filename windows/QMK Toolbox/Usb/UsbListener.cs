@@ -180,6 +180,8 @@ namespace QMK_Toolbox.Usb
                     return new UsbTinyIspDevice(usbDevice);
                 case BootloaderType.Wb32Dfu:
                     return new Wb32DfuDevice(usbDevice);
+                case BootloaderType.AT32Dfu:
+                    return new AT32DfuDevice(usbDevice);
                 default:
                     break;
             }
@@ -313,6 +315,12 @@ namespace QMK_Toolbox.Usb
                     if (productId == 0xDFA0)
                     {
                         return BootloaderType.Wb32Dfu;
+                    }
+                    break;
+                case 0x2E3C: // ArteryTech
+                    if (productId == 0xDF11)
+                    {
+                        return BootloaderType.AT32Dfu;
                     }
                     break;
             }

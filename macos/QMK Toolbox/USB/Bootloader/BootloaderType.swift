@@ -19,5 +19,6 @@ enum BootloaderType {
     case usbAsp
     case usbTinyIsp
     case wb32Dfu
+    case at32Dfu
     case none
 }
