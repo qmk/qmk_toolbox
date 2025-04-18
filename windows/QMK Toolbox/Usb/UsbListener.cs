@@ -279,11 +279,19 @@ namespace QMK_Toolbox.Usb
                     }
                     break;
                 case 0x2341: // Arduino SA
+                    switch (productId)
+                    {
+                        case 0x0036: // Leonardo
+                        case 0x0037: // Micro
+                            return BootloaderType.Caterina;
+                    }
+                    break;
                 case 0x2A03: // dog hunter AG
                     switch (productId)
                     {
                         case 0x0036: // Leonardo
                         case 0x0037: // Micro
+                        case 0x0040: // ETH
                             return BootloaderType.Caterina;
                     }
                     break;
