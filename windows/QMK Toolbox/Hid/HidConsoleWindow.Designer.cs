@@ -93,6 +93,7 @@
             logContextMenu.Name = "contextMenuStrip2";
             logContextMenu.ShowImageMargin = false;
             logContextMenu.Size = new System.Drawing.Size(140, 126);
+            logContextMenu.Opening += LogContextMenuStrip_Opening;
             // 
             // cutToolStripMenuItem
             // 
@@ -108,6 +109,7 @@
             copyToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C;
             copyToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             copyToolStripMenuItem.Text = "&Copy";
+            copyToolStripMenuItem.Click += CopyToolStripMenuItem_Click;
             // 
             // pasteToolStripMenuItem
             // 
@@ -129,6 +131,7 @@
             selectAllToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A;
             selectAllToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             selectAllToolStripMenuItem.Text = "Select &All";
+            selectAllToolStripMenuItem.Click += SelectAllToolStripMenuItem_Click;
             // 
             // logContextMenuSep2
             // 
