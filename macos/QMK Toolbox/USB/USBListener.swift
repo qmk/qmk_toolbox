@@ -202,9 +202,16 @@ class USBListener: BootloaderDeviceDelegate {
             if productID == 0x0101 { // A-Star 32U4
                 return .caterina
             }
-        case 0x2341, 0x2A03: // Arduino SA, dog hunter AG
+        case 0x2341: // Arduino SA
             switch productID {
             case 0x0036, 0x0037: // Leonardo, Micro
+                return .caterina
+            default:
+                break
+            }
+        case 0x2A03: // dog hunter AG
+            switch productID {
+            case 0x0036, 0x0037, 0x0040: // Leonardo, Micro, ETH
                 return .caterina
             default:
                 break
