@@ -14,10 +14,7 @@
 		09522BB31F61E32700AEBC5E /* mcu-list.txt in Resources */ = {isa = PBXBuildFile; fileRef = 09522BB21F61E32700AEBC5E /* mcu-list.txt */; };
 		09522BBB1F6216BA00AEBC5E /* avrdude.conf in Resources */ = {isa = PBXBuildFile; fileRef = 09522BBA1F6216BA00AEBC5E /* avrdude.conf */; };
 		098AEDFB1F5E45C300CA054D /* dfu-util in CopyFiles */ = {isa = PBXBuildFile; fileRef = 098AEDFA1F5E45C300CA054D /* dfu-util */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		3066649428392281007C93C8 /* libftdi1.2.5.0.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 3A7770D822BD3B8200398C40 /* libftdi1.2.5.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		3066649628392281007C93C8 /* libhidapi.0.14.0.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 3AFD4BCF281AB83C00ADCB65 /* libhidapi.0.14.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		3066649828392281007C93C8 /* libusb-0.1.4.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		3066649A28392281007C93C8 /* libusb-1.0.0.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		11B40ACE2E7FE38700F5DB6A /* flashutils_release_macosUNIVERSAL in Resources */ = {isa = PBXBuildFile; fileRef = 11B40ACD2E7FE38700F5DB6A /* flashutils_release_macosUNIVERSAL */; };
 		3A128567283D3F0800173A80 /* MicrocontrollerSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A128566283D3F0800173A80 /* MicrocontrollerSelector.swift */; };
 		3A32CF4B28412C420016D7B7 /* BootloaderDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A32CF4A28412C420016D7B7 /* BootloaderDevice.swift */; };
 		3A32CF4D28413E6B0016D7B7 /* HalfKayDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A32CF4C28413E6B0016D7B7 /* HalfKayDevice.swift */; };
@@ -88,10 +85,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				3066649428392281007C93C8 /* libftdi1.2.5.0.dylib in Embed Libraries */,
-				3066649628392281007C93C8 /* libhidapi.0.14.0.dylib in Embed Libraries */,
-				3066649828392281007C93C8 /* libusb-0.1.4.dylib in Embed Libraries */,
-				3066649A28392281007C93C8 /* libusb-1.0.0.dylib in Embed Libraries */,
 			);
 			name = "Embed Libraries";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -108,8 +101,7 @@
 		09522BB21F61E32700AEBC5E /* mcu-list.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "mcu-list.txt"; path = "../../../common/mcu-list.txt"; sourceTree = "<group>"; };
 		09522BBA1F6216BA00AEBC5E /* avrdude.conf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = avrdude.conf; path = ../../../common/avrdude.conf; sourceTree = "<group>"; };
 		098AEDFA1F5E45C300CA054D /* dfu-util */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "dfu-util"; sourceTree = "<group>"; };
-		09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libusb-1.0.0.dylib"; sourceTree = "<group>"; };
-		09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libusb-0.1.4.dylib"; sourceTree = "<group>"; };
+		11B40ACD2E7FE38700F5DB6A /* flashutils_release_macosUNIVERSAL */ = {isa = PBXFileReference; lastKnownFileType = text; path = flashutils_release_macosUNIVERSAL; sourceTree = "<group>"; };
 		3A128566283D3F0800173A80 /* MicrocontrollerSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrocontrollerSelector.swift; sourceTree = "<group>"; };
 		3A32CF4A28412C420016D7B7 /* BootloaderDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootloaderDevice.swift; sourceTree = "<group>"; };
 		3A32CF4C28413E6B0016D7B7 /* HalfKayDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalfKayDevice.swift; sourceTree = "<group>"; };
@@ -136,7 +128,6 @@
 		3A708D99284901F500394E52 /* HIDListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HIDListener.swift; sourceTree = "<group>"; };
 		3A708D9B284916F700394E52 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3A7492CB27DF96BF0073A5A0 /* hid_bootloader_cli */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = hid_bootloader_cli; sourceTree = "<group>"; };
-		3A7770D822BD3B8200398C40 /* libftdi1.2.5.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libftdi1.2.5.0.dylib; sourceTree = "<group>"; };
 		3A8DE019284636780012063A /* HIDConsoleDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HIDConsoleDevice.swift; sourceTree = "<group>"; };
 		3A8F9F0326E7501E007480A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/KeyView.xib; sourceTree = "<group>"; };
 		3A92871D292CE6400015D961 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -152,7 +143,6 @@
 		3AB6570F2B9EABB4007805DD /* RawDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawDevice.swift; sourceTree = "<group>"; };
 		3AB657112B9EAC34007805DD /* HIDDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HIDDevice.swift; sourceTree = "<group>"; };
 		3AE86EF9294C9CEC00008D3E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		3AFD4BCF281AB83C00ADCB65 /* libhidapi.0.14.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libhidapi.0.14.0.dylib; sourceTree = "<group>"; };
 		9BE10717275F4CFE00C708D5 /* wb32-dfu-updater_cli */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "wb32-dfu-updater_cli"; sourceTree = "<group>"; };
 		C93A0FF32292232D0006C88F /* reset.eep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset.eep; path = ../../../common/reset.eep; sourceTree = "<group>"; };
 		C9A09B5622EE6826008C3CF3 /* mdloader */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = mdloader; sourceTree = "<group>"; };
@@ -243,10 +233,7 @@
 				C9A09B5622EE6826008C3CF3 /* mdloader */,
 				0929640E1F5E4068004F2D3F /* teensy_loader_cli */,
 				9BE10717275F4CFE00C708D5 /* wb32-dfu-updater_cli */,
-				3A7770D822BD3B8200398C40 /* libftdi1.2.5.0.dylib */,
-				3AFD4BCF281AB83C00ADCB65 /* libhidapi.0.14.0.dylib */,
-				09D79CBB1FB8A6490086ABF6 /* libusb-0.1.4.dylib */,
-				09D79CB51FB0DD7F0086ABF6 /* libusb-1.0.0.dylib */,
+				11B40ACD2E7FE38700F5DB6A /* flashutils_release_macosUNIVERSAL */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -358,6 +345,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				092964021F5C8B2C004F2D3F /* Assets.xcassets in Resources */,
+				11B40ACE2E7FE38700F5DB6A /* flashutils_release_macosUNIVERSAL in Resources */,
 				3AA5D3472803FCE1008121E4 /* Colors.xcassets in Resources */,
 				3AE86EF8294C9CEC00008D3E /* Main.storyboard in Resources */,
 				3A8F9F0226E7501E007480A7 /* KeyView.xib in Resources */,
