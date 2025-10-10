@@ -12,12 +12,16 @@ on:
 jobs:
   build_win:
     name: Build (Windows)
-    runs-on: windows-2022
+    runs-on: windows-latest
 
     steps:
     - uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.x'
+
+    - name: Install InnoSetup
+      shell: cmd
+      run: choco upgrade innosetup -y --no-progress
 
     - uses: actions/checkout@v4
 
