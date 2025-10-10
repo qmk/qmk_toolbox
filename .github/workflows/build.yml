@@ -12,12 +12,12 @@ on:
 jobs:
   build_win:
     name: Build (Windows)
-    runs-on: windows-latest
+    runs-on: windows-2022
 
     steps:
     - uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '6.x'
+        dotnet-version: '8.x'
 
     - uses: actions/checkout@v4
 
