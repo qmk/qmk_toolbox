@@ -216,7 +216,7 @@ class MainViewController: NSViewController, USBListenerDelegate {
 
         for b in findBootloaders() {
             if b.eepromFlashable {
-                b.flashEEPROM(mcu, file: left ? "left.eep" : "right.eep")
+                b.flashEEPROM(mcu, file: left ? "reset_left.eep" : "reset_right.eep")
             }
         }
 
