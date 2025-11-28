@@ -94,7 +94,6 @@
     <PackageReference Include="hidlibrary">
       <Version>3.3.40</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Net.Compilers.Toolset">
       <Version>4.7.0</Version>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
