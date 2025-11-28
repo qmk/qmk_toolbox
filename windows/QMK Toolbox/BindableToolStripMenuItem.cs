@@ -9,7 +9,7 @@ namespace QMK_Toolbox
         private ControlBindingsCollection _dataBindings;
 
         [Browsable(false)]
-        public BindingContext BindingContext
+        public new BindingContext BindingContext
         {
             get
             {
@@ -22,10 +22,12 @@ namespace QMK_Toolbox
             }
         }
 
+        public bool ShouldSerializeBindingContext() => false;
+
         [Category("Data")]
         [ParenthesizePropertyName(true)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public ControlBindingsCollection DataBindings
+        public new ControlBindingsCollection DataBindings
         {
             get
             {

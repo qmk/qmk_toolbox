@@ -21,6 +21,8 @@ namespace QMK_Toolbox.KeyTester
             }
         }
 
+        public bool ShouldSerializePressed() => false;
+
         [Description("Whether the key has been tested."), Category("Appearance")]
         public bool Tested {
             get => tested;
@@ -31,11 +33,15 @@ namespace QMK_Toolbox.KeyTester
             }
         }
 
+        public bool ShouldSerializeTested() => false;
+
         [Description("The legend to be displayed on the key."), Category("Appearance"), Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         public string Legend {
             get => lblLegend.Text;
             set => lblLegend.Text = value;
         }
+
+        public bool ShouldSerializeLegend() => false;
 
         private void SetKeyColor()
         {
