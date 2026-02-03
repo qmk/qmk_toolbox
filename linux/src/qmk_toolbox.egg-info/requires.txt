@@ -1,0 +1,11 @@
+PySide6>=6.6.0
+pyudev>=0.24.0
+hidapi>=0.14.0
+pyusb>=1.2.1
+
+[dev]
+pytest>=7.0
+pytest-qt>=4.2
+black>=23.0
+flake8>=6.0
+mypy>=1.0

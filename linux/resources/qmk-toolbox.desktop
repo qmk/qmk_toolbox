@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=QMK Toolbox
+GenericName=Keyboard Firmware Flasher
+Comment=A keyboard firmware flashing utility
+Exec=qmk-toolbox
+Icon=qmk-toolbox
+Terminal=false
+Categories=Development;Electronics;Utility;
+Keywords=qmk;keyboard;firmware;flash;bootloader;
+StartupNotify=true

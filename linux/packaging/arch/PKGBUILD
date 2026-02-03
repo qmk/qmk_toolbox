@@ -1,0 +1,27 @@
+# Maintainer: QMK <hello@qmk.fm>
+pkgname=qmk-toolbox
+pkgver=0.3.3
+pkgrel=1
+pkgdesc="A keyboard firmware flashing utility"
+arch=('any')
+url="https://qmk.fm/toolbox"
+license=('MIT')
+depends=('python>=3.8' 'python-pyside6' 'python-pyudev' 'python-hidapi' 'python-pyusb' 'dfu-util' 'dfu-programmer' 'avrdude' 'teensy-loader-cli')
+makedepends=('python-build' 'python-installer' 'python-wheel')
+source=("$pkgname-$pkgver.tar.gz")
+sha256sums=('SKIP')
+
+build() {
+    cd "$srcdir/$pkgname-$pkgver"
+    python -m build --wheel --no-isolation
+}
+
+package() {
+    cd "$srcdir/$pkgname-$pkgver"
+    python -m installer --destdir="$pkgdir" dist/*.whl
+    
+    install -Dm644 resources/qmk-toolbox.desktop "$pkgdir/usr/share/applications/qmk-toolbox.desktop"
+    install -Dm644 resources/icons/qmk-toolbox.svg "$pkgdir/usr/share/icons/hicolor/scalable/apps/qmk-toolbox.svg"
+    install -Dm644 packaging/99-qmk.rules "$pkgdir/usr/lib/udev/rules.d/99-qmk.rules"
+    install -Dm644 LICENSE.md "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

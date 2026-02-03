@@ -1,0 +1,2 @@
+[console_scripts]
+qmk-toolbox = qmk_toolbox.main:main

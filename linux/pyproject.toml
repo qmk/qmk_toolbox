@@ -1,0 +1,68 @@
+[build-system]
+requires = ["setuptools>=65.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qmk-toolbox"
+version = "0.3.3"
+description = "A flashing/debug utility for devices running QMK Firmware"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "QMK", email = "hello@qmk.fm"}
+]
+keywords = ["qmk", "keyboard", "firmware", "flash", "bootloader"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: System :: Hardware",
+]
+
+dependencies = [
+    "PySide6>=6.6.0",
+    "pyudev>=0.24.0",
+    "hidapi>=0.14.0",
+    "pyusb>=1.2.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-qt>=4.2",
+    "black>=23.0",
+    "flake8>=6.0",
+    "mypy>=1.0",
+]
+
+[project.scripts]
+qmk-toolbox = "qmk_toolbox.main:main"
+
+[project.urls]
+Homepage = "https://qmk.fm/toolbox"
+Repository = "https://github.com/qmk/qmk_toolbox"
+Issues = "https://github.com/qmk/qmk_toolbox/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+qmk_toolbox = ["resources/*"]
+
+[tool.black]
+line-length = 100
+target-version = ['py38']
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
