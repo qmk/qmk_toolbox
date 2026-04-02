@@ -1,0 +1,187 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:QmkToolbox.Desktop.ViewModels"
+        xmlns:controls="using:QmkToolbox.Desktop.Views.Controls"
+        xmlns:i="using:Optris.Icons.Avalonia"
+        x:Class="QmkToolbox.Desktop.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        x:CompileBindings="True"
+        Title="QMK Toolbox"
+        Width="900" Height="600"
+        MinWidth="600" MinHeight="400"
+        DragDrop.AllowDrop="True">
+
+    <Window.KeyBindings>
+        <KeyBinding Gesture="Ctrl+O" Command="{Binding OpenFileCommand}" />
+    </Window.KeyBindings>
+
+    <DockPanel>
+        <!-- In-window menu bar — hidden on macOS where NativeMenu.Menu takes over. -->
+        <Menu DockPanel.Dock="Top" IsVisible="{OnPlatform Default=True, macOS=False}">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open..." Command="{Binding OpenFileCommand}" InputGesture="Ctrl+O" />
+                <Separator />
+                <MenuItem Header="E_xit" Command="{Binding ExitCommand}" />
+            </MenuItem>
+            <MenuItem Header="_Tools">
+                <MenuItem Header="_Flash" Command="{Binding FlashCommand}" />
+                <MenuItem Header="_Exit DFU" Command="{Binding ResetCommand}" />
+                <MenuItem Header="_EEPROM">
+                    <MenuItem Header="_Clear" Command="{Binding ClearEepromCommand}" />
+                    <MenuItem Header="Set _Left Hand" Command="{Binding SetLeftHandCommand}" />
+                    <MenuItem Header="Set _Right Hand" Command="{Binding SetRightHandCommand}" />
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="_Auto-Flash" Command="{Binding ToggleAutoFlashCommand}" IsChecked="{Binding AutoFlashEnabled}">
+                    <MenuItem.Icon>
+                        <TextBlock Text="✓" IsVisible="{Binding AutoFlashEnabled}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Show _All Devices" Command="{Binding ToggleShowAllDevicesCommand}" IsChecked="{Binding ShowAllDevices}">
+                    <MenuItem.Icon>
+                        <TextBlock Text="✓" IsVisible="{Binding ShowAllDevices}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="_Key Tester" Command="{Binding OpenKeyTesterCommand}" />
+                <MenuItem Header="_HID Console" Command="{Binding OpenHidConsoleCommand}" />
+                <Separator />
+                <MenuItem Header="_Install Drivers..." Command="{Binding InstallDriversCommand}" IsVisible="{Binding IsWindows}" />
+                <MenuItem Header="Install _udev Rules" Command="{Binding InstallUdevRulesCommand}" IsVisible="{Binding IsLinux}" />
+                <MenuItem Header="C_lear Resources" Command="{Binding ClearResourcesCommand}" />
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_About" Command="{Binding OpenAboutCommand}" />
+            </MenuItem>
+        </Menu>
+
+        <!-- "Local file" group box: filepath + Open + MCU
+             SharedSizeGroup ensures the label overlay Grid columns match the content Grid,
+             so "MCU (AVR only)" aligns exactly with the left edge of the MCU combo. -->
+        <Panel DockPanel.Dock="Top" Margin="8,8,8,0" Grid.IsSharedSizeScope="True">
+            <Border BorderBrush="{DynamicResource SemiColorBorder}"
+                    BorderThickness="1"
+                    CornerRadius="3"
+                    Margin="0,9,0,0"
+                    Padding="8,6,8,8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="OpenCol" />
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="McuCol" />
+                    </Grid.ColumnDefinitions>
+                    <ComboBox Grid.Column="0"
+                              IsEditable="True"
+                              ItemsSource="{Binding FirmwareHistory}"
+                              Text="{Binding FirmwarePath}"
+                              PlaceholderText="Click Open or drag to window to select file"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Stretch" />
+                    <Button Grid.Column="1" Content="Open" Command="{Binding OpenFileCommand}"
+                            VerticalAlignment="Center" Margin="4,0" />
+                    <ComboBox Grid.Column="2"
+                              ItemsSource="{Binding McuList}"
+                              SelectedItem="{Binding SelectedMcuPair}"
+                              PlaceholderText="Select MCU"
+                              VerticalAlignment="Center"
+                              MinWidth="140">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="vm:McuItem">
+                                <TextBlock Text="{Binding DisplayName}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+            </Border>
+            <!-- Label overlay: columns share sizes with the content Grid above -->
+            <Grid Margin="8,0,8,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="OpenCol" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="McuCol" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0"
+                           Text="Local file"
+                           Background="{DynamicResource SemiColorBackground0}"
+                           Padding="4,0" Margin="2,0,0,0"
+                           VerticalAlignment="Top" HorizontalAlignment="Left" />
+                <TextBlock Grid.Column="2"
+                           Text="MCU (AVR only)"
+                           Background="{DynamicResource SemiColorBackground0}"
+                           Padding="4,0"
+                           VerticalAlignment="Top" HorizontalAlignment="Left" />
+            </Grid>
+        </Panel>
+
+        <!-- Action Bar: Flash / Reset / EEPROM buttons (right-aligned, matching original) -->
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Right" Margin="8,6,8,6" Spacing="4">
+            <CheckBox Content="Auto-Flash"
+                      IsChecked="{Binding AutoFlashEnabled}"
+                      VerticalAlignment="Center"
+                      Margin="0,0,4,0" />
+            <Button Content="Flash" Command="{Binding FlashCommand}"
+                    ToolTip.Tip="Flash firmware to the connected device" />
+            <Button Content="Clear EEPROM" Command="{Binding ClearEepromCommand}"
+                    ToolTip.Tip="Clear EEPROM on the connected device" />
+            <Button Content="Exit DFU" Command="{Binding ResetCommand}"
+                    ToolTip.Tip="Exit DFU / reset the connected device" />
+        </StackPanel>
+
+        <!-- Confirmation Toast Bar -->
+        <Border DockPanel.Dock="Top"
+                IsVisible="{Binding IsConfirmVisible}"
+                BorderBrush="#FBBF24"
+                BorderThickness="5,0,0,0"
+                Background="#40F59E0B"
+                Padding="12,10">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                    <Button Content="Yes" Command="{Binding ConfirmYesCommand}" />
+                    <Button Content="No" Command="{Binding ConfirmNoCommand}" />
+                </StackPanel>
+                <StackPanel VerticalAlignment="Center" Spacing="3">
+                    <TextBlock Text="{Binding ConfirmTitle}" FontWeight="Bold" Foreground="#FBBF24" />
+                    <TextBlock Text="{Binding ConfirmMessage}" />
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <!-- Bottom link bar -->
+        <Border DockPanel.Dock="Bottom"
+                BorderBrush="{DynamicResource SemiColorBorder}"
+                BorderThickness="0,1,0,0"
+                Padding="8,3">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="16">
+                <HyperlinkButton NavigateUri="https://config.qmk.fm" Padding="0">
+                    <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+                        <i:Icon Value="fa-solid fa-gear" FontSize="11" />
+                        <TextBlock Text="QMK Configurator" FontSize="11" VerticalAlignment="Center" />
+                    </StackPanel>
+                </HyperlinkButton>
+                <HyperlinkButton NavigateUri="https://github.com/qmk/qmk_toolbox" Padding="0">
+                    <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+                        <i:Icon Value="fa-brands fa-github" FontSize="11" />
+                        <TextBlock Text="QMK Toolbox" FontSize="11" VerticalAlignment="Center" />
+                    </StackPanel>
+                </HyperlinkButton>
+                <HyperlinkButton NavigateUri="https://github.com/qmk/qmk_firmware" Padding="0">
+                    <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+                        <i:Icon Value="fa-brands fa-github" FontSize="11" />
+                        <TextBlock Text="QMK Firmware" FontSize="11" VerticalAlignment="Center" />
+                    </StackPanel>
+                </HyperlinkButton>
+                <HyperlinkButton NavigateUri="https://discord.gg/qmk" Padding="0">
+                    <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+                        <i:Icon Value="fa-brands fa-discord" FontSize="11" />
+                        <TextBlock Text="QMK Discord" FontSize="11" VerticalAlignment="Center" />
+                    </StackPanel>
+                </HyperlinkButton>
+            </StackPanel>
+        </Border>
+
+        <!-- Log Panel -->
+        <controls:LogPanel LogEntries="{Binding LogEntries}"
+                           CopyCommand="{Binding CopyLogCommand}"
+                           ClearCommand="{Binding ClearLogCommand}" />
+    </DockPanel>
+</Window>

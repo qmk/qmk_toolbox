@@ -1,0 +1,20 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:semi="https://irihi.tech/semi"
+             x:Class="QmkToolbox.Desktop.App"
+             Name="QMK Toolbox"
+             RequestedThemeVariant="Dark">
+    <Application.Styles>
+        <semi:SemiTheme Locale="en-US" />
+    </Application.Styles>
+
+    <!-- Application-level NativeMenu for macOS: sets the bold "QMK Toolbox" app menu.
+         Must be declared here (loaded during Initialize()) so the macOS backend picks it
+         up when it creates the NSMenuBar — the programmatic menu in App.axaml.cs adds
+         Quit and wires commands, but this AXAML entry is what keeps About clickable. -->
+    <NativeMenu.Menu>
+        <NativeMenu>
+            <NativeMenuItem Header="About QMK Toolbox" Click="AppAbout_OnClick" />
+        </NativeMenu>
+    </NativeMenu.Menu>
+</Application>

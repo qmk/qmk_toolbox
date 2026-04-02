@@ -1,0 +1,13 @@
+{
+   "$schema": "https://alirezanet.github.io/Husky.Net/schema.json",
+   "tasks": [
+      {
+         "name": "format-staged",
+         "group": "pre-commit",
+         "command": "dotnet",
+         "args": ["format", "src/QmkToolbox.slnx", "--include", "${staged}"],
+         "include": ["**/*.cs"],
+         "pathsFrom": "staged"
+      }
+   ]
+}

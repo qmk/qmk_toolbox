@@ -1,6 +1,27 @@
+core:
+  - changed-files:
+    - any-glob-to-any-file: 'src/**/*'
+scripts:
+  - changed-files:
+    - any-glob-to-any-file: 'scripts/**/*'
+ci:
+  - changed-files:
+    - any-glob-to-any-file: '.github/**/*'
+resources:
+  - changed-files:
+    - any-glob-to-any-file: 'resources/**/*'
 windows:
   - changed-files:
-    - any-glob-to-any-file: 'windows/**/*'
+    - any-glob-to-any-file:
+      - 'resources/windows-*/**/*'
+      - 'resources/*/win-*/**/*'
 macos:
   - changed-files:
-    - any-glob-to-any-file: 'macos/**/*'
+    - any-glob-to-any-file:
+      - 'resources/macos-*/**/*'
+      - 'resources/*/osx/**/*'
+linux:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'resources/udev/**/*'
+      - 'resources/*/linux-*/**/*'

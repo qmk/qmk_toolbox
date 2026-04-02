@@ -2,135 +2,96 @@ name: CI
 
 on:
   push:
-    branches:
-    - master
-  release:
-    types:
-      - published
+    branches: [master, avalonia-net10-port]
   pull_request:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
 
 jobs:
-  build_win:
-    name: Build (Windows)
-    runs-on: windows-latest
-
+  build:
+    runs-on: ubuntu-latest
+    name: Build, Test, and Package
     steps:
+    - uses: actions/checkout@v6
     - uses: actions/setup-dotnet@v5
       with:
-        dotnet-version: '6.x'
+        dotnet-version: '10.x'
 
-    - uses: actions/checkout@v6
-
-    - name: Build
-      working-directory: ./windows
+    - name: Build and Test
       run: |
-        dotnet publish -c Release -r win-x64 --self-contained true
+        dotnet restore src/QmkToolbox.slnx
+        dotnet build src/QmkToolbox.slnx --configuration Release --no-restore
+        dotnet test src/QmkToolbox.Tests/QmkToolbox.Tests.csproj --no-restore --no-build --configuration Release
 
-    - name: Create installer
-      working-directory: ./windows
+    - name: Publish
       run: |
-        iscc install_compiler.iss
+        ./scripts/publish-all.sh
+        ./scripts/make-release-artifacts.sh
+        ls -1alR artifacts/
 
-    - uses: actions/upload-artifact@v7
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v7
       with:
-        name: qmk_toolbox.exe
-        path: windows/QMK Toolbox/bin/Release/win-x64/publish/qmk_toolbox.exe
-
-    - uses: actions/upload-artifact@v7
-      with:
-        name: qmk_toolbox_install.exe
-        path: windows/qmk_toolbox_install.exe
-
-  build_macos:
-    name: Build (macOS)
-    runs-on: macOS-latest
-
-    steps:
-    - uses: maxim-lobanov/setup-xcode@v1
-      with:
-        xcode-version: latest-stable
-
-    - uses: actions/checkout@v6
-
-    - name: Check binary permissions
-      working-directory: ./macos/QMK Toolbox/Resources
-      env:
-        QMK_BINARIES: avrdude bootloadHID dfu-programmer dfu-util mdloader teensy_loader_cli wb32-dfu-updater_cli
-      run: |
-        status=0
-        for b in $QMK_BINARIES; do
-          perm=$(stat -f "%Lp" $b)
-          echo "$b: $perm"
-          [[ $perm == "755" ]] || status=1
-        done
-        exit $status
-
-    - name: Build
-      working-directory: ./macos
-      run: |
-        mkdir build
-        xcodebuild CONFIGURATION_BUILD_DIR=build
-        ditto -ck --rsrc --sequesterRsrc -v --keepParent "build/QMK Toolbox.app" build/QMK.Toolbox.app.zip
-
-    - uses: actions/upload-artifact@v7
-      with:
-        name: QMK.Toolbox.app.zip
-        path: macos/build/QMK.Toolbox.app.zip
-
-    - name: Create installer
-      working-directory: ./macos
-      run: |
-        brew update
-        brew install packages
-        packagesbuild -v "QMK Toolbox.pkgproj"
-        mv "build/QMK Toolbox.pkg" build/QMK.Toolbox.pkg
-
-    - uses: actions/upload-artifact@v7
-      with:
-        name: QMK.Toolbox.pkg
-        path: macos/build/QMK.Toolbox.pkg
+        name: qmk_toolbox-all
+        path: artifacts/
 
   publish_release:
-    name: Publish (Release)
+    needs: build
+    name: Publish Release
+    if: github.event_name == 'release'
     runs-on: ubuntu-latest
-
-    needs: [build_win, build_macos]
-
-    if: github.event.release.tag_name
-
     steps:
-      - uses: actions/download-artifact@v8
+    - uses: actions/download-artifact@v8
+      with:
+        name: qmk_toolbox-all
 
-      - uses: softprops/action-gh-release@v3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          name: ${{ github.event.release.name }}
-          files: |
-            ./qmk_toolbox.exe/qmk_toolbox.exe
-            ./qmk_toolbox_install.exe/qmk_toolbox_install.exe
-            ./QMK.Toolbox.app.zip/QMK.Toolbox.app.zip
-            ./QMK.Toolbox.pkg/QMK.Toolbox.pkg
+    - name: Delete existing release
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: gh release delete --repo ${{ github.repository }} ${{ github.ref_name }} --yes || true
+
+    - uses: softprops/action-gh-release@v3
+      with:
+        make_latest: true
+        files: |
+          QMK Toolbox.app.zip
+          QMK Toolbox.dmg
+          QMK Toolbox.pkg
+          qmk_toolbox-linux-x64
+          qmk_toolbox-linux-arm64
+          qmk_toolbox.exe
+          qmk_toolbox_install.exe
 
   publish_beta:
-    name: Publish (Beta)
+    needs: build
+    name: Publish Beta
+    if: github.event_name == 'push' && github.ref == 'refs/heads/avalonia-net10-port'
     runs-on: ubuntu-latest
-
-    needs: [build_win, build_macos]
-
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
-
     steps:
-      - uses: actions/download-artifact@v8
+    - uses: actions/download-artifact@v8
+      with:
+        name: qmk_toolbox-all
 
-      - uses: marvinpinto/action-automatic-releases@latest
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "beta"
-          prerelease: true
-          title: "Latest Beta"
-          files: |
-            ./qmk_toolbox.exe/qmk_toolbox.exe
-            ./qmk_toolbox_install.exe/qmk_toolbox_install.exe
-            ./QMK.Toolbox.app.zip/QMK.Toolbox.app.zip
-            ./QMK.Toolbox.pkg/QMK.Toolbox.pkg
+    - name: Delete existing beta release
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: gh release delete --repo ${{ github.repository }} beta-xplat --yes --cleanup-tag || true
+
+    - uses: softprops/action-gh-release@v3
+      with:
+        tag_name: beta-xplat
+        name: Beta-CrossPlatform
+        prerelease: true
+        make_latest: false
+        target_commitish: ${{ github.sha }}
+        files: |
+          QMK Toolbox.app.zip
+          QMK Toolbox.dmg
+          QMK Toolbox.pkg
+          qmk_toolbox-linux-x64
+          qmk_toolbox-linux-arm64
+          qmk_toolbox.exe
+          qmk_toolbox_install.exe

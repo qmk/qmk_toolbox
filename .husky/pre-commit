@@ -1,0 +1,7 @@
+#!/bin/sh
+# Skip hooks when HUSKY=0 or HUSKY=false
+if [ "$HUSKY" = "0" ] || [ "$HUSKY" = "false" ]; then
+    exit 0
+fi
+
+dotnet husky run --name format-staged

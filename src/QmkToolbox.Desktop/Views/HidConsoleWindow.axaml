@@ -1,0 +1,27 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:QmkToolbox.Desktop.ViewModels"
+        xmlns:controls="using:QmkToolbox.Desktop.Views.Controls"
+        x:Class="QmkToolbox.Desktop.Views.HidConsoleWindow"
+        x:DataType="vm:HidConsoleViewModel"
+        x:CompileBindings="True"
+        Title="HID Console"
+        Width="700" Height="450"
+        MinWidth="400" MinHeight="250">
+
+    <DockPanel>
+        <!-- Device selector -->
+        <Grid DockPanel.Dock="Top" Margin="8,4" ColumnDefinitions="*,Auto">
+            <ComboBox Grid.Column="0"
+                      ItemsSource="{Binding Devices}"
+                      SelectedItem="{Binding SelectedDevice}"
+                      HorizontalAlignment="Stretch" />
+            <Button Grid.Column="1" Margin="4,0,0,0" Content="Clear" Command="{Binding ClearCommand}" />
+        </Grid>
+
+        <!-- Log panel -->
+        <controls:LogPanel LogEntries="{Binding LogEntries}"
+                           CopyCommand="{Binding CopyAllCommand}"
+                           ClearCommand="{Binding ClearCommand}" />
+    </DockPanel>
+</Window>

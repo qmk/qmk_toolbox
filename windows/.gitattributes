@@ -1,4 +1,0 @@
-* text eol=crlf
-*.dll -text
-*.exe -text
-*.ico -text

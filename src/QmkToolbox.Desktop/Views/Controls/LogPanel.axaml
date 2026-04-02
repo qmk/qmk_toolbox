@@ -1,0 +1,23 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:QmkToolbox.Desktop.Views.Controls"
+             x:Class="QmkToolbox.Desktop.Views.Controls.LogPanel"
+             x:DataType="controls:LogPanel"
+             x:CompileBindings="True"
+             x:Name="Root">
+
+    <ScrollViewer Name="LogScroller" Background="#1E1E1E">
+        <ScrollViewer.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Copy All" Command="{Binding #Root.CopyCommand}" />
+                <Separator />
+                <MenuItem Header="Clear" Command="{Binding #Root.ClearCommand}" />
+            </ContextMenu>
+        </ScrollViewer.ContextMenu>
+        <SelectableTextBlock Name="LogText"
+                             FontFamily="Consolas, Monaco, Cascadia Code, monospace"
+                             FontSize="12"
+                             TextWrapping="Wrap"
+                             Margin="4,2" />
+    </ScrollViewer>
+</UserControl>

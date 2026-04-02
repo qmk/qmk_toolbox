@@ -1,0 +1,30 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:QmkToolbox.Desktop.ViewModels"
+        x:Class="QmkToolbox.Desktop.Views.KeyTesterWindow"
+        x:DataType="vm:KeyTesterViewModel"
+        x:CompileBindings="True"
+        Title="Key Tester"
+        Width="1060" Height="380"
+        CanResize="False">
+
+    <Design.DataContext>
+        <vm:KeyTesterViewModel />
+    </Design.DataContext>
+
+    <DockPanel>
+        <!-- Status bar -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="8,4" Spacing="8">
+            <TextBlock Text="Last key:" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding LastKeycode}" VerticalAlignment="Center" Width="160" />
+            <TextBlock Text="Scan code:" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding LastScanCode}" VerticalAlignment="Center" Width="70" />
+            <Button Content="Reset" Command="{Binding ResetCommand}" />
+        </StackPanel>
+
+        <!-- Keyboard canvas — populated in code-behind -->
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <Canvas Name="KeyCanvas" Width="1040" Height="278" Margin="8" Background="Transparent" />
+        </ScrollViewer>
+    </DockPanel>
+</Window>
