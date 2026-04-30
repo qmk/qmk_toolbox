@@ -62,6 +62,12 @@ The [current version](https://github.com/qmk/qmk_toolbox/releases) of QMK Toolbo
 * **Windows:** [standalone](https://github.com/qmk/qmk_toolbox/releases/latest/download/qmk_toolbox.exe), [installer](https://github.com/qmk/qmk_toolbox/releases/latest/download/qmk_toolbox_install.exe)
 * **macOS**: [standalone](https://github.com/qmk/qmk_toolbox/releases/latest/download/QMK.Toolbox.app.zip), [installer](https://github.com/qmk/qmk_toolbox/releases/latest/download/QMK.Toolbox.pkg)
 
+For Windows users, it is also available via winget (Microsoft Package Manager):
+
+```powershell
+winget install --id QMK.QMKToolbox -e --source winget
+```
+
 For Homebrew users, it is also available as a Cask:
 
 ```sh
