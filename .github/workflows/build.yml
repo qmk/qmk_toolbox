@@ -19,7 +19,7 @@ jobs:
       with:
         dotnet-version: '6.x'
 
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
 
     - name: Build
       working-directory: ./windows
@@ -50,7 +50,7 @@ jobs:
       with:
         xcode-version: latest-stable
 
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
 
     - name: Check binary permissions
       working-directory: ./macos/QMK Toolbox/Resources
