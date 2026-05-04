@@ -35,7 +35,7 @@ public partial class MainWindowViewModel : LogViewModelBase
     [ObservableProperty] private string _selectedMcu = "";
     [ObservableProperty] private bool _autoFlashEnabled;
     [ObservableProperty] private bool _showAllDevices;
-    [ObservableProperty] private string _themeVariant = "Dark";
+    [ObservableProperty] private string _themeVariant = "Default";
 
     [ObservableProperty] private bool _isConfirmVisible;
     [ObservableProperty] private string _confirmTitle = "";

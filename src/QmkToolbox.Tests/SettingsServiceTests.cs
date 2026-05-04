@@ -32,7 +32,7 @@ public class SettingsServiceTests
         Assert.Equal("", result.FirmwareFilePath);
         Assert.Empty(result.FirmwareFileHistory);
         Assert.Equal("atmega32u4", result.SelectedMcu);
-        Assert.Equal("Dark", result.ThemeVariant);
+        Assert.Equal("Default", result.ThemeVariant);
         Assert.Null(result.WindowX);
         Assert.Null(result.WindowY);
         Assert.Null(result.WindowWidth);
@@ -170,7 +170,7 @@ public class SettingsServiceTests
         AppSettings? result = JsonSerializer.Deserialize(json, AppSettingsJsonContext.Default.AppSettings);
 
         Assert.NotNull(result);
-        Assert.Equal("Dark", result.ThemeVariant);
+        Assert.Equal("Default", result.ThemeVariant);
     }
 
     // ── Serialized JSON is human-readable (WriteIndented) ─────────────────────
