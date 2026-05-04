@@ -13,6 +13,9 @@ public partial class MainWindow : Window
 {
     private NativeMenuItem? _autoFlashItem;
     private NativeMenuItem? _showAllItem;
+    private NativeMenuItem? _darkThemeItem;
+    private NativeMenuItem? _lightThemeItem;
+    private NativeMenuItem? _systemThemeItem;
     private MainWindowViewModel? _nativeMenuVm;
 
     public MainWindow()
@@ -87,10 +90,37 @@ public partial class MainWindow : Window
             IsChecked = vm.ShowAllDevices
         };
 
+        var darkThemeItem = new NativeMenuItem("Dark")
+        {
+            Command = vm.SetThemeCommand,
+            CommandParameter = "Dark",
+            ToggleType = MenuItemToggleType.Radio,
+            IsChecked = vm.IsDarkTheme
+        };
+        var lightThemeItem = new NativeMenuItem("Light")
+        {
+            Command = vm.SetThemeCommand,
+            CommandParameter = "Light",
+            ToggleType = MenuItemToggleType.Radio,
+            IsChecked = vm.IsLightTheme
+        };
+        var systemThemeItem = new NativeMenuItem("System")
+        {
+            Command = vm.SetThemeCommand,
+            CommandParameter = "Default",
+            ToggleType = MenuItemToggleType.Radio,
+            IsChecked = vm.IsSystemTheme
+        };
+
         vm.PropertyChanged += OnVmPropertyChanged;
         _autoFlashItem = autoFlashItem;
         _showAllItem = showAllItem;
+        _darkThemeItem = darkThemeItem;
+        _lightThemeItem = lightThemeItem;
+        _systemThemeItem = systemThemeItem;
         _nativeMenuVm = vm;
+
+        var themeMenu = new NativeMenu { darkThemeItem, lightThemeItem, systemThemeItem };
 
         var toolsMenu = new NativeMenu
         {
@@ -104,7 +134,9 @@ public partial class MainWindow : Window
             new NativeMenuItem("Key Tester") { Command = vm.OpenKeyTesterCommand },
             new NativeMenuItem("HID Console") { Command = vm.OpenHidConsoleCommand },
             new NativeMenuItemSeparator(),
-            new NativeMenuItem("Clear Resources") { Command = vm.ClearResourcesCommand }
+            new NativeMenuItem("Clear Resources") { Command = vm.ClearResourcesCommand },
+            new NativeMenuItemSeparator(),
+            new NativeMenuItem("Theme") { Menu = themeMenu }
         };
 
         var windowMenu = new NativeMenu
@@ -119,9 +151,21 @@ public partial class MainWindow : Window
     private void OnVmPropertyChanged(object? sender, PropertyChangedEventArgs args)
     {
         if (args.PropertyName == nameof(MainWindowViewModel.AutoFlashEnabled))
+        {
             _autoFlashItem!.IsChecked = _nativeMenuVm!.AutoFlashEnabled;
+        }
         else if (args.PropertyName == nameof(MainWindowViewModel.ShowAllDevices))
+        {
             _showAllItem!.IsChecked = _nativeMenuVm!.ShowAllDevices;
+        }
+        else if (args.PropertyName is nameof(MainWindowViewModel.IsDarkTheme)
+                                   or nameof(MainWindowViewModel.IsLightTheme)
+                                   or nameof(MainWindowViewModel.IsSystemTheme))
+        {
+            _darkThemeItem!.IsChecked = _nativeMenuVm!.IsDarkTheme;
+            _lightThemeItem!.IsChecked = _nativeMenuVm!.IsLightTheme;
+            _systemThemeItem!.IsChecked = _nativeMenuVm!.IsSystemTheme;
+        }
     }
 
     protected override void OnClosing(WindowClosingEventArgs e)
