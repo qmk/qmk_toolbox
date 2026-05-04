@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using Avalonia;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using QmkToolbox.Core.Models;
@@ -10,6 +11,7 @@ using QmkToolbox.Core.Services;
 using QmkToolbox.Desktop.Converters;
 using QmkToolbox.Desktop.Models;
 using QmkToolbox.Desktop.Services;
+using AvaloniaTheme = Avalonia.Styling.ThemeVariant;
 
 namespace QmkToolbox.Desktop.ViewModels;
 
@@ -33,6 +35,7 @@ public partial class MainWindowViewModel : LogViewModelBase
     [ObservableProperty] private string _selectedMcu = "";
     [ObservableProperty] private bool _autoFlashEnabled;
     [ObservableProperty] private bool _showAllDevices;
+    [ObservableProperty] private string _themeVariant = "Dark";
 
     [ObservableProperty] private bool _isConfirmVisible;
     [ObservableProperty] private string _confirmTitle = "";
@@ -63,6 +66,26 @@ public partial class MainWindowViewModel : LogViewModelBase
     }
 
     partial void OnSelectedMcuChanged(string value) => OnPropertyChanged(nameof(SelectedMcuPair));
+
+    partial void OnThemeVariantChanged(string value)
+    {
+        Application.Current!.RequestedThemeVariant = value switch
+        {
+            "Light" => AvaloniaTheme.Light,
+            "Default" => AvaloniaTheme.Default,
+            _ => AvaloniaTheme.Dark,
+        };
+        OnPropertyChanged(nameof(IsDarkTheme));
+        OnPropertyChanged(nameof(IsLightTheme));
+        OnPropertyChanged(nameof(IsSystemTheme));
+    }
+
+    public bool IsDarkTheme => ThemeVariant == "Dark";
+    public bool IsLightTheme => ThemeVariant == "Light";
+    public bool IsSystemTheme => ThemeVariant == "Default";
+
+    [RelayCommand]
+    private void SetTheme(string variant) => ThemeVariant = variant;
 
     private readonly IFlashToolProvider _toolProvider;
     private readonly IUsbDetector _usbDetector;
@@ -172,6 +195,7 @@ public partial class MainWindowViewModel : LogViewModelBase
         Settings.Current.SelectedMcu = SelectedMcu;
         Settings.Current.ShowAllDevices = ShowAllDevices;
         Settings.Current.AutoFlashEnabled = AutoFlashEnabled;
+        Settings.Current.ThemeVariant = ThemeVariant;
         Settings.Save();
     }
 
@@ -182,6 +206,7 @@ public partial class MainWindowViewModel : LogViewModelBase
         SelectedMcu = settings.SelectedMcu;
         ShowAllDevices = settings.ShowAllDevices;
         AutoFlashEnabled = settings.AutoFlashEnabled;
+        ThemeVariant = settings.ThemeVariant;
 
         foreach (string item in settings.FirmwareFileHistory)
             FirmwareHistory.Add(item);
@@ -316,7 +341,7 @@ public partial class MainWindowViewModel : LogViewModelBase
     [RelayCommand]
     private void Exit()
     {
-        if (Avalonia.Application.Current?.ApplicationLifetime is Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime lt)
+        if (Application.Current?.ApplicationLifetime is Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime lt)
             lt.Shutdown();
     }
 

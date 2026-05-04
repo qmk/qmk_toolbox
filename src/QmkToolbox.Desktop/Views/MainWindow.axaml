@@ -50,6 +50,25 @@
                 <MenuItem Header="Install _udev Rules" Command="{Binding InstallUdevRulesCommand}" IsVisible="{Binding IsLinux}" />
                 <MenuItem Header="C_lear Resources" Command="{Binding ClearResourcesCommand}" />
             </MenuItem>
+            <MenuItem Header="_View">
+                <MenuItem Header="_Theme">
+                    <MenuItem Header="_Dark" Command="{Binding SetThemeCommand}" CommandParameter="Dark">
+                        <MenuItem.Icon>
+                            <TextBlock Text="✓" IsVisible="{Binding IsDarkTheme}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="_Light" Command="{Binding SetThemeCommand}" CommandParameter="Light">
+                        <MenuItem.Icon>
+                            <TextBlock Text="✓" IsVisible="{Binding IsLightTheme}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="_System" Command="{Binding SetThemeCommand}" CommandParameter="Default">
+                        <MenuItem.Icon>
+                            <TextBlock Text="✓" IsVisible="{Binding IsSystemTheme}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+            </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Header="_About" Command="{Binding OpenAboutCommand}" />
             </MenuItem>

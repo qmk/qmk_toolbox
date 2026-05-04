@@ -32,6 +32,7 @@ public class SettingsServiceTests
         Assert.Equal("", result.FirmwareFilePath);
         Assert.Empty(result.FirmwareFileHistory);
         Assert.Equal("atmega32u4", result.SelectedMcu);
+        Assert.Equal("Dark", result.ThemeVariant);
         Assert.Null(result.WindowX);
         Assert.Null(result.WindowY);
         Assert.Null(result.WindowWidth);
@@ -50,6 +51,7 @@ public class SettingsServiceTests
             AutoFlashEnabled = true,
             FirmwareFilePath = "/home/user/firmware.hex",
             SelectedMcu = "at90usb1286",
+            ThemeVariant = "Light",
         };
 
         AppSettings? result = Roundtrip(original);
@@ -60,6 +62,7 @@ public class SettingsServiceTests
         Assert.True(result.AutoFlashEnabled);
         Assert.Equal("/home/user/firmware.hex", result.FirmwareFilePath);
         Assert.Equal("at90usb1286", result.SelectedMcu);
+        Assert.Equal("Light", result.ThemeVariant);
     }
 
     // ── Nullable window geometry ───────────────────────────────────────────────
@@ -155,6 +158,19 @@ public class SettingsServiceTests
         Assert.False(result.ShowAllDevices);
         Assert.Equal("atmega32u4", result.SelectedMcu);
         Assert.Null(result.WindowX);
+    }
+
+    // ── ThemeVariant missing in old settings files falls back to Dark ──────────
+
+    [Fact]
+    public void Deserialize_MissingThemeVariant_DefaultsToDark()
+    {
+        const string json = """{"ShowAllDevices": true}""";
+
+        AppSettings? result = JsonSerializer.Deserialize(json, AppSettingsJsonContext.Default.AppSettings);
+
+        Assert.NotNull(result);
+        Assert.Equal("Dark", result.ThemeVariant);
     }
 
     // ── Serialized JSON is human-readable (WriteIndented) ─────────────────────

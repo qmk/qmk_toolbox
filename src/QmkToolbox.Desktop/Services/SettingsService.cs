@@ -18,6 +18,7 @@ public class AppSettings
     public string FirmwareFilePath { get; set; } = "";
     public List<string> FirmwareFileHistory { get; set; } = [];
     public string SelectedMcu { get; set; } = "atmega32u4";
+    public string ThemeVariant { get; set; } = "Dark";
     public double? WindowX { get; set; }
     public double? WindowY { get; set; }
     public double? WindowWidth { get; set; }
