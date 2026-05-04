@@ -49,8 +49,7 @@
                 <MenuItem Header="_Install Drivers..." Command="{Binding InstallDriversCommand}" IsVisible="{Binding IsWindows}" />
                 <MenuItem Header="Install _udev Rules" Command="{Binding InstallUdevRulesCommand}" IsVisible="{Binding IsLinux}" />
                 <MenuItem Header="C_lear Resources" Command="{Binding ClearResourcesCommand}" />
-            </MenuItem>
-            <MenuItem Header="_View">
+                <Separator />
                 <MenuItem Header="_Theme">
                     <MenuItem Header="_Dark" Command="{Binding SetThemeCommand}" CommandParameter="Dark">
                         <MenuItem.Icon>
@@ -173,26 +172,26 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="16">
                 <HyperlinkButton NavigateUri="https://config.qmk.fm" Padding="0">
                     <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
-                        <i:Icon Value="fa-solid fa-gear" FontSize="11" />
-                        <TextBlock Text="QMK Configurator" FontSize="11" VerticalAlignment="Center" />
+                        <i:Icon Value="fa-solid fa-gear" FontSize="12" />
+                        <TextBlock Text="QMK Configurator" FontSize="12" VerticalAlignment="Center" />
                     </StackPanel>
                 </HyperlinkButton>
                 <HyperlinkButton NavigateUri="https://github.com/qmk/qmk_toolbox" Padding="0">
                     <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
-                        <i:Icon Value="fa-brands fa-github" FontSize="11" />
-                        <TextBlock Text="QMK Toolbox" FontSize="11" VerticalAlignment="Center" />
+                        <i:Icon Value="fa-brands fa-github" FontSize="12" />
+                        <TextBlock Text="QMK Toolbox" FontSize="12" VerticalAlignment="Center" />
                     </StackPanel>
                 </HyperlinkButton>
                 <HyperlinkButton NavigateUri="https://github.com/qmk/qmk_firmware" Padding="0">
                     <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
-                        <i:Icon Value="fa-brands fa-github" FontSize="11" />
-                        <TextBlock Text="QMK Firmware" FontSize="11" VerticalAlignment="Center" />
+                        <i:Icon Value="fa-brands fa-github" FontSize="12" />
+                        <TextBlock Text="QMK Firmware" FontSize="12" VerticalAlignment="Center" />
                     </StackPanel>
                 </HyperlinkButton>
                 <HyperlinkButton NavigateUri="https://discord.gg/qmk" Padding="0">
                     <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
-                        <i:Icon Value="fa-brands fa-discord" FontSize="11" />
-                        <TextBlock Text="QMK Discord" FontSize="11" VerticalAlignment="Center" />
+                        <i:Icon Value="fa-brands fa-discord" FontSize="12" />
+                        <TextBlock Text="QMK Discord" FontSize="12" VerticalAlignment="Center" />
                     </StackPanel>
                 </HyperlinkButton>
             </StackPanel>

@@ -5,6 +5,12 @@
              Name="QMK Toolbox">
     <Application.Styles>
         <semi:SemiTheme Locale="en-US" />
+        <Style Selector="TextBlock">
+            <Setter Property="FontFamily" Value="avares://qmk_toolbox/Assets/Fonts#Atkinson Hyperlegible" />
+        </Style>
+        <Style Selector=":is(TemplatedControl)">
+            <Setter Property="FontFamily" Value="avares://qmk_toolbox/Assets/Fonts#Atkinson Hyperlegible" />
+        </Style>
         <Style Selector="AccessText">
             <Setter Property="ShowAccessKey" Value="True" />
         </Style>
