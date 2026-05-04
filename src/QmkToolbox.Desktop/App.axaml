@@ -6,6 +6,9 @@
              RequestedThemeVariant="Dark">
     <Application.Styles>
         <semi:SemiTheme Locale="en-US" />
+        <Style Selector="AccessText">
+            <Setter Property="ShowAccessKey" Value="True" />
+        </Style>
     </Application.Styles>
 
     <!-- Application-level NativeMenu for macOS: sets the bold "QMK Toolbox" app menu.

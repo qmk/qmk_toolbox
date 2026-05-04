@@ -25,7 +25,7 @@
             </MenuItem>
             <MenuItem Header="_Tools">
                 <MenuItem Header="_Flash" Command="{Binding FlashCommand}" />
-                <MenuItem Header="_Exit DFU" Command="{Binding ResetCommand}" />
+                <MenuItem Header="E_xit DFU" Command="{Binding ResetCommand}" />
                 <MenuItem Header="_EEPROM">
                     <MenuItem Header="_Clear" Command="{Binding ClearEepromCommand}" />
                     <MenuItem Header="Set _Left Hand" Command="{Binding SetLeftHandCommand}" />
@@ -37,7 +37,7 @@
                         <TextBlock Text="✓" IsVisible="{Binding AutoFlashEnabled}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Show _All Devices" Command="{Binding ToggleShowAllDevicesCommand}" IsChecked="{Binding ShowAllDevices}">
+                <MenuItem Header="Show All _Devices" Command="{Binding ToggleShowAllDevicesCommand}" IsChecked="{Binding ShowAllDevices}">
                     <MenuItem.Icon>
                         <TextBlock Text="✓" IsVisible="{Binding ShowAllDevices}" />
                     </MenuItem.Icon>
