@@ -274,6 +274,16 @@ public partial class MainWindowViewModel : LogViewModelBase
             bool bootloaderAdded = _flashOrchestrator.OnDeviceConnected(device, ShowAllDevices);
             if (bootloaderAdded && AutoFlashEnabled)
             {
+                if (string.IsNullOrEmpty(FirmwarePath))
+                {
+                    LogError("Auto-flash: no firmware file selected");
+                    return;
+                }
+                if (!File.Exists(FirmwarePath))
+                {
+                    LogError("Auto-flash: firmware file does not exist");
+                    return;
+                }
                 try
                 {
                     await _flashOrchestrator.FlashAllAsync(SelectedMcu, FirmwarePath);

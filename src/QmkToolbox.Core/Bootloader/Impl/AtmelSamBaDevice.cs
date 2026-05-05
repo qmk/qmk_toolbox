@@ -6,11 +6,9 @@ namespace QmkToolbox.Core.Bootloader.Impl;
 /// <summary>Atmel SAM-BA bootloader device (Massdrop, via mdloader).</summary>
 internal sealed class AtmelSamBaDevice : BootloaderDevice
 {
-    // Lazy: resolving the COM port via WMI on Windows is expensive. Defer until first use
-    // and cache — Flash, Reset, and ToString all share the same resolved value so only one
-    // WMI lookup ever occurs per device lifetime. A new device object is created on every
-    // connect event, so the cached value is never stale.
-    private readonly Lazy<string?> _comPort;
+    // Port resolution starts immediately on device connect and runs in the background.
+    // FlashAsync and ResetAsync await the same Task, so resolution happens at most once.
+    private readonly Task<string?> _comPort;
 
     public AtmelSamBaDevice(IUsbDevice device, IFlashToolProvider toolProvider, ISerialPortService? serialPortService = null)
         : base(device, toolProvider, serialPortService)
@@ -19,21 +17,26 @@ internal sealed class AtmelSamBaDevice : BootloaderDevice
         Name = "Atmel SAM-BA";
         PreferredDriver = "usbser";
         IsResettable = true;
-        _comPort = new Lazy<string?>(FindComPort);
+        _comPort = FindComPortAsync();
     }
 
-    public override Task FlashAsync(string mcu, string file)
+    public override async Task FlashAsync(string mcu, string file)
     {
         ValidateFileExtension(file, ".bin");
-        string port = RequireComPort(_comPort.Value);
-        return RunToolAsync("mdloader", "-p", port, "-D", file, "--restart");
+        string port = RequireComPort(await _comPort.ConfigureAwait(false));
+        await RunToolAsync("mdloader", "-p", port, "-D", file, "--restart");
     }
 
-    public override Task ResetAsync(string mcu)
+    public override async Task ResetAsync(string mcu)
     {
-        string port = RequireComPort(_comPort.Value);
-        return RunToolAsync("mdloader", "-p", port, "--restart");
+        string port = RequireComPort(await _comPort.ConfigureAwait(false));
+        await RunToolAsync("mdloader", "-p", port, "--restart");
     }
 
-    public override string ToString() => $"{base.ToString()} [{_comPort.Value ?? "port not found"}]";
+    public override Task WhenReadyAsync() => _comPort;
+
+    public override string ToString() =>
+        _comPort.IsCompletedSuccessfully
+            ? $"{base.ToString()} [{_comPort.Result ?? "port not found"}]"
+            : base.ToString();
 }

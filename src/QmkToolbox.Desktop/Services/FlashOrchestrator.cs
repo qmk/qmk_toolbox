@@ -32,15 +32,20 @@ public class FlashOrchestrator(
         {
             bd.OutputReceived += OnFlashOutput;
             _bootloaders.Add(bd);
-            Emit($"{bd.Name} device connected ({bd.Driver}): {bd}", MessageType.Bootloader);
-            if (IsWindows && !string.IsNullOrEmpty(bd.Driver) && !string.IsNullOrEmpty(bd.PreferredDriver) && bd.PreferredDriver != bd.Driver)
-                Emit($"{bd.Name} device has {bd.Driver} driver assigned but should be {bd.PreferredDriver}. Flashing may not succeed.", MessageType.Error);
             StateChanged?.Invoke();
+            // Await port resolution (instant for most devices; up to ~2.5 s for serial-port
+            // bootloaders) so the connected message includes the resolved port in ToString().
+            _ = bd.WhenReadyAsync().ContinueWith(_ =>
+            {
+                Emit($"{bd.Name} device connected{WindowsDriverSuffix(bd.Driver)}: {bd}", MessageType.Bootloader);
+                if (IsWindows && !string.IsNullOrEmpty(bd.Driver) && !string.IsNullOrEmpty(bd.PreferredDriver) && bd.PreferredDriver != bd.Driver)
+                    Emit($"{bd.Name} device has {bd.Driver} driver assigned but should be {bd.PreferredDriver}. Flashing may not succeed.", MessageType.Error);
+            }, TaskScheduler.Default);
             return true;
         }
         else if (showAllDevices)
         {
-            Emit($"USB device connected ({device.Driver}): {device}", MessageType.Usb);
+            Emit($"USB device connected{WindowsDriverSuffix(device.Driver)}: {device}", MessageType.Usb);
         }
         return false;
     }
@@ -55,11 +60,11 @@ public class FlashOrchestrator(
         {
             bd.OutputReceived -= OnFlashOutput;
             _bootloaders.Remove(bd);
-            Emit($"{bd.Name} device disconnected ({bd.Driver}): {bd}", MessageType.Bootloader);
+            Emit($"{bd.Name} device disconnected{WindowsDriverSuffix(bd.Driver)}: {bd}", MessageType.Bootloader);
         }
         else if (showAllDevices)
         {
-            Emit($"USB device disconnected ({device.Driver}): {device}", MessageType.Usb);
+            Emit($"USB device disconnected{WindowsDriverSuffix(device.Driver)}: {device}", MessageType.Usb);
         }
         StateChanged?.Invoke();
     }
@@ -123,4 +128,9 @@ public class FlashOrchestrator(
     private void OnFlashOutput(BootloaderDevice device, string data, MessageType type) => Emit(data, type);
 
     private void Emit(string message, MessageType type) => OutputReceived?.Invoke(message, type);
+
+    // Driver info is Windows-only; on other platforms the field is always empty.
+    // Matches upstream behaviour: show the driver name, or NO DRIVER if none is assigned.
+    private static string WindowsDriverSuffix(string driver) =>
+        IsWindows ? $" ({(string.IsNullOrEmpty(driver) ? "NO DRIVER" : driver)})" : "";
 }

@@ -37,6 +37,12 @@ public abstract class BootloaderDevice(IUsbDevice device, IFlashToolProvider too
     public override string ToString() =>
         $"{ManufacturerString} {ProductString} ({VendorId:X4}:{ProductId:X4}:{RevisionBcd:X4})";
 
+    /// <summary>
+    /// Resolves when the device is ready to display (e.g. serial port has appeared).
+    /// Returns <see cref="Task.CompletedTask"/> for devices that need no async setup.
+    /// </summary>
+    public virtual Task WhenReadyAsync() => Task.CompletedTask;
+
     public abstract Task FlashAsync(string mcu, string file);
 
     public virtual Task FlashEepromAsync(string mcu, string file) => Task.CompletedTask;
@@ -63,7 +69,24 @@ public abstract class BootloaderDevice(IUsbDevice device, IFlashToolProvider too
         throw new UnsupportedFileFormatException(file, extensions);
     }
 
-    protected string? FindComPort() => SerialPortService?.FindSerialPort(Device);
+    // Caterina (and other serial-port bootloaders) enumerate via USB first, then expose a
+    // virtual serial port a moment later. Poll with short delays so the port has time to appear.
+    protected async Task<string?> FindComPortAsync()
+    {
+        if (SerialPortService == null)
+            return null;
+        const int attempts = 10;
+        const int delayMs = 250;
+        for (int i = 0; i < attempts; i++)
+        {
+            string? port = SerialPortService.FindSerialPort(Device);
+            if (port != null)
+                return port;
+            if (i < attempts - 1)
+                await Task.Delay(delayMs).ConfigureAwait(false);
+        }
+        return null;
+    }
 
     /// <summary>
     /// Returns <paramref name="comPort"/> if non-null, or throws <see cref="ComPortNotFoundException"/>.
