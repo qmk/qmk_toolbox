@@ -13,7 +13,8 @@
     <PublishSingleFile>true</PublishSingleFile>
     <SelfContained>true</SelfContained>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-    <!-- Do NOT enable trimming until proper support with Avalonia and embedded theme XAML is working. Additionally, on Windows: System.Management (WMI) is reflection/COM-based and cannot be safely trimmed. -->
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <!-- Trimming disabled by default; overridden per-platform below. -->
     <PublishTrimmed>false</PublishTrimmed>
   </PropertyGroup>
   <!-- Both macOS RIDs share a single universal resource directory. -->
@@ -97,7 +98,12 @@
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <DefineConstants>$(DefineConstants);WINDOWS</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="!$(RuntimeIdentifier.StartsWith('win'))">
+    <!-- Avalonia 12 supports trimming on non-Windows. -->
+    <PublishTrimmed>true</PublishTrimmed>
+  </PropertyGroup>
   <ItemGroup Condition="$(RuntimeIdentifier.StartsWith('win'))">
+    <!-- System.Management (WMI) is IDispatch COM + reflection — cannot be safely trimmed. -->
     <PackageReference Include="System.Management" />
   </ItemGroup>
 </Project>
