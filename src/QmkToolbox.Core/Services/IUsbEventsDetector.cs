@@ -5,7 +5,7 @@ namespace QmkToolbox.Core.Services;
 /// <summary>
 /// Monitors USB device arrival and removal events.
 /// </summary>
-public interface IUsbDetector : IDisposable
+public interface IUsbEventsDetector : IDisposable
 {
     /// <summary>Raised when a USB device is connected.</summary>
     event Action<IUsbDevice> DeviceConnected;

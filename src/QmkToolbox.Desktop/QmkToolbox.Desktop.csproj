@@ -14,8 +14,7 @@
     <SelfContained>true</SelfContained>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
-    <!-- Trimming disabled by default; overridden per-platform below. -->
-    <PublishTrimmed>false</PublishTrimmed>
+    <PublishTrimmed>true</PublishTrimmed>
   </PropertyGroup>
   <!-- Both macOS RIDs share a single universal resource directory. -->
   <PropertyGroup>
@@ -88,22 +87,18 @@
     <PackageReference Include="Avalonia.Fonts.Inter" />
     <PackageReference Include="CommunityToolkit.Mvvm" />
     <PackageReference Include="Semi.Avalonia" />
-    <PackageReference Include="Usb.Events" />
     <PackageReference Include="HidApi.Net" />
     <PackageReference Include="Optris.Icons.Avalonia" />
     <PackageReference Include="Optris.Icons.Avalonia.FontAwesome" />
     <PackageReference Include="System.IO.Ports" />
   </ItemGroup>
+  <!-- Usb.Events is only used on Linux and macOS. On Windows its WMI backend (Win32_PnPEntity with
+       WITHIN 2 polling) incurs ~7 seconds of cold-start latency under .NET 10. Windows builds use
+       WindowsUsbEventsDetector instead, which calls RegisterDeviceNotification directly. -->
+  <ItemGroup Condition="!$(RuntimeIdentifier.StartsWith('win'))">
+    <PackageReference Include="Usb.Events" />
+  </ItemGroup>
   <PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('win'))">
-    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <DefineConstants>$(DefineConstants);WINDOWS</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="!$(RuntimeIdentifier.StartsWith('win'))">
-    <!-- Avalonia 12 supports trimming on non-Windows. -->
-    <PublishTrimmed>true</PublishTrimmed>
-  </PropertyGroup>
-  <ItemGroup Condition="$(RuntimeIdentifier.StartsWith('win'))">
-    <!-- System.Management (WMI) is IDispatch COM + reflection — cannot be safely trimmed. -->
-    <PackageReference Include="System.Management" />
-  </ItemGroup>
 </Project>

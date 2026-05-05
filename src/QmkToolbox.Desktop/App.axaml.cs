@@ -29,7 +29,13 @@ public partial class App : Application
             string filePath = args.Length > 0 ? args[0] : "";
             var vm = new MainWindowViewModel(
                 new FlashToolProvider(),
-                new UsbEventsDetector(),
+#if WINDOWS
+#pragma warning disable CA1416 // Gated by #if WINDOWS — only compiled for Windows RIDs
+                new WindowsUsbEventsDetector(),
+#pragma warning restore CA1416
+#else
+                new UnixUsbEventsDetector(),
+#endif
                 new DesktopSerialPortService(),
                 new DesktopMountPointService(),
                 new SettingsService(),

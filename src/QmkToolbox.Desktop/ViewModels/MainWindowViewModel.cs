@@ -88,14 +88,14 @@ public partial class MainWindowViewModel : LogViewModelBase
     private void SetTheme(string variant) => ThemeVariant = variant;
 
     private readonly IFlashToolProvider _toolProvider;
-    private readonly IUsbDetector _usbDetector;
+    private readonly IUsbEventsDetector _usbDetector;
     private readonly FlashOrchestrator _flashOrchestrator;
 
     private Func<Func<Task>, Task>? _invokeOnUiThread;
 
     public MainWindowViewModel(
         IFlashToolProvider toolProvider,
-        IUsbDetector usbDetector,
+        IUsbEventsDetector usbDetector,
         ISerialPortService serialPortService,
         IMountPointService mountPointService,
         ISettingsService settingsService,
