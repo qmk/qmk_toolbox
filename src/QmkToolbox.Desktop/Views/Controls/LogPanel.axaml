@@ -6,7 +6,7 @@
              x:CompileBindings="True"
              x:Name="Root">
 
-    <ScrollViewer Name="LogScroller" Background="#1E1E1E">
+    <ScrollViewer Name="LogScroller" Background="{DynamicResource LogPanelBackground}">
         <ScrollViewer.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Copy All" Command="{Binding #Root.CopyCommand}" />

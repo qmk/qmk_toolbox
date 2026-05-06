@@ -3,6 +3,18 @@
              xmlns:semi="https://irihi.tech/semi"
              x:Class="QmkToolbox.Desktop.App"
              Name="QMK Toolbox">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="LogPanelBackground">#1E1E1E</SolidColorBrush>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="LogPanelBackground">#F2F2F2</SolidColorBrush>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
     <Application.Styles>
         <semi:SemiTheme Locale="en-US" />
         <Style Selector="TextBlock">

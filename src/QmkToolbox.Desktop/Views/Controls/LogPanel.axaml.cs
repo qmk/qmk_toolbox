@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Documents;
+using Avalonia.Styling;
 using Avalonia.Threading;
 using QmkToolbox.Desktop.Converters;
 using QmkToolbox.Desktop.Models;
@@ -42,7 +43,10 @@ public partial class LogPanel : UserControl
     public LogPanel()
     {
         InitializeComponent();
+        ActualThemeVariantChanged += (_, _) => RebuildAllInlines();
     }
+
+    private bool IsDark => ActualThemeVariant == ThemeVariant.Dark;
 
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
@@ -53,15 +57,10 @@ public partial class LogPanel : UserControl
             if (change.OldValue is ObservableCollection<LogEntry> oldCollection)
                 oldCollection.CollectionChanged -= OnLogEntriesChanged;
 
-            LogText.Inlines?.Clear();
-            _lastEntryInlineStart = 0;
+            RebuildAllInlines();
 
             if (change.NewValue is ObservableCollection<LogEntry> newCollection)
-            {
-                foreach (LogEntry entry in newCollection)
-                    AppendInlines(entry);
                 newCollection.CollectionChanged += OnLogEntriesChanged;
-            }
         }
     }
 
@@ -90,14 +89,7 @@ public partial class LogPanel : UserControl
                 break;
 
             case NotifyCollectionChangedAction.Reset:
-                LogText.Inlines?.Clear();
-                _lastEntryInlineStart = 0;
-                if (LogEntries != null)
-                {
-                    foreach (LogEntry entry in LogEntries)
-                        AppendInlines(entry);
-                }
-
+                RebuildAllInlines();
                 ScheduleScrollToEnd();
                 break;
             case NotifyCollectionChangedAction.Move:
@@ -106,6 +98,17 @@ public partial class LogPanel : UserControl
                 break;
             default:
                 break;
+        }
+    }
+
+    private void RebuildAllInlines()
+    {
+        LogText.Inlines?.Clear();
+        _lastEntryInlineStart = 0;
+        if (LogEntries != null)
+        {
+            foreach (LogEntry entry in LogEntries)
+                AppendInlines(entry);
         }
     }
 
@@ -119,7 +122,7 @@ public partial class LogPanel : UserControl
             inlines.Add(new LineBreak());
 
         _lastEntryInlineStart = inlines.Count;
-        AddEntryRuns(inlines, entry);
+        AddEntryRuns(inlines, entry, IsDark);
     }
 
     private void ReplaceLastInlines(LogEntry entry)
@@ -131,15 +134,15 @@ public partial class LogPanel : UserControl
         while (inlines.Count > _lastEntryInlineStart)
             inlines.RemoveAt(inlines.Count - 1);
 
-        AddEntryRuns(inlines, entry);
+        AddEntryRuns(inlines, entry, IsDark);
     }
 
-    private static void AddEntryRuns(InlineCollection inlines, LogEntry entry)
+    private static void AddEntryRuns(InlineCollection inlines, LogEntry entry, bool isDark)
     {
         string prefix = MessageTypeToPrefixConverter.GetPrefix(entry.Type);
         if (prefix.Length > 0)
-            inlines.Add(new Run(prefix) { Foreground = MessageTypeToPrefixForegroundConverter.GetPrefixForeground(entry.Type) });
-        inlines.Add(new Run(entry.Text) { Foreground = MessageTypeToForegroundConverter.GetForeground(entry.Type) });
+            inlines.Add(new Run(prefix) { Foreground = MessageTypeToPrefixForegroundConverter.GetPrefixForeground(entry.Type, isDark) });
+        inlines.Add(new Run(entry.Text) { Foreground = MessageTypeToForegroundConverter.GetForeground(entry.Type, isDark) });
     }
 
     private void ScheduleScrollToEnd()
