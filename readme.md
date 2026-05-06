@@ -110,3 +110,13 @@ scripts/check-deps.sh
 # Upgrade Directory.Packages.props in place
 scripts/check-deps.sh --upgrade
 ```
+
+## Attributions
+
+### Fonts
+
+**Atkinson Hyperlegible** and **Atkinson Hyperlegible Mono**  
+Copyright © 2020–2024 Braille Institute of America, Inc.  
+Designed by Applied Design Works on behalf of the Braille Institute.  
+Source: https://www.brailleinstitute.org/freefont  
+License: [SIL Open Font License 1.1](https://openfontlicense.org/)
