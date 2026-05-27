@@ -18,12 +18,18 @@ internal static class LogBrushes
 
     // Light palette — same hues, darkened for contrast on a light background
     public static readonly IBrush LightBootloader = new SolidColorBrush(Color.Parse("#7A7000"));
-    public static readonly IBrush LightSilver = new SolidColorBrush(Color.Parse("#555555"));
+    public static readonly IBrush LightSilver = new SolidColorBrush(Color.Parse("#222222"));
     public static readonly IBrush LightError = new SolidColorBrush(Color.Parse("#B00020"));
     public static readonly IBrush LightHid = new SolidColorBrush(Color.Parse("#0066AA"));
     public static readonly IBrush LightHidOutput = new SolidColorBrush(Color.Parse("#006070"));
     public static readonly IBrush LightUdevOutput = new SolidColorBrush(Color.Parse("#1A7A1A"));
     public static readonly IBrush LightForeground = new SolidColorBrush(Color.Parse("#1A1A1A"));
+
+    // Link colours
+    public static readonly IBrush DarkLink = new SolidColorBrush(Color.Parse("#60CDFF"));
+    public static readonly IBrush DarkLinkHover = new SolidColorBrush(Color.Parse("#99E5FF"));
+    public static readonly IBrush LightLink = new SolidColorBrush(Color.Parse("#0067C0"));
+    public static readonly IBrush LightLinkHover = new SolidColorBrush(Color.Parse("#004A8F"));
 }
 
 public class MessageTypeToForegroundConverter : IValueConverter

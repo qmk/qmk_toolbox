@@ -14,10 +14,10 @@
                 <MenuItem Header="Clear" Command="{Binding #Root.ClearCommand}" />
             </ContextMenu>
         </ScrollViewer.ContextMenu>
-        <SelectableTextBlock Name="LogText"
-                             FontFamily="avares://qmk_toolbox/Assets/Fonts#Atkinson Hyperlegible Mono"
-                             FontSize="11"
-                             TextWrapping="Wrap"
-                             Margin="4,2" />
+        <controls:HitTestableTextBlock Name="LogText"
+                                       FontFamily="avares://qmk_toolbox/Assets/Fonts#Atkinson Hyperlegible Mono"
+                                       FontSize="11"
+                                       TextWrapping="Wrap"
+                                       Margin="4,2" />
     </ScrollViewer>
 </UserControl>

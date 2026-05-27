@@ -1,9 +1,13 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Documents;
+using Avalonia.Input;
+using Avalonia.Media;
+using Avalonia.Media.TextFormatting;
 using Avalonia.Styling;
 using Avalonia.Threading;
 using QmkToolbox.Desktop.Converters;
@@ -44,6 +48,10 @@ public partial class LogPanel : UserControl
     {
         InitializeComponent();
         ActualThemeVariantChanged += (_, _) => RebuildAllInlines();
+        LogText.PointerMoved += OnLogTextPointerMoved;
+        LogText.PointerExited += OnLogTextPointerExited;
+        LogText.PointerPressInterceptor = OnLogTextPointerPress;
+        LogText.LayoutUpdated += (_, _) => _urlRectCache = null;
     }
 
     private bool IsDark => ActualThemeVariant == ThemeVariant.Dark;
@@ -64,9 +72,16 @@ public partial class LogPanel : UserControl
         }
     }
 
-    // Index into LogText.Inlines where the last entry's Runs begin (after any LineBreak separator).
     private int _lastEntryInlineStart;
     private bool _scrollPending;
+
+    private int _currentTextLength;
+    private int _lastEntryTextStart;
+    private readonly List<UrlRange> _urlRanges = [];
+    private List<(UrlRange Range, Rect[] Rects)>? _urlRectCache;
+    private Run? _hoveredRun;
+
+    private static readonly Cursor HandCursor = new(StandardCursorType.Hand);
 
     private void OnLogEntriesChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
@@ -105,6 +120,11 @@ public partial class LogPanel : UserControl
     {
         LogText.Inlines?.Clear();
         _lastEntryInlineStart = 0;
+        _currentTextLength = 0;
+        _lastEntryTextStart = 0;
+        _urlRanges.Clear();
+        _urlRectCache = null;
+        _hoveredRun = null;
         if (LogEntries != null)
         {
             foreach (LogEntry entry in LogEntries)
@@ -119,10 +139,14 @@ public partial class LogPanel : UserControl
             return;
 
         if (inlines.Count > 0)
+        {
             inlines.Add(new LineBreak());
+            _currentTextLength++;
+        }
 
         _lastEntryInlineStart = inlines.Count;
-        AddEntryRuns(inlines, entry, IsDark);
+        _lastEntryTextStart = _currentTextLength;
+        AddEntryRuns(inlines, entry, IsDark, _urlRanges, ref _currentTextLength);
     }
 
     private void ReplaceLastInlines(LogEntry entry)
@@ -134,15 +158,119 @@ public partial class LogPanel : UserControl
         while (inlines.Count > _lastEntryInlineStart)
             inlines.RemoveAt(inlines.Count - 1);
 
-        AddEntryRuns(inlines, entry, IsDark);
+        _urlRanges.RemoveAll(r => r.Start >= _lastEntryTextStart);
+        _currentTextLength = _lastEntryTextStart;
+        _urlRectCache = null;
+        _hoveredRun = null;
+
+        AddEntryRuns(inlines, entry, IsDark, _urlRanges, ref _currentTextLength);
     }
 
-    private static void AddEntryRuns(InlineCollection inlines, LogEntry entry, bool isDark)
+    private record struct UrlRange(int Start, int End, string Url, Run UrlRun);
+
+    private static readonly Regex UrlRegex = new(@"https?://[^\s\)\]}>""']+", RegexOptions.Compiled);
+
+    private static void AddEntryRuns(InlineCollection inlines, LogEntry entry, bool isDark,
+        List<UrlRange> urlRanges, ref int textPos)
     {
         string prefix = MessageTypeToPrefixConverter.GetPrefix(entry.Type);
         if (prefix.Length > 0)
+        {
             inlines.Add(new Run(prefix) { Foreground = MessageTypeToPrefixForegroundConverter.GetPrefixForeground(entry.Type, isDark) });
-        inlines.Add(new Run(entry.Text) { Foreground = MessageTypeToForegroundConverter.GetForeground(entry.Type, isDark) });
+            textPos += prefix.Length;
+        }
+
+        IBrush foreground = MessageTypeToForegroundConverter.GetForeground(entry.Type, isDark);
+        IBrush linkForeground = isDark ? LogBrushes.DarkLink : LogBrushes.LightLink;
+        string text = entry.Text;
+        int lastIndex = 0;
+
+        foreach (Match match in UrlRegex.Matches(text))
+        {
+            if (match.Index > lastIndex)
+            {
+                string segment = text[lastIndex..match.Index];
+                inlines.Add(new Run(segment) { Foreground = foreground });
+                textPos += segment.Length;
+            }
+
+            string url = match.Value;
+            var urlRun = new Run(url)
+            {
+                Foreground = linkForeground,
+                TextDecorations = TextDecorations.Underline,
+            };
+            inlines.Add(urlRun);
+            urlRanges.Add(new UrlRange(textPos, textPos + url.Length, url, urlRun));
+            textPos += url.Length;
+
+            lastIndex = match.Index + match.Length;
+        }
+
+        if (lastIndex < text.Length)
+        {
+            string remaining = text[lastIndex..];
+            inlines.Add(new Run(remaining) { Foreground = foreground });
+            textPos += remaining.Length;
+        }
+    }
+
+    private List<(UrlRange Range, Rect[] Rects)> GetUrlRectCache()
+    {
+        if (_urlRectCache != null)
+            return _urlRectCache;
+
+        TextLayout? layout = LogText.TextLayout;
+        _urlRectCache = layout == null
+            ? []
+            : _urlRanges.Select(r => (r, layout.HitTestTextRange(r.Start, r.End - r.Start).ToArray())).ToList();
+        return _urlRectCache;
+    }
+
+    private UrlRange? GetUrlRangeAtPoint(Point point)
+    {
+        foreach ((UrlRange range, Rect[] rects) in GetUrlRectCache())
+        {
+            foreach (Rect rect in rects)
+            {
+                if (rect.Contains(point))
+                    return range;
+            }
+        }
+
+        return null;
+    }
+
+    private void OnLogTextPointerMoved(object? sender, PointerEventArgs e)
+    {
+        UrlRange? hovered = GetUrlRangeAtPoint(e.GetPosition(LogText));
+        Run? newRun = hovered?.UrlRun;
+        if (newRun == _hoveredRun)
+            return;
+
+        _hoveredRun?.Foreground = IsDark ? LogBrushes.DarkLink : LogBrushes.LightLink;
+        _hoveredRun = newRun;
+        _hoveredRun?.Foreground = IsDark ? LogBrushes.DarkLinkHover : LogBrushes.LightLinkHover;
+
+        LogText.Cursor = _hoveredRun != null ? HandCursor : null;
+    }
+
+    private void OnLogTextPointerExited(object? sender, PointerEventArgs e)
+    {
+        _hoveredRun?.Foreground = IsDark ? LogBrushes.DarkLink : LogBrushes.LightLink;
+        _hoveredRun = null;
+        LogText.Cursor = null;
+    }
+
+    private bool OnLogTextPointerPress(PointerPressedEventArgs e)
+    {
+        if (!e.GetCurrentPoint(null).Properties.IsLeftButtonPressed)
+            return false;
+        UrlRange? range = GetUrlRangeAtPoint(e.GetPosition(LogText));
+        if (!range.HasValue)
+            return false;
+        _ = TopLevel.GetTopLevel(this)?.Launcher?.LaunchUriAsync(new Uri(range.Value.Url));
+        return true;
     }
 
     private void ScheduleScrollToEnd()
