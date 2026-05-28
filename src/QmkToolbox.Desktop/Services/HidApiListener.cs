@@ -76,7 +76,7 @@ public class HidApiListener : IHidListener
             {
                 if (knownKeys.Contains((info.Path, info.UsagePage, info.Usage)))
                     continue;
-                BaseHidDevice? device = CreateDevice(info);
+                BaseHidDevice? device = HidConsoleDevice.TryCreate(info);
                 if (device == null)
                     continue;
                 _devices.Add(device);
@@ -96,9 +96,6 @@ public class HidApiListener : IHidListener
         foreach (BaseHidDevice device in connected)
             HidDeviceConnected?.Invoke(device);
     }
-
-    private static BaseHidDevice? CreateDevice(DeviceInfo d) =>
-        HidConsoleDevice.TryCreate(d);
 
     public void Dispose()
     {

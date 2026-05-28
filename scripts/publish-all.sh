@@ -38,7 +38,7 @@ done
 # If specific targets were requested, skip the macOS universal lipo step — the
 # caller is doing a single-platform build and may not have both osx-x64 and
 # osx-arm64 outputs available.
-if [ -n "${1:-}" ]; then
+if [[ $# -gt 0 ]]; then
     exit 0
 fi
 

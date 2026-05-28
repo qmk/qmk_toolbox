@@ -26,9 +26,7 @@ if [[ ! -d "${PUBLISH_DIR}" ]]; then
     echo "Run publish-all.sh (or dotnet publish -r ${RID}) first." >&2
     exit 1
 fi
-if [[ ! -d "${ARTIFACTS_DIR}" ]]; then
-    mkdir -p "${ARTIFACTS_DIR}"
-fi
+mkdir -p "${ARTIFACTS_DIR}"
 
 echo "Building QMK Toolbox.app from ${PUBLISH_DIR} ..."
 
@@ -38,7 +36,7 @@ mkdir -p "${MACOS_DIR}" "${RESOURCES_DIR}"
 cp -R "${PUBLISH_DIR}/." "${MACOS_DIR}/"
 chmod +x "${MACOS_DIR}/qmk_toolbox"
 # Make any extracted native dylibs executable too
-find "${MACOS_DIR}" -name "*.dylib" -exec chmod +x {} \;
+find "${MACOS_DIR}" -name "*.dylib" -exec chmod +x {} +
 
 cp "${REPO_ROOT}/resources/macos-app-support/Info.plist" "${CONTENTS}/Info.plist"
 cp "${REPO_ROOT}/resources/macos-app-support/AppIcon.icns" "${RESOURCES_DIR}/AppIcon.icns"

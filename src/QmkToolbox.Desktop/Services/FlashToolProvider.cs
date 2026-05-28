@@ -46,7 +46,7 @@ public class FlashToolProvider : IFlashToolProvider
         ExtractAllResources();
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            EnsureUdevResources();
+            EnsureUdevResources(GetResourceFolder());
     }
 
     /// <summary>
@@ -57,7 +57,7 @@ public class FlashToolProvider : IFlashToolProvider
         ClearResourceFolder();
         ExtractAllResources();
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            EnsureUdevResources();
+            EnsureUdevResources(GetResourceFolder());
     }
 
     /// <summary>
@@ -167,7 +167,7 @@ public class FlashToolProvider : IFlashToolProvider
     /// any file is missing.
     /// </summary>
     [SupportedOSPlatform("linux")]
-    private static void EnsureUdevResources()
+    private static void EnsureUdevResources(string folder)
     {
         string? manifestResourceName = ResourceAssembly.GetManifestResourceNames()
             .FirstOrDefault(n => n.StartsWith($"{ResourcePrefix}.qmk_udev_release_", StringComparison.Ordinal));
@@ -179,9 +179,6 @@ public class FlashToolProvider : IFlashToolProvider
         if (embeddedDate == null)
             return;
 
-        string folder = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            "QMK", "Toolbox", "Resources");
         string installedManifestPath = Path.Combine(folder, manifestName);
         bool allPresent = File.Exists(installedManifestPath)
                        && File.Exists(Path.Combine(folder, "qmk_id"))
@@ -204,12 +201,7 @@ public class FlashToolProvider : IFlashToolProvider
             stream.CopyTo(fs);
         }
 
-        string qmkIdPath = Path.Combine(folder, "qmk_id");
-        UnixFileMode mode = File.GetUnixFileMode(qmkIdPath);
-        File.SetUnixFileMode(qmkIdPath, mode
-            | UnixFileMode.UserExecute
-            | UnixFileMode.GroupExecute
-            | UnixFileMode.OtherExecute);
+        MakeExecutable(Path.Combine(folder, "qmk_id"));
     }
 
     private static (string Host, string Hash)? ReadReleaseManifest(string folder, string prefix)
