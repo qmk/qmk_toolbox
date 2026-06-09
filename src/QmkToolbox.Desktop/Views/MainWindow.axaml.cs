@@ -139,10 +139,18 @@ public partial class MainWindow : Window
             new NativeMenuItem("Theme") { Menu = themeMenu }
         };
 
+        var helpMenu = new NativeMenu
+        {
+            new NativeMenuItem("About QMK Toolbox") { Command = vm.OpenAboutCommand },
+            new NativeMenuItemSeparator(),
+            new NativeMenuItem("Debug Log") { Command = vm.OpenDebugLogCommand }
+        };
+
         var windowMenu = new NativeMenu
         {
             new NativeMenuItem("File") { Menu = fileMenu },
-            new NativeMenuItem("Tools") { Menu = toolsMenu }
+            new NativeMenuItem("Tools") { Menu = toolsMenu },
+            new NativeMenuItem("Help") { Menu = helpMenu }
         };
 
         NativeMenu.SetMenu(this, windowMenu);

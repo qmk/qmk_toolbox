@@ -52,7 +52,12 @@ public partial class MainWindowViewModel : LogViewModelBase
 
     private IWindowService? _windowService;
 
-    public void SetWindowService(IWindowService service) => _windowService = service;
+    public void SetWindowService(IWindowService service)
+    {
+        _windowService = service;
+        _usbDetector.DiagnosticTrace = msg => Invoke(() => service.TraceDebug(msg));
+        _flashOrchestrator.DiagnosticTrace = msg => Invoke(() => service.TraceDebug(msg));
+    }
 
     public McuItem? SelectedMcuPair
     {
@@ -300,9 +305,18 @@ public partial class MainWindowViewModel : LogViewModelBase
 
     private void UpdateCanExecute()
     {
-        CanFlash = _flashOrchestrator.HasBootloaders;
-        CanReset = _flashOrchestrator.HasResettable;
-        CanClearEeprom = _flashOrchestrator.HasEepromFlashable;
+        bool flash = _flashOrchestrator.HasBootloaders;
+        bool reset = _flashOrchestrator.HasResettable;
+        bool eeprom = _flashOrchestrator.HasEepromFlashable;
+        if (_windowService != null && (flash != CanFlash || reset != CanReset))
+        {
+            _windowService.TraceDebug(
+                $"[STATE] CanFlash:{CanFlash}->{flash}  CanReset:{CanReset}->{reset}" +
+                $"  (bootloaders:{_flashOrchestrator.BootloaderCount})");
+        }
+        CanFlash = flash;
+        CanReset = reset;
+        CanClearEeprom = eeprom;
     }
 
     private void Invoke(Action action) => _ = InvokeAsync(() => { action(); return Task.CompletedTask; });
@@ -324,6 +338,7 @@ public partial class MainWindowViewModel : LogViewModelBase
             return;
         }
         CanFlash = false;
+        _windowService?.TraceDebug("[STATE] CanFlash:true->false  (Flash() direct write)");
         await _flashOrchestrator.FlashAllAsync(SelectedMcu, FirmwarePath);
     }
 
@@ -373,6 +388,9 @@ public partial class MainWindowViewModel : LogViewModelBase
 
     [RelayCommand]
     private void OpenAbout() => _windowService?.ShowAbout();
+
+    [RelayCommand]
+    private void OpenDebugLog() => _windowService?.ShowDebugLog();
 
     [RelayCommand]
     private void InstallDrivers() => WindowsDriversInstaller.Install(_toolProvider, LogError);

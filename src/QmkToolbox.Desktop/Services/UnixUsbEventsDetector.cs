@@ -17,6 +17,8 @@ public class UnixUsbEventsDetector : IUsbEventsDetector
     private readonly Lock _devicesLock = new();
     private UsbEventWatcher? _watcher;
 
+    public Action<string>? DiagnosticTrace { get; set; }
+
     public event Action<IUsbDevice>? DeviceConnected;
     public event Action<IUsbDevice>? DeviceDisconnected;
 
@@ -46,12 +48,17 @@ public class UnixUsbEventsDetector : IUsbEventsDetector
             return;
         lock (_devicesLock)
             _devices.Add(device);
+        DiagnosticTrace?.Invoke(
+            $"[USB+] VID:{device.VendorId:X4} PID:{device.ProductId:X4} " +
+            $"Path:{(string.IsNullOrEmpty(device.DevicePath) ? "(empty)" : $"\"{device.DevicePath}\"")}");
         DeviceConnected?.Invoke(device);
     }
 
     private void OnRemoved(object? sender, UsbDevice usbDevice)
     {
         IUsbDevice? existing = null;
+        bool matchedByPath = false;
+        int vidPidCandidates = 0;
         string path = usbDevice.DeviceSystemPath;
         UsbDeviceInfo? fallbackDevice = ToUsbDeviceInfo(usbDevice);
 
@@ -64,16 +71,42 @@ public class UnixUsbEventsDetector : IUsbEventsDetector
                     d is UsbDeviceInfo info &&
                     !string.IsNullOrEmpty(info.DevicePath) &&
                     info.DevicePath == path);
+                if (existing != null)
+                    matchedByPath = true;
             }
 
             if (existing == null && fallbackDevice != null)
             {
+                if (DiagnosticTrace != null)
+                {
+                    vidPidCandidates = _devices.FindAll(d =>
+                        d.VendorId == fallbackDevice.VendorId && d.ProductId == fallbackDevice.ProductId).Count;
+                }
                 existing = _devices.Find(d =>
                     d.VendorId == fallbackDevice.VendorId && d.ProductId == fallbackDevice.ProductId);
             }
 
             if (existing != null)
                 _devices.Remove(existing);
+        }
+
+        if (DiagnosticTrace != null)
+        {
+            string eventPath = string.IsNullOrEmpty(path) ? "(empty)" : $"\"{path}\"";
+            string eventVidPid = fallbackDevice != null
+                ? $"VID:{fallbackDevice.VendorId:X4} PID:{fallbackDevice.ProductId:X4}"
+                : "VID:(empty) PID:(empty)";
+            DiagnosticTrace($"[USB-] event path:{eventPath} {eventVidPid}");
+            if (existing != null)
+            {
+                DiagnosticTrace(matchedByPath
+                    ? $"[USB-] matched by path  (VID:{existing.VendorId:X4} PID:{existing.ProductId:X4})"
+                    : $"[USB-] matched by VID/PID ({vidPidCandidates} candidate(s))  (VID:{existing.VendorId:X4} PID:{existing.ProductId:X4})");
+            }
+            else
+            {
+                DiagnosticTrace("[USB-] no match -> disconnect dropped");
+            }
         }
 
         if (existing != null)

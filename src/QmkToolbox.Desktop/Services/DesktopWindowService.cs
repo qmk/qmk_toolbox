@@ -11,6 +11,7 @@ public sealed class DesktopWindowService : IWindowService
     private readonly Window _owner;
     private HidConsoleWindow? _hidConsoleWindow;
     private KeyTesterWindow? _keyTesterWindow;
+    private DebugLogWindow? _debugLogWindow;
 
     public DesktopWindowService(Window owner)
     {
@@ -19,6 +20,7 @@ public sealed class DesktopWindowService : IWindowService
         {
             _hidConsoleWindow?.Close();
             _keyTesterWindow?.Close();
+            _debugLogWindow?.Close();
         };
     }
 
@@ -74,5 +76,23 @@ public sealed class DesktopWindowService : IWindowService
     {
         var win = new AboutWindow();
         win.ShowDialog(_owner);
+    }
+
+    public void ShowDebugLog()
+    {
+        if (_debugLogWindow != null)
+        {
+            _debugLogWindow.Activate();
+            return;
+        }
+        _debugLogWindow = new DebugLogWindow { DataContext = new DebugLogViewModel() };
+        _debugLogWindow.Closed += (_, _) => _debugLogWindow = null;
+        _debugLogWindow.Show(_owner);
+    }
+
+    public void TraceDebug(string message)
+    {
+        if (_debugLogWindow?.DataContext is DebugLogViewModel vm)
+            vm.Append(message);
     }
 }

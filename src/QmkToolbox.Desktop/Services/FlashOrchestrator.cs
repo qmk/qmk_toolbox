@@ -17,9 +17,12 @@ public class FlashOrchestrator(
     public event Action<string, MessageType>? OutputReceived;
     public event Action? StateChanged;
 
+    public Action<string>? DiagnosticTrace { get; set; }
+
     public bool HasBootloaders => _bootloaders.Count > 0;
     public bool HasResettable => _bootloaders.Any(b => b.IsResettable);
     public bool HasEepromFlashable => _bootloaders.Any(b => b.IsEepromFlashable);
+    public int BootloaderCount => _bootloaders.Count;
 
     /// <summary>
     /// Registers a connected USB device as a bootloader if recognised.
@@ -32,6 +35,10 @@ public class FlashOrchestrator(
         {
             bd.OutputReceived += OnFlashOutput;
             _bootloaders.Add(bd);
+            DiagnosticTrace?.Invoke(
+                $"[ORCH+] VID:{device.VendorId:X4} PID:{device.ProductId:X4} " +
+                $"path:{(string.IsNullOrEmpty(device.DevicePath) ? "(empty)" : $"\"{device.DevicePath}\"")}" +
+                $" -> {bd.Name}  (bootloaders:{_bootloaders.Count})");
             StateChanged?.Invoke();
             // Await port resolution (instant for most devices; up to ~2.5 s for serial-port
             // bootloaders) so the connected message includes the resolved port in ToString().
@@ -47,15 +54,23 @@ public class FlashOrchestrator(
         {
             Emit($"USB device connected{WindowsDriverSuffix(device.Driver)}: {device}", MessageType.Usb);
         }
+        DiagnosticTrace?.Invoke(
+            $"[ORCH+] VID:{device.VendorId:X4} PID:{device.ProductId:X4} -> not a bootloader");
         return false;
     }
 
     public void OnDeviceDisconnected(IUsbDevice device, bool showAllDevices)
     {
-        BootloaderDevice? bd = (!string.IsNullOrEmpty(device.DevicePath)
-            ? _bootloaders.FirstOrDefault(b => b.DevicePath == device.DevicePath)
-            : null)
-            ?? _bootloaders.FirstOrDefault(b => b.VendorId == device.VendorId && b.ProductId == device.ProductId);
+        bool matchedByPath = false;
+        BootloaderDevice? bd = null;
+        if (!string.IsNullOrEmpty(device.DevicePath))
+        {
+            bd = _bootloaders.FirstOrDefault(b => b.DevicePath == device.DevicePath);
+            if (bd != null)
+                matchedByPath = true;
+        }
+        bd ??= _bootloaders.FirstOrDefault(b => b.VendorId == device.VendorId && b.ProductId == device.ProductId);
+
         if (bd != null)
         {
             bd.OutputReceived -= OnFlashOutput;
@@ -66,11 +81,36 @@ public class FlashOrchestrator(
         {
             Emit($"USB device disconnected{WindowsDriverSuffix(device.Driver)}: {device}", MessageType.Usb);
         }
+
+        if (DiagnosticTrace != null)
+        {
+            string pathStr = string.IsNullOrEmpty(device.DevicePath) ? "(empty)" : $"\"{device.DevicePath}\"";
+            if (bd != null)
+            {
+                DiagnosticTrace(
+                    $"[ORCH-] VID:{device.VendorId:X4} PID:{device.ProductId:X4} path:{pathStr}" +
+                    $" -> matched by {(matchedByPath ? "path" : "VID/PID")}  (bootloaders:{_bootloaders.Count})");
+            }
+            else if (_bootloaders.Count > 0)
+            {
+                DiagnosticTrace(
+                    $"[ORCH-] VID:{device.VendorId:X4} PID:{device.ProductId:X4} path:{pathStr}" +
+                    $" -> *** no match  (bootloaders:{_bootloaders.Count} – possible phantom entry)");
+            }
+            else
+            {
+                DiagnosticTrace(
+                    $"[ORCH-] VID:{device.VendorId:X4} PID:{device.ProductId:X4} path:{pathStr}" +
+                    $" -> not a tracked bootloader  (bootloaders:0)");
+            }
+        }
+
         StateChanged?.Invoke();
     }
 
     public async Task FlashAllAsync(string mcu, string firmwarePath)
     {
+        DiagnosticTrace?.Invoke($"[FLASH] FlashAllAsync start  (bootloaders:{_bootloaders.Count})");
         try
         {
             foreach (BootloaderDevice b in _bootloaders.ToList())
@@ -89,12 +129,14 @@ public class FlashOrchestrator(
         }
         finally
         {
+            DiagnosticTrace?.Invoke($"[FLASH] FlashAllAsync finally  (bootloaders:{_bootloaders.Count})");
             StateChanged?.Invoke();
         }
     }
 
     public async Task ResetAllAsync(string mcu)
     {
+        DiagnosticTrace?.Invoke($"[RESET] ResetAllAsync start  (bootloaders:{_bootloaders.Count})");
         foreach (BootloaderDevice b in _bootloaders.Where(b => b.IsResettable).ToList())
         {
             try

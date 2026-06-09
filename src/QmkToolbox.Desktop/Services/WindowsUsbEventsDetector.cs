@@ -25,6 +25,8 @@ public sealed class WindowsUsbEventsDetector : IUsbEventsDetector
 {
     private readonly List<IUsbDevice> _devices = [];
     private readonly Lock _devicesLock = new();
+
+    public Action<string>? DiagnosticTrace { get; set; }
     private Thread? _messageThread;
     private volatile IntPtr _hwnd = IntPtr.Zero;
     private IntPtr _notifyHandle = IntPtr.Zero;
@@ -250,6 +252,8 @@ public sealed class WindowsUsbEventsDetector : IUsbEventsDetector
             return;
         lock (_devicesLock)
             _devices.Add(device);
+        DiagnosticTrace?.Invoke(
+            $"[USB+] VID:{device.VendorId:X4} PID:{device.ProductId:X4} Path:\"{deviceInterfacePath}\"");
         DeviceConnected?.Invoke(device);
     }
 
@@ -263,6 +267,13 @@ public sealed class WindowsUsbEventsDetector : IUsbEventsDetector
                 string.Equals(info.DevicePath, deviceInterfacePath, StringComparison.OrdinalIgnoreCase));
             if (existing != null)
                 _devices.Remove(existing);
+        }
+        if (DiagnosticTrace != null)
+        {
+            if (existing != null)
+                DiagnosticTrace($"[USB-] path:\"{deviceInterfacePath}\" -> matched  (VID:{existing.VendorId:X4} PID:{existing.ProductId:X4})");
+            else
+                DiagnosticTrace($"[USB-] path:\"{deviceInterfacePath}\" -> no match -> dropped");
         }
         if (existing != null)
             DeviceDisconnected?.Invoke(existing);

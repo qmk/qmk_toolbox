@@ -6,6 +6,7 @@ public enum MessageType
     Command,
     CommandError,
     CommandOutput,
+    Debug,
     Error,
     Hid,
     HidOutput,
