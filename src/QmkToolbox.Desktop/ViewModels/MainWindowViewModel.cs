@@ -245,7 +245,9 @@ public partial class MainWindowViewModel : LogViewModelBase
     private void LogStartupBanner()
     {
         string version = Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "0.0.1";
-        LogInfo($"QMK Toolbox {version} (https://qmk.fm/toolbox)");
+        string gitRev = ThisAssembly.Git.Tag + (ThisAssembly.Git.IsDirty ? "-dirty" : "");
+        string buildDate = ThisAssembly.Git.CommitDate[..10];
+        LogInfo($"QMK Toolbox {version} ({gitRev}, {buildDate}) (https://qmk.fm/toolbox)");
         try
         {
             (string? flashUtils, string? hidApi, string? udevRules) = _toolProvider.GetManifestInfo();

@@ -16,6 +16,8 @@
     <PackageVersion Include="Usb.Events" Version="11.1.1.1" />
     <PackageVersion Include="HidApi.Net" Version="1.2.0" />
     <PackageVersion Include="System.IO.Ports" Version="10.0.7" />
+    <!-- Build metadata -->
+    <PackageVersion Include="GitInfo" Version="3.6.0" />
     <!-- Testing -->
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.5.1" />
     <PackageVersion Include="xunit" Version="2.9.3" />
