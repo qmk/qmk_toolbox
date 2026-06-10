@@ -15,6 +15,7 @@
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
     <PublishTrimmed>true</PublishTrimmed>
+    <!-- Disable GitInfo overriding the version of the assembly -->
     <GitVersion>false</GitVersion>
   </PropertyGroup>
   <!-- Both macOS RIDs share a single universal resource directory. -->
