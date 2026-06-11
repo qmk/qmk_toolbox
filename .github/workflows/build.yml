@@ -16,6 +16,8 @@ jobs:
     name: Build, Test, and Package
     steps:
     - uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
     - uses: actions/setup-dotnet@v5
       with:
         dotnet-version: '10.x'
