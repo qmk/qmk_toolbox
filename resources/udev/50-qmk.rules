@@ -1,0 +1,100 @@
+ACTION=="remove", GOTO="qmk_end"
+
+# Atmel DFU
+### ATmega16U2
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="2fef", ENV{ID_QMK}="1"
+### ATmega32U2
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="2ff0", ENV{ID_QMK}="1"
+### ATmega16U4
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="2ff3", ENV{ID_QMK}="1"
+### ATmega32U4
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="2ff4", ENV{ID_QMK}="1"
+### AT90USB64
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="2ff9", ENV{ID_QMK}="1"
+### AT90USB162
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="2ffa", ENV{ID_QMK}="1"
+### AT90USB128
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="2ffb", ENV{ID_QMK}="1"
+
+# Input Club
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1c11", ATTRS{idProduct}=="b007", ENV{ID_QMK}="1"
+
+# STM32duino
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1eaf", ATTRS{idProduct}=="0003", ENV{ID_QMK}="1"
+# STM32 DFU
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="df11", ENV{ID_QMK}="1"
+
+# BootloadHID
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="05df", ENV{ID_QMK}="1"
+
+# USBAspLoader
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="05dc", ENV{ID_QMK}="1"
+
+# USBtinyISP
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1782", ATTRS{idProduct}=="0c9f", ENV{ID_QMK}="1"
+
+# ModemManager should ignore the following devices
+# Atmel SAM-BA (Massdrop)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="6124", ENV{ID_QMK}="1", ENV{ID_MM_DEVICE_IGNORE}="1"
+
+# Caterina (Pro Micro)
+## pid.codes shared PID
+### Keyboardio Atreus 2 Bootloader
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="2302", ENV{ID_QMK}="1", ENV{ID_MM_DEVICE_IGNORE}="1"
+## Spark Fun Electronics
+### Pro Micro 3V3/8MHz
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1b4f", ATTRS{idProduct}=="9203", ENV{ID_QMK}="1", ENV{ID_MM_DEVICE_IGNORE}="1"
+### Pro Micro 5V/16MHz
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1b4f", ATTRS{idProduct}=="9205", ENV{ID_QMK}="1", ENV{ID_MM_DEVICE_IGNORE}="1"
+### LilyPad 3V3/8MHz (and some Pro Micro clones)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1b4f", ATTRS{idProduct}=="9207", ENV{ID_QMK}="1", ENV{ID_MM_DEVICE_IGNORE}="1"
+## Pololu Electronics
+### A-Star 32U4
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1ffb", ATTRS{idProduct}=="0101", ENV{ID_QMK}="1", ENV{ID_MM_DEVICE_IGNORE}="1"
+## Arduino SA
+### Leonardo
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="0036", ENV{ID_QMK}="1", ENV{ID_MM_DEVICE_IGNORE}="1"
+### Micro
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="0037", ENV{ID_QMK}="1", ENV{ID_MM_DEVICE_IGNORE}="1"
+## Adafruit Industries LLC
+### Feather 32U4
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="239a", ATTRS{idProduct}=="000c", ENV{ID_QMK}="1", ENV{ID_MM_DEVICE_IGNORE}="1"
+### ItsyBitsy 32U4 3V3/8MHz
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="239a", ATTRS{idProduct}=="000d", ENV{ID_QMK}="1", ENV{ID_MM_DEVICE_IGNORE}="1"
+### ItsyBitsy 32U4 5V/16MHz
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="239a", ATTRS{idProduct}=="000e", ENV{ID_QMK}="1", ENV{ID_MM_DEVICE_IGNORE}="1"
+## dog hunter AG
+### Leonardo
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2a03", ATTRS{idProduct}=="0036", ENV{ID_QMK}="1", ENV{ID_MM_DEVICE_IGNORE}="1"
+### Micro
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2a03", ATTRS{idProduct}=="0037", ENV{ID_QMK}="1", ENV{ID_MM_DEVICE_IGNORE}="1"
+
+# hid bootloaders
+## QMK HID
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="2067", ENV{ID_QMK}="1"
+## PJRC's HalfKay
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="0478", ENV{ID_QMK}="1"
+
+# APM32 DFU
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="314b", ATTRS{idProduct}=="0106", ENV{ID_QMK}="1"
+
+# GD32V DFU
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="28e9", ATTRS{idProduct}=="0189", ENV{ID_QMK}="1"
+
+# WB32 DFU
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="342d", ATTRS{idProduct}=="dfa0", ENV{ID_QMK}="1"
+
+# AT32 DFU
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2e3c", ATTRS{idProduct}=="df11", ENV{ID_QMK}="1"
+
+# Raspberry Pi RP2040/RP2350 BOOTSEL
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2e8a", ATTRS{idProduct}=="0003", ENV{ID_QMK}="1"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2e8a", ATTRS{idProduct}=="000f", ENV{ID_QMK}="1"
+
+# Query HID descriptors to determine QMK-specific hidraw devices
+SUBSYSTEM=="hidraw", KERNEL=="hidraw*", IMPORT{program}="qmk_id %S%p"
+
+# Apply tag if QMK endpoint found
+ENV{ID_QMK}=="1", TAG+="uaccess"
+
+LABEL="qmk_end"

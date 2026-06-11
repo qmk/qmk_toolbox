@@ -6,23 +6,25 @@
 
 This is a collection of flashing tools packaged into one app. It supports auto-detection and auto-flashing of firmware to keyboards.
 
-|Windows|macOS|
-|-------|-----|
-|[![Windows](https://i.imgur.com/jHaX9bV.png)](https://i.imgur.com/jHaX9bV.png)|[![macOS](https://i.imgur.com/8hZEfDD.png)](https://i.imgur.com/8hZEfDD.png)|
+|Windows|macOS|Linux|
+|-------|-----|-----|
+|[![Windows](https://i.imgur.com/jHaX9bV.png)](https://i.imgur.com/jHaX9bV.png)|[![macOS](https://i.imgur.com/8hZEfDD.png)](https://i.imgur.com/8hZEfDD.png)|![Linux](https://i.imgur.com/8hZEfDD.png)|
 
 ## Flashing
 
 QMK Toolbox supports the following bootloaders:
 
- - ARM DFU (APM32, Kiibohd, STM32, STM32duino) via [dfu-util](http://dfu-util.sourceforge.net/)
- - Atmel/LUFA/QMK DFU via [dfu-programmer](http://dfu-programmer.github.io/)
+ - ARM DFU (APM32, AT32, Kiibohd, STM32, STM32duino) via [dfu-util](http://dfu-util.sourceforge.net/)
  - Atmel SAM-BA (Massdrop) via [Massdrop Loader](https://github.com/massdrop/mdloader)
+ - Atmel/LUFA/QMK DFU via [dfu-programmer](http://dfu-programmer.github.io/)
  - BootloadHID (Atmel, PS2AVRGB) via [bootloadHID](https://www.obdev.at/products/vusb/bootloadhid.html)
  - Caterina (Arduino, Pro Micro) via [avrdude](http://nongnu.org/avrdude/)
  - HalfKay (Teensy, Ergodox EZ) via [Teensy Loader](https://pjrc.com/teensy/loader_cli.html)
- - LUFA/QMK HID via [hid_bootloader_cli](https://github.com/abcminiuser/lufa)
- - WB32 DFU (WB32) via [wb32-dfu-updater_cli](https://github.com/WestberryTech/wb32-dfu-updater)
  - LUFA Mass Storage
+ - LUFA/QMK HID via [hid_bootloader_cli](https://github.com/abcminiuser/lufa)
+ - Raspberry Pi RP2040/RP2350 (BOOTSEL) via [picotool](https://github.com/raspberrypi/picotool)
+ - RISC-V DFU (GD32V) via [dfu-util](http://dfu-util.sourceforge.net/)
+ - WB32 DFU via [wb32-dfu-updater_cli](https://github.com/WestberryTech/wb32-dfu-updater)
 
 And the following ISP flashers:
 
@@ -46,24 +48,75 @@ See the [QMK Docs](https://docs.qmk.fm/#/newbs_testing_debugging?id=debugging) f
 
 ### System Requirements
 
-* macOS 12 (Monterey) or higher
 * Windows 10 May 2020 Update (20H1) or higher
+* macOS 13 (Ventura) or higher, both Apple Silicon and Intel supported
+* Linux (x86_64, aarch64/arm64)
 
 ### Dependencies
 
-When using the QMK Toolbox on Windows, it will prompt at first run to install the necessary drivers.
+On Windows, QMK Toolbox will prompt at first run to install the necessary drivers.
 
-If you run into any issues with "Device not found" when flashing, then you may need to use [Zadig](https://docs.qmk.fm/#/driver_installation_zadig) to fix the issue.
+If you run into any issues with "Device not found" when flashing, you may need to use [Zadig](https://docs.qmk.fm/#/driver_installation_zadig) to fix the issue.
+
+On Linux, `libudev` is required for USB hotplug support (`libudev-dev` / `libudev1`). This is present by default on most desktop distributions.
 
 ### Download
 
-The [current version](https://github.com/qmk/qmk_toolbox/releases) of QMK Toolbox is **0.3.3**.
+* **Windows x64:** [qmk_toolbox_install.exe](https://github.com/qmk/qmk_toolbox/releases/latest/download/qmk_toolbox_install.exe)
+* **macOS (Universal):** [QMK Toolbox.pkg](https://github.com/qmk/qmk_toolbox/releases/latest/download/QMK%20Toolbox.pkg)
+* **Linux (x86_64):** [qmk_toolbox-linux-x64](https://github.com/qmk/qmk_toolbox/releases/latest/download/qmk_toolbox-linux-x64)
+* **Linux (aarch64/arm64):** [qmk_toolbox-linux-arm64](https://github.com/qmk/qmk_toolbox/releases/latest/download/qmk_toolbox-linux-arm64)
 
-* **Windows:** [standalone](https://github.com/qmk/qmk_toolbox/releases/latest/download/qmk_toolbox.exe), [installer](https://github.com/qmk/qmk_toolbox/releases/latest/download/qmk_toolbox_install.exe)
-* **macOS**: [standalone](https://github.com/qmk/qmk_toolbox/releases/latest/download/QMK.Toolbox.app.zip), [installer](https://github.com/qmk/qmk_toolbox/releases/latest/download/QMK.Toolbox.pkg)
+### Building from source
 
-For Homebrew users, it is also available as a Cask:
+All scripts require Docker. The full build sequence is:
 
 ```sh
-brew install qmk-toolbox
+# 1. Download flash tool binaries, hidapi, and udev resources for all platforms
+scripts/fetch-tools.sh
+
+# 2. Compile and publish self-contained executables for all targets
+scripts/publish-all.sh
+
+# 3. Assemble release artifacts (calls make-macos-app.sh, make-win-installer.sh, make-macos-pkg.sh internally)
+#    Outputs: artifacts/qmk_toolbox-linux-x64, qmk_toolbox-linux-arm64,
+#             qmk_toolbox.exe, qmk_toolbox_install.exe,
+#             QMK Toolbox.app.zip, QMK Toolbox.dmg, QMK Toolbox.pkg
+scripts/make-release-artifacts.sh
 ```
+
+To build for a single target only, pass the RID to `publish-all.sh`:
+
+```sh
+scripts/publish-all.sh linux-x64
+```
+
+Alternatively, build manually without Docker. Requires [.NET 10 SDK](https://dotnet.microsoft.com/download).
+
+```sh
+dotnet tool restore && dotnet husky install
+dotnet build src/QmkToolbox.slnx
+dotnet publish src/QmkToolbox.Desktop/QmkToolbox.Desktop.csproj -c Release -r <rid> --self-contained true -p:PublishSingleFile=true
+```
+
+Where `<rid>` is `win-x64`, `osx-arm64`, `osx-x64`, `linux-x64`, or `linux-arm64`.
+
+### Updating NuGet dependencies
+
+```sh
+# Check for outdated packages
+scripts/check-deps.sh
+
+# Upgrade Directory.Packages.props in place
+scripts/check-deps.sh --upgrade
+```
+
+## Attributions
+
+### Fonts
+
+**Atkinson Hyperlegible** and **Atkinson Hyperlegible Mono**  
+Copyright © 2020–2024 Braille Institute of America, Inc.  
+Designed by Applied Design Works on behalf of the Braille Institute.  
+Source: https://www.brailleinstitute.org/freefont  
+License: [SIL Open Font License 1.1](https://openfontlicense.org/)

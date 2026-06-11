@@ -1,0 +1,107 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>QmkToolbox.Desktop</RootNamespace>
+    <AssemblyName>qmk_toolbox</AssemblyName>
+    <Version>0.5.0</Version>
+    <Title>QMK Toolbox</Title>
+    <Description>A flashing/debug utility for devices running QMK Firmware</Description>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ApplicationIcon>Resources/output.ico</ApplicationIcon>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <PublishTrimmed>true</PublishTrimmed>
+    <!-- Disable GitInfo overriding the version of the assembly -->
+    <GitVersion>false</GitVersion>
+  </PropertyGroup>
+  <!-- Both macOS RIDs share a single universal resource directory. -->
+  <PropertyGroup>
+    <_ResourceRid Condition="'$(RuntimeIdentifier)' == 'osx-x64' Or '$(RuntimeIdentifier)' == 'osx-arm64'">osx</_ResourceRid>
+    <_ResourceRid Condition="'$(_ResourceRid)' == ''">$(RuntimeIdentifier)</_ResourceRid>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="Resources/output.ico" />
+    <AvaloniaResource Include="Assets/Fonts/*.otf" />
+  </ItemGroup>
+  <!-- Firmware-support data files: MCU list and EEPROM reset images. Platform-independent. -->
+  <ItemGroup>
+    <EmbeddedResource Include="../../resources/firmware-support/mcu-list.txt" Link="Resources/mcu-list.txt" />
+    <EmbeddedResource Include="../../resources/firmware-support/reset.eep" Link="Resources/reset.eep" />
+    <EmbeddedResource Include="../../resources/firmware-support/reset_left.eep" Link="Resources/reset_left.eep" />
+    <EmbeddedResource Include="../../resources/firmware-support/reset_right.eep" Link="Resources/reset_right.eep" />
+  </ItemGroup>
+  <!-- Embed platform-specific flash tool binaries from the committed resources tree.
+       The RuntimeIdentifier is set during `dotnet publish -r <rid>`.
+       Guard with ItemGroup condition so the glob is never evaluated without a RID. -->
+  <ItemGroup Condition="'$(_ResourceRid)' != '' And '$(RuntimeIdentifier)' != '' And Exists('../../resources/flashutils/$(_ResourceRid)')">
+    <EmbeddedResource Include="../../resources/flashutils/$(_ResourceRid)/**" Link="Resources/%(Filename)%(Extension)" />
+  </ItemGroup>
+  <!-- Linux-only: embed qmk_id helper, per-arch version manifest, and udev rules from qmk_udev. -->
+  <ItemGroup Condition="'$(_ResourceRid)' != '' And $(RuntimeIdentifier.StartsWith('linux')) And Exists('../../resources/udev/$(_ResourceRid)')">
+    <EmbeddedResource Include="../../resources/udev/$(_ResourceRid)/qmk_id" Link="Resources/qmk_id" />
+    <EmbeddedResource Include="../../resources/udev/$(_ResourceRid)/qmk_udev_release_*" Link="Resources/%(Filename)%(Extension)" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(_ResourceRid)' != '' And $(RuntimeIdentifier.StartsWith('linux')) And Exists('../../resources/udev/50-qmk.rules')">
+    <EmbeddedResource Include="../../resources/udev/50-qmk.rules" Link="Resources/50-qmk.rules" />
+  </ItemGroup>
+  <!-- Windows-only: embed qmk_driver_installer.exe and drivers.txt -->
+  <ItemGroup Condition="'$(_ResourceRid)' != '' And $(RuntimeIdentifier.StartsWith('win')) And Exists('../../resources/windows-drivers')">
+    <EmbeddedResource Include="../../resources/windows-drivers/**" Link="Resources/%(Filename)%(Extension)" />
+  </ItemGroup>
+  <!-- Place the hidapi native library alongside the published executable so that
+       HidApi.Net can find it at runtime (same mechanism as libSkiaSharp, etc.). -->
+  <!-- Embed the hidapi release manifest alongside the flash-tool manifests. -->
+  <ItemGroup Condition="'$(_ResourceRid)' != '' And Exists('../../resources/hidapi/$(_ResourceRid)')">
+    <EmbeddedResource Include="../../resources/hidapi/$(_ResourceRid)/hidapi_release_*" Link="Resources/%(Filename)%(Extension)" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Pick up native HIDAPI binaries only (exclude the release manifest). -->
+    <_NativeLibraries Include="$(MSBuildThisFileDirectory)../../resources/hidapi/$(_ResourceRid)/*"
+                      Exclude="$(MSBuildThisFileDirectory)../../resources/hidapi/$(_ResourceRid)/hidapi_release_*" />
+  </ItemGroup>
+
+  <Target Name="IncludeHidApiNativeLibraries" AfterTargets="ComputeResolvedFilesToPublishList">
+    <ItemGroup>
+      <ResolvedFileToPublish Include="@(_NativeLibraries)" Condition="'$(RuntimeIdentifier)' != ''">
+        <RelativePath>%(_NativeLibraries.Filename)%(_NativeLibraries.Extension)</RelativePath>
+        <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+        <ExcludeFromSingleFile>false</ExcludeFromSingleFile>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+
+  <Target Name="PrintNativeLibraryInfo" AfterTargets="IncludeHidApiNativeLibraries">
+    <Message Importance="High" Text="RuntimeIdentifier: $(RuntimeIdentifier)" />
+    <Message Importance="High" Text="_ResourceRid: $(_ResourceRid)" />
+    <Message Importance="High" Text="_NativeLibraries: @(_NativeLibraries)" />
+  </Target>
+
+  <ItemGroup>
+    <ProjectReference Include="../QmkToolbox.Core/QmkToolbox.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia.Desktop" />
+    <PackageReference Include="Avalonia.Fonts.Inter" />
+    <PackageReference Include="Avalonia" />
+    <PackageReference Include="CommunityToolkit.Mvvm" />
+    <PackageReference Include="GitInfo" />
+    <PackageReference Include="HidApi.Net" />
+    <PackageReference Include="Optris.Icons.Avalonia.FontAwesome" />
+    <PackageReference Include="Optris.Icons.Avalonia" />
+    <PackageReference Include="Semi.Avalonia" />
+    <PackageReference Include="System.IO.Ports" />
+  </ItemGroup>
+  <!-- Usb.Events is only used on Linux and macOS. On Windows its WMI backend (Win32_PnPEntity with
+       WITHIN 2 polling) incurs ~7 seconds of cold-start latency under .NET 10. Windows builds use
+       WindowsUsbEventsDetector instead, which calls RegisterDeviceNotification directly. -->
+  <ItemGroup Condition="!$(RuntimeIdentifier.StartsWith('win'))">
+    <PackageReference Include="Usb.Events" />
+  </ItemGroup>
+  <PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('win'))">
+    <DefineConstants>$(DefineConstants);WINDOWS</DefineConstants>
+  </PropertyGroup>
+</Project>

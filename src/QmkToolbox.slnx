@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="QmkToolbox.Core/QmkToolbox.Core.csproj" />
+  <Project Path="QmkToolbox.Desktop/QmkToolbox.Desktop.csproj" />
+  <Project Path="QmkToolbox.Tests/QmkToolbox.Tests.csproj" />
+</Solution>

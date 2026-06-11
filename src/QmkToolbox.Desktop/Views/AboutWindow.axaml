@@ -1,0 +1,36 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="QmkToolbox.Desktop.Views.AboutWindow"
+        Title="About QMK Toolbox"
+        Width="360" Height="220"
+        CanResize="False"
+        WindowStartupLocation="CenterOwner">
+
+    <StackPanel Margin="24" Spacing="12" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBlock Text="QMK Toolbox"
+                   FontSize="24"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center" />
+
+        <TextBlock Name="VersionText"
+                   HorizontalAlignment="Center"
+                   Foreground="#C0C0C0" />
+
+        <TextBlock Text="A flashing/debug utility for QMK-based keyboards."
+                   TextWrapping="Wrap"
+                   HorizontalAlignment="Center"
+                   TextAlignment="Center"
+                   Foreground="#C0C0C0" />
+
+        <HyperlinkButton NavigateUri="https://github.com/qmk/qmk_toolbox"
+                         HorizontalAlignment="Center"
+                         Padding="0">
+            <TextBlock Text="https://github.com/qmk/qmk_toolbox" />
+        </HyperlinkButton>
+
+        <Button Content="Close"
+                HorizontalAlignment="Center"
+                MinWidth="80"
+                Click="OnCloseClick" />
+    </StackPanel>
+</Window>
