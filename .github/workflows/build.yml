@@ -4,6 +4,7 @@ on:
   push:
     branches:
     - master
+    - macos-signing
   release:
     types:
       - published
