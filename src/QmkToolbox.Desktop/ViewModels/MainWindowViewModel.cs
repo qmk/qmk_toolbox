@@ -294,6 +294,7 @@ public partial class MainWindowViewModel : LogViewModelBase
                     LogError("Auto-flash: firmware file does not exist");
                     return;
                 }
+                SetBusy(true);
                 try
                 {
                     await _flashOrchestrator.FlashAllAsync(SelectedMcu, FirmwarePath);
@@ -302,17 +303,35 @@ public partial class MainWindowViewModel : LogViewModelBase
                 {
                     LogError($"Auto-flash failed: {ex.Message}");
                 }
+                finally
+                {
+                    SetBusy(false);
+                }
             }
         });
 
     private void OnDeviceDisconnected(IUsbDevice device)
         => Invoke(() => _flashOrchestrator.OnDeviceDisconnected(device, ShowAllDevices));
 
+    // True while a flash / reset / EEPROM operation is running. Gates every action command
+    // so a second tool (e.g. "Exit DFU" mid-flash) can't be launched against the same device.
+    // Folded into UpdateCanExecute so USB connect/disconnect events during an operation can't
+    // re-enable the buttons.
+    private bool _busy;
+
+    private void SetBusy(bool value)
+    {
+        if (_busy == value)
+            return;
+        _busy = value;
+        UpdateCanExecute();
+    }
+
     private void UpdateCanExecute()
     {
-        bool flash = _flashOrchestrator.HasBootloaders;
-        bool reset = _flashOrchestrator.HasResettable;
-        bool eeprom = _flashOrchestrator.HasEepromFlashable;
+        bool flash = _flashOrchestrator.HasBootloaders && !_busy;
+        bool reset = _flashOrchestrator.HasResettable && !_busy;
+        bool eeprom = _flashOrchestrator.HasEepromFlashable && !_busy;
         if (_windowService != null && (flash != CanFlash || reset != CanReset))
         {
             _windowService.TraceDebug(
@@ -342,25 +361,55 @@ public partial class MainWindowViewModel : LogViewModelBase
             LogError("File does not exist!");
             return;
         }
-        CanFlash = false;
-        _windowService?.TraceDebug("[STATE] CanFlash:true->false  (Flash() direct write)");
-        await _flashOrchestrator.FlashAllAsync(SelectedMcu, FirmwarePath);
+        SetBusy(true);
+        try
+        {
+            await _flashOrchestrator.FlashAllAsync(SelectedMcu, FirmwarePath);
+        }
+        finally
+        {
+            SetBusy(false);
+        }
     }
 
     [RelayCommand(CanExecute = nameof(CanReset))]
-    private Task Reset() => _flashOrchestrator.ResetAllAsync(SelectedMcu);
+    private async Task Reset()
+    {
+        SetBusy(true);
+        try
+        {
+            await _flashOrchestrator.ResetAllAsync(SelectedMcu);
+        }
+        finally
+        {
+            SetBusy(false);
+        }
+    }
 
     [RelayCommand(CanExecute = nameof(CanClearEeprom))]
     private Task ClearEeprom() =>
-        _flashOrchestrator.FlashEepromAsync(SelectedMcu, _toolProvider.GetToolPath("reset.eep"), "Attempting to clear EEPROM, please don't remove device", "EEPROM clear complete");
+        RunEepromAsync("reset.eep", "Attempting to clear EEPROM, please don't remove device", "EEPROM clear complete");
 
     [RelayCommand(CanExecute = nameof(CanClearEeprom))]
     private Task SetLeftHand() =>
-        _flashOrchestrator.FlashEepromAsync(SelectedMcu, _toolProvider.GetToolPath("reset_left.eep"), "Attempting to set handedness, please don't remove device", "EEPROM write complete");
+        RunEepromAsync("reset_left.eep", "Attempting to set handedness, please don't remove device", "EEPROM write complete");
 
     [RelayCommand(CanExecute = nameof(CanClearEeprom))]
     private Task SetRightHand() =>
-        _flashOrchestrator.FlashEepromAsync(SelectedMcu, _toolProvider.GetToolPath("reset_right.eep"), "Attempting to set handedness, please don't remove device", "EEPROM write complete");
+        RunEepromAsync("reset_right.eep", "Attempting to set handedness, please don't remove device", "EEPROM write complete");
+
+    private async Task RunEepromAsync(string eepFile, string startMessage, string completeMessage)
+    {
+        SetBusy(true);
+        try
+        {
+            await _flashOrchestrator.FlashEepromAsync(SelectedMcu, _toolProvider.GetToolPath(eepFile), startMessage, completeMessage);
+        }
+        finally
+        {
+            SetBusy(false);
+        }
+    }
 
     [RelayCommand]
     // ClearAndReExtract is a synchronous blocking method; Task.Run wraps it so this

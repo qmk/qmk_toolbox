@@ -135,4 +135,83 @@ public class ReadLinesAsyncTests
         Assert.True(lines[0].Overwrite); // bare CR
         Assert.Equal(("next", false), lines[1]);
     }
+
+    // ── Bare CR followed by a stall (progress bar that pauses) ─────────────────
+
+    [Fact]
+    public async Task PendingCRFlushedWhenNextByteStalls()
+    {
+        // Reproduces the dfu-util "stuck at erase" symptom: a progress line ending in a bare CR,
+        // after which the device goes busy and emits nothing for a long time. The line must be
+        // shown promptly (overwrite=true) rather than waiting for the never-arriving next byte.
+        var gate = new TaskCompletionSource();
+        using var stream = new PausingStream("Erase\r"u8.ToArray(), gate.Task);
+        using var reader = new StreamReader(stream);
+
+        var results = new List<(string Text, bool Overwrite)>();
+        void onLine(string line, bool overwrite)
+        {
+            lock (results)
+                results.Add((line, overwrite));
+        }
+
+        // Short flush delay keeps the test fast; the second read stays gated well past it.
+        Task readLoop = FlashService.ReadLinesAsync(reader, CancellationToken.None, onLine, flushDelayMs: 20);
+
+        // The progress line should appear while the second read is still blocked.
+        await WaitForAsync(() => { lock (results) return results.Count >= 1; }, TimeSpan.FromSeconds(2));
+        lock (results)
+        {
+            Assert.Single(results);
+            Assert.Equal(("Erase", true), results[0]);
+        }
+
+        // Release the stall as EOF and ensure no duplicate/blank line is emitted.
+        gate.SetResult();
+        await readLoop;
+        Assert.Equal([("Erase", true)], results);
+    }
+
+    private static async Task WaitForAsync(Func<bool> condition, TimeSpan timeout)
+    {
+        DateTime deadline = DateTime.UtcNow + timeout;
+        while (!condition())
+        {
+            if (DateTime.UtcNow > deadline)
+                throw new TimeoutException("Condition not met within timeout.");
+            await Task.Delay(5);
+        }
+    }
+
+    // Returns <paramref name="first"/> synchronously on the first read, then blocks on
+    // <paramref name="gate"/> before returning EOF — simulating a tool that prints a progress
+    // line and then goes quiet.
+    private sealed class PausingStream(byte[] first, Task gate) : Stream
+    {
+        private int _phase;
+
+        public override async ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken ct = default)
+        {
+            if (_phase == 0)
+            {
+                _phase = 1;
+                int n = Math.Min(first.Length, buffer.Length);
+                first.AsSpan(0, n).CopyTo(buffer.Span);
+                return n;
+            }
+            await gate.WaitAsync(ct).ConfigureAwait(false);
+            return 0; // EOF
+        }
+
+        public override bool CanRead => true;
+        public override bool CanSeek => false;
+        public override bool CanWrite => false;
+        public override long Length => throw new NotSupportedException();
+        public override long Position { get => throw new NotSupportedException(); set => throw new NotSupportedException(); }
+        public override void Flush() { }
+        public override int Read(byte[] buffer, int offset, int count) => throw new NotSupportedException();
+        public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
+        public override void SetLength(long value) => throw new NotSupportedException();
+        public override void Write(byte[] buffer, int offset, int count) => throw new NotSupportedException();
+    }
 }
