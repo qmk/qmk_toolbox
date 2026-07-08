@@ -14,7 +14,12 @@
                 <MenuItem Header="Clear" Command="{Binding #Root.ClearCommand}" />
             </ContextMenu>
         </ScrollViewer.ContextMenu>
+        <!-- Transparent (not null) background so the whole arranged width is hit-testable:
+             lets a selection start in the empty space to the right of a short line, not just
+             directly over glyphs. -->
         <controls:HitTestableTextBlock Name="LogText"
+                                       Background="Transparent"
+                                       HorizontalAlignment="Stretch"
                                        FontFamily="avares://qmk_toolbox/Assets/Fonts#JetBrains Mono"
                                        FontSize="11"
                                        TextWrapping="Wrap"
