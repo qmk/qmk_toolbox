@@ -9,6 +9,7 @@
     <PackageVersion Include="Optris.Icons.Avalonia.FontAwesome" Version="12.0.6" />
     <PackageVersion Include="Avalonia.Desktop" Version="12.0.4" />
     <PackageVersion Include="Avalonia.Fonts.Inter" Version="12.0.4" />
+    <PackageVersion Include="Avalonia.Headless" Version="12.0.4" />
     <PackageVersion Include="Semi.Avalonia" Version="12.0.3" />
     <!-- MVVM -->
     <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.2" />

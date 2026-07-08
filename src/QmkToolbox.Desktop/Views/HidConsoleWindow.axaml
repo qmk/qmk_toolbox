@@ -20,7 +20,7 @@
         </Grid>
 
         <!-- Log panel -->
-        <controls:LogPanel LogEntries="{Binding LogEntries}"
+        <controls:LogPanel Buffer="{Binding Buffer}"
                            CopyCommand="{Binding CopyAllCommand}"
                            ClearCommand="{Binding ClearCommand}" />
     </DockPanel>

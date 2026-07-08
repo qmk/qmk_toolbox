@@ -2,14 +2,11 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
 using Avalonia;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using QmkToolbox.Core.Models;
 using QmkToolbox.Core.Services;
-using QmkToolbox.Desktop.Converters;
-using QmkToolbox.Desktop.Models;
 using QmkToolbox.Desktop.Services;
 using AvaloniaTheme = Avalonia.Styling.ThemeVariant;
 
@@ -111,7 +108,7 @@ public partial class MainWindowViewModel : LogViewModelBase
         Settings = settingsService;
 
         _flashOrchestrator = new FlashOrchestrator(toolProvider, serialPortService, mountPointService);
-        _flashOrchestrator.OutputReceived += (msg, type) => Invoke(() => Log(msg, type));
+        _flashOrchestrator.OutputReceived += (msg, type) => Invoke(() => LogLine(msg, type));
         _flashOrchestrator.StateChanged += () => Invoke(UpdateCanExecute);
 
         _usbDetector.DeviceConnected += OnDeviceConnected;
@@ -453,22 +450,19 @@ public partial class MainWindowViewModel : LogViewModelBase
     private async Task InstallUdevRules() =>
         await LinuxUdevInstaller.InstallAsync(
             _toolProvider,
-            msg => Invoke(() => Log(msg, MessageType.UdevOutput)),
-            msg => Invoke(() => Log(msg, MessageType.Error)));
+            msg => Invoke(() => LogLine(msg, MessageType.UdevOutput)),
+            msg => Invoke(() => LogLine(msg, MessageType.Error)));
 
     [RelayCommand]
     private async Task CopyLog()
     {
         if (_windowService == null)
             return;
-        var sb = new StringBuilder();
-        foreach (LogEntry entry in LogEntries)
-            sb.AppendLine(MessageTypeToPrefixConverter.GetPrefix(entry.Type) + entry.Text);
-        await _windowService.SetClipboardTextAsync(sb.ToString());
+        await _windowService.SetClipboardTextAsync(Buffer.ToString());
     }
 
     [RelayCommand]
-    private void ClearLog() { LogEntries.Clear(); _lastLineWasOverwrite = false; }
+    private void ClearLog() => Buffer.Clear();
 
     [RelayCommand]
     private void ToggleAutoFlash() => AutoFlashEnabled = !AutoFlashEnabled;
@@ -489,34 +483,24 @@ public partial class MainWindowViewModel : LogViewModelBase
         FirmwarePath = path;
     }
 
-    private bool _lastLineWasOverwrite;
-
+    // Raw terminal write: text goes straight to the buffer, which interprets '\r'/'\n'
+    // exactly like a terminal. It invents no line breaks — Log("#") three times renders
+    // "###", not three lines.
     public void Log(string message, MessageType type)
     {
-        bool isOverwrite = message.Length > 0 && message[^1] == '\r';
-        if (isOverwrite)
-            message = message[..^1];
-
-        if (_lastLineWasOverwrite && LogEntries.Count > 0)
-        {
-            LogEntries[^1] = new LogEntry(message, type);
-        }
-        else
-        {
-            message = message.Replace("\r\n", "\n").Replace('\r', '\n');
-            if (message.Length > 1 && message[^1] == '\n')
-                message = message[..^1];
-            foreach (string line in message.Split('\n'))
-                LogEntries.Add(new LogEntry(line, type));
-            TrimLogEntries();
-        }
-
-        _lastLineWasOverwrite = isOverwrite;
+        Buffer.Write(message, type);
+        Trim();
     }
 
-    public void LogBootloader(string message) => Log(message, MessageType.Bootloader);
-    public void LogCommand(string message) => Log(message, MessageType.Command);
-    public void LogError(string message) => Log(message, MessageType.Error);
-    public void LogInfo(string message) => Log(message, MessageType.Info);
-    public void LogUsb(string message) => Log(message, MessageType.Usb);
+    // A producer emitting discrete, line-oriented output whose terminator has been stripped
+    // (tool stdout/stderr, status messages). A trailing '\r' means "overwrite the current
+    // line" (progress bars, e.g. "aaa\rbb" → "bba"); anything else is a completed line.
+    private void LogLine(string message, MessageType type)
+        => Log(message.EndsWith('\r') ? message : message + '\n', type);
+
+    public void LogBootloader(string message) => LogLine(message, MessageType.Bootloader);
+    public void LogCommand(string message) => LogLine(message, MessageType.Command);
+    public void LogError(string message) => LogLine(message, MessageType.Error);
+    public void LogInfo(string message) => LogLine(message, MessageType.Info);
+    public void LogUsb(string message) => LogLine(message, MessageType.Usb);
 }

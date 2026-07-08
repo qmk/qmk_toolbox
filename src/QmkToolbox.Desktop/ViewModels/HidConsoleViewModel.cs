@@ -1,10 +1,8 @@
 using System.Collections.ObjectModel;
-using System.Text;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using QmkToolbox.Core.Models;
 using QmkToolbox.Core.Services;
-using QmkToolbox.Desktop.Models;
 
 namespace QmkToolbox.Desktop.ViewModels;
 
@@ -72,8 +70,8 @@ public partial class HidConsoleViewModel : LogViewModelBase, IDisposable
             return;
         Invoke(() =>
         {
-            LogEntries.Add(new LogEntry(data, MessageType.HidOutput));
-            TrimLogEntries();
+            Buffer.Write(data, MessageType.HidOutput);
+            Trim();
         });
     }
 
@@ -86,23 +84,28 @@ public partial class HidConsoleViewModel : LogViewModelBase, IDisposable
     }
 
     [RelayCommand]
-    private void Clear() => LogEntries.Clear();
+    private void Clear() => Buffer.Clear();
 
     [RelayCommand]
     private async Task CopyAll()
     {
         if (_setClipboardText == null)
             return;
-        var sb = new StringBuilder();
-        foreach (LogEntry entry in LogEntries)
-            sb.AppendLine(entry.Text);
-        await _setClipboardText(sb.ToString());
+        await _setClipboardText(Buffer.ToString());
     }
 
     private void OnErrorOccurred(string message) =>
-        Invoke(() => LogEntries.Add(new LogEntry(message, MessageType.Error)));
+        Invoke(() =>
+        {
+            Buffer.Write(message + "\n", MessageType.Error);
+            Trim();
+        });
 
-    private void LogHid(string msg) => LogEntries.Add(new LogEntry(msg, MessageType.Hid));
+    private void LogHid(string msg)
+    {
+        Buffer.Write(msg + "\n", MessageType.Hid);
+        Trim();
+    }
 
     public void Dispose() => _hidListener.Dispose();
 }

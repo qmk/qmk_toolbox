@@ -25,7 +25,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Resources/output.ico" />
-    <AvaloniaResource Include="Assets/Fonts/*.otf" />
+    <AvaloniaResource Include="Assets/Fonts/*.ttf" />
   </ItemGroup>
   <!-- Firmware-support data files: MCU list and EEPROM reset images. Platform-independent. -->
   <ItemGroup>

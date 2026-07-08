@@ -15,7 +15,7 @@
             </ContextMenu>
         </ScrollViewer.ContextMenu>
         <controls:HitTestableTextBlock Name="LogText"
-                                       FontFamily="avares://qmk_toolbox/Assets/Fonts#Atkinson Hyperlegible Mono"
+                                       FontFamily="avares://qmk_toolbox/Assets/Fonts#JetBrains Mono"
                                        FontSize="11"
                                        TextWrapping="Wrap"
                                        Margin="4,2" />

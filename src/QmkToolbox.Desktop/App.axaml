@@ -18,10 +18,10 @@
     <Application.Styles>
         <semi:SemiTheme Locale="en-US" />
         <Style Selector="TextBlock">
-            <Setter Property="FontFamily" Value="avares://qmk_toolbox/Assets/Fonts#Atkinson Hyperlegible" />
+            <Setter Property="FontFamily" Value="avares://qmk_toolbox/Assets/Fonts#Inter Variable" />
         </Style>
         <Style Selector=":is(TemplatedControl)">
-            <Setter Property="FontFamily" Value="avares://qmk_toolbox/Assets/Fonts#Atkinson Hyperlegible" />
+            <Setter Property="FontFamily" Value="avares://qmk_toolbox/Assets/Fonts#Inter Variable" />
         </Style>
         <Style Selector=":is(Button)">
             <Setter Property="FontWeight" Value="Normal" />

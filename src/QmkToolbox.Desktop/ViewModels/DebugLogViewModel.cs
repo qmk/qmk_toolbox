@@ -1,7 +1,5 @@
-using System.Text;
 using CommunityToolkit.Mvvm.Input;
 using QmkToolbox.Core.Models;
-using QmkToolbox.Desktop.Models;
 
 namespace QmkToolbox.Desktop.ViewModels;
 
@@ -13,21 +11,18 @@ public partial class DebugLogViewModel : LogViewModelBase
 
     public void Append(string message)
     {
-        LogEntries.Add(new LogEntry($"{DateTime.Now:HH:mm:ss.fff}  {message}", MessageType.Debug));
-        TrimLogEntries();
+        Buffer.Write($"{DateTime.Now:HH:mm:ss.fff}  {message}\n", MessageType.Debug);
+        Trim();
     }
 
     [RelayCommand]
-    private void Clear() => LogEntries.Clear();
+    private void Clear() => Buffer.Clear();
 
     [RelayCommand]
     private async Task CopyAll()
     {
         if (_setClipboardText == null)
             return;
-        var sb = new StringBuilder();
-        foreach (LogEntry entry in LogEntries)
-            sb.AppendLine(entry.Text);
-        await _setClipboardText(sb.ToString());
+        await _setClipboardText(Buffer.ToString());
     }
 }

@@ -200,7 +200,7 @@
         </Border>
 
         <!-- Log Panel -->
-        <controls:LogPanel LogEntries="{Binding LogEntries}"
+        <controls:LogPanel Buffer="{Binding Buffer}"
                            CopyCommand="{Binding CopyLogCommand}"
                            ClearCommand="{Binding ClearLogCommand}" />
     </DockPanel>

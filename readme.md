@@ -115,8 +115,13 @@ scripts/check-deps.sh --upgrade
 
 ### Fonts
 
-**Atkinson Hyperlegible** and **Atkinson Hyperlegible Mono**  
-Copyright © 2020–2024 Braille Institute of America, Inc.  
-Designed by Applied Design Works on behalf of the Braille Institute.  
-Source: https://www.brailleinstitute.org/freefont  
+**Inter**  
+Copyright © 2016–2024 The Inter Project Authors.  
+Designed by Rasmus Andersson.  
+Source: https://github.com/rsms/inter  
+License: [SIL Open Font License 1.1](https://openfontlicense.org/)
+
+**JetBrains Mono**  
+Copyright © 2020 JetBrains s.r.o.  
+Source: https://www.jetbrains.com/lp/mono/  
 License: [SIL Open Font License 1.1](https://openfontlicense.org/)

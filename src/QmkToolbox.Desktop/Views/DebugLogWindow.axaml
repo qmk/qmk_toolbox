@@ -18,7 +18,7 @@
             <Button Grid.Column="1" Margin="0,0,4,0" Content="Copy All" Command="{Binding CopyAllCommand}" />
             <Button Grid.Column="2" Content="Clear" Command="{Binding ClearCommand}" />
         </Grid>
-        <controls:LogPanel LogEntries="{Binding LogEntries}"
+        <controls:LogPanel Buffer="{Binding Buffer}"
                            CopyCommand="{Binding CopyAllCommand}"
                            ClearCommand="{Binding ClearCommand}" />
     </DockPanel>
