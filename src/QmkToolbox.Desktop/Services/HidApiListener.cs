@@ -19,6 +19,7 @@ public class HidApiListener : IHidListener
     private readonly List<BaseHidDevice> _devices = [];
     private readonly Lock _deviceLock = new();
     private CancellationTokenSource? _cts;
+    private Task? _pollTask;
 
     public void Start()
     {
@@ -27,7 +28,7 @@ public class HidApiListener : IHidListener
         CancellationToken token = _cts.Token;
         // The polling loop runs indefinitely; Task.Run moves it to a thread pool thread
         // so it never blocks the UI thread.
-        Task.Run(async () =>
+        _pollTask = Task.Run(async () =>
         {
             try
             {
@@ -100,6 +101,15 @@ public class HidApiListener : IHidListener
     public void Dispose()
     {
         Stop();
+
+        try
+        {
+            _pollTask?.Wait(TimeSpan.FromSeconds(2));
+        }
+        catch (AggregateException)
+        {
+            // Poll loop ended via cancellation/fault — nothing left to wait on.
+        }
         lock (_deviceLock)
         {
             foreach (BaseHidDevice device in _devices)
@@ -107,5 +117,6 @@ public class HidApiListener : IHidListener
             _devices.Clear();
         }
         HidApi.Hid.Exit();
+        _cts?.Dispose();
     }
 }

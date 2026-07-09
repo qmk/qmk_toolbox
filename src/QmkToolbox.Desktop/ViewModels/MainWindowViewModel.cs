@@ -281,6 +281,11 @@ public partial class MainWindowViewModel : LogViewModelBase
             bool bootloaderAdded = _flashOrchestrator.OnDeviceConnected(device, ShowAllDevices);
             if (bootloaderAdded && AutoFlashEnabled)
             {
+                if (_busy)
+                {
+                    LogInfo("Auto-flash: an operation is already in progress, skipping");
+                    return;
+                }
                 if (string.IsNullOrEmpty(FirmwarePath))
                 {
                     LogError("Auto-flash: no firmware file selected");

@@ -21,7 +21,7 @@
                                        Background="Transparent"
                                        HorizontalAlignment="Stretch"
                                        FontFamily="avares://qmk_toolbox/Assets/Fonts#JetBrains Mono"
-                                       FontSize="11"
+                                       FontSize="12"
                                        TextWrapping="Wrap"
                                        Margin="4,2" />
     </ScrollViewer>

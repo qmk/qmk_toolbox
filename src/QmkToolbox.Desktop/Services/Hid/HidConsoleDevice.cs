@@ -26,6 +26,7 @@ public sealed class HidConsoleDevice : BaseHidDevice, IDisposable
     public event Action<HidConsoleDevice, string>? ConsoleReportReceived;
 
     private CancellationTokenSource? _cts;
+    private readonly Task? _readTask;
     // UTF-8 decoder preserves state across HID reports so multi-byte characters
     // that span a report boundary are decoded correctly.
     private readonly Decoder _decoder = Encoding.UTF8.GetDecoder();
@@ -36,7 +37,7 @@ public sealed class HidConsoleDevice : BaseHidDevice, IDisposable
         _cts = new CancellationTokenSource();
         // ReadLoop uses blocking synchronous HID reads (ReadTimeout); Task.Run offloads
         // it to a thread pool thread so the constructor doesn't block the UI thread.
-        Task.Run(() => ReadLoop(_cts.Token), _cts.Token);
+        _readTask = Task.Run(() => ReadLoop(_cts.Token), _cts.Token);
     }
 
     private void ReadLoop(CancellationToken token)
@@ -98,6 +99,15 @@ public sealed class HidConsoleDevice : BaseHidDevice, IDisposable
     public void Dispose()
     {
         _cts?.Cancel();
+
+        try
+        {
+            _readTask?.Wait(TimeSpan.FromSeconds(1));
+        }
+        catch (AggregateException)
+        {
+            // ReadLoop faulted/cancelled — nothing left to wait on.
+        }
         _cts?.Dispose();
         _cts = null;
     }
