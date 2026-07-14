@@ -20,7 +20,7 @@
         <controls:HitTestableTextBlock Name="LogText"
                                        Background="Transparent"
                                        HorizontalAlignment="Stretch"
-                                       FontFamily="avares://qmk_toolbox/Assets/Fonts#JetBrains Mono"
+                                       FontFamily="avares://qmk_toolbox/Assets/Fonts#JetBrains Mono NL"
                                        FontSize="12"
                                        TextWrapping="Wrap"
                                        Margin="4,2" />
