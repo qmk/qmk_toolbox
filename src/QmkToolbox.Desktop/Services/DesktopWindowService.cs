@@ -6,21 +6,18 @@ using QmkToolbox.Desktop.Views;
 
 namespace QmkToolbox.Desktop.Services;
 
-public sealed class DesktopWindowService : IWindowService
+public sealed class DesktopWindowService
 {
     private readonly Window _owner;
-    private HidConsoleWindow? _hidConsoleWindow;
-    private KeyTesterWindow? _keyTesterWindow;
-    private DebugLogWindow? _debugLogWindow;
+    private readonly Dictionary<Type, Window> _singletons = [];
 
     public DesktopWindowService(Window owner)
     {
         _owner = owner;
         owner.Closed += (_, _) =>
         {
-            _hidConsoleWindow?.Close();
-            _keyTesterWindow?.Close();
-            _debugLogWindow?.Close();
+            foreach (Window w in _singletons.Values.ToList())
+                w.Close();
         };
     }
 
@@ -45,32 +42,27 @@ public sealed class DesktopWindowService : IWindowService
             await clipboard.SetTextAsync(text);
     }
 
-    public void ShowKeyTester()
+    private void ShowSingleton<T>(Func<T> create) where T : Window
     {
-        if (_keyTesterWindow != null)
+        if (_singletons.TryGetValue(typeof(T), out Window? existing))
         {
-            _keyTesterWindow.Activate();
+            existing.Activate();
             return;
         }
-        _keyTesterWindow = new KeyTesterWindow { DataContext = new KeyTesterViewModel() };
-        _keyTesterWindow.Closed += (_, _) => _keyTesterWindow = null;
-        _keyTesterWindow.Show(_owner);
+        T window = create();
+        _singletons[typeof(T)] = window;
+        window.Closed += (_, _) => _singletons.Remove(typeof(T));
+        window.Show(_owner);
     }
 
-    public void ShowHidConsole()
-    {
-        if (_hidConsoleWindow != null)
-        {
-            _hidConsoleWindow.Activate();
-            return;
-        }
-        // HidApiListener calls Hid.Init() on Start() and Hid.Exit() on Dispose().
-        // Its lifecycle is scoped to the console window — created here and disposed
-        // when the window closes (via HidConsoleWindow.OnClosed → HidConsoleViewModel.Dispose).
-        _hidConsoleWindow = new HidConsoleWindow { DataContext = new HidConsoleViewModel(new HidApiListener()) };
-        _hidConsoleWindow.Closed += (_, _) => _hidConsoleWindow = null;
-        _hidConsoleWindow.Show(_owner);
-    }
+    public void ShowKeyTester() =>
+        ShowSingleton(() => new KeyTesterWindow { DataContext = new KeyTesterViewModel() });
+
+    // HidApiListener calls Hid.Init() on Start() and Hid.Exit() on Dispose().
+    // Its lifecycle is scoped to the console window — created here and disposed
+    // when the window closes (via HidConsoleWindow.OnClosed → HidConsoleViewModel.Dispose).
+    public void ShowHidConsole() =>
+        ShowSingleton(() => new HidConsoleWindow { DataContext = new HidConsoleViewModel(new HidApiListener()) });
 
     public void ShowAbout()
     {
@@ -78,21 +70,13 @@ public sealed class DesktopWindowService : IWindowService
         win.ShowDialog(_owner);
     }
 
-    public void ShowDebugLog()
-    {
-        if (_debugLogWindow != null)
-        {
-            _debugLogWindow.Activate();
-            return;
-        }
-        _debugLogWindow = new DebugLogWindow { DataContext = new DebugLogViewModel() };
-        _debugLogWindow.Closed += (_, _) => _debugLogWindow = null;
-        _debugLogWindow.Show(_owner);
-    }
+    public void ShowDebugLog() =>
+        ShowSingleton(() => new DebugLogWindow { DataContext = new DebugLogViewModel() });
 
+    /// <summary>Appends a diagnostic trace line to the Debug Log window. No-op when the window is not open.</summary>
     public void TraceDebug(string message)
     {
-        if (_debugLogWindow?.DataContext is DebugLogViewModel vm)
+        if (_singletons.TryGetValue(typeof(DebugLogWindow), out Window? w) && w.DataContext is DebugLogViewModel vm)
             vm.Append(message);
     }
 }

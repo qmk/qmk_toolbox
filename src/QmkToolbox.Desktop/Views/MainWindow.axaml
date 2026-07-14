@@ -201,7 +201,7 @@
 
         <!-- Log Panel -->
         <controls:LogPanel Buffer="{Binding Buffer}"
-                           CopyCommand="{Binding CopyLogCommand}"
-                           ClearCommand="{Binding ClearLogCommand}" />
+                           CopyCommand="{Binding CopyAllCommand}"
+                           ClearCommand="{Binding ClearCommand}" />
     </DockPanel>
 </Window>

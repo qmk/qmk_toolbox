@@ -45,11 +45,11 @@ public partial class MainWindowViewModel : LogViewModelBase
     public bool IsWindows { get; } = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
     public bool IsLinux { get; } = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
 
-    public ISettingsService Settings { get; }
+    public SettingsService Settings { get; }
 
-    private IWindowService? _windowService;
+    private DesktopWindowService? _windowService;
 
-    public void SetWindowService(IWindowService service)
+    public void SetWindowService(DesktopWindowService service)
     {
         _windowService = service;
         _usbDetector.DiagnosticTrace = msg => Invoke(() => service.TraceDebug(msg));
@@ -93,14 +93,12 @@ public partial class MainWindowViewModel : LogViewModelBase
     private readonly IUsbEventsDetector _usbDetector;
     private readonly FlashOrchestrator _flashOrchestrator;
 
-    private Func<Func<Task>, Task>? _invokeOnUiThread;
-
     public MainWindowViewModel(
         IFlashToolProvider toolProvider,
         IUsbEventsDetector usbDetector,
         ISerialPortService serialPortService,
         IMountPointService mountPointService,
-        ISettingsService settingsService,
+        SettingsService settingsService,
         string filePath = "")
     {
         _toolProvider = toolProvider;
@@ -129,11 +127,9 @@ public partial class MainWindowViewModel : LogViewModelBase
             SetFirmwarePath(filePath);
     }
 
-    public void SetUiInvoker(Func<Func<Task>, Task> invoker) => _invokeOnUiThread = invoker;
-
     public void StartListeners()
     {
-        if (_invokeOnUiThread is null)
+        if (UiInvoker is null)
             throw new InvalidOperationException("SetUiInvoker must be called before StartListeners.");
         // EnsureResourceFolder is blocking file I/O (resource extraction); offload to
         // a thread pool thread so StartListeners returns without blocking the UI thread.
@@ -286,36 +282,22 @@ public partial class MainWindowViewModel : LogViewModelBase
         => _ = InvokeAsync(async () =>
         {
             bool bootloaderAdded = _flashOrchestrator.OnDeviceConnected(device, ShowAllDevices);
-            if (bootloaderAdded && AutoFlashEnabled)
+            if (!bootloaderAdded || !AutoFlashEnabled)
+                return;
+            if (_busy)
             {
-                if (_busy)
-                {
-                    LogInfo("Auto-flash: an operation is already in progress, skipping");
-                    return;
-                }
-                if (string.IsNullOrEmpty(FirmwarePath))
-                {
-                    LogError("Auto-flash: no firmware file selected");
-                    return;
-                }
-                if (!File.Exists(FirmwarePath))
-                {
-                    LogError("Auto-flash: firmware file does not exist");
-                    return;
-                }
-                SetBusy(true);
-                try
-                {
-                    await _flashOrchestrator.FlashAllAsync(SelectedMcu, FirmwarePath);
-                }
-                catch (Exception ex)
-                {
-                    LogError($"Auto-flash failed: {ex.Message}");
-                }
-                finally
-                {
-                    SetBusy(false);
-                }
+                LogInfo("Auto-flash: an operation is already in progress, skipping");
+                return;
+            }
+            if (!ValidateFirmware("Auto-flash: "))
+                return;
+            try
+            {
+                await RunFlashAsync();
+            }
+            catch (Exception ex)
+            {
+                LogError($"Auto-flash failed: {ex.Message}");
             }
         });
 
@@ -352,24 +334,23 @@ public partial class MainWindowViewModel : LogViewModelBase
         CanClearEeprom = eeprom;
     }
 
-    private void Invoke(Action action) => _ = InvokeAsync(() => { action(); return Task.CompletedTask; });
-
-    private Task InvokeAsync(Func<Task> action) =>
-        _invokeOnUiThread?.Invoke(action) ?? action();
-
-    [RelayCommand(CanExecute = nameof(CanFlash))]
-    private async Task Flash()
+    private bool ValidateFirmware(string prefix)
     {
         if (string.IsNullOrEmpty(FirmwarePath))
         {
-            LogError("Please select a file");
-            return;
+            LogError($"{prefix}no firmware file selected");
+            return false;
         }
         if (!File.Exists(FirmwarePath))
         {
-            LogError("File does not exist!");
-            return;
+            LogError($"{prefix}firmware file does not exist");
+            return false;
         }
+        return true;
+    }
+
+    private async Task RunFlashAsync()
+    {
         SetBusy(true);
         try
         {
@@ -379,6 +360,13 @@ public partial class MainWindowViewModel : LogViewModelBase
         {
             SetBusy(false);
         }
+    }
+
+    [RelayCommand(CanExecute = nameof(CanFlash))]
+    private async Task Flash()
+    {
+        if (ValidateFirmware(""))
+            await RunFlashAsync();
     }
 
     [RelayCommand(CanExecute = nameof(CanReset))]
@@ -466,17 +454,6 @@ public partial class MainWindowViewModel : LogViewModelBase
             msg => Invoke(() => LogLine(msg, MessageType.Error)));
 
     [RelayCommand]
-    private async Task CopyLog()
-    {
-        if (_windowService == null)
-            return;
-        await _windowService.SetClipboardTextAsync(Buffer.ToString());
-    }
-
-    [RelayCommand]
-    private void ClearLog() => Buffer.Clear();
-
-    [RelayCommand]
     private void ToggleAutoFlash() => AutoFlashEnabled = !AutoFlashEnabled;
 
     [RelayCommand]
@@ -495,9 +472,6 @@ public partial class MainWindowViewModel : LogViewModelBase
         FirmwarePath = path;
     }
 
-    public void LogBootloader(string message) => LogLine(message, MessageType.Bootloader);
-    public void LogCommand(string message) => LogLine(message, MessageType.Command);
     public void LogError(string message) => LogLine(message, MessageType.Error);
     public void LogInfo(string message) => LogLine(message, MessageType.Info);
-    public void LogUsb(string message) => LogLine(message, MessageType.Usb);
 }

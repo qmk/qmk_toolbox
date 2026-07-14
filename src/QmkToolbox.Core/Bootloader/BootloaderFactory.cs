@@ -6,97 +6,78 @@ namespace QmkToolbox.Core.Bootloader;
 
 public static class BootloaderFactory
 {
-    /// <summary>
-    /// Lookup entry for a VID/PID pair. When <see cref="RevisionSelector"/> is non-null,
-    /// the revision is passed through to choose between two bootloader types (e.g.
-    /// QMK DFU vs plain Atmel DFU). Otherwise <see cref="Type"/> is returned directly.
-    /// </summary>
-    private readonly record struct DeviceEntry(
-        BootloaderType Type,
-        Func<ushort, BootloaderType>? RevisionSelector = null)
-    {
-        public BootloaderType Resolve(ushort rev) =>
-            RevisionSelector?.Invoke(rev) ?? Type;
-    }
-
-    private static BootloaderType QmkOrAtmelDfu(ushort rev) =>
-        rev == BootloaderDevice.QmkRevisionMarker ? BootloaderType.QmkDfu : BootloaderType.AtmelDfu;
-
-    private static BootloaderType QmkOrLufaHid(ushort rev) =>
-        rev == BootloaderDevice.QmkRevisionMarker ? BootloaderType.QmkHid : BootloaderType.LufaHid;
-
-    private static readonly Dictionary<(ushort VID, ushort PID), DeviceEntry> DeviceMap = new()
+    private static readonly Dictionary<(ushort VID, ushort PID), BootloaderType> DeviceMap = new()
     {
         // ── Atmel Corporation (0x03EB) ──────────────────────────────────
-        [(0x03EB, 0x2045)] = new(BootloaderType.LufaMs),
-        [(0x03EB, 0x2067)] = new(BootloaderType.LufaHid, QmkOrLufaHid),
-        [(0x03EB, 0x2FEF)] = new(BootloaderType.AtmelDfu, QmkOrAtmelDfu), // ATmega16U2
-        [(0x03EB, 0x2FF0)] = new(BootloaderType.AtmelDfu, QmkOrAtmelDfu), // ATmega32U2
-        [(0x03EB, 0x2FF3)] = new(BootloaderType.AtmelDfu, QmkOrAtmelDfu), // ATmega16U4
-        [(0x03EB, 0x2FF4)] = new(BootloaderType.AtmelDfu, QmkOrAtmelDfu), // ATmega32U4
-        [(0x03EB, 0x2FF9)] = new(BootloaderType.AtmelDfu, QmkOrAtmelDfu), // AT90USB64
-        [(0x03EB, 0x2FFA)] = new(BootloaderType.AtmelDfu, QmkOrAtmelDfu), // AT90USB162
-        [(0x03EB, 0x2FFB)] = new(BootloaderType.AtmelDfu, QmkOrAtmelDfu), // AT90USB128
-        [(0x03EB, 0x6124)] = new(BootloaderType.AtmelSamBa),
+        [(0x03EB, 0x2045)] = BootloaderType.LufaMs,
+        [(0x03EB, 0x2067)] = BootloaderType.LufaHid,
+        [(0x03EB, 0x2FEF)] = BootloaderType.AtmelDfu, // ATmega16U2
+        [(0x03EB, 0x2FF0)] = BootloaderType.AtmelDfu, // ATmega32U2
+        [(0x03EB, 0x2FF3)] = BootloaderType.AtmelDfu, // ATmega16U4
+        [(0x03EB, 0x2FF4)] = BootloaderType.AtmelDfu, // ATmega32U4
+        [(0x03EB, 0x2FF9)] = BootloaderType.AtmelDfu, // AT90USB64
+        [(0x03EB, 0x2FFA)] = BootloaderType.AtmelDfu, // AT90USB162
+        [(0x03EB, 0x2FFB)] = BootloaderType.AtmelDfu, // AT90USB128
+        [(0x03EB, 0x6124)] = BootloaderType.AtmelSamBa,
 
         // ── STMicroelectronics (0x0483) ─────────────────────────────────
-        [(0x0483, 0xDF11)] = new(BootloaderType.Stm32Dfu),
+        [(0x0483, 0xDF11)] = BootloaderType.Stm32Dfu,
 
         // ── pid.codes (0x1209) ──────────────────────────────────────────
-        [(0x1209, 0x2302)] = new(BootloaderType.Caterina),
+        [(0x1209, 0x2302)] = BootloaderType.Caterina,
 
         // ── Van Ooijen Technische Informatica (0x16C0) ──────────────────
-        [(0x16C0, 0x0478)] = new(BootloaderType.HalfKay),
-        [(0x16C0, 0x0483)] = new(BootloaderType.AvrIsp),
-        [(0x16C0, 0x05DC)] = new(BootloaderType.UsbAsp),
-        [(0x16C0, 0x05DF)] = new(BootloaderType.BootloadHid),
+        [(0x16C0, 0x0478)] = BootloaderType.HalfKay,
+        [(0x16C0, 0x0483)] = BootloaderType.AvrIsp,
+        [(0x16C0, 0x05DC)] = BootloaderType.UsbAsp,
+        [(0x16C0, 0x05DF)] = BootloaderType.BootloadHid,
 
         // ── MECANIQUE (0x1781) ──────────────────────────────────────────
-        [(0x1781, 0x0C9F)] = new(BootloaderType.UsbTinyIsp),
+        [(0x1781, 0x0C9F)] = BootloaderType.UsbTinyIsp,
 
         // ── Spark Fun Electronics (0x1B4F) ──────────────────────────────
-        [(0x1B4F, 0x9203)] = new(BootloaderType.Caterina),
-        [(0x1B4F, 0x9205)] = new(BootloaderType.Caterina),
-        [(0x1B4F, 0x9207)] = new(BootloaderType.Caterina),
+        [(0x1B4F, 0x9203)] = BootloaderType.Caterina,
+        [(0x1B4F, 0x9205)] = BootloaderType.Caterina,
+        [(0x1B4F, 0x9207)] = BootloaderType.Caterina,
 
         // ── Input Club Inc. (0x1C11) ────────────────────────────────────
-        [(0x1C11, 0xB007)] = new(BootloaderType.KiibohdDfu),
+        [(0x1C11, 0xB007)] = BootloaderType.KiibohdDfu,
 
         // ── Leaflabs (0x1EAF) ───────────────────────────────────────────
-        [(0x1EAF, 0x0003)] = new(BootloaderType.Stm32Duino),
+        [(0x1EAF, 0x0003)] = BootloaderType.Stm32Duino,
 
         // ── Pololu Corporation (0x1FFB) ─────────────────────────────────
-        [(0x1FFB, 0x0101)] = new(BootloaderType.Caterina),
+        [(0x1FFB, 0x0101)] = BootloaderType.Caterina,
 
         // ── Arduino SA (0x2341) ─────────────────────────────────────────
-        [(0x2341, 0x0036)] = new(BootloaderType.Caterina),
-        [(0x2341, 0x0037)] = new(BootloaderType.Caterina),
+        [(0x2341, 0x0036)] = BootloaderType.Caterina,
+        [(0x2341, 0x0037)] = BootloaderType.Caterina,
 
         // ── Adafruit (0x239A) ───────────────────────────────────────────
-        [(0x239A, 0x000C)] = new(BootloaderType.Caterina),
-        [(0x239A, 0x000D)] = new(BootloaderType.Caterina),
-        [(0x239A, 0x000E)] = new(BootloaderType.Caterina),
+        [(0x239A, 0x000C)] = BootloaderType.Caterina,
+        [(0x239A, 0x000D)] = BootloaderType.Caterina,
+        [(0x239A, 0x000E)] = BootloaderType.Caterina,
 
         // ── dog hunter AG (0x2A03) ──────────────────────────────────────
-        [(0x2A03, 0x0036)] = new(BootloaderType.Caterina),
-        [(0x2A03, 0x0037)] = new(BootloaderType.Caterina),
-        [(0x2A03, 0x0040)] = new(BootloaderType.Caterina),
+        [(0x2A03, 0x0036)] = BootloaderType.Caterina,
+        [(0x2A03, 0x0037)] = BootloaderType.Caterina,
+        [(0x2A03, 0x0040)] = BootloaderType.Caterina,
 
         // ── GigaDevice Semiconductor (0x28E9) ──────────────────────────
-        [(0x28E9, 0x0189)] = new(BootloaderType.Gd32VDfu),
+        [(0x28E9, 0x0189)] = BootloaderType.Gd32VDfu,
 
         // ── ArteryTek (0x2E3C) ──────────────────────────────────────────
-        [(0x2E3C, 0xDF11)] = new(BootloaderType.At32Dfu),
+        [(0x2E3C, 0xDF11)] = BootloaderType.At32Dfu,
 
         // ── Geehy Semiconductor (0x314B) ────────────────────────────────
-        [(0x314B, 0x0106)] = new(BootloaderType.Apm32Dfu),
+        [(0x314B, 0x0106)] = BootloaderType.Apm32Dfu,
 
         // ── WestBerryTech (0x342D) ──────────────────────────────────────
-        [(0x342D, 0xDFA0)] = new(BootloaderType.Wb32Dfu),
+        [(0x342D, 0xDFA0)] = BootloaderType.Wb32Dfu,
 
         // ── Raspberry Pi (0x2E8A) ────────────────────────────────────────
-        [(0x2E8A, 0x0003)] = new(BootloaderType.Picotool), // RP2040 BOOTSEL
-        [(0x2E8A, 0x000F)] = new(BootloaderType.Picotool), // RP2350 BOOTSEL
+        [(0x2E8A, 0x0003)] = BootloaderType.Picotool, // RP2040 BOOTSEL
+        [(0x2E8A, 0x000F)] = BootloaderType.Picotool, // RP2350 BOOTSEL
     };
 
     public static BootloaderDevice? CreateDevice(
@@ -134,8 +115,16 @@ public static class BootloaderFactory
 
     public static BootloaderType GetDeviceType(ushort vendorId, ushort productId, ushort revisionBcd)
     {
-        return DeviceMap.TryGetValue((vendorId, productId), out DeviceEntry entry)
-            ? entry.Resolve(revisionBcd)
-            : BootloaderType.None;
+        if (!DeviceMap.TryGetValue((vendorId, productId), out BootloaderType type))
+            return BootloaderType.None;
+        // The QMK revision marker distinguishes QMK-flavoured bootloaders sharing stock VID/PIDs.
+        if (revisionBcd == BootloaderDevice.QmkRevisionMarker)
+        {
+            if (type == BootloaderType.AtmelDfu)
+                return BootloaderType.QmkDfu;
+            if (type == BootloaderType.LufaHid)
+                return BootloaderType.QmkHid;
+        }
+        return type;
     }
 }

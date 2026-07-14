@@ -156,12 +156,12 @@ public partial class LogPanel : UserControl
         if (line.Segments.Count > 0)
         {
             MessageType lineType = line.Segments[0].Type;
-            string prefix = MessageTypeToPrefixConverter.GetPrefix(lineType);
+            string prefix = MessageTypeStyles.GetPrefix(lineType);
             if (prefix.Length > 0)
             {
                 inlines.Add(new Run(prefix)
                 {
-                    Foreground = MessageTypeToPrefixForegroundConverter.GetPrefixForeground(lineType, isDark),
+                    Foreground = MessageTypeStyles.GetPrefixForeground(lineType, isDark),
                 });
                 textPos += prefix.Length;
             }
@@ -170,7 +170,7 @@ public partial class LogPanel : UserControl
         foreach (TerminalSegment seg in line.Segments)
         {
             // Resolve brush at render time based on segment type + theme
-            IBrush foreground = MessageTypeToForegroundConverter.GetForeground(seg.Type, isDark);
+            IBrush foreground = MessageTypeStyles.GetForeground(seg.Type, isDark);
 
             // Check for URLs within the segment text and split into runs
             int lastIndex = 0;

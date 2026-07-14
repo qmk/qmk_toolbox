@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using System.Text;
 using QmkToolbox.Core.Models;
 
 namespace QmkToolbox.Core.Services;
@@ -81,27 +80,9 @@ public static class FlashService
     /// Formats a tool name and arguments for display in the log (MessageType.Command).
     /// Not used for process invocation — actual execution uses ProcessStartInfo.ArgumentList.
     /// </summary>
-    private static string FormatCommandLine(string toolName, string[] args)
-    {
-        if (args.Length == 0)
-            return toolName;
-        var sb = new StringBuilder(toolName);
-        foreach (string arg in args)
-        {
-            sb.Append(' ');
-            if (arg.Contains(' ') || arg.Length == 0)
-            {
-                sb.Append('"');
-                sb.Append(arg.Replace("\"", "\\\""));
-                sb.Append('"');
-            }
-            else
-            {
-                sb.Append(arg);
-            }
-        }
-        return sb.ToString();
-    }
+    private static string FormatCommandLine(string toolName, string[] args) =>
+        string.Join(' ', [toolName, .. args.Select(a =>
+            a.Contains(' ') || a.Length == 0 ? $"\"{a.Replace("\"", "\\\"")}\"" : a)]);
 
     private static async Task PumpAsync(StreamReader reader, CancellationToken ct, Action<string> onChunk)
     {

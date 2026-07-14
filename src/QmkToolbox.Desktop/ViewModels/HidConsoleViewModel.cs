@@ -1,8 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using QmkToolbox.Core.Models;
-using QmkToolbox.Core.Services;
+using QmkToolbox.Desktop.Services;
 
 namespace QmkToolbox.Desktop.ViewModels;
 
@@ -14,16 +13,9 @@ public partial class HidConsoleViewModel : LogViewModelBase, IDisposable
 
     public ObservableCollection<string> Devices { get; } = [AllDevices];
 
-    private readonly IHidListener _hidListener;
-    private readonly Dictionary<string, string> _devicePaths = []; // display name → path
+    private readonly HidApiListener _hidListener;
 
-    private Func<Func<Task>, Task>? _invokeOnUiThread;
-    private Func<string, Task>? _setClipboardText;
-
-    public void SetUiInvoker(Func<Func<Task>, Task> invoker) => _invokeOnUiThread = invoker;
-    public void SetClipboardFunc(Func<string, Task> func) => _setClipboardText = func;
-
-    public HidConsoleViewModel(IHidListener hidListener)
+    public HidConsoleViewModel(HidApiListener hidListener)
     {
         _hidListener = hidListener;
         _hidListener.HidDeviceConnected += OnDeviceConnected;
@@ -41,7 +33,6 @@ public partial class HidConsoleViewModel : LogViewModelBase, IDisposable
         string label = device.ToString() ?? string.Empty;
         Invoke(() =>
         {
-            _devicePaths[label] = device.DevicePath;
             if (!Devices.Contains(label))
                 Devices.Add(label);
             LogLine($"HID console device connected: {device}", MessageType.Hid);
@@ -56,7 +47,6 @@ public partial class HidConsoleViewModel : LogViewModelBase, IDisposable
         Invoke(() =>
         {
             Devices.Remove(label);
-            _devicePaths.Remove(label);
             LogLine($"HID console device disconnected: {device}", MessageType.Hid);
             if (SelectedDevice == label)
                 SelectedDevice = AllDevices;
@@ -69,25 +59,6 @@ public partial class HidConsoleViewModel : LogViewModelBase, IDisposable
         if (SelectedDevice != AllDevices && SelectedDevice != label)
             return;
         Invoke(() => Log(data, MessageType.HidOutput));
-    }
-
-    private void Invoke(Action action)
-    {
-        if (_invokeOnUiThread != null)
-            _ = _invokeOnUiThread(() => { action(); return Task.CompletedTask; });
-        else
-            action();
-    }
-
-    [RelayCommand]
-    private void Clear() => Buffer.Clear();
-
-    [RelayCommand]
-    private async Task CopyAll()
-    {
-        if (_setClipboardText == null)
-            return;
-        await _setClipboardText(Buffer.ToString());
     }
 
     private void OnErrorOccurred(string message) =>

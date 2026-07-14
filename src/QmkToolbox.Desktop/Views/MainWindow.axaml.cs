@@ -50,7 +50,9 @@ public partial class MainWindow : Window
         // SetUiInvoker MUST be called before StartListeners — USB events fire on
         // background threads and rely on the invoker to marshal back to the UI thread.
         vm.SetUiInvoker(Avalonia.Threading.Dispatcher.UIThread.InvokeAsync);
-        vm.SetWindowService(new DesktopWindowService(this));
+        var windowService = new DesktopWindowService(this);
+        vm.SetWindowService(windowService);
+        vm.SetClipboardFunc(windowService.SetClipboardTextAsync);
         vm.StartListeners();
         await vm.RunFirstStartSetupAsync();
     }

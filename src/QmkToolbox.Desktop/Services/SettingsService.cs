@@ -25,7 +25,7 @@ public class AppSettings
     public double? WindowHeight { get; set; }
 }
 
-public class SettingsService : ISettingsService
+public class SettingsService
 {
     private readonly string _settingsPath = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),

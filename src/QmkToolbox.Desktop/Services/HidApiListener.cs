@@ -1,6 +1,5 @@
 using HidApi;
 using QmkToolbox.Core.Models;
-using QmkToolbox.Core.Services;
 using QmkToolbox.Desktop.Services.Hid;
 
 namespace QmkToolbox.Desktop.Services;
@@ -9,7 +8,7 @@ namespace QmkToolbox.Desktop.Services;
 /// Polling-based HID listener using HidApi.Net (no hotplug callbacks available).
 /// Polls every 500ms and fires device connect/disconnect events.
 /// </summary>
-public class HidApiListener : IHidListener
+public class HidApiListener : IDisposable
 {
     public event Action<IHidDevice>? HidDeviceConnected;
     public event Action<IHidDevice>? HidDeviceDisconnected;

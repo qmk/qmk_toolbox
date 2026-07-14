@@ -1,5 +1,3 @@
-using System.Globalization;
-using Avalonia.Data.Converters;
 using Avalonia.Media;
 using QmkToolbox.Core.Models;
 
@@ -34,14 +32,8 @@ internal static class LogBrushes
     public static readonly IBrush LightLinkHover = new SolidColorBrush(Color.Parse("#004A8F"));
 }
 
-public class MessageTypeToForegroundConverter : IValueConverter
+internal static class MessageTypeStyles
 {
-    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
-        => value is MessageType type ? GetForeground(type, isDark: true) : Brushes.White;
-
-    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
-        => throw new NotImplementedException();
-
     internal static IBrush GetForeground(MessageType type, bool isDark) => isDark
         ? type switch
         {
@@ -73,15 +65,6 @@ public class MessageTypeToForegroundConverter : IValueConverter
             MessageType.UdevOutput => LogBrushes.LightUdevOutput,
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
         };
-}
-
-public class MessageTypeToPrefixConverter : IValueConverter
-{
-    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
-        => value is MessageType type ? GetPrefix(type) : "";
-
-    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
-        => throw new NotImplementedException();
 
     internal static string GetPrefix(MessageType type) => type switch
     {
@@ -98,15 +81,6 @@ public class MessageTypeToPrefixConverter : IValueConverter
         MessageType.UdevOutput => "",
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
     };
-}
-
-public class MessageTypeToPrefixForegroundConverter : IValueConverter
-{
-    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
-        => value is MessageType type ? GetPrefixForeground(type, isDark: true) : Brushes.White;
-
-    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
-        => throw new NotImplementedException();
 
     internal static IBrush GetPrefixForeground(MessageType type, bool isDark) => isDark
         ? type switch
