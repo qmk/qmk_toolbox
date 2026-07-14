@@ -44,7 +44,7 @@ public partial class HidConsoleViewModel : LogViewModelBase, IDisposable
             _devicePaths[label] = device.DevicePath;
             if (!Devices.Contains(label))
                 Devices.Add(label);
-            LogHid($"HID console device connected: {device}");
+            LogLine($"HID console device connected: {device}", MessageType.Hid);
         });
     }
 
@@ -57,7 +57,7 @@ public partial class HidConsoleViewModel : LogViewModelBase, IDisposable
         {
             Devices.Remove(label);
             _devicePaths.Remove(label);
-            LogHid($"HID console device disconnected: {device}");
+            LogLine($"HID console device disconnected: {device}", MessageType.Hid);
             if (SelectedDevice == label)
                 SelectedDevice = AllDevices;
         });
@@ -68,11 +68,7 @@ public partial class HidConsoleViewModel : LogViewModelBase, IDisposable
         string label = device.ToString() ?? string.Empty;
         if (SelectedDevice != AllDevices && SelectedDevice != label)
             return;
-        Invoke(() =>
-        {
-            Buffer.Write(data, MessageType.HidOutput);
-            Trim();
-        });
+        Invoke(() => Log(data, MessageType.HidOutput));
     }
 
     private void Invoke(Action action)
@@ -95,17 +91,7 @@ public partial class HidConsoleViewModel : LogViewModelBase, IDisposable
     }
 
     private void OnErrorOccurred(string message) =>
-        Invoke(() =>
-        {
-            Buffer.Write(message + "\n", MessageType.Error);
-            Trim();
-        });
-
-    private void LogHid(string msg)
-    {
-        Buffer.Write(msg + "\n", MessageType.Hid);
-        Trim();
-    }
+        Invoke(() => LogLine(message, MessageType.Error));
 
     public void Dispose() => _hidListener.Dispose();
 }

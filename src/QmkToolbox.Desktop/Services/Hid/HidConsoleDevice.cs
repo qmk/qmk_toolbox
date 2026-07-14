@@ -6,8 +6,10 @@ namespace QmkToolbox.Desktop.Services.Hid;
 
 /// <summary>
 /// Represents a QMK HID Console device (usage page 0xFF31, usage 0x0074).
-/// Opens the device on construction and continuously reads console output
-/// on a background thread, raising <see cref="ConsoleReportReceived"/> for each line.
+/// Opens the device on construction and continuously reads console output on a background
+/// thread, raising <see cref="ConsoleReportReceived"/> with the decoded text of each report.
+/// The console is a raw byte stream chunked into null-padded USB reports; the consumer's
+/// terminal buffer interprets '\r'/'\n'.
 /// </summary>
 public sealed class HidConsoleDevice : BaseHidDevice, IDisposable
 {
@@ -30,7 +32,6 @@ public sealed class HidConsoleDevice : BaseHidDevice, IDisposable
     // UTF-8 decoder preserves state across HID reports so multi-byte characters
     // that span a report boundary are decoded correctly.
     private readonly Decoder _decoder = Encoding.UTF8.GetDecoder();
-    private readonly StringBuilder _lineBuffer = new();
 
     public HidConsoleDevice(DeviceInfo deviceInfo) : base(deviceInfo)
     {
@@ -64,15 +65,8 @@ public sealed class HidConsoleDevice : BaseHidDevice, IDisposable
                     continue;
 
                 int charCount = _decoder.GetChars(buffer, 0, validBytes, charBuffer, 0);
-                _lineBuffer.Append(charBuffer, 0, charCount);
-
-                int lineEnd;
-                while ((lineEnd = IndexOfNewline(_lineBuffer)) >= 0)
-                {
-                    string line = _lineBuffer.ToString(0, lineEnd);
-                    _lineBuffer.Remove(0, lineEnd + 1);
-                    ConsoleReportReceived?.Invoke(this, line);
-                }
+                if (charCount > 0)
+                    ConsoleReportReceived?.Invoke(this, new string(charBuffer, 0, charCount));
             }
         }
         catch (Exception ex) when (ex is HidException or IOException or ObjectDisposedException)
@@ -83,17 +77,6 @@ public sealed class HidConsoleDevice : BaseHidDevice, IDisposable
         {
             Debug.WriteLine($"HidConsoleDevice.ReadLoop unexpected exception: {ex}");
         }
-    }
-
-    private static int IndexOfNewline(StringBuilder sb)
-    {
-        for (int i = 0; i < sb.Length; i++)
-        {
-            if (sb[i] == '\n')
-                return i;
-        }
-
-        return -1;
     }
 
     public void Dispose()

@@ -108,7 +108,14 @@ public partial class MainWindowViewModel : LogViewModelBase
         Settings = settingsService;
 
         _flashOrchestrator = new FlashOrchestrator(toolProvider, serialPortService, mountPointService);
-        _flashOrchestrator.OutputReceived += (msg, type) => Invoke(() => LogLine(msg, type));
+        _flashOrchestrator.OutputReceived += (msg, type) => Invoke(() =>
+        {
+            // Tool stdout/stderr is a raw stream; everything else is a discrete message.
+            if (type is MessageType.CommandOutput or MessageType.CommandError)
+                Log(msg, type);
+            else
+                LogLine(msg, type);
+        });
         _flashOrchestrator.StateChanged += () => Invoke(UpdateCanExecute);
 
         _usbDetector.DeviceConnected += OnDeviceConnected;
@@ -487,21 +494,6 @@ public partial class MainWindowViewModel : LogViewModelBase
             FirmwareHistory.RemoveAt(FirmwareHistory.Count - 1);
         FirmwarePath = path;
     }
-
-    // Raw terminal write: text goes straight to the buffer, which interprets '\r'/'\n'
-    // exactly like a terminal. It invents no line breaks — Log("#") three times renders
-    // "###", not three lines.
-    public void Log(string message, MessageType type)
-    {
-        Buffer.Write(message, type);
-        Trim();
-    }
-
-    // A producer emitting discrete, line-oriented output whose terminator has been stripped
-    // (tool stdout/stderr, status messages). A trailing '\r' means "overwrite the current
-    // line" (progress bars, e.g. "aaa\rbb" → "bba"); anything else is a completed line.
-    private void LogLine(string message, MessageType type)
-        => Log(message.EndsWith('\r') ? message : message + '\n', type);
 
     public void LogBootloader(string message) => LogLine(message, MessageType.Bootloader);
     public void LogCommand(string message) => LogLine(message, MessageType.Command);
