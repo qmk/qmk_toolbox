@@ -24,6 +24,9 @@ public class FlashOrchestrator(
     public bool HasEepromFlashable => _bootloaders.Any(b => b.IsEepromFlashable);
     public int BootloaderCount => _bootloaders.Count;
 
+    /// <summary> True while a flash / reset / EEPROM / resource-maintenance operation is running. </summary>
+    public bool IsBusy { get; private set; }
+
     /// <summary>
     /// Registers a connected USB device as a bootloader if recognised.
     /// Returns <see langword="true"/> if a bootloader device was added (caller may trigger auto-flash).
@@ -108,7 +111,42 @@ public class FlashOrchestrator(
         StateChanged?.Invoke();
     }
 
-    public async Task FlashAllAsync(string mcu, string firmwarePath)
+    /// <summary>
+    /// Runs <paramref name="operation"/> as the single in-flight flash / reset / EEPROM /
+    /// resource-maintenance operation, returning <see langword="true"/> if it ran or
+    /// <see langword="false"/> without running when one is already in progress.
+    /// <see cref="IsBusy"/> is UI-thread-affine — every caller marshals to the UI thread, so the
+    /// check-then-set before the first await is atomic and needs no lock.
+    /// </summary>
+    internal async Task<bool> RunExclusiveAsync(Func<Task> operation)
+    {
+        if (IsBusy)
+            return false;
+
+        IsBusy = true;
+        StateChanged?.Invoke();
+        try
+        {
+            await operation();
+            return true;
+        }
+        finally
+        {
+            IsBusy = false;
+            StateChanged?.Invoke();
+        }
+    }
+
+    public Task<bool> FlashAllAsync(string mcu, string firmwarePath) =>
+        RunExclusiveAsync(() => FlashAllCore(mcu, firmwarePath));
+
+    public Task<bool> ResetAllAsync(string mcu) =>
+        RunExclusiveAsync(() => ResetAllCore(mcu));
+
+    public Task<bool> FlashEepromAsync(string mcu, string fileName, string startMessage, string completeMessage) =>
+        RunExclusiveAsync(() => FlashEepromCore(mcu, fileName, startMessage, completeMessage));
+
+    private async Task FlashAllCore(string mcu, string firmwarePath)
     {
         DiagnosticTrace?.Invoke($"[FLASH] FlashAllAsync start  (bootloaders:{_bootloaders.Count})");
         try
@@ -130,11 +168,10 @@ public class FlashOrchestrator(
         finally
         {
             DiagnosticTrace?.Invoke($"[FLASH] FlashAllAsync finally  (bootloaders:{_bootloaders.Count})");
-            StateChanged?.Invoke();
         }
     }
 
-    public async Task ResetAllAsync(string mcu)
+    private async Task ResetAllCore(string mcu)
     {
         DiagnosticTrace?.Invoke($"[RESET] ResetAllAsync start  (bootloaders:{_bootloaders.Count})");
         foreach (BootloaderDevice b in _bootloaders.Where(b => b.IsResettable).ToList())
@@ -150,7 +187,7 @@ public class FlashOrchestrator(
         }
     }
 
-    public async Task FlashEepromAsync(string mcu, string fileName, string startMessage, string completeMessage)
+    private async Task FlashEepromCore(string mcu, string fileName, string startMessage, string completeMessage)
     {
         foreach (BootloaderDevice b in _bootloaders.Where(b => b.IsEepromFlashable).ToList())
         {

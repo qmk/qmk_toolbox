@@ -66,22 +66,6 @@ internal static class MessageTypeStyles
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
         };
 
-    internal static string GetPrefix(MessageType type) => type switch
-    {
-        MessageType.Bootloader => "",
-        MessageType.Command => "> ",
-        MessageType.CommandError => "> ",
-        MessageType.CommandOutput => "> ",
-        MessageType.Debug => "",
-        MessageType.Error => "",
-        MessageType.Hid => "",
-        MessageType.HidOutput => "> ",
-        MessageType.Info => "* ",
-        MessageType.Usb => "",
-        MessageType.UdevOutput => "",
-        _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
-    };
-
     internal static IBrush GetPrefixForeground(MessageType type, bool isDark) => isDark
         ? type switch
         {

@@ -1,4 +1,3 @@
-using System.Text.RegularExpressions;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
@@ -8,7 +7,6 @@ using Avalonia.Media;
 using Avalonia.Media.TextFormatting;
 using Avalonia.Styling;
 using Avalonia.Threading;
-using QmkToolbox.Core.Models;
 using QmkToolbox.Desktop.Converters;
 using QmkToolbox.Desktop.Models;
 
@@ -95,8 +93,6 @@ public partial class LogPanel : UserControl
     private List<(UrlRange Range, Rect[] Rects)>? _urlRectCache;
     private Run? _hoveredRun;
 
-    private static readonly Regex UrlRegex = new(@"https?://[^\s\)\]}>""']+", RegexOptions.Compiled);
-
     private record struct UrlRange(int Start, int End, string Url, Run UrlRun);
 
     private int _renderedTextLength;
@@ -115,95 +111,62 @@ public partial class LogPanel : UserControl
         bool hadSelection = selStart != selEnd;
         int prevLength = _renderedTextLength;
 
-        LogText.Inlines?.Clear();
+        InlineCollection? inlines = LogText.Inlines;
+        inlines?.Clear();
         _urlRanges.Clear();
         _urlRectCache = null;
         _hoveredRun = null;
 
-        IBrush linkForeground = IsDark ? LogBrushes.DarkLink : LogBrushes.LightLink;
         bool isDark = IsDark;
-        int textPos = 0;
+        IBrush linkForeground = isDark ? LogBrushes.DarkLink : LogBrushes.LightLink;
 
-        // Render completed lines
-        foreach (TerminalLine line in buffer.Lines)
+        // The projection owns all prefix/URL/offset logic; this loop is a pure run -> inline map.
+        IReadOnlyList<TerminalRun> runs = TerminalProjection.ToRuns(buffer);
+        if (inlines != null)
         {
-            AppendLineInlines(line, linkForeground, isDark, ref textPos);
-            LogText.Inlines?.Add(new LineBreak());
-            textPos++;
+            foreach (TerminalRun run in runs)
+            {
+                switch (run.Kind)
+                {
+                    case TerminalRunKind.LineBreak:
+                        inlines.Add(new LineBreak());
+                        break;
+
+                    case TerminalRunKind.Prefix:
+                        inlines.Add(new Run(run.Text)
+                        {
+                            Foreground = MessageTypeStyles.GetPrefixForeground(run.Type, isDark),
+                        });
+                        break;
+
+                    case TerminalRunKind.Url:
+                        var urlRun = new Run(run.Text)
+                        {
+                            Foreground = linkForeground,
+                            TextDecorations = TextDecorations.Underline,
+                        };
+                        inlines.Add(urlRun);
+                        _urlRanges.Add(new UrlRange(run.Start, run.Start + run.Text.Length, run.Url!, urlRun));
+                        break;
+
+                    case TerminalRunKind.Text:
+                    default:
+                        inlines.Add(new Run(run.Text)
+                        {
+                            Foreground = MessageTypeStyles.GetForeground(run.Type, isDark),
+                        });
+                        break;
+                }
+            }
         }
 
-        // Render current line if it has content
-        if (buffer.CurrentLine.Segments.Count > 0)
-            AppendLineInlines(buffer.CurrentLine, linkForeground, isDark, ref textPos);
-
-        _renderedTextLength = textPos;
+        _renderedTextLength = runs.TotalLength();
 
         // Only restore when the buffer grew; a shrink (clear/trim) invalidates the offsets.
-        if (hadSelection && textPos >= prevLength)
+        if (hadSelection && _renderedTextLength >= prevLength)
         {
-            LogText.SelectionStart = Math.Min(selStart, textPos);
-            LogText.SelectionEnd = Math.Min(selEnd, textPos);
-        }
-    }
-
-    private void AppendLineInlines(TerminalLine line, IBrush linkForeground, bool isDark, ref int textPos)
-    {
-        InlineCollection? inlines = LogText.Inlines;
-        if (inlines == null)
-            return;
-
-        // The line's prefix (e.g. "> ", "* ") is keyed off its first segment's type.
-        if (line.Segments.Count > 0)
-        {
-            MessageType lineType = line.Segments[0].Type;
-            string prefix = MessageTypeStyles.GetPrefix(lineType);
-            if (prefix.Length > 0)
-            {
-                inlines.Add(new Run(prefix)
-                {
-                    Foreground = MessageTypeStyles.GetPrefixForeground(lineType, isDark),
-                });
-                textPos += prefix.Length;
-            }
-        }
-
-        foreach (TerminalSegment seg in line.Segments)
-        {
-            // Resolve brush at render time based on segment type + theme
-            IBrush foreground = MessageTypeStyles.GetForeground(seg.Type, isDark);
-
-            // Check for URLs within the segment text and split into runs
-            int lastIndex = 0;
-            string text = seg.Text;
-
-            foreach (Match match in UrlRegex.Matches(text))
-            {
-                if (match.Index > lastIndex)
-                {
-                    string segment = text[lastIndex..match.Index];
-                    inlines.Add(new Run(segment) { Foreground = foreground });
-                    textPos += segment.Length;
-                }
-
-                string url = match.Value;
-                var urlRun = new Run(url)
-                {
-                    Foreground = linkForeground,
-                    TextDecorations = TextDecorations.Underline,
-                };
-                inlines.Add(urlRun);
-                _urlRanges.Add(new UrlRange(textPos, textPos + url.Length, url, urlRun));
-                textPos += url.Length;
-
-                lastIndex = match.Index + match.Length;
-            }
-
-            if (lastIndex < text.Length)
-            {
-                string remaining = text[lastIndex..];
-                inlines.Add(new Run(remaining) { Foreground = foreground });
-                textPos += remaining.Length;
-            }
+            LogText.SelectionStart = Math.Min(selStart, _renderedTextLength);
+            LogText.SelectionEnd = Math.Min(selEnd, _renderedTextLength);
         }
     }
 

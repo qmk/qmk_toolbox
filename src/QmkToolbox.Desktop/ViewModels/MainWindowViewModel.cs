@@ -28,6 +28,10 @@ public partial class MainWindowViewModel : LogViewModelBase
     [NotifyCanExecuteChangedFor(nameof(SetRightHandCommand))]
     private bool _canClearEeprom;
 
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(ClearResourcesCommand))]
+    private bool _canClearResources = true;
+
     [ObservableProperty] private string _firmwarePath = "";
     [ObservableProperty] private string _selectedMcu = "";
     [ObservableProperty] private bool _autoFlashEnabled;
@@ -284,16 +288,12 @@ public partial class MainWindowViewModel : LogViewModelBase
             bool bootloaderAdded = _flashOrchestrator.OnDeviceConnected(device, ShowAllDevices);
             if (!bootloaderAdded || !AutoFlashEnabled)
                 return;
-            if (_busy)
-            {
-                LogInfo("Auto-flash: an operation is already in progress, skipping");
-                return;
-            }
             if (!ValidateFirmware("Auto-flash: "))
                 return;
             try
             {
-                await RunFlashAsync();
+                if (!await _flashOrchestrator.FlashAllAsync(SelectedMcu, FirmwarePath))
+                    LogInfo("Auto-flash: an operation is already in progress, skipping");
             }
             catch (Exception ex)
             {
@@ -304,25 +304,15 @@ public partial class MainWindowViewModel : LogViewModelBase
     private void OnDeviceDisconnected(IUsbDevice device)
         => Invoke(() => _flashOrchestrator.OnDeviceDisconnected(device, ShowAllDevices));
 
-    // True while a flash / reset / EEPROM operation is running. Gates every action command
-    // so a second tool (e.g. "Exit DFU" mid-flash) can't be launched against the same device.
-    // Folded into UpdateCanExecute so USB connect/disconnect events during an operation can't
-    // re-enable the buttons.
-    private bool _busy;
-
-    private void SetBusy(bool value)
-    {
-        if (_busy == value)
-            return;
-        _busy = value;
-        UpdateCanExecute();
-    }
-
+    // The orchestrator owns the in-flight invariant (FlashOrchestrator.IsBusy); every action
+    // command derives from it, so a USB connect/disconnect event mid-operation can't re-enable
+    // the buttons.
     private void UpdateCanExecute()
     {
-        bool flash = _flashOrchestrator.HasBootloaders && !_busy;
-        bool reset = _flashOrchestrator.HasResettable && !_busy;
-        bool eeprom = _flashOrchestrator.HasEepromFlashable && !_busy;
+        bool busy = _flashOrchestrator.IsBusy;
+        bool flash = _flashOrchestrator.HasBootloaders && !busy;
+        bool reset = _flashOrchestrator.HasResettable && !busy;
+        bool eeprom = _flashOrchestrator.HasEepromFlashable && !busy;
         if (_windowService != null && (flash != CanFlash || reset != CanReset))
         {
             _windowService.TraceDebug(
@@ -332,6 +322,7 @@ public partial class MainWindowViewModel : LogViewModelBase
         CanFlash = flash;
         CanReset = reset;
         CanClearEeprom = eeprom;
+        CanClearResources = !busy;
     }
 
     private bool ValidateFirmware(string prefix)
@@ -349,39 +340,15 @@ public partial class MainWindowViewModel : LogViewModelBase
         return true;
     }
 
-    private async Task RunFlashAsync()
-    {
-        SetBusy(true);
-        try
-        {
-            await _flashOrchestrator.FlashAllAsync(SelectedMcu, FirmwarePath);
-        }
-        finally
-        {
-            SetBusy(false);
-        }
-    }
-
     [RelayCommand(CanExecute = nameof(CanFlash))]
     private async Task Flash()
     {
         if (ValidateFirmware(""))
-            await RunFlashAsync();
+            await _flashOrchestrator.FlashAllAsync(SelectedMcu, FirmwarePath);
     }
 
     [RelayCommand(CanExecute = nameof(CanReset))]
-    private async Task Reset()
-    {
-        SetBusy(true);
-        try
-        {
-            await _flashOrchestrator.ResetAllAsync(SelectedMcu);
-        }
-        finally
-        {
-            SetBusy(false);
-        }
-    }
+    private Task Reset() => _flashOrchestrator.ResetAllAsync(SelectedMcu);
 
     [RelayCommand(CanExecute = nameof(CanClearEeprom))]
     private Task ClearEeprom() =>
@@ -395,24 +362,15 @@ public partial class MainWindowViewModel : LogViewModelBase
     private Task SetRightHand() =>
         RunEepromAsync("reset_right.eep", "Attempting to set handedness, please don't remove device", "EEPROM write complete");
 
-    private async Task RunEepromAsync(string eepFile, string startMessage, string completeMessage)
-    {
-        SetBusy(true);
-        try
-        {
-            await _flashOrchestrator.FlashEepromAsync(SelectedMcu, _toolProvider.GetToolPath(eepFile), startMessage, completeMessage);
-        }
-        finally
-        {
-            SetBusy(false);
-        }
-    }
+    private Task RunEepromAsync(string eepFile, string startMessage, string completeMessage) =>
+        _flashOrchestrator.FlashEepromAsync(SelectedMcu, _toolProvider.GetToolPath(eepFile), startMessage, completeMessage);
 
-    [RelayCommand]
-    // ClearAndReExtract is a synchronous blocking method; Task.Run wraps it so this
-    // RelayCommand returns an awaitable Task without blocking the UI thread.
+    [RelayCommand(CanExecute = nameof(CanClearResources))]
+    // ClearAndReExtract is a synchronous blocking method; Task.Run keeps it off the UI thread,
+    // and routing through the orchestrator's gate serialises it with flashing so it can't delete
+    // tool binaries mid-flash (and is refused while a flash is running).
     private Task ClearResources() =>
-        Task.Run(_toolProvider.ClearAndReExtract);
+        _flashOrchestrator.RunExclusiveAsync(() => Task.Run(_toolProvider.ClearAndReExtract));
 
     [RelayCommand]
     private void Exit()
