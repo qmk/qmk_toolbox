@@ -117,6 +117,14 @@ csharp_style_prefer_not_pattern = true:warning
 csharp_style_prefer_pattern_matching = true:warning
 csharp_style_prefer_switch_expression = true:warning
 
+# Disable "populate switch" (IDE0010 statements / IDE0072 expressions). Their auto-fix — which the
+# dotnet-format pre-commit hook applies — stubs every unlisted enum member with
+# `throw new NotImplementedException()`, silently turning a correct discard-armed switch into one
+# that throws at runtime (it corrupted MessageTypeExtensions.IsRawStream this way). Off, so the
+# formatter can never behavior-change code again.
+dotnet_diagnostic.IDE0010.severity = none
+dotnet_diagnostic.IDE0072.severity = none
+
 # ── Null-checking ─────────────────────────────────────────────────────────────
 csharp_style_throw_expression = true:warning
 csharp_style_conditional_delegate_call = true:warning
