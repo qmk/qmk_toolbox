@@ -44,14 +44,11 @@ public partial class App : Application
             desktop.MainWindow = new MainWindow { DataContext = vm };
 
             // Builds the native app menu for non-macOS platforms (Windows, Linux).
-            // On macOS the NSMenuBar is built from the AXAML-declared NativeMenu.Menu
-            // (loaded during Initialize()) — NativeMenu.SetMenu() called here arrives
-            // too late to affect it. The macOS About handler is AppAbout_OnClick below.
             // On macOS the NSMenuBar reads NativeMenu.Menu from the Application during
             // Initialize(), before this method runs, so SetMenu() below has no effect on
             // the macOS app menu — the AXAML-declared NativeMenu.Menu is what appears
             // there. Skip the About item on macOS to avoid a misleading dead entry;
-            // the functional handler is AppAbout_OnClick, wired in App.axaml.
+            // the functional macOS handler is AppAbout_OnClick, wired in App.axaml.
             var appMenu = new NativeMenu();
             if (!OperatingSystem.IsMacOS())
             {

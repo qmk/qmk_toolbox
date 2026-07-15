@@ -1,6 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Input.Platform;
 using Avalonia.Platform.Storage;
+using QmkToolbox.Desktop.Models;
 using QmkToolbox.Desktop.ViewModels;
 using QmkToolbox.Desktop.Views;
 
@@ -29,7 +30,7 @@ public sealed class DesktopWindowService
             AllowMultiple = false,
             FileTypeFilter =
             [
-                new FilePickerFileType("Firmware Files") { Patterns = ["*.hex", "*.bin", "*.uf2"] },
+                new FilePickerFileType("Firmware Files") { Patterns = FirmwareFiles.PickerPatterns },
                 new FilePickerFileType("All Files") { Patterns = ["*"] }
             ]
         });

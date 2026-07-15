@@ -3,6 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Platform.Storage;
+using QmkToolbox.Desktop.Models;
 using QmkToolbox.Desktop.Services;
 using QmkToolbox.Desktop.ViewModels;
 
@@ -204,10 +205,7 @@ public partial class MainWindow : Window
             return;
         }
         string? path = e.DataTransfer.TryGetFile()?.TryGetLocalPath();
-        e.DragEffects = path != null &&
-            (path.EndsWith(".hex", StringComparison.OrdinalIgnoreCase) ||
-             path.EndsWith(".bin", StringComparison.OrdinalIgnoreCase) ||
-             path.EndsWith(".uf2", StringComparison.OrdinalIgnoreCase))
+        e.DragEffects = path != null && FirmwareFiles.IsFirmwareFile(path)
             ? DragDropEffects.Copy
             : DragDropEffects.None;
     }
@@ -224,14 +222,7 @@ public partial class MainWindow : Window
             return;
 
         string? path = file.TryGetLocalPath();
-        if (path == null)
-            return;
-
-        if (path.EndsWith(".hex", StringComparison.OrdinalIgnoreCase) ||
-            path.EndsWith(".bin", StringComparison.OrdinalIgnoreCase) ||
-            path.EndsWith(".uf2", StringComparison.OrdinalIgnoreCase))
-        {
+        if (path != null && FirmwareFiles.IsFirmwareFile(path))
             vm.SetFirmwarePath(path);
-        }
     }
 }

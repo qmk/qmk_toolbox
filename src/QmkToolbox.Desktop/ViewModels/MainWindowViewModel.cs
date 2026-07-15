@@ -1,7 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using Avalonia;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -46,8 +45,8 @@ public partial class MainWindowViewModel : LogViewModelBase
     public ObservableCollection<string> FirmwareHistory { get; } = [];
     public ObservableCollection<McuItem> McuList { get; } = [];
 
-    public bool IsWindows { get; } = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-    public bool IsLinux { get; } = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+    public bool IsWindows { get; } = OperatingSystem.IsWindows();
+    public bool IsLinux { get; } = OperatingSystem.IsLinux();
 
     public SettingsService Settings { get; }
 

@@ -16,21 +16,11 @@ namespace QmkToolbox.Desktop.Services;
 /// </summary>
 public class DesktopSerialPortService : ISerialPortService
 {
-    public string? FindSerialPort(IUsbDevice device)
-    {
-        if (OperatingSystem.IsLinux())
-            return FindByIdLinux(device);
-
-        if (OperatingSystem.IsMacOS())
-            return FindNewestSerialPortMacOS();
-
-        if (OperatingSystem.IsWindows())
-            return FindByRegistryWindows(device);
-
-        // Unknown platform fallback
-        string[] fallbackPorts = SerialPort.GetPortNames();
-        return fallbackPorts.Length > 0 ? fallbackPorts[0] : null;
-    }
+    public string? FindSerialPort(IUsbDevice device) =>
+        OperatingSystem.IsLinux() ? FindByIdLinux(device) :
+        OperatingSystem.IsMacOS() ? FindNewestSerialPortMacOS() :
+        OperatingSystem.IsWindows() ? FindByRegistryWindows(device) :
+        null;
 
     /// <summary>
     /// Matches a USB device by VID/PID against /dev/serial/by-id/ symlinks.

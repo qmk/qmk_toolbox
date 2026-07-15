@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using QmkToolbox.Core.Services;
 
 namespace QmkToolbox.Desktop.Services;
@@ -16,7 +15,7 @@ public static class LinuxUdevInstaller
 
     public static async Task InstallAsync(IFlashToolProvider toolProvider, Action<string> logOutput, Action<string> logError)
     {
-        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        if (!OperatingSystem.IsLinux())
             return;
 
         string resourceFolder = toolProvider.GetResourceFolder();

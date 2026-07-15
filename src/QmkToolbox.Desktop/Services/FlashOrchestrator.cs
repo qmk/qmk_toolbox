@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using QmkToolbox.Core.Bootloader;
 using QmkToolbox.Core.Models;
 using QmkToolbox.Core.Services;
@@ -10,7 +9,7 @@ public class FlashOrchestrator(
     ISerialPortService serialPortService,
     IMountPointService mountPointService)
 {
-    private static readonly bool IsWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+    private static readonly bool IsWindows = OperatingSystem.IsWindows();
 
     private readonly List<BootloaderDevice> _bootloaders = [];
 

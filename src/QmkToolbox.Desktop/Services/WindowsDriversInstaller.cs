@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using QmkToolbox.Core.Services;
 
 namespace QmkToolbox.Desktop.Services;
@@ -15,7 +14,7 @@ public static class WindowsDriversInstaller
 
     public static void Install(IFlashToolProvider toolProvider, Action<string> logError)
     {
-        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        if (!OperatingSystem.IsWindows())
             return;
 
         string toolboxData = toolProvider.GetResourceFolder();

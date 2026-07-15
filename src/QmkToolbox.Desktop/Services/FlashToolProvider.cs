@@ -1,5 +1,4 @@
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using QmkToolbox.Core.Services;
 
@@ -20,7 +19,7 @@ public class FlashToolProvider : IFlashToolProvider
 
     public string GetToolPath(string toolName)
     {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && !Path.HasExtension(toolName))
+        if (OperatingSystem.IsWindows() && !Path.HasExtension(toolName))
             toolName += ".exe";
         return Path.Combine(GetResourceFolder(), toolName);
     }
@@ -45,7 +44,7 @@ public class FlashToolProvider : IFlashToolProvider
 
         ExtractAllResources();
 
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        if (OperatingSystem.IsLinux())
             EnsureUdevResources(GetResourceFolder());
     }
 
@@ -56,7 +55,7 @@ public class FlashToolProvider : IFlashToolProvider
     {
         ClearResourceFolder();
         ExtractAllResources();
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        if (OperatingSystem.IsLinux())
             EnsureUdevResources(GetResourceFolder());
     }
 
@@ -71,7 +70,7 @@ public class FlashToolProvider : IFlashToolProvider
         string? flashStr = flash.HasValue ? $"{flash.Value.Host}:{flash.Value.Hash}" : "unknown";
         string? hidapiStr = hidapi.HasValue ? $"{hidapi.Value.Host}:{hidapi.Value.Hash}" : "unknown";
         string? udevStr = null;
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        if (OperatingSystem.IsLinux())
         {
             string? installedManifest = Directory.EnumerateFiles(folder, "qmk_udev_release_*").FirstOrDefault();
             if (installedManifest != null)
@@ -157,7 +156,7 @@ public class FlashToolProvider : IFlashToolProvider
         using var fileStream = new FileStream(destPath, FileMode.Create);
         stream.CopyTo(fileStream);
 
-        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && IsExecutable(destPath))
+        if (!OperatingSystem.IsWindows() && IsExecutable(destPath))
             MakeExecutable(destPath);
     }
 

@@ -9,7 +9,7 @@ public interface IHidDevice
     ushort ProductId { get; }
     /// <summary>Device revision in BCD format (e.g. <c>0x0200</c> = 2.00).</summary>
     ushort RevisionBcd { get; }
-    /// <summary>HID usage page (top-level category, e.g. <c>0xFF60</c> for QMK console).</summary>
+    /// <summary>HID usage page (top-level category, e.g. <c>0xFF31</c> for QMK console).</summary>
     ushort UsagePage { get; }
     /// <summary>HID usage within the usage page.</summary>
     ushort Usage { get; }

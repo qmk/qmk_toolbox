@@ -64,7 +64,7 @@ public abstract class BootloaderDevice(IUsbDevice device, IFlashToolProvider too
             if (string.Equals(ext, allowed, StringComparison.OrdinalIgnoreCase))
                 return;
         }
-        throw new UnsupportedFileFormatException(file, extensions);
+        throw new UnsupportedFileFormatException(extensions);
     }
 
     // Caterina (and other serial-port bootloaders) enumerate via USB first, then expose a
