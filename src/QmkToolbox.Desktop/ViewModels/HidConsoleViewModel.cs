@@ -35,7 +35,7 @@ public partial class HidConsoleViewModel : LogViewModelBase, IDisposable
         {
             if (!Devices.Contains(label))
                 Devices.Add(label);
-            LogLine($"HID console device connected: {device}", MessageType.Hid);
+            Log($"HID console device connected: {device}", MessageType.Hid);
         });
     }
 
@@ -47,7 +47,7 @@ public partial class HidConsoleViewModel : LogViewModelBase, IDisposable
         Invoke(() =>
         {
             Devices.Remove(label);
-            LogLine($"HID console device disconnected: {device}", MessageType.Hid);
+            Log($"HID console device disconnected: {device}", MessageType.Hid);
             if (SelectedDevice == label)
                 SelectedDevice = AllDevices;
         });
@@ -62,7 +62,7 @@ public partial class HidConsoleViewModel : LogViewModelBase, IDisposable
     }
 
     private void OnErrorOccurred(string message) =>
-        Invoke(() => LogLine(message, MessageType.Error));
+        Invoke(() => Log(message, MessageType.Error));
 
     public void Dispose() => _hidListener.Dispose();
 }

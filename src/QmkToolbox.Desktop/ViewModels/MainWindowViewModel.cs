@@ -110,14 +110,8 @@ public partial class MainWindowViewModel : LogViewModelBase
         Settings = settingsService;
 
         _flashOrchestrator = new FlashOrchestrator(toolProvider, serialPortService, mountPointService);
-        _flashOrchestrator.OutputReceived += (msg, type) => Invoke(() =>
-        {
-            // Tool stdout/stderr is a raw stream; everything else is a discrete message.
-            if (type is MessageType.CommandOutput or MessageType.CommandError)
-                Log(msg, type);
-            else
-                LogLine(msg, type);
-        });
+        // Log routes each message by its type's stream discipline (see MessageType.IsRawStream).
+        _flashOrchestrator.OutputReceived += (msg, type) => Invoke(() => Log(msg, type));
         _flashOrchestrator.StateChanged += () => Invoke(UpdateCanExecute);
 
         _usbDetector.DeviceConnected += OnDeviceConnected;
@@ -408,8 +402,8 @@ public partial class MainWindowViewModel : LogViewModelBase
     private async Task InstallUdevRules() =>
         await LinuxUdevInstaller.InstallAsync(
             _toolProvider,
-            msg => Invoke(() => LogLine(msg, MessageType.UdevOutput)),
-            msg => Invoke(() => LogLine(msg, MessageType.Error)));
+            msg => Invoke(() => Log(msg, MessageType.UdevOutput)),
+            msg => Invoke(() => Log(msg, MessageType.Error)));
 
     [RelayCommand]
     private void ToggleAutoFlash() => AutoFlashEnabled = !AutoFlashEnabled;
@@ -430,6 +424,6 @@ public partial class MainWindowViewModel : LogViewModelBase
         FirmwarePath = path;
     }
 
-    public void LogError(string message) => LogLine(message, MessageType.Error);
-    public void LogInfo(string message) => LogLine(message, MessageType.Info);
+    public void LogError(string message) => Log(message, MessageType.Error);
+    public void LogInfo(string message) => Log(message, MessageType.Info);
 }

@@ -24,19 +24,20 @@ public abstract partial class LogViewModelBase : ObservableObject
 
     protected void Trim() => Buffer.TrimToMax(MaxLogLines);
 
-    // Raw terminal write: text goes straight to the buffer, which interprets '\r'/'\n'
-    // exactly like a terminal. It invents no line breaks — Log("#") three times renders
-    // "###", not three lines.
+    // Writes to the log, routing on the message type's stream discipline (see
+    // MessageType.IsRawStream):
+    //  - Raw types (tool stdout/stderr, HID console) go straight to the buffer, which interprets
+    //    '\r'/'\n' like a terminal and invents no line breaks — Log("#") three times renders "###".
+    //  - Line types (status, errors, command echo) are discrete: they start at column 0 — breaking
+    //    a partial raw-stream line if one is pending — and end the line.
     public void Log(string text, MessageType type)
     {
-        Buffer.Write(text, type);
+        if (type.IsRawStream())
+            Buffer.Write(text, type);
+        else
+            Buffer.Write(Buffer.Col > 0 ? "\n" + text + "\n" : text + "\n", type);
         Trim();
     }
-
-    // A discrete, line-oriented message (status, errors, command echo): starts at
-    // column 0 — breaking a partial raw-stream line if one is pending — and ends the line.
-    protected void LogLine(string message, MessageType type)
-        => Log(Buffer.Col > 0 ? "\n" + message + "\n" : message + "\n", type);
 
     [RelayCommand]
     private void Clear() => Buffer.Clear();
