@@ -259,12 +259,12 @@ public sealed class WindowsUsbEventsDetector : IUsbEventsDetector
 
     private void HandleRemoval(string deviceInterfacePath)
     {
-        IUsbDevice? existing = null;
+        IUsbDevice? existing;
         lock (_devicesLock)
         {
-            existing = _devices.Find(d =>
-                d is UsbDeviceInfo info &&
-                string.Equals(info.DevicePath, deviceInterfacePath, StringComparison.OrdinalIgnoreCase));
+            // Windows interface paths are canonical and always present — match by path only
+            // (case-insensitive), no VID/PID fallback.
+            existing = UsbDeviceMatcher.Find(_devices, deviceInterfacePath, vidPidFallback: null, StringComparison.OrdinalIgnoreCase);
             if (existing != null)
                 _devices.Remove(existing);
         }

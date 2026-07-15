@@ -64,30 +64,19 @@ public class UnixUsbEventsDetector : IUsbEventsDetector
 
         lock (_devicesLock)
         {
-            // Removal events often lack VID/PID on Linux/macOS — match by path first.
-            if (!string.IsNullOrEmpty(path))
+            if (DiagnosticTrace != null && fallbackDevice != null)
             {
-                existing = _devices.Find(d =>
-                    d is UsbDeviceInfo info &&
-                    !string.IsNullOrEmpty(info.DevicePath) &&
-                    info.DevicePath == path);
-                if (existing != null)
-                    matchedByPath = true;
+                vidPidCandidates = _devices.FindAll(d =>
+                    d.VendorId == fallbackDevice.VendorId && d.ProductId == fallbackDevice.ProductId).Count;
             }
 
-            if (existing == null && fallbackDevice != null)
-            {
-                if (DiagnosticTrace != null)
-                {
-                    vidPidCandidates = _devices.FindAll(d =>
-                        d.VendorId == fallbackDevice.VendorId && d.ProductId == fallbackDevice.ProductId).Count;
-                }
-                existing = _devices.Find(d =>
-                    d.VendorId == fallbackDevice.VendorId && d.ProductId == fallbackDevice.ProductId);
-            }
-
+            // Removal events often lack VID/PID on Linux/macOS — match by path first, then VID/PID.
+            existing = UsbDeviceMatcher.Find(_devices, path, fallbackDevice);
             if (existing != null)
+            {
+                matchedByPath = !string.IsNullOrEmpty(path) && existing.DevicePath == path;
                 _devices.Remove(existing);
+            }
         }
 
         if (DiagnosticTrace != null)
