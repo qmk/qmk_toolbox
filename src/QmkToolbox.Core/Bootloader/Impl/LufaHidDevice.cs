@@ -6,19 +6,11 @@ namespace QmkToolbox.Core.Bootloader.Impl;
 /// <summary>LUFA HID / QMK HID bootloader device (via hid_bootloader_cli).</summary>
 internal sealed class LufaHidDevice : BootloaderDevice
 {
-    public LufaHidDevice(IUsbDevice device, IFlashToolProvider toolProvider)
+    public LufaHidDevice(IUsbDevice device, IFlashToolProvider toolProvider, BootloaderType type)
         : base(device, toolProvider)
     {
-        if (device.RevisionBcd == QmkRevisionMarker)
-        {
-            Type = BootloaderType.QmkHid;
-            Name = "QMK HID";
-        }
-        else
-        {
-            Type = BootloaderType.LufaHid;
-            Name = "LUFA HID";
-        }
+        Type = type;
+        Name = type == BootloaderType.QmkHid ? "QMK HID" : "LUFA HID";
         PreferredDriver = "HidUsb";
     }
 

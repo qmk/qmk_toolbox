@@ -18,18 +18,6 @@ public interface IFlashToolProvider
     /// </summary>
     void EnsureResourceFolder();
 
-    /// <summary>Deletes the resource folder and all its contents.</summary>
-    void ClearResourceFolder();
-
-    /// <summary>
-    /// Extracts a single embedded resource file to the resource folder.
-    /// Does nothing if the file already exists.
-    /// </summary>
-    void ExtractResource(string file);
-
-    /// <summary>Extracts all embedded resource files, skipping any that already exist.</summary>
-    void ExtractAllResources();
-
     /// <summary>Clears the resource folder and fully re-extracts all bundled resources.</summary>
     void ClearAndReExtract();
 

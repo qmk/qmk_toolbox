@@ -10,8 +10,6 @@ namespace QmkToolbox.Core.Bootloader;
 /// </summary>
 public abstract class BootloaderDevice(IUsbDevice device, IFlashToolProvider toolProvider, ISerialPortService? serialPortService = null)
 {
-    public const ushort QmkRevisionMarker = 0x0936;
-
     public delegate void FlashOutputReceivedDelegate(BootloaderDevice device, string data, MessageType type);
 
     public event FlashOutputReceivedDelegate? OutputReceived;

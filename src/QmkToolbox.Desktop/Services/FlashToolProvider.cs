@@ -127,14 +127,14 @@ public class FlashToolProvider : IFlashToolProvider
         return null;
     }
 
-    public void ClearResourceFolder()
+    private void ClearResourceFolder()
     {
         string folder = GetResourceFolder();
         if (Directory.Exists(folder))
             Directory.Delete(folder, true);
     }
 
-    public void ExtractAllResources()
+    private void ExtractAllResources()
     {
         Directory.CreateDirectory(GetResourceFolder());
         foreach (string name in ResourceAssembly.GetManifestResourceNames()
@@ -145,7 +145,7 @@ public class FlashToolProvider : IFlashToolProvider
         }
     }
 
-    public void ExtractResource(string file)
+    private void ExtractResource(string file)
     {
         string destPath = Path.Combine(GetResourceFolder(), file);
         if (File.Exists(destPath))

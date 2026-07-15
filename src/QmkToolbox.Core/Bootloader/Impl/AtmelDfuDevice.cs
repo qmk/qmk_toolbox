@@ -6,19 +6,11 @@ namespace QmkToolbox.Core.Bootloader.Impl;
 /// <summary>Atmel DFU / QMK DFU bootloader device (ATmega/AT90USB, via dfu-programmer).</summary>
 internal sealed class AtmelDfuDevice : BootloaderDevice
 {
-    public AtmelDfuDevice(IUsbDevice device, IFlashToolProvider toolProvider, ISerialPortService? serialPortService = null)
+    public AtmelDfuDevice(IUsbDevice device, IFlashToolProvider toolProvider, ISerialPortService? serialPortService, BootloaderType type)
         : base(device, toolProvider, serialPortService)
     {
-        if (device.RevisionBcd == QmkRevisionMarker)
-        {
-            Type = BootloaderType.QmkDfu;
-            Name = "QMK DFU";
-        }
-        else
-        {
-            Type = BootloaderType.AtmelDfu;
-            Name = "Atmel DFU";
-        }
+        Type = type;
+        Name = type == BootloaderType.QmkDfu ? "QMK DFU" : "Atmel DFU";
         PreferredDriver = "WinUSB";
         IsEepromFlashable = true;
         IsResettable = true;

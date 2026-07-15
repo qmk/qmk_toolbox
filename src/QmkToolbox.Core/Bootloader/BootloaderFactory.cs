@@ -80,17 +80,23 @@ public static class BootloaderFactory
         [(0x2E8A, 0x000F)] = BootloaderType.Picotool, // RP2350 BOOTSEL
     };
 
+    // The QMK revision marker distinguishes QMK-flavoured bootloaders sharing stock VID/PIDs.
+    // GetDeviceType is the single place that checks it; the dual-identity device constructors
+    // (AtmelDfuDevice, LufaHidDevice) receive the already-resolved BootloaderType.
+    private const ushort QmkRevisionMarker = 0x0936;
+
     public static BootloaderDevice? CreateDevice(
         IUsbDevice device,
         IFlashToolProvider toolProvider,
         ISerialPortService? serialPortService = null,
         IMountPointService? mountPointService = null)
     {
-        return GetDeviceType(device.VendorId, device.ProductId, device.RevisionBcd) switch
+        BootloaderType type = GetDeviceType(device.VendorId, device.ProductId, device.RevisionBcd);
+        return type switch
         {
             BootloaderType.Apm32Dfu => new Apm32DfuDevice(device, toolProvider),
             BootloaderType.At32Dfu => new At32DfuDevice(device, toolProvider),
-            BootloaderType.AtmelDfu => new AtmelDfuDevice(device, toolProvider, serialPortService),
+            BootloaderType.AtmelDfu or BootloaderType.QmkDfu => new AtmelDfuDevice(device, toolProvider, serialPortService, type),
             BootloaderType.AtmelSamBa => new AtmelSamBaDevice(device, toolProvider, serialPortService),
             BootloaderType.AvrIsp => new AvrIspDevice(device, toolProvider, serialPortService),
             BootloaderType.BootloadHid => new BootloadHidDevice(device, toolProvider),
@@ -98,7 +104,7 @@ public static class BootloaderFactory
             BootloaderType.Gd32VDfu => new Gd32VDfuDevice(device, toolProvider),
             BootloaderType.HalfKay => new HalfKayDevice(device, toolProvider),
             BootloaderType.KiibohdDfu => new KiibohdDfuDevice(device, toolProvider),
-            BootloaderType.LufaHid => new LufaHidDevice(device, toolProvider),
+            BootloaderType.LufaHid or BootloaderType.QmkHid => new LufaHidDevice(device, toolProvider, type),
             BootloaderType.LufaMs => new LufaMsDevice(device, toolProvider, mountPointService),
             BootloaderType.Stm32Dfu => new Stm32DfuDevice(device, toolProvider),
             BootloaderType.Stm32Duino => new Stm32DuinoDevice(device, toolProvider),
@@ -106,10 +112,8 @@ public static class BootloaderFactory
             BootloaderType.UsbTinyIsp => new UsbTinyIspDevice(device, toolProvider),
             BootloaderType.Wb32Dfu => new Wb32DfuDevice(device, toolProvider),
             BootloaderType.Picotool => new PicotoolDevice(device, toolProvider),
-            BootloaderType.QmkDfu => new AtmelDfuDevice(device, toolProvider, serialPortService),
-            BootloaderType.QmkHid => new LufaHidDevice(device, toolProvider),
             BootloaderType.None => null,
-            var type => throw new ArgumentOutOfRangeException(nameof(BootloaderType), type, "No device implementation for this bootloader type"),
+            _ => throw new ArgumentOutOfRangeException(nameof(BootloaderType), type, "No device implementation for this bootloader type"),
         };
     }
 
@@ -117,8 +121,7 @@ public static class BootloaderFactory
     {
         if (!DeviceMap.TryGetValue((vendorId, productId), out BootloaderType type))
             return BootloaderType.None;
-        // The QMK revision marker distinguishes QMK-flavoured bootloaders sharing stock VID/PIDs.
-        if (revisionBcd == BootloaderDevice.QmkRevisionMarker)
+        if (revisionBcd == QmkRevisionMarker)
         {
             if (type == BootloaderType.AtmelDfu)
                 return BootloaderType.QmkDfu;
