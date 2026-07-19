@@ -13,9 +13,9 @@ public partial class HidConsoleViewModel : LogViewModelBase, IDisposable
 
     public ObservableCollection<string> Devices { get; } = [AllDevices];
 
-    private readonly HidApiListener _hidListener;
+    private readonly IHidListener _hidListener;
 
-    public HidConsoleViewModel(HidApiListener hidListener)
+    public HidConsoleViewModel(IHidListener hidListener)
     {
         _hidListener = hidListener;
         _hidListener.HidDeviceConnected += OnDeviceConnected;

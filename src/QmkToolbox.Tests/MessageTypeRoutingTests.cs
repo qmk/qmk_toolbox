@@ -1,4 +1,5 @@
 using QmkToolbox.Core.Models;
+using QmkToolbox.Desktop.Models;
 using QmkToolbox.Desktop.ViewModels;
 using Xunit;
 

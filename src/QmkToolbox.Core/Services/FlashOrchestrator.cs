@@ -37,8 +37,7 @@ public class FlashOrchestrator(
             bd.OutputReceived += OnFlashOutput;
             _bootloaders.Add(bd);
             DiagnosticTrace?.Invoke(
-                $"[ORCH+] VID:{device.VendorId:X4} PID:{device.ProductId:X4} " +
-                $"path:{(string.IsNullOrEmpty(device.DevicePath) ? "(empty)" : $"\"{device.DevicePath}\"")}" +
+                $"[ORCH+] {DeviceTrace.VidPid(device)} path:{DeviceTrace.Path(device.DevicePath)}" +
                 $" -> {bd.Name}  (bootloaders:{_bootloaders.Count})");
             StateChanged?.Invoke();
             // Await port resolution (instant for most devices; up to ~2.5 s for serial-port
@@ -56,7 +55,7 @@ public class FlashOrchestrator(
             Emit($"USB device connected{WindowsDriverSuffix(device.Driver)}: {device}", MessageType.Usb);
         }
         DiagnosticTrace?.Invoke(
-            $"[ORCH+] VID:{device.VendorId:X4} PID:{device.ProductId:X4} -> not a bootloader");
+            $"[ORCH+] {DeviceTrace.VidPid(device)} -> not a bootloader");
         return false;
     }
 
@@ -85,24 +84,20 @@ public class FlashOrchestrator(
 
         if (DiagnosticTrace != null)
         {
-            string pathStr = string.IsNullOrEmpty(device.DevicePath) ? "(empty)" : $"\"{device.DevicePath}\"";
+            string prefix = $"[ORCH-] {DeviceTrace.VidPid(device)} path:{DeviceTrace.Path(device.DevicePath)}";
             if (bd != null)
             {
                 DiagnosticTrace(
-                    $"[ORCH-] VID:{device.VendorId:X4} PID:{device.ProductId:X4} path:{pathStr}" +
-                    $" -> matched by {(matchedByPath ? "path" : "VID/PID")}  (bootloaders:{_bootloaders.Count})");
+                    $"{prefix} -> matched by {(matchedByPath ? "path" : "VID/PID")}  (bootloaders:{_bootloaders.Count})");
             }
             else if (_bootloaders.Count > 0)
             {
                 DiagnosticTrace(
-                    $"[ORCH-] VID:{device.VendorId:X4} PID:{device.ProductId:X4} path:{pathStr}" +
-                    $" -> *** no match  (bootloaders:{_bootloaders.Count} – possible phantom entry)");
+                    $"{prefix} -> *** no match  (bootloaders:{_bootloaders.Count} – possible phantom entry)");
             }
             else
             {
-                DiagnosticTrace(
-                    $"[ORCH-] VID:{device.VendorId:X4} PID:{device.ProductId:X4} path:{pathStr}" +
-                    $" -> not a tracked bootloader  (bootloaders:0)");
+                DiagnosticTrace($"{prefix} -> not a tracked bootloader  (bootloaders:0)");
             }
         }
 

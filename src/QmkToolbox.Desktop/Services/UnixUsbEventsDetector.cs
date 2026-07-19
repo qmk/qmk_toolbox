@@ -49,8 +49,7 @@ public class UnixUsbEventsDetector : IUsbEventsDetector
         lock (_devicesLock)
             _devices.Add(device);
         DiagnosticTrace?.Invoke(
-            $"[USB+] VID:{device.VendorId:X4} PID:{device.ProductId:X4} " +
-            $"Path:{(string.IsNullOrEmpty(device.DevicePath) ? "(empty)" : $"\"{device.DevicePath}\"")}");
+            $"[USB+] {DeviceTrace.VidPid(device)} path:{DeviceTrace.Path(device.DevicePath)}");
         DeviceConnected?.Invoke(device);
     }
 
@@ -81,16 +80,15 @@ public class UnixUsbEventsDetector : IUsbEventsDetector
 
         if (DiagnosticTrace != null)
         {
-            string eventPath = string.IsNullOrEmpty(path) ? "(empty)" : $"\"{path}\"";
             string eventVidPid = fallbackDevice != null
-                ? $"VID:{fallbackDevice.VendorId:X4} PID:{fallbackDevice.ProductId:X4}"
+                ? DeviceTrace.VidPid(fallbackDevice)
                 : "VID:(empty) PID:(empty)";
-            DiagnosticTrace($"[USB-] event path:{eventPath} {eventVidPid}");
+            DiagnosticTrace($"[USB-] event path:{DeviceTrace.Path(path)} {eventVidPid}");
             if (existing != null)
             {
                 DiagnosticTrace(matchedByPath
-                    ? $"[USB-] matched by path  (VID:{existing.VendorId:X4} PID:{existing.ProductId:X4})"
-                    : $"[USB-] matched by VID/PID ({vidPidCandidates} candidate(s))  (VID:{existing.VendorId:X4} PID:{existing.ProductId:X4})");
+                    ? $"[USB-] matched by path  ({DeviceTrace.VidPid(existing)})"
+                    : $"[USB-] matched by VID/PID ({vidPidCandidates} candidate(s))  ({DeviceTrace.VidPid(existing)})");
             }
             else
             {

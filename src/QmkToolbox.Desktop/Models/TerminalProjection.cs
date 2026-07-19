@@ -48,7 +48,7 @@ public static class TerminalProjection
 
         // The line's prefix is keyed off its first segment's type.
         MessageType lineType = line.Segments[0].Type;
-        string prefix = MessageTypePrefix.GetPrefix(lineType);
+        string prefix = MessageTypeDescriptors.For(lineType).Prefix;
         if (prefix.Length > 0)
         {
             runs.Add(new TerminalRun(prefix, lineType, TerminalRunKind.Prefix, pos, null));
