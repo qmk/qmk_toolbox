@@ -1,8 +1,7 @@
 using QmkToolbox.Core.Bootloader;
 using QmkToolbox.Core.Models;
-using QmkToolbox.Core.Services;
 
-namespace QmkToolbox.Desktop.Services;
+namespace QmkToolbox.Core.Services;
 
 public class FlashOrchestrator(
     IFlashToolProvider toolProvider,
@@ -117,7 +116,7 @@ public class FlashOrchestrator(
     /// <see cref="IsBusy"/> is UI-thread-affine — every caller marshals to the UI thread, so the
     /// check-then-set before the first await is atomic and needs no lock.
     /// </summary>
-    internal async Task<bool> RunExclusiveAsync(Func<Task> operation)
+    public async Task<bool> RunExclusiveAsync(Func<Task> operation)
     {
         if (IsBusy)
             return false;

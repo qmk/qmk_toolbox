@@ -1,6 +1,5 @@
 using NSubstitute;
 using QmkToolbox.Core.Services;
-using QmkToolbox.Desktop.Services;
 using Xunit;
 
 namespace QmkToolbox.Tests;

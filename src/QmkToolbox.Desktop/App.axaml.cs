@@ -27,19 +27,28 @@ public partial class App : Application
         {
             string[] args = desktop.Args ?? [];
             string filePath = args.Length > 0 ? args[0] : "";
-            var vm = new MainWindowViewModel(
-                new FlashToolProvider(),
+            var toolProvider = new FlashToolProvider();
+            Core.Services.IUsbEventsDetector usbDetector =
 #if WINDOWS
 #pragma warning disable CA1416 // Gated by #if WINDOWS — only compiled for Windows RIDs
-                new WindowsUsbEventsDetector(),
+                new WindowsUsbEventsDetector();
 #pragma warning restore CA1416
 #else
-                new UnixUsbEventsDetector(),
+                new UnixUsbEventsDetector();
 #endif
+            var orchestrator = new Core.Services.FlashOrchestrator(
+                toolProvider,
                 new DesktopSerialPortService(),
-                new DesktopMountPointService(),
-                new SettingsService(),
-                filePath);
+                new DesktopMountPointService());
+            // The session receives its UI invoker at construction, so USB events arriving from
+            // the moment Start() is called are always marshalled — there is no window in which
+            // listeners run without an invoker.
+            var session = new FlashSession(
+                Avalonia.Threading.Dispatcher.UIThread.InvokeAsync,
+                usbDetector,
+                orchestrator,
+                toolProvider);
+            var vm = new MainWindowViewModel(session, toolProvider, new SettingsService(), filePath);
             _mainWindowViewModel = vm;
             desktop.MainWindow = new MainWindow { DataContext = vm };
 

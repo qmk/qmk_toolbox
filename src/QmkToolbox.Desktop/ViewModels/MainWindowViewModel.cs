@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
 using Avalonia;
@@ -11,30 +11,13 @@ using AvaloniaTheme = Avalonia.Styling.ThemeVariant;
 
 namespace QmkToolbox.Desktop.ViewModels;
 
+/// <summary>
+/// Thin adapter binding Avalonia to the <see cref="FlashSession"/>: commands, theme switching,
+/// the confirm-dialog protocol, and startup logging. Flash-domain state and policy live on the
+/// session; XAML binds to it via <see cref="Session"/>.
+/// </summary>
 public partial class MainWindowViewModel : LogViewModelBase
 {
-    [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(FlashCommand))]
-    private bool _canFlash;
-
-    [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(ResetCommand))]
-    private bool _canReset;
-
-    [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(ClearEepromCommand))]
-    [NotifyCanExecuteChangedFor(nameof(SetLeftHandCommand))]
-    [NotifyCanExecuteChangedFor(nameof(SetRightHandCommand))]
-    private bool _canClearEeprom;
-
-    [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(ClearResourcesCommand))]
-    private bool _canClearResources = true;
-
-    [ObservableProperty] private string _firmwarePath = "";
-    [ObservableProperty] private string _selectedMcu = "";
-    [ObservableProperty] private bool _autoFlashEnabled;
-    [ObservableProperty] private bool _showAllDevices;
     [ObservableProperty] private string _themeVariant = "Default";
 
     [ObservableProperty] private bool _isConfirmVisible;
@@ -42,35 +25,63 @@ public partial class MainWindowViewModel : LogViewModelBase
     [ObservableProperty] private string _confirmMessage = "";
     private TaskCompletionSource<bool>? _confirmTcs;
 
-    public ObservableCollection<string> FirmwareHistory { get; } = [];
-    public ObservableCollection<McuItem> McuList { get; } = [];
-
     public bool IsWindows { get; } = OperatingSystem.IsWindows();
     public bool IsLinux { get; } = OperatingSystem.IsLinux();
 
+    public FlashSession Session { get; }
     public SettingsService Settings { get; }
 
+    private readonly IFlashToolProvider _toolProvider;
     private DesktopWindowService? _windowService;
+
+    public MainWindowViewModel(
+        FlashSession session,
+        IFlashToolProvider toolProvider,
+        SettingsService settingsService,
+        string filePath = "")
+    {
+        Session = session;
+        _toolProvider = toolProvider;
+        Settings = settingsService;
+
+        // Log routes each message by its type's stream discipline (see MessageType.IsRawStream).
+        Session.Output += Log;
+        Session.PropertyChanged += OnSessionPropertyChanged;
+
+        ThemeVariant = Settings.Current.ThemeVariant;
+        Session.LoadFrom(Settings.Current);
+        LogStartupBanner();
+
+        if (!string.IsNullOrEmpty(filePath))
+            Session.SetFirmwarePath(filePath);
+    }
+
+    private void OnSessionPropertyChanged(object? sender, PropertyChangedEventArgs args)
+    {
+        switch (args.PropertyName)
+        {
+            case nameof(FlashSession.CanFlash):
+                FlashCommand.NotifyCanExecuteChanged();
+                break;
+            case nameof(FlashSession.CanReset):
+                ResetCommand.NotifyCanExecuteChanged();
+                break;
+            case nameof(FlashSession.CanClearEeprom):
+                ClearEepromCommand.NotifyCanExecuteChanged();
+                SetLeftHandCommand.NotifyCanExecuteChanged();
+                SetRightHandCommand.NotifyCanExecuteChanged();
+                break;
+            case nameof(FlashSession.CanClearResources):
+                ClearResourcesCommand.NotifyCanExecuteChanged();
+                break;
+        }
+    }
 
     public void SetWindowService(DesktopWindowService service)
     {
         _windowService = service;
-        _usbDetector.DiagnosticTrace = msg => Invoke(() => service.TraceDebug(msg));
-        _flashOrchestrator.DiagnosticTrace = msg => Invoke(() => service.TraceDebug(msg));
+        Session.DiagnosticTrace = service.TraceDebug;
     }
-
-    public McuItem? SelectedMcuPair
-    {
-        get => McuList.FirstOrDefault(m => m.Key == SelectedMcu) ?? McuList.FirstOrDefault();
-        set
-        {
-            if (value is not null)
-                SelectedMcu = value.Key;
-            OnPropertyChanged();
-        }
-    }
-
-    partial void OnSelectedMcuChanged(string value) => OnPropertyChanged(nameof(SelectedMcuPair));
 
     partial void OnThemeVariantChanged(string value)
     {
@@ -91,55 +102,6 @@ public partial class MainWindowViewModel : LogViewModelBase
 
     [RelayCommand]
     private void SetTheme(string variant) => ThemeVariant = variant;
-
-    private readonly IFlashToolProvider _toolProvider;
-    private readonly IUsbEventsDetector _usbDetector;
-    private readonly FlashOrchestrator _flashOrchestrator;
-
-    public MainWindowViewModel(
-        IFlashToolProvider toolProvider,
-        IUsbEventsDetector usbDetector,
-        ISerialPortService serialPortService,
-        IMountPointService mountPointService,
-        SettingsService settingsService,
-        string filePath = "")
-    {
-        _toolProvider = toolProvider;
-        _usbDetector = usbDetector;
-        Settings = settingsService;
-
-        _flashOrchestrator = new FlashOrchestrator(toolProvider, serialPortService, mountPointService);
-        // Log routes each message by its type's stream discipline (see MessageType.IsRawStream).
-        _flashOrchestrator.OutputReceived += (msg, type) => Invoke(() => Log(msg, type));
-        _flashOrchestrator.StateChanged += () => Invoke(UpdateCanExecute);
-
-        _usbDetector.DeviceConnected += OnDeviceConnected;
-        _usbDetector.DeviceDisconnected += OnDeviceDisconnected;
-
-        LoadSettings();
-        LoadMcuList();
-        LogStartupBanner();
-
-        if (!string.IsNullOrEmpty(filePath))
-            SetFirmwarePath(filePath);
-    }
-
-    public void StartListeners()
-    {
-        if (UiInvoker is null)
-            throw new InvalidOperationException("SetUiInvoker must be called before StartListeners.");
-        // EnsureResourceFolder is blocking file I/O (resource extraction); offload to
-        // a thread pool thread so StartListeners returns without blocking the UI thread.
-        _ = Task.Run(() =>
-        {
-            try
-            { _toolProvider.EnsureResourceFolder(); }
-            catch (Exception ex) { Invoke(() => LogError($"Failed to extract resources: {ex.Message}")); }
-        });
-        try
-        { _usbDetector.Start(); }
-        catch (Exception ex) { LogError($"USB device enumeration failed: {ex.Message}"); }
-    }
 
     public async Task RunFirstStartSetupAsync()
     {
@@ -184,59 +146,11 @@ public partial class MainWindowViewModel : LogViewModelBase
         _confirmTcs = null;
     }
 
-    public void StopListeners()
-    {
-        _usbDetector.Stop();
-        _usbDetector.Dispose();
-    }
-
     public void SaveSettings()
     {
-        Settings.Current.FirmwareFilePath = FirmwarePath;
-        Settings.Current.FirmwareFileHistory = [.. FirmwareHistory];
-        Settings.Current.SelectedMcu = SelectedMcu;
-        Settings.Current.ShowAllDevices = ShowAllDevices;
-        Settings.Current.AutoFlashEnabled = AutoFlashEnabled;
         Settings.Current.ThemeVariant = ThemeVariant;
+        Session.SaveTo(Settings.Current);
         Settings.Save();
-    }
-
-    private void LoadSettings()
-    {
-        AppSettings settings = Settings.Current;
-        FirmwarePath = settings.FirmwareFilePath;
-        SelectedMcu = settings.SelectedMcu;
-        ShowAllDevices = settings.ShowAllDevices;
-        AutoFlashEnabled = settings.AutoFlashEnabled;
-        ThemeVariant = settings.ThemeVariant;
-
-        foreach (string item in settings.FirmwareFileHistory)
-            FirmwareHistory.Add(item);
-    }
-
-    private void LoadMcuList()
-    {
-        try
-        {
-            using Stream? stream = typeof(MainWindowViewModel).Assembly
-                .GetManifestResourceStream("QmkToolbox.Desktop.Resources.mcu-list.txt");
-            if (stream == null)
-                return;
-            using var reader = new StreamReader(stream);
-            string content = reader.ReadToEnd();
-            foreach (string line in content.Split('\n'))
-            {
-                string[] parts = line.Trim().Split(':', 2);
-                if (parts.Length == 2)
-                    McuList.Add(new McuItem(parts[0], parts[1]));
-            }
-            if (string.IsNullOrEmpty(SelectedMcu) && McuList.Count > 0)
-                SelectedMcu = McuList[0].Key;
-        }
-        catch (Exception ex)
-        {
-            LogError($"Failed to load MCU list: {ex.Message}");
-        }
     }
 
     private void LogStartupBanner()
@@ -275,95 +189,28 @@ public partial class MainWindowViewModel : LogViewModelBase
         LogInfo(" - USBTiny (AVR Pocket)");
     }
 
-    private void OnDeviceConnected(IUsbDevice device)
-        => _ = InvokeAsync(async () =>
-        {
-            bool bootloaderAdded = _flashOrchestrator.OnDeviceConnected(device, ShowAllDevices);
-            if (!bootloaderAdded || !AutoFlashEnabled)
-                return;
-            if (!ValidateFirmware("Auto-flash: "))
-                return;
-            try
-            {
-                if (!await _flashOrchestrator.FlashAllAsync(SelectedMcu, FirmwarePath))
-                    LogInfo("Auto-flash: an operation is already in progress, skipping");
-            }
-            catch (Exception ex)
-            {
-                LogError($"Auto-flash failed: {ex.Message}");
-            }
-        });
-
-    private void OnDeviceDisconnected(IUsbDevice device)
-        => Invoke(() => _flashOrchestrator.OnDeviceDisconnected(device, ShowAllDevices));
-
-    // The orchestrator owns the in-flight invariant (FlashOrchestrator.IsBusy); every action
-    // command derives from it, so a USB connect/disconnect event mid-operation can't re-enable
-    // the buttons.
-    private void UpdateCanExecute()
-    {
-        bool busy = _flashOrchestrator.IsBusy;
-        bool flash = _flashOrchestrator.HasBootloaders && !busy;
-        bool reset = _flashOrchestrator.HasResettable && !busy;
-        bool eeprom = _flashOrchestrator.HasEepromFlashable && !busy;
-        if (_windowService != null && (flash != CanFlash || reset != CanReset))
-        {
-            _windowService.TraceDebug(
-                $"[STATE] CanFlash:{CanFlash}->{flash}  CanReset:{CanReset}->{reset}" +
-                $"  (bootloaders:{_flashOrchestrator.BootloaderCount})");
-        }
-        CanFlash = flash;
-        CanReset = reset;
-        CanClearEeprom = eeprom;
-        CanClearResources = !busy;
-    }
-
-    private bool ValidateFirmware(string prefix)
-    {
-        if (string.IsNullOrEmpty(FirmwarePath))
-        {
-            LogError($"{prefix}no firmware file selected");
-            return false;
-        }
-        if (!File.Exists(FirmwarePath))
-        {
-            LogError($"{prefix}firmware file does not exist");
-            return false;
-        }
-        return true;
-    }
+    private bool CanFlash => Session.CanFlash;
+    private bool CanReset => Session.CanReset;
+    private bool CanClearEeprom => Session.CanClearEeprom;
+    private bool CanClearResources => Session.CanClearResources;
 
     [RelayCommand(CanExecute = nameof(CanFlash))]
-    private async Task Flash()
-    {
-        if (ValidateFirmware(""))
-            await _flashOrchestrator.FlashAllAsync(SelectedMcu, FirmwarePath);
-    }
+    private Task Flash() => Session.FlashAsync();
 
     [RelayCommand(CanExecute = nameof(CanReset))]
-    private Task Reset() => _flashOrchestrator.ResetAllAsync(SelectedMcu);
+    private Task Reset() => Session.ResetAsync();
 
     [RelayCommand(CanExecute = nameof(CanClearEeprom))]
-    private Task ClearEeprom() =>
-        RunEepromAsync("reset.eep", "Attempting to clear EEPROM, please don't remove device", "EEPROM clear complete");
+    private Task ClearEeprom() => Session.ClearEepromAsync();
 
     [RelayCommand(CanExecute = nameof(CanClearEeprom))]
-    private Task SetLeftHand() =>
-        RunEepromAsync("reset_left.eep", "Attempting to set handedness, please don't remove device", "EEPROM write complete");
+    private Task SetLeftHand() => Session.SetHandednessAsync(left: true);
 
     [RelayCommand(CanExecute = nameof(CanClearEeprom))]
-    private Task SetRightHand() =>
-        RunEepromAsync("reset_right.eep", "Attempting to set handedness, please don't remove device", "EEPROM write complete");
-
-    private Task RunEepromAsync(string eepFile, string startMessage, string completeMessage) =>
-        _flashOrchestrator.FlashEepromAsync(SelectedMcu, _toolProvider.GetToolPath(eepFile), startMessage, completeMessage);
+    private Task SetRightHand() => Session.SetHandednessAsync(left: false);
 
     [RelayCommand(CanExecute = nameof(CanClearResources))]
-    // ClearAndReExtract is a synchronous blocking method; Task.Run keeps it off the UI thread,
-    // and routing through the orchestrator's gate serialises it with flashing so it can't delete
-    // tool binaries mid-flash (and is refused while a flash is running).
-    private Task ClearResources() =>
-        _flashOrchestrator.RunExclusiveAsync(() => Task.Run(_toolProvider.ClearAndReExtract));
+    private Task ClearResources() => Session.ClearResourcesAsync();
 
     [RelayCommand]
     private void Exit()
@@ -379,7 +226,7 @@ public partial class MainWindowViewModel : LogViewModelBase
             return;
         string? path = await _windowService.PickFirmwareFileAsync();
         if (path != null)
-            SetFirmwarePath(path);
+            Session.SetFirmwarePath(path);
     }
 
     [RelayCommand]
@@ -405,23 +252,10 @@ public partial class MainWindowViewModel : LogViewModelBase
             msg => Invoke(() => Log(msg, MessageType.Error)));
 
     [RelayCommand]
-    private void ToggleAutoFlash() => AutoFlashEnabled = !AutoFlashEnabled;
+    private void ToggleAutoFlash() => Session.AutoFlashEnabled = !Session.AutoFlashEnabled;
 
     [RelayCommand]
-    private void ToggleShowAllDevices() => ShowAllDevices = !ShowAllDevices;
-
-    private const int MaxFirmwareHistory = 10;
-
-    public void SetFirmwarePath(string path)
-    {
-        if (string.IsNullOrEmpty(path))
-            return;
-        FirmwareHistory.Remove(path);
-        FirmwareHistory.Insert(0, path);
-        while (FirmwareHistory.Count > MaxFirmwareHistory)
-            FirmwareHistory.RemoveAt(FirmwareHistory.Count - 1);
-        FirmwarePath = path;
-    }
+    private void ToggleShowAllDevices() => Session.ShowAllDevices = !Session.ShowAllDevices;
 
     public void LogError(string message) => Log(message, MessageType.Error);
     public void LogInfo(string message) => Log(message, MessageType.Info);

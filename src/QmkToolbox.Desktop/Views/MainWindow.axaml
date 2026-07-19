@@ -32,14 +32,14 @@
                     <MenuItem Header="Set _Right Hand" Command="{Binding SetRightHandCommand}" />
                 </MenuItem>
                 <Separator />
-                <MenuItem Header="_Auto-Flash" Command="{Binding ToggleAutoFlashCommand}" IsChecked="{Binding AutoFlashEnabled}">
+                <MenuItem Header="_Auto-Flash" Command="{Binding ToggleAutoFlashCommand}" IsChecked="{Binding Session.AutoFlashEnabled}">
                     <MenuItem.Icon>
-                        <TextBlock Text="✓" IsVisible="{Binding AutoFlashEnabled}" />
+                        <TextBlock Text="✓" IsVisible="{Binding Session.AutoFlashEnabled}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Show All _Devices" Command="{Binding ToggleShowAllDevicesCommand}" IsChecked="{Binding ShowAllDevices}">
+                <MenuItem Header="Show All _Devices" Command="{Binding ToggleShowAllDevicesCommand}" IsChecked="{Binding Session.ShowAllDevices}">
                     <MenuItem.Icon>
-                        <TextBlock Text="✓" IsVisible="{Binding ShowAllDevices}" />
+                        <TextBlock Text="✓" IsVisible="{Binding Session.ShowAllDevices}" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
@@ -92,16 +92,16 @@
                     </Grid.ColumnDefinitions>
                     <ComboBox Grid.Column="0"
                               IsEditable="True"
-                              ItemsSource="{Binding FirmwareHistory}"
-                              Text="{Binding FirmwarePath}"
+                              ItemsSource="{Binding Session.FirmwareHistory}"
+                              Text="{Binding Session.FirmwarePath}"
                               PlaceholderText="Click Open or drag to window to select file"
                               VerticalAlignment="Center"
                               HorizontalAlignment="Stretch" />
                     <Button Grid.Column="1" Content="Open" Command="{Binding OpenFileCommand}"
                             VerticalAlignment="Center" Margin="4,0" />
                     <ComboBox Grid.Column="2"
-                              ItemsSource="{Binding McuList}"
-                              SelectedItem="{Binding SelectedMcuPair}"
+                              ItemsSource="{Binding Session.McuList}"
+                              SelectedItem="{Binding Session.SelectedMcuPair}"
                               PlaceholderText="Select MCU"
                               VerticalAlignment="Center"
                               MinWidth="140">
@@ -136,7 +136,7 @@
         <!-- Action Bar: Flash / Reset / EEPROM buttons (right-aligned, matching original) -->
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Right" Margin="8,6,8,6" Spacing="4">
             <CheckBox Content="Auto-Flash"
-                      IsChecked="{Binding AutoFlashEnabled}"
+                      IsChecked="{Binding Session.AutoFlashEnabled}"
                       VerticalAlignment="Center"
                       Margin="0,0,4,0" />
             <Button Content="Flash" Command="{Binding FlashCommand}"

@@ -48,13 +48,13 @@ public partial class MainWindow : Window
 
         BuildNativeMenu(vm);
 
-        // SetUiInvoker MUST be called before StartListeners — USB events fire on
-        // background threads and rely on the invoker to marshal back to the UI thread.
+        // The session marshals USB events itself (invoker supplied at construction); this
+        // invoker only serves the ViewModel's own background callbacks (e.g. udev install).
         vm.SetUiInvoker(Avalonia.Threading.Dispatcher.UIThread.InvokeAsync);
         var windowService = new DesktopWindowService(this);
         vm.SetWindowService(windowService);
         vm.SetClipboardFunc(windowService.SetClipboardTextAsync);
-        vm.StartListeners();
+        vm.Session.Start();
         await vm.RunFirstStartSetupAsync();
     }
 
@@ -83,14 +83,14 @@ public partial class MainWindow : Window
         {
             Command = vm.ToggleAutoFlashCommand,
             ToggleType = MenuItemToggleType.CheckBox,
-            IsChecked = vm.AutoFlashEnabled
+            IsChecked = vm.Session.AutoFlashEnabled
         };
 
         var showAllItem = new NativeMenuItem("Show All Devices")
         {
             Command = vm.ToggleShowAllDevicesCommand,
             ToggleType = MenuItemToggleType.CheckBox,
-            IsChecked = vm.ShowAllDevices
+            IsChecked = vm.Session.ShowAllDevices
         };
 
         var darkThemeItem = new NativeMenuItem("Dark")
@@ -116,6 +116,7 @@ public partial class MainWindow : Window
         };
 
         vm.PropertyChanged += OnVmPropertyChanged;
+        vm.Session.PropertyChanged += OnSessionPropertyChanged;
         _autoFlashItem = autoFlashItem;
         _showAllItem = showAllItem;
         _darkThemeItem = darkThemeItem;
@@ -159,17 +160,21 @@ public partial class MainWindow : Window
         NativeMenu.SetMenu(this, windowMenu);
     }
 
+    private void OnSessionPropertyChanged(object? sender, PropertyChangedEventArgs args)
+    {
+        if (args.PropertyName == nameof(FlashSession.AutoFlashEnabled))
+        {
+            _autoFlashItem!.IsChecked = _nativeMenuVm!.Session.AutoFlashEnabled;
+        }
+        else if (args.PropertyName == nameof(FlashSession.ShowAllDevices))
+        {
+            _showAllItem!.IsChecked = _nativeMenuVm!.Session.ShowAllDevices;
+        }
+    }
+
     private void OnVmPropertyChanged(object? sender, PropertyChangedEventArgs args)
     {
-        if (args.PropertyName == nameof(MainWindowViewModel.AutoFlashEnabled))
-        {
-            _autoFlashItem!.IsChecked = _nativeMenuVm!.AutoFlashEnabled;
-        }
-        else if (args.PropertyName == nameof(MainWindowViewModel.ShowAllDevices))
-        {
-            _showAllItem!.IsChecked = _nativeMenuVm!.ShowAllDevices;
-        }
-        else if (args.PropertyName is nameof(MainWindowViewModel.IsDarkTheme)
+        if (args.PropertyName is nameof(MainWindowViewModel.IsDarkTheme)
                                    or nameof(MainWindowViewModel.IsLightTheme)
                                    or nameof(MainWindowViewModel.IsSystemTheme))
         {
@@ -182,6 +187,7 @@ public partial class MainWindow : Window
     protected override void OnClosing(WindowClosingEventArgs e)
     {
         _nativeMenuVm?.PropertyChanged -= OnVmPropertyChanged;
+        _nativeMenuVm?.Session.PropertyChanged -= OnSessionPropertyChanged;
         if (DataContext is MainWindowViewModel vm)
         {
             // Save window bounds before vm.SaveSettings() serialises the whole settings object
@@ -192,7 +198,7 @@ public partial class MainWindow : Window
             s.WindowHeight = Height;
 
             vm.SaveSettings();
-            vm.StopListeners();
+            vm.Session.Stop();
         }
         base.OnClosing(e);
     }
@@ -223,6 +229,6 @@ public partial class MainWindow : Window
 
         string? path = file.TryGetLocalPath();
         if (path != null && FirmwareFiles.IsFirmwareFile(path))
-            vm.SetFirmwarePath(path);
+            vm.Session.SetFirmwarePath(path);
     }
 }
