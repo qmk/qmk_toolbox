@@ -18,15 +18,23 @@ jobs:
     - uses: actions/checkout@v6
       with:
         fetch-depth: 0
-    - uses: actions/setup-dotnet@v5
-      with:
-        dotnet-version: '10.x'
 
-    - name: Build and Test
-      run: |
-        dotnet restore src/QmkToolbox.slnx
-        dotnet build src/QmkToolbox.slnx --configuration Release --no-restore
-        dotnet test src/QmkToolbox.Tests/QmkToolbox.Tests.csproj --no-restore --no-build --configuration Release
+    # Build and test run through the same Docker-based scripts as local development;
+    # the test container reuses the build container's outputs (same mounted paths).
+    - name: Build
+      run: ./scripts/build.sh --configuration Release
+
+    - name: Test
+      run: ./scripts/run-tests.sh --configuration Release
+
+    - name: Publish Coverage Summary
+      run: cat coveragereport/SummaryGithub.md >> "$GITHUB_STEP_SUMMARY"
+
+    - name: Upload Coverage Report
+      uses: actions/upload-artifact@v7
+      with:
+        name: coverage-report
+        path: coveragereport
 
     - name: Publish
       run: |

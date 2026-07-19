@@ -45,3 +45,7 @@ TestResult.xml
 *.p8
 *.pem
 *secret*
+
+# Test coverage output
+TestResults/
+coveragereport/
