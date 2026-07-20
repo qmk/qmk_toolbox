@@ -418,6 +418,50 @@ public class FlashCommandTests
     }
 
     [Fact]
+    public async Task LufaMsDevice_Flash_MountAppearsAfterConnect_RetriesAndSucceeds()
+    {
+        string mountDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+        Directory.CreateDirectory(mountDir);
+        string src = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.bin");
+        File.WriteAllBytes(src, [0x01, 0x02, 0x03]);
+
+        try
+        {
+            // Automount completes after the arrival event: the first resolution attempt
+            // finds nothing, the retry finds the volume.
+            IMountPointService mount = Substitute.For<IMountPointService>();
+            mount.FindMountPoint(Arg.Any<IUsbDevice>()).Returns(null, mountDir);
+
+            BootloaderDevice bd = BootloaderFactory.CreateDevice(
+                Usb(0x03EB, 0x2045), MockToolProvider(), null, mount)!;
+
+            await bd.FlashAsync("", src);
+
+            Assert.True(File.Exists(Path.Combine(mountDir, "FLASH.BIN")));
+        }
+        finally
+        {
+            if (Directory.Exists(mountDir))
+                Directory.Delete(mountDir, true);
+            if (File.Exists(src))
+                File.Delete(src);
+        }
+    }
+
+    [Fact]
+    public async Task LufaMsDevice_Flash_NoMountPoint_ReportsError()
+    {
+        BootloaderDevice bd = BootloaderFactory.CreateDevice(
+            Usb(0x03EB, 0x2045), MockToolProvider(), null, null)!;
+        var errors = new List<string>();
+        bd.OutputReceived += (_, data, type) => { if (type == MessageType.Error) errors.Add(data); };
+
+        await bd.FlashAsync("", "firmware.bin");
+
+        Assert.Contains("Mount point not found!", errors);
+    }
+
+    [Fact]
     public async Task LufaMsDevice_Flash_RejectsNonBinFile()
     {
         BootloaderDevice bd = BootloaderFactory.CreateDevice(

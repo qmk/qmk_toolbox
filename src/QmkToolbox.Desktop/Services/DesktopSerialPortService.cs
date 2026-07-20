@@ -84,7 +84,9 @@ public class DesktopSerialPortService : ISerialPortService
     /// Looks up the COM port assigned to a USB device by walking the Windows
     /// registry at HKLM\SYSTEM\CurrentControlSet\Enum\USB\VID_xxxx&amp;PID_xxxx.
     /// Each child key contains a "Device Parameters" sub-key with a "PortName"
-    /// value (e.g. "COM12"). Falls back to first available port if the lookup fails.
+    /// value (e.g. "COM12"). Returns null when the lookup fails — guessing an
+    /// unrelated port would point avrdude/mdloader at whatever serial device
+    /// happens to exist (modems, debug probes).
     /// </summary>
     [SupportedOSPlatform("windows")]
     private static string? FindByRegistryWindows(IUsbDevice device)
@@ -114,11 +116,8 @@ public class DesktopSerialPortService : ISerialPortService
         }
         catch
         {
-            // Registry access may fail due to permissions; fall through to fallback
+            // Registry access may fail due to permissions; report no port rather than guess.
         }
-
-        // Fallback: return first available port
-        string[] ports = SerialPort.GetPortNames();
-        return ports.Length > 0 ? ports[0] : null;
+        return null;
     }
 }
