@@ -23,9 +23,6 @@
         <Style Selector=":is(TemplatedControl)">
             <Setter Property="FontFamily" Value="avares://qmk_toolbox/Assets/Fonts#Inter Variable" />
         </Style>
-        <Style Selector=":is(Button)">
-            <Setter Property="FontWeight" Value="Normal" />
-        </Style>
         <Style Selector="AccessText">
             <Setter Property="ShowAccessKey" Value="True" />
         </Style>
