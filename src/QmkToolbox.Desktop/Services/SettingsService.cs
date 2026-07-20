@@ -27,14 +27,16 @@ public class AppSettings
 
 public class SettingsService
 {
-    private readonly string _settingsPath = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-        "QMK", "Toolbox", "settings.json");
+    private readonly string _settingsPath;
 
     public AppSettings Current { get; private set; } = new AppSettings();
 
-    public SettingsService()
+    /// <param name="settingsPath">Overrides the settings file location (used by tests).</param>
+    public SettingsService(string? settingsPath = null)
     {
+        _settingsPath = settingsPath ?? Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "QMK", "Toolbox", "settings.json");
         Load();
     }
 

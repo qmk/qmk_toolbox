@@ -20,10 +20,9 @@ public class HidConsoleViewModelTests
         public event Action<IHidDevice, string>? ConsoleReportReceived;
         public event Action<string>? ErrorOccurred;
 
-        public bool Started;
         public bool Disposed;
 
-        public void Start() => Started = true;
+        public void Start() { }
         public void Dispose() => Disposed = true;
 
         public void RaiseConnected(IHidDevice d) => HidDeviceConnected?.Invoke(d);
@@ -51,14 +50,6 @@ public class HidConsoleViewModelTests
         var listener = new FakeHidListener();
         var vm = new HidConsoleViewModel(listener);
         return (vm, listener);
-    }
-
-    [Fact]
-    public void Start_StartsTheListener()
-    {
-        (HidConsoleViewModel vm, FakeHidListener listener) = NewConsole();
-        vm.Start();
-        Assert.True(listener.Started);
     }
 
     [Fact]

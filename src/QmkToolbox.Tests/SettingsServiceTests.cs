@@ -1,198 +1,125 @@
-using System.Text.Json;
 using QmkToolbox.Desktop.Services;
 using Xunit;
 
 namespace QmkToolbox.Tests;
 
 /// <summary>
-/// Serialization round-trip tests for <see cref="AppSettings"/> using the source-generated
-/// <see cref="AppSettingsJsonContext"/>. These tests verify that every field survives a
-/// serialize → deserialize cycle and that resilience defaults (missing fields, extra fields)
-/// work correctly.
+/// Drives <see cref="SettingsService"/> through its entry points — construct (loads),
+/// mutate <see cref="SettingsService.Current"/>, <see cref="SettingsService.Save"/>,
+/// reconstruct (reloads) — against a temp settings path owned by the fixture.
 /// </summary>
-public class SettingsServiceTests
+public sealed class SettingsServiceTests : IDisposable
 {
-    private static AppSettings? Roundtrip(AppSettings settings)
-    {
-        string json = JsonSerializer.Serialize(settings, AppSettingsJsonContext.Default.AppSettings);
-        return JsonSerializer.Deserialize(json, AppSettingsJsonContext.Default.AppSettings);
-    }
+    private readonly string _dir = Directory.CreateTempSubdirectory("qmk-settings-tests-").FullName;
 
-    // ── Default values ─────────────────────────────────────────────────────────
+    private string SettingsPath => Path.Combine(_dir, "QMK", "Toolbox", "settings.json");
 
-    [Fact]
-    public void DefaultSettings_RoundTrip_PreservesDefaults()
-    {
-        AppSettings? result = Roundtrip(new AppSettings());
+    private SettingsService NewService() => new(SettingsPath);
 
-        Assert.NotNull(result);
-        Assert.True(result.FirstStart);
-        Assert.False(result.ShowAllDevices);
-        Assert.False(result.AutoFlashEnabled);
-        Assert.Equal("", result.FirmwareFilePath);
-        Assert.Empty(result.FirmwareFileHistory);
-        Assert.Equal("atmega32u4", result.SelectedMcu);
-        Assert.Equal("Default", result.ThemeVariant);
-        Assert.Null(result.WindowX);
-        Assert.Null(result.WindowY);
-        Assert.Null(result.WindowWidth);
-        Assert.Null(result.WindowHeight);
-    }
-
-    // ── Non-default scalar fields ──────────────────────────────────────────────
+    public void Dispose() => Directory.Delete(_dir, recursive: true);
 
     [Fact]
-    public void ModifiedScalars_RoundTrip_PreservesValues()
+    public void FirstRun_NoFile_LoadsDefaults()
     {
-        var original = new AppSettings
-        {
-            FirstStart = false,
-            ShowAllDevices = true,
-            AutoFlashEnabled = true,
-            FirmwareFilePath = "/home/user/firmware.hex",
-            SelectedMcu = "at90usb1286",
-            ThemeVariant = "Light",
-        };
+        SettingsService service = NewService();
 
-        AppSettings? result = Roundtrip(original);
-
-        Assert.NotNull(result);
-        Assert.False(result.FirstStart);
-        Assert.True(result.ShowAllDevices);
-        Assert.True(result.AutoFlashEnabled);
-        Assert.Equal("/home/user/firmware.hex", result.FirmwareFilePath);
-        Assert.Equal("at90usb1286", result.SelectedMcu);
-        Assert.Equal("Light", result.ThemeVariant);
-    }
-
-    // ── Nullable window geometry ───────────────────────────────────────────────
-
-    [Fact]
-    public void WindowGeometry_Set_RoundTrip_PreservesValues()
-    {
-        var original = new AppSettings
-        {
-            WindowX = 100.5,
-            WindowY = 200.0,
-            WindowWidth = 800.0,
-            WindowHeight = 600.0,
-        };
-
-        AppSettings? result = Roundtrip(original);
-
-        Assert.NotNull(result);
-        Assert.Equal(100.5, result.WindowX);
-        Assert.Equal(200.0, result.WindowY);
-        Assert.Equal(800.0, result.WindowWidth);
-        Assert.Equal(600.0, result.WindowHeight);
+        Assert.True(service.Current.FirstStart);
+        Assert.False(service.Current.ShowAllDevices);
+        Assert.False(service.Current.AutoFlashEnabled);
+        Assert.Equal("", service.Current.FirmwareFilePath);
+        Assert.Empty(service.Current.FirmwareFileHistory);
+        Assert.Equal("atmega32u4", service.Current.SelectedMcu);
+        Assert.Equal("Default", service.Current.ThemeVariant);
+        Assert.Null(service.Current.WindowX);
+        Assert.Null(service.Current.WindowWidth);
     }
 
     [Fact]
-    public void WindowGeometry_Null_RoundTrip_RemainsNull()
+    public void SaveThenReload_RoundTripsEveryField()
     {
-        AppSettings? result = Roundtrip(new AppSettings { WindowX = null, WindowY = null, WindowWidth = null, WindowHeight = null });
+        SettingsService service = NewService();
+        service.Current.FirstStart = false;
+        service.Current.ShowAllDevices = true;
+        service.Current.AutoFlashEnabled = true;
+        service.Current.FirmwareFilePath = "/home/user/firmware.hex";
+        service.Current.FirmwareFileHistory = ["/home/user/firmware.hex", "/old/one.bin"];
+        service.Current.SelectedMcu = "at90usb1286";
+        service.Current.ThemeVariant = "Light";
+        service.Current.WindowX = 100.5;
+        service.Current.WindowY = 200.0;
+        service.Current.WindowWidth = 800.0;
+        service.Current.WindowHeight = 600.0;
 
-        Assert.NotNull(result);
-        Assert.Null(result.WindowX);
-        Assert.Null(result.WindowY);
-        Assert.Null(result.WindowWidth);
-        Assert.Null(result.WindowHeight);
+        service.Save();
+        SettingsService reloaded = NewService();
+
+        Assert.False(reloaded.Current.FirstStart);
+        Assert.True(reloaded.Current.ShowAllDevices);
+        Assert.True(reloaded.Current.AutoFlashEnabled);
+        Assert.Equal("/home/user/firmware.hex", reloaded.Current.FirmwareFilePath);
+        Assert.Equal(["/home/user/firmware.hex", "/old/one.bin"], reloaded.Current.FirmwareFileHistory);
+        Assert.Equal("at90usb1286", reloaded.Current.SelectedMcu);
+        Assert.Equal("Light", reloaded.Current.ThemeVariant);
+        Assert.Equal(100.5, reloaded.Current.WindowX);
+        Assert.Equal(200.0, reloaded.Current.WindowY);
+        Assert.Equal(800.0, reloaded.Current.WindowWidth);
+        Assert.Equal(600.0, reloaded.Current.WindowHeight);
     }
 
-    // ── FirmwareFileHistory list ───────────────────────────────────────────────
-
     [Fact]
-    public void FirmwareFileHistory_MultipleEntries_RoundTrip_PreservesOrderAndContent()
+    public void Save_MissingDirectory_CreatesIt()
     {
-        var original = new AppSettings
-        {
-            FirmwareFileHistory =
-            [
-                "/path/to/first.hex",
-                "/path/to/second.bin",
-                "/path/to/third.uf2",
-            ],
-        };
+        // SettingsPath nests two directories that don't exist on a fresh install.
+        SettingsService service = NewService();
 
-        AppSettings? result = Roundtrip(original);
+        service.Save();
 
-        Assert.NotNull(result);
-        Assert.Equal(["/path/to/first.hex", "/path/to/second.bin", "/path/to/third.uf2"],
-            result.FirmwareFileHistory);
+        Assert.True(File.Exists(SettingsPath));
     }
 
-    // ── Resilience: unknown JSON fields ignored ─────────────────────────────────
-
     [Fact]
-    public void Deserialize_UnknownFields_AreIgnored()
+    public void Load_FileFromNewerVersion_UnknownFieldsIgnored()
     {
-        const string json = """
+        Directory.CreateDirectory(Path.GetDirectoryName(SettingsPath)!);
+        File.WriteAllText(SettingsPath, /*lang=json,strict*/ """
             {
                 "ShowAllDevices": true,
                 "UnknownFutureField": "some value",
                 "AnotherUnknown": 42
             }
-            """;
+            """);
 
-        AppSettings? result = JsonSerializer.Deserialize(json, AppSettingsJsonContext.Default.AppSettings);
+        SettingsService service = NewService();
 
-        Assert.NotNull(result);
-        Assert.True(result.ShowAllDevices);
-        // Other fields should have their defaults
-        Assert.False(result.AutoFlashEnabled);
-        Assert.Equal("atmega32u4", result.SelectedMcu);
+        Assert.True(service.Current.ShowAllDevices);
+        Assert.False(service.Current.AutoFlashEnabled);
+        Assert.Equal("atmega32u4", service.Current.SelectedMcu);
     }
 
-    // ── Resilience: missing JSON fields fall back to defaults ──────────────────
-
     [Fact]
-    public void Deserialize_MissingFields_FallBackToDefaults()
+    public void Load_FileFromOlderVersion_MissingFieldsFallBackToDefaults()
     {
-        // JSON with only one field — all others must default correctly.
-        const string json = """{"FirmwareFilePath": "/my/firmware.hex"}""";
+        Directory.CreateDirectory(Path.GetDirectoryName(SettingsPath)!);
+        File.WriteAllText(SettingsPath, /*lang=json,strict*/ """{"FirmwareFilePath": "/my/firmware.hex"}""");
 
-        AppSettings? result = JsonSerializer.Deserialize(json, AppSettingsJsonContext.Default.AppSettings);
+        SettingsService service = NewService();
 
-        Assert.NotNull(result);
-        Assert.Equal("/my/firmware.hex", result.FirmwareFilePath);
-        Assert.False(result.ShowAllDevices);
-        Assert.Equal("atmega32u4", result.SelectedMcu);
-        Assert.Null(result.WindowX);
+        Assert.Equal("/my/firmware.hex", service.Current.FirmwareFilePath);
+        Assert.False(service.Current.ShowAllDevices);
+        Assert.Equal("atmega32u4", service.Current.SelectedMcu);
+        Assert.Equal("Default", service.Current.ThemeVariant);
+        Assert.Null(service.Current.WindowX);
     }
 
-    // ── ThemeVariant missing in old settings files falls back to Dark ──────────
-
     [Fact]
-    public void Deserialize_MissingThemeVariant_DefaultsToDark()
+    public void Load_CorruptedFile_FallsBackToDefaults()
     {
-        const string json = """{"ShowAllDevices": true}""";
+        Directory.CreateDirectory(Path.GetDirectoryName(SettingsPath)!);
+        File.WriteAllText(SettingsPath, "{ this is not valid json !!!");
 
-        AppSettings? result = JsonSerializer.Deserialize(json, AppSettingsJsonContext.Default.AppSettings);
+        SettingsService service = NewService();
 
-        Assert.NotNull(result);
-        Assert.Equal("Default", result.ThemeVariant);
-    }
-
-    // ── Serialized JSON is human-readable (WriteIndented) ─────────────────────
-
-    [Fact]
-    public void Serialize_ProducesIndentedJson()
-    {
-        string json = JsonSerializer.Serialize(new AppSettings(), AppSettingsJsonContext.Default.AppSettings);
-
-        // WriteIndented = true means there will be newlines in the output.
-        Assert.Contains('\n', json);
-    }
-
-    // ── Empty JSON object produces default AppSettings ─────────────────────────
-
-    [Fact]
-    public void Deserialize_EmptyObject_ReturnsDefaults()
-    {
-        AppSettings? result = JsonSerializer.Deserialize("{}", AppSettingsJsonContext.Default.AppSettings);
-
-        Assert.NotNull(result);
-        Assert.False(result.ShowAllDevices);
-        Assert.Equal("atmega32u4", result.SelectedMcu);
+        Assert.True(service.Current.FirstStart);
+        Assert.Equal("atmega32u4", service.Current.SelectedMcu);
     }
 }

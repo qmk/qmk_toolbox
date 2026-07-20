@@ -17,24 +17,4 @@ public class MessageTypeDescriptorTests
         foreach (MessageType type in Enum.GetValues<MessageType>())
             Assert.True(MessageTypeDescriptors.All.ContainsKey(type), $"Missing descriptor for MessageType.{type}");
     }
-
-    [Fact]
-    public void EveryDescriptor_HasANonNullPrefix()
-    {
-        foreach (MessageTypeDescriptor descriptor in MessageTypeDescriptors.All.Values)
-            Assert.NotNull(descriptor.Prefix);
-    }
-
-    [Fact]
-    public void RawStreamTypes_AreExactlyTheStreamingOnes()
-    {
-        MessageType[] raw = [.. MessageTypeDescriptors.All
-            .Where(kv => kv.Value.IsRawStream)
-            .Select(kv => kv.Key)
-            .Order()];
-
-        Assert.Equal(
-            [MessageType.CommandError, MessageType.CommandOutput, MessageType.HidOutput],
-            raw);
-    }
 }

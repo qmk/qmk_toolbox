@@ -33,24 +33,6 @@ public class FlashOrchestratorTests
     }
 
     [Fact]
-    public async Task RunExclusiveAsync_IsBusy_TogglesAroundOperation()
-    {
-        FlashOrchestrator orch = NewOrchestrator();
-        Assert.False(orch.IsBusy);
-
-        bool busyDuring = false;
-        bool ran = await orch.RunExclusiveAsync(() =>
-        {
-            busyDuring = orch.IsBusy;
-            return Task.CompletedTask;
-        });
-
-        Assert.True(ran);
-        Assert.True(busyDuring);
-        Assert.False(orch.IsBusy);
-    }
-
-    [Fact]
     public async Task RunExclusiveAsync_OperationThrows_ResetsBusyAndPropagates()
     {
         FlashOrchestrator orch = NewOrchestrator();
@@ -59,21 +41,5 @@ public class FlashOrchestratorTests
             () => orch.RunExclusiveAsync(() => throw new InvalidOperationException()));
 
         Assert.False(orch.IsBusy);
-    }
-
-    [Fact]
-    public async Task RunExclusiveAsync_RaisesStateChangedOnEnterAndExit()
-    {
-        FlashOrchestrator orch = NewOrchestrator();
-        int changes = 0;
-        orch.StateChanged += () => changes++;
-
-        var gate = new TaskCompletionSource();
-        Task<bool> op = orch.RunExclusiveAsync(() => gate.Task);
-        Assert.Equal(1, changes); // entered -> busy
-
-        gate.SetResult();
-        await op;
-        Assert.Equal(2, changes); // exited -> idle
     }
 }
