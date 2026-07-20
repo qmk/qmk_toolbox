@@ -15,6 +15,13 @@ public static class DeviceTrace
     /// <inheritdoc cref="VidPid(ushort, ushort)"/>
     public static string VidPid(IUsbDevice device) => VidPid(device.VendorId, device.ProductId);
 
+    /// <summary>
+    /// Formats VID/PID plus revision as <c>VID:XXXX PID:XXXX REV:XXXX</c> — for arrival traces,
+    /// where the revision has been read; removals never carry one.
+    /// </summary>
+    public static string VidPidRev(IUsbDevice device) =>
+        $"{VidPid(device)} REV:{device.RevisionBcd:X4}";
+
     /// <summary>Quotes a device path, or <c>(empty)</c> when absent.</summary>
     public static string Path(string? path) =>
         string.IsNullOrEmpty(path) ? "(empty)" : $"\"{path}\"";

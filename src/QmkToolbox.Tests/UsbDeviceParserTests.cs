@@ -93,6 +93,53 @@ public class UsbDeviceParserTests
     public void TryParseHwId_NoMatch_ReturnsFalse(string input) =>
         Assert.False(UsbDeviceParser.TryParseHwId(input, out _, out _, out _));
 
+    // ── TryParseRevisionFromHardwareIds ────────────────────────────────────────
+
+    [Fact]
+    public void TryParseRevisionFromHardwareIds_RealisticMultiSz_FindsRev()
+    {
+        // CM_DRP_HARDWAREID as Windows reports it: most-specific entry first.
+        string[] hardwareIds =
+        [
+            @"USB\VID_03EB&PID_2FF4&REV_0936",
+            @"USB\VID_03EB&PID_2FF4",
+        ];
+
+        Assert.True(UsbDeviceParser.TryParseRevisionFromHardwareIds(hardwareIds, out ushort rev));
+        Assert.Equal(0x0936, rev);
+    }
+
+    [Fact]
+    public void TryParseRevisionFromHardwareIds_NoRevEntry_ReturnsFalse()
+    {
+        Assert.False(UsbDeviceParser.TryParseRevisionFromHardwareIds(
+            [@"USB\VID_03EB&PID_2FF4"], out _));
+    }
+
+    [Fact]
+    public void TryParseRevisionFromHardwareIds_EmptyList_ReturnsFalse()
+        => Assert.False(UsbDeviceParser.TryParseRevisionFromHardwareIds([], out _));
+
+    // ── TryParseBcdDevice ──────────────────────────────────────────────────────
+
+    [Theory]
+    [InlineData("0936\n", 0x0936)] // sysfs value with trailing newline
+    [InlineData("0200", 0x0200)]
+    [InlineData("FFFF", 0xFFFF)]
+    public void TryParseBcdDevice_SysfsValue_ParsesHex(string input, int expected)
+    {
+        Assert.True(UsbDeviceParser.TryParseBcdDevice(input, out ushort rev));
+        Assert.Equal((ushort)expected, rev);
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("   ")]
+    [InlineData("not hex")]
+    public void TryParseBcdDevice_Invalid_ReturnsFalse(string? input)
+        => Assert.False(UsbDeviceParser.TryParseBcdDevice(input, out _));
+
     // ── IsWindowsRootUsbDevice ─────────────────────────────────────────────────
 
     [Theory]

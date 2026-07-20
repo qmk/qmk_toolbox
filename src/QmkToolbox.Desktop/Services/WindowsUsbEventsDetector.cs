@@ -52,8 +52,11 @@ public sealed class WindowsUsbEventsDetector : IUsbEventsDetector
 
     private const int CR_SUCCESS = 0x00000000;
     private const uint CM_DRP_DEVICEDESC = 0x00000001; // SPDRP_DEVICEDESC: device description / product string (REG_SZ)
+    private const uint CM_DRP_HARDWAREID = 0x00000002; // SPDRP_HARDWAREID: hardware IDs incl. REV_ (REG_MULTI_SZ)
     private const uint CM_DRP_SERVICE = 0x00000005;    // SPDRP_SERVICE: driver service name e.g. "WinUSB" (REG_SZ)
     private const uint CM_DRP_MFG = 0x0000000C;        // SPDRP_MFG: manufacturer string (REG_SZ)
+
+    private const uint CM_GET_DEVICE_INTERFACE_LIST_PRESENT = 0;
 
     // Driver service names in priority order for composite device interface selection.
     private static readonly string[] DriverPriority =
@@ -148,6 +151,14 @@ public sealed class WindowsUsbEventsDetector : IUsbEventsDetector
         uint dnDevInst, uint ulProperty, out uint pulRegDataType,
         char[] buffer, ref uint pulLength, uint ulFlags);
 
+    [DllImport("cfgmgr32.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
+    private static extern int CM_Get_Device_Interface_List_SizeW(
+        out uint pulLen, ref Guid interfaceClassGuid, string? pDeviceID, uint ulFlags);
+
+    [DllImport("cfgmgr32.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
+    private static extern int CM_Get_Device_Interface_ListW(
+        ref Guid interfaceClassGuid, string? pDeviceID, char[] buffer, uint bufferLen, uint ulFlags);
+
     public void Start()
     {
         _wndProcDelegate = WndProc;
@@ -155,6 +166,32 @@ public sealed class WindowsUsbEventsDetector : IUsbEventsDetector
         _messageThread = new Thread(MessagePump) { IsBackground = true, Name = "UsbDetectorMessagePump" };
         _messageThread.Start();
         _hwndReady.Wait();
+        // RegisterDeviceNotification delivers future arrivals only; a board already sitting in
+        // bootloader mode when the app launches must be swept up explicitly. Runs after the
+        // notification window exists so nothing can slip between sweep and subscription (a
+        // device delivered by both is dropped by HandleArrival's duplicate-path guard).
+        EnumeratePresentDevices();
+    }
+
+    private void EnumeratePresentDevices()
+    {
+        try
+        {
+            Guid guid = GuidDevInterfaceUsbDevice;
+            if (CM_Get_Device_Interface_List_SizeW(out uint len, ref guid, null, CM_GET_DEVICE_INTERFACE_LIST_PRESENT) != CR_SUCCESS || len <= 1)
+                return;
+            var buffer = new char[len];
+            if (CM_Get_Device_Interface_ListW(ref guid, null, buffer, len, CM_GET_DEVICE_INTERFACE_LIST_PRESENT) != CR_SUCCESS)
+                return;
+            foreach (string path in new string(buffer).Split('\0', StringSplitOptions.RemoveEmptyEntries))
+            {
+                HandleArrival(path);
+            }
+        }
+        catch (Exception ex)
+        {
+            Trace.WriteLine($"Initial USB device enumeration failed: {ex.Message}");
+        }
     }
 
     public void Stop()
@@ -251,9 +288,15 @@ public sealed class WindowsUsbEventsDetector : IUsbEventsDetector
         if (device == null)
             return;
         lock (_devicesLock)
+        {
+            // A device can be delivered twice when the startup sweep and a WM_DEVICECHANGE
+            // arrival race; interface paths are canonical, so drop the duplicate.
+            if (_devices.Any(d => string.Equals(d.DevicePath, deviceInterfacePath, StringComparison.OrdinalIgnoreCase)))
+                return;
             _devices.Add(device);
+        }
         DiagnosticTrace?.Invoke(
-            $"[USB+] {DeviceTrace.VidPid(device)} path:{DeviceTrace.Path(deviceInterfacePath)}");
+            $"[USB+] {DeviceTrace.VidPidRev(device)} path:{DeviceTrace.Path(deviceInterfacePath)}");
         DeviceConnected?.Invoke(device);
     }
 
@@ -294,6 +337,13 @@ public sealed class WindowsUsbEventsDetector : IUsbEventsDetector
 
         if (CM_Locate_DevNodeW(out uint devNode, instanceId, 0) == CR_SUCCESS)
         {
+            // Instance IDs never carry REV_; the hardware-ID list (REG_MULTI_SZ) does —
+            // e.g. USB\VID_03EB&PID_2FF4&REV_0936.
+            if (rev == 0 &&
+                UsbDeviceParser.TryParseRevisionFromHardwareIds(ReadDevNodeMultiSz(devNode, CM_DRP_HARDWAREID), out ushort hwRev))
+            {
+                rev = hwRev;
+            }
             product = ReadDevNodeProperty(devNode, CM_DRP_DEVICEDESC);
             manufacturer = ReadDevNodeProperty(devNode, CM_DRP_MFG);
             string service = ReadDevNodeProperty(devNode, CM_DRP_SERVICE);
@@ -365,6 +415,15 @@ public sealed class WindowsUsbEventsDetector : IUsbEventsDetector
         return CM_Get_DevNode_Registry_PropertyW(devNode, property, out _, buffer, ref size, 0) == CR_SUCCESS && size > 2
             ? new string(buffer, 0, (int)(size / 2) - 1)
             : "";
+    }
+
+    private static string[] ReadDevNodeMultiSz(uint devNode, uint property)
+    {
+        var buffer = new char[1024];
+        uint size = (uint)(buffer.Length * 2);
+        return CM_Get_DevNode_Registry_PropertyW(devNode, property, out _, buffer, ref size, 0) != CR_SUCCESS || size < 2
+            ? []
+            : new string(buffer, 0, (int)(size / 2)).Split('\0', StringSplitOptions.RemoveEmptyEntries);
     }
 }
 #endif

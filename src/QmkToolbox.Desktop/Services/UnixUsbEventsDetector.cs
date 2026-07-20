@@ -43,13 +43,13 @@ public class UnixUsbEventsDetector : IUsbEventsDetector
 
     private void OnAdded(object? sender, UsbDevice usbDevice)
     {
-        UsbDeviceInfo? device = ToUsbDeviceInfo(usbDevice);
+        UsbDeviceInfo? device = ToUsbDeviceInfo(usbDevice, includeRevision: true);
         if (device == null)
             return;
         lock (_devicesLock)
             _devices.Add(device);
         DiagnosticTrace?.Invoke(
-            $"[USB+] {DeviceTrace.VidPid(device)} path:{DeviceTrace.Path(device.DevicePath)}");
+            $"[USB+] {DeviceTrace.VidPidRev(device)} path:{DeviceTrace.Path(device.DevicePath)}");
         DeviceConnected?.Invoke(device);
     }
 
@@ -59,7 +59,8 @@ public class UnixUsbEventsDetector : IUsbEventsDetector
         bool matchedByPath = false;
         int vidPidCandidates = 0;
         string path = usbDevice.DeviceSystemPath;
-        UsbDeviceInfo? fallbackDevice = ToUsbDeviceInfo(usbDevice);
+        // Removal only needs VID/PID for matching; the device is gone, so don't query for revision.
+        UsbDeviceInfo? fallbackDevice = ToUsbDeviceInfo(usbDevice, includeRevision: false);
 
         lock (_devicesLock)
         {
@@ -100,12 +101,17 @@ public class UnixUsbEventsDetector : IUsbEventsDetector
             DeviceDisconnected?.Invoke(existing);
     }
 
-    private static UsbDeviceInfo? ToUsbDeviceInfo(UsbDevice d)
-    {
-        string devicePath = d.DeviceSystemPath ?? "";
+    private static UsbDeviceInfo? ToUsbDeviceInfo(UsbDevice d, bool includeRevision) =>
+        ToUsbDeviceInfo(d.VendorID, d.ProductID, d.Vendor, d.Product ?? d.DeviceName, d.DeviceSystemPath, includeRevision);
 
-        UsbDeviceParser.TryParseUsbId(d.VendorID, out ushort vid);
-        UsbDeviceParser.TryParseUsbId(d.ProductID, out ushort pid);
+    internal static UsbDeviceInfo? ToUsbDeviceInfo(
+        string? vendorId, string? productId, string? vendor, string? product,
+        string? deviceSystemPath, bool includeRevision)
+    {
+        string devicePath = deviceSystemPath ?? "";
+
+        UsbDeviceParser.TryParseUsbId(vendorId, out ushort vid);
+        UsbDeviceParser.TryParseUsbId(productId, out ushort pid);
 
         if (vid == 0 && pid == 0)
         {
@@ -113,10 +119,22 @@ public class UnixUsbEventsDetector : IUsbEventsDetector
                 return null;
         }
 
+        // Usb.Events surfaces no bcdDevice on any platform; read it from the OS directly so the
+        // QMK-revision-marker check (BootloaderFactory.GetDeviceType) can distinguish QMK-DFU/HID
+        // bootloaders from stock ones.
+        ushort rev = 0;
+        if (includeRevision)
+        {
+            if (OperatingSystem.IsLinux())
+                rev = LinuxUsbSysfs.ReadBcdDevice(devicePath);
+            else if (OperatingSystem.IsMacOS())
+                rev = MacUsbRegistry.ReadBcdDevice(vid, pid);
+        }
+
         return new UsbDeviceInfo(
-            vid, pid, 0,
-            d.Vendor ?? "",
-            d.Product ?? d.DeviceName ?? "",
+            vid, pid, rev,
+            vendor ?? "",
+            product ?? "",
             "",
             devicePath);
     }

@@ -37,7 +37,7 @@ public class FlashOrchestrator(
             bd.OutputReceived += OnFlashOutput;
             _bootloaders.Add(bd);
             DiagnosticTrace?.Invoke(
-                $"[ORCH+] {DeviceTrace.VidPid(device)} path:{DeviceTrace.Path(device.DevicePath)}" +
+                $"[ORCH+] {DeviceTrace.VidPidRev(device)} path:{DeviceTrace.Path(device.DevicePath)}" +
                 $" -> {bd.Name}  (bootloaders:{_bootloaders.Count})");
             StateChanged?.Invoke();
             // Await port resolution (instant for most devices; up to ~2.5 s for serial-port
@@ -55,7 +55,7 @@ public class FlashOrchestrator(
             Emit($"USB device connected{WindowsDriverSuffix(device.Driver)}: {device}", MessageType.Usb);
         }
         DiagnosticTrace?.Invoke(
-            $"[ORCH+] {DeviceTrace.VidPid(device)} -> not a bootloader");
+            $"[ORCH+] {DeviceTrace.VidPidRev(device)} -> not a bootloader");
         return false;
     }
 

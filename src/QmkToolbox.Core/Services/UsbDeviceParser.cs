@@ -45,6 +45,34 @@ public static class UsbDeviceParser
     }
 
     /// <summary>
+    /// Scans a hardware-ID list (Windows <c>CM_DRP_HARDWAREID</c> multi-sz — e.g.
+    /// <c>USB\VID_03EB&amp;PID_2FF4&amp;REV_0936</c>, <c>USB\VID_03EB&amp;PID_2FF4</c>)
+    /// for the first entry carrying a non-zero <c>REV_</c> value. Device instance IDs never
+    /// contain <c>REV_</c>; only hardware IDs do.
+    /// </summary>
+    public static bool TryParseRevisionFromHardwareIds(IEnumerable<string> hardwareIds, out ushort rev)
+    {
+        foreach (string id in hardwareIds)
+        {
+            if (TryParseHwId(id, out _, out _, out rev) && rev != 0)
+                return true;
+        }
+        rev = 0;
+        return false;
+    }
+
+    /// <summary>
+    /// Parses a Linux sysfs <c>bcdDevice</c> attribute value — four hex digits with a trailing
+    /// newline (e.g. <c>"0936\n"</c> for revision 9.36).
+    /// </summary>
+    public static bool TryParseBcdDevice(string? text, out ushort rev)
+    {
+        rev = 0;
+        return !string.IsNullOrWhiteSpace(text) &&
+               ushort.TryParse(text.Trim(), NumberStyles.HexNumber, null, out rev);
+    }
+
+    /// <summary>
     /// Returns true only for Windows root USB devices (USB\VID_...\... without a &amp;MI_ interface suffix).
     /// On non-Windows platforms always returns true.
     /// </summary>
