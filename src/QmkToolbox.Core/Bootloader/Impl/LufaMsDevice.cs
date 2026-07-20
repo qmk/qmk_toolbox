@@ -23,9 +23,8 @@ internal sealed class LufaMsDevice : BootloaderDevice
     {
         ValidateFileExtension(file, ".bin");
 
-        // Automounting completes after the USB arrival event, so the volume is resolved here
-        // at flash time — with the same poll-and-retry treatment serial ports get — rather
-        // than once at connect time, when the volume usually doesn't exist yet.
+        // Automounting completes after the USB arrival event, so the volume is resolved at
+        // flash time, with the same poll-and-retry treatment serial ports get.
         MountPoint = await FindMountPointAsync().ConfigureAwait(false);
         if (MountPoint == null)
         {

@@ -227,11 +227,16 @@ public class FlashToolProvider : IFlashToolProvider
     /// shared libraries (.so, .so.N, .dylib), and shell scripts (.sh).
     /// Data files (.conf, .eep, .rules, .txt) and manifests (_release_*) are excluded.
     /// </summary>
-    private static bool IsExecutable(string path)
+    internal static bool IsExecutable(string path)
     {
-        string ext = Path.GetExtension(path);
-        return ext is "" or ".dylib" or ".sh"
-            || ext.StartsWith(".so", StringComparison.Ordinal);
+        string name = Path.GetFileName(path);
+        if (name.Contains("_release_", StringComparison.Ordinal))
+            return false;
+        // Path.GetExtension("libfoo.so.0") is ".0", so versioned shared libraries are
+        // matched on the file name, not the extension.
+        return Path.GetExtension(name) is "" or ".dylib" or ".sh"
+            || name.EndsWith(".so", StringComparison.Ordinal)
+            || name.Contains(".so.", StringComparison.Ordinal);
     }
 
     [UnsupportedOSPlatform("windows")]

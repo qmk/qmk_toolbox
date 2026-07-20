@@ -30,6 +30,8 @@ public sealed class WindowsUsbEventsDetector : IUsbEventsDetector
     private Thread? _messageThread;
     private volatile IntPtr _hwnd = IntPtr.Zero;
     private IntPtr _notifyHandle = IntPtr.Zero;
+    private int _windowError;
+    private int _notifyError;
     private uint _messageThreadId;
     private readonly ManualResetEventSlim _hwndReady = new(false);
     // Kept as a field — delegate must outlive the unmanaged window class registration.
@@ -166,6 +168,14 @@ public sealed class WindowsUsbEventsDetector : IUsbEventsDetector
         _messageThread = new Thread(MessagePump) { IsBackground = true, Name = "UsbDetectorMessagePump" };
         _messageThread.Start();
         _hwndReady.Wait();
+
+        // A failed setup means USB detection is dead for the whole session; throwing lets
+        // the caller surface it as a visible error.
+        if (_hwnd == IntPtr.Zero)
+            throw new InvalidOperationException($"USB notification window creation failed (Win32 error {_windowError}).");
+        if (_notifyHandle == IntPtr.Zero)
+            throw new InvalidOperationException($"USB device notification registration failed (Win32 error {_notifyError}).");
+
         // RegisterDeviceNotification delivers future arrivals only; a board already sitting in
         // bootloader mode when the app launches must be swept up explicitly. Runs after the
         // notification window exists so nothing can slip between sweep and subscription (a
@@ -227,7 +237,11 @@ public sealed class WindowsUsbEventsDetector : IUsbEventsDetector
         _hwnd = CreateWindowExW(0, className, null, 0, 0, 0, 0, 0,
             new IntPtr(-3), IntPtr.Zero, GetModuleHandleW(null), IntPtr.Zero);
 
-        if (_hwnd != IntPtr.Zero)
+        if (_hwnd == IntPtr.Zero)
+        {
+            _windowError = Marshal.GetLastPInvokeError();
+        }
+        else
         {
             var filter = new DEV_BROADCAST_DEVICEINTERFACE
             {
@@ -236,6 +250,8 @@ public sealed class WindowsUsbEventsDetector : IUsbEventsDetector
                 ClassGuid = GuidDevInterfaceUsbDevice,
             };
             _notifyHandle = RegisterDeviceNotificationW(_hwnd, ref filter, DEVICE_NOTIFY_WINDOW_HANDLE);
+            if (_notifyHandle == IntPtr.Zero)
+                _notifyError = Marshal.GetLastPInvokeError();
         }
 
         _hwndReady.Set();

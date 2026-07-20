@@ -80,6 +80,21 @@ public class FlashServiceProcessTests
     }
 
     [Fact]
+    public async Task RunToolAsync_OutputPumpFails_KillsProcessAndReturnsMinusOne()
+    {
+        var process = new FakeRunningProcess(stdoutThrows: true, hang: true);
+        var errors = new StringBuilder();
+
+        int exit = await FlashService.RunToolAsync("tool", [], Provider(),
+            (data, type) => { if (type == MessageType.Error) errors.Append(data); },
+            new FakeProcessRunner(process));
+
+        Assert.Equal(-1, exit);
+        Assert.True(process.KillCalled);
+        Assert.Contains("Error reading tool output", errors.ToString());
+    }
+
+    [Fact]
     public async Task RunToolAsync_Timeout_KillsProcessAndReturnsMinusOne()
     {
         var timeProvider = new FakeTimeProvider();
@@ -121,10 +136,12 @@ internal sealed class FakeProcessRunner : IProcessRunner
         _startException != null ? throw _startException : _process!;
 }
 
-internal sealed class FakeRunningProcess(string stdout = "", string stderr = "", int exitCode = 0, bool hang = false)
+internal sealed class FakeRunningProcess(
+    string stdout = "", string stderr = "", int exitCode = 0, bool hang = false, bool stdoutThrows = false)
     : IRunningProcess
 {
-    public StreamReader StandardOutput { get; } = new(new MemoryStream(Encoding.UTF8.GetBytes(stdout)));
+    public StreamReader StandardOutput { get; } = new(
+        stdoutThrows ? new ThrowingStream() : new MemoryStream(Encoding.UTF8.GetBytes(stdout)));
     public StreamReader StandardError { get; } = new(new MemoryStream(Encoding.UTF8.GetBytes(stderr)));
     public int ExitCode { get; } = exitCode;
     public bool KillCalled { get; private set; }
@@ -140,4 +157,23 @@ internal sealed class FakeRunningProcess(string stdout = "", string stderr = "",
         StandardOutput.Dispose();
         StandardError.Dispose();
     }
+}
+
+/// <summary>A read stream that fails mid-pump, mimicking a broken pipe.</summary>
+internal sealed class ThrowingStream : Stream
+{
+    public override bool CanRead => true;
+    public override bool CanSeek => false;
+    public override bool CanWrite => false;
+    public override long Length => 0;
+    public override long Position { get => 0; set => throw new NotSupportedException(); }
+
+    public override int Read(byte[] buffer, int offset, int count) => throw new IOException("broken pipe");
+    public override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default) =>
+        throw new IOException("broken pipe");
+
+    public override void Flush() { }
+    public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
+    public override void SetLength(long value) => throw new NotSupportedException();
+    public override void Write(byte[] buffer, int offset, int count) => throw new NotSupportedException();
 }

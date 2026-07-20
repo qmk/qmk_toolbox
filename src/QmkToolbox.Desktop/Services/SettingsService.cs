@@ -31,6 +31,9 @@ public class SettingsService
 
     public AppSettings Current { get; private set; } = new AppSettings();
 
+    /// <summary>Receives user-visible error messages (e.g. save failures); Debug output otherwise.</summary>
+    public Action<string>? ErrorLogger { get; set; }
+
     /// <param name="settingsPath">Overrides the settings file location (used by tests).</param>
     public SettingsService(string? settingsPath = null)
     {
@@ -63,6 +66,11 @@ public class SettingsService
             string json = JsonSerializer.Serialize(Current, AppSettingsJsonContext.Default.AppSettings);
             File.WriteAllText(_settingsPath, json);
         }
-        catch (Exception ex) { Debug.WriteLine($"Failed to save settings: {ex.Message}"); }
+        catch (Exception ex)
+        {
+            string message = $"Failed to save settings: {ex.Message}";
+            Debug.WriteLine(message);
+            ErrorLogger?.Invoke(message);
+        }
     }
 }

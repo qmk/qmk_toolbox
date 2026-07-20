@@ -76,6 +76,18 @@ public static class FlashService
                 catch { }
                 return -1;
             }
+            catch (Exception ex)
+            {
+                // A pump failure (e.g. IOException mid-read) must not leave the child process
+                // running or abort the caller's remaining devices.
+                outputReceived?.Invoke($"Error reading tool output: {ex.Message}", MessageType.Error);
+                try
+                {
+                    process.Kill();
+                }
+                catch { }
+                return -1;
+            }
         }
     }
 

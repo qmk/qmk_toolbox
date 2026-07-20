@@ -112,6 +112,21 @@ public sealed class SettingsServiceTests : IDisposable
     }
 
     [Fact]
+    public void Save_Failure_ReportsThroughErrorLogger()
+    {
+        // The settings path nests under a *file*, so directory creation must fail.
+        string blocker = Path.Combine(_dir, "blocker");
+        File.WriteAllText(blocker, "");
+        var service = new SettingsService(Path.Combine(blocker, "sub", "settings.json"));
+        var errors = new List<string>();
+        service.ErrorLogger = errors.Add;
+
+        service.Save();
+
+        Assert.Contains(errors, e => e.StartsWith("Failed to save settings:"));
+    }
+
+    [Fact]
     public void Load_CorruptedFile_FallsBackToDefaults()
     {
         Directory.CreateDirectory(Path.GetDirectoryName(SettingsPath)!);

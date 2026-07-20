@@ -116,7 +116,7 @@ public class DesktopSerialPortService : ISerialPortService
         }
         catch
         {
-            // Registry access may fail due to permissions; report no port rather than guess.
+            // Registry access may fail due to permissions; report no port.
         }
         return null;
     }

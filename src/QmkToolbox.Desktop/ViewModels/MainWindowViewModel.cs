@@ -43,6 +43,7 @@ public partial class MainWindowViewModel : LogViewModelBase
         Session = session;
         _toolProvider = toolProvider;
         Settings = settingsService;
+        Settings.ErrorLogger = LogError;
 
         // Log routes each message by its type's stream discipline (see MessageType.IsRawStream).
         Session.Output += Log;
