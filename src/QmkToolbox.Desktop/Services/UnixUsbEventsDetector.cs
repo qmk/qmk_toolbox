@@ -119,16 +119,24 @@ public class UnixUsbEventsDetector : IUsbEventsDetector
                 return null;
         }
 
-        // Usb.Events surfaces no bcdDevice on any platform; read it from the OS directly so the
-        // QMK-revision-marker check (BootloaderFactory.GetDeviceType) can distinguish QMK-DFU/HID
-        // bootloaders from stock ones.
+        // Usb.Events surfaces no bcdDevice or interface classes on any platform; read them from
+        // the OS directly. bcdDevice feeds the QMK-revision-marker check
+        // (BootloaderFactory.GetDeviceType); the mass-storage flag gates the marker-volume
+        // probe (FlashOrchestrator). Both are arrival-only — removals don't query the OS.
         ushort rev = 0;
+        bool isMassStorage = false;
         if (includeRevision)
         {
             if (OperatingSystem.IsLinux())
+            {
                 rev = LinuxUsbSysfs.ReadBcdDevice(devicePath);
+                isMassStorage = LinuxUsbSysfs.HasMassStorageInterface(devicePath);
+            }
             else if (OperatingSystem.IsMacOS())
+            {
                 rev = MacUsbRegistry.ReadBcdDevice(vid, pid);
+                isMassStorage = MacUsbRegistry.HasMassStorageInterface(vid, pid);
+            }
         }
 
         return new UsbDeviceInfo(
@@ -136,7 +144,8 @@ public class UnixUsbEventsDetector : IUsbEventsDetector
             vendor ?? "",
             product ?? "",
             "",
-            devicePath);
+            devicePath,
+            isMassStorage);
     }
 }
 #endif

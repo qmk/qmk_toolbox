@@ -152,15 +152,18 @@ public partial class FlashSession : ObservableObject
     internal Task? AutoFlashTask { get; private set; }
 
     private void OnDeviceConnected(IUsbDevice device)
-        => _ = InvokeAsync(() =>
+        => _ = InvokeAsync(async () =>
         {
-            bool bootloaderAdded = _orchestrator.OnDeviceConnected(device, ShowAllDevices);
+            // Completes synchronously for VID/PID-mapped devices; unmapped mass-storage devices
+            // resolve only after the volume probe, so auto-flash waits until the volume is
+            // actually mounted.
+            bool bootloaderAdded = await _orchestrator.OnDeviceConnectedAsync(device, ShowAllDevices);
             if (!bootloaderAdded || !AutoFlashEnabled)
-                return Task.CompletedTask;
+                return;
             if (!ValidateFirmware("Auto-flash: "))
-                return Task.CompletedTask;
+                return;
             AutoFlashTask = AutoFlashAsync();
-            return AutoFlashTask;
+            await AutoFlashTask;
         });
 
     private async Task AutoFlashAsync()

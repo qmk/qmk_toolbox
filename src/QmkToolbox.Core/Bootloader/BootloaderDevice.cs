@@ -8,7 +8,7 @@ namespace QmkToolbox.Core.Bootloader;
 /// Wraps an <see cref="IUsbDevice"/> and provides common plumbing for flashing,
 /// EEPROM operations, reset, and tool invocation.
 /// </summary>
-public abstract class BootloaderDevice(IUsbDevice device, IFlashToolProvider toolProvider, ISerialPortService? serialPortService = null)
+public abstract class BootloaderDevice(IUsbDevice device, IFlashToolProvider toolProvider, ISerialPortService? serialPortService = null, IMountPointService? mountPointService = null)
 {
     public delegate void FlashOutputReceivedDelegate(BootloaderDevice device, string data, MessageType type);
 
@@ -17,6 +17,7 @@ public abstract class BootloaderDevice(IUsbDevice device, IFlashToolProvider too
     public IUsbDevice Device { get; } = device;
     protected IFlashToolProvider ToolProvider { get; } = toolProvider;
     protected ISerialPortService? SerialPortService { get; } = serialPortService;
+    protected IMountPointService? MountPointService { get; } = mountPointService;
 
     public ushort VendorId => Device.VendorId;
     public ushort ProductId => Device.ProductId;
@@ -80,6 +81,25 @@ public abstract class BootloaderDevice(IUsbDevice device, IFlashToolProvider too
             string? port = SerialPortService.FindSerialPort(Device);
             if (port != null)
                 return port;
+            if (i < attempts - 1)
+                await Task.Delay(delayMs).ConfigureAwait(false);
+        }
+        return null;
+    }
+
+    // Automounting completes after the USB arrival event, so mass-storage bootloader volumes
+    // are resolved at flash time with the same poll-and-retry treatment serial ports get.
+    protected async Task<string?> FindMountPointAsync(string markerFile)
+    {
+        if (MountPointService == null)
+            return null;
+        const int attempts = 10;
+        const int delayMs = 250;
+        for (int i = 0; i < attempts; i++)
+        {
+            string? mount = MountPointService.FindMountPoint(Device, markerFile);
+            if (mount != null)
+                return mount;
             if (i < attempts - 1)
                 await Task.Delay(delayMs).ConfigureAwait(false);
         }

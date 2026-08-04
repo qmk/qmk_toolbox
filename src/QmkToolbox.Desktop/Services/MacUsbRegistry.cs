@@ -61,6 +61,75 @@ internal static class MacUsbRegistry
         }
     }
 
+    /// <summary>
+    /// Returns true when any USB interface of the device matching the VID/PID reports
+    /// <c>bInterfaceClass</c> 08 (mass storage). Interface nubs are registered slightly
+    /// after the device arrival notification, so this waits briefly until at least one
+    /// interface for the device is visible (or the settle window runs out) before deciding.
+    /// </summary>
+    public static bool HasMassStorageInterface(ushort vendorId, ushort productId)
+    {
+        const int attempts = 5;
+        const int delayMs = 100;
+        try
+        {
+            for (int i = 0; i < attempts; i++)
+            {
+                int seen = 0;
+                // IOUSBHostInterface is the modern class (10.11+); IOUSBInterface covers older stacks.
+                if (QueryInterfaces("IOUSBHostInterface", vendorId, productId, ref seen) ||
+                    QueryInterfaces("IOUSBInterface", vendorId, productId, ref seen))
+                {
+                    return true;
+                }
+                if (seen > 0)
+                    return false;
+                if (i < attempts - 1)
+                    Thread.Sleep(delayMs);
+            }
+        }
+        catch (Exception)
+        {
+            // A failed registry lookup must never break device detection.
+        }
+        return false;
+    }
+
+    private static bool QueryInterfaces(string className, ushort vendorId, ushort productId, ref int seen)
+    {
+        IntPtr matching = IOServiceMatching(className);
+        if (matching == IntPtr.Zero)
+            return false;
+        if (IOServiceGetMatchingServices(IntPtr.Zero, matching, out IntPtr iterator) != 0 || iterator == IntPtr.Zero)
+            return false;
+        try
+        {
+            IntPtr service;
+            while ((service = IOIteratorNext(iterator)) != IntPtr.Zero)
+            {
+                try
+                {
+                    if (ReadUShortProperty(service, "idVendor") == vendorId &&
+                        ReadUShortProperty(service, "idProduct") == productId)
+                    {
+                        seen++;
+                        if (ReadUShortProperty(service, "bInterfaceClass") == 0x08)
+                            return true;
+                    }
+                }
+                finally
+                {
+                    IOObjectRelease(service);
+                }
+            }
+        }
+        finally
+        {
+            IOObjectRelease(iterator);
+        }
+        return false;
+    }
+
     private static ushort Query(string className, ushort vendorId, ushort productId)
     {
         // IOServiceMatching's returned dictionary is consumed by IOServiceGetMatchingServices.

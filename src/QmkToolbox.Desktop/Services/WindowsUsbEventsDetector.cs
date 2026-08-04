@@ -350,6 +350,7 @@ public sealed class WindowsUsbEventsDetector : IUsbEventsDetector
         string product = "";
         string manufacturer = "";
         string driver = "";
+        bool isMassStorage = false;
 
         if (CM_Locate_DevNodeW(out uint devNode, instanceId, 0) == CR_SUCCESS)
         {
@@ -363,16 +364,24 @@ public sealed class WindowsUsbEventsDetector : IUsbEventsDetector
             product = ReadDevNodeProperty(devNode, CM_DRP_DEVICEDESC);
             manufacturer = ReadDevNodeProperty(devNode, CM_DRP_MFG);
             string service = ReadDevNodeProperty(devNode, CM_DRP_SERVICE);
+            isMassStorage = IsMassStorageService(service);
             // usbccgp is the USB composite device driver — surface the most relevant child interface instead.
             if (string.Equals(service, "usbccgp", StringComparison.OrdinalIgnoreCase))
             {
-                service = GetBestCompositeInterfaceService(devNode);
+                List<string> services = CollectChildServices(devNode);
+                // The priority pick below can mask USBSTOR behind e.g. HidUsb, so the
+                // mass-storage flag looks at every child function, not just the winner.
+                isMassStorage = services.Any(IsMassStorageService);
+                service = PickBestInterfaceService(services);
             }
             driver = service;
         }
 
-        return new UsbDeviceInfo(vid, pid, rev, manufacturer, product, driver, deviceInterfacePath);
+        return new UsbDeviceInfo(vid, pid, rev, manufacturer, product, driver, deviceInterfacePath, isMassStorage);
     }
+
+    private static bool IsMassStorageService(string service) =>
+        string.Equals(service, "USBSTOR", StringComparison.OrdinalIgnoreCase);
 
     // \\?\USB#VID_0483&PID_DF11#3C00...#{a5dcbf10-...}  →  USB\VID_0483&PID_DF11\3C00...
     private static string InterfacePathToInstanceId(string path)
@@ -391,14 +400,14 @@ public sealed class WindowsUsbEventsDetector : IUsbEventsDetector
         return path;
     }
 
-    private static string GetBestCompositeInterfaceService(uint rootDevNode)
+    private static List<string> CollectChildServices(uint rootDevNode)
     {
+        var services = new List<string>();
         try
         {
-            var services = new List<string>();
             if (CM_Get_Child(out uint child, rootDevNode, 0) != CR_SUCCESS)
             {
-                return "";
+                return services;
             }
             do
             {
@@ -410,18 +419,21 @@ public sealed class WindowsUsbEventsDetector : IUsbEventsDetector
                 }
             }
             while (CM_Get_Sibling(out child, child, 0) == CR_SUCCESS);
-
-            foreach (string preferred in DriverPriority)
-            {
-                if (services.Any(s => string.Equals(s, preferred, StringComparison.OrdinalIgnoreCase)))
-                {
-                    return preferred;
-                }
-            }
-            return services.FirstOrDefault() ?? "";
         }
         catch (Exception ex) { Trace.WriteLine($"cfgmgr32 composite interface query failed: {ex.Message}"); }
-        return "";
+        return services;
+    }
+
+    private static string PickBestInterfaceService(List<string> services)
+    {
+        foreach (string preferred in DriverPriority)
+        {
+            if (services.Any(s => string.Equals(s, preferred, StringComparison.OrdinalIgnoreCase)))
+            {
+                return preferred;
+            }
+        }
+        return services.FirstOrDefault() ?? "";
     }
 
     private static string ReadDevNodeProperty(uint devNode, uint property)

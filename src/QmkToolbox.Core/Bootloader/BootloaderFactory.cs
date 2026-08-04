@@ -105,7 +105,7 @@ public static class BootloaderFactory
             BootloaderType.HalfKay => new HalfKayDevice(device, toolProvider),
             BootloaderType.KiibohdDfu => new KiibohdDfuDevice(device, toolProvider),
             BootloaderType.LufaHid or BootloaderType.QmkHid => new LufaHidDevice(device, toolProvider, type),
-            BootloaderType.LufaMs => new LufaMsDevice(device, toolProvider, mountPointService),
+            BootloaderType.LufaMs => CreateMassStorageDevice(type, device, toolProvider, mountPointService),
             BootloaderType.Stm32Dfu => new Stm32DfuDevice(device, toolProvider),
             BootloaderType.Stm32Duino => new Stm32DuinoDevice(device, toolProvider),
             BootloaderType.UsbAsp => new UsbAspDevice(device, toolProvider),
@@ -115,6 +115,23 @@ public static class BootloaderFactory
             BootloaderType.None => null,
             _ => throw new ArgumentOutOfRangeException(nameof(BootloaderType), type, "No device implementation for this bootloader type"),
         };
+    }
+
+    // Mass-storage bootloader families are one MassStorageBootloader row each. Families with
+    // a fixed VID/PID (LUFA MS) arrive here through the map above; marker-probed families
+    // (UF2) carry per-board VID/PIDs, so FlashOrchestrator detects them by marker file on a
+    // mounted volume and creates the device through here.
+    public static BootloaderDevice CreateMassStorageDevice(
+        BootloaderType type,
+        IUsbDevice device,
+        IFlashToolProvider toolProvider,
+        IMountPointService? mountPointService = null,
+        string? boardId = null,
+        string? mountPoint = null)
+    {
+        MassStorageBootloader family = MassStorageBootloader.All.FirstOrDefault(f => f.Type == type)
+            ?? throw new ArgumentOutOfRangeException(nameof(type), type, "Not a mass-storage bootloader type");
+        return new MassStorageDevice(family, device, toolProvider, mountPointService, boardId, mountPoint);
     }
 
     public static BootloaderType GetDeviceType(ushort vendorId, ushort productId, ushort revisionBcd)

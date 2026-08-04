@@ -183,6 +183,7 @@ public partial class MainWindowViewModel : LogViewModelBase
         LogInfo(" - LUFA Mass Storage");
         LogInfo(" - LUFA/QMK HID via hid_bootloader_cli (https://github.com/abcminiuser/lufa)");
         LogInfo(" - Raspberry Pi RP2040/RP2350 (BOOTSEL) via picotool (https://github.com/raspberrypi/picotool)");
+        LogInfo(" - UF2 Mass Storage (https://github.com/microsoft/uf2)");
         LogInfo(" - WB32 DFU via wb32-dfu-updater_cli (https://github.com/WestberryTech/wb32-dfu-updater)");
         LogInfo("Supported ISP flashers:");
         LogInfo(" - AVRISP (Arduino ISP)");

@@ -14,4 +14,6 @@ public interface IUsbDevice
     /// <summary>Driver or subsystem name reported by the OS (e.g. <c>"libusb"</c>, <c>"usbfs"</c>).</summary>
     string Driver { get; }
     string DevicePath { get; }
+    /// <summary>True when the device exposes a USB mass-storage interface; populated on arrival only.</summary>
+    bool IsMassStorage { get; }
 }

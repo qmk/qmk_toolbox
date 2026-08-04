@@ -128,6 +128,30 @@ public class BootloaderFactoryTests
         Assert.Equal(expectedName, bd!.Name);
     }
 
+    [Theory]
+    [InlineData(null, "UF2")]
+    [InlineData("STM32F411-BlackPill", "UF2 (STM32F411-BlackPill)")]
+    public void CreateMassStorageDevice_Uf2_TypeAndNameReflectBoardId(string? boardId, string expectedName)
+    {
+        IUsbDevice device = Usb(0x239A, 0x00FF);
+        IFlashToolProvider toolProvider = Substitute.For<IFlashToolProvider>();
+
+        BootloaderDevice bd = BootloaderFactory.CreateMassStorageDevice(BootloaderType.Uf2, device, toolProvider, boardId: boardId);
+
+        Assert.Equal(BootloaderType.Uf2, bd.Type);
+        Assert.Equal(expectedName, bd.Name);
+    }
+
+    [Fact]
+    public void CreateMassStorageDevice_NonMassStorageType_Throws()
+    {
+        IUsbDevice device = Usb(0x239A, 0x00FF);
+        IFlashToolProvider toolProvider = Substitute.For<IFlashToolProvider>();
+
+        Assert.Throws<ArgumentOutOfRangeException>(
+            () => BootloaderFactory.CreateMassStorageDevice(BootloaderType.AtmelDfu, device, toolProvider));
+    }
+
     [Fact]
     public void CreateDevice_UnknownVidPid_ReturnsNull()
     {

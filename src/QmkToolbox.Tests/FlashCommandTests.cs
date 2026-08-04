@@ -397,7 +397,7 @@ public class FlashCommandTests
         try
         {
             IMountPointService mount = Substitute.For<IMountPointService>();
-            mount.FindMountPoint(Arg.Any<IUsbDevice>()).Returns(mountDir);
+            mount.FindMountPoint(Arg.Any<IUsbDevice>(), Arg.Any<string>()).Returns(mountDir);
 
             BootloaderDevice bd = BootloaderFactory.CreateDevice(
                 Usb(0x03EB, 0x2045), MockToolProvider(), null, mount)!;
@@ -430,7 +430,7 @@ public class FlashCommandTests
             // Automount completes after the arrival event: the first resolution attempt
             // finds nothing, the retry finds the volume.
             IMountPointService mount = Substitute.For<IMountPointService>();
-            mount.FindMountPoint(Arg.Any<IUsbDevice>()).Returns(null, mountDir);
+            mount.FindMountPoint(Arg.Any<IUsbDevice>(), Arg.Any<string>()).Returns(null, mountDir);
 
             BootloaderDevice bd = BootloaderFactory.CreateDevice(
                 Usb(0x03EB, 0x2045), MockToolProvider(), null, mount)!;
@@ -458,7 +458,7 @@ public class FlashCommandTests
 
         await bd.FlashAsync("", "firmware.bin");
 
-        Assert.Contains("Mount point not found!", errors);
+        Assert.Contains(errors, e => e.StartsWith("Mount point not found!"));
     }
 
     [Fact]
@@ -469,6 +469,62 @@ public class FlashCommandTests
 
         UnsupportedFileFormatException ex = await Assert.ThrowsAsync<UnsupportedFileFormatException>(() => bd.FlashAsync("", "firmware.hex"));
         Assert.Contains(".bin", ex.Message);
+    }
+
+    // ── Uf2Device ─────────────────────────────────────────────────────────────
+
+    [Fact]
+    public async Task Uf2Device_Flash_CopiesFileToVolume()
+    {
+        string mountDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+        Directory.CreateDirectory(mountDir);
+        string src = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.uf2");
+        File.WriteAllBytes(src, [0x55, 0x46, 0x32, 0x0A]);
+
+        try
+        {
+            IMountPointService mount = Substitute.For<IMountPointService>();
+            mount.FindMountPoint(Arg.Any<IUsbDevice>(), Arg.Any<string>()).Returns(mountDir);
+
+            BootloaderDevice bd = BootloaderFactory.CreateMassStorageDevice(
+                BootloaderType.Uf2, Usb(0x239A, 0x00FF), MockToolProvider(), mount);
+
+            await bd.FlashAsync("", src);
+
+            string dest = Path.Combine(mountDir, "NEW.UF2");
+            Assert.True(File.Exists(dest));
+            Assert.Equal(File.ReadAllBytes(src), File.ReadAllBytes(dest));
+        }
+        finally
+        {
+            if (Directory.Exists(mountDir))
+                Directory.Delete(mountDir, true);
+            if (File.Exists(src))
+                File.Delete(src);
+        }
+    }
+
+    [Fact]
+    public async Task Uf2Device_Flash_NoVolume_ReportsError()
+    {
+        BootloaderDevice bd = BootloaderFactory.CreateMassStorageDevice(
+            BootloaderType.Uf2, Usb(0x239A, 0x00FF), MockToolProvider());
+        var errors = new List<string>();
+        bd.OutputReceived += (_, data, type) => { if (type == MessageType.Error) errors.Add(data); };
+
+        await bd.FlashAsync("", "firmware.uf2");
+
+        Assert.Contains(errors, e => e.StartsWith("Mount point not found!"));
+    }
+
+    [Fact]
+    public async Task Uf2Device_Flash_RejectsNonUf2File()
+    {
+        BootloaderDevice bd = BootloaderFactory.CreateMassStorageDevice(
+            BootloaderType.Uf2, Usb(0x239A, 0x00FF), MockToolProvider());
+
+        UnsupportedFileFormatException ex = await Assert.ThrowsAsync<UnsupportedFileFormatException>(() => bd.FlashAsync("", "firmware.bin"));
+        Assert.Contains(".uf2", ex.Message);
     }
 
     // ── Stm32DfuDevice ────────────────────────────────────────────────────────

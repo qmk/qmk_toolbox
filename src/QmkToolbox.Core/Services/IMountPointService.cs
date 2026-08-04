@@ -8,8 +8,9 @@ namespace QmkToolbox.Core.Services;
 public interface IMountPointService
 {
     /// <summary>
-    /// Returns the mount point path for <paramref name="device"/>,
-    /// or <see langword="null"/> if the device is not mounted.
+    /// Returns the mount point path for <paramref name="device"/>, or <see langword="null"/>
+    /// if the device is not mounted. Only volumes carrying <paramref name="markerFile"/> at
+    /// their root qualify, so an unrelated removable drive is never returned.
     /// </summary>
-    string? FindMountPoint(IUsbDevice device);
+    string? FindMountPoint(IUsbDevice device, string markerFile);
 }

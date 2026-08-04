@@ -23,4 +23,5 @@ public enum BootloaderType
     UsbTinyIsp,
     Wb32Dfu,
     Picotool,
+    Uf2,
 }

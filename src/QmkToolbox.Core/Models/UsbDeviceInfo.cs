@@ -7,7 +7,8 @@ public record UsbDeviceInfo(
     string ManufacturerString,
     string ProductString,
     string Driver,
-    string DevicePath
+    string DevicePath,
+    bool IsMassStorage = false
 ) : IUsbDevice
 {
     // Keep the same shape as BootloaderDevice.ToString() so log lines render consistently.

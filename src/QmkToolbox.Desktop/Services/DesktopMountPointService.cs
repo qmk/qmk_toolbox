@@ -5,41 +5,39 @@ using QmkToolbox.Core.Services;
 namespace QmkToolbox.Desktop.Services;
 
 /// <summary>
-/// Cross-platform mount point service for LUFA Mass Storage devices.
-/// Uses a "most recently mounted" heuristic: since FindMountPoint is called
-/// immediately after device detection, the target volume will be the newest.
+/// Cross-platform mount point service for mass-storage bootloader devices (LUFA MS, UF2).
+/// Only volumes carrying the caller's marker file qualify, so an unrelated removable drive
+/// is never selected; among qualifying volumes the most recently mounted wins.
 /// <para>
-/// Known limitation: a second USB mass-storage device plugged in between the
-/// bootloader detection event and this call could be selected instead. In practice
-/// this window is very small and users rarely have two devices in bootloader mode
-/// simultaneously.
+/// Known limitation: with two devices of the same bootloader family mounted simultaneously,
+/// the newer volume is selected. In practice users rarely have two devices in bootloader
+/// mode at once.
 /// </para>
 /// </summary>
 public class DesktopMountPointService : IMountPointService
 {
-    public string? FindMountPoint(IUsbDevice device) =>
-        OperatingSystem.IsWindows() ? FindMountPointWindows() :
-        OperatingSystem.IsLinux() ? FindMountPointLinux() :
-        OperatingSystem.IsMacOS() ? FindMountPointMacOS() :
+    public string? FindMountPoint(IUsbDevice device, string markerFile) =>
+        OperatingSystem.IsWindows() ? FindMountPointWindows(markerFile) :
+        OperatingSystem.IsLinux() ? FindMountPointLinux(markerFile) :
+        OperatingSystem.IsMacOS() ? FindMountPointMacOS(markerFile) :
         null;
 
-    /// <summary>
-    /// Returns the most recently created removable drive.
-    /// Since FindMountPoint is called immediately after device detection,
-    /// the target volume will be the newest removable drive.
-    /// </summary>
+    private static bool HasMarker(string mountPoint, string markerFile) =>
+        File.Exists(Path.Combine(mountPoint, markerFile));
+
+    /// <summary>Returns the most recently created removable drive carrying the marker file.</summary>
     [SupportedOSPlatform("windows")]
-    private static string? FindMountPointWindows()
+    private static string? FindMountPointWindows(string markerFile)
     {
         return DriveInfo.GetDrives()
-            .Where(d => d.DriveType == DriveType.Removable && d.IsReady)
+            .Where(d => d.DriveType == DriveType.Removable && d.IsReady && HasMarker(d.Name, markerFile))
             .Select(d => new DirectoryInfo(d.Name))
             .OrderByDescending(d => d.CreationTime)
             .FirstOrDefault()?.FullName.TrimEnd('\\', '/');
     }
 
     /// <summary>
-    /// Scans /proc/mounts for the most recently mounted removable volume.
+    /// Scans /proc/mounts for the most recently mounted volume carrying the marker file.
     /// Entries in /proc/mounts appear in mount order, so the last matching
     /// entry is the newest — no timestamp comparison needed.
     /// Matches mount points under /media/, /run/media/, and /mnt/ (covering
@@ -49,7 +47,7 @@ public class DesktopMountPointService : IMountPointService
     /// without enumerating device-path prefixes.
     /// </summary>
     [SupportedOSPlatform("linux")]
-    private static string? FindMountPointLinux()
+    private static string? FindMountPointLinux(string markerFile)
     {
         const string procMounts = "/proc/mounts";
         if (!File.Exists(procMounts))
@@ -64,7 +62,7 @@ public class DesktopMountPointService : IMountPointService
             // /proc/mounts encodes spaces in paths as \040 (octal 040 = space).
             string mountPoint = parts[1].Replace("\\040", " ");
             if ((mountPoint.StartsWith("/media/") || mountPoint.StartsWith("/run/media/") || mountPoint.StartsWith("/mnt/"))
-                && Directory.Exists(mountPoint))
+                && HasMarker(mountPoint, markerFile))
             {
                 newest = mountPoint;
             }
@@ -72,18 +70,15 @@ public class DesktopMountPointService : IMountPointService
         return newest;
     }
 
-    /// <summary>
-    /// Returns the most recently created directory under /Volumes.
-    /// Since FindMountPoint is called immediately after device detection,
-    /// the target volume will be the newest entry.
-    /// </summary>
+    /// <summary>Returns the most recently created /Volumes entry carrying the marker file.</summary>
     [SupportedOSPlatform("macos")]
-    private static string? FindMountPointMacOS()
+    private static string? FindMountPointMacOS(string markerFile)
     {
         const string volumes = "/Volumes";
         return !Directory.Exists(volumes)
             ? null
             : (Directory.EnumerateDirectories(volumes)
+            .Where(d => HasMarker(d, markerFile))
             .Select(d => new DirectoryInfo(d))
             .OrderByDescending(d => d.CreationTime)
             .FirstOrDefault()?.FullName);
