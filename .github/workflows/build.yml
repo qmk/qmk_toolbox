@@ -9,6 +9,9 @@ on:
       - published
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   build_win:
     name: Build (Windows)
