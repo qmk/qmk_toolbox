@@ -90,13 +90,125 @@ jobs:
         name: QMK.Toolbox.pkg
         path: macos/build/QMK.Toolbox.pkg
 
+  sign_macos:
+    name: Sign & Notarize (macOS)
+    runs-on: macOS-latest
+
+    needs: build_macos
+
+    # Never attempt signing on pull_request (same-repo branches get secrets
+    # injected too, not just forks).
+    if: ${{ github.event_name != 'pull_request' }}
+
+    environment: release-signing
+
+    steps:
+    - uses: actions/checkout@v7
+
+    - uses: actions/download-artifact@v8
+      with:
+        name: QMK.Toolbox.app.zip
+        path: macos/build
+
+    - name: Unzip app
+      working-directory: ./macos/build
+      run: |
+        ditto -x -k QMK.Toolbox.app.zip .
+        rm QMK.Toolbox.app.zip
+
+    - name: Import signing certificates
+      env:
+        MACOS_CERTIFICATE_P12_BASE64: ${{ secrets.MACOS_CERTIFICATE_P12_BASE64 }}
+        MACOS_CERTIFICATE_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PASSWORD }}
+        MACOS_INSTALLER_CERTIFICATE_P12_BASE64: ${{ secrets.MACOS_INSTALLER_CERTIFICATE_P12_BASE64 }}
+        MACOS_INSTALLER_CERTIFICATE_PASSWORD: ${{ secrets.MACOS_INSTALLER_CERTIFICATE_PASSWORD }}
+        MACOS_KEYCHAIN_PASSWORD: ${{ secrets.MACOS_KEYCHAIN_PASSWORD }}
+      run: ./scripts/macos-signing.sh setup-keychain
+
+    - name: Sign app
+      env:
+        MACOS_CODESIGN_IDENTITY: ${{ secrets.MACOS_CODESIGN_IDENTITY }}
+      run: ./scripts/macos-signing.sh sign-app "macos/build/QMK Toolbox.app"
+
+    - name: Notarize app
+      env:
+        APPLE_API_KEY_BASE64: ${{ secrets.APPLE_API_KEY_BASE64 }}
+        APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
+        APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
+      run: ./scripts/macos-signing.sh notarize "macos/build/QMK Toolbox.app"
+
+    - name: Staple app
+      run: ./scripts/macos-signing.sh staple "macos/build/QMK Toolbox.app"
+
+    - name: Validate signed app
+      run: ./scripts/macos-signing.sh validate "macos/build/QMK Toolbox.app"
+
+    - name: Re-zip signed app
+      working-directory: ./macos
+      run: |
+        rm -f build/QMK.Toolbox.app.zip
+        ditto -ck --rsrc --sequesterRsrc -v --keepParent "build/QMK Toolbox.app" build/QMK.Toolbox.app.zip
+
+    - uses: actions/upload-artifact@v7
+      with:
+        name: QMK.Toolbox.app.zip
+        path: macos/build/QMK.Toolbox.app.zip
+        overwrite: true
+
+    - name: Create installer
+      # Rebuilt here (not just re-signed) because productsign only signs the
+      # outer .pkg wrapper -- it never re-signs the .app payload already baked
+      # inside, so the installer must be rebuilt using the newly-signed app.
+      working-directory: ./macos
+      run: |
+        brew update
+        brew install packages
+        packagesbuild -v "QMK Toolbox.pkgproj"
+        mv "build/QMK Toolbox.pkg" build/QMK.Toolbox.pkg
+
+    - name: Sign installer
+      env:
+        MACOS_INSTALLER_IDENTITY: ${{ secrets.MACOS_INSTALLER_IDENTITY }}
+      run: ./scripts/macos-signing.sh sign-pkg "macos/build/QMK.Toolbox.pkg"
+
+    - name: Notarize installer
+      env:
+        APPLE_API_KEY_BASE64: ${{ secrets.APPLE_API_KEY_BASE64 }}
+        APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
+        APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
+      run: ./scripts/macos-signing.sh notarize "macos/build/QMK.Toolbox.pkg"
+
+    - name: Staple installer
+      run: ./scripts/macos-signing.sh staple "macos/build/QMK.Toolbox.pkg"
+
+    - name: Validate signed installer
+      run: ./scripts/macos-signing.sh validate "macos/build/QMK.Toolbox.pkg"
+
+    - uses: actions/upload-artifact@v7
+      with:
+        name: QMK.Toolbox.pkg
+        path: macos/build/QMK.Toolbox.pkg
+        overwrite: true
+
+    - name: Clean up keychain
+      if: always()
+      run: ./scripts/macos-signing.sh cleanup-keychain
+
   publish_release:
     name: Publish (Release)
     runs-on: ubuntu-latest
 
-    needs: [build_win, build_macos]
+    needs: [build_win, build_macos, sign_macos]
 
-    if: github.event.release.tag_name
+    if: |
+      always() &&
+      github.event.release.tag_name &&
+      needs.build_win.result == 'success' &&
+      needs.build_macos.result == 'success' &&
+      (needs.sign_macos.result == 'success' || needs.sign_macos.result == 'skipped')
+
+    permissions:
+      contents: write
 
     steps:
       - uses: actions/download-artifact@v8
@@ -116,19 +228,34 @@ jobs:
     name: Publish (Beta)
     runs-on: ubuntu-latest
 
-    needs: [build_win, build_macos]
+    needs: [build_win, build_macos, sign_macos]
 
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+    if: |
+      always() &&
+      github.event_name == 'push' && github.ref == 'refs/heads/master' &&
+      needs.build_win.result == 'success' &&
+      needs.build_macos.result == 'success' &&
+      (needs.sign_macos.result == 'success' || needs.sign_macos.result == 'skipped')
+
+    permissions:
+      contents: write
 
     steps:
       - uses: actions/download-artifact@v8
 
-      - uses: marvinpinto/action-automatic-releases@latest
+      - name: Delete previous beta release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release delete beta --repo "$GITHUB_REPOSITORY" --cleanup-tag --yes || true
+
+      - uses: softprops/action-gh-release@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "beta"
+          tag_name: beta
+          target_commitish: ${{ github.sha }}
+          name: "Latest Beta"
           prerelease: true
-          title: "Latest Beta"
           files: |
             ./qmk_toolbox.exe/qmk_toolbox.exe
             ./qmk_toolbox_install.exe/qmk_toolbox_install.exe

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!--
+		QMK Toolbox is not App Sandboxed (it needs raw HID/USB device access,
+		and shells out to bundled command-line flashing tools) and requires no
+		Hardened Runtime exceptions, so this file is intentionally empty.
+	-->
+</dict>
+</plist>
