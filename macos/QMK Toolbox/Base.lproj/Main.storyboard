@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="bqF-op-bMF">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="bqF-op-bMF">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22689"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -326,7 +326,7 @@
                                     <rect key="frame" x="4" y="5" width="778" height="34"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <comboBox focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RyP-fO-7kx">
+                                        <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RyP-fO-7kx">
                                             <rect key="frame" x="7" y="6" width="579" height="21"/>
                                             <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Click Open or drag to window to select file" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="loT-oz-kzc">
                                                 <font key="font" metaFont="cellTitle"/>
@@ -347,7 +347,7 @@
                                                 <action selector="openButtonClick:" target="9uD-mB-xHs" id="nJc-eW-jYh"/>
                                             </connections>
                                         </button>
-                                        <comboBox focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0Ph-Pe-wCm" customClass="MicrocontrollerSelector" customModule="QMK_Toolbox" customModuleProvider="target">
+                                        <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0Ph-Pe-wCm" customClass="MicrocontrollerSelector" customModule="QMK_Toolbox" customModuleProvider="target">
                                             <rect key="frame" x="649" y="6" width="124" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="L3g-2e-wKZ"/>
@@ -519,7 +519,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="640" height="480"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <comboBox focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Wcn-4s-O2b">
+                            <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Wcn-4s-O2b">
                                 <rect key="frame" x="9" y="448" width="624" height="23"/>
                                 <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="No HID console devices connected" drawsBackground="YES" buttonBordered="NO" completes="NO" numberOfVisibleItems="5" id="6WM-Ih-xnI">
                                     <font key="font" metaFont="system"/>
@@ -1784,7 +1784,7 @@ down</string>
                                     <userDefinedRuntimeAttribute type="string" keyPath="legend" value="enter"/>
                                 </userDefinedRuntimeAttributes>
                             </customView>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4Xq-l8-2Gv">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4Xq-l8-2Gv">
                                 <rect key="frame" x="722" y="140" width="140" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Last VK: -" id="YVz-io-kv8">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -1792,7 +1792,7 @@ down</string>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iwr-Dd-3bo">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iwr-Dd-3bo">
                                 <rect key="frame" x="722" y="122" width="140" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Flags: -" id="9ep-QN-36O">
                                     <font key="font" usesAppearanceFont="YES"/>
