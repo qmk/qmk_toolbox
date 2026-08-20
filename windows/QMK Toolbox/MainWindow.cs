@@ -14,6 +14,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 
 namespace QMK_Toolbox
 {
@@ -293,19 +294,23 @@ namespace QMK_Toolbox
 
             if (!windowState.AutoFlashEnabled)
             {
-                Invoke(new Action(DisableUI));
+                DisableUI();
             }
 
-            foreach (BootloaderDevice b in FindBootloaders())
+            var bootloaders = FindBootloaders();
+            await Task.Run(async () =>
             {
-                logTextBox.LogBootloader("Attempting to flash, please don't remove device");
-                await b.Flash(selectedMcu, filePath);
-                logTextBox.LogBootloader("Flash complete");
-            }
+                foreach (BootloaderDevice b in bootloaders)
+                {
+                    Invoke(new Action(() => logTextBox.LogBootloader("Attempting to flash, please don't remove device")));
+                    await b.Flash(selectedMcu, filePath);
+                    Invoke(new Action(() => logTextBox.LogBootloader("Flash complete")));
+                }
+            });
 
             if (!windowState.AutoFlashEnabled)
             {
-                Invoke(new Action(EnableUI));
+                EnableUI();
             }
         }
 
@@ -315,20 +320,24 @@ namespace QMK_Toolbox
 
             if (!windowState.AutoFlashEnabled)
             {
-                Invoke(new Action(DisableUI));
+                DisableUI();
             }
 
-            foreach (BootloaderDevice b in FindBootloaders())
+            var bootloaders = FindBootloaders();
+            await Task.Run(async () =>
             {
-                if (b.IsResettable)
+                foreach (BootloaderDevice b in bootloaders)
                 {
-                    await b.Reset(selectedMcu);
+                    if (b.IsResettable)
+                    {
+                        await b.Reset(selectedMcu);
+                    }
                 }
-            }
+            });
 
             if (!windowState.AutoFlashEnabled)
             {
-                Invoke(new Action(EnableUI));
+                EnableUI();
             }
         }
 
@@ -338,22 +347,26 @@ namespace QMK_Toolbox
 
             if (!windowState.AutoFlashEnabled)
             {
-                Invoke(new Action(DisableUI));
+                DisableUI();
             }
 
-            foreach (BootloaderDevice b in FindBootloaders())
+            var bootloaders = FindBootloaders();
+            await Task.Run(async () =>
             {
-                if (b.IsEepromFlashable)
+                foreach (BootloaderDevice b in bootloaders)
                 {
-                    logTextBox.LogBootloader("Attempting to clear EEPROM, please don't remove device");
-                    await b.FlashEeprom(selectedMcu, "reset.eep");
-                    logTextBox.LogBootloader("EEPROM clear complete");
+                    if (b.IsEepromFlashable)
+                    {
+                        Invoke(new Action(() => logTextBox.LogBootloader("Attempting to clear EEPROM, please don't remove device")));
+                        await b.FlashEeprom(selectedMcu, "reset.eep");
+                        Invoke(new Action(() => logTextBox.LogBootloader("EEPROM clear complete")));
+                    }
                 }
-            }
+            });
 
             if (!windowState.AutoFlashEnabled)
             {
-                Invoke(new Action(EnableUI));
+                EnableUI();
             }
         }
 
@@ -364,22 +377,26 @@ namespace QMK_Toolbox
 
             if (!windowState.AutoFlashEnabled)
             {
-                Invoke(new Action(DisableUI));
+                DisableUI();
             }
 
-            foreach (BootloaderDevice b in FindBootloaders())
+            var bootloaders = FindBootloaders();
+            await Task.Run(async () =>
             {
-                if (b.IsEepromFlashable)
+                foreach (BootloaderDevice b in bootloaders)
                 {
-                    logTextBox.LogBootloader("Attempting to set handedness, please don't remove device");
-                    await b.FlashEeprom(selectedMcu, file);
-                    logTextBox.LogBootloader("EEPROM write complete");
+                    if (b.IsEepromFlashable)
+                    {
+                        Invoke(new Action(() => logTextBox.LogBootloader("Attempting to set handedness, please don't remove device")));
+                        await b.FlashEeprom(selectedMcu, file);
+                        Invoke(new Action(() => logTextBox.LogBootloader("EEPROM write complete")));
+                    }
                 }
-            }
+            });
 
             if (!windowState.AutoFlashEnabled)
             {
-                Invoke(new Action(EnableUI));
+                EnableUI();
             }
         }
 
